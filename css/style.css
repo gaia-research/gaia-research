@@ -1,0 +1,187 @@
+/* ── css/style.css ── */
+@import url('./tokens.css');
+@import url('./base.css');
+@import url('./layout.css');
+@import url('./animations.css');
+@import url('./components/nav.css');
+@import url('./components/hero.css');
+@import url('./components/cards.css');
+@import url('./components/buttons.css');
+@import url('./components/status.css');
+
+/* ── Console / Terminal Section ── */
+.console-wrapper {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.console-header {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.console-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.console-dots {
+  display: flex;
+  gap: 6px;
+}
+.console-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--border);
+}
+.console-dots span.dot-pink { background-color: var(--milim-pink); }
+.console-dots span.dot-blue { background-color: var(--rimuru-blue); }
+
+.console-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.console-tab {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 0.75rem 1.5rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.console-tab:hover {
+  color: var(--text);
+  background-color: rgba(255, 255, 255, 0.01);
+}
+
+.console-tab.active {
+  color: var(--milim-pink);
+  background-color: var(--surface);
+  border-bottom-color: var(--milim-pink);
+}
+
+.console-content {
+  padding: 1.5rem;
+  min-height: 220px;
+}
+
+.console-pane {
+  display: none;
+}
+.console-pane.active {
+  display: block;
+}
+
+.console-pane p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.console-pane pre {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 1rem;
+  border: 1px solid var(--border-muted);
+  border-radius: 2px;
+  color: var(--text);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.console-pane pre span.keyword {
+  color: var(--milim-pink);
+}
+.console-pane pre span.variable {
+  color: var(--rimuru-blue);
+}
+.console-pane pre span.comment {
+  color: var(--text-dim);
+}
+
+/* ── Section Header Layout ── */
+.section-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+.section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 80px;
+  height: 1px;
+  background-color: var(--milim-pink);
+}
+.section-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--rimuru-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: var(--font-display-condensed);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.0;
+  color: var(--text);
+}
+
+/* ── Footer styling ── */
+.lab-footer {
+  padding: 4rem 0;
+  border-top: 1px solid var(--border);
+  background-color: rgba(0,0,0,0.4);
+}
+.footer-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.footer-text {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+.footer-brand {
+  font-family: var(--font-display-wide);
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+.footer-brand span {
+  color: var(--milim-pink);
+}
+
+@media (max-width: 640px) {
+  .footer-grid {
+    flex-direction: column;
+    text-align: center;
+  }
+}

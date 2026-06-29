@@ -1,0 +1,108 @@
+/* ── css/components/cards.css ── */
+.ledger-grid {
+  margin-top: 2rem;
+}
+
+.ledger-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 240px;
+  transition: border-color var(--transition-normal), transform var(--transition-normal);
+  overflow: hidden;
+}
+
+/* ── Hover Effects ── */
+.ledger-card:hover {
+  border-color: var(--rimuru-blue);
+  transform: translateY(-2px);
+}
+
+/* ── Tech Corner Stamps ── */
+.ledger-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 4px;
+  background-color: var(--status-proposed);
+  transition: background-color var(--transition-normal);
+}
+.ledger-card.card-verified::after {
+  background-color: var(--status-verified);
+}
+.ledger-card.card-active::after {
+  background-color: var(--status-active);
+}
+.ledger-card.card-review::after {
+  background-color: var(--status-review);
+}
+
+.ledger-card:hover::after {
+  background-color: var(--rimuru-blue) !important;
+}
+
+/* ── Card Content ── */
+.ledger-card-body {
+  padding: 1.5rem;
+}
+
+.ledger-card-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ledger-card-title {
+  font-family: var(--font-display-condensed);
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  line-height: 1.1;
+  transition: color var(--transition-fast);
+}
+.ledger-card:hover .ledger-card-title {
+  color: var(--rimuru-blue);
+}
+
+.ledger-card-desc {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+/* ── Bottom Monospaced Metadata Strip ── */
+.ledger-card-footer {
+  border-top: 1px solid var(--border-muted);
+  padding: 0.75rem 1.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ledger-card-meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.ledger-card-meta.meta-right {
+  color: var(--text-dim);
+}
+.ledger-card:hover .ledger-card-meta.meta-right {
+  color: var(--rimuru-blue);
+}

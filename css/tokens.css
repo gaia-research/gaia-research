@@ -1,0 +1,42 @@
+/* ── css/tokens.css ── */
+:root {
+  /* ── Core Backgrounds & Surfaces ───────────────────────── */
+  --bg: #05060a;               /* Deep Obsidian Midnight */
+  --surface: #0b0c13;          /* Dark Slate surface */
+  --border: #141624;           /* Tech Slate border */
+  --border-muted: #0d0f1a;     /* Faint grid line border */
+  
+  /* ── Typography & Ink ──────────────────────────────────── */
+  --text: #f0f1f5;             /* Ice White text */
+  --text-muted: #8c90aa;       /* Muted Steel Slate */
+  --text-dim: #545770;         /* Dim text for tabular headers */
+  
+  /* ── Milim Pink & Rimuru Blue Brand Colors ───────────────── */
+  --milim-pink: #ec4899;       /* Vibrant Hot Pink */
+  --milim-pink-rgb: 236,72,153;
+  --milim-pink-bg: rgba(236, 72, 153, 0.08);
+  --milim-pink-border: rgba(236, 72, 153, 0.3);
+  
+  --rimuru-blue: #38bdf8;      /* Slime / Sky Blue */
+  --rimuru-blue-rgb: 56,189,248;
+  --rimuru-blue-bg: rgba(56, 189, 248, 0.08);
+  --rimuru-blue-border: rgba(56, 189, 248, 0.35);
+  
+  /* ── Research Status Accents ───────────────────────────── */
+  --status-proposed: #545770;  /* Muted Slate */
+  --status-active: var(--rimuru-blue);
+  --status-review: #fbbf24;    /* Amber */
+  --status-verified: var(--milim-pink);
+
+  /* ── Fonts ─────────────────────────────────────────────── */
+  --font-display-wide: 'Syne', sans-serif;
+  --font-display-condensed: 'Bebas Neue', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'Departure Mono', 'Space Mono', monospace;
+
+  /* ── Easings & Transitions ──────────────────────────────── */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1); /* ease-out-expo */
+  --transition-fast: 0.15s var(--ease-expo);
+  --transition-normal: 0.3s var(--ease-expo);
+  --transition-slow: 0.6s var(--ease-expo);
+}
