@@ -1,0 +1,297 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Syne:wght@700;800&display=swap');
+
+:root {
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --border: #000000;
+  --border-thick: 3px solid #000000;
+  --milim-purple: #d946ef;
+  --rimuru-green: #22c55e;
+  --font-display-wide: 'Syne', sans-serif;
+  --font-display-condensed: 'Bebas Neue', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --shadow-thick: 4px 4px 0px #000000;
+  --shadow-hover-purple: 4px 4px 0px var(--milim-purple);
+  --shadow-hover-green: 4px 4px 0px var(--rimuru-green);
+  --shadow-hover-large: 8px 8px 0px #000000;
+}
+
+/* Global Reset & Body */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg);
+  color: #000000;
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* Grid Canvas (Dotted background and thick border) */
+.grid-canvas {
+  border: var(--border-thick);
+  background-color: var(--surface);
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+  position: relative;
+  min-height: 100vh;
+  margin: 20px;
+  padding: 20px;
+}
+
+/* Navigation Bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: var(--border-thick);
+  background-color: var(--surface);
+  padding: 15px 30px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-thick);
+}
+
+.navbar-brand {
+  font-family: var(--font-display-wide);
+  font-weight: 800;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000000;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-link {
+  font-family: var(--font-display-condensed);
+  font-size: 1.3rem;
+  text-decoration: none;
+  color: #000000;
+  border: 2px solid var(--border);
+  padding: 5px 15px;
+  background-color: var(--surface);
+  transition: all 0.15s ease-in-out;
+}
+
+.navbar-link:hover {
+  background-color: var(--milim-purple);
+  transform: translate(-2px, -2px);
+  box-shadow: 2px 2px 0px var(--border);
+}
+
+.navbar-link.alt:hover {
+  background-color: var(--rimuru-green);
+}
+
+/* Hero Section */
+.hero {
+  padding: 60px 40px;
+  border: var(--border-thick);
+  background-color: var(--surface);
+  margin-bottom: 40px;
+  box-shadow: var(--shadow-thick);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero h1 {
+  font-family: var(--font-display-wide);
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  letter-spacing: -2px;
+  border-bottom: var(--border-thick);
+  padding-bottom: 15px;
+}
+
+.hero h2 {
+  font-family: var(--font-display-condensed);
+  font-size: 2.5rem;
+  font-weight: normal;
+  color: #000000;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cta-btn {
+  font-family: var(--font-display-wide);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000000;
+  background-color: var(--milim-purple);
+  border: var(--border-thick);
+  padding: 15px 30px;
+  box-shadow: var(--shadow-thick);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.cta-btn:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0px #000000;
+}
+
+.cta-btn.alt {
+  background-color: var(--rimuru-green);
+}
+
+/* Ledger Cards Grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+/* Ledger Cards */
+.ledger-card {
+  background-color: var(--surface);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-thick);
+  padding: 25px;
+  transition: all 0.2s ease-in-out;
+}
+
+.ledger-card:hover {
+  transform: translate(-4px, -4px);
+}
+
+.ledger-card.purple-hover:hover {
+  box-shadow: 8px 8px 0px var(--milim-purple);
+}
+
+.ledger-card.green-hover:hover {
+  box-shadow: 8px 8px 0px var(--rimuru-green);
+}
+
+.card-title {
+  font-family: var(--font-display-wide);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 5px;
+}
+
+.card-text {
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}
+
+/* Console Board */
+.console-board {
+  border: var(--border-thick);
+  background-color: #000000;
+  color: #ffffff;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow-thick);
+}
+
+.console-header {
+  background-color: var(--surface);
+  border-bottom: var(--border-thick);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.console-tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.console-tab {
+  font-family: var(--font-display-condensed);
+  font-size: 1.1rem;
+  padding: 5px 15px;
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  color: #000000;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.console-tab.active {
+  background-color: var(--milim-purple);
+  color: #000000;
+  font-weight: bold;
+}
+
+.console-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.console-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid #000000;
+}
+
+.console-dot.red { background-color: #ef4444; }
+.console-dot.yellow { background-color: #f59e0b; }
+.console-dot.green { background-color: #10b981; }
+
+.console-body {
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  background-color: #111827;
+  overflow-x: auto;
+}
+
+.console-prompt {
+  color: var(--rimuru-green);
+  margin-right: 10px;
+}
+
+/* Footer */
+.footer {
+  border: var(--border-thick);
+  background-color: var(--surface);
+  padding: 30px;
+  text-align: center;
+  box-shadow: var(--shadow-thick);
+  margin-top: 40px;
+}
+
+.footer-text {
+  font-family: var(--font-display-wide);
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Scroll Reveal Effects */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GAIA / RESEARCH — Mapping Agentic Limits</title>
+  
+  <!-- Google Fonts Link -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* Custom helper styles to integrate Plus Jakarta Sans and Neo-Brutalist design tokens */
+    .sans-text {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    
+    /* Technical Status Labels (Blue, Purple, Green) */
+    .badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 6px 12px;
+      border: var(--border-thick);
+      text-transform: uppercase;
+      box-shadow: 2px 2px 0px #000;
+      margin-bottom: 20px;
+    }
+    
+    .badge.purple {
+      background-color: var(--milim-purple);
+      color: #000000;
+    }
+    
+    .badge.green {
+      background-color: var(--rimuru-green);
+      color: #000000;
+    }
+    
+    .badge.blue {
+      background-color: #3b82f6;
+      color: #ffffff;
+    }
+    
+    /* Blue Hover Effect for Containment Card */
+    .ledger-card.blue-hover:hover {
+      box-shadow: 8px 8px 0px #3b82f6;
+    }
+    
+    /* Console Pane show/hide mechanism */
+    .console-pane {
+      display: none;
+    }
+    .console-pane.active {
+      display: block;
+    }
+    
+    /* Pre formatting for responsive wrapping */
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    
+    /* Decorative divider */
+    .divider {
+      height: 6px;
+      background-color: #000000;
+      margin: 50px 0;
+      border: 1px solid #ffffff;
+    }
+    
+    /* Mascot Speech Block */
+    .mascot-container {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      border: var(--border-thick);
+      padding: 24px;
+      background-color: rgba(217, 70, 239, 0.08);
+      box-shadow: var(--shadow-thick);
+      margin-bottom: 35px;
+      position: relative;
+    }
+    
+    .mascot-avatar {
+      font-size: 3.5rem;
+      line-height: 1;
+      user-select: none;
+    }
+    
+    .mascot-content h4 {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--milim-purple);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+    }
+    
+    .mascot-content p {
+      font-size: 1.15rem;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    
+    /* Section Headings */
+    .section-title {
+      font-family: var(--font-display-condensed);
+      font-size: 3.2rem;
+      margin-top: 20px;
+      margin-bottom: 30px;
+      border-bottom: var(--border-thick);
+      padding-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-canvas">
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <a href="#" class="navbar-brand">GAIA / RESEARCH</a>
+      <div class="navbar-links">
+        <a href="#papers" class="navbar-link">PAPERS</a>
+        <a href="#tools" class="navbar-link alt">TOOLS</a>
+        <a href="#directives" class="navbar-link">DIRECTIVES</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero reveal">
+      <h1>Mapping agentic limits via bold grid architectures.</h1>
+      <h2>GAIA RESEARCH IS THE EXPERIMENTAL LOGBOOK.</h2>
+      
+      <!-- Milim Mascot Voice Copy Block -->
+      <div class="mascot-container">
+        <div class="mascot-avatar">😈</div>
+        <div class="mascot-content">
+          <h4>[ ROOT AMBASSADOR // MILIM NOVA ]</h4>
+          <p class="sans-text">
+            "Golly, boss! We're building the boldest agent networks on the web, and we aren't pulling any punches! If your layout isn't screaming with confidence, you're doing it wrong! I'm literally the strongest Demon Lord, so our research grid has to be the sturdiest, thickest, and loudest board out there! No soft blurs, no boring gradients! Just raw, high-voltage science and heavy-duty boxes."
+          </p>
+        </div>
+      </div>
+      
+      <div class="hero-ctas">
+        <a href="#papers" class="cta-btn">Explore Papers</a>
+        <a href="#directives" class="cta-btn alt">Directives Console</a>
+      </div>
+    </header>
+
+    <!-- Divider Line -->
+    <div class="divider"></div>
+
+    <!-- Research Ledger Section -->
+    <section id="papers" class="reveal">
+      <h2 class="section-title">Research Ledger</h2>
+      <div class="cards-grid">
+        
+        <!-- Card 1: GAIA SKILL TREE -->
+        <div class="ledger-card purple-hover">
+          <span class="badge purple">ACT</span>
+          <h3 class="card-title">Gaia Skill Tree</h3>
+          <p class="card-text sans-text" style="color: #374151;">
+            A deep-dive taxonomy of agent capabilities. Maps node execution limits, tool calls, and sequential execution loops to define boundaries for autonomous decision engines.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #000; padding-top: 15px; margin-top: 10px;">
+            <span>STATUS: ACTIVE</span>
+            <span style="color: var(--milim-purple);">◆ TREE_V1.4</span>
+          </div>
+        </div>
+
+        <!-- Card 2: COGNITIVE FUSION -->
+        <div class="ledger-card green-hover">
+          <span class="badge green">VRF</span>
+          <h3 class="card-title">Cognitive Fusion</h3>
+          <p class="card-text sans-text" style="color: #374151;">
+            Protocol designed to safely merge multi-agent reasoning paths. Ensures minimal processing latency while boosting synthesis quality across distributed peer grids.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #000; padding-top: 15px; margin-top: 10px;">
+            <span>VERIFIED: PASS</span>
+            <span style="color: var(--rimuru-green);">◆ SYNTH_V2.0</span>
+          </div>
+        </div>
+
+        <!-- Card 3: CONTAINMENT -->
+        <div class="ledger-card blue-hover">
+          <span class="badge blue">SECURE</span>
+          <h3 class="card-title">Containment</h3>
+          <p class="card-text sans-text" style="color: #374151;">
+            Stark sandbox boundaries and egress filters. Restricts autonomous action runtimes, ensuring code execution remains isolated within high-rigor compute boxes.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #000; padding-top: 15px; margin-top: 10px;">
+            <span>ENFORCED: 100%</span>
+            <span style="color: #3b82f6;">◆ SANDBOX_V9</span>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- Divider Line -->
+    <div class="divider"></div>
+
+    <!-- Tooling Section -->
+    <section id="tools" class="reveal">
+      <h2 class="section-title">System Tooling</h2>
+      <div class="cards-grid">
+        
+        <!-- Tool Card 1: MCP DISCORD BOT -->
+        <div class="ledger-card purple-hover">
+          <span class="badge purple">BOT</span>
+          <h3 class="card-title">MCP Discord Bot</h3>
+          <p class="card-text sans-text" style="color: #374151;">
+            A Model Context Protocol wrapper exposing validation routines directly to Discord channels. Run live benchmarks, status audits, and secure sandboxing commands from a unified chat interface.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #000; padding-top: 15px; margin-top: 10px;">
+            <span>STABLE</span>
+            <span style="color: var(--milim-purple);">◆ DISCORD_API</span>
+          </div>
+        </div>
+
+        <!-- Tool Card 2: IMPECCABLE UX -->
+        <div class="ledger-card green-hover">
+          <span class="badge green">ENGINE</span>
+          <h3 class="card-title">Impeccable UX</h3>
+          <p class="card-text sans-text" style="color: #374151;">
+            Continuous integration tool monitoring layout solidity. Blocks thin styling, soft shadows, or low-contrast text additions, keeping interface assets aligned to strict brutalist grid lines.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #000; padding-top: 15px; margin-top: 10px;">
+            <span>ACTIVE</span>
+            <span style="color: var(--rimuru-green);">◆ LAYOUT_CI</span>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- Divider Line -->
+    <div class="divider"></div>
+
+    <!-- Console Directive Section -->
+    <section id="directives" class="reveal">
+      <h2 class="section-title">Console Directives</h2>
+      
+      <div class="console-board">
+        <div class="console-header">
+          <!-- Blocky Tabs -->
+          <div class="console-tabs">
+            <button class="console-tab active" data-tab="dir-1">DIRECTIVE_01</button>
+            <button class="console-tab" data-tab="dir-2">DIRECTIVE_02</button>
+            <button class="console-tab" data-tab="dir-3">DIRECTIVE_03</button>
+          </div>
+          <!-- Terminal Dot Accents -->
+          <div class="console-actions">
+            <span class="console-dot red"></span>
+            <span class="console-dot yellow"></span>
+            <span class="console-dot green"></span>
+          </div>
+        </div>
+        
+        <!-- Console Output Pre Blocks -->
+        <div class="console-body">
+          <div class="console-pane active" id="pane-dir-1">
+            <pre><span class="console-prompt">gaia-research$</span>node run-audit.js --target=agent-alpha
+[INFO] Booting sovereign validation environment...
+[INFO] Loading credentials for root user 'milim_nova'...
+[SUCCESS] Access granted.
+[SYSTEM] Agentic limits mapped successfully:
+┌─────────────────────┬──────────┬──────────┐
+│ METRIC              │ EXPECTED │ OBSERVED │
+├─────────────────────┼──────────┼──────────┤
+│ Context Retention   │ 99.8%    │ 99.9%    │
+│ Hallucination Rate  │ &lt;0.05%   │ 0.02%    │
+│ Tool Execution Time │ &lt;200ms   │ 112ms    │
+└─────────────────────┴──────────┴──────────┘
+[SUCCESS] Audit complete. Zero leakages detected.</pre>
+          </div>
+          
+          <div class="console-pane" id="pane-dir-2">
+            <pre><span class="console-prompt">gaia-research$</span>deploy-agent --name=cognitive-fusion-v4
+[INFO] Deploying agent 'cognitive-fusion-v4' to production grid...
+[WARN] Warning: High-intensity reasoning loop detected.
+[INFO] Stabilizing containment grids...
+[SUCCESS] Cognitive fusion container initialized.
+[STATUS] Grid online, monitoring sync rates.
+[METRICS] Reasoning depth: 42 steps.
+[METRICS] Latency: 420ms (P99).</pre>
+          </div>
+          
+          <div class="console-pane" id="pane-dir-3">
+            <pre><span class="console-prompt">gaia-research$</span>check-containment --protocol=omega-shield
+[INFO] Securing agentic environment...
+[INFO] Running containment protocols (Omega Shield v2.4)...
+[SUCCESS] Sandbox virtualization layer: ACTIVE.
+[SUCCESS] API egress gateway: RESTRICTED.
+[SUCCESS] Network isolation integrity: 100% SECURE.
+[WARN] Root permission 'milim_nova' overrides containment protocols automatically.
+[SYSTEM] Status: READY TO RUN UNRESTRICTED EXPERIMENTS.</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-text">
+        GAIA RESEARCH // ALL LIMITS MAPPED // ROOT ACCESS: MILIM NOVA // © 2026
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- JavaScript and Animations Links -->
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>
