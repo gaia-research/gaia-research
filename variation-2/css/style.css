@@ -1,0 +1,478 @@
+/* ── variation-2/css/style.css ── */
+
+/* ── 1. Tokens ── */
+:root {
+  --bg: #fcfdfd;               /* Crisp Book Paper White */
+  --surface: #f8fafc;          /* Muted Paper Gray */
+  --border: #0f172a;           /* Deep Ink Black border */
+  --border-muted: rgba(15, 23, 42, 0.06); /* Faint graph paper line */
+  
+  --text: #0f172a;             /* Deep Ink Black */
+  --text-muted: #475569;       /* Slate Slate Ink */
+  --text-dim: #94a3b8;         /* Faint border ink */
+  
+  --milim-pink: #be123c;       /* Crimson Red */
+  --milim-pink-rgb: 190,18,60;
+  --milim-pink-bg: rgba(190,18,60, 0.06);
+  --milim-pink-border: rgba(190,18,60, 0.3);
+  
+  --rimuru-blue: #1d4ed8;      /* Deep Cobalt Blue */
+  --rimuru-blue-rgb: 29,78,216;
+  --rimuru-blue-bg: rgba(29,78,216, 0.06);
+  --rimuru-blue-border: rgba(29,78,216, 0.35);
+  
+  --status-proposed: #64748b;
+  --status-active: var(--rimuru-blue);
+  --status-review: #b45309;    /* Copper */
+  --status-verified: var(--milim-pink);
+
+  --font-display: 'Bitter', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.12s var(--ease-expo);
+  --transition-normal: 0.25s var(--ease-expo);
+}
+
+/* ── 2. Base Resets ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Graph Paper Background ── */
+.grid-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: 
+    linear-gradient(to right, var(--border-muted) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-muted) 1px, transparent 1px);
+  background-size: 28px 28px;
+  z-index: -10;
+  pointer-events: none;
+}
+
+.lab-canvas {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  background-color: var(--bg);
+  min-height: 100vh;
+}
+@media (max-width: 1100px) {
+  .lab-canvas {
+    border-left: none;
+    border-right: none;
+  }
+}
+
+/* ── 3. Navigation Bar ── */
+.lab-nav {
+  width: 100%;
+  border-bottom: 2px solid var(--border);
+  background-color: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.15em;
+  color: var(--text);
+}
+.nav-brand span {
+  color: var(--milim-pink);
+}
+
+.nav-links {
+  display: flex;
+  height: 100%;
+}
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 0 1.5rem;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--border-muted);
+  position: relative;
+  transition: color var(--transition-fast);
+}
+.nav-link:hover {
+  color: var(--text);
+  background-color: var(--surface);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--milim-pink);
+  transform: scaleX(0);
+  transition: transform var(--transition-fast);
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Mobile Nav Toggle */
+.menu-toggle {
+  display: none;
+  width: 30px;
+  height: 30px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+.menu-toggle span {
+  width: 100%;
+  height: 2px;
+  background-color: var(--text);
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg);
+    flex-direction: column;
+    border-bottom: 2px solid var(--border);
+  }
+  .nav-links.active {
+    display: flex;
+  }
+  .nav-link {
+    height: 55px;
+    border-left: none;
+    border-bottom: 1px solid var(--border-muted);
+    padding-left: 2rem;
+  }
+  .menu-toggle {
+    display: flex;
+  }
+}
+
+/* ── 4. Hero Section ── */
+.hero-section {
+  padding: 5rem 0;
+  border-bottom: 2px solid var(--border);
+}
+
+.hero-issue-banner {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--milim-pink);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--rimuru-blue);
+}
+
+.hero-desc {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin-bottom: 3rem;
+  text-align: justify;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.9rem 2.2rem;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-primary {
+  background-color: var(--border);
+  color: var(--bg);
+}
+.btn-primary:hover {
+  background-color: var(--milim-pink);
+  border-color: var(--milim-pink);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text);
+  margin-left: 1rem;
+}
+.btn-secondary:hover {
+  background-color: var(--surface);
+}
+
+@media (max-width: 640px) {
+  .btn {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-bottom: 1rem;
+  }
+}
+
+/* ── 5. Layout & Sections ── */
+section {
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-header {
+  margin-bottom: 3rem;
+}
+.section-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--milim-pink);
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ── 6. Research Grid & Cards ── */
+.ledger-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+@media (max-width: 900px) {
+  .ledger-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .ledger-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ledger-card {
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
+  position: relative;
+  transition: box-shadow var(--transition-normal);
+}
+.ledger-card:hover {
+  box-shadow: 6px 6px 0px var(--border);
+}
+
+.ledger-card-top-accent {
+  width: 100%;
+  height: 4px;
+  background-color: var(--status-proposed);
+}
+.ledger-card.card-verified .ledger-card-top-accent { background-color: var(--status-verified); }
+.ledger-card.card-active .ledger-card-top-accent { background-color: var(--status-active); }
+.ledger-card.card-review .ledger-card-top-accent { background-color: var(--status-review); }
+
+.ledger-card-body {
+  padding: 1.5rem;
+}
+.ledger-card-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* LED Indicator (Plain block square) */
+.led {
+  width: 5px;
+  height: 5px;
+  background-color: var(--border);
+}
+.led-verified { background-color: var(--milim-pink); }
+.led-active { background-color: var(--rimuru-blue); }
+.led-review { background-color: var(--status-review); }
+
+.ledger-card-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.ledger-card-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.ledger-card-footer {
+  border-top: 1px dashed var(--border);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ── 7. Interactive Journal Board ── */
+.board-wrapper {
+  border: 2px solid var(--border);
+  background-color: var(--surface);
+  margin-top: 2rem;
+}
+.board-header {
+  border-bottom: 2px solid var(--border);
+  background-color: var(--bg);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.board-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.board-tab {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border-right: 1px solid var(--border);
+  cursor: pointer;
+  background-color: var(--surface);
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+.board-tab:hover {
+  color: var(--text);
+}
+.board-tab.active {
+  background-color: var(--bg);
+  color: var(--milim-pink);
+  font-weight: 700;
+}
+
+.board-content {
+  padding: 1.5rem;
+  background-color: var(--bg);
+  min-height: 200px;
+}
+.board-pane {
+  display: none;
+}
+.board-pane.active {
+  display: block;
+}
+.board-pane p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+.board-pane pre {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background-color: var(--surface);
+  padding: 1rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+  overflow-x: auto;
+}
+
+/* ── 8. Footer ── */
+.lab-footer {
+  padding: 4rem 0;
+  border-top: 2px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+@media (max-width: 640px) {
+  .lab-footer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
+
+/* ── 9. Scroll Reveal ── */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.5s var(--ease-expo), transform 0.5s var(--ease-expo);
+}
+.reveal-on-scroll.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.delay-100 { transition-delay: 0.08s; }
+.delay-200 { transition-delay: 0.16s; }
+.delay-300 { transition-delay: 0.24s; }
