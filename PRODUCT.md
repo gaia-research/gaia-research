@@ -6,9 +6,9 @@
 
 brand
 
-## Mascot & Ambassador: Milim Nova (Demon Lord of Joy)
+## Mascot & Ambassador: Milim — Chief Capability Scout
 
-The website is steered and hosted by **Milim Nova**, the Demon Lord of Joy! She acts as the ultimate mascot and open-science ambassador for Gaia Research. The visual style, copy, and interaction patterns represent her high-energy, chaotic-but-brilliant developer energy, backed by the fluid, tactical wisdom of Rimuru.
+The website is steered and hosted by **Milim**, the Chief Capability Scout! She acts as the mascot and open-science ambassador for Gaia Research. The visual style, copy, and interaction patterns represent her high-energy, chaotic-but-brilliant developer energy, backed by the fluid, tactical wisdom of Rimuru.
 
 ## Users
 

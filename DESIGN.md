@@ -3,7 +3,7 @@
 > Brand personality, mascot guidelines, and the accessibility baseline live in [`PRODUCT.md`](PRODUCT.md). This document acts as the visual-token, layout, and styling specification.
 
 ## Core Metaphor
-While `gaia-skill-tree` uses **The Hunter's Atlas** (scholarly serif meet retro pixel), `gaia-research` uses **The Cyber-Slime Laboratory**—a high-energy, technical research aesthetic inspired by the Demon Lord of Joy and the tactical fluid wisdom of Rimuru. It features sharp hairline grids, monospaced ledger tables, and high-impact color strikes.
+While `gaia-skill-tree` uses **The Hunter's Atlas** (scholarly serif meet retro pixel), `gaia-research` uses **The Cyber-Slime Laboratory**—a high-energy, technical research aesthetic inspired by Chief Scout Milim and the tactical fluid wisdom of Rimuru. It features sharp hairline grids, monospaced ledger tables, and high-impact color strikes.
 
 ---
 
