@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAIA Brand System Preview</title>
+<link rel="stylesheet" href="ui/status/status.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #05060a;
+    color: #f0f1f5;
+    font-family: 'Share Tech Mono', monospace;
+    padding: 40px 60px;
+  }
+  h1 { font-family: 'Bebas Neue', sans-serif; color: #ec4899; font-size: 32px; letter-spacing: 6px; }
+  h2 { color: #38bdf8; font-size: 13px; letter-spacing: 5px; text-transform: uppercase; margin: 40px 0 20px; }
+  .sep { height: 1px; background: linear-gradient(90deg, transparent, #ec4899 30%, #38bdf8 70%, transparent); margin: 24px 0; }
+
+  /* SVG color correction for img tags using CSS filters */
+  /* This turns black SVGs into #f0f1f5 (ice white) */
+  .icon-wrap img { filter: invert(100%) sepia(2%) saturate(913%) hue-rotate(193deg) brightness(115%) contrast(89%); }
+  
+  /* Colored decorators */
+  .deco-wrap.pink img { filter: invert(39%) sepia(87%) saturate(2256%) hue-rotate(309deg) brightness(97%) contrast(98%); } /* #ec4899 */
+  .deco-wrap img { filter: invert(61%) sepia(61%) saturate(2311%) hue-rotate(167deg) brightness(102%) contrast(101%); } /* #38bdf8 */
+  
+  /* Status LEDs */
+  .led-demo.prp img { filter: invert(33%) sepia(10%) saturate(1454%) hue-rotate(194deg) brightness(96%) contrast(85%); } /* #545770 */
+  .led-demo.act img { filter: invert(61%) sepia(61%) saturate(2311%) hue-rotate(167deg) brightness(102%) contrast(101%); } /* #38bdf8 */
+  .led-demo.rev img { filter: invert(78%) sepia(50%) saturate(836%) hue-rotate(345deg) brightness(101%) contrast(100%); } /* #fbbf24 */
+  .led-demo.vrf img { filter: invert(39%) sepia(87%) saturate(2256%) hue-rotate(309deg) brightness(97%) contrast(98%); } /* #ec4899 */
+  .led-demo.ok img { filter: invert(60%) sepia(48%) saturate(542%) hue-rotate(85deg) brightness(99%) contrast(92%); } /* #22c55e */
+  .led-demo.err img { filter: invert(41%) sepia(82%) saturate(3025%) hue-rotate(338deg) brightness(98%) contrast(87%); } /* #ef4444 */
+
+  /* Logo section */
+  .logo-grid { display: flex; gap: 32px; flex-wrap: wrap; align-items: end; }
+  .logo-card { text-align: center; }
+  .logo-card .frame {
+    background: #0b0c13;
+    border: 1px solid #141624;
+    border-radius: 4px;
+    padding: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .logo-card .frame.dark { background: #05060a; }
+  .logo-card .frame.light { background: #f0f1f5; }
+  .logo-card .name { color: #8c90aa; font-size: 10px; letter-spacing: 1px; }
+
+  /* White/monochrome logos */
+  .logo-card .frame.mono img { filter: invert(100%); }
+  .logo-card .frame.outline img { filter: invert(60%) sepia(12%) saturate(464%) hue-rotate(195deg) brightness(96%) contrast(88%); }
+
+  /* Icon grid */
+  .icon-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+  .icon-cell {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    width: 80px;
+  }
+  .icon-cell .icon-wrap {
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    background: #0b0c13;
+    border: 1px solid #141624;
+    border-radius: 4px;
+  }
+  .icon-cell .icon-wrap img { width: 24px; height: 24px; }
+  .icon-cell .lbl { color: #545770; font-size: 8px; text-align: center; letter-spacing: 1px; }
+
+  /* Decor grid */
+  .decor-grid { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+  .decor-cell {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .decor-cell .deco-wrap {
+    display: flex; align-items: center; justify-content: center;
+  }
+  .decor-cell .deco-wrap img { height: 24px; }
+  .decor-cell .lbl { color: #545770; font-size: 8px; letter-spacing: 1px; }
+
+  /* LED section */
+  .led-row { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+  .led-demo { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .led-demo .led-wrap { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+  .led-demo .led-wrap img { width: 24px; height: 24px; }
+  .led-demo .lbl { font-size: 8px; letter-spacing: 1px; }
+
+  /* Badge section */
+  .badge-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .badge-demo { position: relative; display: inline-block; }
+  .badge-demo img { height: 28px; }
+  .badge-demo .btxt {
+    position: absolute; top: 50%; left: 45%;
+    transform: translate(-50%, -50%);
+    font-size: 10px; font-weight: bold; letter-spacing: 2px;
+  }
+
+  .stat { display: flex; gap: 40px; margin-top: 30px; }
+  .stat-item { text-align: center; }
+  .stat-item .num { font-family: 'Bebas Neue'; font-size: 48px; color: #ec4899; }
+  .stat-item .desc { color: #8c90aa; font-size: 10px; letter-spacing: 2px; }
+</style>
+</head>
+<body>
+
+<h1>GAIA RESEARCH</h1>
+<p style="color:#38bdf8; font-size:11px; letter-spacing:4px; margin-top:4px;">BRAND SYSTEM PREVIEW</p>
+
+<div class="sep"></div>
+
+<!-- LOGO VARIANTS -->
+<h2>Logo Mark + Variants</h2>
+<div class="logo-grid">
+  <div class="logo-card">
+    <div class="frame"><img src="logo/logo-mark.svg" width="96" height="96"></div>
+    <div class="name">logo-mark</div>
+  </div>
+  <div class="logo-card">
+    <div class="frame mono"><img src="logo/logo-monochrome.svg" width="96" height="96"></div>
+    <div class="name">monochrome</div>
+  </div>
+  <div class="logo-card">
+    <div class="frame dark mono"><img src="logo/logo-white.svg" width="96" height="96"></div>
+    <div class="name">white</div>
+  </div>
+  <div class="logo-card">
+    <div class="frame light"><img src="logo/logo-black.svg" width="96" height="96"></div>
+    <div class="name">black</div>
+  </div>
+  <div class="logo-card">
+    <div class="frame outline"><img src="logo/logo-outline.svg" width="96" height="96"></div>
+    <div class="name">outline</div>
+  </div>
+</div>
+
+<!-- ICON VARIANTS -->
+<h2>App Icon + Favicon</h2>
+<div class="logo-grid">
+  <div class="logo-card">
+    <div class="frame"><img src="icon/icon-primary.svg" width="64" height="64"></div>
+    <div class="name">icon-primary (64)</div>
+  </div>
+  <div class="logo-card">
+    <div class="frame"><img src="icon/favicon.svg" width="48" height="48"></div>
+    <div class="name">favicon (48)</div>
+  </div>
+  <div class="logo-card">
+    <div class="frame"><img src="icon/favicon.svg" width="32" height="32"></div>
+    <div class="name">favicon (32)</div>
+  </div>
+  <div class="logo-card">
+    <div class="frame"><img src="icon/favicon.svg" width="16" height="16"></div>
+    <div class="name">favicon (16)</div>
+  </div>
+  <div class="logo-card">
+    <div class="frame light"><img src="icon/mask-icon.svg" width="32" height="32"></div>
+    <div class="name">mask-icon</div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- NAVIGATION ICONS -->
+<h2>Navigation Icons (Lucide-style)</h2>
+<div class="icon-grid">
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/home.svg"></div><div class="lbl">home</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/research.svg"></div><div class="lbl">research</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/ledger.svg"></div><div class="lbl">ledger</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/skill-tree.svg"></div><div class="lbl">skill-tree</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/benchmarks.svg"></div><div class="lbl">benchmarks</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/community.svg"></div><div class="lbl">community</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/docs.svg"></div><div class="lbl">docs</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/github.svg"></div><div class="lbl">github</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/discord.svg"></div><div class="lbl">discord</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/search.svg"></div><div class="lbl">search</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/settings.svg"></div><div class="lbl">settings</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/external-link.svg"></div><div class="lbl">ext-link</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/menu.svg"></div><div class="lbl">menu</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/close.svg"></div><div class="lbl">close</div></div>
+  <div class="icon-cell"><div class="icon-wrap"><img src="ui/icons/arrow-right.svg"></div><div class="lbl">arrow-right</div></div>
+</div>
+
+<div class="sep"></div>
+
+<!-- STATUS LEDS -->
+<h2>Status LEDs (One Primitive, CSS Colors)</h2>
+<div class="led-row">
+  <div class="led-demo prp"><div class="led-wrap"><img src="ui/status/led.svg"></div><div class="lbl" style="color:#545770">PRP</div></div>
+  <div class="led-demo act"><div class="led-wrap"><img src="ui/status/led.svg"></div><div class="lbl" style="color:#38bdf8">ACT</div></div>
+  <div class="led-demo rev"><div class="led-wrap"><img src="ui/status/led.svg"></div><div class="lbl" style="color:#fbbf24">REV</div></div>
+  <div class="led-demo vrf"><div class="led-wrap"><img src="ui/status/led.svg"></div><div class="lbl" style="color:#ec4899">VRF</div></div>
+  <div class="led-demo ok"><div class="led-wrap"><img src="ui/status/led.svg"></div><div class="lbl" style="color:#22c55e">OK</div></div>
+  <div class="led-demo err"><div class="led-wrap"><img src="ui/status/led.svg"></div><div class="lbl" style="color:#ef4444">ERR</div></div>
+</div>
+
+<!-- BADGES -->
+<h2>Badges / Chips</h2>
+<div class="badge-row">
+  <div class="badge-demo prp"><img src="ui/badges/badge.svg"><span class="btxt" style="color:#545770">PRP</span></div>
+  <div class="badge-demo act"><img src="ui/badges/badge.svg"><span class="btxt" style="color:#38bdf8">ACT</span></div>
+  <div class="badge-demo rev"><img src="ui/badges/badge.svg"><span class="btxt" style="color:#fbbf24">REV</span></div>
+  <div class="badge-demo vrf"><img src="ui/badges/badge.svg"><span class="btxt" style="color:#ec4899">VRF</span></div>
+  <div class="badge-demo act"><img src="ui/badges/badge-pill.svg"><span class="btxt" style="color:#38bdf8">NEW</span></div>
+  <div class="badge-demo vrf"><img src="ui/badges/badge-pill.svg"><span class="btxt" style="color:#ec4899">HOT</span></div>
+</div>
+
+<div class="sep"></div>
+
+<!-- DECORATIVE ELEMENTS -->
+<h2>Decorative Primitives</h2>
+<div class="decor-grid">
+  <div class="decor-cell"><div class="deco-wrap pink"><img src="ui/decorations/spark.svg" width="24" height="24"></div><div class="lbl">spark</div></div>
+  <div class="decor-cell"><div class="deco-wrap"><img src="ui/decorations/spark-small.svg" width="12" height="12"></div><div class="lbl">spark-sm</div></div>
+  <div class="decor-cell"><div class="deco-wrap"><img src="ui/decorations/corner-tl.svg" width="24" height="24"></div><div class="lbl">corner-tl</div></div>
+  <div class="decor-cell"><div class="deco-wrap pink"><img src="ui/decorations/corner-br.svg" width="24" height="24"></div><div class="lbl">corner-br</div></div>
+  <div class="decor-cell"><div class="deco-wrap"><img src="ui/decorations/crosshair.svg" width="24" height="24"></div><div class="lbl">crosshair</div></div>
+  <div class="decor-cell"><div class="deco-wrap pink"><img src="ui/decorations/hex.svg" width="24" height="24"></div><div class="lbl">hex</div></div>
+  <div class="decor-cell"><div class="deco-wrap"><img src="ui/decorations/hex-filled.svg" width="24" height="24"></div><div class="lbl">hex-filled</div></div>
+  <div class="decor-cell"><div class="deco-wrap"><img src="ui/decorations/grid-dots.svg" width="24" height="24"></div><div class="lbl">grid-dots</div></div>
+  <div class="decor-cell"><div class="deco-wrap"><img src="ui/decorations/ring.svg" width="24" height="24"></div><div class="lbl">ring</div></div>
+  <div class="decor-cell"><div class="deco-wrap pink"><img src="ui/decorations/target.svg" width="24" height="24"></div><div class="lbl">target</div></div>
+  <div class="decor-cell"><div class="deco-wrap"><img src="ui/decorations/separator.svg" width="8" height="24"></div><div class="lbl">sep</div></div>
+</div>
+<div style="margin-top:16px;" class="deco-wrap">
+  <img src="ui/decorations/divider.svg" style="width:400px; height:8px;">
+  <span style="color:#545770; font-size:9px; margin-left:8px;">divider.svg</span>
+</div>
+
+<div class="sep"></div>
+
+<!-- STATS -->
+<div class="stat">
+  <div class="stat-item"><div class="num">46</div><div class="desc">TOTAL FILES</div></div>
+  <div class="stat-item"><div class="num">5</div><div class="desc">LOGO VARIANTS</div></div>
+  <div class="stat-item"><div class="num">3</div><div class="desc">ICON VARIANTS</div></div>
+  <div class="stat-item"><div class="num">15</div><div class="desc">NAV ICONS</div></div>
+  <div class="stat-item"><div class="num">12</div><div class="desc">DECORATIONS</div></div>
+  <div class="stat-item"><div class="num">4</div><div class="desc">STATUS + BADGES</div></div>
+</div>
+
+<div class="sep" style="margin-top:32px"></div>
+<p style="color:#545770; font-size:9px; letter-spacing:3px; text-align:center; margin-top:16px;">
+  GAIA RESEARCH BRAND SYSTEM v1.0 &mdash; GEOMETRIC VECTOR REBUILD &mdash; 2026-07-01
+</p>
+
+</body>
+</html>

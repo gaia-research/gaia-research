@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Outer hexagon: pointy-top, cx=32 cy=32, circumradius=28 -->
+  <polygon
+    points="32,4 56.25,18 56.25,46 32,60 7.75,46 7.75,18"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linejoin="round"
+  />
+
+  <!-- Inner hexagon: dashed, circumradius=22 -->
+  <polygon
+    points="32,10 51.05,21 51.05,43 32,54 12.95,43 12.95,21"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1"
+    stroke-opacity="0.4"
+    stroke-dasharray="4 2"
+    stroke-linejoin="round"
+  />
+
+  <!-- Crosshair: horizontal -->
+  <line
+    x1="4" y1="32" x2="60" y2="32"
+    stroke="currentColor"
+    stroke-width="0.75"
+    stroke-opacity="0.5"
+  />
+
+  <!-- Crosshair: vertical -->
+  <line
+    x1="32" y1="4" x2="32" y2="60"
+    stroke="currentColor"
+    stroke-width="0.75"
+    stroke-opacity="0.5"
+  />
+
+  <!-- Crosshair circle: dashed -->
+  <circle
+    cx="32" cy="32" r="18"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="0.75"
+    stroke-opacity="0.4"
+    stroke-dasharray="3 3"
+  />
+
+  <!-- 4-point spark at top-left -->
+  <path
+    d="M12,4 L13.5,10.5 L20,12 L13.5,13.5 L12,20 L10.5,13.5 L4,12 L10.5,10.5 Z"
+    fill="currentColor"
+  />
+
+  <!-- Center dot of spark -->
+  <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+</svg>

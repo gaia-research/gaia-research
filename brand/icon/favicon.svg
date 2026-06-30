@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+  <!-- Hex outline: pointy-top, cx=8 cy=8, circumradius=7 -->
+  <polygon
+    points="8,1 14.06,4.5 14.06,11.5 8,15 1.94,11.5 1.94,4.5"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linejoin="round"
+  />
+
+  <!-- Left eye dot -->
+  <circle cx="6.5" cy="9" r="1" fill="currentColor" />
+
+  <!-- Right eye dot -->
+  <circle cx="9.5" cy="9" r="1" fill="currentColor" />
+
+  <!-- Highlight dot -->
+  <circle cx="6" cy="6" r="0.8" fill="currentColor" opacity="0.5" />
+</svg>
