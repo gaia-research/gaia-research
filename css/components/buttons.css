@@ -61,3 +61,12 @@
     text-align: center;
   }
 }
+
+.btn-icon {
+  margin-right: 0.5rem;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}

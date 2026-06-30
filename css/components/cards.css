@@ -106,3 +106,11 @@
 .ledger-card:hover .ledger-card-meta.meta-right {
   color: var(--rimuru-blue);
 }
+.meta-icon {
+  margin-left: 0.25rem;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}

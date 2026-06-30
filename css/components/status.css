@@ -3,30 +3,30 @@
 /* ── LED Status Light Indicator ── */
 .led {
   display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
   vertical-align: middle;
+  margin-right: 0.4rem;
+  color: var(--status-proposed, #545770);
 }
 
-.led-proposed {
-  background-color: var(--status-proposed);
-}
+.led-proposed { color: var(--status-proposed, #545770); }
+.led-active, .led-act { color: var(--status-active, #38bdf8); }
+.led-review, .led-rev { color: var(--status-review, #fbbf24); }
+.led-verified, .led-vrf { color: var(--status-verified, #ec4899); }
+.led-success { color: #22c55e; }
+.led-error { color: #ef4444; }
+.led-warning { color: #fbbf24; }
+.led-pending { color: #545770; }
 
-.led-active {
-  background-color: var(--status-active);
-  animation: pulse-blue 2s infinite;
+/* Pulse animation for inline SVG usage */
+.led-pulse .led-glow {
+  animation: led-pulse 1.2s ease-in-out infinite;
 }
-
-.led-review {
-  background-color: var(--status-review);
-  animation: pulse-amber 2s infinite;
-}
-
-.led-verified {
-  background-color: var(--status-verified);
-  animation: pulse-pink 2s infinite;
+@keyframes led-pulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.8; }
 }
 
 /* ── Status Text Chip ── */
@@ -67,3 +67,35 @@
   background-color: var(--milim-pink-bg);
   border: 1px solid var(--milim-pink-border);
 }
+
+/* ── Tech Badges ── */
+.status-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  width: 64px;
+}
+
+.status-badge svg {
+  width: 100%;
+  height: 100%;
+}
+
+.status-badge span {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.status-badge.vrf { color: var(--status-verified); }
+.status-badge.rev { color: var(--status-review); }
+.status-badge.act { color: var(--status-active); }
+.status-badge.prp { color: var(--status-proposed); }
