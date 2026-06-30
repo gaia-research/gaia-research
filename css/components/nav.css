@@ -68,6 +68,14 @@
   position: relative;
   transition: color var(--transition-fast);
 }
+.nav-icon {
+  margin-right: 0.5rem;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
 .nav-link:last-child {
   border-right: 1px solid var(--border-muted);
 }
