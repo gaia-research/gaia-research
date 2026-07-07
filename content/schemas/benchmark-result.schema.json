@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaia-registry.github.io/schema/benchmark-result.schema.json",
+  "title": "General Benchmark Result Submission",
+  "description": "Standard schema for registering general agent benchmark result submissions on the Gaia Skill Tree platform.",
+  "type": "object",
+  "required": [
+    "benchmark",
+    "version",
+    "model",
+    "metrics",
+    "reproducibleManifest"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "benchmark": {
+      "type": "string",
+      "description": "Name of the benchmark suite (e.g. GAIA, SWE-bench, HumanEval, WebArena)."
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the benchmark suite or configuration used."
+    },
+    "model": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name or identifier of the evaluated model."
+        },
+        "revision": {
+          "type": "string",
+          "description": "Commit SHA or version descriptor of the model weights/parameters."
+        },
+        "provider": {
+          "type": "string",
+          "description": "The provider/creator of the model (e.g., OpenAI, Anthropic, Meta)."
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": [
+        "primary"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "primary": {
+          "type": "object",
+          "required": [
+            "name",
+            "value"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of the primary metric (e.g. accuracy, pass@1)."
+            },
+            "value": {
+              "type": "number",
+              "description": "The value of the primary metric."
+            }
+          }
+        }
+      }
+    },
+    "reproducibleManifest": {
+      "type": "object",
+      "required": [
+        "containerSha",
+        "envHash"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "seeds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "List of random seeds used for the runs."
+        },
+        "containerSha": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "description": "Docker container or OCI image SHA."
+        },
+        "envHash": {
+          "type": "string",
+          "description": "Cryptographic hash of the environment specification (e.g. lockfile SHA)."
+        },
+        "signature": {
+          "type": "string",
+          "description": "Cryptographic signature verifying authenticity."
+        }
+      }
+    }
+  }
+}
