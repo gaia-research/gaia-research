@@ -6,9 +6,7 @@
 
 Welcome to the **Gaia Research** laboratory! Deployed live at **[gaia-research.github.io/gaia-research](https://gaia-research.github.io/gaia-research/)**, this repository serves as the core documentation, evidence vault, design asset ledger, and portal for verifying AI agentic capabilities.
 
-<p align="center">
-  <img src="./assets/brand/Milim-avatar.png" width="180" alt="Milim — Chief Capability Scout" />
-</p>
+![Milim — Chief Capability Scout](./assets/brand/Milim-avatar.png)
 
 Under the steering and directives of our Chief Capability Scout, **Milim**, we bridge the gap between playful, high-energy Developer Relations (DevRel) and deep, rigorous academic science.
 
