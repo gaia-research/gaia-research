@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gaia-research.github.io/gaia-research/sitemap.xml
