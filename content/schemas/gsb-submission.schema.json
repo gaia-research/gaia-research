@@ -1,0 +1,197 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaia-registry.github.io/schema/gsb-submission.schema.json",
+  "title": "Gaia Skill Bench (GSB) Submission",
+  "description": "Schema for GSB v1 submissions containing pillar scores (Performance 40%, Reliability 30%, Triggering 20%, Efficiency 10%) and reproducible run manifest details.",
+  "type": "object",
+  "required": [
+    "benchmark",
+    "version",
+    "pillars",
+    "runManifest"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "benchmark": {
+      "type": "string",
+      "enum": [
+        "GSB",
+        "Gaia Skill Bench"
+      ],
+      "description": "The name of the benchmark being submitted."
+    },
+    "version": {
+      "type": "string",
+      "enum": [
+        "1.0",
+        "1",
+        "v1"
+      ],
+      "description": "The version of the GSB specification."
+    },
+    "model": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the evaluated model."
+        },
+        "creator": {
+          "type": "string",
+          "description": "The organization or individual who created the model."
+        }
+      }
+    },
+    "pillars": {
+      "type": "object",
+      "required": [
+        "performance",
+        "reliability",
+        "triggering",
+        "efficiency"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "performance": {
+          "type": "object",
+          "required": [
+            "score",
+            "weight"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Performance score (0-100 range)."
+            },
+            "weight": {
+              "type": "number",
+              "const": 0.40,
+              "description": "Weight allocation for performance (40%)."
+            }
+          }
+        },
+        "reliability": {
+          "type": "object",
+          "required": [
+            "score",
+            "weight"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Reliability score (0-100 range)."
+            },
+            "weight": {
+              "type": "number",
+              "const": 0.30,
+              "description": "Weight allocation for reliability (30%)."
+            }
+          }
+        },
+        "triggering": {
+          "type": "object",
+          "required": [
+            "score",
+            "weight"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Triggering score (0-100 range)."
+            },
+            "weight": {
+              "type": "number",
+              "const": 0.20,
+              "description": "Weight allocation for triggering (20%)."
+            }
+          }
+        },
+        "efficiency": {
+          "type": "object",
+          "required": [
+            "score",
+            "weight"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Efficiency score (0-100 range)."
+            },
+            "weight": {
+              "type": "number",
+              "const": 0.10,
+              "description": "Weight allocation for efficiency (10%)."
+            }
+          }
+        },
+        "overallScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Weighted average score across all pillars: (Performance * 0.4) + (Reliability * 0.3) + (Triggering * 0.2) + (Efficiency * 0.1)."
+        }
+      }
+    },
+    "runManifest": {
+      "type": "object",
+      "required": [
+        "seeds",
+        "modelRevision",
+        "containerSha",
+        "envHash",
+        "rawScores",
+        "signature"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "seeds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "The random seeds used to ensure reproducibility."
+        },
+        "modelRevision": {
+          "type": "string",
+          "description": "The revision/commit hash/version identifier of the model."
+        },
+        "containerSha": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "description": "The SHA256 digest of the reproducible container image."
+        },
+        "envHash": {
+          "type": "string",
+          "description": "A cryptographic hash representing the execution environment configuration and dependencies."
+        },
+        "rawScores": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          },
+          "description": "The raw task/run score values map (e.g. task_id: score)."
+        },
+        "signature": {
+          "type": "string",
+          "description": "A cryptographic signature verifying the authenticity of this run manifest."
+        }
+      }
+    }
+  }
+}

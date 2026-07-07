@@ -1,4 +1,4 @@
-# brand/
+# /assets/brand/
 
 Geometric brand assets for **Gaia Research**.
 
@@ -14,7 +14,7 @@ Geometric brand assets for **Gaia Research**.
 
 ## Full specification
 
-See **[BRAND.md](BRAND.md)** for:
+See **[BRAND.md](/assets/brand/BRAND.md)** for:
 
 - Construction grid and vertex math
 - Color tokens and their usage
@@ -27,8 +27,8 @@ The logo adapts based on display size:
 
 | Size | Variant | File |
 |---|---|---|
-| **16 px** | Simplified hex + eyes | `icon/favicon.svg` |
-| **48 px+** | Full mark (hex + crosshair + spark) | `logo/logo-mark.svg` |
+| **16 px** | Simplified hex + eyes | `/assets/brand/icon/favicon.svg` |
+| **48 px+** | Full mark (hex + crosshair + spark) | `/assets/brand/logo/logo-mark.svg` |
 | **96 px+** | Full mark + slime mascot | *(future)* |
 | **Lockup** | Mark + GAIA wordmark + [RESEARCH] | *(future)* |
 

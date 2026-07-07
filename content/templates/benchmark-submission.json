@@ -1,0 +1,26 @@
+{
+  "benchmark": "GAIA",
+  "version": "1.0.1",
+  "model": {
+    "name": "Gaia-Agent-v1",
+    "revision": "git:8fa3b2c",
+    "provider": "Gaia Research"
+  },
+  "metrics": {
+    "primary": {
+      "name": "accuracy",
+      "value": 42.5
+    },
+    "level_1_accuracy": 68.2,
+    "level_2_accuracy": 40.1,
+    "level_3_accuracy": 19.2
+  },
+  "reproducibleManifest": {
+    "seeds": [
+      42
+    ],
+    "containerSha": "sha256:d554a9382103f6fdf3e2b2f6efd4206e053f3e2b10166e40938f3210166e4f3a",
+    "envHash": "sha256:1f1a5b8a5d3f2a1b9c8d7e6f0a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f2a1b",
+    "signature": "sig:ed25519:abcdef1234567890abcdef1234567890"
+  }
+}

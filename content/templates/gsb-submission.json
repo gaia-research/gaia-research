@@ -1,0 +1,43 @@
+{
+  "benchmark": "Gaia Skill Bench",
+  "version": "1.0",
+  "model": {
+    "name": "Gaia-Agent-v1",
+    "creator": "Gaia Research"
+  },
+  "pillars": {
+    "performance": {
+      "score": 85,
+      "weight": 0.4
+    },
+    "reliability": {
+      "score": 90,
+      "weight": 0.3
+    },
+    "triggering": {
+      "score": 75,
+      "weight": 0.2
+    },
+    "efficiency": {
+      "score": 95,
+      "weight": 0.1
+    },
+    "overallScore": 85.5
+  },
+  "runManifest": {
+    "seeds": [
+      42,
+      1337,
+      9000
+    ],
+    "modelRevision": "git:8fa3b2c",
+    "containerSha": "sha256:d554a9382103f6fdf3e2b2f6efd4206e053f3e2b10166e40938f3210166e4f3a",
+    "envHash": "sha256:1f1a5b8a5d3f2a1b9c8d7e6f0a9b8c7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f2a1b",
+    "rawScores": {
+      "task_001": 1,
+      "task_002": 0,
+      "task_003": 1
+    },
+    "signature": "sig:ed25519:abcdef1234567890abcdef1234567890"
+  }
+}

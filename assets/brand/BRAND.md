@@ -103,7 +103,7 @@ a progressively richer version of the mark.
 ### 16 px — Favicon Glyph
 
 ```
-brand/icon/favicon.svg
+/assets/brand/icon/favicon.svg
 ```
 
 - Simplified hexagon outline (pointy-top, circumradius 7)
@@ -114,8 +114,8 @@ brand/icon/favicon.svg
 ### 48 px+ — Icon Mark
 
 ```
-brand/logo/logo-mark.svg
-brand/icon/icon-primary.svg
+/assets/brand/logo/logo-mark.svg
+/assets/brand/icon/icon-primary.svg
 ```
 
 - Full hexagon (outer + dashed inner)
@@ -142,7 +142,7 @@ brand/icon/icon-primary.svg
 ### Directory Structure
 
 ```
-brand/
+/assets/brand/
 ├── BRAND.md              ← This file
 ├── README.md             ← Quick-start guide
 ├── logo/

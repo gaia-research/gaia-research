@@ -12,7 +12,7 @@ Under the steering and directives of our Chief Capability Scout, **Milim**, we b
 
 ## 🗺️ Project Architecture & Workflow
 
-Gaia Research serves as the scientific backbone that feeds into the broader Gaia ecosystem:
+Gaia Research serves as the scientific backbone that feeds into the broader Gaia ecosystem. For the comprehensive technical and structural details, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ```
 [gaia-research] (This Repo)
@@ -32,16 +32,14 @@ Gaia Research serves as the scientific backbone that feeds into the broader Gaia
 
 ## 📂 Repository Structure
 
-- 📁 `assets/` — Production images, banners, and generated visual assets.
-- 📁 `brand/` — Design guidelines, SVG icons, logos, status markers, and style toolkits.
-- 📁 `competitive/` — Industry competitor analyses and comparative evaluations.
-- 📁 `css/` — Modular styling architecture (`tokens.css`, `layout.css`, `style.css`, etc.) implementing the **Cyber-Slime** aesthetic.
+- 📄 `ARCHITECTURE.md` — The complete system architecture, tool pathways, and OAuth/Supabase blueprint.
+- 📁 `assets/` — Production images, banners, generated visual assets, brand vectors, and tool mockups.
+- 📁 `benchmarks/` — Definitions of benchmarks (specs) and historical execution cached results (runs).
+- 📁 `content/` — Dynamic Next.js markdown content, including news updates, release blogs, capability reports, competitor analyses, tool landing docs, and the **Skill Benchmark Ingest Layer** (schemas and templates).
 - 📁 `docs/` — Next.js migration roadmaps, long-term plans, and the **Idea Bank**.
-- 📁 `evidence/` — Curated verification briefs, capability reports, and data logs.
-- 📁 `experiments/` — Playground logs and capability verification testbeds.
-- 📁 `js/` — Micro-interactions and animation scripts (`main.js`, `animations.js`).
-- 📄 `index.html` — The main, high-fidelity research dashboard.
-- 📄 `prototype.html` — The React/Next.js/Remix migration concept layout (interweaving Gaia Research with the Atlas).
+- 📁 `experiments/` — Interactive playground concepts, capability verification testbeds, and execution logs.
+- 📁 `scripts/` — Build-time ingestion and template generation scripts.
+- 📁 `src/` — Next.js application source code, components, layout files, and infrastructure integrations.
 - 📄 `PRODUCT.md` — Strategic goals, brand voice (Milim's high-energy academic style), and target audience profiles.
 - 📄 `DESIGN.md` — Complete visual system tokens, colors, custom typography rules, and interactive patterns.
 - 📄 `CONSOLIDATION_PRD.md` — Phased roadmap for merging the Gaia Research web interface and the Gaia Skill Tree ledger.
@@ -59,16 +57,31 @@ For detailed design implementation details, see [DESIGN.md](DESIGN.md) and [PROD
 
 ---
 
-## 🚀 Running / Developing Locally
+## 🚀 Running Scripts / Developing Locally
 
-To preview the dashboard or work on layout assets:
-1. Clone this repository.
-2. Spin up any local static HTTP server. For example:
-   ```bash
-   # Using Python
-   python -m http.server 8000
-   
-   # Using Node (npx)
-   npx serve .
-   ```
-3. Open `http://localhost:8000` (or the respective local port) in your browser.
+This repository is prepared for Next.js App Router and utilizes Node.js scripts for dynamic build-time content generation:
+
+### 1. Ingestion & Template Generation
+
+To generate JSON templates from benchmark schemas (specifically fetching the benchmark-result schema dynamically from the `gaia-skill-tree` repository or falling back to raw GitHub URLs):
+
+```bash
+# Generate dynamic JSON templates from benchmark schemas
+npx tsx scripts/generate-templates.ts
+
+# Ingest and prep tool documentation (skill-fuse, gaia-operator)
+npx tsx scripts/ingest-tool-docs.ts
+```
+
+### 2. Submission Validation
+
+The ingest layer provides a validation script to verify user submission JSON files against either the Gaia Skill Bench (GSB) schema or the general benchmark-result schema:
+
+```bash
+# Validate a submission file (detects schema automatically)
+npx tsx scripts/validate-submissions.ts content/templates/gsb-submission.json
+npx tsx scripts/validate-submissions.ts content/templates/benchmark-submission.json
+```
+
+### 2. Next.js App setup (Future)
+Future routes and UI elements are componentized under `src/` and read from `content/` and `benchmarks/` data. Set up env variables for GitHub OAuth & Supabase in `.env.local` to connect standard database stubs.
