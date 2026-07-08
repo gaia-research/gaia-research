@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+npm-debug.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Scratch / build
+build/
+dist/
+generated-output/
+.tmp/
+.firecrawl/
+
+# Env / secrets
+.env
+.env.local
+
+# Session logs — never commit (contain agent conversation content)
+*.jsonl
