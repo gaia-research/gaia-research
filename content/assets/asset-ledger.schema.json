@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AssetLedger",
+  "type": "object",
+  "properties": {
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "path": { "type": "string" },
+          "kind": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["reference", "candidate", "approved", "deprecated"]
+          },
+          "sourceType": { "type": "string" },
+          "license": { "type": "string" },
+          "credit": { "type": "string" },
+          "alt": { "type": "string" },
+          "sha256": { "type": "string" },
+          "bytes": { "type": "number" },
+          "dimensions": {
+            "type": "object",
+            "properties": {
+              "width": { "type": "number" },
+              "height": { "type": "number" }
+            },
+            "required": ["width", "height"]
+          },
+          "derivatives": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "notes": { "type": "string" }
+        },
+        "required": ["id", "path", "kind", "status", "sourceType", "sha256", "bytes"]
+      }
+    }
+  },
+  "required": ["assets"]
+}

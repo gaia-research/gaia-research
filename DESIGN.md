@@ -106,3 +106,31 @@ Papers, releases, and specifications use technical status badges with the follow
 ### 5. Tactical Action Buttons
 - **Milim Action (Primary):** Solid `var(--milim-pink)` background, `var(--bg)` text, bold condensed `Bebas Neue`. Hover triggers a Rimuru Blue offset shadow: `box-shadow: 4px 4px 0px var(--rimuru-blue); transform: translate(-2px, -2px);`.
 - **Rimuru Outline (Secondary):** Transparent background, `1px` solid `var(--rimuru-blue)` border, `var(--text)` text. Hover fills the button with a soft `var(--rimuru-blue-bg)` tint.
+
+---
+
+## Locked North Star Decisions — July 2026
+
+These decisions supersede older exploratory planning notes where they conflict.
+
+1. **Context Diet is the priority Lab / Benchmark.** Treat Context Diet as Lab 001 / Benchmark 001 and the first flagship interactive proof point for the Next.js site.
+2. **Gaia Skill Tree is considered complete for this planning phase.** The previous `/atlas` framing is no longer the main product priority; Gaia Skill Tree supersedes Atlas as the canonical registry/product destination.
+3. **Vercel is locked for deployment.** Design and implementation should assume Next.js App Router hosted on Vercel with preview deployments.
+4. **GitHub OAuth and Supabase are locked platform decisions.** Exact callback routes, profile schema, auth copy, and persistence details will land in future PRs.
+5. **Production social surfaces are Twitter/X, Reddit, and GitHub only.** Do not include Discord as a production CTA, footer link, or community icon.
+6. **Milim and Nova avatars are done.** Existing avatar assets should be treated as approved brand assets unless a later explicit art-direction pass requests variants.
+7. **Context Diet assets are mostly done.** Remaining design work should focus on production exports, responsive crops, UI integration pieces, and any missing commission-quality supporting assets.
+
+## Asset Production & Commission Backlog
+
+Canonical working list: [`docs/plans/north-star-decisions-and-asset-commission.md`](docs/plans/north-star-decisions-and-asset-commission.md).
+
+Priority asset groups:
+
+- Context Diet hero, Lab 001 / Benchmark 001 badge, token-compression motif, prompt analyzer UI support art, benchmark result icons, OG/social card, and empty/loading/error-state illustrations.
+- Production exports for existing hero, OG, avatar, favicon, app icon, and PWA assets.
+- Production Gaia Research logo lockup as vector SVG.
+- Homepage support assets: reusable hero overlays, lab grid layers, gateway art, ledger icons, and Milim Directive console accents.
+- Social assets for Twitter/X, Reddit, and GitHub only.
+
+All commission work must preserve originality, avoid direct character/IP copying, avoid rasterized UI text for core site content, and provide responsive production-ready exports.
