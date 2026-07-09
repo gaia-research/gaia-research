@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 240 120" role="img" aria-label="Compressed token block motif">
+  <rect width="240" height="120" rx="2" fill="#05060a"/>
+  <path d="M8 8h224v104H8z" stroke="#38bdf8" stroke-opacity=".25"/>
+  <g fill="#38bdf8"><rect x="50" y="52" width="10" height="10" rx="1" opacity=".85"/><rect x="66" y="52" width="10" height="10" rx="1" opacity=".85"/><rect x="82" y="52" width="10" height="10" rx="1" opacity=".85"/><rect x="98" y="52" width="10" height="10" rx="1" opacity=".85"/><rect x="114" y="52" width="10" height="10" rx="1" opacity=".85"/><rect x="130" y="52" width="10" height="10" rx="1" opacity=".85"/><rect x="146" y="52" width="10" height="10" rx="1" opacity=".85"/></g>
+  <g fill="#ec4899"><rect x="168" y="45" width="22" height="22" rx="3"/><rect x="196" y="50" width="12" height="12" rx="2" opacity=".8"/></g>
+</svg>
