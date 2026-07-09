@@ -1,7 +1,4 @@
-import Image from "next/image";
 import Link from "next/link";
-import chiefScout from "@/assets/generated/exports/chief-scout-hero/chief-scout-hero-desktop-16-9.webp";
-import milimAvatar from "@/assets/brand/exports/milim-avatar/milim-avatar-128.webp";
 import { BrandMark } from "@/components/BrandMark";
 import { ProjectGateways } from "@/components/research/ProjectGateways";
 import { ResearchLedgerTable } from "@/components/research/ResearchLedgerTable";
@@ -48,11 +45,18 @@ export default function HomePage() {
             </div>
             <p className="hero-footnote">FIELD NOTE 001 · Evidence first. Hype last.</p>
           </div>
-          <div className="hero-visual" aria-label="Temporary Chief Scout field visual">
+          <figure className="hero-visual">
             <div className="visual-stamp">TEMPORARY FIELD VISUAL<br /><span>ART DIRECTION IN ITERATION</span></div>
-            <Image src={chiefScout} alt="Decorative Chief Scout laboratory field visual" priority sizes="(max-width: 860px) 100vw, 52vw" />
-            <div className="visual-caption"><span className="led led-blue" /> SIGNAL ACQUIRED / STATIC PLACEHOLDER</div>
-          </div>
+            <picture>
+              <source media="(max-width: 640px)" srcSet="/images/chief-scout/chief-scout-hero-mobile-3-4.avif" type="image/avif" />
+              <source media="(max-width: 1000px)" srcSet="/images/chief-scout/chief-scout-hero-tablet-4-3.avif" type="image/avif" />
+              <source media="(max-width: 640px)" srcSet="/images/chief-scout/chief-scout-hero-mobile-3-4.webp" type="image/webp" />
+              <source media="(max-width: 1000px)" srcSet="/images/chief-scout/chief-scout-hero-tablet-4-3.webp" type="image/webp" />
+              <source srcSet="/images/chief-scout/chief-scout-hero-desktop-16-9.avif" type="image/avif" />
+              <img src="/images/chief-scout/chief-scout-hero-desktop-16-9.webp" alt="Temporary Chief Scout laboratory field visual" fetchPriority="high" />
+            </picture>
+            <figcaption className="visual-caption"><span className="led led-blue" /> SIGNAL ACQUIRED / STATIC PLACEHOLDER</figcaption>
+          </figure>
           <aside className="hero-rail" aria-labelledby="rail-title">
             <div className="rail-heading"><span className="spark" aria-hidden="true">✦</span><h2 id="rail-title">Live directives</h2><a href="#directives">View all</a></div>
             <ol className="rail-list">
@@ -87,7 +91,7 @@ export default function HomePage() {
           <div className="tree-plaque"><span>CANONICAL REGISTRY / EXTERNAL</span><b>Verified capabilities deserve a permanent trace.</b><small>Inspect records, then build the next proof.</small></div>
         </section>
         <section className="directives section-shell" id="directives" aria-labelledby="directives-title">
-          <div className="directive-art" aria-hidden="true"><Image src={milimAvatar} alt="" /><span>✦</span></div>
+          <div className="directive-art" aria-hidden="true"><img src="/images/milim/milim-avatar-128.webp" alt="" /><span>✦</span></div>
           <div className="directive-body"><div className="directive-heading"><p className="section-kicker">06 / Chief Scout console</p><h2 id="directives-title">Milim directives</h2><p>Orders from the field: make the science stronger, boss.</p></div><ol>{directives.map((directive, index) => <li key={directive}><span>DIR-0{index + 1} / {directivesMeta[index]}</span>{directive}</li>)}</ol></div>
         </section>
         <section className="community section-shell" id="community" aria-labelledby="community-title">

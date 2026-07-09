@@ -1,12 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import contextHero from "@/assets/generated/exports/context-diet/context-diet-hero-16-9.webp";
-import analyzerSupport from "@/assets/generated/context-diet-prompt-analyzer-support.webp";
-import compressionMotif from "@/assets/generated/context-diet-token-compression-motif.webp";
-import emptyState from "@/assets/generated/context-diet-empty-state.webp";
-import loadingState from "@/assets/generated/context-diet-loading-state.webp";
-import errorState from "@/assets/generated/context-diet-error-state.webp";
 import { BrandMark } from "@/components/BrandMark";
 
 export const metadata: Metadata = {
@@ -26,6 +19,7 @@ const metrics = [
 export default function ContextDietPage() {
   return (
     <>
+      <a className="skip-link" href="#lab-main">Skip to lab content</a>
       <header className="site-header">
         <BrandMark />
         <nav aria-label="Primary navigation">
@@ -37,7 +31,7 @@ export default function ContextDietPage() {
           ← Mission Control
         </Link>
       </header>
-      <main className="lab-page">
+      <main className="lab-page" id="lab-main">
         <section className="lab-hero" aria-labelledby="lab-title">
           <div>
             <p className="eyebrow">
@@ -53,12 +47,14 @@ export default function ContextDietPage() {
               <span>SKILL.md READY</span>
             </div>
           </div>
-          <Image
-            src={contextHero}
-            alt="Decorative Context Diet laboratory illustration"
-            priority
-            sizes="(max-width: 760px) 100vw, 50vw"
-          />
+          <picture className="lab-hero-art">
+            <source media="(max-width: 640px)" srcSet="/images/context-diet/context-diet-hero-3-4.avif" type="image/avif" />
+            <source media="(max-width: 1000px)" srcSet="/images/context-diet/context-diet-hero-4-3.avif" type="image/avif" />
+            <source media="(max-width: 640px)" srcSet="/images/context-diet/context-diet-hero-3-4.webp" type="image/webp" />
+            <source media="(max-width: 1000px)" srcSet="/images/context-diet/context-diet-hero-4-3.webp" type="image/webp" />
+            <source srcSet="/images/context-diet/context-diet-hero-16-9.avif" type="image/avif" />
+            <img src="/images/context-diet/context-diet-hero-16-9.webp" alt="Context Diet laboratory illustration" fetchPriority="high" />
+          </picture>
         </section>
         <section
           className="analyzer section-shell"
@@ -100,7 +96,7 @@ export default function ContextDietPage() {
               </div>
             </div>
           </div>
-          <Image src={analyzerSupport} alt="" className="analyzer-support" />
+          <img src="/images/context-diet/context-diet-prompt-analyzer-support.webp" alt="" className="analyzer-support" loading="lazy" />
         </section>
         <section
           className="metric-section section-shell"
@@ -126,10 +122,7 @@ export default function ContextDietPage() {
           className="compression section-shell"
           aria-labelledby="compression-title"
         >
-          <Image
-            src={compressionMotif}
-            alt="Decorative token compression motif"
-          />
+          <img src="/images/context-diet/context-diet-token-compression-motif.webp" alt="" loading="lazy" />
           <div>
             <p className="section-kicker">COMPRESSION MOTIF</p>
             <h2 id="compression-title">Reduce the window. Keep the warrant.</h2>
@@ -174,14 +167,14 @@ export default function ContextDietPage() {
           </div>
           <div>
             {[
-              [emptyState, "Empty", "No prompt loaded yet."],
-              [loadingState, "Analyzing", "Evidence pass in progress."],
-              [errorState, "Blocked", "Export needs another pass."],
+              ["/images/context-diet/context-diet-empty-state.webp", "Empty", "No prompt loaded yet."],
+              ["/images/context-diet/context-diet-loading-state.webp", "Analyzing", "Evidence pass in progress."],
+              ["/images/context-diet/context-diet-error-state.webp", "Blocked", "Export needs another pass."],
             ].map(([image, title, copy]) => (
-              <article key={title as string}>
-                <Image src={image as typeof emptyState} alt="" />
-                <h3>{title as string}</h3>
-                <p>{copy as string}</p>
+              <article key={title}>
+                <img src={image} alt="" loading="lazy" />
+                <h3>{title}</h3>
+                <p>{copy}</p>
               </article>
             ))}
           </div>

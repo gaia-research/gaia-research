@@ -1,30 +1,25 @@
 import Link from "next/link";
-import Image from "next/image";
-import skillTree from "@/assets/generated/gateway-skill-tree-panel.webp";
-import benchmarks from "@/assets/generated/gateway-benchmarks-panel.webp";
-import ledger from "@/assets/generated/gateway-ledger-panel.webp";
-import docs from "@/assets/generated/gateway-docs-panel.webp";
 
 const gateways = [
   {
     name: "Gaia Skill Tree",
     text: "The canonical registry for named, durable capabilities.",
     href: "https://github.com/gaia-research/gaia-skill-tree",
-    image: skillTree,
+    image: "/images/gateways/gateway-skill-tree-panel.webp",
     style: "gateway-tree",
   },
   {
     name: "Benchmarks",
     text: "Evaluation suites built to make claims comparable.",
     href: "#benchmarks",
-    image: benchmarks,
+    image: "/images/gateways/gateway-benchmarks-panel.webp",
     style: "gateway-bench",
   },
   {
     name: "Ledger",
     text: "A public trail for protocols, data, and evidence.",
     href: "#ledger",
-    image: ledger,
+    image: "/images/gateways/gateway-ledger-panel.webp",
     style: "gateway-ledger",
   },
   {
@@ -37,7 +32,7 @@ const gateways = [
     name: "Docs and specs",
     text: "Schemas, templates, and implementation notes—without gatekeeping.",
     href: "https://github.com/gaia-research/gaia-research/tree/main/docs",
-    image: docs,
+    image: "/images/gateways/gateway-docs-panel.webp",
     style: "gateway-docs",
   },
 ];
@@ -60,11 +55,11 @@ export function ProjectGateways() {
         {gateways.map((gateway, index) => (
           <article className={`gateway ${gateway.style}`} key={gateway.name}>
             {gateway.image && (
-              <Image
+              <img
                 src={gateway.image}
                 alt=""
                 className="gateway-art"
-                sizes="(max-width: 700px) 100vw, 40vw"
+                loading="lazy"
               />
             )}
             {index === 3 && (
