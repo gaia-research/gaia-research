@@ -1,0 +1,36 @@
+{
+  "source": {
+    "path": "assets/brand/Nova-avatar.jpg",
+    "sha256": "d82e9436429ed8fb71ff74fa68108818ea681274bad09d17f8acfa0acaf74e61",
+    "dimensions": {
+      "width": 1254,
+      "height": 1254,
+      "format": "jpeg"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/brand/exports/nova-avatar/nova-avatar-256.png",
+      "format": "png",
+      "width": 256,
+      "height": 256,
+      "fit": "cover",
+      "position": "centre",
+      "quality": 80,
+      "sha256": "9a5da637eec3458cc7d30eb4ae121f58bcfada3022d8305214e295a5f15ff6c0",
+      "bytes": 35444
+    },
+    {
+      "path": "assets/brand/exports/nova-avatar/nova-avatar-256.webp",
+      "format": "webp",
+      "width": 256,
+      "height": 256,
+      "fit": "cover",
+      "position": "centre",
+      "quality": 80,
+      "sha256": "69f18f7100e5210557c3261624b5d3a1fb1634626249e76762bb561bbcdba7bb",
+      "bytes": 15588
+    }
+  ],
+  "timestamp": "2026-07-09T01:25:18.757Z"
+}

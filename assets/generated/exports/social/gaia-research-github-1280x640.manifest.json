@@ -1,0 +1,36 @@
+{
+  "source": {
+    "path": "assets/generated/research-og.png",
+    "sha256": "8041afe0c6c518085e5024980319bfcede92d94eca47c28614457ff9b9bf0418",
+    "dimensions": {
+      "width": 1536,
+      "height": 1024,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/exports/social/gaia-research-github-1280x640.png",
+      "format": "png",
+      "width": 1280,
+      "height": 640,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "5c4d3e2f5404292393d985c6cead8d1ae19f6af96a3fc7e0fdfba5cfe1634dd3",
+      "bytes": 449541
+    },
+    {
+      "path": "assets/generated/exports/social/gaia-research-github-1280x640.webp",
+      "format": "webp",
+      "width": 1280,
+      "height": 640,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "7ac85caa6cc4f6564baebb4034af68bdd8d5d320d1f7982228da975764c2126f",
+      "bytes": 150924
+    }
+  ],
+  "timestamp": "2026-07-09T01:33:15.379Z"
+}

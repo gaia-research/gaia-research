@@ -7,7 +7,7 @@ author:
   name: "Marcus B. Tiongson"
 
 social:
-  og_image: "/gaia-research/assets/brand/Milim-avatar.png"
+  og_image: "/gaia-research/assets/generated/exports/research-og/research-og-og.png"
 
 plugins:
   - jekyll-seo-tag

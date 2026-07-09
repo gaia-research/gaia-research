@@ -1,0 +1,36 @@
+{
+  "source": {
+    "path": "assets/generated/chief-scout-hero.png",
+    "sha256": "a3b2166c185c81ad0ecf7f09a5e29079d09df99effba919a058be82b0e8adb6f",
+    "dimensions": {
+      "width": 1536,
+      "height": 1024,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/exports/chief-scout-hero/chief-scout-hero-mobile-3-4.avif",
+      "format": "avif",
+      "width": 768,
+      "height": 1024,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "b2ac64c5f3f7470d582c01fe0fa5b2af93045b3ea3753fef7aa4e97a9a2f5264",
+      "bytes": 163881
+    },
+    {
+      "path": "assets/generated/exports/chief-scout-hero/chief-scout-hero-mobile-3-4.webp",
+      "format": "webp",
+      "width": 768,
+      "height": 1024,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "3bc412776de2bc64ccb0e8a60ab66d19b03e3ae2f496e3fcbb40eff8f4e0c662",
+      "bytes": 129506
+    }
+  ],
+  "timestamp": "2026-07-09T01:24:07.590Z"
+}

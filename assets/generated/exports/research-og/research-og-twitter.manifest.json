@@ -1,0 +1,36 @@
+{
+  "source": {
+    "path": "assets/generated/research-og.png",
+    "sha256": "8041afe0c6c518085e5024980319bfcede92d94eca47c28614457ff9b9bf0418",
+    "dimensions": {
+      "width": 1536,
+      "height": 1024,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/exports/research-og/research-og-twitter.png",
+      "format": "png",
+      "width": 1200,
+      "height": 675,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "e66d159f41a8c20748af24c9fdc1c626149df5e31bbd9b4a552145c8523c53fe",
+      "bytes": 449451
+    },
+    {
+      "path": "assets/generated/exports/research-og/research-og-twitter.webp",
+      "format": "webp",
+      "width": 1200,
+      "height": 675,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "d7fa7c5ccb064fac7a441cfaad1cc7ddd006d405c87f3cdec009d8b0614c76ca",
+      "bytes": 154030
+    }
+  ],
+  "timestamp": "2026-07-09T01:25:11.031Z"
+}

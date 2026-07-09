@@ -1,0 +1,36 @@
+{
+  "source": {
+    "path": "assets/generated/context-diet-og-bg.webp",
+    "sha256": "15eac32b7648bd69b36a8752b43c076e9a51fa9b5a8a91202b40a92e29b6f1fa",
+    "dimensions": {
+      "width": 1536,
+      "height": 1024,
+      "format": "webp"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/exports/social/context-diet-launch-reddit-1920x384.png",
+      "format": "png",
+      "width": 1920,
+      "height": 384,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "9b200d7c3949059ef227ad554b987b1597f507640e2224978c1208db05a15e6d",
+      "bytes": 169063
+    },
+    {
+      "path": "assets/generated/exports/social/context-diet-launch-reddit-1920x384.webp",
+      "format": "webp",
+      "width": 1920,
+      "height": 384,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "8bf55e094d9acd4ece4013ef18e4fd17b72c461a29efa4471fde626714b73d60",
+      "bytes": 41402
+    }
+  ],
+  "timestamp": "2026-07-09T01:32:47.009Z"
+}
