@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 240 80" role="img" aria-label="Context compression arrow motif">
+  <path d="M8 40h170" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+  <path d="M152 14l72 26-72 26 16-26-16-26Z" fill="#ec4899" fill-opacity=".9" stroke="#38bdf8"/>
+  <g stroke="#ec4899" stroke-opacity=".6"><path d="M20 24v32"/><path d="M38 24v32"/><path d="M56 24v32"/><path d="M74 24v32"/><path d="M92 24v32"/><path d="M110 24v32"/><path d="M128 24v32"/></g>
+</svg>
