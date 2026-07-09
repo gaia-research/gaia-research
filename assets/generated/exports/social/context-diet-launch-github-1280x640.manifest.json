@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "assets/generated/context-diet-og-bg.webp",
+    "sha256": "15eac32b7648bd69b36a8752b43c076e9a51fa9b5a8a91202b40a92e29b6f1fa",
+    "dimensions": {
+      "width": 1536,
+      "height": 1024,
+      "format": "webp"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/exports/social/context-diet-launch-github-1280x640.png",
+      "format": "png",
+      "width": 1280,
+      "height": 640,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "c56e4b27b4152d9f15ac9a147cdcb64356a8791b41a2b0912c053e45d980995a",
+      "bytes": 146870
+    }
+  ],
+  "timestamp": "2026-07-09T01:32:14.105Z"
+}

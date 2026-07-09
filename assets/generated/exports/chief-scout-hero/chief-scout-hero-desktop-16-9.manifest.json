@@ -1,0 +1,36 @@
+{
+  "source": {
+    "path": "assets/generated/chief-scout-hero.png",
+    "sha256": "a3b2166c185c81ad0ecf7f09a5e29079d09df99effba919a058be82b0e8adb6f",
+    "dimensions": {
+      "width": 1536,
+      "height": 1024,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/exports/chief-scout-hero/chief-scout-hero-desktop-16-9.avif",
+      "format": "avif",
+      "width": 1920,
+      "height": 1080,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "4e42870f3f28eb0c159de277fb839763eed3f743669a8dbe1557ac45c409947f",
+      "bytes": 207273
+    },
+    {
+      "path": "assets/generated/exports/chief-scout-hero/chief-scout-hero-desktop-16-9.webp",
+      "format": "webp",
+      "width": 1920,
+      "height": 1080,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "ebca0ca94c577c9150a6ed87288317639eea56f54168ce8697ff99f696dc2cda",
+      "bytes": 145464
+    }
+  ],
+  "timestamp": "2026-07-09T01:21:08.769Z"
+}

@@ -1,0 +1,36 @@
+{
+  "source": {
+    "path": "assets/generated/context-diet-og-bg.webp",
+    "sha256": "15eac32b7648bd69b36a8752b43c076e9a51fa9b5a8a91202b40a92e29b6f1fa",
+    "dimensions": {
+      "width": 1536,
+      "height": 1024,
+      "format": "webp"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/exports/social/context-diet-launch-x-1600x900.png",
+      "format": "png",
+      "width": 1600,
+      "height": 900,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "f7a15036f8b764a8b20fc178daa4eff6afd4001201d6e218a4a1ee5894903164",
+      "bytes": 225003
+    },
+    {
+      "path": "assets/generated/exports/social/context-diet-launch-x-1600x900.webp",
+      "format": "webp",
+      "width": 1600,
+      "height": 900,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "89161066c36d3d3408868ef4e219d8a4e541d3c4649308053e0f1a39a05ed4fb",
+      "bytes": 56734
+    }
+  ],
+  "timestamp": "2026-07-09T01:31:56.572Z"
+}

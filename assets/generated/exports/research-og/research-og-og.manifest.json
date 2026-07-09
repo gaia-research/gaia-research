@@ -1,0 +1,47 @@
+{
+  "source": {
+    "path": "assets/generated/research-og.png",
+    "sha256": "8041afe0c6c518085e5024980319bfcede92d94eca47c28614457ff9b9bf0418",
+    "dimensions": {
+      "width": 1536,
+      "height": 1024,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/exports/research-og/research-og-og.png",
+      "format": "png",
+      "width": 1200,
+      "height": 630,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "da2bfdc8f0e4a4207e0b6df57f74c4067b6abdb48d70db127eeeb7b85b99b081",
+      "bytes": 422109
+    },
+    {
+      "path": "assets/generated/exports/research-og/research-og-og.webp",
+      "format": "webp",
+      "width": 1200,
+      "height": 630,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "b70137811aa93dc5468fcdaafaeed6ce9b48a16802bdbf4647c2dc88944f41c4",
+      "bytes": 143636
+    },
+    {
+      "path": "assets/generated/exports/research-og/research-og-og.avif",
+      "format": "avif",
+      "width": 1200,
+      "height": 630,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "6679310f086eda50693ccfa688be375d66d8216686d621aed4e2ddfe9cfc2392",
+      "bytes": 188666
+    }
+  ],
+  "timestamp": "2026-07-09T01:25:05.826Z"
+}

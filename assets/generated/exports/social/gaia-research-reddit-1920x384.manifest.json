@@ -1,0 +1,36 @@
+{
+  "source": {
+    "path": "assets/generated/research-og.png",
+    "sha256": "8041afe0c6c518085e5024980319bfcede92d94eca47c28614457ff9b9bf0418",
+    "dimensions": {
+      "width": 1536,
+      "height": 1024,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/exports/social/gaia-research-reddit-1920x384.png",
+      "format": "png",
+      "width": 1920,
+      "height": 384,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "14a549d41ff739f57a369833dbcaadcd880cfb458e99d6002249d7c91cd61dc4",
+      "bytes": 375849
+    },
+    {
+      "path": "assets/generated/exports/social/gaia-research-reddit-1920x384.webp",
+      "format": "webp",
+      "width": 1920,
+      "height": 384,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "5843356d97c97315ba89fd3dcd7706f995f4c0ce6663b7601fb585bb929984a1",
+      "bytes": 99556
+    }
+  ],
+  "timestamp": "2026-07-09T01:33:45.367Z"
+}

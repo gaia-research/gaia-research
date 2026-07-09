@@ -1,0 +1,36 @@
+{
+  "source": {
+    "path": "assets/brand/Milim-avatar.jpg",
+    "sha256": "3caef3b1fa6d798a6bda0cfcae8c76320d14ce927a240d0d5b1c248ac1baefd5",
+    "dimensions": {
+      "width": 1024,
+      "height": 1536,
+      "format": "jpeg"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/brand/exports/milim-avatar/milim-avatar-128.png",
+      "format": "png",
+      "width": 128,
+      "height": 128,
+      "fit": "cover",
+      "position": "centre",
+      "quality": 80,
+      "sha256": "fd4f80997a0b2a99365ef4127baab4de9af5a621fe5d4d109d47d7ca53ca056a",
+      "bytes": 8886
+    },
+    {
+      "path": "assets/brand/exports/milim-avatar/milim-avatar-128.webp",
+      "format": "webp",
+      "width": 128,
+      "height": 128,
+      "fit": "cover",
+      "position": "centre",
+      "quality": 80,
+      "sha256": "569c0e894de5c533c7c8403e328d78683c748f8fea2a6ad091fc4d60d26204c5",
+      "bytes": 3790
+    }
+  ],
+  "timestamp": "2026-07-09T01:36:29.488Z"
+}
