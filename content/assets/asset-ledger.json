@@ -1110,23 +1110,6 @@
       "derivatives": []
     },
     {
-      "id": "ui-icons-discord",
-      "path": "assets/brand/ui/icons/discord.svg",
-      "kind": "icon",
-      "status": "candidate",
-      "sourceType": "brand",
-      "license": "internal-review-required",
-      "credit": "Gaia Research asset workflow",
-      "alt": "",
-      "sha256": "23481ca5c8266dce4e3cf7bee92be09ee3e4a062b7a7ae422cb91abdce9be533",
-      "bytes": 1287,
-      "dimensions": {
-        "width": 24,
-        "height": 24
-      },
-      "derivatives": []
-    },
-    {
       "id": "ui-icons-docs",
       "path": "assets/brand/ui/icons/docs.svg",
       "kind": "icon",
@@ -1635,8 +1618,8 @@
       "license": "internal-review-required",
       "credit": "Gaia Research asset workflow",
       "alt": "",
-      "sha256": "4d1b45b4c8600396879f8f6969623b353c9d2315a9f265e1bb243c5413560a5d",
-      "bytes": 119616,
+      "sha256": "d1515fab07d83417cb32e6ae1186f03cb9a7cb9b89c86e9639cba71d3b9a794f",
+      "bytes": 132814,
       "dimensions": {
         "width": 1536,
         "height": 1024
@@ -1678,8 +1661,8 @@
       "license": "internal-review-required",
       "credit": "Gaia Research asset workflow",
       "alt": "",
-      "sha256": "4d1b45b4c8600396879f8f6969623b353c9d2315a9f265e1bb243c5413560a5d",
-      "bytes": 119616,
+      "sha256": "38f78b7d45f89bb2d3a7e54f285f261d809cd71a9c1e707008b1e435a6bd8dc6",
+      "bytes": 129114,
       "dimensions": {
         "width": 1536,
         "height": 1024
@@ -2256,11 +2239,11 @@
       "license": "internal-review-required",
       "credit": "Gaia Research asset workflow",
       "alt": "",
-      "sha256": "5d4adfcd7e7dbffe1b9c34635865b68cbd3a06785d3b6b8d2835150f9f0283ca",
-      "bytes": 236886,
+      "sha256": "e050a166eba55133b87aa222eeafd3827dccf060d4e2ca3759a90575a9c3eca4",
+      "bytes": 214000,
       "dimensions": {
-        "width": 1693,
-        "height": 929
+        "width": 1536,
+        "height": 1024
       },
       "derivatives": []
     },
