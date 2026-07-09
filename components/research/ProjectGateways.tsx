@@ -49,7 +49,7 @@ export function ProjectGateways() {
       id="research"
       aria-labelledby="gateways-title"
     >
-      <div className="section-kicker">01 / PROJECT GATEWAYS</div>
+      <div className="section-kicker">02 / PROJECT GATEWAYS</div>
       <div className="section-heading-row">
         <div>
           <h2 id="gateways-title">Choose your entry point.</h2>

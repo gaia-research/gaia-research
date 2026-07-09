@@ -8,7 +8,7 @@ export function ResearchLedgerTable() {
       id="ledger"
       aria-labelledby="ledger-title"
     >
-      <div className="section-kicker">02 / PUBLIC EVIDENCE</div>
+      <div className="section-kicker">01 / PUBLIC EVIDENCE</div>
       <div className="section-heading-row">
         <div>
           <h2 id="ledger-title">Research Ledger</h2>
