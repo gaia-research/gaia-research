@@ -61,6 +61,12 @@ gaia-research  ──►  marketing-tasks  ──►  gaia-skill-tree
 
 If you change the schema JSON files, mirror the change in the validator (or vice versa) — they can silently drift.
 
+## Slash skill commands
+
+- **When a user explicitly invokes a slash skill command** (for example, `/impeccable`), **never substitute an alternative skill, workflow, tool, or manual method.** Load and execute the exact named skill command.
+- If that exact skill is unavailable, not installed, or blocked, report the specific blocker and ask the user before taking any alternative action.
+- Do not infer that permission to use a related capability is permission to replace an explicitly requested slash skill.
+
 ## Brand & Voice
 
 `PRODUCT.md` and `DESIGN.md` define the mascot voice (Milim — high-energy, playful-rigorous) and the visual system (Milim Pink `#ec4899`, Rimuru Blue `#38bdf8`, obsidian dark canvas, Bebas Neue + Syne typography). Copy and UI work in this repo should match that register; the ledger-side (`/atlas` in the future app) uses a more solemn palette per `CONSOLIDATION_PRD.md`.
