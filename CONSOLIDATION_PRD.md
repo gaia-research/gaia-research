@@ -16,7 +16,7 @@ Currently, `gaia-skill-tree` is a monolith containing developer tools *and* stat
 
 ### A. The Web Surface (`gaia-research` repo)
 *   **Stack:** Modern React framework (Next.js/Remix).
-*   **Purpose:** The single deployed website (e.g., `gaia.tiongson.co` or future domain).
+*   **Purpose:** The single deployed website (e.g., `gaiaskilltree.com` or future domain).
 *   **Structure:** 
     *   `/` (Home): The Milim-hosted Research Lab. High energy, blogs, open-science manifestos.
     *   `/atlas` (The Registry): The Skill Tree UI. The design strictly shifts to the dark, serious, Honor Red/Apex Gold ledger.
@@ -49,5 +49,5 @@ Currently, `gaia-skill-tree` is a monolith containing developer tools *and* stat
 
 **Phase 4: Launch & Route Consolidation**
 *   Deploy the unified React app.
-*   Point `gaia.tiongson.co` (or the new dev domain) to the unified `gaia-research` deployment.
+*   Point `gaiaskilltree.com` (or the new dev domain) to the unified `gaia-research` deployment.
 *   Publish the stripped-down `gaia-skill-tree` core to package managers (PyPI/npm).
