@@ -98,6 +98,7 @@ Future routes:
 /benchmarks
 /community
 /docs
+/labs/context-diet
 ```
 
 ## Homepage sections
@@ -277,4 +278,5 @@ Sub-issues:
 2. Migrate important Gaia Skill Tree JSON data cleanly into a Next.js build pipeline.
 3. Address Gaia Skill Tree API/data gaps needed by the new Gaia Research site.
 4. Build the Next.js App Router homepage and SEO foundation.
+5. Build the Context Diet prompt analyzer lab at `/labs/context-diet` to showcase real-time token reduction and export GAIA-compatible SKILL.md specs.
 
