@@ -65,6 +65,21 @@ If you change the schema JSON files, mirror the change in the validator (or vice
 
 `PRODUCT.md` and `DESIGN.md` define the mascot voice (Milim — high-energy, playful-rigorous) and the visual system (Milim Pink `#ec4899`, Rimuru Blue `#38bdf8`, obsidian dark canvas, Bebas Neue + Syne typography). Copy and UI work in this repo should match that register; the ledger-side (`/atlas` in the future app) uses a more solemn palette per `CONSOLIDATION_PRD.md`.
 
+## Image Generation & Asset Production
+
+When generating or refining images for this repo, use the project skill/playbook and helper scripts:
+
+- Skill: `.agents/skills/gaia-image-production/SKILL.md`
+- Playbook: `docs/assets/pi-image-gen-playbook.md`
+- Helper scripts: `scripts/assets/`
+- Workflow docs: `docs/assets/asset-production-workflows.md`
+- Asset ledger: `content/assets/asset-ledger.json`
+- Export recipes: `content/assets/export-recipes.json`
+
+Hard rule: **always use image gen 2 / `gpt-image-2`; never use `nano-banana` or `nano-banana-2` for Gaia Research production assets.** If using `omniflash`, set `model_id: "gpt-image-2"`. If using pi-image-gen / `image_generate`, confirm the active default model is image gen 2 before generating; if it cannot be confirmed, ask before proceeding.
+
+Generated experiments and intermediate variants should go in `assets/workbench/` first. Promote reviewed outputs to `assets/generated/` or `assets/brand/`, then run the asset ledger sync/check scripts.
+
 ## GitHub Pages
 
 The site is served by Jekyll with the `jekyll-seo-tag` plugin (`_config.yml`). `baseurl` is `/gaia-research` — any absolute paths in future content need to account for that prefix. `sitemap.xml` and `robots.txt` are hand-maintained.

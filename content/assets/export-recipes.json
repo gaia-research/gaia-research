@@ -1,0 +1,149 @@
+{
+  "recipes": {
+    "chief-scout-hero": {
+      "assetId": "chief-scout-hero",
+      "exports": [
+        {
+          "suffix": "desktop-16-9",
+          "width": 1920,
+          "height": 1080,
+          "fit": "cover",
+          "position": "attention",
+          "formats": ["avif", "webp"]
+        },
+        {
+          "suffix": "tablet-4-3",
+          "width": 1024,
+          "height": 768,
+          "fit": "cover",
+          "position": "attention",
+          "formats": ["avif", "webp"]
+        },
+        {
+          "suffix": "mobile-3-4",
+          "width": 768,
+          "height": 1024,
+          "fit": "cover",
+          "position": "attention",
+          "formats": ["avif", "webp"]
+        }
+      ]
+    },
+    "research-og": {
+      "assetId": "research-og",
+      "exports": [
+        {
+          "suffix": "og",
+          "width": 1200,
+          "height": 630,
+          "fit": "cover",
+          "position": "attention",
+          "formats": ["png", "webp", "avif"]
+        },
+        {
+          "suffix": "twitter",
+          "width": 1200,
+          "height": 675,
+          "fit": "cover",
+          "position": "attention",
+          "formats": ["png", "webp"]
+        }
+      ]
+    },
+    "milim-avatar": {
+      "assetId": "milim-avatar",
+      "exports": [
+        {
+          "suffix": "512",
+          "width": 512,
+          "height": 512,
+          "fit": "cover",
+          "position": "centre",
+          "formats": ["png", "webp"]
+        },
+        {
+          "suffix": "256",
+          "width": 256,
+          "height": 256,
+          "fit": "cover",
+          "position": "centre",
+          "formats": ["png", "webp"]
+        },
+        {
+          "suffix": "128",
+          "width": 128,
+          "height": 128,
+          "fit": "cover",
+          "position": "centre",
+          "formats": ["png", "webp"]
+        }
+      ]
+    },
+    "nova-avatar": {
+      "assetId": "nova-avatar",
+      "exports": [
+        {
+          "suffix": "512",
+          "width": 512,
+          "height": 512,
+          "fit": "cover",
+          "position": "centre",
+          "formats": ["png", "webp"]
+        },
+        {
+          "suffix": "256",
+          "width": 256,
+          "height": 256,
+          "fit": "cover",
+          "position": "centre",
+          "formats": ["png", "webp"]
+        },
+        {
+          "suffix": "128",
+          "width": 128,
+          "height": 128,
+          "fit": "cover",
+          "position": "centre",
+          "formats": ["png", "webp"]
+        }
+      ]
+    },
+    "context-diet": {
+      "assetId": "context-diet-hero",
+      "exports": [
+        {
+          "suffix": "og",
+          "width": 1200,
+          "height": 630,
+          "fit": "cover",
+          "position": "attention",
+          "formats": ["png", "webp"]
+        },
+        {
+          "suffix": "hero-16-9",
+          "width": 1920,
+          "height": 1080,
+          "fit": "cover",
+          "position": "attention",
+          "formats": ["avif", "webp"]
+        },
+        {
+          "suffix": "hero-4-3",
+          "width": 1024,
+          "height": 768,
+          "fit": "cover",
+          "position": "attention",
+          "formats": ["avif", "webp"]
+        },
+        {
+          "suffix": "hero-3-4",
+          "width": 768,
+          "height": 1024,
+          "fit": "cover",
+          "position": "attention",
+          "formats": ["avif", "webp"]
+        }
+      ]
+    }
+  }
+}
