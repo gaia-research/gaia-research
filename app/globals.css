@@ -25,7 +25,7 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
 /* ── Context Diet live analyzer (Lab 001) ─────────────────────────────────
    Ported from the scaffold lab, re-tokened to the North Star V2 system.
    V2 supplies .button (base), .table-wrap, .chip, .section-shell already. */
-.section-kicker{font:.7rem var(--mono);color:var(--blue);letter-spacing:.12em;text-transform:uppercase}
+.section-kicker{font:.7rem var(--mono);color:var(--blue);letter-spacing:.12em;text-transform:uppercase}.cd-label{font:.7rem var(--mono);color:var(--dim);letter-spacing:.07em;text-transform:uppercase}
 .led{display:inline-block;width:8px;height:8px;background:var(--pink);border-radius:50%;box-shadow:0 0 12px var(--pink);margin-right:7px}
 .pending{font:.73rem var(--mono);color:var(--dim)}
 .button-primary{background:var(--pink);border-color:var(--pink);color:var(--bg)}

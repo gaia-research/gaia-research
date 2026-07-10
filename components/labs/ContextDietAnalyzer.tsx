@@ -92,7 +92,7 @@ export function ContextDietAnalyzer() {
       <PrivacyNote />
 
       <label className="cd-field">
-        <span className="section-kicker">PASTE YOUR CONTEXT FILE</span>
+        <span className="cd-label">Paste your context file</span>
         <textarea
           className="cd-input"
           value={text}
@@ -154,7 +154,7 @@ export function ContextDietAnalyzer() {
             </div>
             <div className="reduction-cost">
               <label>
-                <span className="section-kicker">RATE</span>
+                <span className="cd-label">Rate</span>
                 <select value={rateId} onChange={(e) => setRateId(e.target.value)}>
                   {MODEL_RATES.map((r) => (
                     <option key={r.id} value={r.id}>
@@ -212,7 +212,7 @@ export function ContextDietAnalyzer() {
               <summary>Export &amp; leaderboard</summary>
               <div className="cd-export-body">
                 <div>
-                  <span className="section-kicker">SKILL.md EXPORT</span>
+                  <span className="cd-label">SKILL.md export</span>
                   <p>
                     Download a GAIA-compatible <code>SKILL.md</code> skeleton — measured numbers and
                     section titles only, never your pasted text. It captures the projected diet as a
