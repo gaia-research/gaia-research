@@ -34,3 +34,7 @@ assets/workbench/
 .env*
 !.env.example
 !.env.local.example
+
+# Local screenshot verification harness (dev-only)
+.shot.mjs
+.shots/
