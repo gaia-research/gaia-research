@@ -68,7 +68,7 @@ Review it, apply the retained constraints, and cite the evidence below.
 
 ## When to use
 
-- An agent context file (CLAUDE.md, .cursorrules, AGENTS.md, a system prompt) is ${status}.
+- An agent context file (CLAUDE.md, .cursorrules, AGENTS.md, a system prompt) is bloated or over its token budget.
 - You need to shed tokens without dropping load-bearing instructions.
 - You want an auditable before/after with a projected reduction band.
 
