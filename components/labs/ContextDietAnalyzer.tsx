@@ -182,92 +182,110 @@ export function ContextDietAnalyzer() {
           </div>
 
           <div className="cd-targets">
-            <span className="section-kicker">LARGEST SECTIONS · COMPACTION TARGETS</span>
-            <div className="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th scope="col">Section</th>
-                    <th scope="col">Chars</th>
-                    <th scope="col">~Tokens</th>
-                    <th scope="col">Line</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {result.m.ranked
-                    .filter((s) => s.title !== "(preamble)")
-                    .slice(0, 15)
-                    .map((s) => (
-                      <tr key={`${s.lineStart}-${s.title}`}>
-                        <th scope="row">{s.title}</th>
-                        <td>{num(s.chars)}</td>
-                        <td>{num(s.approxTokens)}</td>
-                        <td>{s.lineStart}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
+            <details className="cd-disclosure">
+              <summary>
+                Largest sections · compaction targets
+                <span className="cd-disclosure-meta">
+                  {result.m.ranked.filter((s) => s.title !== "(preamble)").length} sections
+                </span>
+              </summary>
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Section</th>
+                      <th scope="col">Chars</th>
+                      <th scope="col">~Tokens</th>
+                      <th scope="col">Line</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.m.ranked
+                      .filter((s) => s.title !== "(preamble)")
+                      .slice(0, 15)
+                      .map((s) => (
+                        <tr key={`${s.lineStart}-${s.title}`}>
+                          <th scope="row">{s.title}</th>
+                          <td>{num(s.chars)}</td>
+                          <td>{num(s.approxTokens)}</td>
+                          <td>{s.lineStart}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </details>
           </div>
 
           <div className="cd-export">
-            <div>
-              <span className="section-kicker">SKILL.md EXPORT</span>
-              <p>
-                Download a GAIA-compatible <code>SKILL.md</code> skeleton — measured numbers and
-                section titles only, never your pasted text. It captures the projected diet as a
-                starting point; confirm faithfulness before you adopt it.
-              </p>
-              <button type="button" className="button button-secondary" onClick={handleDownload}>
-                Download SKILL.md ↓
-              </button>
-            </div>
-            <div className="cd-submit">
-              <label className="cd-optin">
-                <input
-                  type="checkbox"
-                  checked={optIn}
-                  onChange={(e) => setOptIn(e.target.checked)}
-                />
-                <span>
-                  Submit anonymized metrics to the leaderboard (token counts + reduction % only).
-                </span>
-              </label>
-              {optIn && (
-                <div className="cd-submit-row">
-                  <input
-                    type="text"
-                    className="cd-handle"
-                    value={handle}
-                    onChange={(e) => setHandle(e.target.value)}
-                    placeholder="handle (optional)"
-                    maxLength={32}
-                    aria-label="Optional leaderboard handle"
-                  />
-                  <button
-                    type="button"
-                    className="button button-secondary"
-                    onClick={handleSubmit}
-                    disabled={!isSupabaseConfigured || submitState === "sending"}
-                  >
-                    {submitState === "sending" ? "Submitting…" : "Submit"}
+            <details className="cd-disclosure">
+              <summary>Export &amp; leaderboard</summary>
+              <div className="cd-export-body">
+                <div>
+                  <span className="section-kicker">SKILL.md EXPORT</span>
+                  <p>
+                    Download a GAIA-compatible <code>SKILL.md</code> skeleton — measured numbers and
+                    section titles only, never your pasted text. It captures the projected diet as a
+                    starting point; confirm faithfulness before you adopt it.
+                  </p>
+                  <button type="button" className="button button-secondary" onClick={handleDownload}>
+                    Download SKILL.md ↓
                   </button>
                 </div>
-              )}
-              {!isSupabaseConfigured && optIn && (
-                <p className="cd-note">Leaderboard offline — submissions are disabled.</p>
-              )}
-              {submitState === "sent" && <p className="cd-note cd-ok">Submitted. Thanks!</p>}
-              {submitState === "offline" && (
-                <p className="cd-note">Leaderboard offline — not submitted.</p>
-              )}
-              {submitState === "error" && <p className="cd-note cd-err">{submitError}</p>}
-            </div>
+                <div className="cd-submit">
+                  <label className="cd-optin">
+                    <input
+                      type="checkbox"
+                      checked={optIn}
+                      onChange={(e) => setOptIn(e.target.checked)}
+                    />
+                    <span>
+                      Submit anonymized metrics to the leaderboard (token counts + reduction % only).
+                    </span>
+                  </label>
+                  {optIn && (
+                    <div className="cd-submit-row">
+                      <input
+                        type="text"
+                        className="cd-handle"
+                        value={handle}
+                        onChange={(e) => setHandle(e.target.value)}
+                        placeholder="handle (optional)"
+                        maxLength={32}
+                        aria-label="Optional leaderboard handle"
+                      />
+                      <button
+                        type="button"
+                        className="button button-secondary"
+                        onClick={handleSubmit}
+                        disabled={!isSupabaseConfigured || submitState === "sending"}
+                      >
+                        {submitState === "sending" ? "Submitting…" : "Submit"}
+                      </button>
+                    </div>
+                  )}
+                  {!isSupabaseConfigured && optIn && (
+                    <p className="cd-note">Leaderboard offline — submissions are disabled.</p>
+                  )}
+                  {submitState === "sent" && <p className="cd-note cd-ok">Submitted. Thanks!</p>}
+                  {submitState === "offline" && (
+                    <p className="cd-note">Leaderboard offline — not submitted.</p>
+                  )}
+                  {submitState === "error" && <p className="cd-note cd-err">{submitError}</p>}
+                </div>
+              </div>
+            </details>
           </div>
         </>
       )}
 
-      <LabLeaderboard kind="context-diet" beatThreshold={41.6} refreshKey={refreshKey} />
+      <details className="cd-disclosure cd-leaderboard-disclosure">
+        <summary>
+          Leaderboard
+          <span className="cd-disclosure-meta">beat Lab 001 · 41.6%</span>
+        </summary>
+        <LabLeaderboard kind="context-diet" beatThreshold={41.6} refreshKey={refreshKey} />
+      </details>
     </div>
   );
 }
