@@ -5,6 +5,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyCommand from "@/components/CopyCommand";
+import ReportCharts from "@/components/ReportCharts";
 import { installCmd, repoUrl, treeUrl } from "@/data/research";
 
 export const metadata = {
@@ -51,6 +52,8 @@ export default function CiChurnReportPage() {
             <a href={treeUrl(SKILL_SLUG)} target="_blank" rel="noreferrer">In the Skill Tree ↗</a>
           </div>
         </header>
+
+        <ReportCharts />
 
         <article className="report-body">
           <Markdown remarkPlugins={[remarkGfm]}>{body}</Markdown>
