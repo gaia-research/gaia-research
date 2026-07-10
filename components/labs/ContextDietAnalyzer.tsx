@@ -215,8 +215,8 @@ export function ContextDietAnalyzer() {
               <span className="section-kicker">SKILL.md EXPORT</span>
               <p>
                 Download a GAIA-compatible <code>SKILL.md</code> skeleton — measured numbers and
-                section titles only, never your pasted text. The diet remains a proposal until its
-                evidence is reviewed.
+                section titles only, never your pasted text. It captures the projected diet as a
+                starting point; confirm faithfulness before you adopt it.
               </p>
               <button type="button" className="button button-secondary" onClick={handleDownload}>
                 Download SKILL.md ↓

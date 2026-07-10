@@ -53,8 +53,8 @@ export function LabLeaderboard({
     <section className="lab-leaderboard">
       <span className="section-kicker">LEADERBOARD · BEAT LAB 001 ({beatThreshold}%)</span>
       <p className="lb-disclaimer">
-        Experimental · not a ranked benchmark. Entries are self-reported anonymized metrics from the
-        local estimator, shown for exploration while Lab 001 results are pending.
+        Community submissions · self-reported anonymized metrics from the local estimator, ranked
+        against Lab 001&apos;s {beatThreshold}% result. Early days — the board is still filling up.
       </p>
       {!isSupabaseConfigured ? (
         <p className="pending">
