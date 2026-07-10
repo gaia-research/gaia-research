@@ -56,7 +56,7 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
 .cd-savings{margin:4px 0 0}
 .cd-savings b{color:var(--pink);font:1.4rem var(--mono)}
 .cd-savings span{color:var(--dim);font-size:.8rem;margin-left:6px}
-.cd-note{font-size:.78rem;color:var(--dim);line-height:1.5}
+.cd-note{font-size:.78rem;color:var(--dim);line-height:1.5}.cd-note em{font-style:normal;color:var(--muted)}.cd-inline-link{color:var(--blue);border-bottom:1px solid color-mix(in srgb,var(--blue) 40%,transparent);white-space:nowrap}.cd-inline-link:hover{color:var(--pink);border-bottom-color:var(--pink)}
 .cd-note.cd-ok{color:var(--blue)}
 .cd-note.cd-err{color:var(--danger)}
 .cd-targets,.cd-export{display:flex;flex-direction:column;gap:12px}

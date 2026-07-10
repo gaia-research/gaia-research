@@ -165,8 +165,12 @@ export function ContextDietAnalyzer() {
                 {num(result.m.approxTokens)}).
               </p>
               <p className="cd-note">
-                Projections are modeled from Context Diet — Lab 001&apos;s four strategies, not a
-                live rewrite. Verify faithfulness before adopting.
+                Projected from Context Diet — Lab 001&apos;s four reduction{" "}
+                <em>strategies</em> (measured recipes for trimming a prompt), not a live rewrite.{" "}
+                <a href="#evidence-title" className="cd-inline-link">
+                  How is this projected? ↓
+                </a>{" "}
+                Verify faithfulness before adopting.
               </p>
             </div>
             <div className="reduction-cost">
