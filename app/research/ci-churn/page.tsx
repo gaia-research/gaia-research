@@ -4,7 +4,8 @@ import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import { repoUrl, treeUrl } from "@/data/research";
+import CopyCommand from "@/components/CopyCommand";
+import { installCmd, repoUrl, treeUrl } from "@/data/research";
 
 export const metadata = {
   title: "The Compounding Cost of CI Failures",
@@ -56,7 +57,8 @@ export default function CiChurnReportPage() {
         </article>
 
         <footer className="report-foot">
-          <p>This postmortem is the research behind the <Link href="/#skills">ci-churn</Link> skill. Install it with <code>gaia install gaia-research/{SKILL_SLUG}</code>.</p>
+          <p>This postmortem is the research behind the <Link href="/#skills">ci-churn</Link> skill. Install it with the Gaia CLI:</p>
+          <CopyCommand className="report-install" command={installCmd(SKILL_SLUG)} />
           <Link className="button secondary" href="/#ledger">Back to the ledger <span>→</span></Link>
         </footer>
       </main>
