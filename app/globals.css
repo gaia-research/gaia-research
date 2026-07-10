@@ -40,7 +40,8 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
 .cd-input:focus{outline:none;border-color:var(--pink)}
 .cd-actions{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .cd-charcount{font:.75rem var(--mono);color:var(--dim)}
-.analyzer-console{border:1px solid var(--blue);background:var(--surface);margin-top:25px}
+.analyzer-console{border:1px solid var(--blue);background:var(--surface)}
+.analyzer-console:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
 .analyzer-console header{padding:9px 12px;border-bottom:1px solid var(--line);font:.65rem var(--mono);color:var(--blue)}
 .analyzer-readout{display:flex;flex-wrap:wrap;align-items:baseline;gap:.35rem .6rem;padding:18px}
 .analyzer-readout b{font:400 clamp(1.9rem,5vw,2.6rem)/1 var(--display);letter-spacing:.02em;color:var(--ink)}
