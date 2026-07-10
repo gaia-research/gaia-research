@@ -9,10 +9,11 @@ import { useMemo, useRef, useState } from "react";
 import { measure } from "@/lib/context-diet/analyze";
 import { projectReduction } from "@/lib/context-diet/project";
 import { estimateCost, MODEL_RATES } from "@/lib/context-diet/cost";
-import { buildSkillMd } from "@/lib/context-diet/skill";
 import { submitContextDiet, isSupabaseConfigured } from "@/lib/submissions/client";
 import { LabLeaderboard } from "./LabLeaderboard";
 import { PrivacyNote } from "./PrivacyNote";
+
+const SKILL_REPO_URL = "https://github.com/gaia-research/skill-context-diet";
 
 const num = (n: number) => n.toLocaleString("en-US");
 const usd = (n: number) =>
@@ -57,20 +58,6 @@ export function ContextDietAnalyzer() {
     setSubmitError("");
     // Move focus to the results so keyboard/AT users land on the new output.
     requestAnimationFrame(() => resultsRef.current?.focus());
-  };
-
-  const handleDownload = () => {
-    if (!result) return;
-    const md = buildSkillMd(result.m, result.band);
-    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "SKILL.md";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
   };
 
   const handleSubmit = async () => {
@@ -185,10 +172,12 @@ export function ContextDietAnalyzer() {
                 </select>
               </label>
               <p className="cd-savings">
-                <b>{usd(result.cost.dollarsSaved)}</b>
-                <span> saved / 1M input reads</span>
+                <b>{usd(result.cost.dollarsSavedPerMReads)}</b>
+                <span> saved / 1M reads</span>
               </p>
-              <p className="cd-note">{num(result.tokensSavedTarget)} tokens saved per read.</p>
+              <p className="cd-note">
+                {num(result.tokensSavedTarget)} input tokens saved on every read.
+              </p>
             </div>
           </div>
 
@@ -230,18 +219,24 @@ export function ContextDietAnalyzer() {
 
           <div className="cd-export">
             <details className="cd-disclosure">
-              <summary>Export &amp; leaderboard</summary>
+              <summary>Adopt the skill &amp; leaderboard</summary>
               <div className="cd-export-body">
                 <div>
-                  <span className="cd-label">SKILL.md export</span>
+                  <span className="cd-label">Adopt the skill</span>
                   <p>
-                    Download a GAIA-compatible <code>SKILL.md</code> skeleton — measured numbers and
-                    section titles only, never your pasted text. It captures the projected diet as a
-                    starting point; confirm faithfulness before you adopt it.
+                    Context Diet ships as an installable GAIA skill. Grab{" "}
+                    <code>skill-context-diet</code> from GitHub — the packaged{" "}
+                    <code>SKILL.md</code>, the four measured strategies, and the recipe for
+                    running your own diet. Bring the projection above as your target.
                   </p>
-                  <button type="button" className="button secondary" onClick={handleDownload}>
-                    Download SKILL.md ↓
-                  </button>
+                  <a
+                    className="button secondary"
+                    href={SKILL_REPO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Get the skill <span>↗</span>
+                  </a>
                 </div>
                 <div className="cd-submit">
                   <label className="cd-optin">
