@@ -40,6 +40,12 @@ const gateways = [
     image: docs,
     style: "gateway-docs",
   },
+  {
+    name: "Context Diet Lab",
+    text: "Measure a context file and project its diet — live, in your browser.",
+    href: "/labs/context-diet",
+    style: "gateway-labs",
+  },
 ];
 
 export function ProjectGateways() {

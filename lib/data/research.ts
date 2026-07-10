@@ -11,7 +11,8 @@ export const ledgerRows: Array<{
     record: "Context Diet / Lab 001",
     kind: "Protocol",
     status: "ACT",
-    source: "Source pending",
+    source: "Open the live lab",
+    href: "/labs/context-diet",
   },
   {
     record: "G-Bench Generalist Suite",

@@ -329,6 +329,7 @@ footer {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr 0.9fr;
   grid-auto-rows: 235px;
+  grid-auto-flow: dense;
   gap: 10px;
 }
 .gateway {
@@ -387,6 +388,12 @@ footer {
   background: var(--blue-bg);
   display: grid;
   place-items: center;
+}
+.gateway-labs {
+  background: var(--pink-bg);
+}
+.gateway-labs .gateway-copy a {
+  color: var(--pink);
 }
 .community-orbit {
   font:
