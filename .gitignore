@@ -34,3 +34,7 @@ assets/workbench/
 .env*
 !.env.example
 !.env.local.example
+
+# Impeccable skill scratch + Playwright screenshot output (keep the check scripts)
+.impeccable/
+scripts/.visual-check/
