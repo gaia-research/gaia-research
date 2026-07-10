@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 160 56" role="img" aria-label="Context Diet badge frame">
+  <path d="M12 1h116l31 28-31 26H12L1 44V12L12 1Z" fill="#05060a" stroke="#38bdf8" stroke-width="2"/>
+  <path d="M18 10h96M18 46h96" stroke="#38bdf8" stroke-opacity=".45"/>
+  <circle cx="135" cy="28" r="8" stroke="#38bdf8"/><path d="M135 16v24M123 28h24" stroke="#38bdf8" stroke-opacity=".7"/>
+</svg>

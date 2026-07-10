@@ -2282,6 +2282,74 @@
       "derivatives": []
     },
     {
+      "id": "milim-live-full-body-sprite-v01-png",
+      "path": "assets/generated/north-star-live/milim-live-full-body-sprite-v01.png",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "44b77e4174967053519f7495c4bf8351da9da389cc74435b96a36c43a48fad9b",
+      "bytes": 2026104,
+      "dimensions": {
+        "width": 1024,
+        "height": 1536
+      },
+      "derivatives": []
+    },
+    {
+      "id": "milim-live-full-body-sprite-v01-webp",
+      "path": "assets/generated/north-star-live/milim-live-full-body-sprite-v01.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "54a757fdd256893fb9500edffc023e62129f48e49f6ad14e9c10e86bc41bb286",
+      "bytes": 151562,
+      "dimensions": {
+        "width": 1024,
+        "height": 1536
+      },
+      "derivatives": []
+    },
+    {
+      "id": "north-star-live-lab-plate-v01-png",
+      "path": "assets/generated/north-star-live/north-star-live-lab-plate-v01.png",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "8d560936330690852cf93f94b202c458cf99cec5ced2f457dae10e838f9245d5",
+      "bytes": 1651985,
+      "dimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "derivatives": []
+    },
+    {
+      "id": "north-star-live-lab-plate-v01-webp",
+      "path": "assets/generated/north-star-live/north-star-live-lab-plate-v01.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "cff1ed4d9d53e035ba566cb3e2c208fa49de85e35d657b30b85fa54609c9e4f2",
+      "bytes": 169682,
+      "dimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "derivatives": []
+    },
+    {
       "id": "raphael-archive-preview",
       "path": "assets/generated/raphael-archive-preview.png",
       "kind": "og-image",
