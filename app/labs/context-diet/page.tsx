@@ -1,12 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
-import ContextDietAnalyzer from "@/components/ContextDietAnalyzer";
+import { ContextDietAnalyzer } from "@/components/labs/ContextDietAnalyzer";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import baseline from "@/content/reports/context-diet-lab-001/baseline.json";
+import after from "@/content/reports/context-diet-lab-001/after.json";
+import bakeoff from "@/content/reports/context-diet-lab-001/bakeoff.json";
 
 export const metadata = {
   title: "Context Diet — Lab 001 (WIP)",
-  description: "An experimental local sandbox for exploring useful context reduction in agent prompts. Benchmark results are not yet published.",
+  description:
+    "An experimental local sandbox for exploring useful context reduction in agent prompts. Benchmark results are not yet published.",
 };
+
+const num = (n: number) => n.toLocaleString("en-US");
 
 export default function ContextDietPage() {
   return (
@@ -29,7 +35,59 @@ export default function ContextDietPage() {
           </div>
           <Image src="/assets/context-diet-hero.webp" alt="A glowing laboratory visualization of compressed context streams." width={1600} height={900} priority sizes="(max-width: 800px) 100vw, 50vw" />
         </section>
+
         <section id="analyzer" className="section-shell"><ContextDietAnalyzer /></section>
+
+        <section className="section-shell" style={{ padding: "var(--space-dense) var(--gutter)" }} aria-labelledby="evidence-title">
+          <span className="section-kicker">PRIOR LAB EVIDENCE · CONTEXT DIET LAB 001</span>
+          <h2 id="evidence-title" style={{ fontSize: "var(--type-display-3)", margin: ".5rem 0 0" }}>
+            The measured run behind the projection.
+          </h2>
+          <p style={{ color: "var(--muted)", maxWidth: "60ch", margin: ".75rem 0 0" }}>
+            These are recorded results from a single completed run on this repo&apos;s own
+            <code> CLAUDE.md</code>, not a live benchmark. The estimator above projects a band from the
+            four strategies below; the winner is highlighted.
+          </p>
+          <div className="lab-evidence">
+            <p className="evidence-stat">
+              {num(baseline.totalChars)} → {num(after.totalChars)} chars ·{" "}
+              ~{num(baseline.approxTokens)} → ~{num(after.approxTokens)} tokens
+            </p>
+            <p>
+              Baseline was {baseline.overLimit ? `over the ${num(baseline.limit)} limit by ${num(baseline.overBy)} chars` : "within limit"};
+              after the diet it sits {num(after.headroom)} chars under the limit. Section count{" "}
+              {baseline.sectionCount} → {after.sectionCount}.
+            </p>
+          </div>
+          <div className="table-wrap" style={{ marginTop: "1rem" }}>
+            <table>
+              <caption className="sr-only">Lab 001 strategy bake-off results</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Strategy</th>
+                  <th scope="col">Reduction</th>
+                  <th scope="col">Faithfulness</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bakeoff.comparison.map((c) => {
+                  const win = c.key === bakeoff.winnerKey;
+                  return (
+                    <tr key={c.key} className={win ? "lb-beat" : undefined}>
+                      <th scope="row">
+                        {c.title}
+                        {win && <span className="lb-badge"> ★ winner</span>}
+                      </th>
+                      <td>{c.reductionPct}%</td>
+                      <td>{c.faithfulness}%</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         <section className="lab-method section-shell">
           <Image src="/assets/context-diet-token-compression-motif.webp" alt="" width={1200} height={800} sizes="(max-width: 800px) 100vw, 45vw" />
           <div>
