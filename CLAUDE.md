@@ -2,6 +2,22 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Orient before you build (branch & merge state)
+
+**Always confirm which design line / branch you are actually on before building on top of it.** This repo has multiple parallel "North Star" directions that are easy to confuse, and a branch showing as "merged" on GitHub may have merged into *another open PR branch*, not `main`. Burned once (see the Context Diet re-shell) by assuming `main` was the intended surface.
+
+Before starting UI/design work, run this orientation check:
+
+```bash
+gh pr list --state all --limit 20 --json number,title,headRefName,state,baseRefName
+git log --oneline --first-parent origin/main -15
+# For any PR that claims to be "merged", verify it actually reached main:
+gh pr view <n> --json baseRefName,mergeCommit -q '.baseRefName'
+git merge-base --is-ancestor <mergeCommitSha> origin/main && echo "on main" || echo "NOT on main"
+```
+
+Known lineage (as of 2026-07): `feat/north-star-live-v2` (PR #22, "North Star Live", the intended **V2** direction — 2.5D Milim / clean-room / mixed-media) merged into the **still-open** `chore/add-preview-skill` (PR #21), **not** into `main`. `feat/north-star-fidelity-v1` (PR #23, static semantic **V1**) was **closed, never merged**. What is on `main` today is the PR #20 scaffold (`feat/next-app-router-impeccable-craft`). Do not treat the current `main` homepage as the approved V2 target — confirm the current direction with the user if in doubt.
+
 ## Repository Purpose
 
 `gaia-research` is the public-facing lab/portal for the Gaia ecosystem. It is:
