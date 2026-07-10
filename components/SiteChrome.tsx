@@ -4,13 +4,13 @@ import Link from "next/link";
 export function SiteHeader() {
   return <header className="site-header"><a className="skip-link" href="#main">Skip to content</a><nav aria-label="Primary navigation" className="nav-wrap">
     <Link className="brand" href="/"><Image className="brand-mark" src="/assets/brand/logo-mark.svg" alt="Gaia Research logo" width={30} height={30} /><span aria-hidden="true">GAIA <b>RESEARCH</b></span></Link>
-    <div className="nav-links"><Link href="/#ledger">Ledger</Link><Link href="/labs/context-diet">Lab 001</Link><a href="https://github.com/gaia-research">Skill Tree</a><a href="https://github.com/gaia-research">Docs</a></div>
+    <div className="nav-links"><Link href="/#ledger">Ledger</Link><Link href="/labs/context-diet">Lab 001</Link><a href="https://gaiaskilltree.com" target="_blank" rel="noreferrer">Skill Tree ↗</a><a href="https://github.com/gaia-research">Docs</a></div>
     <details className="mobile-nav">
       <summary>Menu <span aria-hidden="true">+</span></summary>
       <div className="mobile-nav-menu">
         <Link href="/#ledger">Ledger</Link>
         <Link href="/labs/context-diet">Lab 001</Link>
-        <a href="https://github.com/gaia-research">Skill Tree</a>
+        <a href="https://gaiaskilltree.com" target="_blank" rel="noreferrer">Skill Tree ↗</a>
         <a href="https://github.com/gaia-research">Docs</a>
         <a href="https://github.com/gaia-research">GitHub ↗</a>
       </div>
