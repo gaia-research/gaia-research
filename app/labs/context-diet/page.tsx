@@ -1,196 +1,109 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import contextHero from "@/assets/generated/exports/context-diet/context-diet-hero-16-9.webp";
-import analyzerSupport from "@/assets/generated/context-diet-prompt-analyzer-support.webp";
-import compressionMotif from "@/assets/generated/context-diet-token-compression-motif.webp";
-import emptyState from "@/assets/generated/context-diet-empty-state.webp";
-import loadingState from "@/assets/generated/context-diet-loading-state.webp";
-import errorState from "@/assets/generated/context-diet-error-state.webp";
-import { BrandMark } from "@/components/BrandMark";
+import { ContextDietAnalyzer } from "@/components/labs/ContextDietAnalyzer";
+import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import baseline from "@/content/reports/context-diet-lab-001/baseline.json";
+import after from "@/content/reports/context-diet-lab-001/after.json";
+import bakeoff from "@/content/reports/context-diet-lab-001/bakeoff.json";
 
-export const metadata: Metadata = {
-  title: "Context Diet — Lab 001",
+export const metadata = {
+  title: "Context Diet — Lab 001 (WIP)",
   description:
-    "A staged Gaia Research lab for measuring prompt compression without losing the evidence.",
+    "An experimental local sandbox for exploring useful context reduction in agent prompts. Benchmark results are not yet published.",
 };
 
-const metrics = [
-  ["Token reduction", "Target", "Fewer tokens, explicit delta."],
-  ["Faithfulness retained", "Guardrail", "Meaning checked against the source."],
-  ["Latency saved", "Runtime", "Measure the response-time change."],
-  ["Cost saved", "Budget", "Estimate input-token savings."],
-  ["Export validity", "Protocol", "Validate the generated SKILL.md."],
-];
+const num = (n: number) => n.toLocaleString("en-US");
 
 export default function ContextDietPage() {
   return (
     <>
-      <header className="site-header">
-        <BrandMark />
-        <nav aria-label="Primary navigation">
-          <Link href="/">Research</Link>
-          <a href="#analyzer">Analyzer</a>
-          <a href="#metrics">Metrics</a>
-        </nav>
-        <Link className="header-github" href="/">
-          ← Mission Control
-        </Link>
-      </header>
-      <main className="lab-page">
-        <section className="lab-hero" aria-labelledby="lab-title">
+      <SiteHeader />
+      <aside className="wip-banner" aria-label="Context Diet Lab 001 work in progress">
+        <div>
+          <span className="wip-tag">Lab 001 · experimental sandbox</span>
+          <p>Method and interaction are live; benchmark results and comparative claims are still pending.</p>
+          <a href="https://github.com/gaia-research">Follow the lab source ↗</a>
+        </div>
+      </aside>
+      <main id="main" className="lab-page">
+        <section className="lab-hero">
           <div>
-            <p className="eyebrow">
-              <span className="led" /> WIP LAB 001 / BENCHMARK 001
+            <p className="signal"><span /> LAB 001 / EXPERIMENTAL SANDBOX</p>
+            <h1>Context <em>Diet.</em></h1>
+            <p>Explore how lean a prompt can become while preserving its operating constraints. This local prototype is not a published benchmark or comparative result.</p>
+            <a className="button primary" href="#analyzer">Try the local estimator <span>↓</span></a>
+          </div>
+          <Image src="/assets/context-diet-hero.webp" alt="A glowing laboratory visualization of compressed context streams." width={1600} height={900} priority sizes="(max-width: 800px) 100vw, 50vw" />
+        </section>
+
+        <section id="analyzer" className="section-shell"><ContextDietAnalyzer /></section>
+
+        <section className="section-shell" style={{ padding: "var(--space-dense) var(--gutter)" }} aria-labelledby="evidence-title">
+          <span className="section-kicker">PRIOR LAB EVIDENCE · CONTEXT DIET LAB 001</span>
+          <h2 id="evidence-title" style={{ fontSize: "var(--type-display-3)", margin: ".5rem 0 0" }}>
+            The measured run behind the projection.
+          </h2>
+          <p style={{ color: "var(--muted)", maxWidth: "60ch", margin: ".75rem 0 0" }}>
+            These are recorded results from a single completed run on this repo&apos;s own
+            <code> CLAUDE.md</code>, not a live benchmark. The estimator above projects a band from the
+            four strategies below; the winner is highlighted.
+          </p>
+          <div className="lab-evidence">
+            <p className="evidence-stat">
+              {num(baseline.totalChars)} → {num(after.totalChars)} chars ·{" "}
+              ~{num(baseline.approxTokens)} → ~{num(after.approxTokens)} tokens
             </p>
-            <h1 id="lab-title">Context Diet</h1>
             <p>
-              Compression with receipts. A staged prompt-analysis lab for
-              reducing context while preserving the instructions that matter.
-            </p>
-            <div className="lab-tags">
-              <span>WIP / STATIC PROTOTYPE</span>
-              <span>SKILL.md READY</span>
-            </div>
-          </div>
-          <Image
-            src={contextHero}
-            alt="Decorative Context Diet laboratory illustration"
-            priority
-            sizes="(max-width: 760px) 100vw, 50vw"
-          />
-        </section>
-        <section
-          className="analyzer section-shell"
-          id="analyzer"
-          aria-labelledby="analyzer-title"
-        >
-          <div>
-            <p className="section-kicker">PROMPT ANALYZER / CONCEPT</p>
-            <h2 id="analyzer-title">See the context before you cut it.</h2>
-            <p>
-              Context Diet will separate signal from repetition, expose the
-              proposed reduction, and retain an audit trail before any export is
-              made.
-            </p>
-            <div className="analyzer-console">
-              <header>
-                <span className="led" /> ANALYZER OFFLINE / DEMO SURFACE
-              </header>
-              <div>
-                <article>
-                  <small>INPUT CONTEXT</small>
-                  <p>
-                    System constraints · tool policies · task detail · repeated
-                    examples · historical turns
-                  </p>
-                  <b>12,480 tokens</b>
-                </article>
-                <span className="compression-arrow" aria-hidden="true">
-                  ⇢
-                </span>
-                <article>
-                  <small>PROPOSED DIET</small>
-                  <p>
-                    Preserved constraints · normalized tools · compressed
-                    examples · cited decisions
-                  </p>
-                  <b>4,990 tokens</b>
-                </article>
-              </div>
-            </div>
-          </div>
-          <Image src={analyzerSupport} alt="" className="analyzer-support" />
-        </section>
-        <section
-          className="metric-section section-shell"
-          id="metrics"
-          aria-labelledby="metrics-title"
-        >
-          <div className="section-kicker">BENCHMARK SIGNALS</div>
-          <h2 id="metrics-title">What Benchmark 001 will report</h2>
-          <div className="metrics-grid">
-            {metrics.map(([name, type, copy], index) => (
-              <article key={name}>
-                <span>
-                  MET-0{index + 1} / {type}
-                </span>
-                <h3>{name}</h3>
-                <p>{copy}</p>
-                <i aria-hidden="true" />
-              </article>
-            ))}
-          </div>
-        </section>
-        <section
-          className="compression section-shell"
-          aria-labelledby="compression-title"
-        >
-          <Image
-            src={compressionMotif}
-            alt="Decorative token compression motif"
-          />
-          <div>
-            <p className="section-kicker">COMPRESSION MOTIF</p>
-            <h2 id="compression-title">Reduce the window. Keep the warrant.</h2>
-            <p>
-              The objective is not shorter prompts at any cost. It is a smaller,
-              verifiable context package that still explains its operating
-              constraints.
+              Baseline was {baseline.overLimit ? `over the ${num(baseline.limit)} limit by ${num(baseline.overBy)} chars` : "within limit"};
+              after the diet it sits {num(after.headroom)} chars under the limit. Section count{" "}
+              {baseline.sectionCount} → {after.sectionCount}.
             </p>
           </div>
-        </section>
-        <section
-          className="export-section section-shell"
-          aria-labelledby="export-title"
-        >
-          <div>
-            <p className="section-kicker">SKILL.md EXPORT</p>
-            <h2 id="export-title">From analysis to an inspectable skill.</h2>
-            <p>
-              Once an analyst approves a diet, Context Diet will package the
-              retained instructions, assumptions, benchmark notes, and
-              provenance into a GAIA-compatible <code>SKILL.md</code> export.
-              The export remains a proposal until its evidence is reviewed.
-            </p>
-            <a
-              className="button button-secondary"
-              href="https://github.com/gaia-research/gaia-research/tree/main/templates/skill-repo"
-            >
-              Inspect the skill template ↗
-            </a>
+          <div className="table-wrap" style={{ marginTop: "1rem" }}>
+            <table>
+              <caption className="sr-only">Lab 001 strategy bake-off results</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Strategy</th>
+                  <th scope="col">Reduction</th>
+                  <th scope="col">Faithfulness</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bakeoff.comparison.map((c) => {
+                  const win = c.key === bakeoff.winnerKey;
+                  return (
+                    <tr key={c.key} className={win ? "lb-beat" : undefined}>
+                      <th scope="row">
+                        {c.title}
+                        {win && <span className="lb-badge"> ★ winner</span>}
+                      </th>
+                      <td>{c.reductionPct}%</td>
+                      <td>{c.faithfulness}%</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
-          <pre aria-label="Example SKILL.md export">
-            <code>{`# Context Diet export\n\n## Retained constraints\n- Preserve task intent\n- Cite benchmark evidence\n\n## Provenance\nstatus: proposed`}</code>
-          </pre>
         </section>
-        <section
-          className="lab-states section-shell"
-          aria-labelledby="states-title"
-        >
+
+        <section className="lab-method section-shell">
+          <Image src="/assets/context-diet-token-compression-motif.webp" alt="" width={1200} height={800} sizes="(max-width: 800px) 100vw, 45vw" />
           <div>
-            <p className="section-kicker">SUPPORT STATES</p>
-            <h2 id="states-title">Built for the moments between results.</h2>
-          </div>
-          <div>
-            {[
-              [emptyState, "Empty", "No prompt loaded yet."],
-              [loadingState, "Analyzing", "Evidence pass in progress."],
-              [errorState, "Blocked", "Export needs another pass."],
-            ].map(([image, title, copy]) => (
-              <article key={title as string}>
-                <Image src={image as typeof emptyState} alt="" />
-                <h3>{title as string}</h3>
-                <p>{copy as string}</p>
-              </article>
-            ))}
+            <p>THE LAB QUESTION</p>
+            <h2>What can leave without changing the job?</h2>
+            <p>Context Diet is an early prototype for exploring useful reduction: objective fidelity, constraint retention, output validity, latency, and token cost. A smaller prompt is not a win if it quietly drops a requirement.</p>
+            <ul>
+              <li>Keep explicit objectives and safety constraints.</li>
+              <li>Collapse redundant framing into a compact brief.</li>
+              <li>Record the reduction method before drawing conclusions.</li>
+            </ul>
+            <Link className="button secondary" href="/">Return to research <span>→</span></Link>
           </div>
         </section>
       </main>
-      <footer>
-        <BrandMark />
-        <p>Context Diet / Lab 001 is a transparent work in progress.</p>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

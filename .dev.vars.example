@@ -1,0 +1,6 @@
+# Wrangler local dev vars — copy to .dev.vars and fill in.
+# Used by `wrangler dev` / OpenNext local preview against the Workers runtime.
+# Wrangler does NOT read .env.local, so these must live here for local previews.
+# Safe to expose in the browser at build time (RLS protects the table).
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=

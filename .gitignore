@@ -7,6 +7,7 @@ Thumbs.db
 .claude/
 .pi/
 .rovodev/
+.firecrawl/
 
 # Node.js
 node_modules/
@@ -21,3 +22,15 @@ yarn-error.log*
 assets/workbench/
 .asset-cache/
 
+# OpenNext
+.open-next
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+
+# Env — ignore real files, keep the tracked examples
+.env*
+!.env.example
+!.env.local.example

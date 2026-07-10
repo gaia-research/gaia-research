@@ -2,13 +2,28 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Orient before you build (branch & merge state)
+
+**Always confirm which design line / branch you are actually on before building on top of it.** This repo has multiple parallel "North Star" directions that are easy to confuse, and a branch showing as "merged" on GitHub may have merged into *another open PR branch*, not `main`. Burned once (see the Context Diet re-shell) by assuming `main` was the intended surface.
+
+Before starting UI/design work, run this orientation check:
+
+```bash
+gh pr list --state all --limit 20 --json number,title,headRefName,state,baseRefName
+git log --oneline --first-parent origin/main -15
+# For any PR that claims to be "merged", verify it actually reached main:
+gh pr view <n> --json baseRefName,mergeCommit -q '.baseRefName'
+git merge-base --is-ancestor <mergeCommitSha> origin/main && echo "on main" || echo "NOT on main"
+```
+
+Known lineage (as of 2026-07): `feat/north-star-live-v2` (PR #22, "North Star Live", the intended **V2** direction — 2.5D Milim / clean-room / mixed-media) merged into the **still-open** `chore/add-preview-skill` (PR #21), **not** into `main`. `feat/north-star-fidelity-v1` (PR #23, static semantic **V1**) was **closed, never merged**. What is on `main` today is the PR #20 scaffold (`feat/next-app-router-impeccable-craft`). Do not treat the current `main` homepage as the approved V2 target — confirm the current direction with the user if in doubt.
+
 ## Repository Purpose
 
 `gaia-research` is the public-facing lab/portal for the Gaia ecosystem. It is:
 
-1. A **Jekyll-served GitHub Pages site** (see `_config.yml`, `robots.txt`, `sitemap.xml`) that currently ships the README as the landing page at `https://gaia-research.github.io/gaia-research/`.
-2. A **staging repository for a future Next.js App Router site** — `src/`, `content/`, `docs/`, and `experiments/` are being populated for the migration described in `CONSOLIDATION_PRD.md`. There is no `package.json`, `next.config.*`, or Next.js runtime present yet; do not assume `npm run dev` works.
-3. A **Skill Benchmark Ingest Layer** — standalone TypeScript scripts under `scripts/` that fetch benchmark schemas from the sibling `gaia-skill-tree` repo and validate contributor submissions.
+1. A **Next.js App Router site** (deployed to Cloudflare) that ships the landing page at `https://research.gaiaskilltree.com`.
+2. A **Skill Benchmark Ingest Layer** — standalone TypeScript scripts under `scripts/` that fetch benchmark schemas from the sibling `gaia-skill-tree` repo and validate contributor submissions.
 
 ## Common Commands
 
@@ -61,6 +76,12 @@ gaia-research  ──►  marketing-tasks  ──►  gaia-skill-tree
 
 If you change the schema JSON files, mirror the change in the validator (or vice versa) — they can silently drift.
 
+## Slash skill commands
+
+- **When a user explicitly invokes a slash skill command** (for example, `/impeccable`), **never substitute an alternative skill, workflow, tool, or manual method.** Load and execute the exact named skill command.
+- If that exact skill is unavailable, not installed, or blocked, report the specific blocker and ask the user before taking any alternative action.
+- Do not infer that permission to use a related capability is permission to replace an explicitly requested slash skill.
+
 ## Brand & Voice
 
 `PRODUCT.md` and `DESIGN.md` define the mascot voice (Milim — high-energy, playful-rigorous) and the visual system (Milim Pink `#ec4899`, Rimuru Blue `#38bdf8`, obsidian dark canvas, Bebas Neue + Syne typography). Copy and UI work in this repo should match that register; the ledger-side (`/atlas` in the future app) uses a more solemn palette per `CONSOLIDATION_PRD.md`.
@@ -80,6 +101,6 @@ Hard rule: **always use image gen 2 / `gpt-image-2`; never use `nano-banana` or 
 
 Generated experiments and intermediate variants should go in `assets/workbench/` first. Promote reviewed outputs to `assets/generated/` or `assets/brand/`, then run the asset ledger sync/check scripts.
 
-## GitHub Pages
+## GitHub Pages (Deprecated)
 
-The site is served by Jekyll with the `jekyll-seo-tag` plugin (`_config.yml`). `baseurl` is `/gaia-research` — any absolute paths in future content need to account for that prefix. `sitemap.xml` and `robots.txt` are hand-maintained.
+The site used to be served by Jekyll. It is now a Next.js App deployed to Cloudflare at `research.gaiaskilltree.com`.

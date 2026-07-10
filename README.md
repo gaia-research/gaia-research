@@ -2,9 +2,9 @@
 
 > The open-science research collective and capability mapping laboratory behind the [Gaia Skill Tree](https://github.com/gaia-research/gaia-skill-tree).
 
-[![Live Portal](https://img.shields.io/badge/Live-GitHub%20Pages-ec4899?style=flat-square)](https://gaia-research.github.io/gaia-research/)
+[![Live Portal](https://img.shields.io/badge/Live-Cloudflare-f38020?style=flat-square)](https://research.gaiaskilltree.com)
 
-Welcome to the **Gaia Research** laboratory! Deployed live at **[gaia-research.github.io/gaia-research](https://gaia-research.github.io/gaia-research/)**, this repository serves as the core documentation, evidence vault, design asset ledger, and portal for verifying AI agentic capabilities.
+Welcome to the **Gaia Research** laboratory! Deployed live at **[research.gaiaskilltree.com](https://research.gaiaskilltree.com)**, this repository serves as the core documentation, evidence vault, design asset ledger, and portal for verifying AI agentic capabilities.
 
 <p align="center">
   <img src="./assets/brand/Milim-avatar.png" width="120" alt="Milim — Chief Capability Scout" />
@@ -18,9 +18,8 @@ Under the steering and directives of our Chief Capability Scout, **Milim**, we b
 
 Gaia Research is in the middle of a migration. Three things live here today:
 
-1. **A Jekyll-served GitHub Pages site.** The landing page at [gaia-research.github.io/gaia-research](https://gaia-research.github.io/gaia-research/) is rendered from this README via Jekyll (`_config.yml`, `jekyll-seo-tag`). `baseurl` is `/gaia-research` — factor that into absolute paths.
-2. **A staging ground for a future Next.js App Router site.** `src/`, `content/`, and `docs/` are being populated for the consolidation described in [`CONSOLIDATION_PRD.md`](CONSOLIDATION_PRD.md). **There is no `package.json` yet** — `npm run dev` will not work. The Next.js surface is planned, not shipped.
-3. **The Skill Benchmark Ingest Layer.** Standalone TypeScript scripts under `scripts/` fetch benchmark schemas from the sibling `gaia-skill-tree` repo and validate contributor submissions. This part is runnable today (see [Running Scripts](#-running-scripts) below).
+1. **A Next.js App Router site.** The landing page at [research.gaiaskilltree.com](https://research.gaiaskilltree.com) is built on Next.js and deployed via Cloudflare Pages/Workers.
+2. **The Skill Benchmark Ingest Layer.** Standalone TypeScript scripts under `scripts/` fetch benchmark schemas from the sibling `gaia-skill-tree` repo and validate contributor submissions.
 
 If you're an agent working in this repo, also read [`CLAUDE.md`](CLAUDE.md) — it captures the non-obvious constraints (schema-vs-validator drift, ecosystem boundary rules, the ingest fetch chain).
 
@@ -126,6 +125,12 @@ npx tsx scripts/validate-submissions.ts content/templates/benchmark-submission.j
 
 > **Note:** `validate-submissions.ts` is a hand-rolled validator, not a generic JSON Schema library. The schema files in `content/schemas/` document the contract for contributors and upstream, but the runtime rules are hardcoded in the script (pillar weights, `sha256:` regex, accepted GSB `version` strings). If you change one, mirror the change in the other — they can silently drift.
 
-### 3. Next.js App (Future)
+### 3. Next.js App
 
-Once the migration in [`CONSOLIDATION_PRD.md`](CONSOLIDATION_PRD.md) lands, routes and UI will live under `src/` and read from `content/`. Environment variables for GitHub OAuth and Supabase will be configured in `.env.local`. Not wired up yet.
+The site is built with Next.js. Start the local preview:
+
+```bash
+npm run dev
+# or use the preview skill:
+.pi/skills/preview/scripts/preview.sh start
+```
