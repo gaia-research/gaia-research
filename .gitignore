@@ -17,6 +17,15 @@ yarn-debug.log*
 yarn-error.log*
 .npm/
 
+# Local env (keep .env.local.example tracked)
+.env
+.env.local
+.env*.local
+
+# Wrangler local dev vars (keep .dev.vars.example tracked)
+.dev.vars
+.dev.vars.local
+
 # Asset production workbench
 assets/workbench/
 .asset-cache/

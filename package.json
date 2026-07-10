@@ -7,10 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "tsc --noEmit",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify:context-diet": "tsx scripts/verify-context-diet.ts"
   },
   "dependencies": {
     "@img/sharp-wasm32": "^0.35.3",
+    "@supabase/supabase-js": "^2.45.0",
     "next": "^15.4.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -20,6 +22,7 @@
     "@types/node": "^22.15.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
+    "tsx": "^4.19.0",
     "typescript": "^5.8.0"
   }
 }
