@@ -1,18 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ContextDietAnalyzer } from "@/components/labs/ContextDietAnalyzer";
+import { ContextDietEvidence } from "@/components/labs/ContextDietEvidence";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import baseline from "@/content/reports/context-diet-lab-001/baseline.json";
-import after from "@/content/reports/context-diet-lab-001/after.json";
-import bakeoff from "@/content/reports/context-diet-lab-001/bakeoff.json";
 
 export const metadata = {
   title: "Context Diet — Lab 001",
   description:
     "An in-browser estimator for useful context reduction in agent prompts, backed by the completed Lab 001 benchmark. The community leaderboard is coming online.",
 };
-
-const num = (n: number) => n.toLocaleString("en-US");
 
 export default function ContextDietPage() {
   return (
@@ -43,49 +39,12 @@ export default function ContextDietPage() {
           <h2 id="evidence-title" style={{ fontSize: "var(--type-display-3)", margin: ".5rem 0 0" }}>
             The measured run behind the projection.
           </h2>
-          <p style={{ color: "var(--muted)", maxWidth: "60ch", margin: ".75rem 0 0" }}>
+          <p style={{ color: "var(--muted)", maxWidth: "60ch", margin: ".75rem 0 1.5rem" }}>
             Recorded results from a completed run on this repo&apos;s own
             <code> CLAUDE.md</code>. The estimator above projects a band from the four strategies
             below; the winning strategy is highlighted.
           </p>
-          <div className="lab-evidence">
-            <p className="evidence-stat">
-              {num(baseline.totalChars)} → {num(after.totalChars)} chars ·{" "}
-              ~{num(baseline.approxTokens)} → ~{num(after.approxTokens)} tokens
-            </p>
-            <p>
-              Baseline was {baseline.overLimit ? `over the ${num(baseline.limit)} limit by ${num(baseline.overBy)} chars` : "within limit"};
-              after the diet it sits {num(after.headroom)} chars under the limit. Section count{" "}
-              {baseline.sectionCount} → {after.sectionCount}.
-            </p>
-          </div>
-          <div className="table-wrap" style={{ marginTop: "1rem" }}>
-            <table>
-              <caption className="sr-only">Lab 001 strategy bake-off results</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Strategy</th>
-                  <th scope="col">Reduction</th>
-                  <th scope="col">Faithfulness</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bakeoff.comparison.map((c) => {
-                  const win = c.key === bakeoff.winnerKey;
-                  return (
-                    <tr key={c.key} className={win ? "lb-beat" : undefined}>
-                      <th scope="row">
-                        {c.title}
-                        {win && <span className="lb-badge"> ★ winner</span>}
-                      </th>
-                      <td>{c.reductionPct}%</td>
-                      <td>{c.faithfulness}%</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <ContextDietEvidence />
         </section>
 
         <section className="lab-method section-shell">

@@ -79,10 +79,46 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
 .lb-disclaimer{font:.73rem/1.5 var(--mono);color:var(--dim);margin:0;max-width:70ch}
 .lb-beat{background:color-mix(in srgb,var(--pink) 10%,transparent)}
 .lb-badge{color:var(--pink);font-size:.75rem;font-weight:700}
-/* Static Lab 001 evidence panel */
-.lab-evidence{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:clamp(1.25rem,3vw,2rem);margin-top:var(--space-tight);display:flex;flex-direction:column;gap:14px}
-.lab-evidence .evidence-stat{color:var(--pink);font:1rem var(--mono)}
-.lab-evidence p{color:var(--muted);font-size:.9rem;margin:0}
+/* Static Lab 001 evidence — in-brand data-viz */
+.cd-chart{margin:0 0 var(--space-tight);border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:clamp(1.25rem,3vw,2rem)}
+.cd-chart figcaption{margin-bottom:1.5rem}
+.cd-chart figcaption p{margin:.55rem 0 0;color:var(--muted);font-size:.9rem;max-width:64ch}
+.cd-chart figcaption strong{color:var(--pink)}
+.cd-chart-foot{margin:1.25rem 0 0;font:.75rem/1.5 var(--mono);color:var(--dim)}
+/* before/after diet bars */
+.cd-diet-track{position:relative;display:flex;flex-direction:column;gap:14px;padding-top:22px}
+.cd-limit{position:absolute;top:0;bottom:0;width:0;border-left:1px dashed var(--amber);z-index:2;pointer-events:none}
+.cd-limit span{position:absolute;top:-2px;left:6px;font:.6rem var(--mono);color:var(--amber);letter-spacing:.06em;white-space:nowrap}
+.cd-bar-row{display:grid;grid-template-columns:76px 1fr auto;align-items:center;gap:12px}
+.cd-bar-label{font:.65rem var(--mono);color:var(--dim);letter-spacing:.08em}
+.cd-bar-track{position:relative;height:44px;background:rgba(255,255,255,.02);border:1px solid var(--line)}
+.cd-bar{height:100%;display:flex;align-items:center;gap:.5rem;padding:0 12px;min-width:fit-content;white-space:nowrap;transition:width .6s cubic-bezier(.2,.7,.3,1)}
+.cd-bar b{font:400 1.3rem/1 var(--display);letter-spacing:.02em;color:var(--bg)}
+.cd-bar span{font:.65rem var(--mono);letter-spacing:.02em}
+.cd-bar-over{background:linear-gradient(90deg,rgba(248,113,113,.9),var(--danger));color:var(--bg)}
+.cd-bar-over span{color:rgba(5,6,10,.72)}
+.cd-bar-after{background:linear-gradient(90deg,var(--blue),#7dd3fc);color:var(--bg)}
+.cd-bar-after span{color:rgba(5,6,10,.72)}
+.cd-bar-tag{font:.65rem var(--mono);letter-spacing:.04em;white-space:nowrap}
+.cd-tag-over{color:var(--danger)}
+.cd-tag-under{color:var(--blue)}
+/* bake-off list */
+.cd-bakeoff-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+.cd-strat{padding:14px 16px;border:1px solid var(--line);background:rgba(255,255,255,.015)}
+.cd-strat-win{border-color:var(--pink);background:color-mix(in srgb,var(--pink) 9%,transparent)}
+.cd-strat-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+.cd-strat-name{font:.95rem var(--body);font-weight:600;color:var(--ink)}
+.cd-strat-pct{font:400 1.5rem/1 var(--display);letter-spacing:.02em;color:var(--dim)}
+.cd-strat-win .cd-strat-pct{color:var(--pink)}
+.cd-strat-track{height:12px;background:rgba(255,255,255,.03);border:1px solid var(--line);overflow:hidden}
+.cd-strat-bar{height:100%;background:var(--dim);transition:width .6s cubic-bezier(.2,.7,.3,1)}
+.cd-strat-win .cd-strat-bar{background:linear-gradient(90deg,var(--pink),#f9a8d4)}
+.cd-strat-meta{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;margin-top:10px;font:.7rem var(--mono);color:var(--dim);letter-spacing:.02em}
+.cd-strat-faith{color:var(--blue)}
+.cd-strat-flag{padding:.1rem .4rem;border:1px solid var(--line);color:var(--dim);letter-spacing:.03em}
+.cd-strat-flag.cd-flag-ok{border-color:var(--blue);color:var(--blue)}
+@media(prefers-reduced-motion:reduce){.cd-bar,.cd-strat-bar{transition:none}}
+@media(max-width:560px){.cd-bar-row{grid-template-columns:1fr;gap:6px}.cd-bar-label{order:-1}.cd-bar-tag{justify-self:start}.cd-limit span{font-size:.55rem}}
 /* /labs index */
 .lab-index{width:var(--shell-width);margin:auto;padding:var(--space-dense) var(--gutter);min-height:60vh}
 .lab-index-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:var(--space-tight)}
