@@ -52,6 +52,10 @@ export function LabLeaderboard({
   return (
     <section className="lab-leaderboard">
       <span className="section-kicker">LEADERBOARD · BEAT LAB 001 ({beatThreshold}%)</span>
+      <p className="lb-disclaimer">
+        Experimental · not a ranked benchmark. Entries are self-reported anonymized metrics from the
+        local estimator, shown for exploration while Lab 001 results are pending.
+      </p>
       {!isSupabaseConfigured ? (
         <p className="pending">
           Leaderboard offline — no Supabase configured for this build. The analyzer runs fully
