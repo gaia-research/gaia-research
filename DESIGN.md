@@ -53,10 +53,12 @@ The typography creates a striking contrast by mixing ultra-condensed and wide, e
 
 | Context | Font Stack | Style | Vibe |
 |---|---|---|---|
-| **Hero Display / Brand** | `Syne, Impact, sans-serif` | Expanded, bold, geometric | Expressive, wide, modern |
-| **Section Titles / Labels** | `Bebas Neue, sans-serif` | Ultra-condensed, tall | Impactful, structured, punchy |
-| **Body Copy / Prose** | `Plus Jakarta Sans, Inter, sans-serif` | Geometric sans, neutral | High readability, clean |
-| **Monospace / HUD** | `Departure Mono, Geist Mono, monospace` | Retro-pixel / clean mono | Technical data logs |
+| **Display Headings (H1/H2)** | `Bebas Neue, Impact, sans-serif` | Ultra-condensed, tall, uppercase | Impactful, structured, punchy |
+| **Brand Wordmark** | `Syne, Arial, sans-serif` | Expanded, bold, geometric | Expressive, wide, modern |
+| **Body Copy / Prose** | `Manrope, Arial, sans-serif` | Geometric humanist sans, neutral | High readability, clean |
+| **Monospace / HUD** | `DM Mono, monospace` | Clean technical mono | Technical data logs |
+
+> **Shipped reality (July 2026).** The loaded stack in `app/globals.css` is the source of truth above: **Bebas Neue** carries display headings (`h1`/`h2`), **Syne** is reserved for the brand wordmark and the registry CTA, body copy is **Manrope**, and mono is **DM Mono**. This is a deliberate register split — the condensed Bebas display against the wide Syne wordmark is the "contrast is king" play from `PRODUCT.md`, and Manrope was chosen over Plus Jakarta Sans / Inter for its humanist warmth at body sizes. Earlier drafts of this table listed Syne as the hero display and Plus Jakarta Sans as body; those were exploratory. Do not "fix" the CSS back to them.
 
 ### Typographic Hierarchy
 - **Hero Title (H1):** `clamp(3rem, 7vw, 6rem)`, `font-family: var(--font-display-wide)`, font-weight 800, line-height 0.95. Play with text capitalization and wide spacing.
