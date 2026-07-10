@@ -28,9 +28,13 @@ export function estimateCost(
   tokensSaved: number,
   ratePerMTok = DEFAULT_RATE_PER_MTOK,
 ): CostEstimate {
+  const dollarsSaved = (tokensSaved / 1_000_000) * ratePerMTok;
   return {
     tokensSaved,
     ratePerMTok,
-    dollarsSaved: (tokensSaved / 1_000_000) * ratePerMTok,
+    dollarsSaved,
+    // The trimmed context is re-read on every turn/request; valuing the saved
+    // tokens across 1M reads gives the headline figure (== tokensSaved × rate).
+    dollarsSavedPerMReads: dollarsSaved * 1_000_000,
   };
 }
