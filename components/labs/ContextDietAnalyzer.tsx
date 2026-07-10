@@ -124,25 +124,15 @@ export function ContextDietAnalyzer() {
                 ? `OVER LIMIT BY ${num(result.m.overBy)} CHARS`
                 : `WITHIN LIMIT · ${num(result.m.headroom)} HEADROOM`}
             </header>
-            <div>
-              <article>
-                <small>INPUT CONTEXT</small>
-                <p>
-                  {num(result.m.totalChars)} chars · {result.m.sectionCount} sections · limit{" "}
-                  {num(result.m.limit)}
-                </p>
-                <b>{num(result.m.approxTokens)} tokens</b>
-              </article>
-              <span className="compression-arrow" aria-hidden="true">
-                ⇢
-              </span>
-              <article>
-                <small>PROJECTED DIET · TARGET {result.band.targetPct}%</small>
-                <p>
-                  via {result.band.targetTitle} · band {result.band.lowPct}%–{result.band.highPct}%
-                </p>
-                <b>~{num(result.band.projectedTokensTarget)} tokens</b>
-              </article>
+            <div className="analyzer-readout">
+              <b>{num(result.m.approxTokens)}</b>
+              <span className="compression-arrow" aria-hidden="true">→</span>
+              <b className="readout-target">~{num(result.band.projectedTokensTarget)}</b>
+              <span className="readout-unit">tokens</span>
+              <p className="readout-detail">
+                {num(result.m.totalChars)} chars · {result.m.sectionCount} sections · limit{" "}
+                {num(result.m.limit)} · projected via {result.band.targetTitle}
+              </p>
             </div>
           </div>
 
