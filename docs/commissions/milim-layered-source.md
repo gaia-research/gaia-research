@@ -92,5 +92,6 @@ acceptable alternative to regeneration if it yields cleaner masks.
 
 Deliver `milim-layered-v1.psd` (place source under `assets/workbench/` first,
 promote reviewed to `assets/generated/north-star-live/`). Update
-`content/assets/asset-ledger.json` via the sync scripts. Tracking issue will be
-linked here on creation.
+`content/assets/asset-ledger.json` via the sync scripts. Tracking issue:
+**gaia-research#33** (blocks the rig-authoring step, gaia-research#34; part of
+the Milim Live commission, gaia-research#32).
