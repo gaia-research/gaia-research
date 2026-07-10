@@ -5,7 +5,7 @@
 // functions, and is NEVER uploaded, logged, or persisted. The only network call
 // is the opt-in leaderboard submit, which sends anonymized metrics only.
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { measure } from "@/lib/context-diet/analyze";
 import { projectReduction } from "@/lib/context-diet/project";
 import { estimateCost, MODEL_RATES } from "@/lib/context-diet/cost";
@@ -18,6 +18,11 @@ const num = (n: number) => n.toLocaleString("en-US");
 const usd = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 });
 
+// Cap what we synchronously measure so an enormous paste can't freeze the tab.
+// A real context file is well under this; anything larger is analyzed on its
+// leading slice and flagged to the user.
+const MAX_ANALYZE_CHARS = 200_000;
+
 type SubmitState = "idle" | "sending" | "sent" | "error" | "offline";
 
 export function ContextDietAnalyzer() {
@@ -29,6 +34,8 @@ export function ContextDietAnalyzer() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [submitError, setSubmitError] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [truncated, setTruncated] = useState(false);
+  const resultsRef = useRef<HTMLDivElement | null>(null);
 
   const rate = MODEL_RATES.find((r) => r.id === rateId) ?? MODEL_RATES[1];
 
@@ -43,9 +50,13 @@ export function ContextDietAnalyzer() {
   }, [analyzed, rate.inputPerMTok]);
 
   const handleAnalyze = () => {
-    setAnalyzed(text);
+    const capped = text.length > MAX_ANALYZE_CHARS;
+    setTruncated(capped);
+    setAnalyzed(capped ? text.slice(0, MAX_ANALYZE_CHARS) : text);
     setSubmitState("idle");
     setSubmitError("");
+    // Move focus to the results so keyboard/AT users land on the new output.
+    requestAnimationFrame(() => resultsRef.current?.focus());
   };
 
   const handleDownload = () => {
@@ -117,7 +128,7 @@ export function ContextDietAnalyzer() {
 
       {result && (
         <>
-          <div className="analyzer-console" role="status">
+          <div className="analyzer-console" role="status" ref={resultsRef} tabIndex={-1}>
             <header>
               <span className="led" /> ANALYZER LIVE ·{" "}
               {result.m.overLimit
@@ -134,6 +145,12 @@ export function ContextDietAnalyzer() {
                 {num(result.m.limit)} · projected via {result.band.targetTitle}
               </p>
             </div>
+            {truncated && (
+              <p className="cd-note cd-err" style={{ padding: "0 18px 14px" }}>
+                Input exceeded {num(MAX_ANALYZE_CHARS)} chars — analyzed the leading{" "}
+                {num(MAX_ANALYZE_CHARS)} only.
+              </p>
+            )}
           </div>
 
           <div className="reduction-band">
