@@ -6,9 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `gaia-research` is the public-facing lab/portal for the Gaia ecosystem. It is:
 
-1. A **Jekyll-served GitHub Pages site** (see `_config.yml`, `robots.txt`, `sitemap.xml`) that currently ships the README as the landing page at `https://gaia-research.github.io/gaia-research/`.
-2. A **staging repository for a future Next.js App Router site** — `src/`, `content/`, `docs/`, and `experiments/` are being populated for the migration described in `CONSOLIDATION_PRD.md`. There is no `package.json`, `next.config.*`, or Next.js runtime present yet; do not assume `npm run dev` works.
-3. A **Skill Benchmark Ingest Layer** — standalone TypeScript scripts under `scripts/` that fetch benchmark schemas from the sibling `gaia-skill-tree` repo and validate contributor submissions.
+1. A **Next.js App Router site** (deployed to Cloudflare) that ships the landing page at `https://research.gaiaskilltree.com`.
+2. A **Skill Benchmark Ingest Layer** — standalone TypeScript scripts under `scripts/` that fetch benchmark schemas from the sibling `gaia-skill-tree` repo and validate contributor submissions.
 
 ## Common Commands
 
@@ -86,6 +85,6 @@ Hard rule: **always use image gen 2 / `gpt-image-2`; never use `nano-banana` or 
 
 Generated experiments and intermediate variants should go in `assets/workbench/` first. Promote reviewed outputs to `assets/generated/` or `assets/brand/`, then run the asset ledger sync/check scripts.
 
-## GitHub Pages
+## GitHub Pages (Deprecated)
 
-The site is served by Jekyll with the `jekyll-seo-tag` plugin (`_config.yml`). `baseurl` is `/gaia-research` — any absolute paths in future content need to account for that prefix. `sitemap.xml` and `robots.txt` are hand-maintained.
+The site used to be served by Jekyll. It is now a Next.js App deployed to Cloudflare at `research.gaiaskilltree.com`.
