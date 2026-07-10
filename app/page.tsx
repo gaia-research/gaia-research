@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import RegistryHandoff from "@/components/RegistryHandoff";
+import MilimLive from "@/components/MilimLive";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { displayName, installCmd, ledger, repoUrl, skills, treeUrl } from "@/data/research";
 
@@ -15,7 +16,7 @@ export default function Home() {
    <Image className="lab-plate" src="/assets/north-star-live/north-star-live-lab-plate-v01.webp" alt="" fill priority sizes="100vw" />
    <div className="hero-layout">
     <div className="hero-copy"><p className="signal"><span /> PUBLIC RESEARCH SIGNAL</p><h1 id="hero-title">Pushing the limits of <em>agent</em> capability.</h1><p className="hero-lede">Gaia Research is the open laboratory for evidence-first agent work. We observe, benchmark, verify, and publish the frontier &mdash; every claim links back to its receipts.</p><div className="actions"><Link className="button primary" href="/labs/context-diet">Enter Lab 001 · Context Diet <span>→</span></Link><a className="button secondary" href="#ledger">Read the ledger <span>→</span></a></div></div>
-    <div className="live-stage" aria-label="Milim is represented by a decorative, code-driven 2.5D idle sprite loop."><div className="orbit orbit-one" /><div className="orbit orbit-two" /><div className="spark-field" aria-hidden="true">✦ · ✦ · ✦</div><div className="sprite-reflection" aria-hidden="true" /><Image className="milim-sprite" src="/assets/north-star-live/milim-live-full-body-sprite-v01.webp" alt="Milim, Gaia Research's Chief Capability Scout, standing in a laboratory hoodie." width={1024} height={1536} priority sizes="(max-width: 700px) 88vw, (max-width: 1200px) 46vw, 34vw" /><p className="sprite-caption">MILIM · CHIEF CAPABILITY SCOUT</p></div>
+    <MilimLive fallbackSrc="/assets/north-star-live/milim-live-full-body-sprite-v01.webp" fallbackAlt="Milim, Gaia Research's Chief Capability Scout, standing in a laboratory hoodie." width={1024} height={1536} sizes="(max-width: 700px) 88vw, (max-width: 1200px) 46vw, 34vw" caption="MILIM · CHIEF CAPABILITY SCOUT" />
     <aside className="status-rail" aria-label="Laboratory status"><p>LABORATORY STATUS</p><dl><div><dt>LABS LIVE</dt><dd>01</dd></div><div><dt>LEDGER</dt><dd>OPEN</dd></div><div><dt>SOURCE</dt><dd>PUBLIC</dd></div></dl><a href="#directives">READ THE DIRECTIVES →</a></aside>
    </div>
    <div className="hero-strip"><span><i /> VERIFIED EVIDENCE</span><span>LAB 001 / RESULTS PENDING</span><span>BUILDING IN PUBLIC</span></div>
