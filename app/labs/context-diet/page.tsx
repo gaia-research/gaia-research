@@ -91,7 +91,7 @@ export default function ContextDietPage() {
         <section className="lab-method section-shell">
           <Image src="/assets/context-diet-token-compression-motif.webp" alt="" width={1200} height={800} sizes="(max-width: 800px) 100vw, 45vw" />
           <div>
-            <p>THE LAB QUESTION</p>
+            <span className="section-kicker">THE LAB QUESTION</span>
             <h2>What can leave without changing the job?</h2>
             <p>Context Diet measures useful reduction across objective fidelity, constraint retention, output validity, latency, and token cost. A smaller prompt is not a win if it quietly drops a requirement.</p>
             <ul>

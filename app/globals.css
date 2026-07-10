@@ -28,9 +28,6 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
 .section-kicker{font:.7rem var(--mono);color:var(--blue);letter-spacing:.12em;text-transform:uppercase}.cd-label{font:.7rem var(--mono);color:var(--dim);letter-spacing:.07em;text-transform:uppercase}
 .led{display:inline-block;width:8px;height:8px;background:var(--pink);border-radius:50%;box-shadow:0 0 12px var(--pink);margin-right:7px}
 .pending{font:.73rem var(--mono);color:var(--dim)}
-.button-primary{background:var(--pink);border-color:var(--pink);color:var(--bg)}
-.button-primary:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--blue);text-decoration:none}
-.button-secondary:hover{background:rgba(56,189,248,.13);text-decoration:none}
 .button:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
 .cd-analyzer{display:flex;flex-direction:column;gap:24px}
 .privacy-note{border:1px solid var(--blue);border-radius:6px;background:color-mix(in srgb,var(--blue) 8%,transparent);padding:12px 16px;font-size:.9rem;color:var(--ink);line-height:1.5}

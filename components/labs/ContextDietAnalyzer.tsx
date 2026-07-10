@@ -118,7 +118,7 @@ export function ContextDietAnalyzer() {
         <span className="cd-charcount">{num(text.length)} chars</span>
         <button
           type="button"
-          className="button button-primary"
+          className="button primary"
           onClick={handleAnalyze}
           disabled={text.trim().length === 0}
         >
@@ -239,7 +239,7 @@ export function ContextDietAnalyzer() {
                     section titles only, never your pasted text. It captures the projected diet as a
                     starting point; confirm faithfulness before you adopt it.
                   </p>
-                  <button type="button" className="button button-secondary" onClick={handleDownload}>
+                  <button type="button" className="button secondary" onClick={handleDownload}>
                     Download SKILL.md ↓
                   </button>
                 </div>
@@ -267,7 +267,7 @@ export function ContextDietAnalyzer() {
                       />
                       <button
                         type="button"
-                        className="button button-secondary"
+                        className="button secondary"
                         onClick={handleSubmit}
                         disabled={!isSupabaseConfigured || submitState === "sending"}
                       >
