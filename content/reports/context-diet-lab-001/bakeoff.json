@@ -1,0 +1,110 @@
+{
+  "lab": "Context Diet \u2014 Lab 001",
+  "benchmark": "Benchmark 001",
+  "originalChars": 49687,
+  "limit": 40000,
+  "target": 34000,
+  "inventory": {
+    "extractedRules": 127,
+    "realRules": 124,
+    "loadBearingExtracted": 57,
+    "phantomRules": [
+      "docs-cli-help-regen",
+      "ci-deps-editable-install",
+      "badges-header-leave-alone"
+    ],
+    "phantomExplanation": "The inventory agent over-collected: docs-cli-help-regen, ci-deps-editable-install, and badges-header-leave-alone are NOT in CLAUDE.md. They are entries from the user's MEMORY.md auto-memory index (feedback_docs_drift.md, feedback_ci_deps.md, feedback_badges_header.md), injected into the agent's context via <system-reminder> and mistaken for file content. All 4 candidates flagged the SAME 3 rules as 'missing' with identical counts \u2014 the signature of an inventory artifact, not a compaction failure. Against the true 124-rule inventory, every candidate is 100% faithful with zero load-bearing losses. Guard for reruns: scope the inventory agent to file bytes only, and treat a rule that ALL candidates 'miss' identically as suspect."
+  },
+  "comparison": [
+    {
+      "key": "externalize",
+      "title": "Externalize + link",
+      "charCount": 29040,
+      "reduction": 20647,
+      "reductionPct": 41.6,
+      "underLimit": true,
+      "underTarget": true,
+      "faithfulnessRaw": 97.6,
+      "faithfulnessCorrected": 100.0,
+      "presentCorrected": 124,
+      "loadBearingMissingRaw": [
+        "docs-cli-help-regen",
+        "ci-deps-editable-install"
+      ],
+      "loadBearingMissingCorrected": [],
+      "newFileCount": 5,
+      "qualified": true,
+      "faithfulness": 100.0
+    },
+    {
+      "key": "condense",
+      "title": "Condense in place",
+      "charCount": 39266,
+      "reduction": 10421,
+      "reductionPct": 21.0,
+      "underLimit": true,
+      "underTarget": false,
+      "faithfulnessRaw": 97.6,
+      "faithfulnessCorrected": 100.0,
+      "presentCorrected": 124,
+      "loadBearingMissingRaw": [
+        "docs-cli-help-regen",
+        "ci-deps-editable-install"
+      ],
+      "loadBearingMissingCorrected": [],
+      "newFileCount": 0,
+      "qualified": true,
+      "faithfulness": 100.0
+    },
+    {
+      "key": "caveman",
+      "title": "Telegraphic / caveman",
+      "charCount": 37949,
+      "reduction": 11738,
+      "reductionPct": 23.6,
+      "underLimit": true,
+      "underTarget": false,
+      "faithfulnessRaw": 97.6,
+      "faithfulnessCorrected": 100.0,
+      "presentCorrected": 124,
+      "loadBearingMissingRaw": [
+        "docs-cli-help-regen",
+        "ci-deps-editable-install"
+      ],
+      "loadBearingMissingCorrected": [],
+      "newFileCount": 0,
+      "qualified": true,
+      "faithfulness": 100.0
+    },
+    {
+      "key": "hybrid",
+      "title": "Hybrid route",
+      "charCount": 33916,
+      "reduction": 15771,
+      "reductionPct": 31.7,
+      "underLimit": true,
+      "underTarget": true,
+      "faithfulnessRaw": 97.6,
+      "faithfulnessCorrected": 100.0,
+      "presentCorrected": 124,
+      "loadBearingMissingRaw": [
+        "docs-cli-help-regen",
+        "ci-deps-editable-install"
+      ],
+      "loadBearingMissingCorrected": [],
+      "newFileCount": 3,
+      "qualified": true,
+      "faithfulness": 100.0
+    }
+  ],
+  "winnerKey": "externalize",
+  "winner": {
+    "key": "externalize",
+    "title": "Externalize + link",
+    "charCount": 29040,
+    "reductionPct": 41.6,
+    "faithfulness": 100.0,
+    "newFileCount": 5
+  },
+  "scoringNote": "As-run scoring disqualified all 4 candidates on 2 phantom load-bearing 'losses' (winnerKey=null in the raw workflow output). Corrected scoring excludes the 3 phantom rules; all 4 candidates qualify at 100% faithfulness; winner by max-reduction tie-break is Externalize + link."
+}

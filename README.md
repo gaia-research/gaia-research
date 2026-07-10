@@ -48,6 +48,24 @@ Schemas cached in `content/schemas/` are **derived output** from upstream `gaia-
 
 ---
 
+## 🧰 Official Skills
+
+Installable Claude Code / Cursor / Windsurf skills published by Gaia Research. Each is a single-purpose tool with a one-line `curl` install and no config. All are **local-first** — they run against your files and never upload their contents.
+
+| Skill | What it does | Repo |
+| :--- | :--- | :--- |
+| **context-diet** | Measure + compact an oversized agent-context file (`CLAUDE.md`, `.cursorrules`, `AGENTS.md`, a system prompt) under the harness char limit **without losing a rule**. Runs a compaction bake-off scored on rule faithfulness. Output of [Context Diet — Lab 001](content/reports/context-diet-lab-001). | [gaia-research/skill-context-diet](https://github.com/gaia-research/skill-context-diet) |
+| **ci-churn** | GitHub Actions cost analyzer & flaky-test detector for PRs. Measures wasted CI compute, classifies commits as feature vs ci-fix, and generates pre-push checks that would have prevented retry-push churn. | [gaia-research/skill-ci-churn](https://github.com/gaia-research/skill-ci-churn) |
+| **fuse** | AI agent command consolidator. Merge overlapping `/commands` into one unified `SKILL.md` — reduce slash-command clutter, combine Cursor rules, dedupe Windsurf cascades. | [gaia-research/skill-fuse](https://github.com/gaia-research/skill-fuse) |
+
+Install any of them with the one-liner from its repo, e.g.:
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/gaia-research/skill-context-diet/main/install.sh)
+```
+
+---
+
 ## 📂 Repository Structure
 
 | Path | Purpose |

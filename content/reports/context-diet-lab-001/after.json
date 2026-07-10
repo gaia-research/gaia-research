@@ -1,0 +1,476 @@
+{
+  "file": "CLAUDE.md",
+  "totalChars": 29040,
+  "approxTokens": 7260,
+  "limit": 40000,
+  "overLimit": false,
+  "overBy": 0,
+  "headroom": 10960,
+  "sectionCount": 33,
+  "sections": [
+    {
+      "title": "(preamble)",
+      "level": 0,
+      "chars": 72,
+      "approxTokens": 18,
+      "lineStart": 1
+    },
+    {
+      "title": "Workflow Discipline",
+      "level": 2,
+      "chars": 318,
+      "approxTokens": 80,
+      "lineStart": 5
+    },
+    {
+      "title": "Sprint Completeness \u2014 no follow-ups",
+      "level": 2,
+      "chars": 809,
+      "approxTokens": 202,
+      "lineStart": 11
+    },
+    {
+      "title": "Graphify",
+      "level": 2,
+      "chars": 349,
+      "approxTokens": 87,
+      "lineStart": 20
+    },
+    {
+      "title": "Git Workflow",
+      "level": 2,
+      "chars": 329,
+      "approxTokens": 82,
+      "lineStart": 24
+    },
+    {
+      "title": "Branch Scope \u2014 infra/ allowlist",
+      "level": 2,
+      "chars": 364,
+      "approxTokens": 91,
+      "lineStart": 33
+    },
+    {
+      "title": "Branch Scope \u2014 schema/ allowlist",
+      "level": 2,
+      "chars": 487,
+      "approxTokens": 122,
+      "lineStart": 37
+    },
+    {
+      "title": "Branch Scope \u2014 review/meta/ allowlist",
+      "level": 2,
+      "chars": 504,
+      "approxTokens": 126,
+      "lineStart": 41
+    },
+    {
+      "title": "Redaction Exemptions \u2014 ordained, do not re-litigate",
+      "level": 2,
+      "chars": 769,
+      "approxTokens": 192,
+      "lineStart": 45
+    },
+    {
+      "title": "Edit Safety",
+      "level": 2,
+      "chars": 303,
+      "approxTokens": 76,
+      "lineStart": 53
+    },
+    {
+      "title": "Design Entrypoints \u2014 plan before you ship",
+      "level": 2,
+      "chars": 620,
+      "approxTokens": 155,
+      "lineStart": 59
+    },
+    {
+      "title": "Deferred-surface convention \u2014 ship the bridge state, disclose the bridge state",
+      "level": 2,
+      "chars": 684,
+      "approxTokens": 171,
+      "lineStart": 65
+    },
+    {
+      "title": "Fixed-nav clearance \u2014 every top-level page container must clear ~58px",
+      "level": 2,
+      "chars": 570,
+      "approxTokens": 142,
+      "lineStart": 71
+    },
+    {
+      "title": "Testing",
+      "level": 2,
+      "chars": 102,
+      "approxTokens": 26,
+      "lineStart": 77
+    },
+    {
+      "title": "Data & Permissions",
+      "level": 2,
+      "chars": 155,
+      "approxTokens": 39,
+      "lineStart": 81
+    },
+    {
+      "title": "Project Architecture / Data Model",
+      "level": 2,
+      "chars": 158,
+      "approxTokens": 40,
+      "lineStart": 85
+    },
+    {
+      "title": "Commands & Setup",
+      "level": 2,
+      "chars": 168,
+      "approxTokens": 42,
+      "lineStart": 89
+    },
+    {
+      "title": "Current Layout",
+      "level": 2,
+      "chars": 2352,
+      "approxTokens": 588,
+      "lineStart": 93
+    },
+    {
+      "title": "Generated Artifacts \u2014 Class P vs Class S",
+      "level": 2,
+      "chars": 1801,
+      "approxTokens": 450,
+      "lineStart": 123
+    },
+    {
+      "title": "Programmatic-First Policy",
+      "level": 2,
+      "chars": 3050,
+      "approxTokens": 762,
+      "lineStart": 138
+    },
+    {
+      "title": "CLI Shape",
+      "level": 2,
+      "chars": 1467,
+      "approxTokens": 367,
+      "lineStart": 169
+    },
+    {
+      "title": "Authorization \u2014 Verifier Guardrail",
+      "level": 2,
+      "chars": 1627,
+      "approxTokens": 407,
+      "lineStart": 183
+    },
+    {
+      "title": "Branch Naming",
+      "level": 2,
+      "chars": 849,
+      "approxTokens": 212,
+      "lineStart": 216
+    },
+    {
+      "title": "Promotion Rule",
+      "level": 2,
+      "chars": 248,
+      "approxTokens": 62,
+      "lineStart": 231
+    },
+    {
+      "title": "Versioning",
+      "level": 2,
+      "chars": 2802,
+      "approxTokens": 700,
+      "lineStart": 235
+    },
+    {
+      "title": "Vocabulary",
+      "level": 2,
+      "chars": 512,
+      "approxTokens": 128,
+      "lineStart": 268
+    },
+    {
+      "title": "Agent Skills",
+      "level": 2,
+      "chars": 1624,
+      "approxTokens": 406,
+      "lineStart": 274
+    },
+    {
+      "title": "Agent skills",
+      "level": 2,
+      "chars": 374,
+      "approxTokens": 94,
+      "lineStart": 290
+    },
+    {
+      "title": "gstack",
+      "level": 2,
+      "chars": 714,
+      "approxTokens": 178,
+      "lineStart": 296
+    },
+    {
+      "title": "Known Frontend Issues \u2014 Badges, Graph, Skill Explorer, Nav/Footer",
+      "level": 2,
+      "chars": 1942,
+      "approxTokens": 486,
+      "lineStart": 302
+    },
+    {
+      "title": "Curation Guidelines",
+      "level": 2,
+      "chars": 1051,
+      "approxTokens": 263,
+      "lineStart": 311
+    },
+    {
+      "title": "Agent-Managed Files (Hermes Ownership)",
+      "level": 2,
+      "chars": 401,
+      "approxTokens": 100,
+      "lineStart": 321
+    },
+    {
+      "title": "Workspace Rules (Agent Directives)",
+      "level": 2,
+      "chars": 1465,
+      "approxTokens": 366,
+      "lineStart": 336
+    }
+  ],
+  "ranked": [
+    {
+      "title": "Programmatic-First Policy",
+      "level": 2,
+      "chars": 3050,
+      "approxTokens": 762,
+      "lineStart": 138
+    },
+    {
+      "title": "Versioning",
+      "level": 2,
+      "chars": 2802,
+      "approxTokens": 700,
+      "lineStart": 235
+    },
+    {
+      "title": "Current Layout",
+      "level": 2,
+      "chars": 2352,
+      "approxTokens": 588,
+      "lineStart": 93
+    },
+    {
+      "title": "Known Frontend Issues \u2014 Badges, Graph, Skill Explorer, Nav/Footer",
+      "level": 2,
+      "chars": 1942,
+      "approxTokens": 486,
+      "lineStart": 302
+    },
+    {
+      "title": "Generated Artifacts \u2014 Class P vs Class S",
+      "level": 2,
+      "chars": 1801,
+      "approxTokens": 450,
+      "lineStart": 123
+    },
+    {
+      "title": "Authorization \u2014 Verifier Guardrail",
+      "level": 2,
+      "chars": 1627,
+      "approxTokens": 407,
+      "lineStart": 183
+    },
+    {
+      "title": "Agent Skills",
+      "level": 2,
+      "chars": 1624,
+      "approxTokens": 406,
+      "lineStart": 274
+    },
+    {
+      "title": "CLI Shape",
+      "level": 2,
+      "chars": 1467,
+      "approxTokens": 367,
+      "lineStart": 169
+    },
+    {
+      "title": "Workspace Rules (Agent Directives)",
+      "level": 2,
+      "chars": 1465,
+      "approxTokens": 366,
+      "lineStart": 336
+    },
+    {
+      "title": "Curation Guidelines",
+      "level": 2,
+      "chars": 1051,
+      "approxTokens": 263,
+      "lineStart": 311
+    },
+    {
+      "title": "Branch Naming",
+      "level": 2,
+      "chars": 849,
+      "approxTokens": 212,
+      "lineStart": 216
+    },
+    {
+      "title": "Sprint Completeness \u2014 no follow-ups",
+      "level": 2,
+      "chars": 809,
+      "approxTokens": 202,
+      "lineStart": 11
+    },
+    {
+      "title": "Redaction Exemptions \u2014 ordained, do not re-litigate",
+      "level": 2,
+      "chars": 769,
+      "approxTokens": 192,
+      "lineStart": 45
+    },
+    {
+      "title": "gstack",
+      "level": 2,
+      "chars": 714,
+      "approxTokens": 178,
+      "lineStart": 296
+    },
+    {
+      "title": "Deferred-surface convention \u2014 ship the bridge state, disclose the bridge state",
+      "level": 2,
+      "chars": 684,
+      "approxTokens": 171,
+      "lineStart": 65
+    },
+    {
+      "title": "Design Entrypoints \u2014 plan before you ship",
+      "level": 2,
+      "chars": 620,
+      "approxTokens": 155,
+      "lineStart": 59
+    },
+    {
+      "title": "Fixed-nav clearance \u2014 every top-level page container must clear ~58px",
+      "level": 2,
+      "chars": 570,
+      "approxTokens": 142,
+      "lineStart": 71
+    },
+    {
+      "title": "Vocabulary",
+      "level": 2,
+      "chars": 512,
+      "approxTokens": 128,
+      "lineStart": 268
+    },
+    {
+      "title": "Branch Scope \u2014 review/meta/ allowlist",
+      "level": 2,
+      "chars": 504,
+      "approxTokens": 126,
+      "lineStart": 41
+    },
+    {
+      "title": "Branch Scope \u2014 schema/ allowlist",
+      "level": 2,
+      "chars": 487,
+      "approxTokens": 122,
+      "lineStart": 37
+    },
+    {
+      "title": "Agent-Managed Files (Hermes Ownership)",
+      "level": 2,
+      "chars": 401,
+      "approxTokens": 100,
+      "lineStart": 321
+    },
+    {
+      "title": "Agent skills",
+      "level": 2,
+      "chars": 374,
+      "approxTokens": 94,
+      "lineStart": 290
+    },
+    {
+      "title": "Branch Scope \u2014 infra/ allowlist",
+      "level": 2,
+      "chars": 364,
+      "approxTokens": 91,
+      "lineStart": 33
+    },
+    {
+      "title": "Graphify",
+      "level": 2,
+      "chars": 349,
+      "approxTokens": 87,
+      "lineStart": 20
+    },
+    {
+      "title": "Git Workflow",
+      "level": 2,
+      "chars": 329,
+      "approxTokens": 82,
+      "lineStart": 24
+    },
+    {
+      "title": "Workflow Discipline",
+      "level": 2,
+      "chars": 318,
+      "approxTokens": 80,
+      "lineStart": 5
+    },
+    {
+      "title": "Edit Safety",
+      "level": 2,
+      "chars": 303,
+      "approxTokens": 76,
+      "lineStart": 53
+    },
+    {
+      "title": "Promotion Rule",
+      "level": 2,
+      "chars": 248,
+      "approxTokens": 62,
+      "lineStart": 231
+    },
+    {
+      "title": "Commands & Setup",
+      "level": 2,
+      "chars": 168,
+      "approxTokens": 42,
+      "lineStart": 89
+    },
+    {
+      "title": "Project Architecture / Data Model",
+      "level": 2,
+      "chars": 158,
+      "approxTokens": 40,
+      "lineStart": 85
+    },
+    {
+      "title": "Data & Permissions",
+      "level": 2,
+      "chars": 155,
+      "approxTokens": 39,
+      "lineStart": 81
+    },
+    {
+      "title": "Testing",
+      "level": 2,
+      "chars": 102,
+      "approxTokens": 26,
+      "lineStart": 77
+    },
+    {
+      "title": "(preamble)",
+      "level": 0,
+      "chars": 72,
+      "approxTokens": 18,
+      "lineStart": 1
+    }
+  ]
+}
