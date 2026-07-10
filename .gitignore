@@ -21,3 +21,14 @@ yarn-error.log*
 assets/workbench/
 .asset-cache/
 
+
+# OpenNext
+.open-next
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+
+.env*
+!.env.example
