@@ -27,13 +27,13 @@ Refer to `../marketing-tasks/MILIM.md` for strict character adherence.
 
 A single, highly polished conceptual illustration.
 
-*   **Composition:** Dizzying, extreme high-altitude bird's eye view looking steeply down through the branches of the tree. The camera is high up in the top canopy, looking diagonally down to the roots.
-*   **Foreground:** The immediate foreground MUST consist of heavily blurred dark branches and glowing leaves (tree shade) of the *same* tree, framing the shot to create a massive vertical drop and sense of scale. NO planet earth or landscape in the background.
+*   **Composition:** Dizzying, extreme high-altitude bird's eye view looking steeply down through the branches of the tree. The camera is high up in the top canopy, looking diagonally down to the roots. The framing must be heavily weighted to the **right side**, leaving a lot of open negative space on the left.
+*   **Foreground:** The immediate foreground MUST consist of heavily blurred dark branches and glowing leaves (tree shade) of the *same* tree, positioned **ONLY on the right side** of the frame, creating a massive vertical drop and framing the shot. NO planet earth or landscape in the background.
 *   **Subject:** Milim Nova (fully specified above) as a microscopic, tiny silhouette resting peacefully at the very bottom roots of the tree. She MUST NOT have twintails (one single mass of straight pink hair). She wears her black oversized hoodie.
-*   **Environment:** A colossal, mountain-sized constellational Yggdrasil skill tree dominating the frame against a solid black background. The tree glows with intense bright white and golden light, dropping glowing sakura leaves. 
+*   **Environment:** A colossal, mountain-sized constellational Yggdrasil skill tree dominating the right side of the frame against a solid black background. The tree glows with intense bright white and golden light, with **subtle constellation-like ley lines** running through its trunk/bark. It drops glowing sakura leaves. 
 *   **Art Style:** Dramatic, cinematic, epic concept art. Less anime-like, focusing on extreme massive scale, depth, lighting, and awe. 
 *   **Lighting/Palette:** Moody, cinematic lighting. High contrast against the glowing white and gold tree.
-*   **Background:** Transparent backdrop (or a clean solid pure black `#000000` background that can be easily keyed out via the `prep-cutout.ts` script). NO earth curvature, NO horizon line.
+*   **Background:** Transparent backdrop (or a clean solid pure black `#000000` background that can be easily keyed out via the `prep-cutout.ts` script). NO earth curvature, NO horizon line. Vast negative space on the left.
 *   **Format:** 16:9 or roughly square framing that works well in a right-aligned flex column. Minimum 2048px on the longest edge.
 
 ## Production Method
@@ -50,9 +50,11 @@ For production, **always use image gen 2 / `gpt-image-2`**.
 
 - [ ] Features Milim Nova as an incredibly tiny silhouette but retaining her `MILIM.md` traits. **NO twintails.**
 - [ ] Dizzying bird's eye view looking steeply down through the tree canopy to the roots.
-- [ ] Foreground filled with blurred upper tree branches (tree shade) framing the vertical drop.
+- [ ] Heavy composition weighting to the **right**, leaving vast negative space on the left.
+- [ ] Foreground filled with blurred upper tree branches (tree shade) **only on the right side**, framing the vertical drop.
 - [ ] Milim is resting peacefully nestled at the very bottom roots.
 - [ ] Tree is the size of a massive mountain, glowing with bright white and gold constellational light.
+- [ ] Tree bark features subtle constellation-like ley lines.
 - [ ] NO planet earth, horizon, or landscape visible. Pure solid black background.
 - [ ] Art style is dramatic, epic concept art emphasizing monumental scale.
 - [ ] Falling glowing white/gold sakura leaves present.
