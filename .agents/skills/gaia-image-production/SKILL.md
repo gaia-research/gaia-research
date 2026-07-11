@@ -38,6 +38,7 @@ Use these references:
 
 - `DESIGN.md` — Cyber-Slime Laboratory visual system.
 - `PRODUCT.md` — Milim voice and brand personality.
+- `../marketing-tasks/MILIM.md` — The absolute source of truth for Milim Nova's visual design, proportions, outfit, and expressions.
 - `docs/plans/north-star-decisions-and-asset-commission.md` — locked decisions and asset backlog.
 - `docs/assets/asset-production-workflows.md` — helper script usage.
 
