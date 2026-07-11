@@ -60,5 +60,8 @@ export interface CostEstimate {
   tokensSaved: number;
   /** USD per 1M input tokens. */
   ratePerMTok: number;
+  /** USD saved on a single read of the trimmed context. */
   dollarsSaved: number;
+  /** USD saved across 1M reads of the trimmed context — the headline figure. */
+  dollarsSavedPerMReads: number;
 }

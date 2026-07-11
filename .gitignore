@@ -35,6 +35,11 @@ assets/workbench/
 !.env.example
 !.env.local.example
 
+# Local screenshot verification harness (dev-only)
+.shot.mjs
+.shots/
+
 # Impeccable skill scratch + Playwright screenshot output (keep the check scripts)
 .impeccable/
 scripts/.visual-check/
+scripts/.visual-harness/

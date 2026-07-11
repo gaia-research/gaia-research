@@ -5,18 +5,24 @@
 // functions, and is NEVER uploaded, logged, or persisted. The only network call
 // is the opt-in leaderboard submit, which sends anonymized metrics only.
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { measure } from "@/lib/context-diet/analyze";
 import { projectReduction } from "@/lib/context-diet/project";
 import { estimateCost, MODEL_RATES } from "@/lib/context-diet/cost";
-import { buildSkillMd } from "@/lib/context-diet/skill";
 import { submitContextDiet, isSupabaseConfigured } from "@/lib/submissions/client";
 import { LabLeaderboard } from "./LabLeaderboard";
 import { PrivacyNote } from "./PrivacyNote";
 
+const SKILL_REPO_URL = "https://github.com/gaia-research/skill-context-diet";
+
 const num = (n: number) => n.toLocaleString("en-US");
 const usd = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 });
+
+// Cap what we synchronously measure so an enormous paste can't freeze the tab.
+// A real context file is well under this; anything larger is analyzed on its
+// leading slice and flagged to the user.
+const MAX_ANALYZE_CHARS = 200_000;
 
 type SubmitState = "idle" | "sending" | "sent" | "error" | "offline";
 
@@ -29,6 +35,8 @@ export function ContextDietAnalyzer() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [submitError, setSubmitError] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [truncated, setTruncated] = useState(false);
+  const resultsRef = useRef<HTMLDivElement | null>(null);
 
   const rate = MODEL_RATES.find((r) => r.id === rateId) ?? MODEL_RATES[1];
 
@@ -43,23 +51,13 @@ export function ContextDietAnalyzer() {
   }, [analyzed, rate.inputPerMTok]);
 
   const handleAnalyze = () => {
-    setAnalyzed(text);
+    const capped = text.length > MAX_ANALYZE_CHARS;
+    setTruncated(capped);
+    setAnalyzed(capped ? text.slice(0, MAX_ANALYZE_CHARS) : text);
     setSubmitState("idle");
     setSubmitError("");
-  };
-
-  const handleDownload = () => {
-    if (!result) return;
-    const md = buildSkillMd(result.m, result.band);
-    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "SKILL.md";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+    // Move focus to the results so keyboard/AT users land on the new output.
+    requestAnimationFrame(() => resultsRef.current?.focus());
   };
 
   const handleSubmit = async () => {
@@ -92,7 +90,7 @@ export function ContextDietAnalyzer() {
       <PrivacyNote />
 
       <label className="cd-field">
-        <span className="section-kicker">PASTE YOUR CONTEXT FILE</span>
+        <span className="cd-label">Paste your context file</span>
         <textarea
           className="cd-input"
           value={text}
@@ -107,7 +105,7 @@ export function ContextDietAnalyzer() {
         <span className="cd-charcount">{num(text.length)} chars</span>
         <button
           type="button"
-          className="button button-primary"
+          className="button primary"
           onClick={handleAnalyze}
           disabled={text.trim().length === 0}
         >
@@ -117,33 +115,29 @@ export function ContextDietAnalyzer() {
 
       {result && (
         <>
-          <div className="analyzer-console" role="status">
+          <div className="analyzer-console" role="status" ref={resultsRef} tabIndex={-1}>
             <header>
               <span className="led" /> ANALYZER LIVE ·{" "}
               {result.m.overLimit
                 ? `OVER LIMIT BY ${num(result.m.overBy)} CHARS`
                 : `WITHIN LIMIT · ${num(result.m.headroom)} HEADROOM`}
             </header>
-            <div>
-              <article>
-                <small>INPUT CONTEXT</small>
-                <p>
-                  {num(result.m.totalChars)} chars · {result.m.sectionCount} sections · limit{" "}
-                  {num(result.m.limit)}
-                </p>
-                <b>{num(result.m.approxTokens)} tokens</b>
-              </article>
-              <span className="compression-arrow" aria-hidden="true">
-                ⇢
-              </span>
-              <article>
-                <small>PROJECTED DIET · TARGET {result.band.targetPct}%</small>
-                <p>
-                  via {result.band.targetTitle} · band {result.band.lowPct}%–{result.band.highPct}%
-                </p>
-                <b>~{num(result.band.projectedTokensTarget)} tokens</b>
-              </article>
+            <div className="analyzer-readout">
+              <b>{num(result.m.approxTokens)}</b>
+              <span className="compression-arrow" aria-hidden="true">→</span>
+              <b className="readout-target">~{num(result.band.projectedTokensTarget)}</b>
+              <span className="readout-unit">tokens</span>
+              <p className="readout-detail">
+                {num(result.m.totalChars)} chars · {result.m.sectionCount} sections · limit{" "}
+                {num(result.m.limit)} · projected via {result.band.targetTitle}
+              </p>
             </div>
+            {truncated && (
+              <p className="cd-note cd-err" style={{ padding: "0 18px 14px" }}>
+                Input exceeded {num(MAX_ANALYZE_CHARS)} chars — analyzed the leading{" "}
+                {num(MAX_ANALYZE_CHARS)} only.
+              </p>
+            )}
           </div>
 
           <div className="reduction-band">
@@ -158,13 +152,17 @@ export function ContextDietAnalyzer() {
                 {num(result.m.approxTokens)}).
               </p>
               <p className="cd-note">
-                Projections are modeled from Context Diet — Lab 001&apos;s four strategies, not a
-                live rewrite. Verify faithfulness before adopting.
+                Projected from Context Diet — Lab 001&apos;s four reduction{" "}
+                <em>strategies</em> (measured recipes for trimming a prompt), not a live rewrite.{" "}
+                <a href="#evidence-title" className="cd-inline-link">
+                  How is this projected? ↓
+                </a>{" "}
+                Verify faithfulness before adopting.
               </p>
             </div>
             <div className="reduction-cost">
               <label>
-                <span className="section-kicker">RATE</span>
+                <span className="cd-label">Rate</span>
                 <select value={rateId} onChange={(e) => setRateId(e.target.value)}>
                   {MODEL_RATES.map((r) => (
                     <option key={r.id} value={r.id}>
@@ -174,100 +172,126 @@ export function ContextDietAnalyzer() {
                 </select>
               </label>
               <p className="cd-savings">
-                <b>{usd(result.cost.dollarsSaved)}</b>
-                <span> saved / 1M input reads</span>
+                <b>{usd(result.cost.dollarsSavedPerMReads)}</b>
+                <span> saved / 1M reads</span>
               </p>
-              <p className="cd-note">{num(result.tokensSavedTarget)} tokens saved per read.</p>
+              <p className="cd-note">
+                {num(result.tokensSavedTarget)} input tokens saved on every read.
+              </p>
             </div>
           </div>
 
           <div className="cd-targets">
-            <span className="section-kicker">LARGEST SECTIONS · COMPACTION TARGETS</span>
-            <div className="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th scope="col">Section</th>
-                    <th scope="col">Chars</th>
-                    <th scope="col">~Tokens</th>
-                    <th scope="col">Line</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {result.m.ranked
-                    .filter((s) => s.title !== "(preamble)")
-                    .slice(0, 15)
-                    .map((s) => (
-                      <tr key={`${s.lineStart}-${s.title}`}>
-                        <th scope="row">{s.title}</th>
-                        <td>{num(s.chars)}</td>
-                        <td>{num(s.approxTokens)}</td>
-                        <td>{s.lineStart}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
+            <details className="cd-disclosure">
+              <summary>
+                Largest sections · compaction targets
+                <span className="cd-disclosure-meta">
+                  {result.m.ranked.filter((s) => s.title !== "(preamble)").length} sections
+                </span>
+              </summary>
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Section</th>
+                      <th scope="col">Chars</th>
+                      <th scope="col">~Tokens</th>
+                      <th scope="col">Line</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.m.ranked
+                      .filter((s) => s.title !== "(preamble)")
+                      .slice(0, 15)
+                      .map((s) => (
+                        <tr key={`${s.lineStart}-${s.title}`}>
+                          <th scope="row">{s.title}</th>
+                          <td>{num(s.chars)}</td>
+                          <td>{num(s.approxTokens)}</td>
+                          <td>{s.lineStart}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </details>
           </div>
 
           <div className="cd-export">
-            <div>
-              <span className="section-kicker">SKILL.md EXPORT</span>
-              <p>
-                Download a GAIA-compatible <code>SKILL.md</code> skeleton — measured numbers and
-                section titles only, never your pasted text. The diet remains a proposal until its
-                evidence is reviewed.
-              </p>
-              <button type="button" className="button button-secondary" onClick={handleDownload}>
-                Download SKILL.md ↓
-              </button>
-            </div>
-            <div className="cd-submit">
-              <label className="cd-optin">
-                <input
-                  type="checkbox"
-                  checked={optIn}
-                  onChange={(e) => setOptIn(e.target.checked)}
-                />
-                <span>
-                  Submit anonymized metrics to the leaderboard (token counts + reduction % only).
-                </span>
-              </label>
-              {optIn && (
-                <div className="cd-submit-row">
-                  <input
-                    type="text"
-                    className="cd-handle"
-                    value={handle}
-                    onChange={(e) => setHandle(e.target.value)}
-                    placeholder="handle (optional)"
-                    maxLength={32}
-                    aria-label="Optional leaderboard handle"
-                  />
-                  <button
-                    type="button"
-                    className="button button-secondary"
-                    onClick={handleSubmit}
-                    disabled={!isSupabaseConfigured || submitState === "sending"}
+            <details className="cd-disclosure">
+              <summary>Adopt the skill &amp; leaderboard</summary>
+              <div className="cd-export-body">
+                <div>
+                  <span className="cd-label">Adopt the skill</span>
+                  <p>
+                    Context Diet ships as an installable GAIA skill. Grab{" "}
+                    <code>skill-context-diet</code> from GitHub — the packaged{" "}
+                    <code>SKILL.md</code>, the four measured strategies, and the recipe for
+                    running your own diet. Bring the projection above as your target.
+                  </p>
+                  <a
+                    className="button secondary"
+                    href={SKILL_REPO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    {submitState === "sending" ? "Submitting…" : "Submit"}
-                  </button>
+                    Get the skill <span>↗</span>
+                  </a>
                 </div>
-              )}
-              {!isSupabaseConfigured && optIn && (
-                <p className="cd-note">Leaderboard offline — submissions are disabled.</p>
-              )}
-              {submitState === "sent" && <p className="cd-note cd-ok">Submitted. Thanks!</p>}
-              {submitState === "offline" && (
-                <p className="cd-note">Leaderboard offline — not submitted.</p>
-              )}
-              {submitState === "error" && <p className="cd-note cd-err">{submitError}</p>}
-            </div>
+                <div className="cd-submit">
+                  <label className="cd-optin">
+                    <input
+                      type="checkbox"
+                      checked={optIn}
+                      onChange={(e) => setOptIn(e.target.checked)}
+                    />
+                    <span>
+                      Submit anonymized metrics to the leaderboard (token counts + reduction % only).
+                    </span>
+                  </label>
+                  {optIn && (
+                    <div className="cd-submit-row">
+                      <input
+                        type="text"
+                        className="cd-handle"
+                        value={handle}
+                        onChange={(e) => setHandle(e.target.value)}
+                        placeholder="handle (optional)"
+                        maxLength={32}
+                        aria-label="Optional leaderboard handle"
+                      />
+                      <button
+                        type="button"
+                        className="button secondary"
+                        onClick={handleSubmit}
+                        disabled={!isSupabaseConfigured || submitState === "sending"}
+                      >
+                        {submitState === "sending" ? "Submitting…" : "Submit"}
+                      </button>
+                    </div>
+                  )}
+                  {!isSupabaseConfigured && optIn && (
+                    <p className="cd-note">Leaderboard offline — submissions are disabled.</p>
+                  )}
+                  {submitState === "sent" && <p className="cd-note cd-ok">Submitted. Thanks!</p>}
+                  {submitState === "offline" && (
+                    <p className="cd-note">Leaderboard offline — not submitted.</p>
+                  )}
+                  {submitState === "error" && <p className="cd-note cd-err">{submitError}</p>}
+                </div>
+              </div>
+            </details>
           </div>
         </>
       )}
 
-      <LabLeaderboard kind="context-diet" beatThreshold={41.6} refreshKey={refreshKey} />
+      <details className="cd-disclosure cd-leaderboard-disclosure">
+        <summary>
+          Leaderboard
+          <span className="cd-disclosure-meta">beat Lab 001 · 41.6%</span>
+        </summary>
+        <LabLeaderboard kind="context-diet" beatThreshold={41.6} refreshKey={refreshKey} />
+      </details>
     </div>
   );
 }
