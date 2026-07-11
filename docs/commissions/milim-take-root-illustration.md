@@ -27,9 +27,10 @@ Refer to `../marketing-tasks/MILIM.md` for strict character adherence.
 
 A single, highly polished conceptual illustration.
 
-*   **Composition:** High diagonal oblique angle (camera positioned high up and to the side, looking down). Milim is **insanely small**, emphasizing an extreme size difference and massive depth.
-*   **Subject:** Milim Nova (fully specified above) as a tiny, microscopic silhouette on a small hill at the base of the tree. Her head is bowed, **looking downwards** (not upwards). Her signature pink hair, hairpins, and hoodie should be faintly recognizable.
-*   **Environment:** A colossal Yggdrasil skill tree dominating the frame. The tree glows with an intense mix of **golden light and bright white**, resembling a luminous constellational network or celestial structure with falling glowing "sakura" leaves. There is only a small hill at its base.
+*   **Composition:** High diagonal oblique angle (camera positioned high up on the **right**, looking down diagonally towards the left). Milim is **insanely small**, emphasizing an extreme size difference and massive 3D depth. The tree itself must be viewed in oblique perspective to show its depth.
+*   **Foreground:** Include a slight blurred tree shade/branch in the immediate foreground to enhance the massive sense of scale and depth.
+*   **Subject:** Milim Nova (fully specified above) as a tiny silhouette on a small hill at the base of the tree. She is sitting down and **resting peacefully**. She MUST NOT have twintails (her hair should flow naturally as a single mass). Her signature pink hair, hairpins, oversized black hoodie, and chunky sneakers should be faintly recognizable.
+*   **Environment:** A colossal Yggdrasil skill tree dominating the frame. The tree glows with an intense mix of **golden light and bright white**, resembling a luminous constellational network or celestial structure with falling glowing "sakura" leaves. 
 *   **Art Style:** Dramatic, cinematic, epic concept art. Less anime-like, focusing on extreme scale, depth, lighting, and awe. 
 *   **Lighting/Palette:** Moody, cinematic lighting. High contrast against the glowing white and gold constellational tree.
 *   **Background:** Transparent backdrop (or a clean solid black `#000000` background that can be easily keyed out via the `prep-cutout.ts` script) to seamlessly blend into the `RegistryHandoff` section's `#05060a` canvas. 
@@ -47,11 +48,12 @@ For production, **always use image gen 2 / `gpt-image-2`**.
 
 ## Acceptance Checklist
 
-- [ ] Features Milim Nova as a tiny silhouette but retaining her `MILIM.md` traits.
-- [ ] High diagonal angle (upwards-sidewards) emphasizing an insanely big size difference and massive depth.
-- [ ] Milim is looking downwards (not upwards) in a peaceful, quiet pose.
+- [ ] Features Milim Nova as a tiny silhouette but retaining her `MILIM.md` traits. **NO twintails.**
+- [ ] High diagonal angle (camera top-right, looking down-left) emphasizing massive depth.
+- [ ] Tree is viewed from an oblique perspective, not flat.
+- [ ] Blurred foreground tree shade/branches frame the shot to enhance scale.
+- [ ] Milim is sitting down and resting peacefully at the base.
 - [ ] Tree glows with golden light mixed with white, constellational/celestial, and less organic.
-- [ ] Base features only a small hill.
 - [ ] Art style is dramatic, epic, and less anime-like.
 - [ ] Falling glowing white/gold sakura leaves present.
 - [ ] Transparent backdrop (or solid black for clean cutout).
