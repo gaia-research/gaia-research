@@ -27,12 +27,12 @@ Refer to `../marketing-tasks/MILIM.md` for strict character adherence.
 
 A single, highly polished conceptual illustration.
 
-*   **Composition:** Bird's eye view (looking down). Milim is **very, very small**, emphasizing the massive, gigantic scale of the Yggdrasil-like golden tree she is sitting against. The tree dominates the frame with a lot of sprawling branches.
-*   **Subject:** Milim Nova (fully specified above) as a small silhouette, but retaining her signature pink hair, hairpins, and hoodie. She is sleeping at the base/roots of the tree.
-*   **Environment:** A colossal Yggdrasil skill tree made of pure gold, with countless branches and falling golden "sakura" leaves drifting down.
-*   **Art Style:** Dramatic, cinematic, epic concept art. **Less anime-like**, focusing on scale, lighting, and awe. 
-*   **Lighting/Palette:** Moody, cinematic lighting. High contrast against the rich gold of the tree.
-*   **Background:** **Transparent backdrop** (or a clean solid black `#000000` background that can be easily keyed out via the `prep-cutout.ts` script) to seamlessly blend into the `RegistryHandoff` section's `#05060a` canvas. 
+*   **Composition:** High diagonal oblique angle (camera positioned high up and to the side, looking down). Milim is **insanely small**, emphasizing an extreme size difference and massive depth.
+*   **Subject:** Milim Nova (fully specified above) as a tiny, microscopic silhouette on a small hill at the base of the tree. Her head is bowed, **looking downwards** (not upwards). Her signature pink hair, hairpins, and hoodie should be faintly recognizable.
+*   **Environment:** A colossal Yggdrasil skill tree dominating the frame. The tree glows with an intense mix of **golden light and bright white**, resembling a luminous constellational network or celestial structure with falling glowing "sakura" leaves. There is only a small hill at its base.
+*   **Art Style:** Dramatic, cinematic, epic concept art. Less anime-like, focusing on extreme scale, depth, lighting, and awe. 
+*   **Lighting/Palette:** Moody, cinematic lighting. High contrast against the glowing white and gold constellational tree.
+*   **Background:** Transparent backdrop (or a clean solid black `#000000` background that can be easily keyed out via the `prep-cutout.ts` script) to seamlessly blend into the `RegistryHandoff` section's `#05060a` canvas. 
 *   **Format:** 16:9 or roughly square framing that works well in a right-aligned flex column. Minimum 2048px on the longest edge.
 
 ## Production Method
@@ -48,9 +48,12 @@ For production, **always use image gen 2 / `gpt-image-2`**.
 ## Acceptance Checklist
 
 - [ ] Features Milim Nova as a tiny silhouette but retaining her `MILIM.md` traits.
-- [ ] Bird's eye view emphasizing the massive, gigantic scale of the Yggdrasil golden tree with many branches.
-- [ ] Art style is dramatic and less anime-like.
-- [ ] Falling golden leaves present.
+- [ ] High diagonal angle (upwards-sidewards) emphasizing an insanely big size difference and massive depth.
+- [ ] Milim is looking downwards (not upwards) in a peaceful, quiet pose.
+- [ ] Tree glows with golden light mixed with white, constellational/celestial, and less organic.
+- [ ] Base features only a small hill.
+- [ ] Art style is dramatic, epic, and less anime-like.
+- [ ] Falling glowing white/gold sakura leaves present.
 - [ ] Transparent backdrop (or solid black for clean cutout).
 - [ ] Moody, cinematic lighting over a dark background.
 - [ ] Generated via `gpt-image-2` following `gaia-image-production` rules.
