@@ -25,8 +25,13 @@ Refer to `../marketing-tasks/MILIM.md` for strict character adherence.
 
 ## Mockup Reference
 
-![Final Concept Mockup](../../assets/workbench/generated/milim-final-tree-mockup-v5.jpg)
+![Final Concept Mockup](./assets/milim-final-tree-mockup-v5.jpg)
 *(Note: A highly directional mockup emphasizing the extreme scale, right-side weighting, and celestial ley line styling. Milim is nestled tiny at the bottom roots.)*
+
+### Mockup Prompt
+*The following prompt was used to generate the reference mockup and should be used as the starting point for production generation:*
+
+> "A dizzying, extreme high-altitude bird's eye view looking steeply down through the branches of a single massive tree. The camera is high up in the top canopy, looking diagonally down to the roots. The composition is heavily weighted to the RIGHT side, leaving vast empty negative dark space on the LEFT side. The immediate foreground on the RIGHT side ONLY is filled with heavily blurred dark branches and glowing leaves of this same tree, creating a deep sense of vertical drop. Far below, at the very bottom roots of this colossal, mountain-sized Yggdrasil tree, sits an incredibly tiny, microscopic girl resting peacefully. She has one single mass of long straight pink hair (no pigtails) and wears a black oversized hoodie. The gigantic tree glows with intense bright white and golden light, featuring subtle luminous constellational ley lines tracing through its trunk and branches. It drops glowing sakura leaves. NO planet earth, NO landscape. Pure solid black background. Epic massive scale, cinematic lighting."
 
 ## Required Deliverable
 
@@ -48,8 +53,9 @@ For production, **always use image gen 2 / `gpt-image-2`**.
 
 1.  **Generate Candidates:** Run multiple prompts targeting the bird's eye view and scale contrast. Outputs go to `assets/workbench/generated/`. (A mockup `milim-golden-tree-mockup.jpg` currently exists as an early prototype).
 2.  **Select & Refine:** Choose the strongest composition and run targeted variations if the character details (hairpins, outfit) need correction.
-3.  **Process:** Use the asset scripts to generate responsive exports (AVIF/WebP) and update the ledger.
+3.  **Process:** Use the asset scripts to generate responsive exports. **The final integrated image must be converted to `webp` format.**
 4.  **Integrate:** Update `RegistryHandoff.tsx` to use the new exported images, ensuring `alt` text describes the scene for accessibility.
+5.  **Garbage Collection:** Once the commission is finalized and the production asset is integrated, delete the mock image commit and the reference image file (`docs/commissions/assets/milim-final-tree-mockup-v5.jpg`) from the repo as an approved garbage collection method.
 
 ## Acceptance Checklist
 
