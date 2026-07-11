@@ -1,6 +1,17 @@
 # Commission Brief — Milim Live2D Cubism Rig
 
-**Status:** Future production commission; non-blocking for the North Star Live draft.
+> **⚠️ Superseded (2026-07-11).** The "commission an external Cubism artist to
+> deliver a `.moc3`" path below is **no longer the primary approach**. We now rig
+> Milim in-house via [Stretchy Studio](https://github.com/MangoLion/stretchystudio)
+> (FOSS Live2D alternative) and ship a framework-agnostic WebGL2 runtime
+> (`milim-live2d-model`) that renders the native scene directly — no proprietary
+> Cubism Core, no paid rigging. See `docs/plans/milim-live2d-model-plan.md` and
+> tracking issue gaia-research#32. **The character-lock, expression, motion, and
+> acceptance specs in this brief still stand as the target** for the in-house rig
+> (issues #33 layered art, #34 rig authoring).
+
+**Status:** Superseded by the Stretchy-based pipeline (see banner). Original brief
+retained below as the character/expression/motion spec of record.
 
 ## Purpose
 
