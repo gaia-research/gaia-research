@@ -43,3 +43,4 @@ assets/workbench/
 .impeccable/
 scripts/.visual-check/
 scripts/.visual-harness/
+scripts/.visual-audit/
