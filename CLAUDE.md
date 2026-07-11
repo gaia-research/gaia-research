@@ -45,6 +45,18 @@ npx tsx scripts/validate-submissions.ts content/templates/benchmark-submission.j
 
 `generate-templates.ts` looks for `../gaia-skill-tree` as a sibling working copy first (via `git show dev/sprint-d-benchmark-leaderboard:...`), then falls back to the raw GitHub URL, then to a hardcoded fallback schema. If you are offline and the sibling repo is missing, the fallback still produces valid output — but the schema may be out of date relative to upstream.
 
+### Visual / mobile audit (before & after UI work)
+
+Run the `visual-audit` skill (`.agents/skills/visual-audit/SKILL.md`) whenever you touch layout, CSS, or responsive code. It screenshots every key page across phone→desktop widths and **detects horizontal cut-off** (content pushed off-screen), naming the offending element — the failure mode plain screenshots hide.
+
+```bash
+npx playwright install chromium          # once per machine
+npx next dev -p 3010 &                    # dev server in background
+BASE_URL=http://localhost:3010 LABEL=after node scripts/visual-audit.mjs
+```
+
+Playwright is deliberately not a dependency (keeps the Cloudflare bundle lean); the script auto-resolves it from the npx cache. Output goes to the gitignored `scripts/.visual-audit/`. Exits non-zero on any cut-off or console error, so it doubles as a gate.
+
 ## Ecosystem Context (why this matters for edits)
 
 There is a strict repository boundary enforced by convention (see `README.md`, `ARCHITECTURE.md`, `CONSOLIDATION_PRD.md`):
