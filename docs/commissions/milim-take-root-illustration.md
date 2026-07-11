@@ -23,6 +23,11 @@ Refer to `../marketing-tasks/MILIM.md` for strict character adherence.
 *   **Outfit:** Oversized pitch-black hoodie with "DRAGONOID No. 1" and the white baby dragon print. Black thigh-high socks with two neon pink stripes, chunky black/white/pink sneakers.
 *   **Rule:** No third-party anime/IP likeness.
 
+## Mockup Reference
+
+![Final Concept Mockup](../../assets/workbench/generated/milim-final-tree-mockup-v5.jpg)
+*(Note: A highly directional mockup emphasizing the extreme scale, right-side weighting, and celestial ley line styling. Milim is nestled tiny at the bottom roots.)*
+
 ## Required Deliverable
 
 A single, highly polished conceptual illustration.
