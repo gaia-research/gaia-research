@@ -32,9 +32,9 @@ export type FusionTier = 'canonical' | 'easteregg' | 'emergent';
 export interface SkillCard {
   /** Stable slug — matches the Gaia Skill Tree slug if canonical, else a generated id. */
   id: string;
-  /** Human-readable name, e.g. "API Call". */
+  /** Slash-command style display name shown in-game, e.g. `/api-call`. */
   name: string;
-  /** Slash-command style label shown in-game, e.g. `/api-call`. */
+  /** Representative emoji shown on the card, e.g. "⚡". */
   emoji: string;
   /** One-liner description shown on hover / in the result toast. */
   blurb?: string;
