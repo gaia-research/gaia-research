@@ -6,10 +6,14 @@
 //   data/craft/skills.json  — array of { id, name, contributor?, slug?, type }
 //   data/craft/recipes.json — array of Recipe objects (2-prereq canonical fusions)
 //                             plus multi-prereq entries with `prereqs` array
-//   data/craft/named-index.json — COMPACT slug -> contributor map (+ unlinked slugs)
-//                             built from registry/named-skills.json. Anti-bloat:
-//                             we store ONLY slug->contributor and derive skill-tree
-//                             URLs on the fly, never full paths per fusion.
+//   data/craft/named-index.json — LEAN-BUT-RICH slug -> { c, t, g?, d, lvl? } map
+//                             (+ unlinked slugs + a derived slugToContributor for
+//                             backward-compat) built from registry/named-skills.json.
+//                             GROUND TRUTH: we store the real registry title (t) and
+//                             description (d) so canonical unlocks read as unmistakably
+//                             real skills. Anti-bloat: we still store ONLY slug+contributor
+//                             for linking and derive skill-tree URLs on the fly, never
+//                             full paths per fusion.
 //
 // Run: npx tsx scripts/craft/sync-skill-tree.ts
 
@@ -51,17 +55,44 @@ interface MultiPrereqRecipe {
 }
 
 /**
- * Compact named-skill index emitted to data/craft/named-index.json.
+ * A single lean-but-rich named-skill record keyed by slug. Field names are
+ * short on purpose (this map is shipped in the client bundle) but every value
+ * is GROUND TRUTH copied verbatim from registry/named-skills.json.
+ */
+interface NamedSkillRecord {
+  /** contributor handle, e.g. "garrytan". */
+  c: string;
+  /** real registry title, e.g. "Gstack Scrape — Structured Web Extraction". */
+  t: string;
+  /** genericSkillRef, e.g. "web-scrape" (optional — omitted when absent). */
+  g?: string;
+  /** real registry description (what the skill DOES). */
+  d: string;
+  /** level badge, e.g. "2★" (optional — omitted when absent). */
+  lvl?: string;
+}
+
+/**
+ * Lean-but-rich named-skill index emitted to data/craft/named-index.json.
  *
- * Anti-bloat contract: we persist ONLY the slug -> contributor mapping (a few KB,
- * built once, shared by every fusion lookup) and derive the skill-tree deep-link
- * on the fly via `skillTreeUrl(contributor, slug)` in lib/craft/recipes.ts. We
- * NEVER store a full URL or path per fusion result.
+ * Contract: `skills[slug]` holds the GROUND-TRUTH registry title + description +
+ * contributor for every REAL Gaia Skill Tree skill, so canonical fusions can
+ * present the real skill rather than invented text. We still derive the
+ * skill-tree deep-link on the fly via `skillTreeUrl(contributor, slug)` — we
+ * NEVER store a full URL or path per fusion result (anti-bloat).
+ *
+ * `slugToContributor` is a DERIVED convenience projection kept for backward
+ * compatibility with existing consumers that only need the contributor handle.
  */
 interface NamedIndex {
   /** ISO date the index was generated. */
   generatedAt: string;
-  /** slug -> contributor handle (string -> string only). */
+  /** slug -> rich record (contributor + real title/description/genericSkillRef/level). */
+  skills: Record<string, NamedSkillRecord>;
+  /**
+   * DERIVED slug -> contributor handle projection. Kept so existing consumers
+   * (route promotion path, tests) keep working without reaching into `skills`.
+   */
   slugToContributor: Record<string, string>;
   /**
    * Known skill slugs that have NO usable contributor (e.g. redacted ████████).
@@ -325,22 +356,33 @@ function makeBlurb(resultSlug: string, prereqSlugs: string[]): string {
 }
 
 // ---------------------------------------------------------------------------
-// Step 5b: Build the compact named-skill index (slug -> contributor)
+// Step 5b: Build the lean-but-rich named-skill index (slug -> ground-truth record)
 //
 // READ-ONLY on gaia-skill-tree. Reads registry/named-skills.json, whose shape is:
-//   { buckets: { <genericSkill>: [ { id: "<contributor>/<slug>", contributor, ... } ] } }
+//   { buckets: { <genericSkill>: [ { id, contributor, title, description,
+//                                    genericSkillRef, level, ... } ] } }
 // The `id` field is the authoritative "<contributor>/<slug>" pair used to derive
-// the explorer deep-link. We skip entries whose contributor is redacted (████████).
+// the explorer deep-link; title/description/genericSkillRef/level are GROUND TRUTH
+// copied verbatim so canonical unlocks read as real skills. We skip entries whose
+// contributor is redacted (████████).
 // ---------------------------------------------------------------------------
 
 function isRedacted(s: string | undefined): boolean {
   return !!s && /█/.test(s);
 }
 
+/** Trims + clamps a free-text registry field to a bundle-friendly length. */
+function cleanText(raw: unknown, max: number): string {
+  if (typeof raw !== 'string') return '';
+  const t = raw.replace(/\s+/g, ' ').trim();
+  return t.length > max ? t.slice(0, max).trimEnd() : t;
+}
+
 function buildNamedIndex(): NamedIndex {
   const namedPath = path.join(REGISTRY_ROOT, 'named-skills.json');
   const index: NamedIndex = {
     generatedAt: new Date().toISOString().slice(0, 10),
+    skills: {},
     slugToContributor: {},
     unlinkedSlugs: [],
   };
@@ -350,7 +392,15 @@ function buildNamedIndex(): NamedIndex {
     return index;
   }
 
-  let parsed: { buckets?: Record<string, Array<{ id?: string; contributor?: string }>> };
+  interface RegistryEntry {
+    id?: string;
+    contributor?: string;
+    title?: string;
+    description?: string;
+    genericSkillRef?: string;
+    level?: string;
+  }
+  let parsed: { buckets?: Record<string, RegistryEntry[]> };
   try {
     parsed = JSON.parse(fs.readFileSync(namedPath, 'utf8'));
   } catch (e) {
@@ -381,14 +431,28 @@ function buildNamedIndex(): NamedIndex {
 
       // First-write-wins on slug collisions (deterministic across runs given
       // stable bucket/entry ordering in the source file).
-      if (!index.slugToContributor[slug]) {
+      if (!index.skills[slug]) {
+        const title = cleanText(entry.title, 120);
+        const description = cleanText(entry.description, 260);
+        const genericSkillRef = cleanText(entry.genericSkillRef, 60);
+        const level = cleanText(entry.level, 8);
+        const record: NamedSkillRecord = {
+          c: contributor,
+          // Ground truth: real registry title, falling back to the slug only if the
+          // registry somehow omits it (shouldn't happen for status 'named').
+          t: title || slug,
+          d: description,
+        };
+        if (genericSkillRef) record.g = genericSkillRef;
+        if (level) record.lvl = level;
+        index.skills[slug] = record;
         index.slugToContributor[slug] = contributor;
       }
     }
   }
 
   // Only surface slugs that never got a linked contributor.
-  index.unlinkedSlugs = [...unlinked].filter((s) => !index.slugToContributor[s]).sort();
+  index.unlinkedSlugs = [...unlinked].filter((s) => !index.skills[s]).sort();
 
   return index;
 }
@@ -491,10 +555,10 @@ function main() {
   const namedIndex = buildNamedIndex();
   const namedIndexPath = path.join(OUT_DIR, 'named-index.json');
   fs.writeFileSync(namedIndexPath, JSON.stringify(namedIndex, null, 2), 'utf8');
-  const namedCount = Object.keys(namedIndex.slugToContributor).length;
+  const namedCount = Object.keys(namedIndex.skills).length;
   const namedBytes = fs.statSync(namedIndexPath).size;
   console.log(
-    `✅ Wrote data/craft/named-index.json (${namedCount} slug→contributor entries, ` +
+    `✅ Wrote data/craft/named-index.json (${namedCount} enriched skill entries, ` +
       `${namedIndex.unlinkedSlugs.length} unlinked, ${(namedBytes / 1024).toFixed(2)} KB)`,
   );
 
