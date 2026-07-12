@@ -323,9 +323,18 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
+  // Normalise slugs to a canonical form BEFORE any keying/lookup. `pairKey`
+  // only lowercases+trims — it does NOT strip the slash-command prefix — so
+  // "/api-call" and "api-call" would otherwise key (and cache) differently.
+  // Stripping here makes fuse("/A","B") and fuse("B","a") fully order- and
+  // prefix-independent across cache hits, recipes, and eggs.
+  const slug = (s: string) => s.trim().replace(/^\/+/, '').toLowerCase();
+  const na = slug(a);
+  const nb = slug(b);
+
   const bindings = await resolveBindings();
   const kv = kvOrShim(bindings);
-  const key = pairKey(a, b);
+  const key = pairKey(na, nb);
 
   // ── b. Cache lookup ──────────────────────────────────────────────────────
   try {
@@ -344,7 +353,7 @@ export async function POST(request: Request): Promise<Response> {
   // ── c. Resolve tier: canonical → easteregg → emergent ────────────────────
   let result: FusionResult;
 
-  const recipe = findRecipe(a, b);
+  const recipe = findRecipe(na, nb);
   if (recipe) {
     result = {
       name: recipe.result.startsWith('/') ? recipe.result : `/${recipe.result}`,
@@ -357,7 +366,7 @@ export async function POST(request: Request): Promise<Response> {
       experimental: false,
     };
   } else {
-    const egg = await lookupEasterEgg(a, b);
+    const egg = await lookupEasterEgg(na, nb);
     if (egg) {
       result = {
         name: egg.name.startsWith('/') ? egg.name : `/${egg.name}`,
@@ -375,16 +384,16 @@ export async function POST(request: Request): Promise<Response> {
       let raw: RawFusionJson;
       if (bindings.AI) {
         try {
-          const messages = buildFusionPrompt(a, b);
+          const messages = buildFusionPrompt(na, nb);
           const response = await bindings.AI.run(FUSION_MODEL, {
             messages,
             temperature: FUSION_TEMPERATURE,
           });
-          raw = parseModelResponse(response, a, b);
+          raw = parseModelResponse(response, na, nb);
         } catch {
           // Any AI failure → safe experimental fallback (never a 500).
           raw = {
-            name: normaliseName(`experimental-${a}-${b}`),
+            name: normaliseName(`experimental-${na}-${nb}`),
             emoji: '🧪',
             blurb: 'The forge sputtered, boss — marking this one experimental.',
             passesSkillCheck: false,
@@ -392,7 +401,7 @@ export async function POST(request: Request): Promise<Response> {
         }
       } else {
         // No AI binding (localhost / no CF auth) → deterministic playable mock.
-        raw = localMockFusion(a, b);
+        raw = localMockFusion(na, nb);
       }
 
       result = {
