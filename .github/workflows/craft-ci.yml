@@ -1,0 +1,44 @@
+name: craft-ci
+
+on:
+  pull_request:
+    paths:
+      - 'lib/craft/**'
+      - 'data/craft/**'
+      - 'vitest.config.*'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+  push:
+    branches:
+      - feat/infinite-skill-craft-lab
+    paths:
+      - 'lib/craft/**'
+      - 'data/craft/**'
+      - 'vitest.config.*'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+
+jobs:
+  test:
+    name: Type-check + Vitest (craft lib)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check (tsc --noEmit)
+        run: npx tsc --noEmit
+
+      - name: Run craft unit tests
+        run: npm run test
