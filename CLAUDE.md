@@ -88,6 +88,21 @@ gaia-research  ──►  marketing-tasks  ──►  gaia-skill-tree
 
 If you change the schema JSON files, mirror the change in the validator (or vice versa) — they can silently drift.
 
+## Node / npm version contract (CI & local must match)
+
+The CI workflow (`.github/workflows/craft-ci.yml`) pins **Node 22** (`node-version: '22'`). Keep it there.
+
+**Why this matters — burned once (2026-07-13):**
+- `wrangler@4.x` requires `node >=22`. Running CI on Node 20 triggers `EBADENGINE` warnings and breaks `npm ci`.
+- The local dev environment runs **Node 24 / npm 11**. npm 11 silently accepts unresolved peer deps; npm 10 (shipped with Node 20 & 22) does not — it aborts `npm ci` with `Missing: <pkg>@<ver> from lock file`.
+- Specifically: `vitest@4` bundles `vite@8` which declares `esbuild: "^0.27.0 || ^0.28.0"` as a peer dep. If the top-level esbuild in the lockfile is below that range (e.g. `0.25.4`), npm 10 flags it as a lockfile sync error.
+
+**Rules going forward:**
+1. **Always keep `esbuild` as an explicit `devDependency`** pinned to `^0.28.0` (or whatever satisfies `vite`'s current peer dep range). This ensures the lockfile carries a top-level entry that both npm 10 and npm 11 can resolve.
+2. **If you upgrade `vitest` or `vite`**, re-check the `esbuild` peer dep range in `node_modules/vitest/node_modules/vite/package.json` and update the pinned `esbuild` devDep accordingly.
+3. **If `npm ci` fails locally** with `Missing: X from lock file`, the lockfile was likely generated with a different npm major. Run `npm install` (don't use `npm ci`) to regenerate it, then commit the updated `package-lock.json`.
+4. **Do not downgrade CI below Node 22** — wrangler will break.
+
 ## Slash skill commands
 
 - **When a user explicitly invokes a slash skill command** (for example, `/impeccable`), **never substitute an alternative skill, workflow, tool, or manual method.** Load and execute the exact named skill command.
