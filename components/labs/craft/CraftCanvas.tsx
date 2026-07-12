@@ -5,21 +5,41 @@
  *
  * The Infinite Skill Craft game engine — the hero surface of Lab 002.
  *
+ * The interaction model is Neal Agarwal's Infinite Craft: a FREE-FLOATING
+ * CANVAS. The sidebar is the *inventory* of discovered skills; the canvas is a
+ * positioned 2D workspace where you place, drag, and collide skill *instances*.
+ *
  * Responsibilities:
- *  - Seed 4 primitive skills; maintain a searchable, scrollable discovered-skills sidebar.
- *  - Drag a card onto another to fuse (HTML5 DnD); also click-to-select two + Fuse
- *    for keyboard / touch accessibility.
- *  - POST { a, b } (slash-names) to the fusion API, animate the result, dedupe into
- *    the sidebar, and celebrate canonical unlocks.
+ *  - Seed 4 primitive skills; maintain a searchable, scrollable inventory sidebar.
+ *  - SPAWN: click (or drag) a sidebar skill to drop a new *instance* onto the
+ *    canvas. Instances carry {instanceId, cardId, x, y} — multiple copies of the
+ *    same skill can coexist.
+ *  - MOVE: pointer-drag an instance freely (mouse + touch; touch-action:none).
+ *    Arrow keys nudge a focused instance for keyboard users.
+ *  - FUSE: drop an instance so it overlaps another → POST {a,b} to the fusion
+ *    API, then REPLACE both source instances with the single result instance at
+ *    the drop point. Also: click/Enter selects up to two instances + a visible
+ *    "Fuse selected ✦" button for the pointerless path.
+ *  - TAP an instance → a detail popover anchored to it (emoji, /name, blurb,
+ *    badges, and the rewarding "Open in the Skill Tree ↗" link when canonical).
+ *    This popover is how the Skill-Tree funnel survives on the canvas.
  *  - Apply funny, non-punishing client-side curse gremlins and offer a 🧹 cleanse.
- *  - Persist discovered cards + active curses to localStorage (no accounts).
+ *  - Persist discovered cards + active curses + the canvas layout to localStorage.
  *
  * All curse/type logic is imported from lib/craft — this file is the DOM/React layer.
  *
  * Conceptual ancestor: Neal Agarwal's Infinite Craft. Original implementation.
  */
 
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import type { FusionResult, SkillCard } from "@/lib/craft/types";
 import {
   CLEANSE_LABEL,
@@ -37,8 +57,18 @@ import {
 const API_URL = "/labs/infinite-skill-craft/api/fuse";
 const STORAGE_CARDS = "gaia.craft.cards.v1";
 const STORAGE_CURSES = "gaia.craft.curses.v1";
+const STORAGE_CANVAS = "gaia.craft.canvas.v1";
 const EXPERIMENTAL_TOOLTIP =
   "Milim is not 100% sure this is a real skill — you be the judge, boss.";
+
+/** Fusion is a hit when two instance centres fall within this many px. */
+const COLLISION_RADIUS = 78;
+/** A pointer that moves less than this (px) between down and up is a "tap". */
+const TAP_SLOP = 6;
+/** Cascade offset for repeated spawns so clicks don't stack exactly. */
+const SPAWN_CASCADE = 26;
+/** Arrow-key nudge distance (px); Shift multiplies. */
+const NUDGE = 12;
 
 // ---------------------------------------------------------------------------
 // A rendered card carries the FusionResult flags alongside SkillCard basics.
@@ -57,6 +87,24 @@ interface CraftCard extends SkillCard {
   cursed?: boolean;
   /** Inert sidecar-noise card (kubernetes curse) — cannot be fused, can be deleted. */
   inert?: boolean;
+}
+
+/**
+ * A positioned INSTANCE of a card on the free-floating canvas. Multiple
+ * instances can point at the same inventory card. Position is normalised
+ * (fraction of the canvas box) so layouts survive resize / persist cleanly.
+ */
+interface CanvasNode {
+  instanceId: string;
+  /** Inventory card id this node renders. */
+  cardId: string;
+  /** Normalised centre position 0..1 within the canvas box. */
+  nx: number;
+  ny: number;
+  /** Transient: this pair is mid-fusion (shimmer). */
+  fusing?: boolean;
+  /** Transient: celebratory burst just landed on this fresh result. */
+  landed?: "canonical" | "first" | "egg" | "plain";
 }
 
 /** The four seed primitives. These are always present and never deletable. */
@@ -78,6 +126,10 @@ const uid = () => `c_${Date.now().toString(36)}_${Math.random().toString(36).sli
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
   return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+}
+
+function clamp01(v: number): number {
+  return v < 0 ? 0 : v > 1 ? 1 : v;
 }
 
 /** Load JSON from localStorage, tolerating any corruption. */
@@ -145,20 +197,25 @@ function cardReducer(state: CraftCard[], action: CardAction): CraftCard[] {
 
 export function CraftCanvas() {
   const [cards, dispatch] = useReducer(cardReducer, SEED_CARDS);
+  const [nodes, setNodes] = useState<CanvasNode[]>([]);
   const [activeCurses, setActiveCurses] = useState<ActiveCurse[]>([]);
   const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<string[]>([]); // card ids, max 2
+  const [selected, setSelected] = useState<string[]>([]); // instance ids, max 2
   const [status, setStatus] = useState<string>("");
   const [busy, setBusy] = useState(false);
-  const [reveal, setReveal] = useState<CraftCard | null>(null);
   const [toast, setToast] = useState<string>("");
   const [hydrated, setHydrated] = useState(false);
-  const [dragId, setDragId] = useState<string | null>(null);
-  const [dropTargetId, setDropTargetId] = useState<string | null>(null);
+  const [popover, setPopover] = useState<string | null>(null); // instance id
+  const [dragInstance, setDragInstance] = useState<string | null>(null);
+  const [hoverTargetId, setHoverTargetId] = useState<string | null>(null);
 
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const liveRef = useRef<HTMLParagraphElement | null>(null);
+  const spawnCount = useRef(0);
+  const cardsRef = useRef(cards);
+  const nodesRef = useRef(nodes);
+  cardsRef.current = cards;
+  nodesRef.current = nodes;
 
   // ── Hydrate from localStorage once mounted ──────────────────────────────
   useEffect(() => {
@@ -169,6 +226,29 @@ export function CraftCanvas() {
     }
     dispatch({ type: "hydrate", cards: merged });
     setActiveCurses(loadJSON<ActiveCurse[]>(STORAGE_CURSES, []));
+
+    // Restore the canvas layout, dropping any node whose card no longer exists.
+    const savedNodes = loadJSON<CanvasNode[]>(STORAGE_CANVAS, []);
+    const validIds = new Set(merged.map((c) => c.id));
+    const restored = Array.isArray(savedNodes)
+      ? savedNodes
+          .filter(
+            (n) =>
+              n &&
+              typeof n.instanceId === "string" &&
+              typeof n.cardId === "string" &&
+              validIds.has(n.cardId) &&
+              Number.isFinite(n.nx) &&
+              Number.isFinite(n.ny)
+          )
+          .map((n) => ({
+            instanceId: n.instanceId,
+            cardId: n.cardId,
+            nx: clamp01(n.nx),
+            ny: clamp01(n.ny),
+          }))
+      : [];
+    setNodes(restored);
     setHydrated(true);
   }, []);
 
@@ -184,17 +264,30 @@ export function CraftCanvas() {
     saveJSON(STORAGE_CURSES, activeCurses);
   }, [activeCurses, hydrated]);
 
+  useEffect(() => {
+    if (!hydrated) return;
+    // Persist only stable geometry (never the transient fusing/landed flags).
+    saveJSON(
+      STORAGE_CANVAS,
+      nodes.map((n) => ({ instanceId: n.instanceId, cardId: n.cardId, nx: n.nx, ny: n.ny }))
+    );
+  }, [nodes, hydrated]);
+
   // ── Cleanup timers ──────────────────────────────────────────────────────
   useEffect(() => {
     return () => {
       if (toastTimer.current) clearTimeout(toastTimer.current);
-      if (revealTimer.current) clearTimeout(revealTimer.current);
     };
   }, []);
 
   // ── Derived state ─────────────────────────────────────────────────────────
   const discoveredCount = useMemo(
     () => cards.filter((c) => !SEED_IDS.has(c.id) && !c.inert).length,
+    [cards]
+  );
+
+  const cardById = useCallback(
+    (id: string) => cards.find((c) => c.id === id),
     [cards]
   );
 
@@ -311,12 +404,53 @@ export function CraftCanvas() {
     [activeCurses, cards, hasCurse, flashToast]
   );
 
-  // ── Core fusion flow ───────────────────────────────────────────────────────
-  const fuse = useCallback(
-    async (aId: string, bId: string) => {
+  // ── Canvas geometry helpers ───────────────────────────────────────────────
+  /** Client px → normalised canvas coords, clamped to the box. */
+  const clientToNorm = useCallback((clientX: number, clientY: number) => {
+    const box = stageRef.current?.getBoundingClientRect();
+    if (!box || box.width === 0 || box.height === 0) return { nx: 0.5, ny: 0.5 };
+    return {
+      nx: clamp01((clientX - box.left) / box.width),
+      ny: clamp01((clientY - box.top) / box.height),
+    };
+  }, []);
+
+  // ── Spawn an instance onto the canvas ──────────────────────────────────────
+  const spawn = useCallback(
+    (cardId: string, at?: { nx: number; ny: number }) => {
+      const card = cardById(cardId);
+      if (!card) return;
+      let pos = at;
+      if (!pos) {
+        // Cascade around centre so repeated clicks don't stack exactly.
+        const i = spawnCount.current++;
+        const box = stageRef.current?.getBoundingClientRect();
+        const w = box?.width || 600;
+        const h = box?.height || 420;
+        const ox = ((i % 5) - 2) * (SPAWN_CASCADE / w);
+        const oy = (Math.floor(i / 5) % 4) * (SPAWN_CASCADE / h);
+        pos = { nx: clamp01(0.42 + ox), ny: clamp01(0.4 + oy) };
+      }
+      setNodes((prev) => [
+        ...prev,
+        { instanceId: uid(), cardId, nx: pos!.nx, ny: pos!.ny },
+      ]);
+      announce(`${card.name} dropped on the canvas.`);
+    },
+    [cardById, announce]
+  );
+
+  // ── Core fusion flow (canvas instances) ────────────────────────────────────
+  // Fuse instance `aInst` into `bInst`; result lands at `dropNorm`.
+  const fuseInstances = useCallback(
+    async (aInst: string, bInst: string, dropNorm: { nx: number; ny: number }) => {
       if (busy) return;
-      const a = cards.find((c) => c.id === aId);
-      const b = cards.find((c) => c.id === bId);
+      const curNodes = nodesRef.current;
+      const na = curNodes.find((n) => n.instanceId === aInst);
+      const nb = curNodes.find((n) => n.instanceId === bInst);
+      if (!na || !nb || na.instanceId === nb.instanceId) return;
+      const a = cardsRef.current.find((c) => c.id === na.cardId);
+      const b = cardsRef.current.find((c) => c.id === nb.cardId);
       if (!a || !b) return;
       if (a.inert || b.inert) {
         flashToast("☸️ Sidecar cards just run 'sleep infinity', boss — can't fuse those.");
@@ -325,6 +459,13 @@ export function CraftCanvas() {
 
       setBusy(true);
       setSelected([]);
+      setPopover(null);
+      // Shimmer both source instances while the forge runs.
+      setNodes((prev) =>
+        prev.map((n) =>
+          n.instanceId === aInst || n.instanceId === bInst ? { ...n, fusing: true } : n
+        )
+      );
       announce(`Fusing ${a.name} with ${b.name}…`);
 
       try {
@@ -366,18 +507,63 @@ export function CraftCanvas() {
         const { primary, extras, removeIds } = applyCurses(card);
         card = primary;
 
-        for (const id of removeIds) dispatch({ type: "remove", id });
+        // Dedup + commit to the inventory sidebar.
+        const isNew = !cardsRef.current.some((c) => c.name === card.name);
+        // The final card that ends up in the inventory (existing one if dupe,
+        // so the canvas node reuses the canonical inventory entry's id).
+        const invCard = isNew
+          ? card
+          : cardsRef.current.find((c) => c.name === card.name) ?? card;
 
-        // Reveal animation, then commit to sidebar.
-        setReveal(card);
-        const isNew = !cards.some((c) => c.name === card.name);
+        for (const id of removeIds) dispatch({ type: "remove", id });
         dispatch({ type: "add", card });
         if (extras.length) dispatch({ type: "addMany", cards: extras });
 
-        // Let the mascot (and any other listener) react to the fusion. Canonical
-        // unlocks and first discoveries get a louder spark than a routine combo.
+        // Compute the reward tier for the celebratory burst on the instance.
+        const canonical = card.tier === "canonical" && !!card.skillTreeUrl;
+        const landed: NonNullable<CanvasNode["landed"]> = canonical
+          ? "canonical"
+          : card.isFirstDiscovery
+            ? "first"
+            : card.tier === "easteregg"
+              ? "egg"
+              : "plain";
+
+        // REPLACE both source instances with a single result instance at the
+        // drop point. Any cursed cards removed from inventory also lose nodes.
+        const newInstanceId = uid();
+        setNodes((prev) => {
+          const removedCardIds = new Set(removeIds);
+          const kept = prev.filter(
+            (n) =>
+              n.instanceId !== aInst &&
+              n.instanceId !== bInst &&
+              !removedCardIds.has(n.cardId)
+          );
+          return [
+            ...kept,
+            {
+              instanceId: newInstanceId,
+              cardId: invCard.id,
+              nx: clamp01(dropNorm.nx),
+              ny: clamp01(dropNorm.ny),
+              landed,
+            },
+          ];
+        });
+
+        // Clear the celebratory burst flag after it plays.
+        const burstMs = prefersReducedMotion() ? 0 : 1500;
+        setTimeout(() => {
+          setNodes((prev) =>
+            prev.map((n) =>
+              n.instanceId === newInstanceId ? { ...n, landed: undefined } : n
+            )
+          );
+        }, burstMs);
+
+        // Milim + any other listener react to the fusion.
         if (typeof window !== "undefined") {
-          const canonical = card.tier === "canonical" && !!card.skillTreeUrl;
           window.dispatchEvent(
             new CustomEvent("isc:fused", {
               detail: {
@@ -391,65 +577,248 @@ export function CraftCanvas() {
           );
         }
 
-        announce(
-          `${a.name} + ${b.name} makes ${card.name}. ${
-            card.isFirstDiscovery ? "First discovery! " : ""
-          }${card.experimental ? "Experimental fusion. " : ""}${isNew ? "New skill added." : "Already discovered."}`
-        );
+        // A classy, non-casino toast for the earned moments.
+        if (canonical) {
+          flashToast(`★ Real Skill unlocked — ${invCard.name}. Tap it for the Skill Tree link, boss.`);
+        } else if (card.isFirstDiscovery) {
+          flashToast(`⭐ First Discovery — ${invCard.name}! Nobody had this combo before you, boss.`);
+        } else if (card.tier === "easteregg" && !card.cursed) {
+          flashToast(`✨ Easter egg — ${invCard.name}. Nice find, boss.`);
+        }
 
-        const revealMs = (prefersReducedMotion() ? 0 : 1400) * (fridayActive ? 4 : 1);
-        if (revealTimer.current) clearTimeout(revealTimer.current);
-        revealTimer.current = setTimeout(() => setReveal(null), revealMs + 900);
+        announce(
+          `${a.name} + ${b.name} makes ${invCard.name}. ${
+            card.isFirstDiscovery ? "First discovery! " : ""
+          }${card.experimental ? "Experimental fusion. " : ""}${
+            isNew ? "New skill added to inventory." : "Already discovered."
+          } Tap it to see details.`
+        );
       } catch {
+        // The forge sputtered — clear the shimmer, leave the instances in place.
+        setNodes((prev) =>
+          prev.map((n) =>
+            n.instanceId === aInst || n.instanceId === bInst
+              ? { ...n, fusing: false }
+              : n
+          )
+        );
         flashToast("The forge sputtered, boss — try that fusion again.");
         announce("Fusion failed. Try again.");
       } finally {
         setBusy(false);
       }
     },
-    [busy, cards, announce, flashToast, applyCurses, fridayActive]
+    [busy, announce, flashToast, applyCurses]
   );
 
-  // ── Selection (click / keyboard path) ────────────────────────────────────
-  const toggleSelect = useCallback(
-    (id: string) => {
-      const card = cards.find((c) => c.id === id);
+  // ── Pointer drag (move + drop-to-fuse) ──────────────────────────────────────
+  // Ref-based so listeners on window read live values without re-subscribing.
+  const dragState = useRef<{
+    instanceId: string;
+    pointerId: number;
+    // offset of pointer from node centre, in normalised units
+    offNx: number;
+    offNy: number;
+    startX: number;
+    startY: number;
+    moved: boolean;
+  } | null>(null);
+
+  const onNodePointerDown = useCallback(
+    (instanceId: string) => (e: React.PointerEvent) => {
+      // Only primary button / touch / pen.
+      if (e.button !== 0) return;
+      const node = nodesRef.current.find((n) => n.instanceId === instanceId);
+      if (!node) return;
+      const box = stageRef.current?.getBoundingClientRect();
+      if (!box) return;
+      const pointerNx = clamp01((e.clientX - box.left) / box.width);
+      const pointerNy = clamp01((e.clientY - box.top) / box.height);
+      dragState.current = {
+        instanceId,
+        pointerId: e.pointerId,
+        offNx: pointerNx - node.nx,
+        offNy: pointerNy - node.ny,
+        startX: e.clientX,
+        startY: e.clientY,
+        moved: false,
+      };
+      setDragInstance(instanceId);
+      setPopover(null);
+      try {
+        (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+      } catch {
+        /* capture unsupported — pointer events still fire on the element. */
+      }
+    },
+    []
+  );
+
+  const onNodePointerMove = useCallback((e: React.PointerEvent) => {
+    const ds = dragState.current;
+    if (!ds || ds.pointerId !== e.pointerId) return;
+    const box = stageRef.current?.getBoundingClientRect();
+    if (!box) return;
+    const dist = Math.hypot(e.clientX - ds.startX, e.clientY - ds.startY);
+    if (dist > TAP_SLOP) ds.moved = true;
+    const nx = clamp01((e.clientX - box.left) / box.width - ds.offNx);
+    const ny = clamp01((e.clientY - box.top) / box.height - ds.offNy);
+    setNodes((prev) =>
+      prev.map((n) => (n.instanceId === ds.instanceId ? { ...n, nx, ny } : n))
+    );
+
+    // Highlight a fusion target when the dragged centre nears another node.
+    if (ds.moved) {
+      const cx = box.left + nx * box.width;
+      const cy = box.top + ny * box.height;
+      let hit: string | null = null;
+      for (const n of nodesRef.current) {
+        if (n.instanceId === ds.instanceId) continue;
+        const dx = box.left + n.nx * box.width - cx;
+        const dy = box.top + n.ny * box.height - cy;
+        if (Math.hypot(dx, dy) < COLLISION_RADIUS) {
+          hit = n.instanceId;
+          break;
+        }
+      }
+      setHoverTargetId(hit);
+    }
+  }, []);
+
+  const onNodePointerUp = useCallback(
+    (e: React.PointerEvent) => {
+      const ds = dragState.current;
+      if (!ds || ds.pointerId !== e.pointerId) return;
+      dragState.current = null;
+      setDragInstance(null);
+      const target = hoverTargetIdRef.current;
+      setHoverTargetId(null);
+
+      if (!ds.moved) {
+        // A tap — open the detail popover for this instance.
+        setPopover((prev) => (prev === ds.instanceId ? null : ds.instanceId));
+        return;
+      }
+
+      // A drag ended. If it landed on another node, fuse; else it just moved.
+      if (target && target !== ds.instanceId) {
+        const drop = clientToNorm(e.clientX, e.clientY);
+        void fuseInstances(ds.instanceId, target, drop);
+      }
+    },
+    [clientToNorm, fuseInstances]
+  );
+
+  // Keep a live ref of the hover target for the pointerup closure.
+  const hoverTargetIdRef = useRef<string | null>(null);
+  hoverTargetIdRef.current = hoverTargetId;
+
+  // ── Sidebar → canvas drag-to-spawn (nice-to-have; click is required path) ──
+  const onSidebarDragStart = useCallback(
+    (cardId: string) => (e: React.DragEvent) => {
+      const card = cardById(cardId);
+      if (card?.inert) {
+        e.preventDefault();
+        return;
+      }
+      e.dataTransfer.effectAllowed = "copy";
+      e.dataTransfer.setData("text/plain", `spawn:${cardId}`);
+    },
+    [cardById]
+  );
+
+  const onStageDragOver = useCallback((e: React.DragEvent) => {
+    if (e.dataTransfer.types.includes("text/plain")) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "copy";
+    }
+  }, []);
+
+  const onStageDrop = useCallback(
+    (e: React.DragEvent) => {
+      const raw = e.dataTransfer.getData("text/plain");
+      if (!raw.startsWith("spawn:")) return;
+      e.preventDefault();
+      const cardId = raw.slice("spawn:".length);
+      spawn(cardId, clientToNorm(e.clientX, e.clientY));
+    },
+    [spawn, clientToNorm]
+  );
+
+  // ── Keyboard: nudge a focused instance + select/fuse ───────────────────────
+  // (defined after selection helpers so it can reference them directly)
+
+  // ── Selection (click/Enter path for pointerless fusion) ────────────────────
+  const toggleSelectInstance = useCallback(
+    (instanceId: string) => {
+      const node = nodesRef.current.find((n) => n.instanceId === instanceId);
+      const card = node && cardsRef.current.find((c) => c.id === node.cardId);
       if (card?.inert) {
         flashToast("☸️ That's just a sidecar, boss — nothing to fuse.");
         return;
       }
       setSelected((prev) => {
-        if (prev.includes(id)) return prev.filter((x) => x !== id);
-        if (prev.length >= 2) return [prev[1], id];
-        return [...prev, id];
+        if (prev.includes(instanceId)) return prev.filter((x) => x !== instanceId);
+        if (prev.length >= 2) return [prev[1], instanceId];
+        return [...prev, instanceId];
       });
     },
-    [cards, flashToast]
+    [flashToast]
   );
 
   const fuseSelected = useCallback(() => {
-    if (selected.length === 2) fuse(selected[0], selected[1]);
-  }, [selected, fuse]);
+    if (selected.length !== 2) return;
+    const [a, b] = selected;
+    const nb = nodesRef.current.find((n) => n.instanceId === b);
+    // Land the result where the second-selected instance sits.
+    const drop = nb ? { nx: nb.nx, ny: nb.ny } : { nx: 0.5, ny: 0.5 };
+    void fuseInstances(a, b, drop);
+  }, [selected, fuseInstances]);
 
-  // ── Drag & drop handlers ──────────────────────────────────────────────────
-  const onDragStart = useCallback(
-    (id: string) => (e: React.DragEvent) => {
-      const card = cards.find((c) => c.id === id);
-      if (card?.inert) {
-        e.preventDefault();
-        return;
-      }
-      setDragId(id);
-      e.dataTransfer.effectAllowed = "move";
-      e.dataTransfer.setData("text/plain", id);
-    },
-    [cards]
-  );
-
-  const onDragEnd = useCallback(() => {
-    setDragId(null);
-    setDropTargetId(null);
+  const removeNode = useCallback((instanceId: string) => {
+    setNodes((prev) => prev.filter((n) => n.instanceId !== instanceId));
+    setSelected((prev) => prev.filter((x) => x !== instanceId));
+    setPopover((prev) => (prev === instanceId ? null : prev));
   }, []);
+
+  // ── Keyboard: nudge a focused instance + select/fuse ───────────────────────
+  const onNodeKeyDown = useCallback(
+    (instanceId: string) => (e: React.KeyboardEvent) => {
+      const step = e.shiftKey ? NUDGE * 3 : NUDGE;
+      const box = stageRef.current?.getBoundingClientRect();
+      const stepNx = box ? step / box.width : 0.02;
+      const stepNy = box ? step / box.height : 0.02;
+      let dx = 0;
+      let dy = 0;
+      switch (e.key) {
+        case "ArrowLeft": dx = -stepNx; break;
+        case "ArrowRight": dx = stepNx; break;
+        case "ArrowUp": dy = -stepNy; break;
+        case "ArrowDown": dy = stepNy; break;
+        case "Enter":
+        case " ":
+          e.preventDefault();
+          toggleSelectInstance(instanceId);
+          return;
+        case "Backspace":
+        case "Delete":
+          e.preventDefault();
+          removeNode(instanceId);
+          return;
+        default:
+          return;
+      }
+      e.preventDefault();
+      setNodes((prev) =>
+        prev.map((n) =>
+          n.instanceId === instanceId
+            ? { ...n, nx: clamp01(n.nx + dx), ny: clamp01(n.ny + dy) }
+            : n
+        )
+      );
+    },
+    [toggleSelectInstance, removeNode]
+  );
 
   // ── Cleanse ─────────────────────────────────────────────────────────────
   const cleanse = useCallback(() => {
@@ -459,40 +828,65 @@ export function CraftCanvas() {
     announce("All curses cleansed.");
   }, [activeCurses, flashToast, announce]);
 
-  // ── Reset progress ────────────────────────────────────────────────────────
+  // ── Clear canvas (keeps discoveries + curses) ──────────────────────────────
+  const clearCanvas = useCallback(() => {
+    if (nodesRef.current.length === 0) return;
+    setNodes([]);
+    setSelected([]);
+    setPopover(null);
+    spawnCount.current = 0;
+    flashToast("Canvas cleared — your discoveries are safe, boss.");
+    announce("Canvas cleared. Inventory and curses kept.");
+  }, [flashToast, announce]);
+
+  // ── Reset progress (back to seeds; clears discoveries + curses + canvas) ────
   const resetProgress = useCallback(() => {
     dispatch({ type: "reset" });
     setActiveCurses([]);
     setSelected([]);
+    setNodes([]);
+    setPopover(null);
     setQuery("");
+    spawnCount.current = 0;
     flashToast("Progress reset — back to the four primitives, boss.");
-  }, [flashToast]);
+    announce("Progress reset to the four seed skills.");
+  }, [flashToast, announce]);
 
-  const deleteCard = useCallback(
-    (id: string) => {
-      if (SEED_IDS.has(id)) return;
-      dispatch({ type: "remove", id });
-      setSelected((prev) => prev.filter((x) => x !== id));
-    },
-    []
-  );
+  const deleteInventoryCard = useCallback((id: string) => {
+    if (SEED_IDS.has(id)) return;
+    dispatch({ type: "remove", id });
+    // Drop any canvas instances of the deleted card too.
+    setNodes((prev) => prev.filter((n) => n.cardId !== id));
+  }, []);
+
+  // ── Dismiss popover on outside interaction / Escape ─────────────────────────
+  useEffect(() => {
+    if (!popover) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPopover(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [popover]);
 
   // ── Render helpers ────────────────────────────────────────────────────────
   const reducedMotion = hydrated && prefersReducedMotion();
 
   return (
     <section
-      className={`craft${fridayActive ? " craft-friday" : ""}`}
+      className={`craft${fridayActive ? " craft-friday" : ""}${
+        reducedMotion ? " craft-reduced" : ""
+      }`}
       aria-label="Infinite Skill Craft fusion sandbox"
     >
       {/* Screen-reader live region for fusion outcomes. */}
-      <p ref={liveRef} className="sr-only" role="status" aria-live="polite">
+      <p className="sr-only" role="status" aria-live="polite">
         {status}
       </p>
 
       <div className="craft-shell">
-        {/* ── Sidebar: discovered skills ─────────────────────────────────── */}
-        <aside className="craft-sidebar" aria-label="Discovered skills">
+        {/* ── Sidebar: discovered skills (inventory) ─────────────────────── */}
+        <aside className="craft-sidebar" aria-label="Discovered skills inventory">
           <header className="craft-sidebar-head">
             <div>
               <p className="craft-kicker">Inventory</p>
@@ -552,39 +946,37 @@ export function CraftCanvas() {
               <SidebarCard
                 key={card.id}
                 card={card}
-                selected={selected.includes(card.id)}
                 isSeed={SEED_IDS.has(card.id)}
-                onSelect={() => toggleSelect(card.id)}
-                onDelete={() => deleteCard(card.id)}
-                onDragStart={onDragStart(card.id)}
-                onDragEnd={onDragEnd}
-                onDropFuse={(sourceId) => {
-                  if (sourceId && sourceId !== card.id) fuse(sourceId, card.id);
-                }}
-                dragging={dragId === card.id}
+                onSpawn={() => spawn(card.id)}
+                onDelete={() => deleteInventoryCard(card.id)}
+                onDragStart={onSidebarDragStart(card.id)}
               />
             ))}
           </ul>
         </aside>
 
-        {/* ── Canvas / fusion stage ──────────────────────────────────────── */}
+        {/* ── The free-floating canvas workspace ─────────────────────────── */}
         <div className="craft-stage-wrap">
           <div className="craft-stage-bar">
             <p className="craft-kicker">The Forge</p>
             <div className="craft-selected" aria-live="polite">
-              {selected.length === 0 && (
-                <span className="craft-hint">Pick two skills, or drag one onto another.</span>
+              {selected.length === 0 ? (
+                <span className="craft-hint">
+                  Click a skill to drop it — drag one onto another to fuse.
+                </span>
+              ) : (
+                selected.map((id, i) => {
+                  const node = nodes.find((n) => n.instanceId === id);
+                  const c = node && cardById(node.cardId);
+                  if (!c) return null;
+                  return (
+                    <span key={id} className="craft-slot">
+                      {i === 1 && <b className="craft-plus" aria-hidden="true">+</b>}
+                      <span aria-hidden="true">{c.emoji}</span> {c.name}
+                    </span>
+                  );
+                })
               )}
-              {selected.map((id, i) => {
-                const c = cards.find((x) => x.id === id);
-                if (!c) return null;
-                return (
-                  <span key={id} className="craft-slot">
-                    {i === 1 && <b className="craft-plus" aria-hidden="true">+</b>}
-                    <span aria-hidden="true">{c.emoji}</span> {c.name}
-                  </span>
-                );
-              })}
             </div>
             <button
               type="button"
@@ -593,59 +985,70 @@ export function CraftCanvas() {
               disabled={selected.length !== 2 || busy}
               title={
                 selected.length !== 2
-                  ? "Select two skills to fuse"
-                  : "Fuse the two selected skills"
+                  ? "Select two canvas instances to fuse"
+                  : "Fuse the two selected instances"
               }
             >
-              {busy ? "Fusing…" : "Fuse"} <span aria-hidden="true">✦</span>
+              {busy ? "Fusing…" : "Fuse selected"} <span aria-hidden="true">✦</span>
             </button>
           </div>
 
           <div
-            className={`craft-stage${dropTargetId ? " craft-stage-armed" : ""}`}
-            aria-label="Fusion canvas"
+            ref={stageRef}
+            className={`craft-stage${dragInstance ? " craft-stage-dragging" : ""}`}
+            aria-label="Fusion canvas — drop skills here and drag them together to fuse"
+            onDragOver={onStageDragOver}
+            onDrop={onStageDrop}
+            onPointerDown={(e) => {
+              // A pointerdown on the empty canvas dismisses any open popover.
+              if (e.target === e.currentTarget) setPopover(null);
+            }}
           >
-            {reveal ? (
-              <ResultCard
-                card={reveal}
-                reducedMotion={reducedMotion}
-                friday={fridayActive}
-              />
-            ) : (
-              <EmptyState discovered={discoveredCount} />
-            )}
+            {nodes.length === 0 && <EmptyState discovered={discoveredCount} />}
 
-            {/* Invisible drop targets are the sidebar cards themselves;
-                the stage also accepts a drop of the *selected* card to fuse
-                with the drag source (nice-to-have kept simple: onto stage = hint). */}
-            <div
-              className="craft-stage-dropzone"
-              onDragOver={(e) => {
-                if (dragId) {
-                  e.preventDefault();
-                  e.dataTransfer.dropEffect = "move";
-                }
-              }}
-              onDrop={(e) => {
-                e.preventDefault();
-                if (selected.length === 1 && dragId && selected[0] !== dragId) {
-                  fuse(selected[0], dragId);
-                }
-                setDragId(null);
-                setDropTargetId(null);
-              }}
-              aria-hidden="true"
-            />
+            {nodes.map((node) => {
+              const card = cardById(node.cardId);
+              if (!card) return null;
+              return (
+                <CanvasInstance
+                  key={node.instanceId}
+                  node={node}
+                  card={card}
+                  selected={selected.includes(node.instanceId)}
+                  isDragging={dragInstance === node.instanceId}
+                  isHoverTarget={hoverTargetId === node.instanceId}
+                  popoverOpen={popover === node.instanceId}
+                  reducedMotion={reducedMotion}
+                  onPointerDown={onNodePointerDown(node.instanceId)}
+                  onPointerMove={onNodePointerMove}
+                  onPointerUp={onNodePointerUp}
+                  onKeyDown={onNodeKeyDown(node.instanceId)}
+                  onClosePopover={() => setPopover(null)}
+                  onDelete={() => removeNode(node.instanceId)}
+                />
+              );
+            })}
           </div>
 
           <footer className="craft-stage-foot">
             <p className="craft-hint">
-              Drop a card <b>onto another card</b> in the inventory to fuse — or select two and hit
-              Fuse. Curses are cosmetic and always cleansable.
+              <b>Click</b> a skill to drop it, <b>drag</b> instances together to fuse, and{" "}
+              <b>tap</b> a result for its details. Curses are cosmetic and always cleansable.
             </p>
-            <button type="button" className="craft-reset" onClick={resetProgress}>
-              Reset progress
-            </button>
+            <div className="craft-foot-controls">
+              <button
+                type="button"
+                className="craft-clear"
+                onClick={clearCanvas}
+                disabled={nodes.length === 0}
+                title="Remove everything from the canvas (keeps your discoveries)"
+              >
+                Clear canvas
+              </button>
+              <button type="button" className="craft-reset" onClick={resetProgress}>
+                Reset progress
+              </button>
+            </div>
           </footer>
         </div>
       </div>
@@ -661,32 +1064,22 @@ export function CraftCanvas() {
 }
 
 // ---------------------------------------------------------------------------
-// Sidebar card
+// Sidebar card (inventory item → click/Enter to spawn)
 // ---------------------------------------------------------------------------
 
 function SidebarCard({
   card,
-  selected,
   isSeed,
-  onSelect,
+  onSpawn,
   onDelete,
   onDragStart,
-  onDragEnd,
-  onDropFuse,
-  dragging,
 }: {
   card: CraftCard;
-  selected: boolean;
   isSeed: boolean;
-  onSelect: () => void;
+  onSpawn: () => void;
   onDelete: () => void;
   onDragStart: (e: React.DragEvent) => void;
-  onDragEnd: () => void;
-  onDropFuse: (sourceId: string) => void;
-  dragging: boolean;
 }) {
-  const [dropArmed, setDropArmed] = useState(false);
-
   // Tier read: canonical skills feel valuable, easter eggs are a wink,
   // experimental combos stay curious, seeds are the trustworthy primitives.
   const canonical = !isSeed && card.tier === "canonical";
@@ -702,36 +1095,28 @@ function SidebarCard({
 
   return (
     <li
-      className={`craft-card${selected ? " is-selected" : ""}${dragging ? " is-dragging" : ""}${
-        dropArmed ? " is-drop" : ""
-      }${card.cursed ? " is-cursed" : ""}${card.inert ? " is-inert" : ""}${tierClass}`}
-      draggable={!card.inert}
-      onDragStart={onDragStart}
-      onDragEnd={() => {
-        setDropArmed(false);
-        onDragEnd();
-      }}
-      onDragOver={(e) => {
-        if (!card.inert) {
-          e.preventDefault();
-          e.dataTransfer.dropEffect = "move";
-          setDropArmed(true);
-        }
-      }}
-      onDragLeave={() => setDropArmed(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setDropArmed(false);
-        const sourceId = e.dataTransfer.getData("text/plain");
-        if (sourceId) onDropFuse(sourceId);
-      }}
+      className={`craft-card${card.cursed ? " is-cursed" : ""}${
+        card.inert ? " is-inert" : ""
+      }${tierClass}`}
     >
       <button
         type="button"
         className="craft-card-btn"
-        onClick={onSelect}
-        aria-pressed={selected}
-        title={card.blurb || card.name}
+        onClick={() => {
+          if (card.inert) return;
+          onSpawn();
+        }}
+        disabled={card.inert}
+        draggable={!card.inert}
+        onDragStart={onDragStart}
+        title={
+          card.inert
+            ? card.blurb || card.name
+            : `${card.blurb || card.name} — click to drop on the canvas`
+        }
+        aria-label={
+          card.inert ? card.name : `Drop ${card.name} onto the canvas`
+        }
       >
         <span className="craft-card-emoji" aria-hidden="true">
           {card.emoji}
@@ -759,7 +1144,7 @@ function SidebarCard({
           className="craft-card-del"
           onClick={onDelete}
           title={`Remove ${card.name} from inventory`}
-          aria-label={`Remove ${card.name}`}
+          aria-label={`Remove ${card.name} from inventory`}
         >
           ×
         </button>
@@ -769,74 +1154,199 @@ function SidebarCard({
 }
 
 // ---------------------------------------------------------------------------
-// Result card (the reveal)
+// Canvas instance — an absolutely-positioned, draggable node.
 // ---------------------------------------------------------------------------
 
-function ResultCard({
+function CanvasInstance({
+  node,
   card,
+  selected,
+  isDragging,
+  isHoverTarget,
+  popoverOpen,
   reducedMotion,
-  friday,
+  onPointerDown,
+  onPointerMove,
+  onPointerUp,
+  onKeyDown,
+  onClosePopover,
+  onDelete,
 }: {
+  node: CanvasNode;
   card: CraftCard;
+  selected: boolean;
+  isDragging: boolean;
+  isHoverTarget: boolean;
+  popoverOpen: boolean;
   reducedMotion: boolean;
-  friday: boolean;
+  onPointerDown: (e: React.PointerEvent) => void;
+  onPointerMove: (e: React.PointerEvent) => void;
+  onPointerUp: (e: React.PointerEvent) => void;
+  onKeyDown: (e: React.KeyboardEvent) => void;
+  onClosePopover: () => void;
+  onDelete: () => void;
 }) {
   const canonical = card.tier === "canonical" && !!card.skillTreeUrl;
-  const easteregg = card.tier === "easteregg";
+  const easteregg = card.tier === "easteregg" && !card.inert;
+  const experimental = !!card.experimental && !card.cursed;
   const first = !!card.isFirstDiscovery;
+
+  const tierClass = canonical
+    ? " is-canon"
+    : easteregg
+      ? " is-egg"
+      : card.cursed
+        ? " is-cursed"
+        : experimental
+          ? " is-exp"
+          : "";
 
   return (
     <div
-      className={`craft-result${reducedMotion ? " reduced" : ""}${
-        canonical ? " is-canonical" : ""
-      }${easteregg ? " is-egg" : ""}${card.cursed ? " is-cursed" : ""}${
-        first ? " is-first" : ""
-      }${friday ? " is-friday" : ""}`}
+      className={`craft-node${tierClass}${selected ? " is-selected" : ""}${
+        isDragging ? " is-dragging" : ""
+      }${isHoverTarget ? " is-target" : ""}${node.fusing ? " is-fusing" : ""}${
+        node.landed ? ` is-landed landed-${node.landed}` : ""
+      }`}
+      style={{ left: `${node.nx * 100}%`, top: `${node.ny * 100}%` }}
+      role="button"
+      tabIndex={0}
+      aria-pressed={selected}
+      aria-label={`${card.name}${canonical ? ", canonical skill" : ""}${
+        first ? ", first discovery" : ""
+      }${card.cursed ? ", cursed" : ""}. Press Enter to select, arrow keys to move.`}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
+      onKeyDown={onKeyDown}
     >
-      {/* Forge charge — an expanding ring of light that resolves into the card.
-          Canonical unlocks add a second amber halo; first discoveries add rays. */}
-      <span className="craft-result-charge" aria-hidden="true" />
-      {(canonical || first) && (
-        <span className="craft-result-rays" aria-hidden="true" />
+      {/* Celebratory burst for earned results (canonical / first discovery). */}
+      {node.landed && node.landed !== "plain" && !reducedMotion && (
+        <span className="craft-node-burst" aria-hidden="true" />
+      )}
+      {node.landed && (node.landed === "canonical" || node.landed === "first") && (
+        <span className="craft-node-flag" aria-hidden="true">
+          {node.landed === "canonical" ? "★ Real Skill!" : "⭐ First Discovery"}
+        </span>
       )}
 
-      {canonical && (
-        <p className="craft-result-banner" aria-hidden="true">
-          ★ Real Skill!
-        </p>
+      <span className="craft-node-emoji" aria-hidden="true">{card.emoji}</span>
+      <span className="craft-node-name">{card.name}</span>
+      {canonical && <span className="craft-node-badge" aria-hidden="true">★</span>}
+      {easteregg && !canonical && <span className="craft-node-badge is-egg" aria-hidden="true">✨</span>}
+      {experimental && <span className="craft-node-badge is-exp" aria-hidden="true">🧪</span>}
+      {card.cursed && <span className="craft-node-badge is-curse" aria-hidden="true">🧟</span>}
+
+      {/* Detail popover — the Skill-Tree funnel on the canvas. */}
+      {popoverOpen && (
+        <InstancePopover
+          card={card}
+          canonical={canonical}
+          easteregg={easteregg}
+          experimental={experimental}
+          first={first}
+          onClose={onClosePopover}
+          onDelete={onDelete}
+        />
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Instance detail popover — carries the Skill-Tree CTA (the funnel).
+// ---------------------------------------------------------------------------
+
+function InstancePopover({
+  card,
+  canonical,
+  easteregg,
+  experimental,
+  first,
+  onClose,
+  onDelete,
+}: {
+  card: CraftCard;
+  canonical: boolean;
+  easteregg: boolean;
+  experimental: boolean;
+  first: boolean;
+  onClose: () => void;
+  onDelete: () => void;
+}) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [flip, setFlip] = useState(false);
+
+  // Focus the popover heading on open (keyboard users land inside it), and
+  // flip above the node if it would clip the top of the viewport.
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const box = el.getBoundingClientRect();
+    if (box.top < 8) setFlip(true);
+    // Move focus into the popover for the funnel link / close.
+    const focusTarget = el.querySelector<HTMLElement>("[data-autofocus]");
+    focusTarget?.focus();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`craft-pop${flip ? " is-flipped" : ""}`}
+      role="dialog"
+      aria-label={`${card.name} details`}
+      // Stop pointer events bubbling to the node (so the popover isn't a drag).
+      onPointerDown={(e) => e.stopPropagation()}
+      onPointerUp={(e) => e.stopPropagation()}
+    >
+      <div className="craft-pop-head">
+        <span className="craft-pop-emoji" aria-hidden="true">{card.emoji}</span>
+        <h3 className="craft-pop-name">{card.name}</h3>
+        <button
+          type="button"
+          className="craft-pop-close"
+          onClick={onClose}
+          data-autofocus
+          aria-label={`Close ${card.name} details`}
+        >
+          ×
+        </button>
+      </div>
+
+      {(canonical || first || easteregg || experimental || card.cursed) && (
+        <div className="craft-pop-tags">
+          {first && (
+            <span className="craft-badge craft-badge-first" title="Nobody had found this combo before you, boss.">
+              ⭐ First
+            </span>
+          )}
+          {canonical && (
+            <span className="craft-badge craft-badge-canon" title="A real skill in the Gaia Skill Tree.">
+              ★ Real Skill
+            </span>
+          )}
+          {easteregg && !card.cursed && (
+            <span className="craft-badge craft-badge-egg" title="A hand-authored surprise, boss.">
+              ✨ Easter egg
+            </span>
+          )}
+          {card.cursed && (
+            <span className="craft-badge craft-badge-curse" title="This one carries a gremlin — cleanse it whenever, boss.">
+              🧟 Cursed
+            </span>
+          )}
+          {experimental && (
+            <span className="craft-badge craft-badge-exp" title={EXPERIMENTAL_TOOLTIP}>
+              🧪 Experimental
+            </span>
+          )}
+        </div>
       )}
 
-      <div className="craft-result-emoji" aria-hidden="true">
-        {card.emoji}
-      </div>
-      <h3 className="craft-result-name">{card.name}</h3>
+      {card.blurb && <p className="craft-pop-blurb">{card.blurb}</p>}
 
-      <div className="craft-result-tags">
-        {first && (
-          <span className="craft-badge craft-badge-first" title="Nobody had found this combo before you, boss.">
-            ⭐ First Discovery
-          </span>
-        )}
-        {easteregg && !card.cursed && (
-          <span className="craft-badge craft-badge-egg" title="A hand-authored surprise, boss.">
-            ✨ Easter egg
-          </span>
-        )}
-        {card.cursed && (
-          <span className="craft-badge craft-badge-curse" title="This one carries a gremlin — cleanse it whenever, boss.">
-            🧟 Cursed
-          </span>
-        )}
-        {card.experimental && (
-          <span className="craft-badge craft-badge-exp" title={EXPERIMENTAL_TOOLTIP}>
-            🧪 Experimental fusion
-          </span>
-        )}
-      </div>
-
-      <p className="craft-result-blurb">{card.blurb}</p>
-
-      {canonical && (
+      {canonical && card.skillTreeUrl && (
         <a
           className="craft-unlock"
           href={card.skillTreeUrl}
@@ -846,12 +1356,16 @@ function ResultCard({
           Open in the Skill Tree <span aria-hidden="true">↗</span>
         </a>
       )}
+
+      <button type="button" className="craft-pop-remove" onClick={onDelete}>
+        Remove from canvas
+      </button>
     </div>
   );
 }
 
 // ---------------------------------------------------------------------------
-// Empty state
+// Empty state — invites the first spawn.
 // ---------------------------------------------------------------------------
 
 function EmptyState({ discovered }: { discovered: number }) {
@@ -861,11 +1375,11 @@ function EmptyState({ discovered }: { discovered: number }) {
         ⚡ + 🧠
       </p>
       <p className="craft-empty-head">
-        {discovered === 0 ? "Nothing forged yet." : "The forge is idle."}
+        {discovered === 0 ? "Empty canvas." : "Canvas cleared."}
       </p>
       <p className="craft-empty-body">
-        Drag <b>/api-call</b> onto <b>/chain-of-thought</b> — or select any two skills and hit{" "}
-        <b>Fuse</b>. Let&apos;s see what hatches, boss.
+        Click <b>/api-call</b> to drop it on the canvas, boss — then drag another skill
+        on top of it and watch what hatches.
       </p>
     </div>
   );
