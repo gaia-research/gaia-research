@@ -4,11 +4,20 @@
  * POST /labs/infinite-skill-craft/api/fuse
  *
  * The fusion engine for Infinite Skill Craft. Given two skill slugs it returns
- * a single `FusionResult`, resolving through three tiers in priority order:
+ * a single `FusionResult`, resolving on a cache miss through this priority order:
  *
- *   1. canonical  — a real Gaia Skill Tree recipe (deep-links to the skill page)
- *   2. easteregg  — a hand-authored surprise combo (may be cursed)
- *   3. emergent   — Workers AI invents one in Milim Nova's voice
+ *   1. canonical (recipe)   — a real Gaia Skill Tree recipe (deep-links to the skill page)
+ *   2. canonical (starter)  — the hand-authored "aha" tech tree (starter-recipes.ts):
+ *                             seed combos deterministically hit recognisable skills,
+ *                             carrying a factual `description` and a skill-tree link
+ *                             whenever the result maps to a real named skill.
+ *   3. easteregg            — a hand-authored surprise combo (may be cursed)
+ *   4. emergent             — Workers AI invents one in Milim Nova's voice
+ *
+ * EMERGENT→CANONICAL PROMOTION: after the LLM names a fusion, we normalise the
+ * name to a slug and look it up in `data/craft/named-index.json`. If it matches a
+ * real Gaia Skill Tree skill we PROMOTE the result to `canonical`, keep the model's
+ * description, and attach the derived deep-link — the aha + funnel payoff.
  *
  * Results are cached forever in Cloudflare KV keyed by an order-independent
  * `pairKey(a, b)`, so the first discoverer's answer becomes canon for that pair.
@@ -30,6 +39,8 @@ import { NextResponse } from 'next/server';
 import { pairKey } from '@/lib/craft/types';
 import type { FusionResult, FusionTier } from '@/lib/craft/types';
 import { findRecipe, skillTreeUrl } from '@/lib/craft/recipes';
+import { findStarterRecipe } from '@/lib/craft/starter-recipes';
+import namedIndex from '@/data/craft/named-index.json';
 import {
   buildFusionPrompt,
   FUSION_MODEL,
@@ -231,6 +242,117 @@ function safeBlurb(raw: unknown, fallback: string): string {
 }
 
 /**
+ * Clamps a factual description to a sane length. Returns `undefined` when the
+ * input is empty so callers can decide whether to synthesise a fallback.
+ */
+function safeDescription(raw: unknown): string | undefined {
+  if (typeof raw === 'string' && raw.trim().length > 0) {
+    return raw.trim().slice(0, 220);
+  }
+  return undefined;
+}
+
+// ---------------------------------------------------------------------------
+// Emergent → canonical promotion (the aha + funnel payoff)
+// ---------------------------------------------------------------------------
+//
+// `named-index.json` is an anti-bloat map of every REAL Gaia Skill Tree slug to
+// its contributor handle. When a fusion name normalises to a slug that lives in
+// that index, the result is a genuine named skill — so we PROMOTE it to the
+// canonical tier and attach the derived deep-link. Storing only slug→contributor
+// (never full URLs) keeps derivation in one place (`skillTreeUrl`).
+
+const SLUG_TO_CONTRIBUTOR: Record<string, string> =
+  (namedIndex as { slugToContributor?: Record<string, string> }).slugToContributor ?? {};
+
+/** Normalises a slash/display name to a bare lowercase slug for index lookup. */
+function nameToSlug(name: string): string {
+  return String(name)
+    .trim()
+    .toLowerCase()
+    .replace(/^\/+/, '');
+}
+
+/**
+ * If the given result name maps to a real named skill in the index, returns the
+ * `{ slug, contributor }` so the caller can promote to canonical + deep-link.
+ * Returns `undefined` for names with no real match (stays emergent).
+ */
+function resolvePromotion(
+  name: string
+): { slug: string; contributor: string } | undefined {
+  const slug = nameToSlug(name);
+  const contributor = SLUG_TO_CONTRIBUTOR[slug];
+  return contributor ? { slug, contributor } : undefined;
+}
+
+// ---------------------------------------------------------------------------
+// Compact KV storage (anti-bloat): store the minimal fields only.
+// ---------------------------------------------------------------------------
+//
+// We never persist derivable data. `skillTreeUrl` is reconstructed on read from
+// the stored slug+contributor (present only when canonical). `experimental` is
+// derived from `passesSkillCheck`, and `isFirstDiscovery` is forced false on
+// read (a cache hit is by definition a re-craft), so none of the three are
+// stored either.
+
+interface StoredFusion {
+  name: string;
+  emoji: string;
+  blurb: string;
+  description?: string;
+  tier: FusionTier;
+  passesSkillCheck: boolean;
+  /** Only present for canonical results that map to a real named skill. */
+  slug?: string;
+  contributor?: string;
+  /** Curse metadata (rare easter-egg outcome). */
+  cursed?: boolean;
+  curseId?: string;
+}
+
+/** Projects a resolved result + optional link ref into the compact stored shape. */
+function toStored(
+  result: FusionResult,
+  ref: { slug: string; contributor: string } | undefined
+): StoredFusion {
+  const stored: StoredFusion = {
+    name: result.name,
+    emoji: result.emoji,
+    blurb: result.blurb,
+    tier: result.tier,
+    passesSkillCheck: result.passesSkillCheck,
+  };
+  if (result.description) stored.description = result.description;
+  if (ref) {
+    stored.slug = ref.slug;
+    stored.contributor = ref.contributor;
+  }
+  if (result.cursed) {
+    stored.cursed = true;
+    if (result.curseId) stored.curseId = result.curseId;
+  }
+  return stored;
+}
+
+/** Rehydrates a compact stored value into a full FusionResult (derives the URL). */
+function rehydrate(stored: StoredFusion): FusionResult {
+  return {
+    name: stored.name,
+    emoji: stored.emoji,
+    blurb: stored.blurb,
+    description: stored.description,
+    tier: stored.tier,
+    isFirstDiscovery: false,
+    passesSkillCheck: stored.passesSkillCheck,
+    skillTreeUrl: skillTreeUrl(stored.contributor, stored.slug),
+    experimental: !stored.passesSkillCheck,
+    cursed: stored.cursed || undefined,
+    curseId: stored.cursed ? stored.curseId : undefined,
+  };
+}
+
+/**
  * Deterministic local mock fusion for when Workers AI is unavailable
  * (localhost / no CF auth). Combines the two slugs into a plausible
  * `/kebab-name` with a canned-but-fun Milim blurb. Always passes the skill
@@ -251,6 +373,7 @@ function localMockFusion(a: string, b: string): RawFusionJson {
     name,
     emoji: emojis[sum],
     blurb: `Fused /${x} with /${y} — a shiny offline prototype, boss.`,
+    description: `Combines the ${x} and ${y} capabilities into a single composite skill an agent can invoke.`,
     passesSkillCheck: true,
   };
 }
@@ -270,6 +393,7 @@ function parseModelResponse(
     name: normaliseName(`experimental-${a}-${b}`),
     emoji: '🧪',
     blurb: 'The fusion fizzled, boss — labelling it experimental for now.',
+    description: `An experimental fusion of ${a} and ${b}; capability not yet verified against the registry.`,
     passesSkillCheck: false,
   });
 
@@ -305,6 +429,7 @@ function parseModelResponse(
       name: normaliseName(parsed.name),
       emoji: safeEmoji(parsed.emoji),
       blurb: safeBlurb(parsed.blurb, 'A fresh fusion, hot off the forge, boss.'),
+      description: safeDescription(parsed.description),
       // Default to false (experimental) unless the model explicitly asserts true.
       passesSkillCheck: parsed.passesSkillCheck === true,
     };
@@ -381,7 +506,10 @@ export async function POST(request: Request): Promise<Response> {
   try {
     const cached = await kv.get(key);
     if (cached) {
-      const result = JSON.parse(cached) as FusionResult;
+      // Values are stored COMPACT (StoredFusion): minimal fields plus
+      // slug/contributor when canonical. Rehydrate to a full FusionResult and
+      // DERIVE skillTreeUrl on read — never store the derivable URL string.
+      const result = rehydrate(JSON.parse(cached) as StoredFusion);
       // A returning player: this is no longer a first discovery.
       result.isFirstDiscovery = false;
       recordFusion(bindings, result.tier, true, key);
@@ -391,19 +519,54 @@ export async function POST(request: Request): Promise<Response> {
     // Cache read failure is non-fatal — fall through to compute a fresh result.
   }
 
-  // ── c. Resolve tier: canonical → easteregg → emergent ────────────────────
+  // ── c. Resolve tier: canonical(recipe) → canonical(starter) → egg → emergent ─
   let result: FusionResult;
+  // The verified {slug, contributor} behind a canonical link, when one exists.
+  // Stored compactly so `skillTreeUrl` can be DERIVED on read (never stored).
+  let canonicalRef: { slug: string; contributor: string } | undefined;
 
   const recipe = findRecipe(na, nb);
   if (recipe) {
+    if (recipe.contributor && recipe.slug) {
+      canonicalRef = { slug: recipe.slug, contributor: recipe.contributor };
+    }
     result = {
       name: recipe.result.startsWith('/') ? recipe.result : `/${recipe.result}`,
       emoji: recipe.emoji || '✨',
       blurb: recipe.blurb,
+      // Registry recipes carry no separate description — the blurb is the closest
+      // factual line we have, so use it as the fallback "what it does".
+      description: recipe.blurb,
       tier: 'canonical',
       isFirstDiscovery: true,
       passesSkillCheck: true,
       skillTreeUrl: skillTreeUrl(recipe.contributor, recipe.slug),
+      experimental: false,
+    };
+  } else if (
+    // Starter tech tree: the seed primitives (/prompt /code /web /data) and their
+    // results are authored slash-prefixed, so feed slash-form names to match the
+    // pairKey the tree is keyed by. Inserted BEFORE easter eggs so curated seed
+    // combos deterministically land on recognisable skills.
+    findStarterRecipe(`/${na}`, `/${nb}`)
+  ) {
+    const starter = findStarterRecipe(`/${na}`, `/${nb}`)!;
+    if (starter.contributor && starter.slug) {
+      canonicalRef = { slug: starter.slug, contributor: starter.contributor };
+    }
+    const link = skillTreeUrl(starter.contributor, starter.slug);
+    result = {
+      name: starter.name.startsWith('/') ? starter.name : `/${starter.name}`,
+      emoji: starter.emoji || '✨',
+      blurb: starter.blurb,
+      // Starter recipes always carry a factual capability description.
+      description: starter.description,
+      // These are curated REAL skills. Canonical whether or not they deep-link:
+      // some tech-tree bridges are chainable-but-unlinked; that's still canonical.
+      tier: 'canonical',
+      isFirstDiscovery: true,
+      passesSkillCheck: true,
+      skillTreeUrl: link,
       experimental: false,
     };
   } else {
@@ -413,6 +576,9 @@ export async function POST(request: Request): Promise<Response> {
         name: egg.name.startsWith('/') ? egg.name : `/${egg.name}`,
         emoji: egg.emoji || '✨',
         blurb: egg.blurb,
+        // Synthesise a short factual line from the egg's blurb (eggs carry no
+        // separate description). Left undefined if the blurb is empty.
+        description: egg.blurb?.trim() ? egg.blurb.trim().slice(0, 220) : undefined,
         tier: 'easteregg',
         isFirstDiscovery: true,
         passesSkillCheck: true,
@@ -437,6 +603,7 @@ export async function POST(request: Request): Promise<Response> {
             name: normaliseName(`experimental-${na}-${nb}`),
             emoji: '🧪',
             blurb: 'The forge sputtered, boss — marking this one experimental.',
+            description: `An experimental fusion of ${na} and ${nb}; capability not yet verified.`,
             passesSkillCheck: false,
           };
         }
@@ -445,22 +612,48 @@ export async function POST(request: Request): Promise<Response> {
         raw = localMockFusion(na, nb);
       }
 
-      result = {
-        name: raw.name,
-        emoji: raw.emoji,
-        blurb: raw.blurb,
-        tier: 'emergent',
-        isFirstDiscovery: true,
-        passesSkillCheck: raw.passesSkillCheck,
-        experimental: !raw.passesSkillCheck,
-      };
+      // EMERGENT → CANONICAL PROMOTION: if the model's name matches a real named
+      // skill, promote to canonical + attach the derived deep-link, keeping the
+      // model's own description. This is the aha + funnel payoff for organic combos.
+      const promotion = resolvePromotion(raw.name);
+      const description =
+        raw.description ??
+        `A fresh fusion of ${na} and ${nb} an agent can invoke as a single skill.`;
+
+      if (promotion) {
+        canonicalRef = { slug: promotion.slug, contributor: promotion.contributor };
+        result = {
+          name: raw.name,
+          emoji: raw.emoji,
+          blurb: raw.blurb,
+          description,
+          tier: 'canonical',
+          isFirstDiscovery: true,
+          passesSkillCheck: true,
+          skillTreeUrl: skillTreeUrl(promotion.contributor, promotion.slug),
+          experimental: false,
+        };
+      } else {
+        result = {
+          name: raw.name,
+          emoji: raw.emoji,
+          blurb: raw.blurb,
+          description,
+          tier: 'emergent',
+          isFirstDiscovery: true,
+          passesSkillCheck: raw.passesSkillCheck,
+          experimental: !raw.passesSkillCheck,
+        };
+      }
     }
   }
 
   // ── d. Persist to KV (fire-and-forget) ───────────────────────────────────
-  // Store with isFirstDiscovery:false so any *future* read reports a re-craft.
+  // Store the COMPACT shape only — minimal fields plus slug/contributor when
+  // canonical. skillTreeUrl / experimental / isFirstDiscovery are all derivable
+  // on read, so we never persist them (anti-bloat).
   try {
-    const toStore: FusionResult = { ...result, isFirstDiscovery: false };
+    const toStore = toStored(result, canonicalRef);
     // Not awaited — a slow/failed write must not delay the player's result.
     void kv.put(key, JSON.stringify(toStore)).catch(() => {});
   } catch {
