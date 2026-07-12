@@ -268,8 +268,8 @@ export const EASTER_EGGS: Record<string, EasterEgg> = {
 
   // ─── 🎀 Gaia self-referential ─────────────────────────────────────────────
 
-  // /context-compression + /chunk-document
-  [pairKey('context-compression', 'chunk-document')]: {
+  // /context-compression + /summarize
+  [pairKey('context-compression', 'summarize')]: {
     name: '/context-diet',
     emoji: '🥗',
     blurb: "Fuses with bloat, returns a lean `-lite` variant, boss.",
@@ -310,8 +310,8 @@ export const EASTER_EGGS: Record<string, EasterEgg> = {
     blurb: "Fuses with anything. Returns a personal note to you, boss.",
   },
 
-  // /browser-control + /code-execution
-  [pairKey('browser-control', 'code-execution')]: {
+  // /browser-control + /tool-use
+  [pairKey('browser-control', 'tool-use')]: {
     name: '/pi-coding-agent',
     emoji: '🥧',
     blurb: "The harness that summoned this whole mess. Cheers, boss.",
