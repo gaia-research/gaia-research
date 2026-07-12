@@ -15,6 +15,13 @@ const labs = [
       "Measure an agent context file, project a reduction band, and export a SKILL.md proposal — entirely in your browser.",
     href: "/labs/context-diet",
   },
+  {
+    title: "Infinite Skill Craft",
+    status: "Lab 002 · Live",
+    description:
+      "Drag two dev skills together and discover what the forge spits out, boss.",
+    href: "/labs/infinite-skill-craft",
+  },
 ] as const;
 
 export default function LabsIndexPage() {
