@@ -44,7 +44,7 @@
   background: var(--surface-raised);
   border: 1px solid var(--line);
   scrollbar-width: thin;
-  animation: chrome-modal-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: chrome-modal-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes chrome-modal-in {
@@ -210,6 +210,21 @@
   padding: 0.9rem;
   background: color-mix(in srgb, var(--surface) 60%, var(--bg));
   border: 1px solid var(--line);
+  transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: chrome-step-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.craft-onboard-step:nth-child(1) { animation-delay: 0.12s; }
+.craft-onboard-step:nth-child(2) { animation-delay: 0.19s; }
+.craft-onboard-step:nth-child(3) { animation-delay: 0.26s; }
+.craft-onboard-step:hover {
+  border-color: color-mix(in srgb, var(--blue) 55%, var(--line));
+  transform: translateX(3px);
+}
+
+@keyframes chrome-step-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 .craft-onboard-step-emoji {
@@ -473,7 +488,7 @@
   font: 400 1.25rem / 1 var(--display);
   color: var(--dim);
   flex: none;
-  transition: transform 0.18s ease, color 0.15s ease;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
 }
 
 .craft-faq-q:focus-visible {
@@ -486,6 +501,15 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.craft-faq-item[open] > .craft-faq-a {
+  animation: chrome-faq-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes chrome-faq-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .craft-faq-a p {
@@ -945,6 +969,24 @@
   .craft-modal-backdrop,
   .craft-modal {
     animation: none !important;
+  }
+
+  .craft-onboard-step {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .craft-onboard-step:hover {
+    transform: none;
+  }
+
+  .craft-faq-item[open] > .craft-faq-a {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .craft-faq-item[open] > .craft-faq-q::after {
+    transition: none;
   }
 
   .craft-dragon-body,
