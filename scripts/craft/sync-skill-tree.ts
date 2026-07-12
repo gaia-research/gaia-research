@@ -14,6 +14,12 @@
 //                             real skills. Anti-bloat: we still store ONLY slug+contributor
 //                             for linking and derive skill-tree URLs on the fly, never
 //                             full paths per fusion.
+//   data/craft/contributors.json — TINY handle->count roster powering the Builders
+//                             collection (the contributor "Pokédex"). Shape:
+//                             { total, contributors: { <handle>: { count } } } where
+//                             count = how many NAMED skills that contributor authored.
+//                             Handles + counts ONLY (no titles/urls) — derived from the
+//                             same named-skills.json pass as named-index.json.
 //
 // Run: npx tsx scripts/craft/sync-skill-tree.ts
 
@@ -99,6 +105,20 @@ interface NamedIndex {
    * Kept so consumers can still recognise the slug as "real" even without a link.
    */
   unlinkedSlugs: string[];
+}
+
+/**
+ * TINY handle -> count roster emitted to data/craft/contributors.json — the
+ * data behind the Builders collection (a contributor "Pokédex"). `count` is how
+ * many NAMED skills a contributor authored across all buckets. Redacted
+ * contributors are excluded (same rule as the named index). We store handles +
+ * counts ONLY — no titles, no URLs — so the shipped file stays minimal.
+ */
+interface ContributorRoster {
+  /** Number of distinct contributor handles with at least one named skill. */
+  total: number;
+  /** handle -> { count } where count = named-skill authorship count. */
+  contributors: Record<string, { count: number }>;
 }
 
 // ---------------------------------------------------------------------------
@@ -457,6 +477,52 @@ function buildNamedIndex(): NamedIndex {
   return index;
 }
 
+/**
+ * Build the TINY contributor roster (handle -> named-skill count) for the
+ * Builders collection. Reads the SAME named-skills.json as buildNamedIndex but
+ * counts EVERY named-skill entry a contributor authored (not deduped by slug),
+ * so `sum(count) === number of linkable named skills`. Redacted contributors
+ * are skipped so no ████████ handle can ever leak into the client bundle.
+ */
+function buildContributorRoster(): ContributorRoster {
+  const namedPath = path.join(REGISTRY_ROOT, 'named-skills.json');
+  const roster: ContributorRoster = { total: 0, contributors: {} };
+
+  if (!fs.existsSync(namedPath)) {
+    console.warn(`⚠ named-skills.json not found at: ${namedPath} — emitting empty roster`);
+    return roster;
+  }
+
+  interface RegistryEntry {
+    id?: string;
+    contributor?: string;
+  }
+  let parsed: { buckets?: Record<string, RegistryEntry[]> };
+  try {
+    parsed = JSON.parse(fs.readFileSync(namedPath, 'utf8'));
+  } catch (e) {
+    console.warn(`⚠ Failed to parse named-skills.json: ${e} — emitting empty roster`);
+    return roster;
+  }
+
+  const buckets = parsed.buckets ?? {};
+  for (const bucket of Object.keys(buckets)) {
+    for (const entry of buckets[bucket]) {
+      const id = entry.id ?? '';
+      const slashAt = id.indexOf('/');
+      if (slashAt <= 0) continue;
+      const contributorFromId = id.slice(0, slashAt);
+      const handle = (entry.contributor ?? contributorFromId).trim();
+      if (!handle || isRedacted(handle) || isRedacted(contributorFromId)) continue;
+      roster.contributors[handle] ??= { count: 0 };
+      roster.contributors[handle].count += 1;
+    }
+  }
+
+  roster.total = Object.keys(roster.contributors).length;
+  return roster;
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -561,6 +627,24 @@ function main() {
     `✅ Wrote data/craft/named-index.json (${namedCount} enriched skill entries, ` +
       `${namedIndex.unlinkedSlugs.length} unlinked, ${(namedBytes / 1024).toFixed(2)} KB)`,
   );
+
+  // 5d. contributors.json — tiny handle->count roster for the Builders collection.
+  const roster = buildContributorRoster();
+  const rosterPath = path.join(OUT_DIR, 'contributors.json');
+  fs.writeFileSync(rosterPath, JSON.stringify(roster, null, 2), 'utf8');
+  const rosterBytes = fs.statSync(rosterPath).size;
+  const totalNamed = Object.values(roster.contributors).reduce((s, c) => s + c.count, 0);
+  console.log(
+    `✅ Wrote data/craft/contributors.json (${roster.total} contributors, ` +
+      `${totalNamed} named skills, ${(rosterBytes / 1024).toFixed(2)} KB)`,
+  );
+  const top5 = Object.entries(roster.contributors)
+    .sort((a, b) => b[1].count - a[1].count)
+    .slice(0, 5);
+  console.log('   Top 5 builders by skill count:');
+  top5.forEach(([handle, { count }], i) => {
+    console.log(`     ${i + 1}. @${handle} — ${count} skills`);
+  });
 
   // 6. Print 3 example recipe entries
   console.log('\n📖 Example canonical recipe entries:');
