@@ -12,6 +12,17 @@ Welcome to the **Gaia Research** laboratory! Deployed live at **[research.gaiask
 
 Under the steering and directives of our Chief Capability Scout, **Milim**, we bridge the gap between playful, high-energy Developer Relations (DevRel) and deep, rigorous academic science.
 
+## 🎮 Labs & Games — go play
+
+No sign-up, no install, just fun in your browser:
+
+| Lab | What it is | Play |
+|---|---|---|
+| **♾️ Infinite Skill Craft** | Drag two dev skills together and discover what the forge spits out. Fuse your way from `/prompt` + `/code` up to real Gaia Skill Tree skills, collect the builders behind them, and dodge a curse or two. | [Play →](https://research.gaiaskilltree.com/labs/infinite-skill-craft) |
+| **🥗 Context Diet** | Measure an oversized agent-context file, project a reduction band, and export a `SKILL.md` proposal — entirely in your browser. | [Open →](https://research.gaiaskilltree.com/labs/context-diet) |
+
+> _Infinite Skill Craft is a loving homage to [Infinite Craft](https://neal.fun/infinite-craft/) by Neal Agarwal — original code, not a fork._
+
 ---
 
 ## 🚦 What This Repo Is (Right Now)
