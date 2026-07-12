@@ -1,0 +1,88 @@
+"use client";
+/**
+ * components/labs/craft/MilimDragon.tsx
+ *
+ * CSS-only animated mascot pinned to the bottom-right corner of the lab.
+ * No image files. Built from divs + CSS @keyframes.
+ *
+ * Milim energy: playful demon-lord, floats & blinks idle.
+ * Sparks on fusion events (listens to window 'isc:fused' custom event).
+ * Dismissible/collapsible via a small toggle button.
+ * Respects prefers-reduced-motion (static pose, no animations).
+ *
+ * Styles live in craft-chrome.css.
+ */
+
+import { useCallback, useEffect, useRef, useState } from "react";
+
+export function MilimDragon() {
+  const [collapsed, setCollapsed] = useState(false);
+  const [sparking, setSparking] = useState(false);
+  const sparkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Listen for fusion events dispatched by CraftCanvas
+  useEffect(() => {
+    const onFused = () => {
+      setSparking(true);
+      if (sparkTimer.current) clearTimeout(sparkTimer.current);
+      sparkTimer.current = setTimeout(() => setSparking(false), 900);
+    };
+    window.addEventListener("isc:fused", onFused);
+    return () => {
+      window.removeEventListener("isc:fused", onFused);
+      if (sparkTimer.current) clearTimeout(sparkTimer.current);
+    };
+  }, []);
+
+  const toggle = useCallback(() => setCollapsed((c) => !c), []);
+
+  return (
+    <div className="craft-dragon-wrap" aria-label="Milim mascot">
+      {/* Dragon body */}
+      <div
+        className="craft-dragon"
+        data-hidden={collapsed ? "true" : "false"}
+        role="img"
+        aria-label="Milim the dragon mascot"
+      >
+        <div className="craft-dragon-body">
+          {/* Spark (on fusion) */}
+          <span
+            className="craft-dragon-spark"
+            aria-hidden="true"
+            data-show={sparking ? "true" : "false"}
+          >
+            ✦
+          </span>
+
+          {/* Head */}
+          <div className="craft-dragon-head" aria-hidden="true">
+            <div className="craft-dragon-horn-l" />
+            <div className="craft-dragon-horn-r" />
+          </div>
+
+          {/* Wings */}
+          <div className="craft-dragon-wing-l" aria-hidden="true" />
+          <div className="craft-dragon-wing-r" aria-hidden="true" />
+
+          {/* Torso */}
+          <div className="craft-dragon-torso" aria-hidden="true" />
+
+          {/* Tail */}
+          <div className="craft-dragon-tail" aria-hidden="true" />
+        </div>
+      </div>
+
+      {/* Collapse toggle */}
+      <button
+        type="button"
+        className="craft-dragon-toggle"
+        onClick={toggle}
+        aria-label={collapsed ? "Show Milim mascot" : "Hide Milim mascot"}
+        title={collapsed ? "Show mascot" : "Hide mascot"}
+      >
+        {collapsed ? "🐉" : "×"}
+      </button>
+    </div>
+  );
+}

@@ -3,7 +3,11 @@
 // (https://neal.fun/infinite-craft/) — an original implementation, NOT a fork.
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { CraftCanvas } from "@/components/labs/craft/CraftCanvas";
+import { CraftChromeBar } from "@/components/labs/craft/CraftChromeBar";
+import { CraftFaq } from "@/components/labs/craft/CraftFaq";
+import { MilimDragon } from "@/components/labs/craft/MilimDragon";
 import "./craft.css";
+import "./craft-chrome.css";
 
 export const metadata = {
   title: "Infinite Skill Craft — Lab 002",
@@ -16,7 +20,10 @@ export default function InfiniteSkillCraftPage() {
     <>
       <SiteHeader />
       <main id="main" className="lab-page craft-page">
-        {/* SLOT: onboarding/about/faq/dragon mounted by wave 3b */}
+        {/* Wave 3b: chrome layer — onboarding, about, FAQ, dragon, traffic.
+            CraftChromeBar (client) owns the OnboardingModal (auto-open on
+            first visit + re-openable), AboutModal, and TrafficCounter.
+            CraftFaq and MilimDragon are below the canvas. */}
 
         <section className="lab-hero craft-hero">
           <div>
@@ -46,7 +53,16 @@ export default function InfiniteSkillCraftPage() {
           </div>
         </section>
 
+        {/* Chrome bar: traffic counter + "What's a skill" + About buttons + modals */}
+        <CraftChromeBar />
+
         <CraftCanvas />
+
+        {/* FAQ education layer: skill vocabulary, canonical vs experimental */}
+        <CraftFaq />
+
+        {/* CSS-only Milim dragon mascot pinned bottom-right */}
+        <MilimDragon />
       </main>
       <SiteFooter />
     </>

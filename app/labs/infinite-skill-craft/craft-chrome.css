@@ -1,0 +1,959 @@
+/* ── Infinite Skill Craft — Chrome Layer (Wave 3b) ────────────────────────
+   Onboarding modal, About modal, FAQ accordion, Milim dragon mascot,
+   and traffic counter. All styles use the existing token system from
+   app/globals.css — NO new colors, NO edits to craft.css.
+
+   Token cheatsheet (from globals.css):
+     --bg, --surface, --surface-raised, --ink, --muted, --dim, --line
+     --blue, --pink, --amber, --danger
+     --display (Bebas Neue), --brand (Syne), --body (Manrope), --mono (DM Mono)
+     --shell-width, --gutter, --space-tight, --space-dense
+   ------------------------------------------------------------------------- */
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MODAL BACKDROP
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.craft-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(5, 6, 10, 0.88);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  animation: chrome-backdrop-in 0.22s ease both;
+}
+
+@keyframes chrome-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MODAL PANEL (shared)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.craft-modal {
+  position: relative;
+  width: min(100%, 560px);
+  max-height: calc(100dvh - 4rem);
+  overflow-y: auto;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  scrollbar-width: thin;
+  animation: chrome-modal-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes chrome-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Accent corner */
+.craft-modal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--pink);
+}
+
+.craft-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.craft-modal-kicker {
+  font: 0.65rem var(--mono);
+  color: var(--blue);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 0.35rem;
+}
+
+.craft-modal-title {
+  font: 400 clamp(1.6rem, 4vw, 2.2rem) / 1 var(--display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+}
+
+.craft-modal-close {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--dim);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.craft-modal-close:hover {
+  color: var(--pink);
+  border-color: var(--pink);
+}
+
+.craft-modal-close:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.craft-modal-body {
+  padding: 1.4rem 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Prose inside modals ─────────────────────────────────────────────────── */
+
+.craft-modal-body p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.craft-modal-body p + p {
+  margin-top: 0.6rem;
+}
+
+.craft-modal-body strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.craft-modal-body a {
+  color: var(--blue);
+  border-bottom: 1px solid color-mix(in srgb, var(--blue) 40%, transparent);
+}
+
+.craft-modal-body a:hover {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+}
+
+/* ── Definition list for skill vocabulary ──────────────────────────────── */
+
+.craft-modal-terms {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin: 0;
+}
+
+.craft-modal-terms > div {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.85rem 0;
+  align-items: baseline;
+}
+
+.craft-modal-terms > div + div {
+  border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+}
+
+.craft-modal-terms dt {
+  font: 0.68rem var(--mono);
+  color: var(--blue);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding-top: 0.1rem;
+}
+
+.craft-modal-terms dd {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.craft-modal-terms dd strong {
+  color: var(--ink);
+}
+
+/* ── What-is section inside onboarding ─────────────────────────────────── */
+
+.craft-onboard-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.craft-onboard-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.9rem;
+  background: color-mix(in srgb, var(--surface) 60%, var(--bg));
+  border: 1px solid var(--line);
+}
+
+.craft-onboard-step-emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+  flex: none;
+  margin-top: 0.1rem;
+}
+
+.craft-onboard-step-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.craft-onboard-step-title {
+  font: 0.75rem var(--mono);
+  color: var(--blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.craft-onboard-step-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* "What IS a skill" callout — the anti-confusion shield */
+
+.craft-skill-callout {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--pink);
+  background: color-mix(in srgb, var(--pink) 6%, var(--surface));
+  position: relative;
+}
+
+.craft-skill-callout::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--pink);
+}
+
+.craft-skill-callout-label {
+  font: 0.65rem var(--mono);
+  color: var(--pink);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 0.45rem;
+}
+
+.craft-skill-callout p {
+  font-size: 0.9rem !important;
+  color: var(--muted) !important;
+  margin: 0 !important;
+  line-height: 1.6 !important;
+}
+
+.craft-skill-callout p strong {
+  color: var(--pink) !important;
+}
+
+/* CTA button inside modal */
+
+.craft-modal-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  min-height: 48px;
+  padding: 0.7rem 1.1rem;
+  background: var(--pink);
+  border: 1px solid var(--pink);
+  color: var(--bg);
+  font: 400 1.1rem / 1 var(--display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  align-self: flex-start;
+}
+
+.craft-modal-cta:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--blue);
+}
+
+.craft-modal-cta:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ABOUT MODAL — Neal attribution, credits
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.craft-about-attribution {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--amber);
+  background: color-mix(in srgb, var(--amber) 6%, var(--surface));
+  position: relative;
+}
+
+.craft-about-attribution::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--amber);
+}
+
+.craft-about-attribution p {
+  font-size: 0.92rem !important;
+  line-height: 1.65 !important;
+}
+
+.craft-about-attribution strong {
+  color: var(--amber) !important;
+}
+
+.craft-about-attribution a {
+  color: var(--amber) !important;
+  border-bottom-color: color-mix(in srgb, var(--amber) 50%, transparent) !important;
+}
+
+.craft-about-attribution a:hover {
+  color: var(--ink) !important;
+  border-bottom-color: var(--ink) !important;
+}
+
+.craft-credits-grid {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.craft-credit-item {
+  display: grid;
+  grid-template-columns: 1.8rem minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 50%, var(--bg));
+}
+
+.craft-credit-icon {
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.craft-credit-text {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.craft-credit-text strong {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--blue);
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CRAFT FAQ ACCORDION
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.craft-faq {
+  width: var(--shell-width);
+  margin: 0 auto;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.craft-faq-head {
+  padding: clamp(2rem, 4vw, 3rem) var(--gutter) 1.25rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.craft-faq-kicker {
+  font: 0.65rem var(--mono);
+  color: var(--blue);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.craft-faq-title {
+  font: 400 clamp(1.6rem, 3.5vw, 2.4rem) / 1 var(--display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+}
+
+.craft-faq-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.craft-faq-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.craft-faq-item:last-child {
+  border-bottom: 0;
+}
+
+.craft-faq-item[open] > .craft-faq-q {
+  color: var(--pink);
+  border-bottom: 1px solid var(--line);
+}
+
+.craft-faq-item[open] > .craft-faq-q::after {
+  transform: rotate(45deg);
+  color: var(--pink);
+}
+
+.craft-faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.05rem var(--gutter);
+  cursor: pointer;
+  list-style: none;
+  font: 0.9rem var(--mono);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  transition: color 0.15s ease;
+  user-select: none;
+}
+
+.craft-faq-q::-webkit-details-marker {
+  display: none;
+}
+
+.craft-faq-q:hover {
+  color: var(--ink);
+}
+
+.craft-faq-q::after {
+  content: "+";
+  font: 400 1.25rem / 1 var(--display);
+  color: var(--dim);
+  flex: none;
+  transition: transform 0.18s ease, color 0.15s ease;
+}
+
+.craft-faq-q:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
+}
+
+.craft-faq-a {
+  padding: 1rem var(--gutter) 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.craft-faq-a p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  max-width: 72ch;
+}
+
+.craft-faq-a p strong {
+  color: var(--ink);
+}
+
+.craft-faq-a p em {
+  font-style: normal;
+  color: var(--blue);
+}
+
+.craft-faq-a a {
+  color: var(--blue);
+  border-bottom: 1px solid color-mix(in srgb, var(--blue) 40%, transparent);
+}
+
+.craft-faq-a a:hover {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+}
+
+/* Mini vocab grid inside FAQ */
+
+.craft-faq-vocab {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.craft-faq-vocab li {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 60%, var(--bg));
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.craft-faq-vocab li strong {
+  display: block;
+  font: 0.7rem var(--mono);
+  color: var(--blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+/* canonical / experimental tags inside FAQ */
+
+.craft-faq-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.45rem;
+  font: 0.65rem var(--mono);
+  letter-spacing: 0.06em;
+  border: 1px solid;
+}
+
+.craft-faq-tag-canon {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 10%, transparent);
+}
+
+.craft-faq-tag-exp {
+  color: var(--muted);
+  border-color: var(--dim);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CHROME BAR — sits between hero and canvas
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.craft-chrome-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  width: var(--shell-width);
+  margin: 0 auto;
+  padding: 0.65rem var(--gutter);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 70%, var(--bg));
+}
+
+.craft-chrome-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.craft-chrome-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 32px;
+  padding: 0.3rem 0.75rem;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font: 0.72rem var(--mono);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.craft-chrome-btn:hover {
+  color: var(--blue);
+  border-color: var(--blue);
+  background: color-mix(in srgb, var(--blue) 8%, transparent);
+}
+
+.craft-chrome-btn:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.craft-chrome-btn-help {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+.craft-chrome-btn-help:hover {
+  color: var(--ink);
+  border-color: var(--pink);
+  background: color-mix(in srgb, var(--pink) 12%, transparent);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   TRAFFIC COUNTER
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.craft-traffic {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font: 0.72rem var(--mono);
+  color: var(--dim);
+  letter-spacing: 0.04em;
+}
+
+.craft-traffic-count {
+  font: 400 1.1rem / 1 var(--display);
+  letter-spacing: 0.04em;
+  color: var(--pink);
+}
+
+.craft-traffic-label {
+  color: var(--dim);
+}
+
+/* Pulse while fetching */
+@keyframes craft-counter-pulse {
+  50% { opacity: 0.4; }
+}
+
+.craft-traffic[data-loading="true"] .craft-traffic-count {
+  animation: craft-counter-pulse 1.1s ease-in-out infinite;
+}
+
+/* Count-up digit flip */
+@keyframes craft-flip-in {
+  from { transform: translateY(-6px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.craft-traffic-count[data-animating="true"] {
+  animation: craft-flip-in 0.25s ease both;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MILIM DRAGON MASCOT — CSS-only, no image files
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.craft-dragon-wrap {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: 190;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+/* Collapsed toggle button */
+.craft-dragon-toggle {
+  width: 42px;
+  height: 42px;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  color: var(--dim);
+  font-size: 1.35rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+  order: 1;
+}
+
+.craft-dragon-toggle:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+  background: color-mix(in srgb, var(--pink) 10%, var(--surface-raised));
+}
+
+.craft-dragon-toggle:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* The dragon itself */
+.craft-dragon {
+  order: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  position: relative;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.craft-dragon[data-hidden="true"] {
+  opacity: 0;
+  transform: translateY(12px) scale(0.85);
+  pointer-events: none;
+}
+
+/* ── Dragon body parts (CSS-only) ─────────────────────────────────────── */
+
+.craft-dragon-body {
+  position: relative;
+  width: 80px;
+  height: 96px;
+  animation: dragon-float 3.8s ease-in-out infinite;
+}
+
+/* Torso */
+.craft-dragon-torso {
+  position: absolute;
+  bottom: 10px;
+  left: 14px;
+  width: 52px;
+  height: 56px;
+  background: var(--pink);
+  border-radius: 50% 50% 44% 44% / 60% 60% 40% 40%;
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--pink) 45%, transparent),
+    inset 0 -8px 14px color-mix(in srgb, var(--pink) 55%, #000);
+}
+
+/* Belly highlight */
+.craft-dragon-torso::after {
+  content: "";
+  position: absolute;
+  bottom: 6px;
+  left: 10px;
+  width: 32px;
+  height: 22px;
+  background: color-mix(in srgb, var(--pink) 30%, var(--surface-raised));
+  border-radius: 50%;
+}
+
+/* Head */
+.craft-dragon-head {
+  position: absolute;
+  top: 2px;
+  left: 18px;
+  width: 44px;
+  height: 40px;
+  background: var(--pink);
+  border-radius: 50% 50% 38% 38% / 55% 55% 45% 45%;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--pink) 35%, transparent);
+}
+
+/* Eyes */
+.craft-dragon-head::before,
+.craft-dragon-head::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  width: 9px;
+  height: 9px;
+  background: var(--bg);
+  border-radius: 50%;
+  animation: dragon-blink 4.6s ease-in-out infinite;
+}
+
+.craft-dragon-head::before {
+  left: 7px;
+}
+
+.craft-dragon-head::after {
+  right: 7px;
+}
+
+/* Horns */
+.craft-dragon-horn-l,
+.craft-dragon-horn-r {
+  position: absolute;
+  top: -6px;
+  width: 6px;
+  height: 14px;
+  background: color-mix(in srgb, var(--pink) 80%, var(--amber));
+  border-radius: 3px 3px 1px 1px;
+}
+
+.craft-dragon-horn-l {
+  left: 8px;
+  transform: rotate(-16deg);
+}
+
+.craft-dragon-horn-r {
+  right: 8px;
+  transform: rotate(16deg);
+}
+
+/* Wings */
+.craft-dragon-wing-l,
+.craft-dragon-wing-r {
+  position: absolute;
+  bottom: 26px;
+  width: 24px;
+  height: 32px;
+  background: color-mix(in srgb, var(--pink) 65%, var(--bg));
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  animation: dragon-wing-beat 3.8s ease-in-out infinite;
+}
+
+.craft-dragon-wing-l {
+  left: -4px;
+  transform-origin: right center;
+  clip-path: polygon(100% 100%, 0 0, 0 100%);
+}
+
+.craft-dragon-wing-r {
+  right: -4px;
+  transform-origin: left center;
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+}
+
+/* Tail */
+.craft-dragon-tail {
+  position: absolute;
+  bottom: 0;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--pink);
+  border-top: none;
+  border-left: none;
+  border-radius: 0 0 12px 0;
+  transform: rotate(10deg);
+  box-shadow: 2px 2px 8px color-mix(in srgb, var(--pink) 30%, transparent);
+}
+
+/* Spark (shows on fusion) */
+.craft-dragon-spark {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.craft-dragon-spark[data-show="true"] {
+  animation: dragon-spark 0.8s ease-out both;
+}
+
+@keyframes dragon-spark {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0) scale(0.5); }
+  60%  { opacity: 1; transform: translateX(-50%) translateY(-14px) scale(1.2); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-22px) scale(0.8); }
+}
+
+/* ── Dragon keyframes ─────────────────────────────────────────────────── */
+
+@keyframes dragon-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes dragon-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95%            { transform: scaleY(0.1); }
+}
+
+@keyframes dragon-wing-beat {
+  0%, 100% { transform: scaleX(1); }
+  40%       { transform: scaleX(1.22); }
+  60%       { transform: scaleX(0.88); }
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .craft-modal-backdrop,
+  .craft-modal {
+    animation: none !important;
+  }
+
+  .craft-dragon-body,
+  .craft-dragon-wing-l,
+  .craft-dragon-wing-r,
+  .craft-dragon-head::before,
+  .craft-dragon-head::after {
+    animation: none !important;
+  }
+
+  .craft-dragon-spark[data-show="true"] {
+    animation: none !important;
+    opacity: 0;
+  }
+
+  .craft-traffic[data-loading="true"] .craft-traffic-count {
+    animation: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 600px) {
+  .craft-modal {
+    max-height: calc(100dvh - 2rem);
+  }
+
+  .craft-modal-terms > div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .craft-faq-vocab {
+    grid-template-columns: 1fr;
+  }
+
+  .craft-chrome-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .craft-dragon-wrap {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  .craft-dragon-toggle {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+}
