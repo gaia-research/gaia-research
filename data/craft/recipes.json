@@ -1,0 +1,1404 @@
+[
+  {
+    "pairKey": "multi-agent-debate+swarm-topology-management",
+    "result": "swarm-advanced",
+    "emoji": "✨",
+    "blurb": "Fuse /swarm-topology-management + /multi-agent-debate to unlock /swarm-advanced.",
+    "contributor": "ruvnet",
+    "slug": "swarm-advanced"
+  },
+  {
+    "pairKey": "document-editing+tool-use",
+    "result": "setup-matt-pocock-skills",
+    "emoji": "✨",
+    "blurb": "Fuse /document-editing + /tool-use to unlock /setup-matt-pocock-skills.",
+    "contributor": "mattpocock",
+    "slug": "setup-matt-pocock-skills"
+  },
+  {
+    "pairKey": "evaluate-output+score-relevance",
+    "result": "agent-eval",
+    "emoji": "✨",
+    "blurb": "Fuse /evaluate-output + /score-relevance to unlock /agent-eval.",
+    "slug": "agent-eval"
+  },
+  {
+    "pairKey": "adaptive-pattern-learning+memory-manage",
+    "result": "agentdb-learning",
+    "emoji": "✨",
+    "blurb": "Fuse /adaptive-pattern-learning + /memory-manage to unlock /agentdb-learning.",
+    "slug": "agentdb-learning"
+  },
+  {
+    "pairKey": "plan-decompose+workflow-automation",
+    "result": "sparc-methodology",
+    "emoji": "✨",
+    "blurb": "Fuse /workflow-automation + /plan-decompose to unlock /sparc-methodology.",
+    "slug": "sparc-methodology"
+  },
+  {
+    "pairKey": "question-answer+requirements-analysis",
+    "result": "brainstorming",
+    "emoji": "✨",
+    "blurb": "Fuse /requirements-analysis + /question-answer to unlock /brainstorming.",
+    "contributor": "obra",
+    "slug": "brainstorming"
+  },
+  {
+    "pairKey": "computer-use+web-search",
+    "result": "stagehand",
+    "emoji": "✨",
+    "blurb": "Fuse /web-search + /computer-use to unlock /stagehand.",
+    "slug": "stagehand"
+  },
+  {
+    "pairKey": "api-call+tool-use",
+    "result": "flow-nexus-platform",
+    "emoji": "✨",
+    "blurb": "Fuse /api-call + /tool-use to unlock /flow-nexus-platform.",
+    "contributor": "ruvnet",
+    "slug": "flow-nexus-platform"
+  },
+  {
+    "pairKey": "api-call+data-visualize",
+    "result": "collaborative-diagramming",
+    "emoji": "✨",
+    "blurb": "Fuse /api-call + /data-visualize to unlock /collaborative-diagramming.",
+    "slug": "collaborative-diagramming"
+  },
+  {
+    "pairKey": "code-execution+workflow-automation",
+    "result": "land-and-deploy",
+    "emoji": "✨",
+    "blurb": "Fuse /workflow-automation + /code-execution to unlock /land-and-deploy.",
+    "contributor": "garrytan",
+    "slug": "land-and-deploy"
+  },
+  {
+    "pairKey": "code-generation+vision-qa",
+    "result": "open-design",
+    "emoji": "✨",
+    "blurb": "Fuse /code-generation + /vision-qa to unlock /open-design.",
+    "contributor": "nexu-io",
+    "slug": "open-design"
+  },
+  {
+    "pairKey": "evaluate-output+plan-decompose",
+    "result": "design-shotgun",
+    "emoji": "✨",
+    "blurb": "Fuse /evaluate-output + /plan-decompose to unlock /design-shotgun.",
+    "contributor": "garrytan",
+    "slug": "design-shotgun"
+  },
+  {
+    "pairKey": "browser-automation+parse-html",
+    "result": "design-consultation",
+    "emoji": "✨",
+    "blurb": "Fuse /browser-automation + /parse-html to unlock /design-consultation.",
+    "contributor": "garrytan",
+    "slug": "design-consultation"
+  },
+  {
+    "pairKey": "error-interpretation+evaluate-output",
+    "result": "canary",
+    "emoji": "✨",
+    "blurb": "Fuse /evaluate-output + /error-interpretation to unlock /canary.",
+    "contributor": "garrytan",
+    "slug": "canary"
+  },
+  {
+    "pairKey": "parallel-execution+plan-decompose",
+    "result": "dispatching-parallel-agents",
+    "emoji": "✨",
+    "blurb": "Fuse /plan-decompose + /parallel-execution to unlock /dispatching-parallel-agents.",
+    "contributor": "obra",
+    "slug": "dispatching-parallel-agents"
+  },
+  {
+    "pairKey": "swarm-topology-management+worker-agent-dispatch",
+    "result": "hive-mind-coordination",
+    "emoji": "✨",
+    "blurb": "Fuse /swarm-topology-management + /worker-agent-dispatch to unlock /hive-mind-coordination.",
+    "contributor": "ruvnet",
+    "slug": "hive-mind-coordination"
+  },
+  {
+    "pairKey": "embed-text+parallel-execution",
+    "result": "flow-nexus-neural",
+    "emoji": "✨",
+    "blurb": "Fuse /parallel-execution + /embed-text to unlock /flow-nexus-neural.",
+    "contributor": "ruvnet",
+    "slug": "flow-nexus-neural"
+  },
+  {
+    "pairKey": "memory-manage+vector-search",
+    "result": "agentdb-advanced",
+    "emoji": "✨",
+    "blurb": "Fuse /vector-search + /memory-manage to unlock /agentdb-advanced.",
+    "contributor": "ruvnet",
+    "slug": "agentdb-advanced"
+  },
+  {
+    "pairKey": "automated-testing+browser-automation",
+    "result": "qa",
+    "emoji": "✨",
+    "blurb": "Fuse /browser-automation + /automated-testing to unlock /qa.",
+    "contributor": "garrytan",
+    "slug": "qa"
+  },
+  {
+    "pairKey": "tool-use+writing-plans",
+    "result": "executing-plans",
+    "emoji": "✨",
+    "blurb": "Fuse /writing-plans + /tool-use to unlock /executing-plans.",
+    "contributor": "obra",
+    "slug": "executing-plans"
+  },
+  {
+    "pairKey": "code-review-pipeline+diff-content",
+    "result": "ship",
+    "emoji": "✨",
+    "blurb": "Fuse /code-review-pipeline + /diff-content to unlock /ship.",
+    "contributor": "garrytan",
+    "slug": "ship"
+  },
+  {
+    "pairKey": "api-call+data-visualize",
+    "result": "generative-media",
+    "emoji": "✨",
+    "blurb": "Fuse /api-call + /data-visualize to unlock /generative-media.",
+    "slug": "generative-media"
+  },
+  {
+    "pairKey": "issue-triage+knowledge-graph-build",
+    "result": "graphify-triage",
+    "emoji": "✨",
+    "blurb": "Fuse /issue-triage + /knowledge-graph-build to unlock /graphify-triage.",
+    "contributor": "mbtiongson1",
+    "slug": "graphify-triage"
+  },
+  {
+    "pairKey": "design-review+self-critique",
+    "result": "grill-me",
+    "emoji": "✨",
+    "blurb": "Fuse /design-review + /self-critique to unlock /grill-me.",
+    "contributor": "mattpocock",
+    "slug": "grill-me"
+  },
+  {
+    "pairKey": "extract-entities+logical-inference",
+    "result": "graphify",
+    "emoji": "✨",
+    "blurb": "Fuse /extract-entities + /logical-inference to unlock /graphify.",
+    "contributor": "safishamsi",
+    "slug": "graphify"
+  },
+  {
+    "pairKey": "api-call+retrieve",
+    "result": "setup-gbrain",
+    "emoji": "✨",
+    "blurb": "Fuse /api-call + /retrieve to unlock /setup-gbrain.",
+    "contributor": "garrytan",
+    "slug": "setup-gbrain"
+  },
+  {
+    "pairKey": "code-execution+data-visualize",
+    "result": "mathematical-animation",
+    "emoji": "✨",
+    "blurb": "Fuse /code-execution + /data-visualize to unlock /mathematical-animation.",
+    "slug": "mathematical-animation"
+  },
+  {
+    "pairKey": "mcp-integration+refactor-code",
+    "result": "mcp-debugger-control",
+    "emoji": "✨",
+    "blurb": "Fuse /mcp-integration + /refactor-code to unlock /mcp-debugger-control.",
+    "slug": "mcp-debugger-control"
+  },
+  {
+    "pairKey": "context-compression+retrieve",
+    "result": "learn",
+    "emoji": "✨",
+    "blurb": "Fuse /context-compression + /retrieve to unlock /learn.",
+    "contributor": "garrytan",
+    "slug": "learn"
+  },
+  {
+    "pairKey": "api-call+classify",
+    "result": "ml-artifact-management",
+    "emoji": "✨",
+    "blurb": "Fuse /api-call + /classify to unlock /ml-artifact-management.",
+    "slug": "ml-artifact-management"
+  },
+  {
+    "pairKey": "document-editing+personal-knowledge-management",
+    "result": "personal",
+    "emoji": "✨",
+    "blurb": "Fuse /document-editing + /personal-knowledge-management to unlock /personal.",
+    "contributor": "mattpocock",
+    "slug": "personal"
+  },
+  {
+    "pairKey": "context-compression+retrieve",
+    "result": "obsidian-vault",
+    "emoji": "✨",
+    "blurb": "Fuse /retrieve + /context-compression to unlock /obsidian-vault.",
+    "contributor": "mattpocock",
+    "slug": "obsidian-vault"
+  },
+  {
+    "pairKey": "plan-decompose+write-report",
+    "result": "to-prd",
+    "emoji": "✨",
+    "blurb": "Fuse /write-report + /plan-decompose to unlock /to-prd.",
+    "contributor": "mattpocock",
+    "slug": "to-prd"
+  },
+  {
+    "pairKey": "api-call+issue-triage",
+    "result": "landing-report",
+    "emoji": "✨",
+    "blurb": "Fuse /api-call + /issue-triage to unlock /landing-report.",
+    "contributor": "garrytan",
+    "slug": "landing-report"
+  },
+  {
+    "pairKey": "evaluate-output+generate-text",
+    "result": "dspy",
+    "emoji": "✨",
+    "blurb": "Fuse /evaluate-output + /generate-text to unlock /dspy.",
+    "contributor": "stanfordnlp",
+    "slug": "dspy"
+  },
+  {
+    "pairKey": "code-execution+code-generation",
+    "result": "prototype",
+    "emoji": "✨",
+    "blurb": "Fuse /code-generation + /code-execution to unlock /prototype.",
+    "contributor": "mattpocock",
+    "slug": "prototype"
+  },
+  {
+    "pairKey": "plan-decompose+tool-use",
+    "result": "re-act-reasoning",
+    "emoji": "✨",
+    "blurb": "Fuse /plan-decompose + /tool-use to unlock /re-act-reasoning.",
+    "slug": "re-act-reasoning"
+  },
+  {
+    "pairKey": "adaptive-pattern-learning+agent-memory-learning",
+    "result": "reasoningbank",
+    "emoji": "✨",
+    "blurb": "Fuse /adaptive-pattern-learning + /agent-memory-learning to unlock /reasoningbank.",
+    "contributor": "ruvnet",
+    "slug": "reasoningbank"
+  },
+  {
+    "pairKey": "requesting-code-review+verification-before-completion",
+    "result": "receiving-code-review",
+    "emoji": "✨",
+    "blurb": "Fuse /requesting-code-review + /verification-before-completion to unlock /receiving-code-review.",
+    "contributor": "obra",
+    "slug": "receiving-code-review"
+  },
+  {
+    "pairKey": "code-review-pipeline+dispatching-parallel-agents",
+    "result": "requesting-code-review",
+    "emoji": "✨",
+    "blurb": "Fuse /code-review-pipeline + /dispatching-parallel-agents to unlock /requesting-code-review.",
+    "contributor": "obra",
+    "slug": "requesting-code-review"
+  },
+  {
+    "pairKey": "parse-html+parse-json",
+    "result": "search-engine-optimization",
+    "emoji": "✨",
+    "blurb": "Fuse /parse-html + /parse-json to unlock /search-engine-optimization.",
+    "slug": "search-engine-optimization"
+  },
+  {
+    "pairKey": "code-review-pipeline+evaluate-output",
+    "result": "cso",
+    "emoji": "✨",
+    "blurb": "Fuse /code-review-pipeline + /evaluate-output to unlock /cso.",
+    "contributor": "garrytan",
+    "slug": "cso"
+  },
+  {
+    "pairKey": "registry-curation+skill-authoring",
+    "result": "skill-fuse",
+    "emoji": "✨",
+    "blurb": "Fuse /registry-curation + /skill-authoring to unlock /skill-fuse.",
+    "contributor": "gaia-research",
+    "slug": "skill-fuse"
+  },
+  {
+    "pairKey": "browser-automation+computer-use",
+    "result": "stealth-browser-interaction",
+    "emoji": "✨",
+    "blurb": "Fuse /browser-automation + /computer-use to unlock /stealth-browser-interaction.",
+    "slug": "stealth-browser-interaction"
+  },
+  {
+    "pairKey": "error-interpretation+hypothesis-generate",
+    "result": "investigate",
+    "emoji": "✨",
+    "blurb": "Fuse /hypothesis-generate + /error-interpretation to unlock /investigate.",
+    "contributor": "garrytan",
+    "slug": "investigate"
+  },
+  {
+    "pairKey": "tool-select+tool-use",
+    "result": "tool-chaining",
+    "emoji": "✨",
+    "blurb": "Fuse /tool-use + /tool-select to unlock /tool-chaining.",
+    "slug": "tool-chaining"
+  },
+  {
+    "pairKey": "code-generation+tool-use",
+    "result": "write-a-skill",
+    "emoji": "✨",
+    "blurb": "Fuse /code-generation + /tool-use to unlock /write-a-skill.",
+    "contributor": "mattpocock",
+    "slug": "write-a-skill"
+  },
+  {
+    "pairKey": "chain-of-thought+plan-decompose",
+    "result": "tree-of-thought",
+    "emoji": "✨",
+    "blurb": "Fuse /chain-of-thought + /plan-decompose to unlock /tree-of-thought.",
+    "slug": "tree-of-thought"
+  },
+  {
+    "pairKey": "extract-entities+requirements-analysis",
+    "result": "ubiquitous-language",
+    "emoji": "✨",
+    "blurb": "Fuse /extract-entities + /requirements-analysis to unlock /ubiquitous-language.",
+    "contributor": "mattpocock",
+    "slug": "ubiquitous-language"
+  },
+  {
+    "pairKey": "code-execution+tool-use",
+    "result": "using-git-worktrees",
+    "emoji": "✨",
+    "blurb": "Fuse /code-execution + /tool-use to unlock /using-git-worktrees.",
+    "contributor": "obra",
+    "slug": "using-git-worktrees"
+  },
+  {
+    "pairKey": "code-execution+self-critique",
+    "result": "verification-before-completion",
+    "emoji": "✨",
+    "blurb": "Fuse /code-execution + /self-critique to unlock /verification-before-completion.",
+    "contributor": "obra",
+    "slug": "verification-before-completion"
+  },
+  {
+    "pairKey": "plan-decompose+route-intent",
+    "result": "garrytan",
+    "emoji": "✨",
+    "blurb": "Fuse /plan-decompose + /route-intent to unlock /garrytan.",
+    "contributor": "garrytan",
+    "slug": "garrytan"
+  },
+  {
+    "pairKey": "multimodal-reasoning+speech-to-text",
+    "result": "claude-video",
+    "emoji": "✨",
+    "blurb": "Fuse /multimodal-reasoning + /speech-to-text to unlock /claude-video.",
+    "contributor": "bradautomates",
+    "slug": "claude-video"
+  },
+  {
+    "pairKey": "browser-control+ux-audit",
+    "result": "web-accessibility",
+    "emoji": "✨",
+    "blurb": "Fuse /browser-control + /ux-audit to unlock /web-accessibility.",
+    "slug": "web-accessibility"
+  },
+  {
+    "pairKey": "code-review-pipeline+performance-tuning",
+    "result": "web-best-practices",
+    "emoji": "✨",
+    "blurb": "Fuse /code-review-pipeline + /performance-tuning to unlock /web-best-practices.",
+    "slug": "web-best-practices"
+  },
+  {
+    "pairKey": "api-call+document-editing",
+    "result": "gstack-upgrade",
+    "emoji": "✨",
+    "blurb": "Fuse /api-call + /document-editing to unlock /gstack-upgrade.",
+    "contributor": "garrytan",
+    "slug": "gstack-upgrade"
+  },
+  {
+    "pairKey": "plan-decompose+requirements-analysis",
+    "result": "writing-plans",
+    "emoji": "✨",
+    "blurb": "Fuse /plan-decompose + /requirements-analysis to unlock /writing-plans.",
+    "contributor": "obra",
+    "slug": "writing-plans"
+  },
+  {
+    "pairKey": "",
+    "result": "adversarial-robustness-testing",
+    "emoji": "✨",
+    "blurb": "Fuse /agent-eval + /guardrails + /prompt-injection-defense to unlock /adversarial-robustness-testing.",
+    "prereqs": [
+      "agent-eval",
+      "guardrails",
+      "prompt-injection-defense"
+    ],
+    "slug": "adversarial-robustness-testing"
+  },
+  {
+    "pairKey": "",
+    "result": "handoff",
+    "emoji": "✨",
+    "blurb": "Fuse /summarize + /document-editing + /context-compression to unlock /handoff.",
+    "prereqs": [
+      "summarize",
+      "document-editing",
+      "context-compression"
+    ],
+    "contributor": "mattpocock",
+    "slug": "handoff"
+  },
+  {
+    "pairKey": "",
+    "result": "agentdb",
+    "emoji": "✨",
+    "blurb": "Fuse /distributed-vector-memory + /agent-memory-learning + /memory-pattern-design + /vector-db-optimization + /vector-search to unlock /agentdb.",
+    "prereqs": [
+      "distributed-vector-memory",
+      "agent-memory-learning",
+      "memory-pattern-design",
+      "vector-db-optimization",
+      "vector-search"
+    ],
+    "contributor": "ruvnet",
+    "slug": "agentdb"
+  },
+  {
+    "pairKey": "",
+    "result": "architecture-diagram",
+    "emoji": "✨",
+    "blurb": "Fuse /data-visualize + /format-output + /write-report to unlock /architecture-diagram.",
+    "prereqs": [
+      "data-visualize",
+      "format-output",
+      "write-report"
+    ],
+    "slug": "architecture-diagram"
+  },
+  {
+    "pairKey": "",
+    "result": "health",
+    "emoji": "✨",
+    "blurb": "Fuse /generate-test + /code-execution + /error-interpretation to unlock /health.",
+    "prereqs": [
+      "generate-test",
+      "code-execution",
+      "error-interpretation"
+    ],
+    "contributor": "garrytan",
+    "slug": "health"
+  },
+  {
+    "pairKey": "",
+    "result": "autonomous-data-scientist",
+    "emoji": "✨",
+    "blurb": "Fuse /data-analysis + /math-reason + /research to unlock /autonomous-data-scientist.",
+    "prereqs": [
+      "data-analysis",
+      "math-reason",
+      "research"
+    ],
+    "slug": "autonomous-data-scientist"
+  },
+  {
+    "pairKey": "",
+    "result": "autonomous-swe",
+    "emoji": "✨",
+    "blurb": "Fuse /code-generation + /code-execution + /error-interpretation to unlock /autonomous-swe.",
+    "prereqs": [
+      "code-generation",
+      "code-execution",
+      "error-interpretation"
+    ],
+    "contributor": "devin-ai",
+    "slug": "autonomous-swe"
+  },
+  {
+    "pairKey": "",
+    "result": "autoresearch",
+    "emoji": "✨",
+    "blurb": "Fuse /ghostwrite + /knowledge-harvest + /research + /web-scrape + /web-search to unlock /autoresearch.",
+    "prereqs": [
+      "ghostwrite",
+      "knowledge-harvest",
+      "research",
+      "web-scrape",
+      "web-search"
+    ],
+    "contributor": "karpathy",
+    "slug": "autoresearch"
+  },
+  {
+    "pairKey": "",
+    "result": "career-ops",
+    "emoji": "✨",
+    "blurb": "Fuse /autonomous-web-research + /summarize + /document-editing to unlock /career-ops.",
+    "prereqs": [
+      "autonomous-web-research",
+      "summarize",
+      "document-editing"
+    ],
+    "contributor": "santifer",
+    "slug": "career-ops"
+  },
+  {
+    "pairKey": "",
+    "result": "causal-inference",
+    "emoji": "✨",
+    "blurb": "Fuse /hypothesis-generate + /logical-inference + /statistical-analysis to unlock /causal-inference.",
+    "prereqs": [
+      "hypothesis-generate",
+      "logical-inference",
+      "statistical-analysis"
+    ],
+    "slug": "causal-inference"
+  },
+  {
+    "pairKey": "",
+    "result": "code-review-and-quality",
+    "emoji": "✨",
+    "blurb": "Fuse /code-generation + /diff-content + /evaluate-output to unlock /code-review-and-quality.",
+    "prereqs": [
+      "code-generation",
+      "diff-content",
+      "evaluate-output"
+    ],
+    "contributor": "addy-osmani",
+    "slug": "code-review-and-quality"
+  },
+  {
+    "pairKey": "",
+    "result": "computational-biology-workflows",
+    "emoji": "✨",
+    "blurb": "Fuse /bioinformatic-sequence-analysis + /genomic-data-retrieval + /molecular-databases + /protein-structure-analysis + /proteomic-data-retrieval to unlock /computational-biology-workflows.",
+    "prereqs": [
+      "bioinformatic-sequence-analysis",
+      "genomic-data-retrieval",
+      "molecular-databases",
+      "protein-structure-analysis",
+      "proteomic-data-retrieval"
+    ],
+    "slug": "computational-biology-workflows"
+  },
+  {
+    "pairKey": "",
+    "result": "content-moderation",
+    "emoji": "✨",
+    "blurb": "Fuse /classify + /sentiment-analysis + /extract-entities to unlock /content-moderation.",
+    "prereqs": [
+      "classify",
+      "sentiment-analysis",
+      "extract-entities"
+    ],
+    "slug": "content-moderation"
+  },
+  {
+    "pairKey": "",
+    "result": "conversational-agent",
+    "emoji": "✨",
+    "blurb": "Fuse /question-answer + /memory-manage + /route-intent to unlock /conversational-agent.",
+    "prereqs": [
+      "question-answer",
+      "memory-manage",
+      "route-intent"
+    ],
+    "slug": "conversational-agent"
+  },
+  {
+    "pairKey": "",
+    "result": "huggingface-datasets",
+    "emoji": "✨",
+    "blurb": "Fuse /generate-sql + /data-visualize + /summarize to unlock /huggingface-datasets.",
+    "prereqs": [
+      "generate-sql",
+      "data-visualize",
+      "summarize"
+    ],
+    "slug": "huggingface-datasets"
+  },
+  {
+    "pairKey": "",
+    "result": "document-analyst",
+    "emoji": "✨",
+    "blurb": "Fuse /extract-entities + /format-output + /optical-character-recognition + /parse-json + /parse-pdf + /summarize to unlock /document-analyst.",
+    "prereqs": [
+      "extract-entities",
+      "format-output",
+      "optical-character-recognition",
+      "parse-json",
+      "parse-pdf",
+      "summarize"
+    ],
+    "slug": "document-analyst"
+  },
+  {
+    "pairKey": "",
+    "result": "dual-mode",
+    "emoji": "✨",
+    "blurb": "Fuse /headless-worker-spawn + /headless-worker-collect + /hybrid-workflow-coordination to unlock /dual-mode.",
+    "prereqs": [
+      "headless-worker-spawn",
+      "headless-worker-collect",
+      "hybrid-workflow-coordination"
+    ],
+    "contributor": "ruvnet",
+    "slug": "dual-mode"
+  },
+  {
+    "pairKey": "",
+    "result": "edge-optimization",
+    "emoji": "✨",
+    "blurb": "Fuse /evaluate-output + /fine-tune + /performance-tuning to unlock /edge-optimization.",
+    "prereqs": [
+      "evaluate-output",
+      "fine-tune",
+      "performance-tuning"
+    ],
+    "slug": "edge-optimization"
+  },
+  {
+    "pairKey": "",
+    "result": "engineering",
+    "emoji": "✨",
+    "blurb": "Fuse /autonomous-debug + /refactor-code + /vertical-slice-planning + /prd-generation + /issue-triage + /ubiquitous-language + /code-explain + /grill-with-docs + /prototype + /agent-environment-setup to unlock /engineering.",
+    "prereqs": [
+      "autonomous-debug",
+      "refactor-code",
+      "vertical-slice-planning",
+      "prd-generation",
+      "issue-triage",
+      "ubiquitous-language",
+      "code-explain",
+      "grill-with-docs",
+      "prototype",
+      "agent-environment-setup"
+    ],
+    "contributor": "mattpocock",
+    "slug": "engineering"
+  },
+  {
+    "pairKey": "",
+    "result": "explainability-audit",
+    "emoji": "✨",
+    "blurb": "Fuse /data-visualize + /evaluate-output + /statistical-analysis to unlock /explainability-audit.",
+    "prereqs": [
+      "data-visualize",
+      "evaluate-output",
+      "statistical-analysis"
+    ],
+    "slug": "explainability-audit"
+  },
+  {
+    "pairKey": "",
+    "result": "financial-modeling",
+    "emoji": "✨",
+    "blurb": "Fuse /data-analysis + /generate-sql + /statistical-analysis to unlock /financial-modeling.",
+    "prereqs": [
+      "data-analysis",
+      "generate-sql",
+      "statistical-analysis"
+    ],
+    "slug": "financial-modeling"
+  },
+  {
+    "pairKey": "",
+    "result": "gstack",
+    "emoji": "✨",
+    "blurb": "Fuse /question-answer + /evaluate-output + /code-review-pipeline + /ux-audit + /vertical-slice-planning + /design-system-extraction + /design-review + /code-generation + /systematic-debugging + /e2e-testing + /finishing-a-development-branch + /deployment-automation + /detect-anomaly + /document-editing + /browser-automation + /security-audit + /browser-control + /web-scrape + /skill-authoring + /write-report + /multi-agent-debate + /skill-performance-benchmarking + /automated-testing + /mcp-integration + /memory-manage + /guardrails + /knowledge-management + /format-output + /workspace-automation + /project-management + /prompt-optimization to unlock /gstack.",
+    "prereqs": [
+      "question-answer",
+      "evaluate-output",
+      "code-review-pipeline",
+      "ux-audit",
+      "vertical-slice-planning",
+      "design-system-extraction",
+      "design-review",
+      "code-generation",
+      "systematic-debugging",
+      "e2e-testing",
+      "finishing-a-development-branch",
+      "deployment-automation",
+      "detect-anomaly",
+      "document-editing",
+      "browser-automation",
+      "security-audit",
+      "browser-control",
+      "web-scrape",
+      "skill-authoring",
+      "write-report",
+      "multi-agent-debate",
+      "skill-performance-benchmarking",
+      "automated-testing",
+      "mcp-integration",
+      "memory-manage",
+      "guardrails",
+      "knowledge-management",
+      "format-output",
+      "workspace-automation",
+      "project-management",
+      "prompt-optimization"
+    ],
+    "contributor": "garrytan",
+    "slug": "gstack"
+  },
+  {
+    "pairKey": "",
+    "result": "full-stack-developer",
+    "emoji": "✨",
+    "blurb": "Fuse /code-review-pipeline + /automated-testing + /refactor-code to unlock /full-stack-developer.",
+    "prereqs": [
+      "code-review-pipeline",
+      "automated-testing",
+      "refactor-code"
+    ],
+    "slug": "full-stack-developer"
+  },
+  {
+    "pairKey": "",
+    "result": "function-calling",
+    "emoji": "✨",
+    "blurb": "Fuse /structured-output + /api-call + /tool-select to unlock /function-calling.",
+    "prereqs": [
+      "structured-output",
+      "api-call",
+      "tool-select"
+    ],
+    "slug": "function-calling"
+  },
+  {
+    "pairKey": "",
+    "result": "ghostwrite",
+    "emoji": "✨",
+    "blurb": "Fuse /research + /write-report + /audience-model to unlock /ghostwrite.",
+    "prereqs": [
+      "research",
+      "write-report",
+      "audience-model"
+    ],
+    "slug": "ghostwrite"
+  },
+  {
+    "pairKey": "",
+    "result": "github-suite",
+    "emoji": "✨",
+    "blurb": "Fuse /code-review-pipeline + /multi-repo-coordination + /deployment-automation + /project-management + /workflow-automation to unlock /github-suite.",
+    "prereqs": [
+      "code-review-pipeline",
+      "multi-repo-coordination",
+      "deployment-automation",
+      "project-management",
+      "workflow-automation"
+    ],
+    "contributor": "ruvnet",
+    "slug": "github-suite"
+  },
+  {
+    "pairKey": "",
+    "result": "agent-skills",
+    "emoji": "✨",
+    "blurb": "Fuse /brainstorming + /writing-plans + /subagent-driven-development + /verification-before-completion + /finishing-a-development-branch to unlock /agent-skills.",
+    "prereqs": [
+      "brainstorming",
+      "writing-plans",
+      "subagent-driven-development",
+      "verification-before-completion",
+      "finishing-a-development-branch"
+    ],
+    "contributor": "addy-osmani",
+    "slug": "agent-skills"
+  },
+  {
+    "pairKey": "",
+    "result": "grill-with-docs",
+    "emoji": "✨",
+    "blurb": "Fuse /grill-me + /ubiquitous-language + /document-editing to unlock /grill-with-docs.",
+    "prereqs": [
+      "grill-me",
+      "ubiquitous-language",
+      "document-editing"
+    ],
+    "contributor": "mattpocock",
+    "slug": "grill-with-docs"
+  },
+  {
+    "pairKey": "",
+    "result": "grounding",
+    "emoji": "✨",
+    "blurb": "Fuse /retrieve + /cite-sources + /evaluate-output to unlock /grounding.",
+    "prereqs": [
+      "retrieve",
+      "cite-sources",
+      "evaluate-output"
+    ],
+    "slug": "grounding"
+  },
+  {
+    "pairKey": "",
+    "result": "careful",
+    "emoji": "✨",
+    "blurb": "Fuse /evaluate-output + /classify + /structured-output to unlock /careful.",
+    "prereqs": [
+      "evaluate-output",
+      "classify",
+      "structured-output"
+    ],
+    "contributor": "garrytan",
+    "slug": "careful"
+  },
+  {
+    "pairKey": "",
+    "result": "humanize-prose",
+    "emoji": "✨",
+    "blurb": "Fuse /document-editing + /audience-model + /format-output to unlock /humanize-prose.",
+    "prereqs": [
+      "document-editing",
+      "audience-model",
+      "format-output"
+    ],
+    "slug": "humanize-prose"
+  },
+  {
+    "pairKey": "",
+    "result": "knowledge-harvest",
+    "emoji": "✨",
+    "blurb": "Fuse /web-scrape + /extract-entities + /embed-text to unlock /knowledge-harvest.",
+    "prereqs": [
+      "web-scrape",
+      "extract-entities",
+      "embed-text"
+    ],
+    "slug": "knowledge-harvest"
+  },
+  {
+    "pairKey": "",
+    "result": "huggingface-papers",
+    "emoji": "✨",
+    "blurb": "Fuse /cite-sources + /literature-search + /research + /summarize to unlock /huggingface-papers.",
+    "prereqs": [
+      "cite-sources",
+      "literature-search",
+      "research",
+      "summarize"
+    ],
+    "slug": "huggingface-papers"
+  },
+  {
+    "pairKey": "",
+    "result": "mcp-server-creation",
+    "emoji": "✨",
+    "blurb": "Fuse /mcp-integration + /tool-creation + /api-call to unlock /mcp-server-creation.",
+    "prereqs": [
+      "mcp-integration",
+      "tool-creation",
+      "api-call"
+    ],
+    "slug": "mcp-server-creation"
+  },
+  {
+    "pairKey": "",
+    "result": "ml-pipeline",
+    "emoji": "✨",
+    "blurb": "Fuse /data-analysis + /automated-testing + /code-generation to unlock /ml-pipeline.",
+    "prereqs": [
+      "data-analysis",
+      "automated-testing",
+      "code-generation"
+    ],
+    "slug": "ml-pipeline"
+  },
+  {
+    "pairKey": "",
+    "result": "codex",
+    "emoji": "✨",
+    "blurb": "Fuse /self-critique + /evaluate-output + /chain-of-thought to unlock /codex.",
+    "prereqs": [
+      "self-critique",
+      "evaluate-output",
+      "chain-of-thought"
+    ],
+    "contributor": "garrytan",
+    "slug": "codex"
+  },
+  {
+    "pairKey": "",
+    "result": "flow-nexus-swarm",
+    "emoji": "✨",
+    "blurb": "Fuse /plan-and-execute + /route-intent + /tool-select to unlock /flow-nexus-swarm.",
+    "prereqs": [
+      "plan-and-execute",
+      "route-intent",
+      "tool-select"
+    ],
+    "slug": "flow-nexus-swarm"
+  },
+  {
+    "pairKey": "",
+    "result": "flow-nexus",
+    "emoji": "✨",
+    "blurb": "Fuse /multi-agent-orchestration-v + /cloud-platform-management + /distributed-neural-training to unlock /flow-nexus.",
+    "prereqs": [
+      "multi-agent-orchestration-v",
+      "cloud-platform-management",
+      "distributed-neural-training"
+    ],
+    "contributor": "ruvnet",
+    "slug": "flow-nexus"
+  },
+  {
+    "pairKey": "",
+    "result": "ruflo",
+    "emoji": "✨",
+    "blurb": "Fuse /multi-node-orchestration + /agent-memory-platform + /git-integration + /reasoning-pattern-bank + /platform-modernization-sprint + /dual-mode to unlock /ruflo.",
+    "prereqs": [
+      "multi-node-orchestration",
+      "agent-memory-platform",
+      "git-integration",
+      "reasoning-pattern-bank",
+      "platform-modernization-sprint",
+      "dual-mode"
+    ],
+    "contributor": "ruvnet",
+    "slug": "ruflo"
+  },
+  {
+    "pairKey": "",
+    "result": "transformers-js",
+    "emoji": "✨",
+    "blurb": "Fuse /image-caption + /question-answer + /logical-inference to unlock /transformers-js.",
+    "prereqs": [
+      "image-caption",
+      "question-answer",
+      "logical-inference"
+    ],
+    "slug": "transformers-js"
+  },
+  {
+    "pairKey": "",
+    "result": "ontology-alignment",
+    "emoji": "✨",
+    "blurb": "Fuse /extract-entities + /knowledge-graph-build + /schema-design to unlock /ontology-alignment.",
+    "prereqs": [
+      "extract-entities",
+      "knowledge-graph-build",
+      "schema-design"
+    ],
+    "slug": "ontology-alignment"
+  },
+  {
+    "pairKey": "",
+    "result": "plan-and-execute",
+    "emoji": "✨",
+    "blurb": "Fuse /route-intent + /plan-decompose + /tool-select to unlock /plan-and-execute.",
+    "prereqs": [
+      "route-intent",
+      "plan-decompose",
+      "tool-select"
+    ],
+    "slug": "plan-and-execute"
+  },
+  {
+    "pairKey": "",
+    "result": "ruflo-v3",
+    "emoji": "✨",
+    "blurb": "Fuse /cli-modernization + /core-platform-implementation + /system-integration + /performance-tuning + /advanced-swarm-coordination to unlock /ruflo-v3.",
+    "prereqs": [
+      "cli-modernization",
+      "core-platform-implementation",
+      "system-integration",
+      "performance-tuning",
+      "advanced-swarm-coordination"
+    ],
+    "contributor": "ruvnet",
+    "slug": "ruflo-v3"
+  },
+  {
+    "pairKey": "",
+    "result": "prediction-market-analysis",
+    "emoji": "✨",
+    "blurb": "Fuse /data-analysis + /web-search + /statistical-analysis to unlock /prediction-market-analysis.",
+    "prereqs": [
+      "data-analysis",
+      "web-search",
+      "statistical-analysis"
+    ],
+    "slug": "prediction-market-analysis"
+  },
+  {
+    "pairKey": "",
+    "result": "productivity",
+    "emoji": "✨",
+    "blurb": "Fuse /agent-handoff + /context-compression + /grill-me + /tool-creation to unlock /productivity.",
+    "prereqs": [
+      "agent-handoff",
+      "context-compression",
+      "grill-me",
+      "tool-creation"
+    ],
+    "contributor": "mattpocock",
+    "slug": "productivity"
+  },
+  {
+    "pairKey": "",
+    "result": "orchestkit-rag",
+    "emoji": "✨",
+    "blurb": "Fuse /retrieve + /chunk-document + /embed-text + /score-relevance + /tokenize + /rank to unlock /orchestkit-rag.",
+    "prereqs": [
+      "retrieve",
+      "chunk-document",
+      "embed-text",
+      "score-relevance",
+      "tokenize",
+      "rank"
+    ],
+    "slug": "orchestkit-rag"
+  },
+  {
+    "pairKey": "",
+    "result": "real-time-voice-assistant",
+    "emoji": "✨",
+    "blurb": "Fuse /voice-agent + /memory-manage + /plan-and-execute to unlock /real-time-voice-assistant.",
+    "prereqs": [
+      "voice-agent",
+      "memory-manage",
+      "plan-and-execute"
+    ],
+    "slug": "real-time-voice-assistant"
+  },
+  {
+    "pairKey": "",
+    "result": "recursive-self-improvement",
+    "emoji": "✨",
+    "blurb": "Fuse /autonomous-debug + /evaluate-output + /plan-and-execute to unlock /recursive-self-improvement.",
+    "prereqs": [
+      "autonomous-debug",
+      "evaluate-output",
+      "plan-and-execute"
+    ],
+    "slug": "recursive-self-improvement"
+  },
+  {
+    "pairKey": "",
+    "result": "gaia-bot-curate",
+    "emoji": "✨",
+    "blurb": "Fuse /research + /code-generation + /code-execution to unlock /gaia-bot-curate.",
+    "prereqs": [
+      "research",
+      "code-generation",
+      "code-execution"
+    ],
+    "slug": "gaia-bot-curate"
+  },
+  {
+    "pairKey": "",
+    "result": "gaia-audit",
+    "emoji": "✨",
+    "blurb": "Fuse /retrieve + /cite-sources + /evaluate-output to unlock /gaia-audit.",
+    "prereqs": [
+      "retrieve",
+      "cite-sources",
+      "evaluate-output"
+    ],
+    "contributor": "mbtiongson1",
+    "slug": "gaia-audit"
+  },
+  {
+    "pairKey": "",
+    "result": "gaia-meta-audit",
+    "emoji": "✨",
+    "blurb": "Fuse /registry-entry-audit + /registry-curation + /detect-anomaly to unlock /gaia-meta-audit.",
+    "prereqs": [
+      "registry-entry-audit",
+      "registry-curation",
+      "detect-anomaly"
+    ],
+    "contributor": "mbtiongson1",
+    "slug": "gaia-meta-audit"
+  },
+  {
+    "pairKey": "",
+    "result": "regulatory-compliance-mapping",
+    "emoji": "✨",
+    "blurb": "Fuse /extract-entities + /knowledge-graph-build + /security-audit to unlock /regulatory-compliance-mapping.",
+    "prereqs": [
+      "extract-entities",
+      "knowledge-graph-build",
+      "security-audit"
+    ],
+    "slug": "regulatory-compliance-mapping"
+  },
+  {
+    "pairKey": "",
+    "result": "release",
+    "emoji": "✨",
+    "blurb": "Fuse /workflow-automation + /code-execution + /generate-text to unlock /release.",
+    "prereqs": [
+      "workflow-automation",
+      "code-execution",
+      "generate-text"
+    ],
+    "slug": "release"
+  },
+  {
+    "pairKey": "",
+    "result": "research",
+    "emoji": "🔭",
+    "blurb": "Fuse /web-search + /summarize + /cite-sources to unlock /research.",
+    "prereqs": [
+      "web-search",
+      "summarize",
+      "cite-sources"
+    ],
+    "slug": "research"
+  },
+  {
+    "pairKey": "",
+    "result": "scientific-discovery",
+    "emoji": "✨",
+    "blurb": "Fuse /computational-biology-workflows + /hypothesis-generate + /math-reason + /research to unlock /scientific-discovery.",
+    "prereqs": [
+      "computational-biology-workflows",
+      "hypothesis-generate",
+      "math-reason",
+      "research"
+    ],
+    "slug": "scientific-discovery"
+  },
+  {
+    "pairKey": "",
+    "result": "scientific-writing",
+    "emoji": "✨",
+    "blurb": "Fuse /write-report + /cite-sources + /scientific-visualization to unlock /scientific-writing.",
+    "prereqs": [
+      "write-report",
+      "cite-sources",
+      "scientific-visualization"
+    ],
+    "slug": "scientific-writing"
+  },
+  {
+    "pairKey": "",
+    "result": "skillify",
+    "emoji": "✨",
+    "blurb": "Fuse /generate-text + /structured-output + /code-generation to unlock /skillify.",
+    "prereqs": [
+      "generate-text",
+      "structured-output",
+      "code-generation"
+    ],
+    "contributor": "garrytan",
+    "slug": "skillify"
+  },
+  {
+    "pairKey": "",
+    "result": "skills",
+    "emoji": "✨",
+    "blurb": "Fuse /engineering-discipline + /productivity + /personal + /tool-creation + /ubiquitous-language to unlock /skills.",
+    "prereqs": [
+      "engineering-discipline",
+      "productivity",
+      "personal",
+      "tool-creation",
+      "ubiquitous-language"
+    ],
+    "contributor": "mattpocock",
+    "slug": "skills"
+  },
+  {
+    "pairKey": "",
+    "result": "benchmark-models",
+    "emoji": "✨",
+    "blurb": "Fuse /agent-eval + /skill-discovery + /statistical-analysis to unlock /benchmark-models.",
+    "prereqs": [
+      "agent-eval",
+      "skill-discovery",
+      "statistical-analysis"
+    ],
+    "contributor": "garrytan",
+    "slug": "benchmark-models"
+  },
+  {
+    "pairKey": "",
+    "result": "skill-security-analysis",
+    "emoji": "✨",
+    "blurb": "Fuse /security-audit + /prompt-injection-defense + /skill-discovery to unlock /skill-security-analysis.",
+    "prereqs": [
+      "security-audit",
+      "prompt-injection-defense",
+      "skill-discovery"
+    ],
+    "slug": "skill-security-analysis"
+  },
+  {
+    "pairKey": "",
+    "result": "subagent-driven-development",
+    "emoji": "✨",
+    "blurb": "Fuse /executing-plans + /dispatching-parallel-agents + /code-review-pipeline to unlock /subagent-driven-development.",
+    "prereqs": [
+      "executing-plans",
+      "dispatching-parallel-agents",
+      "code-review-pipeline"
+    ],
+    "contributor": "obra",
+    "slug": "subagent-driven-development"
+  },
+  {
+    "pairKey": "",
+    "result": "superpowers",
+    "emoji": "✨",
+    "blurb": "Fuse /brainstorming + /dispatching-parallel-agents + /executing-plans + /finishing-a-development-branch + /receiving-code-review + /requesting-code-review + /subagent-driven-development + /systematic-debugging + /using-git-worktrees + /verification-before-completion + /writing-plans to unlock /superpowers.",
+    "prereqs": [
+      "brainstorming",
+      "dispatching-parallel-agents",
+      "executing-plans",
+      "finishing-a-development-branch",
+      "receiving-code-review",
+      "requesting-code-review",
+      "subagent-driven-development",
+      "systematic-debugging",
+      "using-git-worktrees",
+      "verification-before-completion",
+      "writing-plans"
+    ],
+    "contributor": "obra",
+    "slug": "superpowers"
+  },
+  {
+    "pairKey": "",
+    "result": "supply-chain-optimization",
+    "emoji": "✨",
+    "blurb": "Fuse /data-analysis + /detect-anomaly + /statistical-analysis to unlock /supply-chain-optimization.",
+    "prereqs": [
+      "data-analysis",
+      "detect-anomaly",
+      "statistical-analysis"
+    ],
+    "slug": "supply-chain-optimization"
+  },
+  {
+    "pairKey": "",
+    "result": "text-to-sql-pipeline",
+    "emoji": "✨",
+    "blurb": "Fuse /generate-sql + /parse-json + /format-output to unlock /text-to-sql-pipeline.",
+    "prereqs": [
+      "generate-sql",
+      "parse-json",
+      "format-output"
+    ],
+    "slug": "text-to-sql-pipeline"
+  },
+  {
+    "pairKey": "",
+    "result": "threat-intelligence-synthesis",
+    "emoji": "✨",
+    "blurb": "Fuse /feed-monitoring + /knowledge-graph-build + /security-audit to unlock /threat-intelligence-synthesis.",
+    "prereqs": [
+      "feed-monitoring",
+      "knowledge-graph-build",
+      "security-audit"
+    ],
+    "slug": "threat-intelligence-synthesis"
+  },
+  {
+    "pairKey": "",
+    "result": "translation-pipeline",
+    "emoji": "✨",
+    "blurb": "Fuse /translate + /sentiment-analysis + /audience-model to unlock /translation-pipeline.",
+    "prereqs": [
+      "translate",
+      "sentiment-analysis",
+      "audience-model"
+    ],
+    "slug": "translation-pipeline"
+  },
+  {
+    "pairKey": "",
+    "result": "voice-agent",
+    "emoji": "✨",
+    "blurb": "Fuse /speech-to-text + /question-answer + /text-to-speech to unlock /voice-agent.",
+    "prereqs": [
+      "speech-to-text",
+      "question-answer",
+      "text-to-speech"
+    ],
+    "slug": "voice-agent"
+  },
+  {
+    "pairKey": "",
+    "result": "web-quality-audit",
+    "emoji": "✨",
+    "blurb": "Fuse /registry-health-scan + /performance-tuning + /search-engine-optimization + /web-accessibility + /web-best-practices to unlock /web-quality-audit.",
+    "prereqs": [
+      "registry-health-scan",
+      "performance-tuning",
+      "search-engine-optimization",
+      "web-accessibility",
+      "web-best-practices"
+    ],
+    "slug": "web-quality-audit"
+  },
+  {
+    "pairKey": "",
+    "result": "scrape",
+    "emoji": "✨",
+    "blurb": "Fuse /web-search + /parse-html + /extract-entities to unlock /scrape.",
+    "prereqs": [
+      "web-search",
+      "parse-html",
+      "extract-entities"
+    ],
+    "contributor": "garrytan",
+    "slug": "scrape"
+  },
+  {
+    "pairKey": "",
+    "result": "wiki-search",
+    "emoji": "✨",
+    "blurb": "Fuse /retrieve + /embed-text + /summarize to unlock /wiki-search.",
+    "prereqs": [
+      "retrieve",
+      "embed-text",
+      "summarize"
+    ],
+    "slug": "wiki-search"
+  },
+  {
+    "pairKey": "",
+    "result": "github-workflow-automation",
+    "emoji": "✨",
+    "blurb": "Fuse /plan-decompose + /tool-use + /api-call to unlock /github-workflow-automation.",
+    "prereqs": [
+      "plan-decompose",
+      "tool-use",
+      "api-call"
+    ],
+    "slug": "github-workflow-automation"
+  },
+  {
+    "pairKey": "",
+    "result": "x-twitter-automation",
+    "emoji": "✨",
+    "blurb": "Fuse /browser-automation + /web-scrape + /workflow-automation to unlock /x-twitter-automation.",
+    "prereqs": [
+      "browser-automation",
+      "web-scrape",
+      "workflow-automation"
+    ],
+    "slug": "x-twitter-automation"
+  }
+]
