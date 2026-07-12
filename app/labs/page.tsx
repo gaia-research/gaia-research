@@ -1,26 +1,31 @@
 import Link from "next/link";
+import LabThumb from "@/components/labs/LabThumb";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 
 export const metadata = {
-  title: "Labs",
+  title: "Labs & Games",
   description:
-    "Gaia Research live labs — experimental local surfaces for exploring agent capability. Benchmark results are published separately.",
+    "Gaia Research labs — little browser toys for poking at agent capability. Everything runs locally; benchmark claims are published separately after review.",
 };
 
 const labs = [
   {
-    title: "Context Diet",
-    status: "Lab 001 · WIP",
+    kind: "craft" as const,
+    title: "Infinite Skill Craft",
+    tag: "Live · Game",
     description:
-      "Measure an agent context file, project a reduction band, and export a SKILL.md proposal — entirely in your browser.",
-    href: "/labs/context-diet",
+      "Smash two dev skills together and see what the forge coughs up. Then do it again. And again. Infinite, obviously.",
+    cta: "Start crafting",
+    href: "/labs/infinite-skill-craft",
   },
   {
-    title: "Infinite Skill Craft",
-    status: "Lab 002 · Live",
+    kind: "diet" as const,
+    title: "Context Diet",
+    tag: "Beta · Tool",
     description:
-      "Drag two dev skills together and discover what the forge spits out, boss.",
-    href: "/labs/infinite-skill-craft",
+      "Feed it a bloated context file and watch it shrink to a lean, mean skill sliver. Weigh-in stays in your browser.",
+    cta: "Trim a prompt",
+    href: "/labs/context-diet",
   },
 ] as const;
 
@@ -29,19 +34,23 @@ export default function LabsIndexPage() {
     <>
       <SiteHeader />
       <main id="main" className="lab-index" aria-labelledby="labs-title">
-        <p className="signal"><span /> LIVE RESEARCH SURFACES</p>
-        <h1 id="labs-title" style={{ fontSize: "var(--type-display-2)" }}>Labs.</h1>
+        <p className="signal"><span /> PULL A LEVER, SEE WHAT SPARKS</p>
+        <h1 id="labs-title" style={{ fontSize: "var(--type-display-2)" }}>Labs &amp; Games.</h1>
         <p style={{ color: "var(--muted)", maxWidth: "56ch" }}>
-          Experimental, evidence-first surfaces. Each lab runs locally in your browser; comparative
-          benchmark claims are published to the research ledger only after review.
+          Little browser toys we build to poke at agent capability. No login, no download, nothing
+          leaves your machine &mdash; comparative benchmark claims land on the research ledger only
+          after review.
         </p>
-        <div className="lab-index-grid">
+        <div className="labs-play-grid" style={{ marginTop: "var(--space-tight)" }}>
           {labs.map((lab) => (
-            <Link className="lab-card" href={lab.href} key={lab.href}>
-              <span>{lab.status}</span>
-              <h3>{lab.title}</h3>
-              <p>{lab.description}</p>
-              <span>Open lab →</span>
+            <Link className={`play-card play-card-${lab.kind}`} href={lab.href} key={lab.href}>
+              <LabThumb kind={lab.kind} />
+              <div className="play-card-body">
+                <span className="play-tag">{lab.tag}</span>
+                <h3>{lab.title}</h3>
+                <p>{lab.description}</p>
+                <span className="play-go">{lab.cta} <span aria-hidden="true">→</span></span>
+              </div>
             </Link>
           ))}
         </div>
