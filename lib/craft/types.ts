@@ -43,6 +43,11 @@ export interface SkillCard {
    * from the playful blurb. Additive optional field — safe for the frozen contract.
    */
   description?: string;
+  /**
+   * Real registry title of the named skill this fusion maps to; present on
+   * canonical hits. Additive optional field.
+   */
+  skillTitle?: string;
   /** Rarity tier — defaults to `emergent` when unknown. */
   tier?: FusionTier;
   /** Unix-ms timestamp of when this card was first discovered by this browser session. */
@@ -64,6 +69,11 @@ export interface FusionResult {
    * from the playful blurb. Additive optional field — safe for the frozen contract.
    */
   description?: string;
+  /**
+   * Real registry title of the named skill this fusion maps to; present on
+   * canonical hits. Additive optional field.
+   */
+  skillTitle?: string;
   /** Rarity tier of this result. */
   tier: FusionTier;
   /**

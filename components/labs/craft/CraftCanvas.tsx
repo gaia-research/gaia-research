@@ -137,6 +137,17 @@ function clamp01(v: number): number {
   return v < 0 ? 0 : v > 1 ? 1 : v;
 }
 
+/**
+ * Extracts the contributor handle from a skill-tree deep-link, e.g.
+ * `https://gaiaskilltree.com/named/#explorer/garrytan/scrape` -> `garrytan`.
+ * Returns undefined for any URL that doesn't match the explorer shape.
+ */
+function contributorFromSkillTreeUrl(url: string | undefined): string | undefined {
+  if (!url) return undefined;
+  const m = url.match(/#explorer\/([^/]+)\/[^/]+$/);
+  return m ? m[1] : undefined;
+}
+
 /** Load JSON from localStorage, tolerating any corruption. */
 function loadJSON<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
@@ -489,6 +500,7 @@ export function CraftCanvas() {
           emoji: result.emoji,
           blurb: result.blurb,
           description: result.description,
+          skillTitle: result.skillTitle,
           tier: result.tier,
           passesSkillCheck: result.passesSkillCheck,
           skillTreeUrl: result.skillTreeUrl,
@@ -1323,6 +1335,10 @@ function InstancePopover({
     focusTarget?.focus();
   }, []);
 
+  // Credit the real contributor behind a canonical skill (derived from the
+  // deep-link, so we don't need to thread another prop through).
+  const contributor = contributorFromSkillTreeUrl(card.skillTreeUrl);
+
   return (
     <div
       ref={ref}
@@ -1378,26 +1394,51 @@ function InstancePopover({
         </div>
       )}
 
-      {/* Primary "what it does" line — the factual capability. This is what makes
-          every fusion read as a REAL skill, not a mystery noun. */}
-      {card.description && <p className="craft-pop-desc">{card.description}</p>}
-
-      {/* Secondary, teasing line — Milim's playful take. Demoted below the fact. */}
-      {card.blurb && (
-        <p className={`craft-pop-blurb${card.description ? " is-secondary" : ""}`}>
-          {card.blurb}
-        </p>
-      )}
-
-      {canonical && card.skillTreeUrl && (
-        <a
-          className="craft-unlock"
-          href={card.skillTreeUrl}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          Open in the Skill Tree <span aria-hidden="true">↗</span>
-        </a>
+      {/* GROUND-TRUTH block for a canonical result that maps to a real named
+          skill. The real registry title leads ("Real skill: …"), the real
+          registry description is the primary "what it does" line, the
+          contributor is credited, and the reward CTA follows. This is what makes
+          every canonical unlock read as an unmistakably real Skill Tree entry
+          and keeps the funnel earned. */}
+      {canonical && card.skillTreeUrl ? (
+        <div className="craft-pop-real">
+          {card.skillTitle && (
+            <p className="craft-pop-real-title">
+              <span className="craft-pop-real-label">Real skill</span>
+              <span className="craft-pop-real-name">{card.skillTitle}</span>
+            </p>
+          )}
+          {card.description && <p className="craft-pop-desc">{card.description}</p>}
+          {contributor && (
+            <p className="craft-pop-cred">
+              Verified in the Gaia Skill Tree by{" "}
+              <span className="craft-pop-cred-by">@{contributor}</span>.
+            </p>
+          )}
+          {/* Milim's playful take stays as a quieter garnish beneath the fact. */}
+          {card.blurb && (
+            <p className="craft-pop-blurb is-secondary">{card.blurb}</p>
+          )}
+          <a
+            className="craft-unlock"
+            href={card.skillTreeUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Open in the Skill Tree <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      ) : (
+        <>
+          {/* Non-canonical (bridge / egg / experimental): the factual line leads,
+              Milim's blurb trails as before. */}
+          {card.description && <p className="craft-pop-desc">{card.description}</p>}
+          {card.blurb && (
+            <p className={`craft-pop-blurb${card.description ? " is-secondary" : ""}`}>
+              {card.blurb}
+            </p>
+          )}
+        </>
       )}
 
       <button type="button" className="craft-pop-remove" onClick={onDelete}>

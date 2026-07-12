@@ -689,6 +689,51 @@
   font-style: italic;
   font-size: 0.83rem;
 }
+
+/* ── Ground-truth block: a canonical result maps to a REAL named skill ──────
+   The real registry title + description lead so the unlock reads as an
+   unmistakably real Skill Tree entry; the contributor credit + reward CTA make
+   the funnel feel earned. Amber = "canonical / real skill" per the badge system;
+   no new colors, tokens only. */
+.craft-pop-real {
+  border-top: 1px solid color-mix(in srgb, var(--amber) 28%, transparent);
+  margin-top: 0.15rem;
+  padding-top: 0.7rem;
+}
+.craft-pop-real-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.55rem;
+  margin: 0 0 0.5rem;
+}
+.craft-pop-real-label {
+  flex: none;
+  font: 0.6rem var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  border: 1px solid color-mix(in srgb, var(--amber) 45%, transparent);
+  background: color-mix(in srgb, var(--amber) 10%, transparent);
+  padding: 0.12rem 0.4rem;
+}
+.craft-pop-real-name {
+  flex: 1;
+  min-width: 0;
+  font: 400 1.02rem/1.15 var(--display);
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.craft-pop-cred {
+  margin: 0 0 0.7rem;
+  font: 0.72rem var(--mono);
+  letter-spacing: 0.02em;
+  color: var(--dim);
+}
+.craft-pop-cred-by {
+  color: var(--blue);
+}
 .craft-pop .craft-unlock {
   display: flex;
   width: 100%;

@@ -40,7 +40,7 @@ import { pairKey } from '@/lib/craft/types';
 import type { FusionResult, FusionTier } from '@/lib/craft/types';
 import { findRecipe, skillTreeUrl } from '@/lib/craft/recipes';
 import { findStarterRecipe } from '@/lib/craft/starter-recipes';
-import namedIndex from '@/data/craft/named-index.json';
+import { lookupNamedSkill, namedContributor } from '@/lib/craft/named-index';
 import {
   buildFusionPrompt,
   FUSION_MODEL,
@@ -256,14 +256,14 @@ function safeDescription(raw: unknown): string | undefined {
 // Emergent → canonical promotion (the aha + funnel payoff)
 // ---------------------------------------------------------------------------
 //
-// `named-index.json` is an anti-bloat map of every REAL Gaia Skill Tree slug to
-// its contributor handle. When a fusion name normalises to a slug that lives in
-// that index, the result is a genuine named skill — so we PROMOTE it to the
-// canonical tier and attach the derived deep-link. Storing only slug→contributor
+// `named-index.json` is the ground-truth map of every REAL Gaia Skill Tree slug
+// to its registry record (contributor + real title/description). Access goes
+// through lib/craft/named-index.ts (`lookupNamedSkill` / `namedContributor`) so
+// this route never touches the JSON's short-key shape. When a fusion name
+// normalises to a slug that lives in that index, the result is a genuine named
+// skill — so we PROMOTE it to canonical, attach the derived deep-link, and swap
+// in the real registry title + description. Storing only slug+contributor
 // (never full URLs) keeps derivation in one place (`skillTreeUrl`).
-
-const SLUG_TO_CONTRIBUTOR: Record<string, string> =
-  (namedIndex as { slugToContributor?: Record<string, string> }).slugToContributor ?? {};
 
 /** Normalises a slash/display name to a bare lowercase slug for index lookup. */
 function nameToSlug(name: string): string {
@@ -282,7 +282,7 @@ function resolvePromotion(
   name: string
 ): { slug: string; contributor: string } | undefined {
   const slug = nameToSlug(name);
-  const contributor = SLUG_TO_CONTRIBUTOR[slug];
+  const contributor = namedContributor(slug);
   return contributor ? { slug, contributor } : undefined;
 }
 
@@ -301,6 +301,8 @@ interface StoredFusion {
   emoji: string;
   blurb: string;
   description?: string;
+  /** Real registry title — ground truth, present only on canonical hits. */
+  skillTitle?: string;
   tier: FusionTier;
   passesSkillCheck: boolean;
   /** Only present for canonical results that map to a real named skill. */
@@ -324,6 +326,7 @@ function toStored(
     passesSkillCheck: result.passesSkillCheck,
   };
   if (result.description) stored.description = result.description;
+  if (result.skillTitle) stored.skillTitle = result.skillTitle;
   if (ref) {
     stored.slug = ref.slug;
     stored.contributor = ref.contributor;
@@ -342,6 +345,7 @@ function rehydrate(stored: StoredFusion): FusionResult {
     emoji: stored.emoji,
     blurb: stored.blurb,
     description: stored.description,
+    skillTitle: stored.skillTitle,
     tier: stored.tier,
     isFirstDiscovery: false,
     passesSkillCheck: stored.passesSkillCheck,
@@ -530,13 +534,18 @@ export async function POST(request: Request): Promise<Response> {
     if (recipe.contributor && recipe.slug) {
       canonicalRef = { slug: recipe.slug, contributor: recipe.contributor };
     }
+    // GROUND TRUTH: when the mapped slug is a real named skill, prefer the
+    // registry's real title + description over the recipe blurb.
+    const named = recipe.slug ? lookupNamedSkill(recipe.slug) : undefined;
     result = {
       name: recipe.result.startsWith('/') ? recipe.result : `/${recipe.result}`,
       emoji: recipe.emoji || '✨',
       blurb: recipe.blurb,
-      // Registry recipes carry no separate description — the blurb is the closest
-      // factual line we have, so use it as the fallback "what it does".
-      description: recipe.blurb,
+      // Registry recipes carry no separate description — use the real registry
+      // description when the slug is a named skill, else fall back to the blurb
+      // as the closest factual "what it does" line we have.
+      description: named?.description || recipe.blurb,
+      skillTitle: named?.title,
       tier: 'canonical',
       isFirstDiscovery: true,
       passesSkillCheck: true,
@@ -555,12 +564,17 @@ export async function POST(request: Request): Promise<Response> {
       canonicalRef = { slug: starter.slug, contributor: starter.contributor };
     }
     const link = skillTreeUrl(starter.contributor, starter.slug);
+    // GROUND TRUTH: when a starter maps to a real named slug, prefer the
+    // registry's real title + description over the starter's authored copy.
+    const named = starter.slug ? lookupNamedSkill(starter.slug) : undefined;
     result = {
       name: starter.name.startsWith('/') ? starter.name : `/${starter.name}`,
       emoji: starter.emoji || '✨',
       blurb: starter.blurb,
-      // Starter recipes always carry a factual capability description.
-      description: starter.description,
+      // Real registry description when the slug is a named skill; else the
+      // starter's own factual capability description.
+      description: named?.description || starter.description,
+      skillTitle: named?.title,
       // These are curated REAL skills. Canonical whether or not they deep-link:
       // some tech-tree bridges are chainable-but-unlinked; that's still canonical.
       tier: 'canonical',
@@ -622,11 +636,15 @@ export async function POST(request: Request): Promise<Response> {
 
       if (promotion) {
         canonicalRef = { slug: promotion.slug, contributor: promotion.contributor };
+        // GROUND TRUTH: swap in the real registry title + description for the
+        // promoted slug so the promoted skill reads as unmistakably real.
+        const named = lookupNamedSkill(promotion.slug);
         result = {
           name: raw.name,
           emoji: raw.emoji,
           blurb: raw.blurb,
-          description,
+          description: named?.description || description,
+          skillTitle: named?.title,
           tier: 'canonical',
           isFirstDiscovery: true,
           passesSkillCheck: true,
