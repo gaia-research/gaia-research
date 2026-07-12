@@ -234,6 +234,8 @@ export function CraftCanvas() {
   const [hoverTargetId, setHoverTargetId] = useState<string | null>(null);
   // Builders collection: handle -> { firstAt, found }. The contributor Pokédex.
   const [builders, setBuilders] = useState<Record<string, UnlockedBuilder>>({});
+  const buildersRef = useRef<Record<string, UnlockedBuilder>>({});
+  buildersRef.current = builders;
   const [buildersOpen, setBuildersOpen] = useState(false);
   const [buildersFresh, setBuildersFresh] = useState(false);
   // Dedupe found-count by the distinct canonical skill NAMES seen per builder,
@@ -525,11 +527,15 @@ export function CraftCanvas() {
       const isDistinctSkill = !seen.has(skillName);
       if (isDistinctSkill) seen.add(skillName);
 
-      let newBuilder = false;
+      // Read the live collection via a ref so `newBuilder` is known SYNCHRONOUSLY
+      // (React may run the functional setState updater asynchronously, so we must
+      // not derive the return value from inside it).
+      const alreadyCollected = !!buildersRef.current[handle];
+      const newBuilder = !alreadyCollected;
+
       setBuilders((prev) => {
         const existing = prev[handle];
         if (!existing) {
-          newBuilder = true;
           return { ...prev, [handle]: { firstAt: Date.now(), found: 1 } };
         }
         // Already collected — only bump `found` for a genuinely new skill.
