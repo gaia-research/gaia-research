@@ -963,6 +963,247 @@
   60%       { transform: scaleX(0.88); }
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   BUILDERS COLLECTION (contributor Pokédex modal)
+   Status/roster board: unlocked builders glow Milim-pink, locked ones sit as
+   ghosted Rimuru-blue silhouettes teasing the biggest names. Tokens only.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.craft-builders {
+  /* A touch wider than the prose modals — this is a gallery, not an essay. */
+  width: min(100%, 760px);
+}
+
+.craft-builders-body {
+  gap: 1rem;
+}
+
+.craft-builders-of {
+  color: var(--dim);
+  font-family: var(--display);
+}
+
+.craft-builders-intro {
+  margin: 0;
+}
+
+/* ── Progress bar ──────────────────────────────────────────────────────── */
+
+.craft-builders-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.craft-builders-bar {
+  flex: 1;
+  height: 8px;
+  background: color-mix(in srgb, var(--blue) 12%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--blue) 30%, var(--line));
+  overflow: hidden;
+}
+
+.craft-builders-bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--pink);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--pink) 55%, transparent);
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.craft-builders-pct {
+  flex: none;
+  font: 0.75rem var(--mono);
+  color: var(--pink);
+  letter-spacing: 0.04em;
+  min-width: 3ch;
+  text-align: right;
+}
+
+/* ── Roster grid ───────────────────────────────────────────────────────── */
+
+.craft-builders-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.6rem;
+}
+
+.craft-builder {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.75rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: border-color 0.18s ease, transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+/* Unlocked — a collected trophy. Pink accent corner + soft glow on hover. */
+.craft-builder.is-found {
+  border-color: color-mix(in srgb, var(--pink) 45%, var(--line));
+  background: color-mix(in srgb, var(--pink) 5%, var(--surface));
+}
+
+.craft-builder.is-found::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--pink);
+}
+
+.craft-builder.is-found:hover {
+  transform: translateY(-2px);
+  border-color: var(--pink);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--pink) 18%, transparent);
+}
+
+/* Locked — a ghosted silhouette teasing the name. */
+.craft-builder.is-locked {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--blue) 22%, var(--line));
+  background: color-mix(in srgb, var(--surface) 70%, var(--bg));
+  opacity: 0.92;
+}
+
+.craft-builder-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.craft-builder-handle {
+  font: 0.9rem var(--mono);
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+}
+
+.craft-builder-handle.is-silhouette {
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.craft-builder-stars {
+  flex: none;
+  font-size: 0.8rem;
+  color: var(--amber);
+  letter-spacing: 0.05em;
+}
+
+.craft-builder-meta {
+  margin: 0;
+  font: 0.72rem var(--mono);
+  color: var(--muted);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+.craft-builder-meta b {
+  color: var(--pink);
+  font-weight: 600;
+}
+
+.craft-builder.is-locked .craft-builder-meta b {
+  color: var(--blue);
+}
+
+.craft-builder-of {
+  color: var(--dim);
+}
+
+.craft-builder-teaser {
+  margin: 0;
+  font: 0.68rem var(--body);
+  color: var(--dim);
+  line-height: 1.45;
+}
+
+.craft-builder-link {
+  margin-top: auto;
+  align-self: flex-start;
+  font: 0.72rem var(--mono);
+  color: var(--blue);
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid color-mix(in srgb, var(--blue) 40%, transparent);
+  padding-bottom: 1px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.craft-builder-link:hover {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+}
+
+.craft-builder-link:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* ── Builders entrypoint pill (in the sidebar header) ──────────────────── */
+
+.craft-builders-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+  padding: 0.32rem 0.6rem;
+  background: color-mix(in srgb, var(--pink) 8%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--pink) 40%, var(--line));
+  color: var(--ink);
+  font: 0.68rem var(--mono);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 0.16s ease, transform 0.16s ease,
+    box-shadow 0.16s ease, background 0.16s ease;
+}
+
+.craft-builders-pill:hover {
+  border-color: var(--pink);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--pink) 20%, transparent);
+  background: color-mix(in srgb, var(--pink) 12%, var(--surface));
+}
+
+.craft-builders-pill:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.craft-builders-pill-emoji {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.craft-builders-pill-count {
+  font-weight: 600;
+  color: var(--pink);
+}
+
+.craft-builders-pill-count b {
+  font-weight: 600;
+  color: var(--pink);
+}
+
+/* A brief celebratory nudge when a new builder was just collected. */
+.craft-builders-pill.is-fresh {
+  animation: builders-pill-pop 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes builders-pill-pop {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.14); box-shadow: 0 6px 22px color-mix(in srgb, var(--pink) 40%, transparent); }
+  100% { transform: scale(1); }
+}
+
 /* ── Reduced motion ────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1011,6 +1252,19 @@
   .craft-traffic[data-loading="true"] .craft-traffic-count {
     animation: none !important;
   }
+
+  .craft-builders-bar-fill,
+  .craft-builder,
+  .craft-builders-pill {
+    transition: none !important;
+  }
+  .craft-builder.is-found:hover,
+  .craft-builders-pill:hover {
+    transform: none;
+  }
+  .craft-builders-pill.is-fresh {
+    animation: none !important;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -1045,5 +1299,9 @@
     width: 36px;
     height: 36px;
     font-size: 1.1rem;
+  }
+
+  .craft-builders-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
 }

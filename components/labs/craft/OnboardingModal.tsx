@@ -25,8 +25,12 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { allContributors } from "@/lib/craft/contributors";
 
 export const ONBOARD_STORAGE_KEY = "isc-onboarded";
+
+/** Total collectable builders — shown in the onboarding nudge. */
+const BUILDERS_TOTAL = allContributors().length;
 
 interface OnboardingModalProps {
   /** When provided, overrides the auto-open logic (open=true forces open). */
@@ -191,6 +195,11 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
                   Every fusion adds to your personal inventory. Drop your discoveries back
                   on the canvas and fuse them to grow your skill tree. Clear the canvas any
                   time — your discoveries stay. Some combos carry curses, always cleansable, boss.
+                </p>
+                <p className="craft-onboard-step-desc">
+                  And here&apos;s the treasure: every real skill has a <strong>builder</strong>{" "}
+                  behind it. Unlock a canonical skill from a Gaia Skill Tree contributor for the
+                  first time and you <strong>collect</strong> them — collect all {BUILDERS_TOTAL}, boss.
                 </p>
               </div>
             </div>

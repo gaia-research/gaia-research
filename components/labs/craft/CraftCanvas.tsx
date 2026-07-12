@@ -49,6 +49,11 @@ import {
   makeActiveCurse,
   type ActiveCurse,
 } from "@/lib/craft/curses";
+import { allContributors, isKnownContributor } from "@/lib/craft/contributors";
+import {
+  ContributorCollection,
+  type UnlockedBuilder,
+} from "./ContributorCollection";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -58,6 +63,9 @@ const API_URL = "/labs/infinite-skill-craft/api/fuse";
 const STORAGE_CARDS = "gaia.craft.cards.v1";
 const STORAGE_CURSES = "gaia.craft.curses.v1";
 const STORAGE_CANVAS = "gaia.craft.canvas.v1";
+const STORAGE_BUILDERS = "gaia.craft.builders.v1";
+/** Total number of collectable builders (real Gaia Skill Tree contributors). */
+const BUILDERS_TOTAL = allContributors().length;
 const EXPERIMENTAL_TOOLTIP =
   "Milim is not 100% sure this is a real skill — you be the judge, boss.";
 
@@ -224,9 +232,17 @@ export function CraftCanvas() {
   const [popover, setPopover] = useState<string | null>(null); // instance id
   const [dragInstance, setDragInstance] = useState<string | null>(null);
   const [hoverTargetId, setHoverTargetId] = useState<string | null>(null);
+  // Builders collection: handle -> { firstAt, found }. The contributor Pokédex.
+  const [builders, setBuilders] = useState<Record<string, UnlockedBuilder>>({});
+  const [buildersOpen, setBuildersOpen] = useState(false);
+  const [buildersFresh, setBuildersFresh] = useState(false);
+  // Dedupe found-count by the distinct canonical skill NAMES seen per builder,
+  // so re-fusing the same skill never double-counts. Rebuilt on hydrate.
+  const builderSkillsRef = useRef<Record<string, Set<string>>>({});
 
   const stageRef = useRef<HTMLDivElement | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const freshTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const spawnCount = useRef(0);
   const cardsRef = useRef(cards);
   const nodesRef = useRef(nodes);
@@ -242,6 +258,38 @@ export function CraftCanvas() {
     }
     dispatch({ type: "hydrate", cards: merged });
     setActiveCurses(loadJSON<ActiveCurse[]>(STORAGE_CURSES, []));
+
+    // Restore the Builders collection, tolerating corruption. Coerce each entry
+    // to the { firstAt, found } shape and drop anything that isn't a real
+    // contributor handle (stale keys from older data).
+    const savedBuilders = loadJSON<Record<string, Partial<UnlockedBuilder>>>(
+      STORAGE_BUILDERS,
+      {},
+    );
+    const restoredBuilders: Record<string, UnlockedBuilder> = {};
+    if (savedBuilders && typeof savedBuilders === "object") {
+      for (const handle of Object.keys(savedBuilders)) {
+        if (!isKnownContributor(handle)) continue;
+        const b = savedBuilders[handle] ?? {};
+        const firstAt = typeof b.firstAt === "number" && Number.isFinite(b.firstAt) ? b.firstAt : Date.now();
+        const found = typeof b.found === "number" && Number.isFinite(b.found) && b.found > 0 ? Math.floor(b.found) : 1;
+        restoredBuilders[handle] = { firstAt, found };
+      }
+    }
+    setBuilders(restoredBuilders);
+
+    // Rebuild the per-builder distinct-skill dedup set from the canonical cards
+    // already in the restored inventory, so re-fusing a known skill after reload
+    // still doesn't double-count it.
+    const dedup: Record<string, Set<string>> = {};
+    for (const c of merged) {
+      if (c.tier !== "canonical") continue;
+      const handle =
+        c.contributor ?? contributorFromSkillTreeUrl(c.skillTreeUrl);
+      if (!handle || !isKnownContributor(handle)) continue;
+      (dedup[handle] ??= new Set()).add(c.name);
+    }
+    builderSkillsRef.current = dedup;
 
     // Restore the canvas layout, dropping any node whose card no longer exists.
     const savedNodes = loadJSON<CanvasNode[]>(STORAGE_CANVAS, []);
@@ -282,6 +330,11 @@ export function CraftCanvas() {
 
   useEffect(() => {
     if (!hydrated) return;
+    saveJSON(STORAGE_BUILDERS, builders);
+  }, [builders, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
     // Persist only stable geometry (never the transient fusing/landed flags).
     saveJSON(
       STORAGE_CANVAS,
@@ -293,6 +346,7 @@ export function CraftCanvas() {
   useEffect(() => {
     return () => {
       if (toastTimer.current) clearTimeout(toastTimer.current);
+      if (freshTimer.current) clearTimeout(freshTimer.current);
     };
   }, []);
 
@@ -301,6 +355,8 @@ export function CraftCanvas() {
     () => cards.filter((c) => !SEED_IDS.has(c.id) && !c.inert).length,
     [cards]
   );
+
+  const buildersCount = useMemo(() => Object.keys(builders).length, [builders]);
 
   const cardById = useCallback(
     (id: string) => cards.find((c) => c.id === id),
@@ -456,6 +512,45 @@ export function CraftCanvas() {
     [cardById, announce]
   );
 
+  // ── Builders collection ────────────────────────────────────────────────
+  // Collect the real Gaia Skill Tree builder behind a canonical fusion. Dedupes
+  // distinct skill NAMES per builder so re-fusing the same skill never inflates
+  // the found count. Returns { newBuilder } so the caller can escalate the
+  // celebration (distinct toast + louder dragon) for a first-ever unlock.
+  const collectBuilder = useCallback(
+    (handle: string | undefined, skillName: string): { newBuilder: boolean } => {
+      if (!handle || !isKnownContributor(handle)) return { newBuilder: false };
+
+      const seen = (builderSkillsRef.current[handle] ??= new Set());
+      const isDistinctSkill = !seen.has(skillName);
+      if (isDistinctSkill) seen.add(skillName);
+
+      let newBuilder = false;
+      setBuilders((prev) => {
+        const existing = prev[handle];
+        if (!existing) {
+          newBuilder = true;
+          return { ...prev, [handle]: { firstAt: Date.now(), found: 1 } };
+        }
+        // Already collected — only bump `found` for a genuinely new skill.
+        if (!isDistinctSkill) return prev;
+        return {
+          ...prev,
+          [handle]: { ...existing, found: existing.found + 1 },
+        };
+      });
+
+      if (newBuilder) {
+        // A brief pulse on the entrypoint pill so the new unlock pops.
+        setBuildersFresh(true);
+        if (freshTimer.current) clearTimeout(freshTimer.current);
+        freshTimer.current = setTimeout(() => setBuildersFresh(false), 950);
+      }
+      return { newBuilder };
+    },
+    [],
+  );
+
   // ── Core fusion flow (canvas instances) ────────────────────────────────────
   // Fuse instance `aInst` into `bInst`; result lands at `dropNorm`.
   const fuseInstances = useCallback(
@@ -504,6 +599,7 @@ export function CraftCanvas() {
           tier: result.tier,
           passesSkillCheck: result.passesSkillCheck,
           skillTreeUrl: result.skillTreeUrl,
+          contributor: result.contributor,
           isFirstDiscovery: result.isFirstDiscovery,
           experimental: result.experimental ?? !result.passesSkillCheck,
           cursed: result.cursed,
@@ -546,6 +642,18 @@ export function CraftCanvas() {
             : card.tier === "easteregg"
               ? "egg"
               : "plain";
+
+        // BUILDERS COLLECTION: any canonical result authored by a real Gaia
+        // Skill Tree contributor collects that builder. Resolve the handle from
+        // the result's contributor field (falling back to the deep-link) so we
+        // still collect canonical bridges that carry a contributor but no link.
+        const builderHandle =
+          card.contributor ?? contributorFromSkillTreeUrl(card.skillTreeUrl);
+        const builderResult =
+          card.tier === "canonical"
+            ? collectBuilder(builderHandle, card.name)
+            : { newBuilder: false };
+        const newBuilder = builderResult.newBuilder;
 
         // REPLACE both source instances with a single result instance at the
         // drop point. Any cursed cards removed from inventory also lose nodes.
@@ -590,13 +698,19 @@ export function CraftCanvas() {
                 firstDiscovery: !!card.isFirstDiscovery,
                 cursed: !!card.cursed,
                 isNew,
+                // A first-ever builder unlock triggers Milim's biggest celebrate.
+                builderUnlock: newBuilder,
               },
             })
           );
         }
 
-        // A classy, non-casino toast for the earned moments.
-        if (canonical) {
+        // A classy, non-casino toast for the earned moments. A brand-new builder
+        // unlock gets its OWN distinct dragon-flavoured toast, ahead of the
+        // generic canonical toast, so recognising the name lands hardest.
+        if (newBuilder && builderHandle) {
+          flashToast(`🐉 New builder discovered: @${builderHandle}! Peek the Builders collection, boss.`);
+        } else if (canonical) {
           flashToast(`★ Real Skill unlocked — ${invCard.name}. Tap it for the Skill Tree link, boss.`);
         } else if (card.isFirstDiscovery) {
           flashToast(`⭐ First Discovery — ${invCard.name}! Nobody had this combo before you, boss.`);
@@ -626,7 +740,7 @@ export function CraftCanvas() {
         setBusy(false);
       }
     },
-    [busy, announce, flashToast, applyCurses]
+    [busy, announce, flashToast, applyCurses, collectBuilder]
   );
 
   // ── Pointer drag (move + drop-to-fuse) ──────────────────────────────────────
@@ -880,6 +994,10 @@ export function CraftCanvas() {
     setNodes([]);
     setPopover(null);
     setQuery("");
+    // Reset progress also empties the Builders collection (Clear canvas does not).
+    setBuilders({});
+    setBuildersFresh(false);
+    builderSkillsRef.current = {};
     spawnCount.current = 0;
     flashToast("Progress reset — back to the four primitives, boss.");
     announce("Progress reset to the four seed skills.");
@@ -926,6 +1044,20 @@ export function CraftCanvas() {
               <p className="craft-count" aria-live="off">
                 <b>{discoveredCount}</b> discoveries
               </p>
+              <button
+                type="button"
+                className={`craft-builders-pill${buildersFresh ? " is-fresh" : ""}`}
+                onClick={() => setBuildersOpen(true)}
+                aria-label={`Open the Builders collection — ${buildersCount} of ${BUILDERS_TOTAL} builders discovered`}
+                aria-haspopup="dialog"
+                title="Collect the real Gaia Skill Tree builders behind every canonical skill"
+              >
+                <span className="craft-builders-pill-emoji" aria-hidden="true">🐉</span>
+                Builders{" "}
+                <span className="craft-builders-pill-count">
+                  <b>{buildersCount}</b>/{BUILDERS_TOTAL}
+                </span>
+              </button>
             </div>
             <div className="craft-curse-controls">
               <button
@@ -1092,6 +1224,13 @@ export function CraftCanvas() {
           {toast}
         </div>
       )}
+
+      {/* Builders collection — the contributor Pokédex modal. */}
+      <ContributorCollection
+        open={buildersOpen}
+        onClose={() => setBuildersOpen(false)}
+        unlocked={builders}
+      />
     </section>
   );
 }
@@ -1464,6 +1603,9 @@ function EmptyState({ discovered }: { discovered: number }) {
       <p className="craft-empty-body">
         Click <b>/prompt</b> and <b>/code</b>, boss — then drag them together and watch{" "}
         <b>/codegen</b> hatch.
+      </p>
+      <p className="craft-empty-body">
+        Every real skill has a builder behind it — collect all {BUILDERS_TOTAL}, boss.
       </p>
     </div>
   );

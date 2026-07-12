@@ -27,16 +27,18 @@ export function MilimDragon() {
   useEffect(() => {
     const onFused = (e: Event) => {
       const detail = (e as CustomEvent).detail as
-        | { canonical?: boolean; firstDiscovery?: boolean }
+        | { canonical?: boolean; firstDiscovery?: boolean; builderUnlock?: boolean }
         | undefined;
-      const big = !!(detail?.canonical || detail?.firstDiscovery);
+      // A brand-new builder unlock is the loudest moment — always a big celebrate.
+      const big = !!(detail?.canonical || detail?.firstDiscovery || detail?.builderUnlock);
+      const huge = !!detail?.builderUnlock;
       setSparking(true);
       setCelebrate(big);
       if (sparkTimer.current) clearTimeout(sparkTimer.current);
       sparkTimer.current = setTimeout(() => {
         setSparking(false);
         setCelebrate(false);
-      }, big ? 1100 : 900);
+      }, huge ? 1400 : big ? 1100 : 900);
     };
     window.addEventListener("isc:fused", onFused);
     return () => {
