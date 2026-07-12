@@ -160,10 +160,10 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
             <div className="craft-onboard-step" role="listitem">
               <span className="craft-onboard-step-emoji" aria-hidden="true">🃏</span>
               <div className="craft-onboard-step-text">
-                <span className="craft-onboard-step-title">1 · Pick two skills</span>
+                <span className="craft-onboard-step-title">1 · Drop skills on the canvas</span>
                 <p className="craft-onboard-step-desc">
-                  Drag one skill card onto another in the sidebar — or click-select two and hit{" "}
-                  <strong>Fuse</strong>. Start with the four seed primitives.
+                  Click a skill in the inventory to drop it on the canvas — drag as many
+                  as you like. Start with the four seed primitives.
                 </p>
               </div>
             </div>
@@ -171,10 +171,11 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
             <div className="craft-onboard-step" role="listitem">
               <span className="craft-onboard-step-emoji" aria-hidden="true">⚗️</span>
               <div className="craft-onboard-step-text">
-                <span className="craft-onboard-step-title">2 · Watch the fusion</span>
+                <span className="craft-onboard-step-title">2 · Drag two together to fuse</span>
                 <p className="craft-onboard-step-desc">
-                  The forge invents a result. <strong>Canonical</strong> results ✦ are real skills
-                  in the Gaia Skill Tree — click through to their spec page.{" "}
+                  Drag one instance on top of another and the forge invents a result.{" "}
+                  <strong>Canonical</strong> results ✦ are real skills in the Gaia Skill Tree —
+                  tap the result for its <strong>Skill Tree</strong> link.{" "}
                   <strong>Experimental</strong> 🧪 results are AI-invented combos — plausible,
                   but not yet on the registry.
                 </p>
@@ -186,8 +187,9 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
               <div className="craft-onboard-step-text">
                 <span className="craft-onboard-step-title">3 · Build your tree</span>
                 <p className="craft-onboard-step-desc">
-                  Every fusion adds to your personal inventory. Fuse your discoveries together
-                  and grow your skill tree. Some combos carry curses — always cleansable, boss.
+                  Every fusion adds to your personal inventory. Drop your discoveries back
+                  on the canvas and fuse them to grow your skill tree. Clear the canvas any
+                  time — your discoveries stay. Some combos carry curses, always cleansable, boss.
                 </p>
               </div>
             </div>

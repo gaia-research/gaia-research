@@ -12,7 +12,7 @@ import "./craft-chrome.css";
 export const metadata = {
   title: "Infinite Skill Craft — Lab 002",
   description:
-    "Drag one dev skill onto another and watch what falls out. A fusion sandbox where /api-call meets /chain-of-thought — canonical unlocks link straight into the Gaia Skill Tree, experiments stay playable, and the occasional curse keeps things honest, boss.",
+    "Drop dev skills on a free-floating canvas, drag two together, and watch what falls out. A fusion sandbox where /api-call meets /chain-of-thought — canonical unlocks link straight into the Gaia Skill Tree, experiments stay playable, and the occasional curse keeps things honest, boss.",
 };
 
 export default function InfiniteSkillCraftPage() {
@@ -35,8 +35,8 @@ export default function InfiniteSkillCraftPage() {
               See what <em>hatches.</em>
             </h1>
             <p>
-              Drag one skill card onto another and the forge runs the fusion.
-              Canonical results unlock a real page in the Gaia Skill Tree —
+              Drop skills onto a free-floating canvas, drag two together, and the forge
+              runs the fusion. Canonical results unlock a real page in the Gaia Skill Tree —
               everything else is a fresh experiment for you to judge, boss.
             </p>
             <p className="craft-homage">
