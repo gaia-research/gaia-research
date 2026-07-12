@@ -6,6 +6,10 @@
 //   data/craft/skills.json  — array of { id, name, contributor?, slug?, type }
 //   data/craft/recipes.json — array of Recipe objects (2-prereq canonical fusions)
 //                             plus multi-prereq entries with `prereqs` array
+//   data/craft/named-index.json — COMPACT slug -> contributor map (+ unlinked slugs)
+//                             built from registry/named-skills.json. Anti-bloat:
+//                             we store ONLY slug->contributor and derive skill-tree
+//                             URLs on the fly, never full paths per fusion.
 //
 // Run: npx tsx scripts/craft/sync-skill-tree.ts
 
@@ -44,6 +48,26 @@ interface MultiPrereqRecipe {
   prereqs: string[];          // all prereq slugs
   contributor?: string;
   slug?: string;
+}
+
+/**
+ * Compact named-skill index emitted to data/craft/named-index.json.
+ *
+ * Anti-bloat contract: we persist ONLY the slug -> contributor mapping (a few KB,
+ * built once, shared by every fusion lookup) and derive the skill-tree deep-link
+ * on the fly via `skillTreeUrl(contributor, slug)` in lib/craft/recipes.ts. We
+ * NEVER store a full URL or path per fusion result.
+ */
+interface NamedIndex {
+  /** ISO date the index was generated. */
+  generatedAt: string;
+  /** slug -> contributor handle (string -> string only). */
+  slugToContributor: Record<string, string>;
+  /**
+   * Known skill slugs that have NO usable contributor (e.g. redacted ████████).
+   * Kept so consumers can still recognise the slug as "real" even without a link.
+   */
+  unlinkedSlugs: string[];
 }
 
 // ---------------------------------------------------------------------------
@@ -301,6 +325,75 @@ function makeBlurb(resultSlug: string, prereqSlugs: string[]): string {
 }
 
 // ---------------------------------------------------------------------------
+// Step 5b: Build the compact named-skill index (slug -> contributor)
+//
+// READ-ONLY on gaia-skill-tree. Reads registry/named-skills.json, whose shape is:
+//   { buckets: { <genericSkill>: [ { id: "<contributor>/<slug>", contributor, ... } ] } }
+// The `id` field is the authoritative "<contributor>/<slug>" pair used to derive
+// the explorer deep-link. We skip entries whose contributor is redacted (████████).
+// ---------------------------------------------------------------------------
+
+function isRedacted(s: string | undefined): boolean {
+  return !!s && /█/.test(s);
+}
+
+function buildNamedIndex(): NamedIndex {
+  const namedPath = path.join(REGISTRY_ROOT, 'named-skills.json');
+  const index: NamedIndex = {
+    generatedAt: new Date().toISOString().slice(0, 10),
+    slugToContributor: {},
+    unlinkedSlugs: [],
+  };
+
+  if (!fs.existsSync(namedPath)) {
+    console.warn(`⚠ named-skills.json not found at: ${namedPath} — emitting empty index`);
+    return index;
+  }
+
+  let parsed: { buckets?: Record<string, Array<{ id?: string; contributor?: string }>> };
+  try {
+    parsed = JSON.parse(fs.readFileSync(namedPath, 'utf8'));
+  } catch (e) {
+    console.warn(`⚠ Failed to parse named-skills.json: ${e} — emitting empty index`);
+    return index;
+  }
+
+  const buckets = parsed.buckets ?? {};
+  const unlinked = new Set<string>();
+
+  for (const bucket of Object.keys(buckets)) {
+    for (const entry of buckets[bucket]) {
+      const id = entry.id ?? '';
+      const slashAt = id.indexOf('/');
+      if (slashAt <= 0) continue; // need both a contributor and a slug
+      const contributorFromId = id.slice(0, slashAt);
+      const slug = id.slice(slashAt + 1).trim();
+      if (!slug) continue;
+
+      // Prefer the explicit contributor field, fall back to the id prefix.
+      const contributor = (entry.contributor ?? contributorFromId).trim();
+
+      // Skip redacted contributors — but remember the slug as "known but unlinked".
+      if (isRedacted(contributor) || isRedacted(contributorFromId)) {
+        unlinked.add(slug);
+        continue;
+      }
+
+      // First-write-wins on slug collisions (deterministic across runs given
+      // stable bucket/entry ordering in the source file).
+      if (!index.slugToContributor[slug]) {
+        index.slugToContributor[slug] = contributor;
+      }
+    }
+  }
+
+  // Only surface slugs that never got a linked contributor.
+  index.unlinkedSlugs = [...unlinked].filter((s) => !index.slugToContributor[s]).sort();
+
+  return index;
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -393,6 +486,17 @@ function main() {
     'utf8'
   );
   console.log(`✅ Wrote data/craft/recipes.json (${recipesOut.length} total entries)`);
+
+  // 5c. named-index.json — compact slug -> contributor map (anti-bloat).
+  const namedIndex = buildNamedIndex();
+  const namedIndexPath = path.join(OUT_DIR, 'named-index.json');
+  fs.writeFileSync(namedIndexPath, JSON.stringify(namedIndex, null, 2), 'utf8');
+  const namedCount = Object.keys(namedIndex.slugToContributor).length;
+  const namedBytes = fs.statSync(namedIndexPath).size;
+  console.log(
+    `✅ Wrote data/craft/named-index.json (${namedCount} slug→contributor entries, ` +
+      `${namedIndex.unlinkedSlugs.length} unlinked, ${(namedBytes / 1024).toFixed(2)} KB)`,
+  );
 
   // 6. Print 3 example recipe entries
   console.log('\n📖 Example canonical recipe entries:');
