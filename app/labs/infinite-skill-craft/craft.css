@@ -7,6 +7,10 @@
 
 .craft-page {
   padding-bottom: var(--space-expansive);
+  /* Motion system: one cohesive ease-out curve across the whole lab.
+     No bounce, no elastic — an exponential-ish deceleration. */
+  --craft-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --craft-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Hero tweaks (single column — no image on this lab) ──────────────────── */
@@ -84,6 +88,7 @@
   letter-spacing: 0.03em;
   color: var(--pink);
   margin-right: 0.3rem;
+  transition: color 0.2s var(--craft-ease);
 }
 
 /* Cleanse button */
@@ -190,10 +195,29 @@
   border: 1px solid var(--line);
   background: var(--surface-raised);
   position: relative;
-  transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+  transition: border-color 0.16s var(--craft-ease), background 0.16s var(--craft-ease),
+    transform 0.16s var(--craft-ease), box-shadow 0.16s var(--craft-ease);
 }
 .craft-card:hover {
   border-color: var(--blue);
+  transform: translateX(2px);
+}
+/* Tier read at a glance — a small inset accent on the leading edge (not a
+   side-stripe border: it's an inset box-shadow, so drag/hover states own the
+   real border). Canonical feels valuable, egg is a wink, exp stays quiet. */
+.craft-card.is-canon {
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--amber) 70%, transparent);
+}
+.craft-card.is-canon:hover {
+  border-color: var(--amber);
+  box-shadow: inset 3px 0 0 var(--amber),
+    0 0 22px -6px color-mix(in srgb, var(--amber) 55%, transparent);
+}
+.craft-card.is-egg {
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--blue) 55%, transparent);
+}
+.craft-card.is-exp {
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--dim) 55%, transparent);
 }
 .craft-card.is-selected {
   border-color: var(--pink);
@@ -205,8 +229,9 @@
 }
 .craft-card.is-drop {
   border-color: var(--pink);
-  box-shadow: 0 0 0 2px var(--pink), 0 0 18px color-mix(in srgb, var(--pink) 55%, transparent);
-  transform: scale(1.02);
+  background: color-mix(in srgb, var(--pink) 10%, var(--surface-raised));
+  box-shadow: 0 0 0 2px var(--pink), 0 0 22px color-mix(in srgb, var(--pink) 55%, transparent);
+  transform: scale(1.025);
 }
 .craft-card.is-cursed {
   border-color: color-mix(in srgb, var(--amber) 60%, var(--line));
@@ -252,6 +277,28 @@
   border: 1px solid color-mix(in srgb, var(--blue) 45%, transparent);
   padding: 0.05rem 0.3rem;
   flex: none;
+}
+/* Tier tag glyphs on the trailing edge of a sidebar card */
+.craft-card-tag {
+  margin-left: auto;
+  flex: none;
+}
+.craft-card-canon,
+.craft-card-egg,
+.craft-card-exp {
+  font-size: 0.7rem;
+  line-height: 1;
+  padding-left: 0.2rem;
+  opacity: 0.85;
+  transition: opacity 0.16s var(--craft-ease), transform 0.16s var(--craft-ease);
+}
+.craft-card-canon {
+  color: var(--amber);
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--amber) 55%, transparent));
+}
+.craft-card:hover .craft-card-canon {
+  transform: scale(1.15) rotate(-6deg);
+  opacity: 1;
 }
 .craft-card-del {
   flex: none;
@@ -381,6 +428,10 @@
 }
 
 /* ── Result reveal card ─────────────────────────────────────────────────── */
+/* The dopamine hit. A considered, earned materialisation: the card resolves
+   from a soft blur + scale, the emoji hatches cleanly (no bounce), and the
+   text staggers in beneath it. Canonical + First Discovery get louder,
+   celebratory treatments layered on top of the same base choreography. */
 .craft-result {
   position: relative;
   z-index: 1;
@@ -391,7 +442,7 @@
   border: 1px solid var(--pink);
   box-shadow: 0 0 0 1px rgba(236, 72, 153, 0.25),
     0 24px 60px -24px rgba(236, 72, 153, 0.5);
-  animation: craft-reveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: craft-reveal 0.6s var(--craft-ease-out) both;
 }
 .craft-result::before {
   content: "";
@@ -417,6 +468,80 @@
   border-color: color-mix(in srgb, var(--amber) 70%, var(--pink));
 }
 
+/* Forge charge — an expanding ring of light behind the card that fires once
+   as the card resolves, so the reveal reads as "the forge just fired". */
+.craft-result-charge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--pink);
+  transform: translate(-50%, -50%) scale(0.3);
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+  animation: craft-charge 0.7s var(--craft-ease-out) both;
+}
+.craft-result.is-canonical .craft-result-charge {
+  border-color: var(--amber);
+}
+.craft-result.is-egg .craft-result-charge {
+  border-color: var(--blue);
+}
+
+/* Radiant rays — only for the earned moments (canonical unlock / first
+   discovery). A slow conic sweep behind the card, masked to a soft ring. */
+.craft-result-rays {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: -2;
+  opacity: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    color-mix(in srgb, var(--amber) 42%, transparent) 12deg,
+    transparent 30deg,
+    transparent 90deg,
+    color-mix(in srgb, var(--amber) 42%, transparent) 102deg,
+    transparent 120deg,
+    transparent 180deg,
+    color-mix(in srgb, var(--amber) 42%, transparent) 192deg,
+    transparent 210deg,
+    transparent 270deg,
+    color-mix(in srgb, var(--amber) 42%, transparent) 282deg,
+    transparent 300deg
+  );
+  -webkit-mask: radial-gradient(circle, transparent 32%, #000 40%, #000 60%, transparent 74%);
+  mask: radial-gradient(circle, transparent 32%, #000 40%, #000 60%, transparent 74%);
+  animation: craft-rays-in 0.5s var(--craft-ease-out) 0.12s both,
+    craft-rays-spin 14s linear 0.12s infinite;
+}
+/* First-discovery-but-not-canonical uses the pink energy instead of amber. */
+.craft-result.is-first:not(.is-canonical) .craft-result-rays {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    color-mix(in srgb, var(--pink) 40%, transparent) 12deg,
+    transparent 30deg,
+    transparent 90deg,
+    color-mix(in srgb, var(--pink) 40%, transparent) 102deg,
+    transparent 120deg,
+    transparent 180deg,
+    color-mix(in srgb, var(--pink) 40%, transparent) 192deg,
+    transparent 210deg,
+    transparent 270deg,
+    color-mix(in srgb, var(--pink) 40%, transparent) 282deg,
+    transparent 300deg
+  );
+}
+
 .craft-result-banner {
   margin: 0 0 0.9rem;
   font: 400 1.2rem/1 var(--display);
@@ -424,17 +549,21 @@
   text-transform: uppercase;
   color: var(--amber);
   text-shadow: 0 0 16px rgba(251, 191, 36, 0.55);
-  animation: craft-shine 1.8s ease-in-out infinite;
+  animation: craft-stagger 0.5s var(--craft-ease-out) 0.16s both,
+    craft-shine 1.8s ease-in-out 0.7s infinite;
 }
 .craft-result-emoji {
   font-size: clamp(3.2rem, 9vw, 4.6rem);
   line-height: 1;
   margin-bottom: 0.75rem;
   filter: drop-shadow(0 0 24px rgba(236, 72, 153, 0.5));
-  animation: craft-hatch 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  animation: craft-hatch 0.6s var(--craft-ease-out) 0.08s both;
 }
 .craft-result.is-canonical .craft-result-emoji {
   filter: drop-shadow(0 0 26px rgba(251, 191, 36, 0.6));
+}
+.craft-result.is-egg .craft-result-emoji {
+  filter: drop-shadow(0 0 24px rgba(56, 189, 248, 0.5));
 }
 .craft-result-name {
   margin: 0 0 0.85rem;
@@ -443,6 +572,8 @@
   text-transform: uppercase;
   color: var(--ink);
   word-break: break-word;
+  text-wrap: balance;
+  animation: craft-stagger 0.5s var(--craft-ease-out) 0.2s both;
 }
 
 .craft-result-tags {
@@ -451,6 +582,7 @@
   justify-content: center;
   gap: 0.4rem;
   margin-bottom: 0.9rem;
+  animation: craft-stagger 0.5s var(--craft-ease-out) 0.28s both;
 }
 .craft-badge {
   display: inline-flex;
@@ -466,7 +598,9 @@
   color: var(--amber);
   border-color: var(--amber);
   background: color-mix(in srgb, var(--amber) 10%, transparent);
-  animation: craft-shine 1.6s ease-in-out infinite;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--amber) 45%, transparent);
+  animation: craft-first-pop 0.55s var(--craft-ease-out) 0.34s both,
+    craft-first-pulse 2s ease-in-out 0.9s infinite;
 }
 .craft-badge-egg {
   color: var(--blue);
@@ -486,6 +620,8 @@
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.6;
+  text-wrap: pretty;
+  animation: craft-stagger 0.5s var(--craft-ease-out) 0.34s both;
 }
 
 /* Canonical unlock — a reward, not a nag */
@@ -500,7 +636,8 @@
   color: #08090e;
   font: 700 0.82rem/1.2 var(--brand);
   letter-spacing: 0.02em;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.18s var(--craft-ease), box-shadow 0.18s var(--craft-ease);
+  animation: craft-stagger 0.5s var(--craft-ease-out) 0.42s both;
 }
 .craft-unlock:hover {
   transform: translate(-2px, -2px);
@@ -568,6 +705,7 @@
 .craft-friday .craft-result,
 .craft-friday .craft-result-emoji,
 .craft-friday .craft-result-banner,
+.craft-friday .craft-result-charge,
 .craft-friday .craft-empty-mark {
   animation-duration: 2.2s;
 }
@@ -579,24 +717,76 @@
 @keyframes craft-reveal {
   0% {
     opacity: 0;
-    transform: translateY(14px) scale(0.92);
+    transform: translateY(16px) scale(0.94);
+    filter: blur(10px);
+  }
+  60% {
+    filter: blur(0);
   }
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
+/* Clean hatch — ease-out, no overshoot/bounce (was scale 1.18 @ 60%). */
 @keyframes craft-hatch {
   0% {
-    transform: scale(0.2) rotate(-12deg);
+    transform: scale(0.55);
     opacity: 0;
   }
-  60% {
-    transform: scale(1.18) rotate(4deg);
+  100% {
+    transform: scale(1);
     opacity: 1;
   }
+}
+/* Forge charge ring: expands out and fades as the card resolves. */
+@keyframes craft-charge {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
   100% {
-    transform: scale(1) rotate(0);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(9);
+  }
+}
+/* Rays fade up to a resting glow, then slowly rotate forever. */
+@keyframes craft-rays-in {
+  0% { opacity: 0; }
+  100% { opacity: 0.85; }
+}
+@keyframes craft-rays-spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+/* Generic staggered content lift for the reveal's inner elements. */
+@keyframes craft-stagger {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* First Discovery badge: a single earned pop, then a gentle amber halo. */
+@keyframes craft-first-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes craft-first-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--amber) 40%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--amber) 0%, transparent);
   }
 }
 @keyframes craft-shine {
@@ -622,23 +812,51 @@
 }
 
 /* ── Reduced motion ────────────────────────────────────────────────────── */
+/* The reveal must still appear instantly and fully — we only strip motion,
+   never gate visibility. Decorative charge/rays are hidden outright. */
 .craft-result.reduced,
 .craft-result.reduced .craft-result-emoji,
-.craft-result.reduced .craft-result-banner {
+.craft-result.reduced .craft-result-banner,
+.craft-result.reduced .craft-result-name,
+.craft-result.reduced .craft-result-tags,
+.craft-result.reduced .craft-result-blurb,
+.craft-result.reduced .craft-unlock,
+.craft-result.reduced .craft-badge-first {
   animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+.craft-result.reduced .craft-result-charge,
+.craft-result.reduced .craft-result-rays {
+  display: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .craft-result,
   .craft-result-emoji,
   .craft-result-banner,
+  .craft-result-name,
+  .craft-result-tags,
+  .craft-result-blurb,
+  .craft-unlock,
   .craft-empty-mark,
   .craft-badge-first,
   .craft-toast,
-  .craft-card {
+  .craft-card,
+  .craft-card-canon,
+  .craft-count b {
     animation: none !important;
     transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
-  .craft-card.is-drop {
+  .craft-result-charge,
+  .craft-result-rays {
+    display: none !important;
+  }
+  .craft-card.is-drop,
+  .craft-card:hover {
     transform: none;
   }
 }

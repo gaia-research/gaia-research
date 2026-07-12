@@ -374,6 +374,23 @@ export function CraftCanvas() {
         dispatch({ type: "add", card });
         if (extras.length) dispatch({ type: "addMany", cards: extras });
 
+        // Let the mascot (and any other listener) react to the fusion. Canonical
+        // unlocks and first discoveries get a louder spark than a routine combo.
+        if (typeof window !== "undefined") {
+          const canonical = card.tier === "canonical" && !!card.skillTreeUrl;
+          window.dispatchEvent(
+            new CustomEvent("isc:fused", {
+              detail: {
+                tier: card.tier,
+                canonical,
+                firstDiscovery: !!card.isFirstDiscovery,
+                cursed: !!card.cursed,
+                isNew,
+              },
+            })
+          );
+        }
+
         announce(
           `${a.name} + ${b.name} makes ${card.name}. ${
             card.isFirstDiscovery ? "First discovery! " : ""
@@ -670,11 +687,24 @@ function SidebarCard({
 }) {
   const [dropArmed, setDropArmed] = useState(false);
 
+  // Tier read: canonical skills feel valuable, easter eggs are a wink,
+  // experimental combos stay curious, seeds are the trustworthy primitives.
+  const canonical = !isSeed && card.tier === "canonical";
+  const easteregg = card.tier === "easteregg" && !card.inert;
+  const experimental = !!card.experimental && !card.cursed;
+  const tierClass = canonical
+    ? " is-canon"
+    : easteregg
+      ? " is-egg"
+      : experimental
+        ? " is-exp"
+        : "";
+
   return (
     <li
       className={`craft-card${selected ? " is-selected" : ""}${dragging ? " is-dragging" : ""}${
         dropArmed ? " is-drop" : ""
-      }${card.cursed ? " is-cursed" : ""}${card.inert ? " is-inert" : ""}`}
+      }${card.cursed ? " is-cursed" : ""}${card.inert ? " is-inert" : ""}${tierClass}`}
       draggable={!card.inert}
       onDragStart={onDragStart}
       onDragEnd={() => {
@@ -707,7 +737,21 @@ function SidebarCard({
           {card.emoji}
         </span>
         <span className="craft-card-name">{card.name}</span>
-        {isSeed && <span className="craft-card-seed" title="Seed primitive">seed</span>}
+        {isSeed ? (
+          <span className="craft-card-tag craft-card-seed" title="Seed primitive">seed</span>
+        ) : canonical ? (
+          <span className="craft-card-tag craft-card-canon" title="Canonical — a real Gaia Skill Tree skill" aria-label="canonical skill">
+            ★
+          </span>
+        ) : easteregg ? (
+          <span className="craft-card-tag craft-card-egg" title="Easter egg — a hand-authored surprise" aria-label="easter egg">
+            ✨
+          </span>
+        ) : experimental ? (
+          <span className="craft-card-tag craft-card-exp" title="Experimental — Milim isn't sure this is a real skill yet" aria-label="experimental">
+            🧪
+          </span>
+        ) : null}
       </button>
       {!isSeed && (
         <button
@@ -739,15 +783,23 @@ function ResultCard({
 }) {
   const canonical = card.tier === "canonical" && !!card.skillTreeUrl;
   const easteregg = card.tier === "easteregg";
+  const first = !!card.isFirstDiscovery;
 
   return (
     <div
       className={`craft-result${reducedMotion ? " reduced" : ""}${
         canonical ? " is-canonical" : ""
       }${easteregg ? " is-egg" : ""}${card.cursed ? " is-cursed" : ""}${
-        friday ? " is-friday" : ""
-      }`}
+        first ? " is-first" : ""
+      }${friday ? " is-friday" : ""}`}
     >
+      {/* Forge charge — an expanding ring of light that resolves into the card.
+          Canonical unlocks add a second amber halo; first discoveries add rays. */}
+      <span className="craft-result-charge" aria-hidden="true" />
+      {(canonical || first) && (
+        <span className="craft-result-rays" aria-hidden="true" />
+      )}
+
       {canonical && (
         <p className="craft-result-banner" aria-hidden="true">
           ★ Real Skill!
@@ -760,7 +812,7 @@ function ResultCard({
       <h3 className="craft-result-name">{card.name}</h3>
 
       <div className="craft-result-tags">
-        {card.isFirstDiscovery && (
+        {first && (
           <span className="craft-badge craft-badge-first" title="Nobody had found this combo before you, boss.">
             ⭐ First Discovery
           </span>

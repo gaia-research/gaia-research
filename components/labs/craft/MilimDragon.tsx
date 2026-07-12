@@ -18,14 +18,25 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export function MilimDragon() {
   const [collapsed, setCollapsed] = useState(false);
   const [sparking, setSparking] = useState(false);
+  // "celebrate" is the louder reaction reserved for canonical unlocks and
+  // first discoveries — the dragon does a bigger bounce + a ⭐ spark.
+  const [celebrate, setCelebrate] = useState(false);
   const sparkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Listen for fusion events dispatched by CraftCanvas
   useEffect(() => {
-    const onFused = () => {
+    const onFused = (e: Event) => {
+      const detail = (e as CustomEvent).detail as
+        | { canonical?: boolean; firstDiscovery?: boolean }
+        | undefined;
+      const big = !!(detail?.canonical || detail?.firstDiscovery);
       setSparking(true);
+      setCelebrate(big);
       if (sparkTimer.current) clearTimeout(sparkTimer.current);
-      sparkTimer.current = setTimeout(() => setSparking(false), 900);
+      sparkTimer.current = setTimeout(() => {
+        setSparking(false);
+        setCelebrate(false);
+      }, big ? 1100 : 900);
     };
     window.addEventListener("isc:fused", onFused);
     return () => {
@@ -42,6 +53,8 @@ export function MilimDragon() {
       <div
         className="craft-dragon"
         data-hidden={collapsed ? "true" : "false"}
+        data-sparking={sparking ? "true" : "false"}
+        data-celebrate={celebrate ? "true" : "false"}
         role="img"
         aria-label="Milim the dragon mascot"
       >
@@ -52,7 +65,7 @@ export function MilimDragon() {
             aria-hidden="true"
             data-show={sparking ? "true" : "false"}
           >
-            ✦
+            {celebrate ? "⭐" : "✦"}
           </span>
 
           {/* Head */}

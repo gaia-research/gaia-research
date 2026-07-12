@@ -873,10 +873,52 @@
   animation: dragon-spark 0.8s ease-out both;
 }
 
+/* Canonical / first-discovery: bigger, brighter, amber spark. */
+.craft-dragon[data-celebrate="true"] .craft-dragon-spark {
+  font-size: 1.35rem;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--amber) 70%, transparent));
+}
+.craft-dragon[data-celebrate="true"] .craft-dragon-spark[data-show="true"] {
+  animation: dragon-spark-big 1.05s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* The whole dragon does a happy squash-bounce on any fusion (louder for a
+   canonical unlock), and its glow warms toward amber for the big moment. */
+.craft-dragon[data-sparking="true"] .craft-dragon-body {
+  animation: dragon-float 3.8s ease-in-out infinite,
+    dragon-react 0.6s var(--craft-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+.craft-dragon[data-celebrate="true"] .craft-dragon-body {
+  animation: dragon-float 3.8s ease-in-out infinite,
+    dragon-react-big 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.craft-dragon[data-celebrate="true"] .craft-dragon-torso {
+  box-shadow:
+    0 0 26px color-mix(in srgb, var(--amber) 55%, transparent),
+    inset 0 -8px 14px color-mix(in srgb, var(--pink) 55%, #000);
+  transition: box-shadow 0.3s ease;
+}
+
 @keyframes dragon-spark {
   0%   { opacity: 1; transform: translateX(-50%) translateY(0) scale(0.5); }
   60%  { opacity: 1; transform: translateX(-50%) translateY(-14px) scale(1.2); }
   100% { opacity: 0; transform: translateX(-50%) translateY(-22px) scale(0.8); }
+}
+@keyframes dragon-spark-big {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0) scale(0.4) rotate(-20deg); }
+  55%  { opacity: 1; transform: translateX(-50%) translateY(-22px) scale(1.4) rotate(12deg); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-34px) scale(0.9) rotate(0deg); }
+}
+@keyframes dragon-react {
+  0%   { transform: translateY(0) scale(1, 1); }
+  35%  { transform: translateY(-10px) scale(0.94, 1.08); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+@keyframes dragon-react-big {
+  0%   { transform: translateY(0) scale(1, 1); }
+  30%  { transform: translateY(-16px) scale(0.9, 1.12); }
+  60%  { transform: translateY(-4px) scale(1.05, 0.96); }
+  100% { transform: translateY(0) scale(1, 1); }
 }
 
 /* ── Dragon keyframes ─────────────────────────────────────────────────── */
@@ -911,6 +953,12 @@
   .craft-dragon-head::before,
   .craft-dragon-head::after {
     animation: none !important;
+  }
+
+  .craft-dragon[data-sparking="true"] .craft-dragon-body,
+  .craft-dragon[data-celebrate="true"] .craft-dragon-body {
+    animation: none !important;
+    transform: none !important;
   }
 
   .craft-dragon-spark[data-show="true"] {
