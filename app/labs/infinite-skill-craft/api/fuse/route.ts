@@ -81,17 +81,58 @@ interface CraftBindings {
 }
 
 // ---------------------------------------------------------------------------
-// Local dev KV shim — module-scoped so it survives across requests in `next dev`
+// Local dev KV shim — module-scoped, DISK-BACKED so it survives across requests
+// AND across `next dev` hot-reloads/restarts.
 // ---------------------------------------------------------------------------
+//
+// This shim is ONLY ever used when the real CRAFT_KV binding is absent (i.e.
+// local `next dev` with no Cloudflare auth). It lazily persists to a gitignored
+// JSON file so that any pair we compute during a dev/testing session is cached
+// forever locally — we never recompute (and, once real Workers AI is wired,
+// never re-pay) a cache miss we already spent. All fs access is dynamically
+// imported and wrapped in try/catch so it can NEVER break the Cloudflare Worker
+// build/runtime (where this shim is not used anyway).
 
+const DEV_CACHE_FILE = '.craft-dev-cache.json';
 const memoryKv = new Map<string, string>();
+let diskLoaded = false;
+
+async function loadDiskCacheOnce(): Promise<void> {
+  if (diskLoaded) return;
+  diskLoaded = true;
+  try {
+    const fs = await import('node:fs/promises');
+    const path = await import('node:path');
+    const file = path.join(process.cwd(), DEV_CACHE_FILE);
+    const raw = await fs.readFile(file, 'utf8');
+    const obj = JSON.parse(raw) as Record<string, string>;
+    for (const [k, v] of Object.entries(obj)) memoryKv.set(k, v);
+  } catch {
+    // No file yet / no fs / bad JSON — start empty. Non-fatal.
+  }
+}
+
+async function saveDiskCache(): Promise<void> {
+  try {
+    const fs = await import('node:fs/promises');
+    const path = await import('node:path');
+    const file = path.join(process.cwd(), DEV_CACHE_FILE);
+    const obj = Object.fromEntries(memoryKv.entries());
+    await fs.writeFile(file, JSON.stringify(obj, null, 0), 'utf8');
+  } catch {
+    // fs unavailable (Worker runtime) or write failed — non-fatal.
+  }
+}
 
 const memoryKvShim: KvLike = {
   async get(key) {
+    await loadDiskCacheOnce();
     return memoryKv.has(key) ? (memoryKv.get(key) as string) : null;
   },
   async put(key, value) {
+    await loadDiskCacheOnce();
     memoryKv.set(key, value);
+    void saveDiskCache();
   },
 };
 
