@@ -691,7 +691,6 @@ export function CraftCanvas() {
       if (!ds || ds.pointerId !== e.pointerId) return;
       dragState.current = null;
       setDragInstance(null);
-      const target = hoverTargetIdRef.current;
       setHoverTargetId(null);
 
       if (!ds.moved) {
@@ -700,16 +699,32 @@ export function CraftCanvas() {
         return;
       }
 
-      // A drag ended. If it landed on another node, fuse; else it just moved.
-      if (target && target !== ds.instanceId) {
-        const drop = clientToNorm(e.clientX, e.clientY);
-        void fuseInstances(ds.instanceId, target, drop);
+      // A drag ended. Recompute the drop target from live geometry at release
+      // time — never trust async hover state (a fast/synthetic drag may not have
+      // re-rendered between moves). If the release point overlaps another node,
+      // fuse; otherwise the instance simply moved.
+      const box = stageRef.current?.getBoundingClientRect();
+      if (box) {
+        let target: string | null = null;
+        for (const n of nodesRef.current) {
+          if (n.instanceId === ds.instanceId) continue;
+          const dx = box.left + n.nx * box.width - e.clientX;
+          const dy = box.top + n.ny * box.height - e.clientY;
+          if (Math.hypot(dx, dy) < COLLISION_RADIUS) {
+            target = n.instanceId;
+            break;
+          }
+        }
+        if (target && target !== ds.instanceId) {
+          const drop = clientToNorm(e.clientX, e.clientY);
+          void fuseInstances(ds.instanceId, target, drop);
+        }
       }
     },
     [clientToNorm, fuseInstances]
   );
 
-  // Keep a live ref of the hover target for the pointerup closure.
+  // Live ref retained for any external reads; hover state is purely cosmetic.
   const hoverTargetIdRef = useRef<string | null>(null);
   hoverTargetIdRef.current = hoverTargetId;
 
