@@ -1,0 +1,697 @@
+/* ── Infinite Skill Craft (Lab 002) ───────────────────────────────────────
+   Lab-scoped styles for the drag-and-drop fusion canvas.
+   Reuses the North Star V2 token system from app/globals.css — NO new colors.
+   Palette: obsidian --bg / --surface, --pink #ec4899, --blue #38bdf8, --amber.
+   Fonts: --display (Bebas Neue), --brand (Syne), --body (Manrope), --mono (DM Mono).
+   ------------------------------------------------------------------------- */
+
+.craft-page {
+  padding-bottom: var(--space-expansive);
+}
+
+/* ── Hero tweaks (single column — no image on this lab) ──────────────────── */
+.craft-hero {
+  grid-template-columns: 1fr;
+  min-height: 0;
+}
+.craft-hero > div {
+  max-width: 62ch;
+}
+.craft-hero h1 em {
+  color: var(--pink);
+  font-style: normal;
+}
+.craft-homage {
+  margin: 1.25rem 0 0 !important;
+  font: var(--type-compact) / 1.6 var(--mono);
+  color: var(--dim) !important;
+  letter-spacing: 0.02em;
+}
+.craft-homage a {
+  color: var(--blue);
+  border-bottom: 1px solid color-mix(in srgb, var(--blue) 40%, transparent);
+}
+.craft-homage a:hover {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+}
+
+/* ── Shell ─────────────────────────────────────────────────────────────── */
+.craft {
+  position: relative;
+  width: var(--shell-width);
+  margin: auto;
+  border: 1px solid var(--line);
+  border-top: 0;
+}
+.craft-shell {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  min-height: 560px;
+}
+
+/* ── Sidebar ───────────────────────────────────────────────────────────── */
+.craft-sidebar {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  background: var(--surface);
+  min-height: 0;
+}
+.craft-sidebar-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+.craft-kicker {
+  font: 0.65rem var(--mono);
+  color: var(--blue);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 0.35rem;
+}
+.craft-count {
+  margin: 0;
+  font: 0.8rem var(--mono);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.craft-count b {
+  font: 400 1.35rem/1 var(--display);
+  letter-spacing: 0.03em;
+  color: var(--pink);
+  margin-right: 0.3rem;
+}
+
+/* Cleanse button */
+.craft-curse-controls {
+  flex: none;
+}
+.craft-cleanse {
+  min-height: 36px;
+  padding: 0.35rem 0.7rem;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font: 0.72rem var(--mono);
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+.craft-cleanse:not(:disabled):hover {
+  border-color: var(--pink);
+  color: var(--pink);
+  background: color-mix(in srgb, var(--pink) 8%, transparent);
+}
+.craft-cleanse:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.craft-cleanse:not(:disabled) {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+/* Active curse chips */
+.craft-curse-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.65rem 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--pink) 6%, transparent);
+}
+.craft-curse-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--pink);
+  color: var(--pink);
+  font: 0.68rem var(--mono);
+  letter-spacing: 0.02em;
+  cursor: help;
+}
+.craft-curse-count {
+  color: var(--amber);
+}
+
+/* Search / filter */
+.craft-search {
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+.craft-search-input {
+  width: 100%;
+  min-height: 40px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 0.5rem 0.75rem;
+  font: 0.82rem var(--mono);
+  letter-spacing: 0.01em;
+}
+.craft-search-input::placeholder {
+  color: var(--dim);
+}
+.craft-search-input:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+/* Card list */
+.craft-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-y: auto;
+  flex: 1;
+  max-height: min(58vh, 640px);
+  scrollbar-width: thin;
+}
+.craft-list-empty {
+  padding: 1rem 0.5rem;
+  color: var(--dim);
+  font: 0.8rem var(--mono);
+}
+
+/* A single inventory card */
+.craft-card {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+  position: relative;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+}
+.craft-card:hover {
+  border-color: var(--blue);
+}
+.craft-card.is-selected {
+  border-color: var(--pink);
+  background: color-mix(in srgb, var(--pink) 12%, var(--surface-raised));
+  box-shadow: inset 0 0 0 1px var(--pink);
+}
+.craft-card.is-dragging {
+  opacity: 0.4;
+}
+.craft-card.is-drop {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 2px var(--pink), 0 0 18px color-mix(in srgb, var(--pink) 55%, transparent);
+  transform: scale(1.02);
+}
+.craft-card.is-cursed {
+  border-color: color-mix(in srgb, var(--amber) 60%, var(--line));
+}
+.craft-card.is-inert {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.craft-card-btn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+  font: 0.85rem var(--mono);
+  text-align: left;
+  cursor: grab;
+}
+.craft-card-btn:active {
+  cursor: grabbing;
+}
+.craft-card-emoji {
+  font-size: 1.25rem;
+  line-height: 1;
+  flex: none;
+}
+.craft-card-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.craft-card-seed {
+  margin-left: auto;
+  font-size: 0.6rem;
+  color: var(--blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid color-mix(in srgb, var(--blue) 45%, transparent);
+  padding: 0.05rem 0.3rem;
+  flex: none;
+}
+.craft-card-del {
+  flex: none;
+  width: 30px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: transparent;
+  color: var(--dim);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.craft-card-del:hover {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+}
+
+/* ── Stage ─────────────────────────────────────────────────────────────── */
+.craft-stage-wrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.craft-stage-bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.craft-stage-bar .craft-kicker {
+  margin: 0;
+}
+.craft-selected {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  min-height: 24px;
+  font: 0.82rem var(--mono);
+  color: var(--ink);
+}
+.craft-slot {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--pink);
+}
+.craft-plus {
+  color: var(--dim);
+  font: 400 1.1rem/1 var(--display);
+  margin-right: 0.15rem;
+}
+.craft-hint {
+  color: var(--dim);
+  font: 0.78rem var(--mono);
+  line-height: 1.5;
+}
+.craft-fuse-btn {
+  flex: none;
+  min-height: 44px;
+  gap: 0.7rem;
+  padding: 0.55rem 1rem;
+  font-size: 1.05rem;
+}
+
+/* Canvas surface */
+.craft-stage {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  min-height: 380px;
+  background-image:
+    radial-gradient(circle at 30% 25%, rgba(236, 72, 153, 0.08), transparent 42%),
+    radial-gradient(circle at 72% 78%, rgba(56, 189, 248, 0.08), transparent 44%),
+    linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+  background-size: auto, auto, 34px 34px, 34px 34px;
+  transition: box-shadow 0.2s ease;
+}
+.craft-stage-armed {
+  box-shadow: inset 0 0 0 2px var(--pink),
+    inset 0 0 44px color-mix(in srgb, var(--pink) 20%, transparent);
+}
+.craft-stage-dropzone {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Empty state */
+.craft-empty {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 44ch;
+}
+.craft-empty-mark {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  letter-spacing: 0.4rem;
+  margin: 0 0 1rem;
+  filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.35));
+  animation: craft-pulse 3.2s ease-in-out infinite;
+}
+.craft-empty-head {
+  font: 400 clamp(1.8rem, 4vw, 2.6rem) / 1 var(--display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 0.6rem;
+}
+.craft-empty-body {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.craft-empty-body b {
+  color: var(--blue);
+  font-family: var(--mono);
+}
+
+/* ── Result reveal card ─────────────────────────────────────────────────── */
+.craft-result {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 420px);
+  text-align: center;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 2.25rem);
+  background: var(--surface-raised);
+  border: 1px solid var(--pink);
+  box-shadow: 0 0 0 1px rgba(236, 72, 153, 0.25),
+    0 24px 60px -24px rgba(236, 72, 153, 0.5);
+  animation: craft-reveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.craft-result::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--pink);
+}
+.craft-result.is-canonical {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.35),
+    0 24px 70px -22px rgba(251, 191, 36, 0.55);
+}
+.craft-result.is-canonical::before {
+  background: var(--amber);
+}
+.craft-result.is-egg {
+  border-color: var(--blue);
+}
+.craft-result.is-cursed {
+  border-color: color-mix(in srgb, var(--amber) 70%, var(--pink));
+}
+
+.craft-result-banner {
+  margin: 0 0 0.9rem;
+  font: 400 1.2rem/1 var(--display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  text-shadow: 0 0 16px rgba(251, 191, 36, 0.55);
+  animation: craft-shine 1.8s ease-in-out infinite;
+}
+.craft-result-emoji {
+  font-size: clamp(3.2rem, 9vw, 4.6rem);
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  filter: drop-shadow(0 0 24px rgba(236, 72, 153, 0.5));
+  animation: craft-hatch 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+.craft-result.is-canonical .craft-result-emoji {
+  filter: drop-shadow(0 0 26px rgba(251, 191, 36, 0.6));
+}
+.craft-result-name {
+  margin: 0 0 0.85rem;
+  font: 400 clamp(2rem, 5vw, 3rem) / 1 var(--display);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.craft-result-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-bottom: 0.9rem;
+}
+.craft-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  font: 0.68rem var(--mono);
+  letter-spacing: 0.03em;
+  border: 1px solid;
+  cursor: help;
+}
+.craft-badge-first {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 10%, transparent);
+  animation: craft-shine 1.6s ease-in-out infinite;
+}
+.craft-badge-egg {
+  color: var(--blue);
+  border-color: var(--blue);
+}
+.craft-badge-exp {
+  color: var(--muted);
+  border-color: var(--dim);
+}
+.craft-badge-curse {
+  color: var(--pink);
+  border-color: var(--pink);
+}
+
+.craft-result-blurb {
+  margin: 0 0 1.2rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Canonical unlock — a reward, not a nag */
+.craft-unlock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 46px;
+  padding: 0.6rem 1.15rem;
+  background: var(--amber);
+  border: 1px solid var(--amber);
+  color: #08090e;
+  font: 700 0.82rem/1.2 var(--brand);
+  letter-spacing: 0.02em;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.craft-unlock:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--blue);
+}
+.craft-unlock:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* Stage footer */
+.craft-stage-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.1rem;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.craft-stage-foot .craft-hint {
+  margin: 0;
+  max-width: 62ch;
+}
+.craft-stage-foot .craft-hint b {
+  color: var(--blue);
+}
+.craft-reset {
+  flex: none;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--dim);
+  min-height: 36px;
+  padding: 0.35rem 0.75rem;
+  font: 0.72rem var(--mono);
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.craft-reset:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ── Toast ─────────────────────────────────────────────────────────────── */
+.craft-toast {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(1rem, 4vw, 2rem);
+  transform: translateX(-50%);
+  z-index: 40;
+  max-width: min(90vw, 34rem);
+  padding: 0.7rem 1.1rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--pink);
+  box-shadow: 0 12px 40px -12px rgba(236, 72, 153, 0.5);
+  color: var(--ink);
+  font: 0.82rem var(--mono);
+  letter-spacing: 0.01em;
+  text-align: center;
+  animation: craft-toast-in 0.3s ease both;
+}
+
+/* ── Friday-deploy curse: everything runs at 0.25× ─────────────────────── */
+.craft-friday .craft-result,
+.craft-friday .craft-result-emoji,
+.craft-friday .craft-result-banner,
+.craft-friday .craft-empty-mark {
+  animation-duration: 2.2s;
+}
+.craft-result.is-friday {
+  animation-duration: 2.2s;
+}
+
+/* ── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes craft-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes craft-hatch {
+  0% {
+    transform: scale(0.2) rotate(-12deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.18) rotate(4deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+@keyframes craft-shine {
+  50% {
+    opacity: 0.65;
+  }
+}
+@keyframes craft-pulse {
+  50% {
+    transform: translateY(-6px);
+    filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.5));
+  }
+}
+@keyframes craft-toast-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
+.craft-result.reduced,
+.craft-result.reduced .craft-result-emoji,
+.craft-result.reduced .craft-result-banner {
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .craft-result,
+  .craft-result-emoji,
+  .craft-result-banner,
+  .craft-empty-mark,
+  .craft-badge-first,
+  .craft-toast,
+  .craft-card {
+    animation: none !important;
+    transition: none !important;
+  }
+  .craft-card.is-drop {
+    transform: none;
+  }
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 820px) {
+  .craft {
+    width: var(--shell-width);
+  }
+  .craft-shell {
+    grid-template-columns: 1fr;
+  }
+  .craft-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .craft-list {
+    max-height: 42vh;
+  }
+  .craft-stage-bar {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "kicker fuse"
+      "sel sel";
+    row-gap: 0.6rem;
+  }
+  .craft-stage-bar .craft-kicker {
+    grid-area: kicker;
+  }
+  .craft-selected {
+    grid-area: sel;
+  }
+  .craft-fuse-btn {
+    grid-area: fuse;
+  }
+  .craft-stage {
+    min-height: 320px;
+  }
+  .craft-stage-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+}
+@media (max-width: 480px) {
+  .craft-sidebar-head {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .craft-curse-controls {
+    align-self: stretch;
+  }
+  .craft-cleanse {
+    width: 100%;
+  }
+}
