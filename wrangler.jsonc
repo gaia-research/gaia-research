@@ -19,6 +19,22 @@
   "images": {
     "binding": "IMAGES"
   },
+  "ai": {
+    "binding": "AI"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "CRAFT_KV",
+      "id": "TODO_CREATE_KV_NAMESPACE_ID",
+      "preview_id": "TODO_CREATE_KV_PREVIEW_ID"
+    }
+  ],
+  "analytics_engine_datasets": [
+    {
+      "binding": "CRAFT_FUSIONS",
+      "dataset": "craft_fusions"
+    }
+  ],
   "observability": {
     "enabled": true
   }
