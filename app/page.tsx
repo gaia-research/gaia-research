@@ -3,6 +3,7 @@ import Link from "next/link";
 import RegistryHandoff from "@/components/RegistryHandoff";
 import MilimLive from "@/components/MilimLive";
 import CopyCommand from "@/components/CopyCommand";
+import LabThumb from "@/components/labs/LabThumb";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { displayName, installCmd, ledger, repoUrl, skills, treeUrl } from "@/data/research";
 
@@ -16,11 +17,39 @@ export default function Home() {
   <section className="hero" aria-labelledby="hero-title">
    <Image className="lab-plate" src="/assets/north-star-live/north-star-live-lab-plate-v01.webp" alt="" fill priority sizes="100vw" />
    <div className="hero-layout">
-    <div className="hero-copy"><p className="signal"><span /> PUBLIC RESEARCH SIGNAL</p><h1 id="hero-title">Pushing the limits of <em>agent</em> capability.</h1><p className="hero-lede">Gaia Research is the open laboratory for evidence-first agent work. We observe, benchmark, verify, and publish the frontier &mdash; every claim links back to its receipts.</p><div className="actions"><Link className="button primary" href="/labs/context-diet">Enter Lab 001 · Context Diet <span>→</span></Link><Link className="button secondary" href="/labs/infinite-skill-craft">Lab 002 · Infinite Skill Craft <span>→</span></Link><a className="button secondary" href="#ledger">Read the ledger <span>→</span></a></div></div>
+    <div className="hero-copy"><p className="signal"><span /> PUBLIC RESEARCH SIGNAL</p><h1 id="hero-title">Pushing the limits of <em>agent</em> capability.</h1><p className="hero-lede">Gaia Research is the open laboratory for evidence-first agent work. We observe, benchmark, verify, and publish the frontier &mdash; every claim links back to its receipts.</p><div className="actions"><Link className="button primary" href="/labs/infinite-skill-craft">Play Infinite Skill Craft <span>→</span></Link><a className="button secondary" href="#ledger">Read the ledger <span>→</span></a></div></div>
     <MilimLive fallbackSrc="/assets/north-star-live/milim-live-full-body-sprite-v01.webp" fallbackAlt="Milim, Gaia Research's Chief Capability Scout, standing in a laboratory hoodie." width={1024} height={1536} sizes="(max-width: 700px) 88vw, (max-width: 1200px) 46vw, 34vw" caption="MILIM · CHIEF CAPABILITY SCOUT" />
     <aside className="status-rail" aria-label="Laboratory status"><p>LABORATORY STATUS</p><dl><div><dt>LABS LIVE</dt><dd>02</dd></div><div><dt>LEDGER</dt><dd>OPEN</dd></div><div><dt>SOURCE</dt><dd>PUBLIC</dd></div></dl><a href="#directives">READ THE DIRECTIVES →</a></aside>
    </div>
-   <div className="hero-strip"><span><i /> VERIFIED EVIDENCE</span><span>LAB 001 / RESULTS PENDING</span><span>BUILDING IN PUBLIC</span></div>
+   <div className="hero-strip"><span><i /> VERIFIED EVIDENCE</span><span>TWO LABS, ZERO SIGN-UPS</span><span>BUILDING IN PUBLIC</span></div>
+  </section>
+
+  <section id="labs" className="labs-play section-shell" aria-labelledby="labs-play-title">
+   <header className="labs-play-intro">
+    <p className="signal"><span /> PULL A LEVER, SEE WHAT SPARKS</p>
+    <h2 id="labs-play-title">Labs &amp; Games.</h2>
+    <p>Little browser toys we build to poke at agent capability &mdash; no login, no download, nothing leaves your machine. Go ahead, boss. Break something.</p>
+   </header>
+   <div className="labs-play-grid">
+    <Link className="play-card play-card-craft" href="/labs/infinite-skill-craft">
+     <LabThumb kind="craft" />
+     <div className="play-card-body">
+      <span className="play-tag">Live · Game</span>
+      <h3>Infinite Skill Craft</h3>
+      <p>Smash two dev skills together and see what the forge coughs up. Then do it again. And again. Infinite, obviously.</p>
+      <span className="play-go">Start crafting <span aria-hidden="true">→</span></span>
+     </div>
+    </Link>
+    <Link className="play-card play-card-diet" href="/labs/context-diet">
+     <LabThumb kind="diet" />
+     <div className="play-card-body">
+      <span className="play-tag">Beta · Tool</span>
+      <h3>Context Diet</h3>
+      <p>Feed it a bloated context file and watch it shrink to a lean, mean skill sliver. Weigh-in stays in your browser.</p>
+      <span className="play-go">Trim a prompt <span aria-hidden="true">→</span></span>
+     </div>
+    </Link>
+   </div>
   </section>
 
   <section id="skills" className="skills section-shell" aria-labelledby="skills-title"><header className="skills-intro"><h2 id="skills-title">Skills you can install today.</h2><p>Local-first Claude Code / Cursor / Windsurf skills. One line to install with the Gaia CLI &mdash; they run against your files and never upload their contents.</p></header><div className="skill-grid">{skills.map((skill)=>{const name=displayName(skill.slug);return <article className="skill-card" key={skill.slug}><div className="skill-head"><h3>{name}</h3><span className={`chip ${skill.status.toLowerCase()}`}>{skill.status} {statusText[skill.status]}</span></div><p className="skill-blurb">{skill.blurb}</p><CopyCommand className="skill-install" command={installCmd(skill.slug)} /><div className="skill-links"><a href={repoUrl(skill.slug)} target="_blank" rel="noreferrer">Repo ↗</a>{skill.inTree && <a href={treeUrl(skill.slug)} target="_blank" rel="noreferrer">In the Skill Tree ↗</a>}{skill.surface && <a {...linkProps(skill.surface.href)}>{skill.surface.label} {isExternal(skill.surface.href) ? "↗" : "→"}</a>}</div></article>;})}</div></section>

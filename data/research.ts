@@ -30,7 +30,7 @@ const skills = [
     blurb: "Measure and compact an oversized agent-context file under the harness limit without dropping a single rule.",
     status: "WIP",
     inTree: false, // context-diet to be added to the tree later
-    surface: { label: "Open Lab 001", href: "/labs/context-diet" },
+    surface: { label: "Play Context Diet", href: "/labs/context-diet" },
   },
   {
     slug: "skill-ci-churn",
@@ -60,6 +60,6 @@ export { allSkills as skills };
 // href "" renders as plain text (no destination yet). External URLs open in a
 // new tab; internal routes and #anchors navigate in place.
 export const ledger = [
-  ["Context Diet / Lab 001", "LAB", "WIP", "Local token-budget estimator; comparative benchmark results pending review", "/labs/context-diet"],
+  ["Context Diet", "LAB", "WIP", "Local token-budget estimator; comparative benchmark results pending review", "/labs/context-diet"],
   ["The Compounding Cost of CI Failures", "POSTMORTEM", "VRF", "Postmortem of Epic #780 introducing CI Churn as a first-class cost metric", "/research/ci-churn"],
 ] as const;
