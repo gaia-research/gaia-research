@@ -38,6 +38,11 @@ export interface SkillCard {
   emoji: string;
   /** One-liner description shown on hover / in the result toast. */
   blurb?: string;
+  /**
+   * Factual one-line capability description (what the skill DOES), distinct
+   * from the playful blurb. Additive optional field — safe for the frozen contract.
+   */
+  description?: string;
   /** Rarity tier — defaults to `emergent` when unknown. */
   tier?: FusionTier;
   /** Unix-ms timestamp of when this card was first discovered by this browser session. */
@@ -54,6 +59,11 @@ export interface FusionResult {
   emoji: string;
   /** Short flavour text / description. */
   blurb: string;
+  /**
+   * Factual one-line capability description (what the skill DOES), distinct
+   * from the playful blurb. Additive optional field — safe for the frozen contract.
+   */
+  description?: string;
   /** Rarity tier of this result. */
   tier: FusionTier;
   /**
