@@ -50,6 +50,11 @@ export interface SkillCard {
   skillTitle?: string;
   /** Rarity tier — defaults to `emergent` when unknown. */
   tier?: FusionTier;
+  /**
+   * gaia-skill-tree contributor handle for canonical results; drives the
+   * Builders collection. Additive optional field.
+   */
+  contributor?: string;
   /** Unix-ms timestamp of when this card was first discovered by this browser session. */
   discoveredAt?: number;
 }
@@ -76,6 +81,11 @@ export interface FusionResult {
   skillTitle?: string;
   /** Rarity tier of this result. */
   tier: FusionTier;
+  /**
+   * gaia-skill-tree contributor handle for canonical results; drives the
+   * Builders collection. Additive optional field.
+   */
+  contributor?: string;
   /**
    * True if this is the first time *any* player discovered this combo
    * (determined server-side via the discoveries ledger).

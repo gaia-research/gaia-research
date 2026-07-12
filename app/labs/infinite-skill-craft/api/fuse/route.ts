@@ -330,6 +330,10 @@ function toStored(
   if (ref) {
     stored.slug = ref.slug;
     stored.contributor = ref.contributor;
+  } else if (result.contributor) {
+    // Preserve the Builders-collection handle even when we have no slug/link
+    // (e.g. a canonical starter bridge with a contributor but no deep-link).
+    stored.contributor = result.contributor;
   }
   if (result.cursed) {
     stored.cursed = true;
@@ -349,6 +353,7 @@ function rehydrate(stored: StoredFusion): FusionResult {
     tier: stored.tier,
     isFirstDiscovery: false,
     passesSkillCheck: stored.passesSkillCheck,
+    contributor: stored.contributor,
     skillTreeUrl: skillTreeUrl(stored.contributor, stored.slug),
     experimental: !stored.passesSkillCheck,
     cursed: stored.cursed || undefined,
@@ -549,6 +554,7 @@ export async function POST(request: Request): Promise<Response> {
       tier: 'canonical',
       isFirstDiscovery: true,
       passesSkillCheck: true,
+      contributor: recipe.contributor,
       skillTreeUrl: skillTreeUrl(recipe.contributor, recipe.slug),
       experimental: false,
     };
@@ -580,6 +586,7 @@ export async function POST(request: Request): Promise<Response> {
       tier: 'canonical',
       isFirstDiscovery: true,
       passesSkillCheck: true,
+      contributor: starter.contributor,
       skillTreeUrl: link,
       experimental: false,
     };
@@ -648,6 +655,7 @@ export async function POST(request: Request): Promise<Response> {
           tier: 'canonical',
           isFirstDiscovery: true,
           passesSkillCheck: true,
+          contributor: promotion.contributor,
           skillTreeUrl: skillTreeUrl(promotion.contributor, promotion.slug),
           experimental: false,
         };
