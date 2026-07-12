@@ -1277,14 +1277,26 @@ function InstancePopover({
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [flip, setFlip] = useState(false);
+  const [maxH, setMaxH] = useState<number | undefined>(undefined);
 
-  // Focus the popover heading on open (keyboard users land inside it), and
-  // flip above the node if it would clip the top of the viewport.
+  // Focus the popover on open (keyboard users land inside it). The stage is
+  // overflow:hidden, so anchor on whichever side of the node has more room and
+  // cap the height to that room (scrolls internally only on tiny viewports).
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const box = el.getBoundingClientRect();
-    if (box.top < 8) setFlip(true);
+    const node = el.parentElement; // the .craft-node
+    const stage = el.closest<HTMLElement>(".craft-stage");
+    if (node && stage) {
+      const nodeBox = node.getBoundingClientRect();
+      const stageBox = stage.getBoundingClientRect();
+      const gap = 18;
+      const roomBelow = stageBox.bottom - nodeBox.bottom - gap;
+      const roomAbove = nodeBox.top - stageBox.top - gap;
+      const useAbove = roomAbove > roomBelow;
+      setFlip(useAbove);
+      setMaxH(Math.max(140, Math.floor(useAbove ? roomAbove : roomBelow)));
+    }
     // Move focus into the popover for the funnel link / close.
     const focusTarget = el.querySelector<HTMLElement>("[data-autofocus]");
     focusTarget?.focus();
@@ -1296,6 +1308,7 @@ function InstancePopover({
       className={`craft-pop${flip ? " is-flipped" : ""}`}
       role="dialog"
       aria-label={`${card.name} details`}
+      style={maxH ? { maxHeight: `${maxH}px` } : undefined}
       // Stop pointer events bubbling to the node (so the popover isn't a drag).
       onPointerDown={(e) => e.stopPropagation()}
       onPointerUp={(e) => e.stopPropagation()}

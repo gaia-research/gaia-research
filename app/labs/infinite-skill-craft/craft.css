@@ -593,6 +593,7 @@
   transform: translateX(-50%);
   width: max-content;
   max-width: min(19rem, 78vw);
+  overflow-y: auto;
   padding: 0.85rem 0.95rem 0.95rem;
   background: var(--surface-raised);
   border: 1px solid var(--pink);
