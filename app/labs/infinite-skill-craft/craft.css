@@ -668,12 +668,26 @@
   gap: 0.35rem;
   margin-bottom: 0.7rem;
 }
+.craft-pop-desc {
+  margin: 0 0 0.5rem;
+  color: var(--ink);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
 .craft-pop-blurb {
   margin: 0 0 0.85rem;
   color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.55;
   text-wrap: pretty;
+}
+/* When a factual description leads, the playful blurb is demoted to a quieter,
+   teasing aside beneath it — same tokens, lighter weight. */
+.craft-pop-blurb.is-secondary {
+  color: var(--dim);
+  font-style: italic;
+  font-size: 0.83rem;
 }
 .craft-pop .craft-unlock {
   display: flex;

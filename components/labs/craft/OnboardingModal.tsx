@@ -150,7 +150,7 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
               An <strong>agent skill</strong> is a <strong>packaged capability</strong> — a{" "}
               <code>SKILL.md</code> instruction set that gives an AI agent a specific ability: an
               action it can perform, a context it can understand, a tool it can wield. Think
-              &ldquo;/api-call&rdquo; or &ldquo;/chain-of-thought&rdquo; — not a random noun or
+              &ldquo;/prompt&rdquo; or &ldquo;/code&rdquo; — not a random noun or
               vibe, but a <em>named, usable ability</em>. Skills are the atoms of agent behaviour.
             </p>
           </div>
@@ -163,7 +163,8 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
                 <span className="craft-onboard-step-title">1 · Drop skills on the canvas</span>
                 <p className="craft-onboard-step-desc">
                   Click a skill in the inventory to drop it on the canvas — drag as many
-                  as you like. Start with the four seed primitives.
+                  as you like. Start with the four one-word elements: <strong>/prompt</strong>,{" "}
+                  <strong>/code</strong>, <strong>/web</strong>, <strong>/data</strong>.
                 </p>
               </div>
             </div>

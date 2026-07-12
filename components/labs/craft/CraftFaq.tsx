@@ -38,8 +38,8 @@ export function CraftFaq() {
                 Skills follow a progressive-disclosure pattern: the{" "}
                 <code>SKILL.md</code> file is the entry point (name, description, how to
                 invoke), with deeper reference docs linked inside. A skill&apos;s identity is
-                its <strong>slash name</strong> (e.g. <code>/api-call</code>,{" "}
-                <code>/chain-of-thought</code>).
+                its <strong>slash name</strong> (e.g. <code>/prompt</code>,{" "}
+                <code>/code</code>).
               </p>
               <p>
                 <strong>Not a skill:</strong> a random object, a vibe, a noun that an AI could

@@ -107,12 +107,17 @@ interface CanvasNode {
   landed?: "canonical" | "first" | "egg" | "plain";
 }
 
-/** The four seed primitives. These are always present and never deletable. */
+/**
+ * The four one-word ELEMENT primitives. These are the atoms every fusion is
+ * built from — always present, never deletable. Each carries a playful `blurb`
+ * (Milim voice) AND a factual `description` (what the element IS) so the detail
+ * popover can read as a real capability even for a raw seed.
+ */
 const SEED_CARDS: CraftCard[] = [
-  { id: "api-call", name: "/api-call", emoji: "⚡", blurb: "Reach out and call an endpoint, boss.", tier: "canonical" },
-  { id: "chain-of-thought", name: "/chain-of-thought", emoji: "🧠", blurb: "Think it through, step by step.", tier: "canonical" },
-  { id: "browser-control", name: "/browser-control", emoji: "🌐", blurb: "Drive a real browser like it owes you money.", tier: "canonical" },
-  { id: "code-execution", name: "/code-execution", emoji: "⚙️", blurb: "Run the code. Trust the sandbox.", tier: "canonical" },
+  { id: "prompt", name: "/prompt", emoji: "🧠", blurb: "I ask the big model to think, boss. That's the whole trick.", description: "Ask a language model to reason or generate.", tier: "canonical" },
+  { id: "code", name: "/code", emoji: "⚙️", blurb: "The hands of the agent, boss — I run the code and trust the sandbox.", description: "Execute code — the hands of the agent.", tier: "canonical" },
+  { id: "web", name: "/web", emoji: "🌐", blurb: "I reach the live internet, boss. Fresh bytes, no cache excuses.", description: "Reach the live internet.", tier: "canonical" },
+  { id: "data", name: "/data", emoji: "📊", blurb: "Structured stuff to chew on, boss — rows, docs, embeddings, all of it.", description: "Structured information to work over.", tier: "canonical" },
 ];
 
 const SEED_IDS = new Set(SEED_CARDS.map((c) => c.id));
@@ -483,6 +488,7 @@ export function CraftCanvas() {
           name: result.name,
           emoji: result.emoji,
           blurb: result.blurb,
+          description: result.description,
           tier: result.tier,
           passesSkillCheck: result.passesSkillCheck,
           skillTreeUrl: result.skillTreeUrl,
@@ -1372,7 +1378,16 @@ function InstancePopover({
         </div>
       )}
 
-      {card.blurb && <p className="craft-pop-blurb">{card.blurb}</p>}
+      {/* Primary "what it does" line — the factual capability. This is what makes
+          every fusion read as a REAL skill, not a mystery noun. */}
+      {card.description && <p className="craft-pop-desc">{card.description}</p>}
+
+      {/* Secondary, teasing line — Milim's playful take. Demoted below the fact. */}
+      {card.blurb && (
+        <p className={`craft-pop-blurb${card.description ? " is-secondary" : ""}`}>
+          {card.blurb}
+        </p>
+      )}
 
       {canonical && card.skillTreeUrl && (
         <a
@@ -1400,14 +1415,14 @@ function EmptyState({ discovered }: { discovered: number }) {
   return (
     <div className="craft-empty">
       <p className="craft-empty-mark" aria-hidden="true">
-        ⚡ + 🧠
+        🧠 + ⚙️
       </p>
       <p className="craft-empty-head">
         {discovered === 0 ? "Empty canvas." : "Canvas cleared."}
       </p>
       <p className="craft-empty-body">
-        Click <b>/api-call</b> to drop it on the canvas, boss — then drag another skill
-        on top of it and watch what hatches.
+        Click <b>/prompt</b> and <b>/code</b>, boss — then drag them together and watch{" "}
+        <b>/codegen</b> hatch.
       </p>
     </div>
   );
