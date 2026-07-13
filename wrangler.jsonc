@@ -25,8 +25,8 @@
   "kv_namespaces": [
     {
       "binding": "CRAFT_KV",
-      "id": "TODO_CREATE_KV_NAMESPACE_ID",
-      "preview_id": "TODO_CREATE_KV_PREVIEW_ID"
+      "id": "d955d33ec3364c7993310c04a134582e",
+      "preview_id": "1dc66bd557b1464f9d46cb5a072696c6"
     }
   ],
   "analytics_engine_datasets": [
