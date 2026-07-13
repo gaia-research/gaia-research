@@ -65,6 +65,7 @@ Installable Claude Code / Cursor / Windsurf skills published by Gaia Research. E
 | Skill | What it does | Repo |
 | :--- | :--- | :--- |
 | **context-diet** | Measure + compact an oversized agent-context file (`CLAUDE.md`, `.cursorrules`, `AGENTS.md`, a system prompt) under the harness char limit **without losing a rule**. Runs a compaction bake-off scored on rule faithfulness. Output of [Context Diet — Lab 001](content/reports/context-diet-lab-001). | [gaia-research/skill-context-diet](https://github.com/gaia-research/skill-context-diet) |
+| **cost** | Multi-harness token-usage cost reporter. Reads the JSONL session logs written by pi, Claude Code, Codex, and opencode; prices every turn against BerriAI/litellm's canonical catalog; auto-refreshes prices at runtime + daily upstream via GitHub Actions. Outputs per-session, per-model, and per-project USD with compaction-event detection. | [gaia-research/skill-cost](https://github.com/gaia-research/skill-cost) |
 | **ci-churn** | GitHub Actions cost analyzer & flaky-test detector for PRs. Measures wasted CI compute, classifies commits as feature vs ci-fix, and generates pre-push checks that would have prevented retry-push churn. | [gaia-research/skill-ci-churn](https://github.com/gaia-research/skill-ci-churn) |
 | **fuse** | AI agent command consolidator. Merge overlapping `/commands` into one unified `SKILL.md` — reduce slash-command clutter, combine Cursor rules, dedupe Windsurf cascades. | [gaia-research/skill-fuse](https://github.com/gaia-research/skill-fuse) |
 
