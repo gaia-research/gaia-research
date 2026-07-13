@@ -7,7 +7,7 @@ import LabThumb from "@/components/labs/LabThumb";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { displayName, installCmd, ledger, repoUrl, skills, treeUrl } from "@/data/research";
 
-const statusText = { ACT: "ACTIVE", VRF: "VERIFIED", REV: "IN REVIEW", WIP: "EXPERIMENTAL" } as const;
+const statusText = { ACT: "ACTIVE", PRP: "PROPOSED", VRF: "VERIFIED", REV: "IN REVIEW", WIP: "EXPERIMENTAL" } as const;
 
 const isExternal = (href: string) => href.startsWith("http");
 const linkProps = (href: string) => (isExternal(href) ? { href, target: "_blank", rel: "noreferrer" } : { href });
@@ -54,7 +54,7 @@ export default function Home() {
 
   <section id="skills" className="skills section-shell" aria-labelledby="skills-title"><header className="skills-intro"><h2 id="skills-title">Skills you can install today.</h2><p>Local-first Claude Code / Cursor / Windsurf skills. One line to install with the Gaia CLI &mdash; they run against your files and never upload their contents.</p></header><div className="skill-grid">{skills.map((skill)=>{const name=displayName(skill.slug);return <article className="skill-card" key={skill.slug}><div className="skill-head"><h3>{name}</h3><span className={`chip ${skill.status.toLowerCase()}`}>{skill.status} {statusText[skill.status]}</span></div><p className="skill-blurb">{skill.blurb}</p><CopyCommand className="skill-install" command={installCmd(skill.slug)} /><div className="skill-links"><a href={repoUrl(skill.slug)} target="_blank" rel="noreferrer">Repo ↗</a>{skill.inTree && <a href={treeUrl(skill.slug)} target="_blank" rel="noreferrer">In the Skill Tree ↗</a>}{skill.surface && <a {...linkProps(skill.surface.href)}>{skill.surface.label} {isExternal(skill.surface.href) ? "↗" : "→"}</a>}</div></article>;})}</div></section>
 
-  <section id="ledger" className="ledger section-shell" aria-labelledby="ledger-title"><header className="ledger-intro"><div><h2 id="ledger-title">Claims deserve a trail.</h2></div></header><div className="table-wrap"><table><caption className="sr-only">Selected public research ledger entries</caption><thead><tr><th>Research item</th><th>Type</th><th>Status</th><th>Evidence note</th></tr></thead><tbody>{ledger.map(([name,type,status,note,href])=><tr key={name}><th scope="row">{href ? <a {...linkProps(href)}>{name}{isExternal(href) && " ↗"}</a> : name}</th><td>{type}</td><td><span className={`chip ${status.toLowerCase()}`}>{status} {statusText[status]}</span></td><td>{note}</td></tr>)}</tbody></table></div></section>
+  <section id="ledger" className="ledger section-shell" aria-labelledby="ledger-title"><header className="ledger-intro"><div><h2 id="ledger-title">Claims deserve a trail.</h2></div><Link href="/research">Explore research →</Link></header><div className="table-wrap"><table><caption className="sr-only">Selected public research ledger entries</caption><thead><tr><th>Research item</th><th>Type</th><th>Status</th><th>Evidence note</th></tr></thead><tbody>{ledger.map(([name,type,status,note,href])=><tr key={name}><th scope="row">{href ? <a {...linkProps(href)}>{name}{isExternal(href) && " ↗"}</a> : name}</th><td>{type}</td><td><span className={`chip ${status.toLowerCase()}`}>{status} {statusText[status]}</span></td><td>{note}</td></tr>)}</tbody></table></div></section>
 
   <RegistryHandoff />
 

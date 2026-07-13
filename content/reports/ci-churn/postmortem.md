@@ -5,7 +5,7 @@
 
 ---
 
-> **Abstract.** This postmortem examines twelve discrete CI failure rounds incurred during and immediately after Epic #780, a large-scale architectural modernization of the Gaia Skill Tree codebase. We characterize a novel failure mode — *CI Churn* — that is structurally more damaging when the development actor is a walled autonomous agent than when it is a human engineer. Three causal modes of CI Churn are identified and distinguished. Root causes are traced to three independent architectural oversights: the conflation of pipeline-internal and site-served generated artifacts, an insufficiently scoped workflow trigger, and the absence of a local pre-push validation gate. We report the direct and indirect costs of each failure round, describe the structural fixes that were shipped, and propose a measurement framework for tracking CI Churn as a first-class cost metric in agent-driven development.
+> **Abstract.** This postmortem examines ten counted CI failure rounds incurred during and immediately after Epic #780, a large-scale architectural modernization of the Gaia Skill Tree codebase. We characterize a novel failure mode — *CI Churn* — that is structurally more damaging when the development actor is a walled autonomous agent than when it is a human engineer. Three causal modes of CI Churn are identified and distinguished. Root causes are traced to three independent architectural oversights: the conflation of pipeline-internal and site-served generated artifacts, an insufficiently scoped workflow trigger, and the absence of a local pre-push validation gate. We report the direct and indirect costs of each failure round, describe the structural fixes that were shipped, and propose a measurement framework for tracking CI Churn as a first-class cost metric in agent-driven development.
 
 ---
 
@@ -281,7 +281,7 @@ Three properties are necessary for CI not to be a compounding liability in walle
 
 ## 7. Conclusion
 
-Twelve CI rounds. Approximately 36 hours of active failure surface. Approximately 24 hours of live site degradation. A direct token cost of ~$3.60–$4.00, plus an unknown Mode 3 cost that does not appear in any ledger.
+Ten counted CI rounds. Approximately 36 hours of active failure surface. Approximately 24 hours of live site degradation. A direct token cost of ~$3.60–$4.00, plus an unknown Mode 3 cost that does not appear in any ledger.
 
 None of these failures were caused by the code in Epic #780. They were caused by the absence of a local gate, the conflation of two artifact classes that are superficially similar but categorically different, a trigger pattern that matched files it had no business matching, and a `git add` call that assumed a world that no longer existed.
 

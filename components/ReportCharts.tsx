@@ -17,7 +17,7 @@ const PINK = "#ec4899";
 type Bar = { label: string; value: number | null; note?: string; emphasis?: boolean };
 
 const stats = [
-  { value: "12", label: "CI failure rounds", sub: "across four waves" },
+  { value: "10", label: "counted CI failure rounds", sub: "across four waves" },
   { value: "~24h", label: "site served 404s", sub: "silent — no red in the UI" },
   { value: "~$3.60–4.00", label: "direct token spend", sub: "excl. unmeasured Mode 3" },
   { value: "0", label: "billable rounds", sub: "for the most damaging wave", emphasis: true },

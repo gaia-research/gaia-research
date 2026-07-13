@@ -8,6 +8,11 @@ import CopyCommand from "@/components/CopyCommand";
 import ReportCharts from "@/components/ReportCharts";
 import { installCmd, repoUrl, treeUrl } from "@/data/research";
 
+// This page must be rendered while the Markdown source is available at build
+// time. Cloudflare Workers cannot read the deployed filesystem at request time.
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export const metadata = {
   title: "The Compounding Cost of CI Failures",
   description:
