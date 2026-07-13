@@ -1,0 +1,1412 @@
+[
+  {
+    "id": "adaptive-pattern-learning",
+    "name": "/adaptive-pattern-learning",
+    "displayName": "Adaptive Pattern Learning",
+    "type": "basic"
+  },
+  {
+    "id": "api-call",
+    "name": "/api-call",
+    "displayName": "API Call",
+    "type": "basic"
+  },
+  {
+    "id": "audience-model",
+    "name": "/audience-model",
+    "displayName": "Audience Model",
+    "type": "basic"
+  },
+  {
+    "id": "autonomous-engineering-platform",
+    "name": "/autonomous-engineering-platform",
+    "displayName": "Autonomous Engineering Platform",
+    "type": "basic"
+  },
+  {
+    "id": "bioinformatic-sequence-analysis",
+    "name": "/bioinformatic-sequence-analysis",
+    "displayName": "Bioinformatic Sequence Analysis",
+    "type": "basic"
+  },
+  {
+    "id": "browser-control",
+    "name": "/browser-control",
+    "displayName": "Browser Control",
+    "type": "basic"
+  },
+  {
+    "id": "chain-of-thought",
+    "name": "/chain-of-thought",
+    "displayName": "Chain-of-Thought Reasoning",
+    "type": "basic"
+  },
+  {
+    "id": "chunk-document",
+    "name": "/chunk-document",
+    "displayName": "Chunk Document",
+    "type": "basic"
+  },
+  {
+    "id": "ci-churn-analysis",
+    "name": "/ci-churn-analysis",
+    "displayName": "CI Churn Analysis",
+    "type": "basic"
+  },
+  {
+    "id": "cite-sources",
+    "name": "/cite-sources",
+    "displayName": "Cite Sources",
+    "type": "basic"
+  },
+  {
+    "id": "classify",
+    "name": "/classify",
+    "displayName": "Classify",
+    "type": "basic"
+  },
+  {
+    "id": "cli-modernization",
+    "name": "/cli-modernization",
+    "displayName": "CLI Modernization",
+    "type": "basic"
+  },
+  {
+    "id": "clinical-data-retrieval",
+    "name": "/clinical-data-retrieval",
+    "displayName": "Clinical Data Retrieval",
+    "type": "basic"
+  },
+  {
+    "id": "code-execution",
+    "name": "/code-execution",
+    "displayName": "Code Execution",
+    "type": "basic"
+  },
+  {
+    "id": "code-explain",
+    "name": "/code-explain",
+    "displayName": "Code Explain",
+    "type": "basic"
+  },
+  {
+    "id": "code-generation",
+    "name": "/code-generation",
+    "displayName": "Code Generation",
+    "type": "basic"
+  },
+  {
+    "id": "computer-use",
+    "name": "/computer-use",
+    "displayName": "Computer Use",
+    "type": "basic"
+  },
+  {
+    "id": "context-compression",
+    "name": "/context-compression",
+    "displayName": "Context Compression",
+    "type": "basic"
+  },
+  {
+    "id": "core-platform-implementation",
+    "name": "/core-platform-implementation",
+    "displayName": "Core Platform Implementation",
+    "type": "basic"
+  },
+  {
+    "id": "cultural-localization",
+    "name": "/cultural-localization",
+    "displayName": "Cultural Localization",
+    "type": "basic"
+  },
+  {
+    "id": "data-visualize",
+    "name": "/data-visualize",
+    "displayName": "Data Visualize",
+    "type": "basic"
+  },
+  {
+    "id": "diff-content",
+    "name": "/diff-content",
+    "displayName": "Diff Content",
+    "type": "basic"
+  },
+  {
+    "id": "document-editing",
+    "name": "/document-editing",
+    "displayName": "Document Editing",
+    "type": "basic"
+  },
+  {
+    "id": "domain-modeling",
+    "name": "/domain-modeling",
+    "displayName": "Domain Modeling",
+    "type": "basic"
+  },
+  {
+    "id": "embed-text",
+    "name": "/embed-text",
+    "displayName": "Embed Text",
+    "type": "basic"
+  },
+  {
+    "id": "error-interpretation",
+    "name": "/error-interpretation",
+    "displayName": "Error Interpretation",
+    "type": "basic"
+  },
+  {
+    "id": "evaluate-output",
+    "name": "/evaluate-output",
+    "displayName": "Evaluate Output",
+    "type": "basic"
+  },
+  {
+    "id": "evidence-attestation",
+    "name": "/evidence-attestation",
+    "displayName": "evidence-attestation",
+    "type": "basic"
+  },
+  {
+    "id": "extract-entities",
+    "name": "/extract-entities",
+    "displayName": "Extract Entities",
+    "type": "basic"
+  },
+  {
+    "id": "feed-monitoring",
+    "name": "/feed-monitoring",
+    "displayName": "Feed Monitoring",
+    "type": "basic"
+  },
+  {
+    "id": "few-shot-learning",
+    "name": "/few-shot-learning",
+    "displayName": "Few-Shot Learning",
+    "type": "basic"
+  },
+  {
+    "id": "fine-tune",
+    "name": "/fine-tune",
+    "displayName": "Fine-Tune",
+    "type": "basic"
+  },
+  {
+    "id": "format-output",
+    "name": "/format-output",
+    "displayName": "Format Output",
+    "type": "basic"
+  },
+  {
+    "id": "framework-upgrade",
+    "name": "/framework-upgrade",
+    "displayName": "Framework Upgrade",
+    "type": "basic"
+  },
+  {
+    "id": "generate-sql",
+    "name": "/generate-sql",
+    "displayName": "Generate SQL",
+    "type": "basic"
+  },
+  {
+    "id": "generate-test",
+    "name": "/generate-test",
+    "displayName": "Generate Test",
+    "type": "basic"
+  },
+  {
+    "id": "generate-text",
+    "name": "/generate-text",
+    "displayName": "Generate Text",
+    "type": "basic"
+  },
+  {
+    "id": "genomic-data-retrieval",
+    "name": "/genomic-data-retrieval",
+    "displayName": "Genomic Data Retrieval",
+    "type": "basic"
+  },
+  {
+    "id": "git-diff-risk-analysis",
+    "name": "/git-diff-risk-analysis",
+    "displayName": "Git Diff Risk Analysis",
+    "type": "basic"
+  },
+  {
+    "id": "headless-worker-collect",
+    "name": "/headless-worker-collect",
+    "displayName": "Headless Worker Collect",
+    "type": "basic"
+  },
+  {
+    "id": "headless-worker-spawn",
+    "name": "/headless-worker-spawn",
+    "displayName": "Headless Worker Spawn",
+    "type": "basic"
+  },
+  {
+    "id": "hybrid-workflow-coordination",
+    "name": "/hybrid-workflow-coordination",
+    "displayName": "Hybrid Workflow Coordination",
+    "type": "basic"
+  },
+  {
+    "id": "hypothesis-generate",
+    "name": "/hypothesis-generate",
+    "displayName": "Hypothesis Generation",
+    "type": "basic"
+  },
+  {
+    "id": "image-caption",
+    "name": "/image-caption",
+    "displayName": "Image Caption",
+    "type": "basic"
+  },
+  {
+    "id": "image-generate",
+    "name": "/image-generate",
+    "displayName": "Image Generate",
+    "type": "basic"
+  },
+  {
+    "id": "implement-with-discernment",
+    "name": "/implement-with-discernment",
+    "displayName": "implement-with-discernment",
+    "type": "basic"
+  },
+  {
+    "id": "issue-triage",
+    "name": "/issue-triage",
+    "displayName": "Issue Triage",
+    "type": "basic"
+  },
+  {
+    "id": "literature-search",
+    "name": "/literature-search",
+    "displayName": "Literature Search",
+    "type": "basic"
+  },
+  {
+    "id": "logical-inference",
+    "name": "/logical-inference",
+    "displayName": "Logical Inference",
+    "type": "basic"
+  },
+  {
+    "id": "math-reason",
+    "name": "/math-reason",
+    "displayName": "Math Reason",
+    "type": "basic"
+  },
+  {
+    "id": "mcp-integration",
+    "name": "/mcp-integration",
+    "displayName": "MCP Integration",
+    "type": "basic"
+  },
+  {
+    "id": "memory-pattern-design",
+    "name": "/memory-pattern-design",
+    "displayName": "Memory Pattern Design",
+    "type": "basic"
+  },
+  {
+    "id": "molecular-databases",
+    "name": "/molecular-databases",
+    "displayName": "Molecular Databases",
+    "type": "basic"
+  },
+  {
+    "id": "multi-repo-coordination",
+    "name": "/multi-repo-coordination",
+    "displayName": "Multi-Repo Coordination",
+    "type": "basic"
+  },
+  {
+    "id": "object-detection",
+    "name": "/object-detection",
+    "displayName": "Object Detection",
+    "type": "basic"
+  },
+  {
+    "id": "optical-character-recognition",
+    "name": "/optical-character-recognition",
+    "displayName": "OCR",
+    "type": "basic"
+  },
+  {
+    "id": "parallel-execution",
+    "name": "/parallel-execution",
+    "displayName": "Parallel Execution",
+    "type": "basic"
+  },
+  {
+    "id": "parse-html",
+    "name": "/parse-html",
+    "displayName": "Parse HTML",
+    "type": "basic"
+  },
+  {
+    "id": "parse-json",
+    "name": "/parse-json",
+    "displayName": "Parse JSON",
+    "type": "basic"
+  },
+  {
+    "id": "parse-pdf",
+    "name": "/parse-pdf",
+    "displayName": "Parse PDF",
+    "type": "basic"
+  },
+  {
+    "id": "pathway-ontology-retrieval",
+    "name": "/pathway-ontology-retrieval",
+    "displayName": "Pathway Ontology Retrieval",
+    "type": "basic"
+  },
+  {
+    "id": "performance-tuning",
+    "name": "/performance-tuning",
+    "displayName": "Performance Tuning",
+    "type": "basic"
+  },
+  {
+    "id": "plan-decompose",
+    "name": "/plan-decompose",
+    "displayName": "Plan and Decompose",
+    "type": "basic"
+  },
+  {
+    "id": "probabilistic-programming",
+    "name": "/probabilistic-programming",
+    "displayName": "Probabilistic Programming",
+    "type": "basic"
+  },
+  {
+    "id": "prompt-injection-defense",
+    "name": "/prompt-injection-defense",
+    "displayName": "Prompt Injection Defense",
+    "type": "basic"
+  },
+  {
+    "id": "protein-structure-analysis",
+    "name": "/protein-structure-analysis",
+    "displayName": "Protein Structure Analysis",
+    "type": "basic"
+  },
+  {
+    "id": "proteomic-data-retrieval",
+    "name": "/proteomic-data-retrieval",
+    "displayName": "Proteomic Data Retrieval",
+    "type": "basic"
+  },
+  {
+    "id": "question-answer",
+    "name": "/question-answer",
+    "displayName": "Question Answer",
+    "type": "basic"
+  },
+  {
+    "id": "rank",
+    "name": "/rank",
+    "displayName": "Rank",
+    "type": "basic"
+  },
+  {
+    "id": "refactor-code",
+    "name": "/refactor-code",
+    "displayName": "Refactor Code",
+    "type": "basic"
+  },
+  {
+    "id": "requirements-analysis",
+    "name": "/requirements-analysis",
+    "displayName": "Requirements Analysis",
+    "type": "basic"
+  },
+  {
+    "id": "retrieve",
+    "name": "/retrieve",
+    "displayName": "Retrieve",
+    "type": "basic"
+  },
+  {
+    "id": "reward-modeling",
+    "name": "/reward-modeling",
+    "displayName": "Reward Modeling",
+    "type": "basic"
+  },
+  {
+    "id": "route-intent",
+    "name": "/route-intent",
+    "displayName": "Route Intent",
+    "type": "basic"
+  },
+  {
+    "id": "schema-design",
+    "name": "/schema-design",
+    "displayName": "Schema Design",
+    "type": "basic"
+  },
+  {
+    "id": "scientific-visualization",
+    "name": "/scientific-visualization",
+    "displayName": "Scientific Visualization",
+    "type": "basic"
+  },
+  {
+    "id": "score-relevance",
+    "name": "/score-relevance",
+    "displayName": "Score Relevance",
+    "type": "basic"
+  },
+  {
+    "id": "self-consistency",
+    "name": "/self-consistency",
+    "displayName": "Self-Consistency",
+    "type": "basic"
+  },
+  {
+    "id": "self-critique",
+    "name": "/self-critique",
+    "displayName": "Self-Critique",
+    "type": "basic"
+  },
+  {
+    "id": "semantic-cache",
+    "name": "/semantic-cache",
+    "displayName": "Semantic Cache",
+    "type": "basic"
+  },
+  {
+    "id": "sentiment-analysis",
+    "name": "/sentiment-analysis",
+    "displayName": "Sentiment Analysis",
+    "type": "basic"
+  },
+  {
+    "id": "sequential-agent-pipeline",
+    "name": "/sequential-agent-pipeline",
+    "displayName": "Sequential Agent Pipeline",
+    "type": "basic"
+  },
+  {
+    "id": "skill-discovery",
+    "name": "/skill-discovery",
+    "displayName": "Skill Discovery",
+    "type": "basic"
+  },
+  {
+    "id": "software-design",
+    "name": "/software-design",
+    "displayName": "Software Design",
+    "type": "basic"
+  },
+  {
+    "id": "speech-to-text",
+    "name": "/speech-to-text",
+    "displayName": "Speech to Text",
+    "type": "basic"
+  },
+  {
+    "id": "statistical-analysis",
+    "name": "/statistical-analysis",
+    "displayName": "Statistical Analysis",
+    "type": "basic"
+  },
+  {
+    "id": "structured-output",
+    "name": "/structured-output",
+    "displayName": "Structured Output Generation",
+    "type": "basic"
+  },
+  {
+    "id": "summarize",
+    "name": "/summarize",
+    "displayName": "Summarize",
+    "type": "basic"
+  },
+  {
+    "id": "swarm-topology-management",
+    "name": "/swarm-topology-management",
+    "displayName": "Swarm Topology Management",
+    "type": "basic"
+  },
+  {
+    "id": "synthetic-data-generation",
+    "name": "/synthetic-data-generation",
+    "displayName": "Synthetic Data Generation",
+    "type": "basic"
+  },
+  {
+    "id": "system-integration",
+    "name": "/system-integration",
+    "displayName": "System Integration",
+    "type": "basic"
+  },
+  {
+    "id": "test-driven-development",
+    "name": "/test-driven-development",
+    "displayName": "Test-Driven Development",
+    "type": "basic"
+  },
+  {
+    "id": "text-to-speech",
+    "name": "/text-to-speech",
+    "displayName": "Text to Speech",
+    "type": "basic"
+  },
+  {
+    "id": "time-series-forecasting",
+    "name": "/time-series-forecasting",
+    "displayName": "Time Series Forecasting",
+    "type": "basic"
+  },
+  {
+    "id": "token-observability",
+    "name": "/token-observability",
+    "displayName": "Token Observability",
+    "type": "basic"
+  },
+  {
+    "id": "tokenize",
+    "name": "/tokenize",
+    "displayName": "Tokenize",
+    "type": "basic"
+  },
+  {
+    "id": "tool-select",
+    "name": "/tool-select",
+    "displayName": "Tool Select",
+    "type": "basic"
+  },
+  {
+    "id": "tool-use",
+    "name": "/tool-use",
+    "displayName": "Tool Use",
+    "type": "basic"
+  },
+  {
+    "id": "translate",
+    "name": "/translate",
+    "displayName": "Translate",
+    "type": "basic"
+  },
+  {
+    "id": "ux-audit",
+    "name": "/ux-audit",
+    "displayName": "UX Audit",
+    "type": "basic"
+  },
+  {
+    "id": "vector-db-optimization",
+    "name": "/vector-db-optimization",
+    "displayName": "Vector DB Optimization",
+    "type": "basic"
+  },
+  {
+    "id": "vector-search",
+    "name": "/vector-search",
+    "displayName": "Vector Search",
+    "type": "basic"
+  },
+  {
+    "id": "vision-qa",
+    "name": "/vision-qa",
+    "displayName": "Visual Question Answering",
+    "type": "basic"
+  },
+  {
+    "id": "web-search",
+    "name": "/web-search",
+    "displayName": "Web Search",
+    "type": "basic"
+  },
+  {
+    "id": "worker-agent-dispatch",
+    "name": "/worker-agent-dispatch",
+    "displayName": "Worker Agent Dispatch",
+    "type": "basic"
+  },
+  {
+    "id": "write-report",
+    "name": "/write-report",
+    "displayName": "Write Report",
+    "type": "basic"
+  },
+  {
+    "id": "advanced-swarm-coordination",
+    "name": "/advanced-swarm-coordination",
+    "displayName": "Advanced Swarm Coordination",
+    "type": "extra"
+  },
+  {
+    "id": "adversarial-robustness-testing",
+    "name": "/adversarial-robustness-testing",
+    "displayName": "Adversarial Robustness Testing",
+    "type": "extra"
+  },
+  {
+    "id": "agent-environment-setup",
+    "name": "/agent-environment-setup",
+    "displayName": "agent-environment-setup",
+    "type": "extra"
+  },
+  {
+    "id": "agent-eval",
+    "name": "/agent-eval",
+    "displayName": "Agent Evaluation",
+    "type": "extra"
+  },
+  {
+    "id": "agent-handoff",
+    "name": "/agent-handoff",
+    "displayName": "agent-handoff",
+    "type": "extra"
+  },
+  {
+    "id": "agent-memory-learning",
+    "name": "/agent-memory-learning",
+    "displayName": "Agent Memory Learning",
+    "type": "extra"
+  },
+  {
+    "id": "agent-memory-platform",
+    "name": "/agent-memory-platform",
+    "displayName": "Agent Memory Platform",
+    "type": "extra"
+  },
+  {
+    "id": "agentic-workflow-design",
+    "name": "/agentic-workflow-design",
+    "displayName": "Agentic Workflow Design",
+    "type": "extra"
+  },
+  {
+    "id": "architecture-diagram",
+    "name": "/architecture-diagram",
+    "displayName": "Architecture Diagram",
+    "type": "extra"
+  },
+  {
+    "id": "automated-testing",
+    "name": "/automated-testing",
+    "displayName": "Automated Testing",
+    "type": "extra"
+  },
+  {
+    "id": "autonomous-data-scientist",
+    "name": "/autonomous-data-scientist",
+    "displayName": "Autonomous Data Scientist",
+    "type": "extra"
+  },
+  {
+    "id": "autonomous-debug",
+    "name": "/autonomous-debug",
+    "displayName": "Autonomous Debug",
+    "type": "extra"
+  },
+  {
+    "id": "autonomous-web-research",
+    "name": "/autonomous-web-research",
+    "displayName": "Autonomous Web Research",
+    "type": "extra"
+  },
+  {
+    "id": "brainstorming",
+    "name": "/brainstorming",
+    "displayName": "Brainstorming",
+    "type": "extra"
+  },
+  {
+    "id": "browser-automation",
+    "name": "/browser-automation",
+    "displayName": "Browser Automation",
+    "type": "extra"
+  },
+  {
+    "id": "career-operations",
+    "name": "/career-operations",
+    "displayName": "Career Operations",
+    "type": "extra"
+  },
+  {
+    "id": "causal-inference",
+    "name": "/causal-inference",
+    "displayName": "Causal Inference",
+    "type": "extra"
+  },
+  {
+    "id": "cloud-platform-management",
+    "name": "/cloud-platform-management",
+    "displayName": "Cloud Platform Management",
+    "type": "extra"
+  },
+  {
+    "id": "code-review-pipeline",
+    "name": "/code-review-pipeline",
+    "displayName": "Code Review Pipeline",
+    "type": "extra"
+  },
+  {
+    "id": "collaborative-diagramming",
+    "name": "/collaborative-diagramming",
+    "displayName": "Collaborative Diagramming",
+    "type": "extra"
+  },
+  {
+    "id": "computational-biology-workflows",
+    "name": "/computational-biology-workflows",
+    "displayName": "Computational Biology Workflows",
+    "type": "extra"
+  },
+  {
+    "id": "content-moderation",
+    "name": "/content-moderation",
+    "displayName": "Content Moderation",
+    "type": "extra"
+  },
+  {
+    "id": "conversational-agent",
+    "name": "/conversational-agent",
+    "displayName": "Conversational Agent",
+    "type": "extra"
+  },
+  {
+    "id": "data-analysis",
+    "name": "/data-analysis",
+    "displayName": "Data Analysis",
+    "type": "extra"
+  },
+  {
+    "id": "deployment-automation",
+    "name": "/deployment-automation",
+    "displayName": "Deployment Automation",
+    "type": "extra"
+  },
+  {
+    "id": "design-generation",
+    "name": "/design-generation",
+    "displayName": "Design Generation",
+    "type": "extra"
+  },
+  {
+    "id": "design-review",
+    "name": "/design-review",
+    "displayName": "Design Review",
+    "type": "extra"
+  },
+  {
+    "id": "design-system-extraction",
+    "name": "/design-system-extraction",
+    "displayName": "Design System Extraction",
+    "type": "extra"
+  },
+  {
+    "id": "detect-anomaly",
+    "name": "/detect-anomaly",
+    "displayName": "Detect Anomaly",
+    "type": "extra"
+  },
+  {
+    "id": "dispatching-parallel-agents",
+    "name": "/dispatching-parallel-agents",
+    "displayName": "Dispatching Parallel Agents",
+    "type": "extra"
+  },
+  {
+    "id": "distributed-consensus-coordination",
+    "name": "/distributed-consensus-coordination",
+    "displayName": "Hive Mind Coordination",
+    "type": "extra"
+  },
+  {
+    "id": "distributed-neural-training",
+    "name": "/distributed-neural-training",
+    "displayName": "Distributed Neural Training",
+    "type": "extra"
+  },
+  {
+    "id": "distributed-vector-memory",
+    "name": "/distributed-vector-memory",
+    "displayName": "Distributed Vector Memory",
+    "type": "extra"
+  },
+  {
+    "id": "document-analyst",
+    "name": "/document-analyst",
+    "displayName": "Document Analyst",
+    "type": "extra"
+  },
+  {
+    "id": "dual-mode",
+    "name": "/dual-mode",
+    "displayName": "Dual Mode",
+    "type": "extra"
+  },
+  {
+    "id": "e2e-testing",
+    "name": "/e2e-testing",
+    "displayName": "End-to-End Testing",
+    "type": "extra"
+  },
+  {
+    "id": "edge-optimization",
+    "name": "/edge-optimization",
+    "displayName": "Edge Optimization",
+    "type": "extra"
+  },
+  {
+    "id": "engineering-discipline",
+    "name": "/engineering-discipline",
+    "displayName": "mattpocock-engineering",
+    "type": "extra"
+  },
+  {
+    "id": "executing-plans",
+    "name": "/executing-plans",
+    "displayName": "Executing Plans",
+    "type": "extra"
+  },
+  {
+    "id": "explainability-audit",
+    "name": "/explainability-audit",
+    "displayName": "Explainability Audit",
+    "type": "extra"
+  },
+  {
+    "id": "financial-modeling",
+    "name": "/financial-modeling",
+    "displayName": "Financial Modeling",
+    "type": "extra"
+  },
+  {
+    "id": "finishing-a-development-branch",
+    "name": "/finishing-a-development-branch",
+    "displayName": "Finishing a Development Branch",
+    "type": "extra"
+  },
+  {
+    "id": "full-stack-developer",
+    "name": "/full-stack-developer",
+    "displayName": "Full-Stack Developer",
+    "type": "extra"
+  },
+  {
+    "id": "function-calling",
+    "name": "/function-calling",
+    "displayName": "Function Calling",
+    "type": "extra"
+  },
+  {
+    "id": "generative-media",
+    "name": "/generative-media",
+    "displayName": "Generative Media",
+    "type": "extra"
+  },
+  {
+    "id": "ghostwrite",
+    "name": "/ghostwrite",
+    "displayName": "Ghostwrite",
+    "type": "extra"
+  },
+  {
+    "id": "git-integration",
+    "name": "/git-integration",
+    "displayName": "GitHub Platform Mastery",
+    "type": "extra"
+  },
+  {
+    "id": "graph-driven-issue-triage",
+    "name": "/graph-driven-issue-triage",
+    "displayName": "Graph-Driven Issue Triage",
+    "type": "extra"
+  },
+  {
+    "id": "grill-me",
+    "name": "/grill-me",
+    "displayName": "Grill Me",
+    "type": "extra"
+  },
+  {
+    "id": "grill-with-docs",
+    "name": "/grill-with-docs",
+    "displayName": "Grill With Docs",
+    "type": "extra"
+  },
+  {
+    "id": "grounding",
+    "name": "/grounding",
+    "displayName": "Grounding",
+    "type": "extra"
+  },
+  {
+    "id": "guardrails",
+    "name": "/guardrails",
+    "displayName": "Guardrails",
+    "type": "extra"
+  },
+  {
+    "id": "humanize-prose",
+    "name": "/humanize-prose",
+    "displayName": "Humanize Prose",
+    "type": "extra"
+  },
+  {
+    "id": "knowledge-graph-build",
+    "name": "/knowledge-graph-build",
+    "displayName": "Knowledge Graph Construction",
+    "type": "extra"
+  },
+  {
+    "id": "knowledge-harvest",
+    "name": "/knowledge-harvest",
+    "displayName": "Knowledge Harvest",
+    "type": "extra"
+  },
+  {
+    "id": "knowledge-management",
+    "name": "/knowledge-management",
+    "displayName": "Knowledge Management",
+    "type": "extra"
+  },
+  {
+    "id": "literature-review",
+    "name": "/literature-review",
+    "displayName": "Literature Review",
+    "type": "extra"
+  },
+  {
+    "id": "mathematical-animation",
+    "name": "/mathematical-animation",
+    "displayName": "Mathematical Animation",
+    "type": "extra"
+  },
+  {
+    "id": "mcp-debugger-control",
+    "name": "/mcp-debugger-control",
+    "displayName": "MCP Debugger Control",
+    "type": "extra"
+  },
+  {
+    "id": "mcp-server-creation",
+    "name": "/mcp-server-creation",
+    "displayName": "MCP Server Creation",
+    "type": "extra"
+  },
+  {
+    "id": "memory-manage",
+    "name": "/memory-manage",
+    "displayName": "Memory Manage",
+    "type": "extra"
+  },
+  {
+    "id": "ml-artifact-management",
+    "name": "/ml-artifact-management",
+    "displayName": "ML Artifact Management",
+    "type": "extra"
+  },
+  {
+    "id": "ml-pipeline",
+    "name": "/ml-pipeline",
+    "displayName": "ML Pipeline",
+    "type": "extra"
+  },
+  {
+    "id": "multi-agent-debate",
+    "name": "/multi-agent-debate",
+    "displayName": "Multi-Agent Debate",
+    "type": "extra"
+  },
+  {
+    "id": "multi-agent-orchestration-v",
+    "name": "/multi-agent-orchestration-v",
+    "displayName": "Multi-Agent Orchestration",
+    "type": "extra"
+  },
+  {
+    "id": "multi-node-orchestration",
+    "name": "/multi-node-orchestration",
+    "displayName": "Flow Nexus Orchestration",
+    "type": "extra"
+  },
+  {
+    "id": "multimodal-reasoning",
+    "name": "/multimodal-reasoning",
+    "displayName": "Multimodal Reasoning",
+    "type": "extra"
+  },
+  {
+    "id": "ontology-alignment",
+    "name": "/ontology-alignment",
+    "displayName": "Ontology Alignment",
+    "type": "extra"
+  },
+  {
+    "id": "personal-knowledge-management",
+    "name": "/personal-knowledge-management",
+    "displayName": "personal-knowledge-management",
+    "type": "extra"
+  },
+  {
+    "id": "personal",
+    "name": "/personal",
+    "displayName": "mattpocock-personal",
+    "type": "extra"
+  },
+  {
+    "id": "plan-and-execute",
+    "name": "/plan-and-execute",
+    "displayName": "Plan and Execute",
+    "type": "extra"
+  },
+  {
+    "id": "platform-modernization-sprint",
+    "name": "/platform-modernization-sprint",
+    "displayName": "Platform Modernization Sprint",
+    "type": "extra"
+  },
+  {
+    "id": "prd-generation",
+    "name": "/prd-generation",
+    "displayName": "PRD Generation",
+    "type": "extra"
+  },
+  {
+    "id": "prediction-market-analysis",
+    "name": "/prediction-market-analysis",
+    "displayName": "Prediction Market Analysis",
+    "type": "extra"
+  },
+  {
+    "id": "productivity",
+    "name": "/productivity",
+    "displayName": "mattpocock-productivity",
+    "type": "extra"
+  },
+  {
+    "id": "project-management",
+    "name": "/project-management",
+    "displayName": "Project Management",
+    "type": "extra"
+  },
+  {
+    "id": "prompt-optimization",
+    "name": "/prompt-optimization",
+    "displayName": "Prompt Optimization",
+    "type": "extra"
+  },
+  {
+    "id": "prototype",
+    "name": "/prototype",
+    "displayName": "prototype",
+    "type": "extra"
+  },
+  {
+    "id": "rag-pipeline",
+    "name": "/rag-pipeline",
+    "displayName": "RAG Pipeline",
+    "type": "extra"
+  },
+  {
+    "id": "re-act-reasoning",
+    "name": "/re-act-reasoning",
+    "displayName": "ReAct Reasoning",
+    "type": "extra"
+  },
+  {
+    "id": "real-time-voice-assistant",
+    "name": "/real-time-voice-assistant",
+    "displayName": "Real-Time Voice Assistant",
+    "type": "extra"
+  },
+  {
+    "id": "reasoning-pattern-bank",
+    "name": "/reasoning-pattern-bank",
+    "displayName": "Reasoning Pattern Bank",
+    "type": "extra"
+  },
+  {
+    "id": "receiving-code-review",
+    "name": "/receiving-code-review",
+    "displayName": "Receiving Code Review",
+    "type": "extra"
+  },
+  {
+    "id": "recursive-self-improvement",
+    "name": "/recursive-self-improvement",
+    "displayName": "Recursive Self-Improvement",
+    "type": "extra"
+  },
+  {
+    "id": "registry-curation",
+    "name": "/registry-curation",
+    "displayName": "Registry Curation",
+    "type": "extra"
+  },
+  {
+    "id": "registry-entry-audit",
+    "name": "/registry-entry-audit",
+    "displayName": "Gaia Audit",
+    "type": "extra"
+  },
+  {
+    "id": "registry-health-scan",
+    "name": "/registry-health-scan",
+    "displayName": "Gaia Meta Audit",
+    "type": "extra"
+  },
+  {
+    "id": "regulatory-compliance-mapping",
+    "name": "/regulatory-compliance-mapping",
+    "displayName": "Regulatory Compliance Mapping",
+    "type": "extra"
+  },
+  {
+    "id": "release-automation",
+    "name": "/release-automation",
+    "displayName": "Release Automation",
+    "type": "extra"
+  },
+  {
+    "id": "requesting-code-review",
+    "name": "/requesting-code-review",
+    "displayName": "Requesting Code Review",
+    "type": "extra"
+  },
+  {
+    "id": "research",
+    "name": "/research",
+    "displayName": "Research",
+    "type": "extra"
+  },
+  {
+    "id": "scientific-discovery",
+    "name": "/scientific-discovery",
+    "displayName": "Autonomous Scientific Discovery",
+    "type": "extra"
+  },
+  {
+    "id": "scientific-writing",
+    "name": "/scientific-writing",
+    "displayName": "Scientific Writing",
+    "type": "extra"
+  },
+  {
+    "id": "search-engine-optimization",
+    "name": "/search-engine-optimization",
+    "displayName": "search-engine-optimization",
+    "type": "extra"
+  },
+  {
+    "id": "security-audit",
+    "name": "/security-audit",
+    "displayName": "Security Audit",
+    "type": "extra"
+  },
+  {
+    "id": "skill-authoring",
+    "name": "/skill-authoring",
+    "displayName": "Skill Authoring",
+    "type": "extra"
+  },
+  {
+    "id": "skill-fusion",
+    "name": "/skill-fusion",
+    "displayName": "Skill Fusion",
+    "type": "extra"
+  },
+  {
+    "id": "skill-performance-benchmarking",
+    "name": "/skill-performance-benchmarking",
+    "displayName": "Skill Performance Benchmarking",
+    "type": "extra"
+  },
+  {
+    "id": "skill-security-analysis",
+    "name": "/skill-security-analysis",
+    "displayName": "Skill Security Analysis",
+    "type": "extra"
+  },
+  {
+    "id": "stealth-browser-interaction",
+    "name": "/stealth-browser-interaction",
+    "displayName": "Stealth Browser Interaction",
+    "type": "extra"
+  },
+  {
+    "id": "subagent-driven-development",
+    "name": "/subagent-driven-development",
+    "displayName": "Subagent-Driven Development",
+    "type": "extra"
+  },
+  {
+    "id": "supply-chain-optimization",
+    "name": "/supply-chain-optimization",
+    "displayName": "Supply Chain Optimization",
+    "type": "extra"
+  },
+  {
+    "id": "systematic-debugging",
+    "name": "/systematic-debugging",
+    "displayName": "Systematic Debugging",
+    "type": "extra"
+  },
+  {
+    "id": "text-to-sql-pipeline",
+    "name": "/text-to-sql-pipeline",
+    "displayName": "Text-to-SQL Pipeline",
+    "type": "extra"
+  },
+  {
+    "id": "threat-intelligence-synthesis",
+    "name": "/threat-intelligence-synthesis",
+    "displayName": "Threat Intelligence Synthesis",
+    "type": "extra"
+  },
+  {
+    "id": "tool-chaining",
+    "name": "/tool-chaining",
+    "displayName": "Tool Chaining",
+    "type": "extra"
+  },
+  {
+    "id": "tool-creation",
+    "name": "/tool-creation",
+    "displayName": "Tool Creation",
+    "type": "extra"
+  },
+  {
+    "id": "translation-pipeline",
+    "name": "/translation-pipeline",
+    "displayName": "Translation Pipeline",
+    "type": "extra"
+  },
+  {
+    "id": "tree-of-thought",
+    "name": "/tree-of-thought",
+    "displayName": "Tree of Thought",
+    "type": "extra"
+  },
+  {
+    "id": "ubiquitous-language",
+    "name": "/ubiquitous-language",
+    "displayName": "Ubiquitous Language",
+    "type": "extra"
+  },
+  {
+    "id": "using-git-worktrees",
+    "name": "/using-git-worktrees",
+    "displayName": "Using Git Worktrees",
+    "type": "extra"
+  },
+  {
+    "id": "verification-before-completion",
+    "name": "/verification-before-completion",
+    "displayName": "Verification Before Completion",
+    "type": "extra"
+  },
+  {
+    "id": "vertical-slice-planning",
+    "name": "/vertical-slice-planning",
+    "displayName": "Vertical Slice Planning",
+    "type": "extra"
+  },
+  {
+    "id": "video-intelligence",
+    "name": "/video-intelligence",
+    "displayName": "Video Intelligence",
+    "type": "extra"
+  },
+  {
+    "id": "voice-agent",
+    "name": "/voice-agent",
+    "displayName": "Voice Agent",
+    "type": "extra"
+  },
+  {
+    "id": "web-accessibility",
+    "name": "/web-accessibility",
+    "displayName": "web-accessibility",
+    "type": "extra"
+  },
+  {
+    "id": "web-best-practices",
+    "name": "/web-best-practices",
+    "displayName": "web-best-practices",
+    "type": "extra"
+  },
+  {
+    "id": "web-quality-audit",
+    "name": "/web-quality-audit",
+    "displayName": "web-quality-audit",
+    "type": "extra"
+  },
+  {
+    "id": "web-scrape",
+    "name": "/web-scrape",
+    "displayName": "Web Scrape",
+    "type": "extra"
+  },
+  {
+    "id": "wiki-search",
+    "name": "/wiki-search",
+    "displayName": "Wiki Search",
+    "type": "extra"
+  },
+  {
+    "id": "workflow-automation",
+    "name": "/workflow-automation",
+    "displayName": "Workflow Automation",
+    "type": "extra"
+  },
+  {
+    "id": "workspace-automation",
+    "name": "/workspace-automation",
+    "displayName": "Workspace Automation",
+    "type": "extra"
+  },
+  {
+    "id": "writing-plans",
+    "name": "/writing-plans",
+    "displayName": "Writing Plans",
+    "type": "extra"
+  },
+  {
+    "id": "x-twitter-automation",
+    "name": "/x-twitter-automation",
+    "displayName": "X/Twitter Automation",
+    "type": "extra"
+  },
+  {
+    "id": "founder-mode-orchestration",
+    "name": "/founder-mode-orchestration",
+    "displayName": "Founder Mode",
+    "type": "ultimate"
+  },
+  {
+    "id": "git-ship-done-pipeline",
+    "name": "/git-ship-done-pipeline",
+    "displayName": "Git Ship Done Pipeline",
+    "type": "ultimate"
+  },
+  {
+    "id": "multi-topology-orchestration",
+    "name": "/multi-topology-orchestration",
+    "displayName": "Ruflo",
+    "type": "ultimate"
+  },
+  {
+    "id": "skill-mastery",
+    "name": "/skill-mastery",
+    "displayName": "mattpocock-skills",
+    "type": "ultimate"
+  },
+  {
+    "id": "superpowers",
+    "name": "/superpowers",
+    "displayName": "Superpowers",
+    "type": "ultimate"
+  }
+]

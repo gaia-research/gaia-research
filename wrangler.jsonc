@@ -19,6 +19,16 @@
   "images": {
     "binding": "IMAGES"
   },
+  "ai": {
+    "binding": "AI"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "CRAFT_KV",
+      "id": "d955d33ec3364c7993310c04a134582e",
+      "preview_id": "1dc66bd557b1464f9d46cb5a072696c6"
+    }
+  ],
   "observability": {
     "enabled": true
   }

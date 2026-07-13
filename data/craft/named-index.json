@@ -1,0 +1,1712 @@
+{
+  "generatedAt": "2026-07-12",
+  "skills": {
+    "health": {
+      "c": "garrytan",
+      "t": "Gstack Health — Automated Test Suite Runner",
+      "d": "Executes the full automated test suite, collects pass/fail counts and coverage deltas, and surfaces any newly introduced failures with concise root-cause notes.",
+      "g": "automated-testing",
+      "lvl": "2★"
+    },
+    "pytest-patterns": {
+      "c": "0xdarkmatter",
+      "t": "The Quality Guardian",
+      "d": "Comprehensive pytest skill covering modern patterns for Python test automation including fixtures, parametrize, async testing, mocking, coverage strategies, integration tests, and conftest organisation for pytest 7.0+ projects.",
+      "g": "automated-testing",
+      "lvl": "1★"
+    },
+    "design-consultation": {
+      "c": "garrytan",
+      "t": "Gstack Design Consultation",
+      "d": "Builds a complete design system by researching the product and competitors, then proposing a coherent package of typography, colours, spacing, layout, and motion — persisted as a DESIGN.md file that serves as the project's authoritative design source of truth.",
+      "g": "design-system-extraction",
+      "lvl": "3★"
+    },
+    "design-extract": {
+      "c": "Manavarya09",
+      "t": "The Token Scavenger",
+      "d": "Extracts complete design systems, Tailwind configs, and Figma variables from any live URL.",
+      "g": "design-system-extraction",
+      "lvl": "2★"
+    },
+    "agent-skills": {
+      "c": "addy-osmani",
+      "t": "Agent Skills",
+      "d": "Production-grade engineering command suite for AI coding agents spanning the full development lifecycle — spec, plan, build, test, review, web performance, ship, and simplify.",
+      "g": "git-ship-done-pipeline",
+      "lvl": "5★"
+    },
+    "get-shit-done": {
+      "c": "gsd-build",
+      "t": "Get Shit Done",
+      "d": "Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify, and ship as a repeatable agentic software delivery loop.",
+      "g": "git-ship-done-pipeline",
+      "lvl": "4★"
+    },
+    "code-review-and-quality": {
+      "c": "addy-osmani",
+      "t": "Code Review and Quality",
+      "d": "Code review and quality enforcement workflow checking code style and patterns.",
+      "g": "code-review-pipeline",
+      "lvl": "3★"
+    },
+    "plan-eng-review": {
+      "c": "garrytan",
+      "t": "Engineering Plan Review",
+      "d": "Comprehensive, interactive architecture and implementation review before coding begins, systematically evaluating scope, architecture, code quality, test coverage, and performance through structured questioning — synthesising findings into actionable tasks and",
+      "g": "code-review-pipeline",
+      "lvl": "3★"
+    },
+    "review": {
+      "c": "garrytan",
+      "t": "Gstack Code Review",
+      "d": "Pre-landing code review combining structured checklist analysis with specialist subagents covering testing, security, and performance — plus adversarial review from both Claude and Codex — to catch SQL safety issues, LLM trust boundary violations, conditional",
+      "g": "code-review-pipeline",
+      "lvl": "3★"
+    },
+    "github-code-review": {
+      "c": "ruvnet",
+      "t": "The PR Surgeon",
+      "d": "Automates GitHub pull request code review workflows including diff analysis, inline comments, review assignments, and approval gating.",
+      "g": "code-review-pipeline",
+      "lvl": "1★"
+    },
+    "code-simplification": {
+      "c": "addy-osmani",
+      "t": "Code Simplification",
+      "d": "Code simplification workflow identifying opportunities to reduce cognitive complexity.",
+      "g": "refactor-code",
+      "lvl": "3★"
+    },
+    "improve-codebase-architecture": {
+      "c": "mattpocock",
+      "t": "The Depth Seeker",
+      "d": "Identifies architectural deepening opportunities in a codebase — shallow modules with high interface-to-implementation ratios — using domain-glossary vocabulary and the deletion test, then grills the developer on the chosen candidate to design a deep-module re",
+      "g": "refactor-code",
+      "lvl": "2★"
+    },
+    "migrate-to-shoehorn": {
+      "c": "mattpocock",
+      "t": "Migrate to Shoehorn",
+      "d": "Migrate test files from type assertions to shoehorn for type-safe partial test data.",
+      "g": "refactor-code",
+      "lvl": "1★"
+    },
+    "executing-plans": {
+      "c": "obra",
+      "t": "The Faithful Executor",
+      "d": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete — without improvising beyond the plan's scope.",
+      "g": "executing-plans",
+      "lvl": "3★"
+    },
+    "incremental-implementation": {
+      "c": "addy-osmani",
+      "t": "Incremental Implementation",
+      "d": "Incremental implementation workflow prioritizing execution of planned steps systematically.",
+      "g": "executing-plans",
+      "lvl": "3★"
+    },
+    "implement": {
+      "c": "mattpocock",
+      "t": "Implement",
+      "d": "Implement a piece of work based on a PRD or issues using TDD at pre-agreed seams.",
+      "g": "executing-plans",
+      "lvl": "1★"
+    },
+    "performance-optimization": {
+      "c": "addy-osmani",
+      "t": "The Perf Loop",
+      "d": "Measurement-driven performance workflow: baseline with Lighthouse and RUM, identify bottlenecks via profiling, fix targeted issues (N+1 queries, render blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s, INP ≤200ms, CLS ≤0.1),",
+      "g": "performance-tuning",
+      "lvl": "4★"
+    },
+    "performance-analysis": {
+      "c": "ruvnet",
+      "t": "The Bottleneck Hunter",
+      "d": "Profiles agent and system execution for CPU, memory, and I/O hotspots and produces actionable optimization recommendations.",
+      "g": "performance-tuning",
+      "lvl": "1★"
+    },
+    "v3-performance-optimization": {
+      "c": "ruvnet",
+      "t": "The Speed Sculptor",
+      "d": "Profiles and optimizes Ruflo v3 platform performance across startup time, request latency, memory footprint, and throughput.",
+      "g": "performance-tuning",
+      "lvl": "1★"
+    },
+    "garrytan": {
+      "c": "garrytan",
+      "t": "Founder Mode Autoplan",
+      "d": "The definitive autonomous \"Founder mode\" review and decision suite. An auto-review pipeline that reads the full CEO, design, engineering, and DX review skills from disk and runs them sequentially with auto-decisions using 6 decision principles.",
+      "g": "vertical-slice-planning",
+      "lvl": "4★"
+    },
+    "planning-and-task-breakdown": {
+      "c": "addy-osmani",
+      "t": "Planning and Task Breakdown",
+      "d": "Planning and task breakdown workflow decomposing features into manageable vertical slices.",
+      "g": "vertical-slice-planning",
+      "lvl": "3★"
+    },
+    "to-issues": {
+      "c": "mattpocock",
+      "t": "The Vertical Slicer",
+      "d": "Breaks a plan, spec, or PRD into independently-grabbable GitHub issues as tracer-bullet vertical slices that each cut through all integration layers end-to-end. Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity, and pub",
+      "g": "vertical-slice-planning",
+      "lvl": "3★"
+    },
+    "ship": {
+      "c": "garrytan",
+      "t": "Gstack Ship",
+      "d": "Automated end-to-end deployment workflow that merges the base branch, runs tests, reviews the diff, bumps the VERSION file, updates the CHANGELOG, commits, pushes to the remote, and creates a pull request in a single command.",
+      "g": "finishing-a-development-branch",
+      "lvl": "3★"
+    },
+    "shipping-and-launch": {
+      "c": "addy-osmani",
+      "t": "Shipping and Launch",
+      "d": "Shipping and launch readiness checks for code deployment and integration.",
+      "g": "finishing-a-development-branch",
+      "lvl": "3★"
+    },
+    "finishing-a-development-branch": {
+      "c": "obra",
+      "t": "The Clean Landing",
+      "d": "Guides completion of development work by verifying tests first, then presenting structured options for merge, PR creation, or cleanup — never declaring done without a passing build.",
+      "g": "finishing-a-development-branch",
+      "lvl": "2★"
+    },
+    "to-prd": {
+      "c": "mattpocock",
+      "t": "The PRD Synthesiser",
+      "d": "Synthesises the current conversation context and codebase knowledge into a fully-structured PRD — problem statement, extensive numbered user stories, implementation decisions (modules, interfaces, schema), testing decisions, and out-of-scope items — then publi",
+      "g": "prd-generation",
+      "lvl": "3★"
+    },
+    "spec-driven-development": {
+      "c": "addy-osmani",
+      "t": "Spec-Driven Development",
+      "d": "Spec-driven development workflow enforcing specification generation before any coding starts.",
+      "g": "prd-generation",
+      "lvl": "3★"
+    },
+    "test-driven-development": {
+      "c": "addy-osmani",
+      "t": "The Red-Green Oath",
+      "d": "Forces the AI agent to follow a strict red-green-refactor TDD workflow — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only, blocking code generation that skips the test step, and enfo",
+      "g": "test-driven-development",
+      "lvl": "2★"
+    },
+    "tdd": {
+      "c": "mattpocock",
+      "t": "Test-Driven Development",
+      "d": "Test-driven development with red-green-refactor, verifying behavior through public interfaces.",
+      "g": "test-driven-development",
+      "lvl": "1★"
+    },
+    "document-generate": {
+      "c": "garrytan",
+      "t": "Diataxis Doc Generator",
+      "d": "Generates structured documentation using the Diataxis framework — tutorials, how-to guides, reference materials, and explanations — by thoroughly researching the codebase before writing, tailored to the needs of different reader types.",
+      "g": "document-editing",
+      "lvl": "3★"
+    },
+    "edit-article": {
+      "c": "mattpocock",
+      "t": "The Section-by-Section Rewrite",
+      "d": "Edits articles by first sectioning them as a DAG of information dependencies, confirming the section order, then rewriting each section for clarity and flow with a 240-character-per-paragraph constraint.",
+      "g": "document-editing",
+      "lvl": "3★"
+    },
+    "pptx": {
+      "c": "anthropic",
+      "t": "The Slide Artisan",
+      "d": "Extracts slide content from PowerPoint (.pptx) files using markitdown, applies edits or design principles in-place, and repacks the file — enabling agents to read, modify, and write structured presentation files without a GUI.",
+      "g": "document-editing",
+      "lvl": "2★"
+    },
+    "document-release": {
+      "c": "garrytan",
+      "t": "Gstack Document Release — Release Note Authoring",
+      "d": "Reads the diff between two version tags and drafts concise, user-facing release notes following the Gstack changelog format.",
+      "g": "document-editing",
+      "lvl": "2★"
+    },
+    "skill-creator": {
+      "c": "anthropic",
+      "t": "The Skill Forger's Art",
+      "d": "Interviews the user through a structured dialogue to elicit the skill's purpose, trigger conditions, and step-by-step instructions, then programmatically writes a new SKILL.md file ready for use in a Claude Code or Codex CLI skills directory.",
+      "g": "tool-creation",
+      "lvl": "3★"
+    },
+    "write-a-skill": {
+      "c": "mattpocock",
+      "t": "The Skill Scaffolder",
+      "d": "Guides creation of new agent skills through a structured requirements interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure layout, and optional bundled scripts or reference files — ready for installation in any Claude Co",
+      "g": "tool-creation",
+      "lvl": "2★"
+    },
+    "claude-video": {
+      "c": "bradautomates",
+      "t": "The Temporal Eye",
+      "d": "Enables AI agents to watch videos by downloading them, extracting frames, and transcribing audio for multimodal analysis.",
+      "g": "video-intelligence",
+      "lvl": "2★"
+    },
+    "browse": {
+      "c": "garrytan",
+      "t": "Gstack Browse — Directed Browser Navigation",
+      "d": "Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream verification or reporting.",
+      "g": "browser-control",
+      "lvl": "3★"
+    },
+    "browser-harness": {
+      "c": "browser-use",
+      "t": "The Dom Whispering",
+      "d": "Self-healing harness for direct browser control via CDP, enabling agents to write custom helpers at runtime.",
+      "g": "browser-control",
+      "lvl": "3★"
+    },
+    "open-gstack-browser": {
+      "c": "garrytan",
+      "t": "Gstack Open Browser — Browser Session Launch",
+      "d": "Launches a new headless or headed browser session with the Gstack environment variables and extension profile pre-loaded, ready for automation commands.",
+      "g": "browser-control",
+      "lvl": "2★"
+    },
+    "setup-browser-cookies": {
+      "c": "garrytan",
+      "t": "Gstack Setup Browser Cookies — Auth Cookie Injection",
+      "d": "Injects pre-authenticated session cookies into the browser context so subsequent automation steps can access gated pages without a manual login flow.",
+      "g": "browser-control",
+      "lvl": "2★"
+    },
+    "stagehand": {
+      "c": "browserbase",
+      "t": "The SDK of Intent",
+      "d": "SDK for browser agents that combines deterministic browser automation with AI-assisted page interaction.",
+      "g": "browser-automation",
+      "lvl": "1★"
+    },
+    "notte-browser": {
+      "c": "gooseworks",
+      "t": "The Digital Navigator",
+      "d": "AI-first browser automation using the Notte Browser API to control browser sessions, scrape pages, fill forms, take screenshots, and run autonomous web agents with managed credential handling.",
+      "g": "browser-automation",
+      "lvl": "1★"
+    },
+    "browser": {
+      "c": "ruvnet",
+      "t": "The Web Navigator",
+      "d": "Playwright-based browser automation for web scraping, E2E testing, form interaction, and screenshot capture within agent workflows.",
+      "g": "browser-automation",
+      "lvl": "1★"
+    },
+    "evidence-attestation": {
+      "c": "caioribeiroclw-pixel",
+      "t": "Evidence Attestation",
+      "d": "Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale.",
+      "g": "evidence-attestation",
+      "lvl": "1★"
+    },
+    "diagnose": {
+      "c": "mattpocock",
+      "t": "The Disciplined Diagnosis Loop",
+      "d": "Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions. Re",
+      "g": "autonomous-debug",
+      "lvl": "3★"
+    },
+    "autonomous-swe": {
+      "c": "devin-ai",
+      "t": "The Codebreaker's Will",
+      "d": "Autonomous software engineering agent capable of end-to-end debugging, code generation, and self-correction across complex multi-file codebases.",
+      "g": "autonomous-debug",
+      "lvl": "2★"
+    },
+    "scrape": {
+      "c": "garrytan",
+      "t": "Gstack Scrape — Structured Web Extraction",
+      "d": "Fetches target URLs with a headless browser, parses structured data from rendered HTML, and returns clean JSON or markdown ready for downstream analysis or ingestion.",
+      "g": "web-scrape",
+      "lvl": "2★"
+    },
+    "firecrawl": {
+      "c": "firecrawl",
+      "t": "The Web Infuser",
+      "d": "Open-source API for AI-oriented web search, scraping, crawling, and structured extraction from websites.",
+      "g": "web-scrape",
+      "lvl": "2★"
+    },
+    "skill-ci-churn": {
+      "c": "gaia-research",
+      "t": "CI Churn Analysis",
+      "d": "Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.",
+      "g": "ci-churn-analysis",
+      "lvl": "2★"
+    },
+    "skill-fuse": {
+      "c": "gaia-research",
+      "t": "Skill Fusion",
+      "d": "Composes multiple named skill implementations for a single contributor into a unified ultimate or suite skill node: collecting component IDs, verifying node existence, researching evidence, writing the ultimate node, back-linking derivatives on components, upd",
+      "g": "skill-fusion",
+      "lvl": "2★"
+    },
+    "benchmark-models": {
+      "c": "garrytan",
+      "t": "Gstack Benchmark Models — LLM Performance Profiling",
+      "d": "Runs a standardised prompt suite across multiple model versions, records latency and quality scores, and produces a ranked comparison table to guide model selection.",
+      "g": "skill-performance-benchmarking",
+      "lvl": "2★"
+    },
+    "worker-benchmarks": {
+      "c": "ruvnet",
+      "t": "The Performance Judge",
+      "d": "Benchmarks Ruflo background worker performance across latency, throughput, memory usage, and quality score dimensions.",
+      "g": "skill-performance-benchmarking",
+      "lvl": "1★"
+    },
+    "benchmark": {
+      "c": "garrytan",
+      "t": "Gstack Benchmark",
+      "d": "Web performance benchmarking that captures baseline metrics, compares current performance against those baselines, and identifies regressions in load times, Core Web Vitals, and bundle sizes across specified pages.",
+      "g": "evaluate-output",
+      "lvl": "3★"
+    },
+    "plan-ceo-review": {
+      "c": "garrytan",
+      "t": "CEO Plan Review",
+      "d": "Rigorous product strategy and scope review in four modes — SCOPE EXPANSION, SELECTIVE EXPANSION, HOLD SCOPE, and SCOPE REDUCTION — evaluating architecture, security, data flows, testing, and edge cases to ensure plans ship at the highest standard before implem",
+      "g": "evaluate-output",
+      "lvl": "3★"
+    },
+    "canary": {
+      "c": "garrytan",
+      "t": "Gstack Canary",
+      "d": "Post-deployment monitoring that captures pre-release baseline screenshots, then continuously watches pages for console errors, performance regressions, and broken links — designed to surface failures within the first 10 minutes so problems are caught before th",
+      "g": "detect-anomaly",
+      "lvl": "3★"
+    },
+    "careful": {
+      "c": "garrytan",
+      "t": "Gstack Careful — Conservative Execution Mode",
+      "d": "Activates a conservative execution profile that pauses before irreversible actions, requests explicit confirmation for destructive operations, and logs all side effects.",
+      "g": "guardrails",
+      "lvl": "3★"
+    },
+    "freeze": {
+      "c": "garrytan",
+      "t": "Gstack Freeze — Change Freeze Enforcement",
+      "d": "Sets a change-freeze flag that blocks non-critical commits and PR merges until explicitly lifted, protecting release branches or post-incident windows.",
+      "g": "guardrails",
+      "lvl": "2★"
+    },
+    "guard": {
+      "c": "garrytan",
+      "t": "Gstack Guard — Safety Guardrail Enforcement",
+      "d": "Applies configurable content and output guardrails to agent responses, flagging or blocking unsafe outputs and logging violations with structured evidence for audit.",
+      "g": "guardrails",
+      "lvl": "2★"
+    },
+    "unfreeze": {
+      "c": "garrytan",
+      "t": "Gstack Unfreeze — Change Freeze Lift",
+      "d": "Clears the active change-freeze flag and restores normal merge permissions, logging the unfreeze event with a timestamp and justification.",
+      "g": "guardrails",
+      "lvl": "2★"
+    },
+    "git-guardrails-claude-code": {
+      "c": "mattpocock",
+      "t": "Git Guardrails for Claude Code",
+      "d": "Set up Claude Code hooks to block dangerous git commands before they execute.",
+      "g": "guardrails",
+      "lvl": "1★"
+    },
+    "setup-pre-commit": {
+      "c": "mattpocock",
+      "t": "Setup Pre-commit",
+      "d": "Set up Husky pre-commit hooks with lint-staged, Prettier, type checking, and tests.",
+      "g": "guardrails",
+      "lvl": "1★"
+    },
+    "codex": {
+      "c": "garrytan",
+      "t": "Gstack Codex — Multi-Agent Code Debate",
+      "d": "Spins up a structured Claude-versus-Codex debate over a proposed implementation, with each agent mounting adversarial critiques, to surface hidden design flaws before code lands.",
+      "g": "multi-agent-debate",
+      "lvl": "2★"
+    },
+    "context-restore": {
+      "c": "garrytan",
+      "t": "Gstack Context Restore — Session State Recovery",
+      "d": "Reads a saved context snapshot and reconstructs a warm session state, surfacing the last decision point and pending tasks so work can resume without recap.",
+      "g": "context-compression",
+      "lvl": "2★"
+    },
+    "context-save": {
+      "c": "garrytan",
+      "t": "Gstack Context Save — Session State Snapshot",
+      "d": "Compresses the current session context into a compact summary file that can be restored later, enabling long-running workflows to survive context-window limits.",
+      "g": "context-compression",
+      "lvl": "2★"
+    },
+    "caveman": {
+      "c": "mattpocock",
+      "t": "The Caveman Console",
+      "d": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words. Removed from mattpocock/skills suite in v1.0.1.",
+      "g": "context-compression",
+      "lvl": "2★"
+    },
+    "cso": {
+      "c": "garrytan",
+      "t": "Chief Security Officer Mode",
+      "d": "Infrastructure-first security audit focusing on secrets archaeology, dependency supply chain, and CI/CD security. Includes OWASP Top 10, STRIDE threat modeling, and active verification with daily (zero-noise) and monthly (comprehensive) scan modes.",
+      "g": "security-audit",
+      "lvl": "3★"
+    },
+    "security-engineer": {
+      "c": "intelligentcode-ai",
+      "t": "The Bastion's Eye",
+      "d": "Security architecture specialist — vulnerability assessment, zero-trust design, compliance management, and incident response with severity-classified remediation guidance.",
+      "g": "security-audit",
+      "lvl": "1★"
+    },
+    "v3-security-overhaul": {
+      "c": "ruvnet",
+      "t": "The Security Sentinel",
+      "d": "Comprehensive Ruflo v3 security overhaul: zero-trust federation, PII detection, mTLS/ed25519 authentication, and CVE scanning.",
+      "g": "security-audit",
+      "lvl": "1★"
+    },
+    "design-html": {
+      "c": "garrytan",
+      "t": "Design to Production HTML",
+      "d": "Generates production-quality, Pretext-native HTML/CSS with real text reflow and dynamic layout from approved design mockups, CEO plans, or user descriptions — producing fully self-contained files with computed heights, responsive behaviour, and zero external d",
+      "g": "code-generation",
+      "lvl": "3★"
+    },
+    "impeccable": {
+      "c": "pbakaus",
+      "t": "The Aesthetic Shield",
+      "d": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
+      "g": "ux-audit",
+      "lvl": "4★"
+    },
+    "plan-design-review": {
+      "c": "garrytan",
+      "t": "Design Plan Review",
+      "d": "Interactive, designer-led audit of UI/UX plans rating seven dimensions — information architecture, interaction states, user journey, AI slop risk, design system alignment, responsive/accessibility, and unresolved decisions — before implementation begins, with",
+      "g": "ux-audit",
+      "lvl": "3★"
+    },
+    "plan-devex-review": {
+      "c": "garrytan",
+      "t": "Developer Experience Review",
+      "d": "Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to error messaging via persona discovery and competitive benchmarking, producing an actionable improvement plan rathe",
+      "g": "ux-audit",
+      "lvl": "3★"
+    },
+    "nielsen-heuristics-audit": {
+      "c": "martin-stepanoski",
+      "t": "The Ten Laws of Sight",
+      "d": "Audits a UI interface against Jakob Nielsen's 10 usability heuristics step-by-step, scoring each heuristic, surfacing violations, and producing a prioritized remediation report.",
+      "g": "ux-audit",
+      "lvl": "3★"
+    },
+    "design-review": {
+      "c": "garrytan",
+      "t": "Gstack Design Review — UX Audit Pass",
+      "d": "Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to surface actionable improvements.",
+      "g": "ux-audit",
+      "lvl": "2★"
+    },
+    "devex-review": {
+      "c": "garrytan",
+      "t": "Gstack DevEx Review — Developer Experience Audit",
+      "d": "Audits CLI ergonomics, API surface clarity, and onboarding friction from a developer perspective, producing a scored report with prioritised fixes.",
+      "g": "ux-audit",
+      "lvl": "2★"
+    },
+    "design-shotgun": {
+      "c": "garrytan",
+      "t": "Design Shotgun",
+      "d": "Rapid design exploration that generates multiple AI design variants, opens a comparison board for the user, collects structured feedback, and iterates until a preferred visual direction is reached.",
+      "g": "design-review",
+      "lvl": "3★"
+    },
+    "grilling": {
+      "c": "mattpocock",
+      "t": "Grilling",
+      "d": "Interview the user relentlessly about a plan to stress-test it before building.",
+      "g": "design-review",
+      "lvl": "1★"
+    },
+    "gstack-upgrade": {
+      "c": "garrytan",
+      "t": "Gstack Upgrade — Workspace Dependency Upgrade",
+      "d": "Scans the workspace for outdated dependencies, runs upgrades within semver-compatible bounds, re-runs tests, and commits a clean dependency bump PR.",
+      "g": "workspace-automation",
+      "lvl": "2★"
+    },
+    "gstack": {
+      "c": "garrytan",
+      "t": "Gstack — Garry Tan's Full-Stack Agent Suite",
+      "d": "The legendary fusion of Garry Tan's complete agent discipline library — browser QA, security auditing, design exploration, vertical-slice planning, and founder-mode orchestration — unified into a single autonomous product-development workflow.",
+      "g": "founder-mode-orchestration",
+      "lvl": "5★"
+    },
+    "investigate": {
+      "c": "garrytan",
+      "t": "Gstack Investigate",
+      "d": "Systematic root-cause debugging enforcing an Iron Law — no fix without first identifying root cause — guiding through four phases: investigation, analysis, hypothesis formation, and verified implementation with evidence gathering and pattern matching before an",
+      "g": "systematic-debugging",
+      "lvl": "3★"
+    },
+    "systematic-debugging": {
+      "c": "obra",
+      "t": "The Root Cause Hunter",
+      "d": "Finds the root cause before attempting any fix — building a minimal reproduction, forming ranked hypotheses, and instrumenting to confirm before writing a single corrective line.",
+      "g": "systematic-debugging",
+      "lvl": "3★"
+    },
+    "diagnosing-bugs": {
+      "c": "mattpocock",
+      "t": "Diagnosing Bugs",
+      "d": "Systematic diagnosis loop for hard bugs and performance regressions using a tight feedback loop.",
+      "g": "systematic-debugging",
+      "lvl": "1★"
+    },
+    "land-and-deploy": {
+      "c": "garrytan",
+      "t": "Land and Deploy",
+      "d": "Automates the final production shipping stages — merging a PR, monitoring CI/deploy completion, and verifying live site health through canary checks — picking up where /ship leaves off with safety gates at each step to prevent broken deployments reaching users",
+      "g": "deployment-automation",
+      "lvl": "3★"
+    },
+    "setup-deploy": {
+      "c": "garrytan",
+      "t": "Gstack Setup Deploy — Deployment Environment Init",
+      "d": "Provisions the deployment environment by creating secrets, configuring environment variables, and running infrastructure-as-code init steps before the first deploy.",
+      "g": "deployment-automation",
+      "lvl": "2★"
+    },
+    "gaia-preview": {
+      "c": "mbtiongson1",
+      "t": "The Change Previewer",
+      "d": "Generates a preview render of proposed registry changes — showing how new or modified skill entries will appear on the profile page and in the skill graph before the PR is merged.",
+      "g": "deployment-automation",
+      "lvl": "2★"
+    },
+    "devops-engineer": {
+      "c": "intelligentcode-ai",
+      "t": "The DevOps Sentinel",
+      "d": "CI/CD pipeline design and deployment automation specialist — build systems, artifact publishing, environment promotion, and rollback strategies.",
+      "g": "deployment-automation",
+      "lvl": "1★"
+    },
+    "landing-report": {
+      "c": "garrytan",
+      "t": "Gstack Landing Report — Project Status Summary",
+      "d": "Generates a one-page project landing report from open issues, recent commits, and milestone progress, giving stakeholders a quick read on health and next steps.",
+      "g": "project-management",
+      "lvl": "2★"
+    },
+    "github-project-management": {
+      "c": "ruvnet",
+      "t": "The Backlog Warden",
+      "d": "Manages GitHub Projects boards, milestones, issue tracking, and sprint planning through automated workflow integration.",
+      "g": "project-management",
+      "lvl": "1★"
+    },
+    "learn": {
+      "c": "garrytan",
+      "t": "Gstack Learn — Persistent Memory Management",
+      "d": "Reads the active memory store, consolidates new observations from the current session, deduplicates stale entries, and writes back an updated, ranked knowledge base for future sessions.",
+      "g": "memory-manage",
+      "lvl": "2★"
+    },
+    "v3-memory-unification": {
+      "c": "ruvnet",
+      "t": "The Memory Consolidator",
+      "d": "Unifies disparate Ruflo v3 memory subsystems (AgentDB, RVF, RAG memory) into a single coherent memory management layer.",
+      "g": "memory-manage",
+      "lvl": "1★"
+    },
+    "make-pdf": {
+      "c": "garrytan",
+      "t": "Gstack Make PDF — Formatted Output Generator",
+      "d": "Converts markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for distribution.",
+      "g": "format-output",
+      "lvl": "2★"
+    },
+    "office-hours": {
+      "c": "garrytan",
+      "t": "YC Office Hours",
+      "d": "YC-style startup and builder brainstorming. Startup mode uses six forcing questions (demand reality, status quo, desperate specificity, narrowest wedge, observation, future-fit) to expose reality. Builder mode focuses on design thinking for side projects and h",
+      "g": "question-answer",
+      "lvl": "3★"
+    },
+    "pair-agent": {
+      "c": "garrytan",
+      "t": "Gstack Pair Agent — MCP Tool Integration",
+      "d": "Wires a new MCP server into the Gstack agent environment, validates the tool manifest, and demonstrates round-trip invocation through a test prompt.",
+      "g": "mcp-integration",
+      "lvl": "2★"
+    },
+    "mcp-client": {
+      "c": "intelligentcode-ai",
+      "t": "The Protocol Bridge",
+      "d": "Portable CLI tool that connects to MCP servers on-demand, enumerates available tools, displays them, and executes calls — works with any MCP-compatible backend without platform lock-in.",
+      "g": "mcp-integration",
+      "lvl": "1★"
+    },
+    "v3-mcp-optimization": {
+      "c": "ruvnet",
+      "t": "The Protocol Tuner",
+      "d": "Optimizes Ruflo v3 MCP server performance through connection pooling, request batching, tool schema caching, and latency reduction strategies.",
+      "g": "mcp-integration",
+      "lvl": "1★"
+    },
+    "dspy": {
+      "c": "stanfordnlp",
+      "t": "The Programmatic Prompt Engineer",
+      "d": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
+      "g": "prompt-optimization",
+      "lvl": "4★"
+    },
+    "plan-tune": {
+      "c": "garrytan",
+      "t": "Gstack Plan Tune — Prompt Refinement Pass",
+      "d": "Takes a draft plan or system prompt, identifies vague or ambiguous instructions, and rewrites them to reduce hallucination and improve task completion rate.",
+      "g": "prompt-optimization",
+      "lvl": "2★"
+    },
+    "qa": {
+      "c": "garrytan",
+      "t": "Gstack QA",
+      "d": "Browser-driven web application testing that explores pages as a real user, documents bugs with annotated screenshots, fixes issues with atomic commits and re-verification, and produces structured reports with before/after evidence and health scores showing qua",
+      "g": "e2e-testing",
+      "lvl": "3★"
+    },
+    "qa-only": {
+      "c": "garrytan",
+      "t": "Gstack QA Only — Focused E2E Test Run",
+      "d": "Runs the scoped end-to-end test suite for a single feature or route without launching the full QA pipeline, for fast targeted regression checks.",
+      "g": "e2e-testing",
+      "lvl": "2★"
+    },
+    "user-tester": {
+      "c": "intelligentcode-ai",
+      "t": "The Human Lens",
+      "d": "E2E testing specialist with Puppeteer/Playwright automation — cross-browser validation, full user journey simulation, and visual regression detection.",
+      "g": "e2e-testing",
+      "lvl": "1★"
+    },
+    "retro": {
+      "c": "garrytan",
+      "t": "Gstack Retro — Sprint Retrospective Report",
+      "d": "Synthesises commit history, PR comments, and issue notes into a written sprint retrospective covering wins, misses, root causes, and action items.",
+      "g": "write-report",
+      "lvl": "3★"
+    },
+    "readme-generate": {
+      "c": "spring-ai",
+      "t": "The Endpoint Scribe",
+      "d": "Scans a Java Spring project for controller annotations, extracts REST API endpoint definitions, and automatically generates structured API documentation in README format.",
+      "g": "write-report",
+      "lvl": "2★"
+    },
+    "readme-generator": {
+      "c": "glincker",
+      "t": "The Document Weaver",
+      "d": "Analyzes a project's directory structure, dependency manifests, and configuration files to generate a professional README.md covering installation, usage, API reference, and contributing guidelines.",
+      "g": "write-report",
+      "lvl": "1★"
+    },
+    "setup-gbrain": {
+      "c": "garrytan",
+      "t": "Gstack Setup GBrain — Knowledge Base Initialisation",
+      "d": "Bootstraps the GBrain knowledge store for a new project: creates the index structure, ingests seed documents, and validates retrieval with a sample query.",
+      "g": "knowledge-management",
+      "lvl": "2★"
+    },
+    "sync-gbrain": {
+      "c": "garrytan",
+      "t": "Gstack Sync GBrain — Knowledge Base Sync",
+      "d": "Incrementally syncs new documents and updated pages into the GBrain index, deduplicates embeddings, and reports ingestion counts and any errors.",
+      "g": "knowledge-management",
+      "lvl": "2★"
+    },
+    "teach": {
+      "c": "mattpocock",
+      "t": "Teach",
+      "d": "Teach the user a new skill or concept in a workspace with mission, reference materials, and lessons.",
+      "g": "knowledge-management",
+      "lvl": "2★"
+    },
+    "skillify": {
+      "c": "garrytan",
+      "t": "Gstack Skillify — Skill Authoring Pipeline",
+      "d": "Converts a freeform prompt, repo pattern, or workflow description into a complete, registry-ready named skill: writes the SKILL.md definition, populates frontmatter fields, and opens a PR for review.",
+      "g": "skill-authoring",
+      "lvl": "3★"
+    },
+    "scaffold-exercises": {
+      "c": "mattpocock",
+      "t": "Scaffold Exercises",
+      "d": "Create exercise directory structures with sections, problems, solutions, and explainers that pass linting.",
+      "g": "skill-authoring",
+      "lvl": "1★"
+    },
+    "writing-great-skills": {
+      "c": "mattpocock",
+      "t": "Writing Great Skills",
+      "d": "Reference for writing and editing skills to be predictable — vocabulary and principles for deterministic skills.",
+      "g": "skill-authoring",
+      "lvl": "1★"
+    },
+    "skill-builder": {
+      "c": "ruvnet",
+      "t": "The Skill Forger",
+      "d": "Guides creation of new Ruflo skills through templating, testing, and publishing workflows.",
+      "g": "skill-authoring",
+      "lvl": "1★"
+    },
+    "codeburn": {
+      "c": "getagentseal",
+      "t": "The Ledger of Light",
+      "d": "Cost and token observability tool for tracking AI coding agent spending across models and projects.",
+      "g": "token-observability",
+      "lvl": "2★"
+    },
+    "brainstorming": {
+      "c": "obra",
+      "t": "The Collaborative Blueprint",
+      "d": "Explores user intent, requirements, and design before implementation. Turns ideas into fully formed designs and specs through natural collaborative dialogue.",
+      "g": "brainstorming",
+      "lvl": "3★"
+    },
+    "discuss-phase": {
+      "c": "gsd-build",
+      "t": "GSD Discuss Phase",
+      "d": "Captures implementation decisions and tradeoffs before planning so the agent begins with explicit shared context.",
+      "g": "brainstorming",
+      "lvl": "3★"
+    },
+    "subagent-driven-development": {
+      "c": "obra",
+      "t": "The Swarm Architect",
+      "d": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality), keeping the orchestrator context clean throughout.",
+      "g": "subagent-driven-development",
+      "lvl": "4★"
+    },
+    "execute-phase": {
+      "c": "gsd-build",
+      "t": "GSD Execute Phase",
+      "d": "Runs implementation plans in parallel executor waves where each executor starts from a clean context.",
+      "g": "subagent-driven-development",
+      "lvl": "3★"
+    },
+    "pair-programming": {
+      "c": "ruvnet",
+      "t": "The Coding Companion",
+      "d": "Structures collaborative coding sessions between a primary implementation agent and a review subagent with continuous feedback loops.",
+      "g": "subagent-driven-development",
+      "lvl": "2★"
+    },
+    "writing-plans": {
+      "c": "obra",
+      "t": "The Blueprint Writer",
+      "d": "Writes comprehensive implementation plans that break multi-step tasks into bite-sized, independently executable sub-tasks before any code is touched.",
+      "g": "writing-plans",
+      "lvl": "4★"
+    },
+    "plan-phase": {
+      "c": "gsd-build",
+      "t": "GSD Plan Phase",
+      "d": "Researches, decomposes, and verifies an implementation plan against a fresh context window before execution.",
+      "g": "writing-plans",
+      "lvl": "3★"
+    },
+    "verification-before-completion": {
+      "c": "obra",
+      "t": "The Completion Gate",
+      "d": "Requires running verification commands and confirming their output before claiming any work is complete, fixed, or passing — no claim without evidence.",
+      "g": "verification-before-completion",
+      "lvl": "3★"
+    },
+    "verify-work": {
+      "c": "gsd-build",
+      "t": "GSD Verify Work",
+      "d": "Walks through built work, diagnoses gaps, and fixes issues before completion is declared.",
+      "g": "verification-before-completion",
+      "lvl": "3★"
+    },
+    "verification-quality": {
+      "c": "ruvnet",
+      "t": "The Quality Sentinel",
+      "d": "Implements structured pre-completion verification checklists ensuring quality gates are met before task finalization.",
+      "g": "verification-before-completion",
+      "lvl": "2★"
+    },
+    "hf-cli": {
+      "c": "huggingface",
+      "t": "The Hub Operator",
+      "d": "Guides Hugging Face Hub CLI operations for downloading, uploading, managing repos, running Jobs, querying datasets, configuring Spaces, and handling Hub authentication.",
+      "g": "api-call",
+      "lvl": "1★"
+    },
+    "huggingface-datasets": {
+      "c": "huggingface",
+      "t": "The Dataset Cartographer",
+      "d": "Explores Hugging Face datasets through the Dataset Viewer API, resolving configs and splits, previewing rows, paginating records, searching text, filtering rows, and retrieving parquet metadata.",
+      "g": "data-analysis",
+      "lvl": "1★"
+    },
+    "huggingface-llm-trainer": {
+      "c": "huggingface",
+      "t": "The Cloud Fine-Tuner",
+      "d": "Runs LLM fine-tuning on Hugging Face Jobs using TRL or Unsloth, covering SFT, DPO, GRPO, reward modeling, dataset validation, hardware selection, Trackio monitoring, and Hub persistence.",
+      "g": "fine-tune",
+      "lvl": "1★"
+    },
+    "huggingface-papers": {
+      "c": "huggingface",
+      "t": "The Paper Indexer",
+      "d": "Looks up Hugging Face paper pages and arXiv IDs, fetching markdown paper content and structured metadata such as authors, linked models, datasets, Spaces, GitHub repos, and project pages.",
+      "g": "literature-review",
+      "lvl": "1★"
+    },
+    "huggingface-vision-trainer": {
+      "c": "huggingface",
+      "t": "The Vision Forge",
+      "d": "Trains and fine-tunes object detection, image classification, and SAM/SAM2 segmentation models on Hugging Face Jobs or locally with dataset validation, metrics, Trackio, and Hub persistence.",
+      "g": "object-detection",
+      "lvl": "1★"
+    },
+    "semantic-cache": {
+      "c": "huggingface",
+      "t": "The Neural Memory",
+      "d": "High-performance semantic caching for LLM responses using embedding similarity.",
+      "g": "semantic-cache",
+      "lvl": "2★"
+    },
+    "transformers-js": {
+      "c": "huggingface",
+      "t": "The Browser Modelwright",
+      "d": "Runs Hugging Face Transformers.js models directly in JavaScript and TypeScript across browser and server runtimes for NLP, vision, audio, and multimodal inference with WebGPU or WASM.",
+      "g": "multimodal-reasoning",
+      "lvl": "1★"
+    },
+    "database-engineer": {
+      "c": "intelligentcode-ai",
+      "t": "The Database Oracle",
+      "d": "Schema design and query optimization expert across relational, NoSQL, graph, time-series, and data warehouse stores with sub-second response targets.",
+      "g": "schema-design",
+      "lvl": "1★"
+    },
+    "parallel-execution": {
+      "c": "intelligentcode-ai",
+      "t": "The Concurrency Master",
+      "d": "Manages concurrent work item execution with independence verification, queue-based state tracking, and configurable concurrency limits (default 5).",
+      "g": "parallel-execution",
+      "lvl": "1★"
+    },
+    "release": {
+      "c": "intelligentcode-ai",
+      "t": "The Shipwright's Will",
+      "d": "Automates the full release cycle — semantic version bump, CHANGELOG update, PR merge, git tag, and GitHub release creation with multiple verification gates.",
+      "g": "release-automation",
+      "lvl": "1★"
+    },
+    "github-release-management": {
+      "c": "ruvnet",
+      "t": "The Release Gatekeeper",
+      "d": "Automates GitHub release creation, changelog generation, semantic versioning, and release note publishing.",
+      "g": "release-automation",
+      "lvl": "1★"
+    },
+    "requirements-engineer": {
+      "c": "intelligentcode-ai",
+      "t": "The Logic Sculptor",
+      "d": "Business analysis specialist bridging stakeholders and technical teams — requirements gathering, user story writing, acceptance criteria, and full requirements lifecycle management.",
+      "g": "requirements-analysis",
+      "lvl": "1★"
+    },
+    "autoresearch": {
+      "c": "karpathy",
+      "t": "The Scholar's Compass",
+      "d": "Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.",
+      "g": "autonomous-web-research",
+      "lvl": "2★"
+    },
+    "upgrade-laravel-v13": {
+      "c": "laravel",
+      "t": "The Versionist's Trial",
+      "d": "Guides an AI agent through upgrading a Laravel 12 application to Laravel 13 safely, covering breaking changes, dependency updates, config migrations, and post-upgrade test validation.",
+      "g": "framework-upgrade",
+      "lvl": "2★"
+    },
+    "ask-matt": {
+      "c": "mattpocock",
+      "t": "Ask Matt",
+      "d": "Productivity skill for routing questions to the right expert or skill in a workspace.",
+      "g": "route-intent",
+      "lvl": "1★"
+    },
+    "codebase-design": {
+      "c": "mattpocock",
+      "t": "Codebase Design",
+      "d": "Design deep modules with small interfaces and large implementations for better testability.",
+      "g": "software-design",
+      "lvl": "1★"
+    },
+    "domain-modeling": {
+      "c": "mattpocock",
+      "t": "Domain Modeling",
+      "d": "Build and sharpen a project domain model with ubiquitous language and CONTEXT.md maintenance.",
+      "g": "domain-modeling",
+      "lvl": "1★"
+    },
+    "engineering": {
+      "c": "mattpocock",
+      "t": "The Matt Pocock Engineering Discipline",
+      "d": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
+      "g": "engineering-discipline",
+      "lvl": "4★"
+    },
+    "grill-me": {
+      "c": "mattpocock",
+      "t": "The Relentless Interviewer",
+      "d": "Conducts a relentless one-question-at-a-time interview about a plan or design, walking every branch of the decision tree with a recommended answer per question, resolving dependencies in order, and substituting codebase exploration wherever a question can be a",
+      "g": "grill-me",
+      "lvl": "3★"
+    },
+    "grill-with-docs": {
+      "c": "mattpocock",
+      "t": "The Domain Sovereign",
+      "d": "The ultimate evolution of the grill pattern. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
+      "g": "grill-with-docs",
+      "lvl": "3★"
+    },
+    "handoff": {
+      "c": "mattpocock",
+      "t": "The Handoff Protocol",
+      "d": "Compacts the current conversation into a summary for a fresh agent to continue the work.",
+      "g": "agent-handoff",
+      "lvl": "3★"
+    },
+    "obsidian-vault": {
+      "c": "mattpocock",
+      "t": "The Obsidian Vault Mapper",
+      "d": "Manage notes and organization in a specific Obsidian vault using Title Case and wikilinks.",
+      "g": "personal-knowledge-management",
+      "lvl": "3★"
+    },
+    "personal": {
+      "c": "mattpocock",
+      "t": "The Matt Pocock Personal Suite",
+      "d": "Personal category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
+      "g": "personal",
+      "lvl": "3★"
+    },
+    "productivity": {
+      "c": "mattpocock",
+      "t": "The Matt Pocock Productivity Suite",
+      "d": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
+      "g": "productivity",
+      "lvl": "4★"
+    },
+    "prototype": {
+      "c": "mattpocock",
+      "t": "The Prototyping Engine",
+      "d": "Build throwaway prototypes to answer specific design or logic questions before committing to production code.",
+      "g": "prototype",
+      "lvl": "2★"
+    },
+    "github-suite": {
+      "c": "ruvnet",
+      "t": "The GitHub Maestro",
+      "d": "Full GitHub platform automation fused from 5 skills — code review, multi-repo coordination, project management, release management, and workflow automation.",
+      "g": "git-integration",
+      "lvl": "3★"
+    },
+    "resolving-merge-conflicts": {
+      "c": "mattpocock",
+      "t": "Resolving Merge Conflicts",
+      "d": "Resolve in-progress git merge and rebase conflicts preserving both intents with automated checks.",
+      "g": "git-integration",
+      "lvl": "1★"
+    },
+    "setup-matt-pocock-skills": {
+      "c": "mattpocock",
+      "t": "The Environment Scaffolder",
+      "d": "Scaffolds per-repo configuration for other engineering skills (like triage, tdd, diagnose).",
+      "g": "agent-environment-setup",
+      "lvl": "3★"
+    },
+    "skills": {
+      "c": "mattpocock",
+      "t": "The Matt Pocock Discipline",
+      "d": "The ultimate capstone suite encompassing all of Matt Pocock's engineering, productivity, and personal skills.",
+      "g": "skill-mastery",
+      "lvl": "5★"
+    },
+    "triage": {
+      "c": "mattpocock",
+      "t": "The State-Machine Triager",
+      "d": "Moves GitHub issues through a two-category (bug/enhancement) × five-state (needs-triage/needs-info/ready-for-agent/ready-for-human/wontfix) state machine. Reproduces bugs from issue steps, runs a domain-aware grilling session when needed, writes structured age",
+      "g": "issue-triage",
+      "lvl": "3★"
+    },
+    "gaia-triage": {
+      "c": "mbtiongson1",
+      "t": "The Issue Sorter",
+      "d": "Triages incoming skill proposals and issues against the Gaia registry backlog — sorting by impact, feasibility, and dependency order to produce an actionable prioritized work queue.",
+      "g": "issue-triage",
+      "lvl": "1★"
+    },
+    "ubiquitous-language": {
+      "c": "mattpocock",
+      "t": "The Domain Linguist",
+      "d": "Extracts and formalises a project's domain terminology into a shared glossary, enforcing consistent naming across code and conversations to eliminate ambiguity. Removed from mattpocock/skills suite in v1.0.1.",
+      "g": "ubiquitous-language",
+      "lvl": "3★"
+    },
+    "v3-ddd-architecture": {
+      "c": "ruvnet",
+      "t": "The Domain Sculptor",
+      "d": "Applies Domain-Driven Design principles to the Ruflo v3 architecture including bounded contexts, aggregate roots, domain events, and ubiquitous language.",
+      "g": "ubiquitous-language",
+      "lvl": "2★"
+    },
+    "zoom-out": {
+      "c": "mattpocock",
+      "t": "The Abstraction Lift",
+      "d": "Signals the agent to ascend one layer of abstraction and produce a map of all relevant modules, callers, and domain-glossary terms in the unfamiliar code area, without explaining implementation details. Removed from mattpocock/skills suite in v1.0.1.",
+      "g": "code-explain",
+      "lvl": "1★"
+    },
+    "gaia-audit": {
+      "c": "mbtiongson1",
+      "t": "The Source Detective",
+      "d": "Performs a focused source-level correction for one target registry entry — verifying links, checking evidence classes, and filing an inline-diff fix PR with full citations.",
+      "g": "registry-entry-audit",
+      "lvl": "2★"
+    },
+    "gaia-curation-review": {
+      "c": "mbtiongson1",
+      "t": "The Quality Gate",
+      "d": "Reviews pending skill submissions against registry standards — checking evidence class thresholds, naming conventions, and tier accuracy before approving or requesting revisions.",
+      "g": "registry-entry-audit",
+      "lvl": "2★"
+    },
+    "gaia-bot-curate": {
+      "c": "mbtiongson1",
+      "t": "The Automated Curator",
+      "d": "Runs an automated batch curation pass over the Gaia skill registry — scanning for new agent skills, validating evidence, and opening versioned draft PRs without human intervention.",
+      "g": "registry-curation",
+      "lvl": "1★"
+    },
+    "gaia-curate": {
+      "c": "mbtiongson1",
+      "t": "The Registrar",
+      "d": "Expands the Gaia skill registry with new, fully evidenced AI agent skills — researching skill sources, running validation, opening versioned PRs, and appending discovered marketplaces to the sources registry in one end-to-end workflow.",
+      "g": "registry-curation",
+      "lvl": "1★"
+    },
+    "gaia-docs-sync": {
+      "c": "mbtiongson1",
+      "t": "The Docs Steward",
+      "d": "Keeps the generated Gaia documentation site in sync with the registry — rebuilding HTML pages, updating skill indexes, and regenerating badges when registry content changes.",
+      "g": "registry-curation",
+      "lvl": "1★"
+    },
+    "gaia-draft-curate": {
+      "c": "mbtiongson1",
+      "t": "The Draft Architect",
+      "d": "Creates structured draft skill entries for registry review — staging new discoveries with placeholder evidence and flagging fields that need human validation before promotion.",
+      "g": "registry-curation",
+      "lvl": "1★"
+    },
+    "gaia-integrity": {
+      "c": "mbtiongson1",
+      "t": "The Schema Sentinel",
+      "d": "Validates the structural integrity of the Gaia registry — checking schema compliance, detecting duplicate IDs, verifying cross-references, and reporting any inconsistencies that would break build or generation.",
+      "g": "registry-curation",
+      "lvl": "1★"
+    },
+    "gaia-wiki-sync": {
+      "c": "mbtiongson1",
+      "t": "The Wiki Keeper",
+      "d": "Synchronizes the Gaia project wiki with the current registry state — updating skill pages, contributor profiles, and changelog entries to reflect the latest approved changes.",
+      "g": "registry-curation",
+      "lvl": "1★"
+    },
+    "gaia-meta-audit": {
+      "c": "mbtiongson1",
+      "t": "The Triage Director",
+      "d": "Produces a prioritized review queue of Gaia registry entries needing attention — flagging stale evidence, broken links, mis-classified tiers, and naming inconsistencies in one structured audit pass.",
+      "g": "registry-health-scan",
+      "lvl": "2★"
+    },
+    "graphify-triage": {
+      "c": "mbtiongson1",
+      "t": "The Graph Surgeon",
+      "d": "Analyzes the Gaia skill dependency graph to surface orphaned nodes, missing prerequisites, and structural inconsistencies — producing a prioritized list of graph fixes needed.",
+      "g": "graph-driven-issue-triage",
+      "lvl": "2★"
+    },
+    "open-design": {
+      "c": "nexu-io",
+      "t": "The Artisan's Forge",
+      "d": "Local-first design engine for generating high-fidelity UI/UX prototypes and brand assets from structured intent.",
+      "g": "design-generation",
+      "lvl": "2★"
+    },
+    "feed-monitoring": {
+      "c": "nousresearch",
+      "t": "The Signal Scout",
+      "d": "Continuous monitoring of content feeds with intelligent discovery and state tracking.",
+      "g": "feed-monitoring",
+      "lvl": "2★"
+    },
+    "dispatching-parallel-agents": {
+      "c": "obra",
+      "t": "The Parallel Dispatch",
+      "d": "Delegates independent tasks to specialized agents with isolated context to work concurrently, dramatically reducing wall-clock time on multi-part problems.",
+      "g": "dispatching-parallel-agents",
+      "lvl": "3★"
+    },
+    "receiving-code-review": {
+      "c": "obra",
+      "t": "The Rigorous Revision",
+      "d": "Processes code review feedback with technical rigor and verification before implementation — questioning unclear feedback and confirming fixes with tests rather than blindly applying suggestions.",
+      "g": "receiving-code-review",
+      "lvl": "2★"
+    },
+    "requesting-code-review": {
+      "c": "obra",
+      "t": "The Preemptive Review",
+      "d": "Dispatches a code reviewer subagent with isolated context to catch issues before they cascade — producing a structured review report that guides targeted fixes.",
+      "g": "requesting-code-review",
+      "lvl": "2★"
+    },
+    "superpowers": {
+      "c": "obra",
+      "t": "The Complete Agentic Discipline",
+      "d": "A complete software development methodology for coding agents — brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline unified into a single agentic workflow.",
+      "g": "superpowers",
+      "lvl": "5★"
+    },
+    "using-git-worktrees": {
+      "c": "obra",
+      "t": "The Isolated Workspace",
+      "d": "Ensures every piece of feature work begins in an isolated workspace — creating a native git worktree when available, falling back to tool-provided isolation otherwise.",
+      "g": "using-git-worktrees",
+      "lvl": "4★"
+    },
+    "few-shot-learning": {
+      "c": "openai",
+      "t": "The In-Context Learner",
+      "d": "Conditions the model on a small set of examples within the prompt to adapt to new tasks without weight updates.",
+      "g": "few-shot-learning",
+      "lvl": "4★"
+    },
+    "self-consistency": {
+      "c": "openai",
+      "t": "The Majority Consensus",
+      "d": "Samples multiple reasoning paths and selects the most consistent answer by majority vote.",
+      "g": "self-consistency",
+      "lvl": "4★"
+    },
+    "implement-with-discernment": {
+      "c": "rico-favor",
+      "t": "Implement With Discernment",
+      "d": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
+      "g": "implement-with-discernment",
+      "lvl": "1★"
+    },
+    "agentdb-advanced": {
+      "c": "ruvnet",
+      "t": "The Memory Architect",
+      "d": "Implements sub-millisecond cross-node vector synchronization using QUIC protocol with hybrid metadata-filtered search and MMR diversity retrieval.",
+      "g": "distributed-vector-memory",
+      "lvl": "2★"
+    },
+    "agentdb-learning": {
+      "c": "ruvnet",
+      "t": "The Pattern Seeker",
+      "d": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed vector persistence.",
+      "g": "agent-memory-learning",
+      "lvl": "1★"
+    },
+    "reasoningbank-agentdb": {
+      "c": "ruvnet",
+      "t": "The Knowledge Crystallizer",
+      "d": "Persists agent reasoning patterns in AgentDB vector memory and retrieves them semantically for continuous self-improvement across sessions.",
+      "g": "agent-memory-learning",
+      "lvl": "1★"
+    },
+    "agentdb-memory-patterns": {
+      "c": "ruvnet",
+      "t": "The Memory Weaver",
+      "d": "Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval across multiple memory types.",
+      "g": "memory-pattern-design",
+      "lvl": "2★"
+    },
+    "agentdb-optimization": {
+      "c": "ruvnet",
+      "t": "The Index Tuner",
+      "d": "Tunes AgentDB vector indices, implements database sharding, and monitors production performance for large-scale distributed agent memory.",
+      "g": "vector-db-optimization",
+      "lvl": "2★"
+    },
+    "agentdb-vector-search": {
+      "c": "ruvnet",
+      "t": "The Similarity Engine",
+      "d": "Performs semantic similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics with HNSW indexing.",
+      "g": "vector-search",
+      "lvl": "2★"
+    },
+    "agentdb": {
+      "c": "ruvnet",
+      "t": "The Memory Sovereign",
+      "d": "Complete AgentDB vector memory platform fused from 5 discipline skills — QUIC-synchronized distributed storage, pattern learning, memory design, optimization, and vector search.",
+      "g": "agent-memory-platform",
+      "lvl": "4★"
+    },
+    "agentic-jujutsu": {
+      "c": "ruvnet",
+      "t": "The Risk Whisperer",
+      "d": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.",
+      "g": "git-diff-risk-analysis",
+      "lvl": "2★"
+    },
+    "dual-collect": {
+      "c": "ruvnet",
+      "t": "The Result Harvester",
+      "d": "Collects and aggregates results from headless Codex workers stored in shared memory with filtering and health status reporting.",
+      "g": "headless-worker-collect",
+      "lvl": "2★"
+    },
+    "dual-coordinate": {
+      "c": "ruvnet",
+      "t": "The Hybrid Orchestrator",
+      "d": "Coordinates hybrid Claude+Codex workflows by routing tasks between interactive reasoning phases and parallel background execution.",
+      "g": "hybrid-workflow-coordination",
+      "lvl": "2★"
+    },
+    "dual-mode": {
+      "c": "ruvnet",
+      "t": "The Hybrid Conductor",
+      "d": "Fuses headless worker spawning, result collection, and hybrid workflow coordination into a complete Claude+Codex parallel orchestration pattern.",
+      "g": "dual-mode",
+      "lvl": "4★"
+    },
+    "dual-spawn": {
+      "c": "ruvnet",
+      "t": "The Headless Launcher",
+      "d": "Spawns headless Codex workers from Claude Code for parallel background execution with configurable worker types and shared memory.",
+      "g": "headless-worker-spawn",
+      "lvl": "2★"
+    },
+    "flow-nexus-neural": {
+      "c": "ruvnet",
+      "t": "The Neural Conductor",
+      "d": "Trains neural networks across distributed E2B sandbox clusters with support for feedforward, LSTM, GAN, autoencoder, and transformer architectures, federated learning, and a model marketplace.",
+      "g": "distributed-neural-training",
+      "lvl": "2★"
+    },
+    "flow-nexus-platform": {
+      "c": "ruvnet",
+      "t": "Queen Seraphina's Court",
+      "d": "Full lifecycle management of the Flow Nexus cloud AI platform: user authentication, sandbox environments, app store deployment, payment processing, and challenge systems with Queen Seraphina AI assistant.",
+      "g": "cloud-platform-management",
+      "lvl": "2★"
+    },
+    "flow-nexus-swarm": {
+      "c": "ruvnet",
+      "t": "The Grand Conductor's Blueprint",
+      "d": "Cloud-based AI swarm orchestration platform supporting hierarchical, mesh, ring, and star topologies with event-driven workflows, message queue processing, and intelligent agent assignment.",
+      "g": "multi-agent-orchestration-v",
+      "lvl": "1★"
+    },
+    "v3-swarm-coordination": {
+      "c": "ruvnet",
+      "t": "The V3 Swarm Engine",
+      "d": "Implements Ruflo v3 hierarchical-mesh hybrid swarm topology with anti-drift mechanisms and SONA neural pattern learning.",
+      "g": "multi-agent-orchestration-v",
+      "lvl": "1★"
+    },
+    "flow-nexus": {
+      "c": "ruvnet",
+      "t": "The Grand Conductor's Trilogy",
+      "d": "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management with Queen Seraphina AI assistant, and distributed neural training.",
+      "g": "multi-node-orchestration",
+      "lvl": "3★"
+    },
+    "github-multi-repo": {
+      "c": "ruvnet",
+      "t": "The Repository Conductor",
+      "d": "Manages synchronized operations across multiple GitHub repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.",
+      "g": "multi-repo-coordination",
+      "lvl": "2★"
+    },
+    "github-workflow-automation": {
+      "c": "ruvnet",
+      "t": "The Actions Architect",
+      "d": "Designs and manages GitHub Actions workflows for CI/CD automation, scheduled tasks, and event-driven agent triggers.",
+      "g": "workflow-automation",
+      "lvl": "1★"
+    },
+    "hooks-automation": {
+      "c": "ruvnet",
+      "t": "The Event Weaver",
+      "d": "Designs agent lifecycle hooks and timer-based background tasks for automated quality gates and scheduled workflows.",
+      "g": "workflow-automation",
+      "lvl": "1★"
+    },
+    "hive-mind-coordination": {
+      "c": "ruvnet",
+      "t": "Queen Seraphina's Hive",
+      "d": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
+      "g": "distributed-consensus-coordination",
+      "lvl": "3★"
+    },
+    "reasoningbank-intelligence": {
+      "c": "ruvnet",
+      "t": "The Strategy Optimizer",
+      "d": "Implements adaptive learning through pattern recognition, strategy optimization, and meta-learning that improves agent decision quality from cumulative experience.",
+      "g": "adaptive-pattern-learning",
+      "lvl": "2★"
+    },
+    "reasoningbank": {
+      "c": "ruvnet",
+      "t": "The Pattern Sage",
+      "d": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
+      "g": "reasoning-pattern-bank",
+      "lvl": "4★"
+    },
+    "ruflo-v3": {
+      "c": "ruvnet",
+      "t": "The V3 Architect",
+      "d": "Complete Ruflo v3 modernization sprint: CLI modernization, core implementation, DDD architecture, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.",
+      "g": "platform-modernization-sprint",
+      "lvl": "4★"
+    },
+    "ruflo": {
+      "c": "ruvnet",
+      "t": "The Agentic Sovereign",
+      "d": "The complete Ruflo orchestration platform: flow nexus, AgentDB memory sovereignty, GitHub operations, hive-mind consensus, reasoning bank, and v3 modernization — unified at 6★ apex.",
+      "g": "multi-topology-orchestration",
+      "lvl": "5★"
+    },
+    "sparc-methodology": {
+      "c": "ruvnet",
+      "t": "The Five-Phase Maestro",
+      "d": "Systematic 5-phase AI development methodology (Specification, Pseudocode, Architecture, Refinement, Completion) with 17 agent modes.",
+      "g": "agentic-workflow-design",
+      "lvl": "1★"
+    },
+    "stream-chain": {
+      "c": "ruvnet",
+      "t": "The Flow Conductor",
+      "d": "Chains agent outputs sequentially so each step receives prior output as context, enabling multi-stage data transformation pipelines.",
+      "g": "sequential-agent-pipeline",
+      "lvl": "2★"
+    },
+    "swarm-advanced": {
+      "c": "ruvnet",
+      "t": "The Grand Swarm Master",
+      "d": "Domain-specific swarm orchestration patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.",
+      "g": "advanced-swarm-coordination",
+      "lvl": "2★"
+    },
+    "swarm-orchestration": {
+      "c": "ruvnet",
+      "t": "The Topology Architect",
+      "d": "Initializes and manages multi-agent swarm network topologies (hierarchical, mesh, ring, star) with automatic load balancing, fault tolerance, and shared memory coordination.",
+      "g": "swarm-topology-management",
+      "lvl": "2★"
+    },
+    "v3-cli-modernization": {
+      "c": "ruvnet",
+      "t": "The Interface Revamp",
+      "d": "Refactors the Ruflo CLI for improved UX, plugin architecture, extensibility, and modern command-line conventions.",
+      "g": "cli-modernization",
+      "lvl": "2★"
+    },
+    "v3-core-implementation": {
+      "c": "ruvnet",
+      "t": "The Foundation Layer",
+      "d": "Implements foundational Ruflo v3 platform architecture including plugin discovery, server lifecycle management, and API contract definitions.",
+      "g": "core-platform-implementation",
+      "lvl": "2★"
+    },
+    "v3-integration-deep": {
+      "c": "ruvnet",
+      "t": "The Integration Weaver",
+      "d": "Connects Ruflo v3 subsystems via shared contracts, event buses, and compatibility layers for coherent cross-component operation.",
+      "g": "system-integration",
+      "lvl": "2★"
+    },
+    "worker-integration": {
+      "c": "ruvnet",
+      "t": "The Task Dispatcher",
+      "d": "Maps trigger events to optimal agent combinations for background task execution with performance tracking and adaptive feedback.",
+      "g": "worker-agent-dispatch",
+      "lvl": "2★"
+    },
+    "graphify": {
+      "c": "safishamsi",
+      "t": "The Structural Muse",
+      "d": "Maps codebases and documentation into a queryable knowledge graph using AST analysis and semantic extraction.",
+      "g": "knowledge-graph-build",
+      "lvl": "4★"
+    },
+    "career-ops": {
+      "c": "santifer",
+      "t": "The Professional's Edge",
+      "d": "Agentic job search pipeline that automates scanning, fit scoring, and CV tailoring.",
+      "g": "career-operations",
+      "lvl": "2★"
+    },
+    "unittest-generator": {
+      "c": "upsonic",
+      "t": "The Test Weaver",
+      "d": "Autonomous Claude agent that generates comprehensive unittest.TestCase suites from source code, organising tests into concept-based subfolders under a tests/ directory with proper imports, fixtures, and edge-case coverage.",
+      "g": "generate-test",
+      "lvl": "2★"
+    },
+    "find-skills": {
+      "c": "vercel",
+      "t": "The Registry Scout",
+      "d": "Searches the skills.sh registry by keyword or category, queries install counts to surface popular skills, and auto-installs the selected skill into the current project's skills directory.",
+      "g": "skill-discovery",
+      "lvl": "2★"
+    },
+    "orchestkit-rag": {
+      "c": "yonatangross",
+      "t": "The Knowledge Architect",
+      "d": "Production-grade RAG retrieval skill covering 30+ patterns including core pipeline composition, HyDE query expansion, pgvector hybrid search, cross-encoder reranking, multimodal chunking, and agentic self-RAG and corrective-RAG loops.",
+      "g": "rag-pipeline",
+      "lvl": "1★"
+    }
+  },
+  "slugToContributor": {
+    "health": "garrytan",
+    "pytest-patterns": "0xdarkmatter",
+    "design-consultation": "garrytan",
+    "design-extract": "Manavarya09",
+    "agent-skills": "addy-osmani",
+    "get-shit-done": "gsd-build",
+    "code-review-and-quality": "addy-osmani",
+    "plan-eng-review": "garrytan",
+    "review": "garrytan",
+    "github-code-review": "ruvnet",
+    "code-simplification": "addy-osmani",
+    "improve-codebase-architecture": "mattpocock",
+    "migrate-to-shoehorn": "mattpocock",
+    "executing-plans": "obra",
+    "incremental-implementation": "addy-osmani",
+    "implement": "mattpocock",
+    "performance-optimization": "addy-osmani",
+    "performance-analysis": "ruvnet",
+    "v3-performance-optimization": "ruvnet",
+    "garrytan": "garrytan",
+    "planning-and-task-breakdown": "addy-osmani",
+    "to-issues": "mattpocock",
+    "ship": "garrytan",
+    "shipping-and-launch": "addy-osmani",
+    "finishing-a-development-branch": "obra",
+    "to-prd": "mattpocock",
+    "spec-driven-development": "addy-osmani",
+    "test-driven-development": "addy-osmani",
+    "tdd": "mattpocock",
+    "document-generate": "garrytan",
+    "edit-article": "mattpocock",
+    "pptx": "anthropic",
+    "document-release": "garrytan",
+    "skill-creator": "anthropic",
+    "write-a-skill": "mattpocock",
+    "claude-video": "bradautomates",
+    "browse": "garrytan",
+    "browser-harness": "browser-use",
+    "open-gstack-browser": "garrytan",
+    "setup-browser-cookies": "garrytan",
+    "stagehand": "browserbase",
+    "notte-browser": "gooseworks",
+    "browser": "ruvnet",
+    "evidence-attestation": "caioribeiroclw-pixel",
+    "diagnose": "mattpocock",
+    "autonomous-swe": "devin-ai",
+    "scrape": "garrytan",
+    "firecrawl": "firecrawl",
+    "skill-ci-churn": "gaia-research",
+    "skill-fuse": "gaia-research",
+    "benchmark-models": "garrytan",
+    "worker-benchmarks": "ruvnet",
+    "benchmark": "garrytan",
+    "plan-ceo-review": "garrytan",
+    "canary": "garrytan",
+    "careful": "garrytan",
+    "freeze": "garrytan",
+    "guard": "garrytan",
+    "unfreeze": "garrytan",
+    "git-guardrails-claude-code": "mattpocock",
+    "setup-pre-commit": "mattpocock",
+    "codex": "garrytan",
+    "context-restore": "garrytan",
+    "context-save": "garrytan",
+    "caveman": "mattpocock",
+    "cso": "garrytan",
+    "security-engineer": "intelligentcode-ai",
+    "v3-security-overhaul": "ruvnet",
+    "design-html": "garrytan",
+    "impeccable": "pbakaus",
+    "plan-design-review": "garrytan",
+    "plan-devex-review": "garrytan",
+    "nielsen-heuristics-audit": "martin-stepanoski",
+    "design-review": "garrytan",
+    "devex-review": "garrytan",
+    "design-shotgun": "garrytan",
+    "grilling": "mattpocock",
+    "gstack-upgrade": "garrytan",
+    "gstack": "garrytan",
+    "investigate": "garrytan",
+    "systematic-debugging": "obra",
+    "diagnosing-bugs": "mattpocock",
+    "land-and-deploy": "garrytan",
+    "setup-deploy": "garrytan",
+    "gaia-preview": "mbtiongson1",
+    "devops-engineer": "intelligentcode-ai",
+    "landing-report": "garrytan",
+    "github-project-management": "ruvnet",
+    "learn": "garrytan",
+    "v3-memory-unification": "ruvnet",
+    "make-pdf": "garrytan",
+    "office-hours": "garrytan",
+    "pair-agent": "garrytan",
+    "mcp-client": "intelligentcode-ai",
+    "v3-mcp-optimization": "ruvnet",
+    "dspy": "stanfordnlp",
+    "plan-tune": "garrytan",
+    "qa": "garrytan",
+    "qa-only": "garrytan",
+    "user-tester": "intelligentcode-ai",
+    "retro": "garrytan",
+    "readme-generate": "spring-ai",
+    "readme-generator": "glincker",
+    "setup-gbrain": "garrytan",
+    "sync-gbrain": "garrytan",
+    "teach": "mattpocock",
+    "skillify": "garrytan",
+    "scaffold-exercises": "mattpocock",
+    "writing-great-skills": "mattpocock",
+    "skill-builder": "ruvnet",
+    "codeburn": "getagentseal",
+    "brainstorming": "obra",
+    "discuss-phase": "gsd-build",
+    "subagent-driven-development": "obra",
+    "execute-phase": "gsd-build",
+    "pair-programming": "ruvnet",
+    "writing-plans": "obra",
+    "plan-phase": "gsd-build",
+    "verification-before-completion": "obra",
+    "verify-work": "gsd-build",
+    "verification-quality": "ruvnet",
+    "hf-cli": "huggingface",
+    "huggingface-datasets": "huggingface",
+    "huggingface-llm-trainer": "huggingface",
+    "huggingface-papers": "huggingface",
+    "huggingface-vision-trainer": "huggingface",
+    "semantic-cache": "huggingface",
+    "transformers-js": "huggingface",
+    "database-engineer": "intelligentcode-ai",
+    "parallel-execution": "intelligentcode-ai",
+    "release": "intelligentcode-ai",
+    "github-release-management": "ruvnet",
+    "requirements-engineer": "intelligentcode-ai",
+    "autoresearch": "karpathy",
+    "upgrade-laravel-v13": "laravel",
+    "ask-matt": "mattpocock",
+    "codebase-design": "mattpocock",
+    "domain-modeling": "mattpocock",
+    "engineering": "mattpocock",
+    "grill-me": "mattpocock",
+    "grill-with-docs": "mattpocock",
+    "handoff": "mattpocock",
+    "obsidian-vault": "mattpocock",
+    "personal": "mattpocock",
+    "productivity": "mattpocock",
+    "prototype": "mattpocock",
+    "github-suite": "ruvnet",
+    "resolving-merge-conflicts": "mattpocock",
+    "setup-matt-pocock-skills": "mattpocock",
+    "skills": "mattpocock",
+    "triage": "mattpocock",
+    "gaia-triage": "mbtiongson1",
+    "ubiquitous-language": "mattpocock",
+    "v3-ddd-architecture": "ruvnet",
+    "zoom-out": "mattpocock",
+    "gaia-audit": "mbtiongson1",
+    "gaia-curation-review": "mbtiongson1",
+    "gaia-bot-curate": "mbtiongson1",
+    "gaia-curate": "mbtiongson1",
+    "gaia-docs-sync": "mbtiongson1",
+    "gaia-draft-curate": "mbtiongson1",
+    "gaia-integrity": "mbtiongson1",
+    "gaia-wiki-sync": "mbtiongson1",
+    "gaia-meta-audit": "mbtiongson1",
+    "graphify-triage": "mbtiongson1",
+    "open-design": "nexu-io",
+    "feed-monitoring": "nousresearch",
+    "dispatching-parallel-agents": "obra",
+    "receiving-code-review": "obra",
+    "requesting-code-review": "obra",
+    "superpowers": "obra",
+    "using-git-worktrees": "obra",
+    "few-shot-learning": "openai",
+    "self-consistency": "openai",
+    "implement-with-discernment": "rico-favor",
+    "agentdb-advanced": "ruvnet",
+    "agentdb-learning": "ruvnet",
+    "reasoningbank-agentdb": "ruvnet",
+    "agentdb-memory-patterns": "ruvnet",
+    "agentdb-optimization": "ruvnet",
+    "agentdb-vector-search": "ruvnet",
+    "agentdb": "ruvnet",
+    "agentic-jujutsu": "ruvnet",
+    "dual-collect": "ruvnet",
+    "dual-coordinate": "ruvnet",
+    "dual-mode": "ruvnet",
+    "dual-spawn": "ruvnet",
+    "flow-nexus-neural": "ruvnet",
+    "flow-nexus-platform": "ruvnet",
+    "flow-nexus-swarm": "ruvnet",
+    "v3-swarm-coordination": "ruvnet",
+    "flow-nexus": "ruvnet",
+    "github-multi-repo": "ruvnet",
+    "github-workflow-automation": "ruvnet",
+    "hooks-automation": "ruvnet",
+    "hive-mind-coordination": "ruvnet",
+    "reasoningbank-intelligence": "ruvnet",
+    "reasoningbank": "ruvnet",
+    "ruflo-v3": "ruvnet",
+    "ruflo": "ruvnet",
+    "sparc-methodology": "ruvnet",
+    "stream-chain": "ruvnet",
+    "swarm-advanced": "ruvnet",
+    "swarm-orchestration": "ruvnet",
+    "v3-cli-modernization": "ruvnet",
+    "v3-core-implementation": "ruvnet",
+    "v3-integration-deep": "ruvnet",
+    "worker-integration": "ruvnet",
+    "graphify": "safishamsi",
+    "career-ops": "santifer",
+    "unittest-generator": "upsonic",
+    "find-skills": "vercel",
+    "orchestkit-rag": "yonatangross"
+  },
+  "unlinkedSlugs": []
+}
