@@ -143,5 +143,10 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
 /* Final Milim take-root illustration replaces the circuit-tree SVG. */
 .registry-tree{isolation:isolate;align-items:stretch}
 .registry-tree-art{display:block;width:100%;height:100%;object-fit:contain;object-position:right center;filter:drop-shadow(0 0 22px rgba(248,209,118,.2))}
-.registry-tree figcaption{z-index:1;text-shadow:0 2px 8px #030712}
-@media(max-width:700px){.registry-tree{min-height:clamp(470px,142vw,660px)}.registry-tree-art{object-position:center top}.registry-tree figcaption{max-width:30ch}}
+.registry-tree figcaption{left:clamp(1rem,3vw,2rem);right:auto;bottom:2rem;z-index:1;max-width:25ch;color:#e4e0d5;text-align:left;text-shadow:0 2px 8px #030712,0 0 12px #030712}
+@supports (animation-timeline:view()){
+  .registry-tree-art{animation:registry-tree-parallax linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
+  @keyframes registry-tree-parallax{from{transform:translateY(-3%)}to{transform:translateY(3%)}}
+}
+@media(prefers-reduced-motion:reduce){.registry-tree-art{animation:none!important;transform:none!important}}
+@media(max-width:700px){.registry-tree{min-height:clamp(470px,142vw,660px)}.registry-tree-art{object-position:center top}.registry-tree figcaption{left:var(--gutter);right:auto;bottom:1rem;max-width:24ch}}

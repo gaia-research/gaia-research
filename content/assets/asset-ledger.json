@@ -2290,11 +2290,11 @@
       "license": "internal-review-required",
       "credit": "Gaia Research asset workflow",
       "alt": "",
-      "sha256": "1d597078b0604342a4a1e9c60b94b930a5ffbd78c4827b4df33025b7d795ee86",
-      "bytes": 382312,
+      "sha256": "613753d02d88546471b010f209d4167783c40ea40ec44f8a160d2fd1610ef121",
+      "bytes": 330038,
       "dimensions": {
         "width": 937,
-        "height": 1679
+        "height": 1678
       },
       "derivatives": []
     },
