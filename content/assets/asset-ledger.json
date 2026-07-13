@@ -2282,6 +2282,23 @@
       "derivatives": []
     },
     {
+      "id": "milim-take-root-final",
+      "path": "assets/generated/milim-take-root-final.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "ef4472fbc2af66ec5b874bd018df47db83f42f3211dd9d7a7747a7a68a20b49b",
+      "bytes": 309900,
+      "dimensions": {
+        "width": 937,
+        "height": 1679
+      },
+      "derivatives": []
+    },
+    {
       "id": "milim-live-full-body-sprite-v01-png",
       "path": "assets/generated/north-star-live/milim-live-full-body-sprite-v01.png",
       "kind": "illustration",
