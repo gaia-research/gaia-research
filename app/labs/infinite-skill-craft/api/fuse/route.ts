@@ -29,10 +29,7 @@
  *  • FULLY PLAYABLE ON LOCALHOST with zero Cloudflare credentials. `next dev`
  *    has no bindings, so every binding access is guarded: KV degrades to an
  *    in-memory Map shim and AI degrades to a deterministic local mock fusion.
- *  • NO PII. The one Analytics Engine row we write carries only the tier, a
- *    cache-hit flag, and a truncated hash of the pair key.
- *
- * Bindings (wrangler.jsonc):  AI (Workers AI) · CRAFT_KV (KV) · CRAFT_FUSIONS (Analytics Engine)
+ * Bindings (wrangler.jsonc): AI (Workers AI) · CRAFT_KV (KV)
  */
 
 import { NextResponse } from 'next/server';
@@ -77,18 +74,9 @@ interface AiLike {
   ): Promise<unknown>;
 }
 
-interface AnalyticsLike {
-  writeDataPoint(event: {
-    blobs?: (string | ArrayBuffer)[];
-    doubles?: number[];
-    indexes?: (string | ArrayBuffer)[];
-  }): void;
-}
-
 interface CraftBindings {
   CRAFT_KV?: KvLike;
   AI?: AiLike;
-  CRAFT_FUSIONS?: AnalyticsLike;
 }
 
 // ---------------------------------------------------------------------------
@@ -167,7 +155,6 @@ async function resolveBindings(): Promise<CraftBindings> {
     return {
       CRAFT_KV: env.CRAFT_KV,
       AI: env.AI,
-      CRAFT_FUSIONS: env.CRAFT_FUSIONS,
     };
   } catch {
     // No Cloudflare context (localhost `next dev`, tests, etc.) — return empty.
@@ -448,27 +435,6 @@ function parseModelResponse(
 }
 
 // ---------------------------------------------------------------------------
-// Analytics — one row, no PII, never throws
-// ---------------------------------------------------------------------------
-
-function recordFusion(
-  bindings: CraftBindings,
-  tier: FusionTier,
-  cacheHit: boolean,
-  key: string
-): void {
-  try {
-    bindings.CRAFT_FUSIONS?.writeDataPoint({
-      blobs: [tier],
-      doubles: [cacheHit ? 1 : 0],
-      indexes: [key.slice(0, 32)],
-    });
-  } catch {
-    // A missing/misbehaving Analytics binding must never affect the response.
-  }
-}
-
-// ---------------------------------------------------------------------------
 // Route handler
 // ---------------------------------------------------------------------------
 
@@ -521,7 +487,6 @@ export async function POST(request: Request): Promise<Response> {
       const result = rehydrate(JSON.parse(cached) as StoredFusion);
       // A returning player: this is no longer a first discovery.
       result.isFirstDiscovery = false;
-      recordFusion(bindings, result.tier, true, key);
       return NextResponse.json(result);
     }
   } catch {
@@ -686,9 +651,6 @@ export async function POST(request: Request): Promise<Response> {
     // put() itself threw synchronously (shouldn't happen) — ignore.
   }
 
-  // ── e. Analytics: one row, no PII ─────────────────────────────────────────
-  recordFusion(bindings, result.tier, false, key);
-
-  // ── f. Respond ────────────────────────────────────────────────────────────
+  // ── e. Respond ────────────────────────────────────────────────────────────
   return NextResponse.json(result);
 }
