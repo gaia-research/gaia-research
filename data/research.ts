@@ -40,6 +40,13 @@ const skills = [
     surface: { label: "Read the postmortem", href: "/research/ci-churn" },
   },
   {
+    slug: "skill-cost",
+    blurb: "Multi-harness token-usage cost reporter for pi, Claude Code, Codex, and opencode session logs.",
+    status: "ACT",
+    inTree: false,
+    surface: { label: "Read the research plan", href: "/research/cost" },
+  },
+  {
     slug: "skill-fuse",
     blurb: "Compose two installed agent skills into one unified SKILL.md — the composition engine behind the Skill Tree.",
     status: "ACT",
@@ -62,4 +69,5 @@ export { allSkills as skills };
 export const ledger = [
   ["Context Diet", "LAB", "WIP", "Local token-budget estimator; comparative benchmark results pending review", "/labs/context-diet"],
   ["The Compounding Cost of CI Failures", "POSTMORTEM", "VRF", "Postmortem of Epic #780 introducing CI Churn as a first-class cost metric", "/research/ci-churn"],
+  ["Agent Cost Reporting", "RESEARCH PLAN", "PRP", "Proposed study of the gap between agent estimates, rate-card totals, and invoices", "/research/cost"],
 ] as const;
