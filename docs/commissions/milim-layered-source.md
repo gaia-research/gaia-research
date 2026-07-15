@@ -1,8 +1,14 @@
-# Commission Brief — Milim Layered Source (Rigging Input for milim-live2d-model)
+# Historical Commission Brief — Milim Layered Source
 
-**Status:** Active dependency. Blocks the interactive-rigging step of the
-`milim-live2d-model` pipeline. Non-blocking for the runtime/integration code,
-which can be built and tested against a placeholder rig first.
+> **Retargeted (2026-07-16).** The layer inventory and hidden-region requirements
+> remain useful, but Stretchy Studio and a mandatory PSD are no longer the
+> execution target. The canonical source will be transparent layer assets plus
+> readable Milim source JSON in the private production repository; PSD is an
+> optional interchange artifact. See
+> [Milim Player and Private Production Pipeline](../plans/milim-player-pipeline-plan.md).
+
+**Status:** Historical commission format; active layer-quality reference for the
+Milim-specific pipeline.
 
 ## Purpose
 

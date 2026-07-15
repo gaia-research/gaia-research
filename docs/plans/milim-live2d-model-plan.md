@@ -1,7 +1,14 @@
 # Milim Live2D Model — finalized plan & implementation record
 
-**Status:** Implemented (code). Rig authoring + repo publish are human-in-the-loop
-follow-ups (tracked as GitHub issues). **Date:** 2026-07-11.
+> **Superseded (2026-07-16).** The Stretchy-native production path and proposed
+> public milim-live2d-model repository are no longer the approved direction.
+> The ratified source of truth is
+> [Milim Player and Private Production Pipeline](./milim-player-pipeline-plan.md):
+> a Milim-specific, dependency-free first release owned by a private repository
+> and promoted into the website as an immutable compiled artifact. This file is
+> retained as a historical implementation record for the existing prototype.
+
+**Status:** Superseded implementation record. **Original date:** 2026-07-11.
 **Branch:** `feat/milim-live2d-integration` (worktree off `origin/feat/north-star-live-v2`).
 **Tracking issue:** gaia-research#32. **Supersedes:** the external-Cubism-artist
 approach in `docs/commissions/milim-live2d-rig.md`.
