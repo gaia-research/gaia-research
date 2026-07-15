@@ -1,17 +1,17 @@
 # Commission Brief — Milim Live2D Cubism Rig
 
-> **⚠️ Superseded (2026-07-11).** The "commission an external Cubism artist to
-> deliver a `.moc3`" path below is **no longer the primary approach**. We now rig
-> Milim in-house via [Stretchy Studio](https://github.com/MangoLion/stretchystudio)
-> (FOSS Live2D alternative) and ship a framework-agnostic WebGL2 runtime
-> (`milim-live2d-model`) that renders the native scene directly — no proprietary
-> Cubism Core, no paid rigging. See `docs/plans/milim-live2d-model-plan.md` and
-> tracking issue gaia-research#32. **The character-lock, expression, motion, and
-> acceptance specs in this brief still stand as the target** for the in-house rig
-> (issues #33 layered art, #34 rig authoring).
+> **⚠️ Superseded (latest decision: 2026-07-16).** Neither an external Cubism
+> commission nor the later Stretchy-native pipeline is the approved production
+> direction. Gaia Research will build a Milim-specific player and private
+> production pipeline with no shipped third-party dependency for the first
+> release. See
+> [Milim Player and Private Production Pipeline](../plans/milim-player-pipeline-plan.md)
+> and tracking issue gaia-research#32. **The character lock, required
+> expressions, motion intent, accessibility requirements, and visual acceptance
+> criteria below remain authoritative.** Cubism-specific filenames and vendor
+> handoff requirements are historical.
 
-**Status:** Superseded by the Stretchy-based pipeline (see banner). Original brief
-retained below as the character/expression/motion spec of record.
+**Status:** Historical commission brief and active character/motion specification.
 
 ## Purpose
 
