@@ -32,6 +32,7 @@ export class WebPet {
   setState(name: string): void;
   say(html: string): void;
   hideBubble(): void;
+  setHeroHidden(hidden: boolean): void;
   lookAt(clientX: number, clientY: number): void;
   draw(row: number, column: number): void;
   tick(time: number): void;

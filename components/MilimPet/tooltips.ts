@@ -147,6 +147,21 @@ export const TOPIC_REACTIONS: Record<string, Tooltip[]> = {
   ],
 };
 
+// ─── Transition pools (spoken by the *leaving* Milim during a fly-morph) ──────
+
+/** Milim is flying from the hero down to the corner pet. */
+export const TRANSITION_TO_PET: Tooltip[] = [
+  { text: "Hold on, boss — I'm zooming down there! Whoosh!" },
+  { text: "Relocating! Science waits for no one, gosh." },
+  { text: "Be right back in the corner — don't touch the reactor!" },
+];
+
+/** Milim is flying from the corner pet back up to the hero. */
+export const TRANSITION_TO_HERO: Tooltip[] = [
+  { text: "Back to the big screen, boss — my best angle, hehe!" },
+  { text: "Flying up! Center stage, where the strongest belongs." },
+];
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 // ─── HTML rendering ─────────────────────────────────────────────────────────

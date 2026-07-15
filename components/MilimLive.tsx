@@ -17,6 +17,8 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { pickTooltip, tooltipToHtml, TOOLTIPS, type Tooltip } from "@/components/MilimPet/tooltips";
+import { onMilim, MILIM_EVENTS } from "@/lib/milim-bridge";
 
 type MilimStage = {
   play: () => void;
@@ -36,6 +38,12 @@ export interface MilimLiveProps {
   height: number;
   sizes?: string;
   caption?: string;
+  /**
+   * When true (home page only), render the hero speech bubble and cycle the
+   * `home` tooltip pool while the hero is the active Milim. Driven by the
+   * heroVisible / heroHidden bridge events fired by <HeroMilimBridge>.
+   */
+  enableTooltips?: boolean;
 }
 
 export default function MilimLive({
@@ -46,6 +54,7 @@ export default function MilimLive({
   height,
   sizes,
   caption = "2.5D IDLE / STATIC FALLBACK READY",
+  enableTooltips = false,
 }: MilimLiveProps) {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -53,6 +62,17 @@ export default function MilimLive({
   // "live" flips true only once the WebGL stage has actually mounted a frame,
   // so the fallback <Image> stays visible until we know rendering succeeded.
   const [live, setLive] = useState(false);
+
+  // ── Hero tooltip layer (home page only) ──────────────────────────────────
+  // heroActive tracks whether *this* Milim is the one on stage. Starts false;
+  // <HeroMilimBridge> flips it via heroVisible / heroHidden once it measures
+  // the initial intersection state.
+  const [heroActive, setHeroActive] = useState(false);
+  const bubbleRef = useRef<HTMLDivElement | null>(null);
+  const bubbleTextRef = useRef<HTMLParagraphElement | null>(null);
+  const tipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastTipRef = useRef<Tooltip | null>(null);
 
   useEffect(() => {
     // Respect reduced-motion: never boot the loop; the static sprite stands in.
@@ -154,8 +174,84 @@ export default function MilimLive({
     };
   }, [sceneUrl]);
 
+  // ── Bridge subscription: who is the active Milim? ────────────────────────
+  useEffect(() => {
+    if (!enableTooltips) return;
+    const offVisible = onMilim(MILIM_EVENTS.heroVisible, () => setHeroActive(true));
+    const offHidden = onMilim(MILIM_EVENTS.heroHidden, () => setHeroActive(false));
+    return () => {
+      offVisible();
+      offHidden();
+    };
+  }, [enableTooltips]);
+
+  // ── Tooltip cycle: mirrors the pet's cadence, but only while hero-active ──
+  useEffect(() => {
+    if (!enableTooltips) return;
+
+    const HELLO_DELAY = 1_400;
+    const CYCLE_MIN = 8_000;
+    const CYCLE_MAX = 15_000;
+    const TIP_HOLD = 6_500;
+
+    const clearTimers = () => {
+      if (tipTimerRef.current) clearTimeout(tipTimerRef.current);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      tipTimerRef.current = null;
+      hideTimerRef.current = null;
+    };
+
+    const hide = () => {
+      const b = bubbleRef.current;
+      if (b) b.hidden = true;
+    };
+
+    const show = (t: Tooltip) => {
+      const b = bubbleRef.current;
+      const p = bubbleTextRef.current;
+      if (!b || !p || document.hidden) return;
+      // Re-trigger the pop-in animation each time.
+      p.innerHTML = tooltipToHtml(t);
+      b.hidden = false;
+      b.style.animation = "none";
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      b.offsetHeight; // force reflow so the animation replays
+      b.style.animation = "";
+      lastTipRef.current = t;
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      hideTimerRef.current = setTimeout(hide, TIP_HOLD);
+    };
+
+    const scheduleCycle = () => {
+      const delay = CYCLE_MIN + Math.random() * (CYCLE_MAX - CYCLE_MIN);
+      tipTimerRef.current = setTimeout(() => {
+        if (!document.hidden) show(pickTooltip(TOOLTIPS.home, lastTipRef.current));
+        scheduleCycle();
+      }, delay);
+    };
+
+    if (!heroActive) {
+      clearTimers();
+      hide();
+      return;
+    }
+
+    // Activate: greet after a beat, then cycle.
+    tipTimerRef.current = setTimeout(() => {
+      show(pickTooltip(TOOLTIPS.home, lastTipRef.current));
+      scheduleCycle();
+    }, HELLO_DELAY);
+
+    return () => clearTimers();
+  }, [enableTooltips, heroActive]);
+
   return (
-    <div className="live-stage" ref={wrapRef} aria-label="Milim is represented by a decorative, code-driven 2.5D idle character.">
+    <div
+      className="live-stage"
+      ref={wrapRef}
+      data-transition-src={fallbackSrc}
+      aria-label="Milim is represented by a decorative, code-driven 2.5D idle character."
+    >
       <div className="orbit orbit-one" />
       <div className="orbit orbit-two" />
       <div className="spark-field" aria-hidden="true">✦ · ✦ · ✦</div>
@@ -174,6 +270,18 @@ export default function MilimLive({
       />
       {/* Live canvas: decorative (the descriptive caption + fallback carry a11y). */}
       <canvas ref={canvasRef} className="milim-live-canvas" aria-hidden="true" data-live={live ? "shown" : "hidden"} />
+      {enableTooltips && (
+        <div
+          className="milim-hero-bubble"
+          role="status"
+          aria-live="polite"
+          ref={bubbleRef}
+          hidden
+        >
+          <p ref={bubbleTextRef} />
+          <span className="milim-hero-bubble-tail" aria-hidden="true" />
+        </div>
+      )}
       <p className="sprite-caption">{caption}</p>
     </div>
   );

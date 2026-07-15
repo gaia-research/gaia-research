@@ -18,6 +18,12 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { type WebPet } from "@/lib/pet-sprite";
 import {
+  emitMilim,
+  onMilim,
+  MILIM_EVENTS,
+  type PetSetHiddenDetail,
+} from "@/lib/milim-bridge";
+import {
   contextFromPathname,
   FUSE_REACTIONS,
   GENERIC_EVENT_REACTIONS,
@@ -102,6 +108,29 @@ export function MilimPet({ pageContext: pageContextProp, disabled }: MilimPetPro
       }, delay);
     };
 
+    // Ambient behaviour = greeting + cycling + bored watchdog. Extracted so the
+    // home-page path can defer it until the pet is actually the active Milim
+    // (i.e. the hero has scrolled out and the fly-morph landed).
+    const startAmbient = (greetDelay = 0) => {
+      clearTimeout(cycleRef.current!);
+      clearTimeout(hideRef.current!);
+      clearTimeout(boredRef.current!);
+      const greet = () => {
+        if (cancelled) return;
+        say(pickTooltip(TOOLTIPS[contextRef.current], lastTipRef.current));
+        scheduleCycle();
+        resetBored();
+      };
+      if (greetDelay > 0) setTimeout(greet, greetDelay);
+      else greet();
+    };
+
+    const stopAmbient = () => {
+      clearTimeout(cycleRef.current!);
+      clearTimeout(hideRef.current!);
+      clearTimeout(boredRef.current!);
+    };
+
     // ── Mount WebPet ────────────────────────────────────────────────────────
     import("@/lib/pet-sprite").then(({ WebPet }) => {
       if (cancelled || !rootRef.current) return;
@@ -115,13 +144,17 @@ export function MilimPet({ pageContext: pageContextProp, disabled }: MilimPetPro
       });
       petRef.current = pet;
 
-      // Initial greeting after a short beat
-      setTimeout(() => {
-        if (cancelled) return;
-        say(pickTooltip(TOOLTIPS[contextRef.current], null));
-        scheduleCycle();
-        resetBored();
-      }, 1400);
+      if (contextRef.current === "home") {
+        // Home page: the hero owns the Milim at first paint. Hide instantly
+        // (anti-flash) and announce readiness so the orchestrator can replay
+        // the desired hidden state even if it initialised before we mounted.
+        pet.setHeroHidden(true);
+        emitMilim(MILIM_EVENTS.petReady);
+      } else {
+        // Every other page: pet is always the active Milim.
+        pet.setHeroHidden(false);
+        startAmbient(1400);
+      }
     });
 
     // ── Craft fusion events ─────────────────────────────────────────────────
@@ -176,6 +209,22 @@ export function MilimPet({ pageContext: pageContextProp, disabled }: MilimPetPro
     window.addEventListener("isc:fused", onFused);
     window.addEventListener("milim:page-event", onPageEvent);
 
+    // One-Milim-at-a-time: hide/show command from <HeroMilimBridge>.
+    const offPetSetHidden = onMilim<PetSetHiddenDetail>(
+      MILIM_EVENTS.petSetHidden,
+      (detail) => {
+        const pet = petRef.current;
+        if (!pet || !detail) return;
+        pet.setHeroHidden(detail.hidden);
+        if (detail.hidden) {
+          stopAmbient();
+        } else if (contextRef.current === "home") {
+          // We just became the active Milim on the home page — wake up.
+          startAmbient(detail.animate ? 600 : 0);
+        }
+      },
+    );
+
     // ── Cleanup ────────────────────────────────────────────────────────────
     return () => {
       cancelled = true;
@@ -184,6 +233,7 @@ export function MilimPet({ pageContext: pageContextProp, disabled }: MilimPetPro
       clearTimeout(hideRef.current!);
       window.removeEventListener("isc:fused", onFused);
       window.removeEventListener("milim:page-event", onPageEvent);
+      offPetSetHidden();
       petRef.current?.destroy();
       petRef.current = null;
     };

@@ -23,6 +23,13 @@
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+  transition: opacity 300ms ease;
+}
+
+/* One-Milim-at-a-time: hidden while the hero owns the Milim (home page). */
+.gaia-web-pet[data-hero-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .gaia-web-pet:focus-visible {
@@ -294,6 +301,11 @@
    ══════════════════════════════════════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: reduce) {
+  .gaia-web-pet,
+  .gaia-web-pet[data-hero-hidden="true"] {
+    transition: opacity 200ms linear;
+  }
+
   .gaia-web-pet__sprite {
     transition: none;
   }
