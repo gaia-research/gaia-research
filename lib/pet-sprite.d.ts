@@ -22,8 +22,9 @@ export class WebPet {
   sprite: HTMLElement;
   bubble: HTMLElement;
   bubbleText: HTMLElement;
-  toggle: HTMLButtonElement;
-  sizeBtn: HTMLButtonElement;
+  mini: HTMLButtonElement;
+  miniSprite: HTMLElement;
+  resizeHandle: HTMLElement;
   /** @deprecated use .bubble */
   tooltip: HTMLElement;
   options: Required<WebPetOptions>;
