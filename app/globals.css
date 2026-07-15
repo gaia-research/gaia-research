@@ -211,11 +211,11 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
    ══════════════════════════════════════════════════════════════════════════════ */
 
 /* Hero Milim speech bubble (MilimLive, home page) */
-.milim-hero-bubble{position:absolute;top:12%;left:-2%;z-index:4;max-width:min(280px,90%);background:linear-gradient(160deg,color-mix(in srgb,var(--pink) 10%,var(--surface-raised)),var(--surface));border:1px solid color-mix(in srgb,var(--pink) 60%,var(--line));border-radius:14px;padding:.65rem .85rem;box-shadow:0 6px 24px rgba(0,0,0,.55),0 0 20px color-mix(in srgb,var(--pink) 28%,transparent);animation:mp-bubble-in .28s cubic-bezier(0.16,1,0.3,1) both;pointer-events:none}
+.milim-hero-bubble{position:absolute;top:4%;left:4%;z-index:4;max-width:min(195px,42%);background:linear-gradient(160deg,color-mix(in srgb,var(--pink) 10%,var(--surface-raised)),var(--surface));border:1px solid color-mix(in srgb,var(--pink) 60%,var(--line));border-radius:14px;padding:.65rem .85rem;box-shadow:0 6px 24px rgba(0,0,0,.55),0 0 20px color-mix(in srgb,var(--pink) 28%,transparent);animation:mp-bubble-in .28s cubic-bezier(0.16,1,0.3,1) both;pointer-events:none}
 .milim-hero-bubble[hidden]{display:none}
 .milim-hero-bubble p{margin:0;font:500 .82rem/1.45 var(--body);color:var(--ink);text-wrap:pretty}
-.milim-hero-bubble-tail{position:absolute;bottom:-7px;right:20px;width:12px;height:12px;background:var(--surface);border-right:1px solid color-mix(in srgb,var(--pink) 60%,var(--line));border-bottom:1px solid color-mix(in srgb,var(--pink) 60%,var(--line));transform:rotate(45deg)}
-@media (max-width:700px){.milim-hero-bubble{top:auto;bottom:110%;left:0;max-width:min(220px,85vw)}}
+.milim-hero-bubble-tail{position:absolute;bottom:-7px;right:16px;width:12px;height:12px;background:var(--surface);border-right:1px solid color-mix(in srgb,var(--pink) 60%,var(--line));border-bottom:1px solid color-mix(in srgb,var(--pink) 60%,var(--line));transform:rotate(45deg)}
+@media (max-width:700px){.milim-hero-bubble{top:auto;bottom:110%;left:0;max-width:min(200px,80vw)}}
 
 /* Flying clone */
 .milim-fly-clone{position:fixed;z-index:300;pointer-events:none;overflow:hidden}
