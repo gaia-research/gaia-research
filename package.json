@@ -14,7 +14,9 @@
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:milim-promotion": "node --test tests/milim-promotion.test.mjs",
+    "promote:milim": "node scripts/promote-milim-release.mjs"
   },
   "dependencies": {
     "@img/sharp-wasm32": "^0.35.3",

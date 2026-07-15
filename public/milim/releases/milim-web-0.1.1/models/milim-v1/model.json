@@ -1,0 +1,247 @@
+{
+  "appearances": {
+    "hair": [
+      "classic-long-pink"
+    ],
+    "outfit": [
+      "dragonoid-hoodie-v1"
+    ],
+    "pose": [
+      "confident-neutral-v1"
+    ]
+  },
+  "canvas": {
+    "height": 1536,
+    "width": 1024
+  },
+  "channels": [
+    "head.turn",
+    "head.nod",
+    "head.tilt",
+    "body.turn",
+    "body.lean",
+    "body.tilt",
+    "eyes.open.left",
+    "eyes.open.right",
+    "eyes.look.x",
+    "eyes.look.y",
+    "brows.form.left",
+    "brows.form.right",
+    "mouth.form",
+    "mouth.open",
+    "cheeks",
+    "fang",
+    "breath",
+    "hair.front.sway",
+    "hair.side.sway",
+    "hair.back.sway",
+    "sleeves.sway",
+    "drawstrings.sway",
+    "arm.left.pose",
+    "arm.right.pose",
+    "hand.left.pose",
+    "hand.right.pose",
+    "base.x",
+    "base.y"
+  ],
+  "expressions": [
+    {
+      "blendInMs": 140,
+      "blendOutMs": 180,
+      "id": "joyful-winker",
+      "reset": "neutral",
+      "texture": "milim-expression-joyful-winker"
+    },
+    {
+      "blendInMs": 140,
+      "blendOutMs": 180,
+      "id": "demon-lord-smirk",
+      "reset": "neutral",
+      "texture": "milim-expression-demon-lord-smirk"
+    },
+    {
+      "blendInMs": 160,
+      "blendOutMs": 200,
+      "id": "starry-awe",
+      "reset": "neutral",
+      "texture": "milim-expression-starry-awe"
+    },
+    {
+      "blendInMs": 120,
+      "blendOutMs": 180,
+      "id": "chaos-gremlin",
+      "reset": "neutral",
+      "texture": "milim-expression-chaos-gremlin"
+    }
+  ],
+  "format": "milim-model",
+  "formatVersion": 1,
+  "id": "milim-v1",
+  "motions": [
+    {
+      "durationMs": 10000,
+      "id": "idle-breathe",
+      "loop": true,
+      "returnMs": 0,
+      "tracks": {
+        "breath": [
+          [
+            0,
+            0
+          ],
+          [
+            5000,
+            1
+          ],
+          [
+            10000,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "durationMs": 8000,
+      "id": "idle-look",
+      "loop": true,
+      "returnMs": 0,
+      "tracks": {
+        "eyes.look.x": [
+          [
+            0,
+            0
+          ],
+          [
+            4000,
+            0.2
+          ],
+          [
+            8000,
+            0
+          ]
+        ],
+        "head.turn": [
+          [
+            0,
+            0
+          ],
+          [
+            4000,
+            0.12
+          ],
+          [
+            8000,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "durationMs": 1100,
+      "id": "greet",
+      "loop": false,
+      "returnMs": 240,
+      "texture": "milim-motion-greet",
+      "tracks": {
+        "arm.right.pose": [
+          [
+            0,
+            0
+          ],
+          [
+            220,
+            0.45
+          ],
+          [
+            620,
+            0.85
+          ],
+          [
+            1100,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "durationMs": 950,
+      "id": "point",
+      "loop": false,
+      "returnMs": 240,
+      "texture": "milim-motion-point",
+      "tracks": {
+        "arm.right.pose": [
+          [
+            0,
+            0
+          ],
+          [
+            240,
+            0.7
+          ],
+          [
+            650,
+            1
+          ],
+          [
+            950,
+            0
+          ]
+        ],
+        "head.turn": [
+          [
+            0,
+            0
+          ],
+          [
+            300,
+            0.15
+          ],
+          [
+            700,
+            0.15
+          ],
+          [
+            950,
+            0
+          ]
+        ]
+      }
+    }
+  ],
+  "textures": [
+    {
+      "id": "milim-neutral-tracer",
+      "url": "./textures/milim-neutral-tracer.webp"
+    },
+    {
+      "id": "milim-expression-joyful-winker",
+      "url": "./textures/joyful-winker.webp"
+    },
+    {
+      "id": "milim-expression-demon-lord-smirk",
+      "url": "./textures/demon-lord-smirk.webp"
+    },
+    {
+      "id": "milim-expression-starry-awe",
+      "url": "./textures/starry-awe.webp"
+    },
+    {
+      "id": "milim-expression-chaos-gremlin",
+      "url": "./textures/chaos-gremlin.webp"
+    },
+    {
+      "id": "milim-motion-greet",
+      "url": "./textures/greet.webp"
+    },
+    {
+      "id": "milim-motion-point",
+      "url": "./textures/point.webp"
+    },
+    {
+      "id": "milim-pose-confident-neutral-v1",
+      "url": "./textures/milim-neutral-tracer.webp"
+    }
+  ],
+  "version": "1.0.0"
+}

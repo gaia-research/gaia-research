@@ -1,0 +1,219 @@
+{
+  "compatibility": {
+    "major": 1
+  },
+  "defaults": {
+    "expression": "joyful-winker",
+    "hair": "classic-long-pink",
+    "outfit": "dragonoid-hoodie-v1",
+    "pose": "confident-neutral-v1",
+    "scene": "cyber-slime-lab-v1"
+  },
+  "fallbacks": {
+    "desktop": "./previews/desktop.webp",
+    "mobile": "./previews/mobile.webp",
+    "reducedMotion": "./previews/reduced-motion.webp",
+    "tablet": "./previews/tablet.webp"
+  },
+  "files": [
+    {
+      "bytes": 180,
+      "path": "./LICENSES.txt",
+      "sha256": "5579a44188fd65ac8c2e9a20f4977652087413b4f3945787283c03d5cc538050"
+    },
+    {
+      "bytes": 1552,
+      "path": "./compile-report.json",
+      "sha256": "a1b5159c6169454123414039cc3b46db8ed4c641ae1fd9564324e7f53481af90"
+    },
+    {
+      "bytes": 4400,
+      "path": "./models/milim-v1/model.json",
+      "sha256": "f1752343d1ee00d4d69b5c96928ad4e7a15260b2ba135494bec8835f3f4f465e"
+    },
+    {
+      "bytes": 136440,
+      "path": "./models/milim-v1/textures/chaos-gremlin.webp",
+      "sha256": "c66f864254370d28b2a103c91fad293ffcf828397480ad202e164ddbcfd76deb"
+    },
+    {
+      "bytes": 138636,
+      "path": "./models/milim-v1/textures/demon-lord-smirk.webp",
+      "sha256": "c1d9e9ca557d244b12c2fff376f824f7194123095e21e9a5bfcdf35733ba8865"
+    },
+    {
+      "bytes": 152054,
+      "path": "./models/milim-v1/textures/greet.webp",
+      "sha256": "902903b06ca2201649b9ccdae17389e8d69484eaff6da07984f9fc927f527b3e"
+    },
+    {
+      "bytes": 138308,
+      "path": "./models/milim-v1/textures/joyful-winker.webp",
+      "sha256": "1b0b0d15e0652c473846c54317f1df5a24ab0f4aeb9fd9318392f99d485cd3bd"
+    },
+    {
+      "bytes": 97138,
+      "path": "./models/milim-v1/textures/milim-neutral-tracer.webp",
+      "sha256": "1fe14818ab29d965c0a5a79664f646859b58e1d646c2e6690c6cbbda9cf26d81"
+    },
+    {
+      "bytes": 141986,
+      "path": "./models/milim-v1/textures/point.webp",
+      "sha256": "95cbca5819e0276d16a33fd3c5d4b1c7ec5172ba1f626e324c8653ad5921a8c8"
+    },
+    {
+      "bytes": 140264,
+      "path": "./models/milim-v1/textures/starry-awe.webp",
+      "sha256": "56f93740450dae95cb73d12825ccb0aad151edf96d100bf4a0813dd492d3d630"
+    },
+    {
+      "bytes": 7302,
+      "path": "./player/compose.js",
+      "sha256": "c38ca24d23d6d40dadfc88e1176bb681fd2f65e9f5f68d88bbdb2c0b119b9fbd"
+    },
+    {
+      "bytes": 7523,
+      "path": "./player/core.js",
+      "sha256": "814547368a7b771a08ec9fa1fa64d4a27b0becab263db22689dcd889efc40676"
+    },
+    {
+      "bytes": 1132,
+      "path": "./player/errors.js",
+      "sha256": "80fe84e9c988f28131f8fe01c79b9846474fd4f1519a625dfd1e6ab781c00144"
+    },
+    {
+      "bytes": 599,
+      "path": "./player/index.js",
+      "sha256": "7bd9b463e1c7393aa0ad72196e6f8f6231b753bf035d168411e257cc1ddbcb2b"
+    },
+    {
+      "bytes": 1746,
+      "path": "./player/lifecycle.js",
+      "sha256": "09616047c1476793cf9654b22fb4b17b69c57e680fe68ef5ae6ba50acd52caa5"
+    },
+    {
+      "bytes": 8312,
+      "path": "./player/load.js",
+      "sha256": "647ee7167f1b592d3e7cb1eceb90e1e22f98fa2f349ff8fb6f72cd37ed00eea1"
+    },
+    {
+      "bytes": 4031,
+      "path": "./player/mount.js",
+      "sha256": "f335296fab4373e8fd8912d364981a66eb7f4e582863aba00f92fc0e7287cdd8"
+    },
+    {
+      "bytes": 10204,
+      "path": "./player/validate.js",
+      "sha256": "67294a9378d1b13f4598b280c8ccfe2058d4fd6287aad04a247631157a3c7adc"
+    },
+    {
+      "bytes": 21140,
+      "path": "./player/webgl2-renderer.js",
+      "sha256": "e11225282aedcc02a97c90390c25f01f80a1c8801febe506672fe0b5cf239691"
+    },
+    {
+      "bytes": 97138,
+      "path": "./previews/desktop.webp",
+      "sha256": "1fe14818ab29d965c0a5a79664f646859b58e1d646c2e6690c6cbbda9cf26d81"
+    },
+    {
+      "bytes": 97138,
+      "path": "./previews/mobile.webp",
+      "sha256": "1fe14818ab29d965c0a5a79664f646859b58e1d646c2e6690c6cbbda9cf26d81"
+    },
+    {
+      "bytes": 97138,
+      "path": "./previews/reduced-motion.webp",
+      "sha256": "1fe14818ab29d965c0a5a79664f646859b58e1d646c2e6690c6cbbda9cf26d81"
+    },
+    {
+      "bytes": 97138,
+      "path": "./previews/tablet.webp",
+      "sha256": "1fe14818ab29d965c0a5a79664f646859b58e1d646c2e6690c6cbbda9cf26d81"
+    },
+    {
+      "bytes": 258,
+      "path": "./promotion.json",
+      "sha256": "7e436b9563e2e095330541fda2bd2de37adef790888c442de2423c8b4328d616"
+    },
+    {
+      "bytes": 113096,
+      "path": "./scenes/cyber-slime-lab-v1/layers/background.webp",
+      "sha256": "7be9b81746a037a55b5c0149e1a9ffc10390876d3c88727ccc17f7b07607946c"
+    },
+    {
+      "bytes": 113096,
+      "path": "./scenes/cyber-slime-lab-v1/layers/reduced-motion.webp",
+      "sha256": "7be9b81746a037a55b5c0149e1a9ffc10390876d3c88727ccc17f7b07607946c"
+    },
+    {
+      "bytes": 640,
+      "path": "./scenes/cyber-slime-lab-v1/scene.json",
+      "sha256": "1d64dbaf04912c26b400080bd33ee7ad5463885b45fe0729b8b60fdea9d76ef0"
+    },
+    {
+      "bytes": 151400,
+      "path": "./scenes/dragon-signal-observatory-v1/layers/background.webp",
+      "sha256": "9170c657cbe2bbbf6bee2ebeb9467f003400a265201f601bf23ffcd6373ee3b4"
+    },
+    {
+      "bytes": 151400,
+      "path": "./scenes/dragon-signal-observatory-v1/layers/reduced-motion.webp",
+      "sha256": "9170c657cbe2bbbf6bee2ebeb9467f003400a265201f601bf23ffcd6373ee3b4"
+    },
+    {
+      "bytes": 649,
+      "path": "./scenes/dragon-signal-observatory-v1/scene.json",
+      "sha256": "19d3ccf6370b4ff8fe4320eb65da1d61af295d0e9dacdf4629849fe61ccd3ca3"
+    },
+    {
+      "bytes": 193422,
+      "path": "./scenes/slime-reactor-halo-v1/layers/background.webp",
+      "sha256": "da6af2252753a2df861bc7f50bc0ba947db8793f5567bc77d35f055f32e8dd1d"
+    },
+    {
+      "bytes": 193422,
+      "path": "./scenes/slime-reactor-halo-v1/layers/reduced-motion.webp",
+      "sha256": "da6af2252753a2df861bc7f50bc0ba947db8793f5567bc77d35f055f32e8dd1d"
+    },
+    {
+      "bytes": 643,
+      "path": "./scenes/slime-reactor-halo-v1/scene.json",
+      "sha256": "02fa50a489e5693e04c6461f2572dde72f4fdfd353eb787003d2594699e8d12d"
+    }
+  ],
+  "format": "milim-release",
+  "formatVersion": 1,
+  "model": {
+    "id": "milim-v1",
+    "url": "./models/milim-v1/model.json",
+    "version": "1.0.0"
+  },
+  "player": {
+    "entry": "./player/index.js",
+    "version": "0.1.1"
+  },
+  "release": "milim-web-0.1.1",
+  "scenes": [
+    {
+      "id": "cyber-slime-lab-v1",
+      "url": "./scenes/cyber-slime-lab-v1/scene.json",
+      "version": "1.0.0"
+    },
+    {
+      "id": "slime-reactor-halo-v1",
+      "url": "./scenes/slime-reactor-halo-v1/scene.json",
+      "version": "1.0.0"
+    },
+    {
+      "id": "dragon-signal-observatory-v1",
+      "url": "./scenes/dragon-signal-observatory-v1/scene.json",
+      "version": "1.0.0"
+    }
+  ],
+  "source": {
+    "commit": "9d6cdd9c2cf9267a305e313bdbe302722d5258b4",
+    "releasedAt": "2026-07-15T19:21:58.000Z",
+    "repository": "gaia-research/milim"
+  }
+}

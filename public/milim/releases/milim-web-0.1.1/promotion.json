@@ -1,0 +1,10 @@
+{
+  "format": "milim-promotion-source",
+  "formatVersion": 1,
+  "release": "milim-web-0.1.1",
+  "source": {
+    "commit": "9d6cdd9c2cf9267a305e313bdbe302722d5258b4",
+    "releasedAt": "2026-07-15T19:21:58.000Z",
+    "repository": "gaia-research/milim"
+  }
+}

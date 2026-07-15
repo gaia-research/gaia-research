@@ -1,0 +1,38 @@
+{
+  "crops": {
+    "desktop": {
+      "scale": 1,
+      "x": 0.72,
+      "y": 0.5
+    },
+    "mobile": {
+      "scale": 1.2,
+      "x": 0.74,
+      "y": 0.5
+    },
+    "tablet": {
+      "scale": 1.06,
+      "x": 0.7,
+      "y": 0.5
+    }
+  },
+  "effects": {
+    "lightSweep": 0.14,
+    "parallax": 0.2,
+    "particles": 7,
+    "reflection": 0.18
+  },
+  "format": "milim-scene",
+  "formatVersion": 1,
+  "id": "dragon-signal-observatory-v1",
+  "layers": [
+    {
+      "depth": 0,
+      "id": "background",
+      "opacity": 1,
+      "url": "./layers/background.webp"
+    }
+  ],
+  "reducedMotion": "./layers/reduced-motion.webp",
+  "version": "1.0.0"
+}

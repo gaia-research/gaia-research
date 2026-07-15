@@ -1,0 +1,3 @@
+Milim v1 release
+
+All staged player code, model data, scene data, and image assets are Gaia Research-owned MVP material. No third-party browser runtime is shipped in this release.

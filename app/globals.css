@@ -241,3 +241,15 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
   .gaia-web-pet.milim-landing,
   .gaia-web-pet.milim-landing .gaia-web-pet__sprite{animation:none!important}
 }
+
+/* Immutable Milim release scene selector. It exposes product-level packs only;
+   rendering details remain inside the promoted player. */
+.milim-scene-picker{position:absolute;left:50%;bottom:-1.35rem;z-index:5;display:flex;gap:1px;transform:translateX(-50%);padding:1px;border:1px solid color-mix(in srgb,var(--blue) 48%,var(--line));background:rgba(5,6,10,.9);box-shadow:0 8px 28px rgba(0,0,0,.58);backdrop-filter:blur(10px)}
+.milim-scene-choice{min-width:76px;min-height:44px;display:flex;align-items:center;justify-content:center;gap:.38rem;border:0;background:transparent;color:#b8bed4;font:600 .625rem/1 var(--mono);letter-spacing:.07em;cursor:pointer;transition:color .18s ease,background .18s ease,box-shadow .18s ease}
+.milim-scene-choice span{color:var(--dim);font-variant-numeric:tabular-nums}
+.milim-scene-choice:hover{color:var(--blue);background:rgba(56,189,248,.11)}
+.milim-scene-choice[aria-pressed="true"]{color:var(--bg);background:var(--pink);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+.milim-scene-choice[aria-pressed="true"] span{color:var(--bg)}
+.milim-scene-choice:focus-visible{position:relative;z-index:1;outline:3px solid var(--blue);outline-offset:2px}
+@media(max-width:700px){.milim-scene-picker{bottom:-1rem}.milim-scene-choice{min-width:68px}}
+@media(prefers-reduced-motion:reduce){.milim-scene-choice{transition:none!important}}
