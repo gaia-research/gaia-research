@@ -5,7 +5,6 @@ import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { CraftCanvas } from "@/components/labs/craft/CraftCanvas";
 import { CraftChromeBar } from "@/components/labs/craft/CraftChromeBar";
 import { CraftFaq } from "@/components/labs/craft/CraftFaq";
-import { MilimDragon } from "@/components/labs/craft/MilimDragon";
 import "./craft.css";
 import "./craft-chrome.css";
 
@@ -20,10 +19,11 @@ export default function InfiniteSkillCraftPage() {
     <>
       <SiteHeader />
       <main id="main" className="lab-page craft-page">
-        {/* Wave 3b: chrome layer — onboarding, about, FAQ, dragon, traffic.
+        {/* Wave 3b: chrome layer — onboarding, about, FAQ, traffic.
             CraftChromeBar (client) owns the OnboardingModal (auto-open on
             first visit + re-openable), AboutModal, and TrafficCounter.
-            CraftFaq and MilimDragon are below the canvas. */}
+            CraftFaq is below the canvas. Milim companion comes from
+            the root layout (auto-detects craft context). */}
 
         <section className="lab-hero craft-hero">
           <div>
@@ -60,9 +60,6 @@ export default function InfiniteSkillCraftPage() {
 
         {/* FAQ education layer: skill vocabulary, canonical vs experimental */}
         <CraftFaq />
-
-        {/* CSS-only Milim dragon mascot pinned bottom-right */}
-        <MilimDragon />
       </main>
       <SiteFooter />
     </>
