@@ -24,7 +24,7 @@ import {
   MILIM_EVENTS,
   type MilimDirection,
 } from "@/lib/milim-bridge";
-import { flyMilim } from "@/lib/milim-transition";
+import { captureHeroTransitionFrame, flyMilim } from "@/lib/milim-transition";
 import {
   pickTooltip,
   tooltipToHtml,
@@ -119,6 +119,10 @@ export function HeroMilimBridge() {
         heroSprite,
         petRoot,
         petSheetUrl: SHEET_URL,
+        heroFrameSrc: captureHeroTransitionFrame(
+          stage,
+          stage.dataset.transitionSrc ?? "",
+        ),
         reducedMotion: false,
         onComplete: () => {
           cancelFlyRef.current = null;

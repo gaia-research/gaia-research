@@ -18,9 +18,10 @@
  *   · onComplete() lets <HeroMilimBridge> emit the bridge events that settle
  *     tooltip/cycle state and drive post-flight reconciliation.
  *
- * TODO(live2d): when the hero becomes a Live2D canvas, prefer
- * `canvas.toDataURL()` as the hero layer source over `data-transition-src`
- * (the static sprite) so the morph starts from the exact rendered frame.
+ * The promoted player canvas contains both scene and character, so the bridge
+ * must not capture it wholesale (that would make the laboratory fly into the
+ * pet). A future player may publish a character-only data URL on the canvas;
+ * until then the handoff deliberately crossfades from the approved fallback.
  */
 
 // Pet spritesheet geometry (mirror of lib/pet-sprite.js).
@@ -35,12 +36,32 @@ export interface FlyOptions {
   heroSprite: HTMLElement;
   petRoot: HTMLElement;
   petSheetUrl: string;
+  heroFrameSrc?: string;
   reducedMotion: boolean;
   onComplete: () => void;
 }
 
+export function captureHeroTransitionFrame(
+  heroStage: Pick<HTMLElement, "querySelector">,
+  fallbackSrc: string,
+): string {
+  const canvas = heroStage.querySelector<HTMLCanvasElement>(
+    '.milim-live-canvas[data-live="shown"]',
+  );
+  if (
+    !canvas ||
+    canvas.dataset.live !== "shown" ||
+    canvas.width < 1 ||
+    canvas.height < 1
+  ) {
+    return fallbackSrc;
+  }
+  const frame = canvas.dataset.transitionFrame;
+  return frame?.startsWith("data:image/") ? frame : fallbackSrc;
+}
+
 export function flyMilim(opts: FlyOptions): () => void {
-  const { direction, heroStage, heroSprite, petRoot, petSheetUrl, reducedMotion, onComplete } = opts;
+  const { direction, heroStage, heroSprite, petRoot, petSheetUrl, heroFrameSrc, reducedMotion, onComplete } = opts;
 
   const toPet = direction === "to-pet";
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -150,11 +171,11 @@ export function flyMilim(opts: FlyOptions): () => void {
     clone.style.transformOrigin = "top left";
     if (!isMobile) clone.style.filter = "blur(3px)";
 
-    // Hero layer: the full-body sprite, bottom-anchored (matches the hero's
-    // object-position: bottom). Source is data-transition-src on the stage.
+    // Hero layer: current player frame when capture succeeded, otherwise the
+    // approved full-body fallback. Both are bottom-anchored like the hero.
     const heroLayer = document.createElement("div");
     heroLayer.className = "fly-layer fly-layer-hero";
-    heroLayer.style.backgroundImage = `url("${heroStage.dataset.transitionSrc ?? ""}")`;
+    heroLayer.style.backgroundImage = `url("${heroFrameSrc ?? heroStage.dataset.transitionSrc ?? ""}")`;
     heroLayer.style.opacity = toPet ? "1" : "0";
     heroLayer.style.transition = "opacity 300ms ease";
 

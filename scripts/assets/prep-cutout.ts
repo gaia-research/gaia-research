@@ -5,7 +5,7 @@ import { resolveRepoPath, getRelativePath, ensureDirExists } from './lib/paths';
 
 async function main() {
   const args = parseArgs();
-  const inputPath = requireOption(args.values, 'input', 'Usage: --input <file> [--out <dir_and_prefix>] [--key <hex>] [--sample-corners] [--tolerance <num>] [--feather <num>] [--force]');
+  const inputPath = requireOption(args.values, 'input', 'Usage: --input <file> [--out <dir_and_prefix>] [--key <hex>] [--sample-corners] [--tolerance <num>] [--feather <num>] [--despill] [--force]');
   
   const absInput = resolveRepoPath(inputPath);
   if (!fs.existsSync(absInput)) {
@@ -89,8 +89,9 @@ async function main() {
 
   const tolerance = args.values.tolerance ? parseInt(args.values.tolerance, 10) : 34;
   const feather = args.values.feather ? parseInt(args.values.feather, 10) : 2;
+  const despill = args.flags.despill || false;
 
-  console.log(`Running chroma-key prep (key: rgb(${keyR},${keyG},${keyB}), tolerance: ${tolerance}, feather: ${feather})...`);
+  console.log(`Running chroma-key prep (key: rgb(${keyR},${keyG},${keyB}), tolerance: ${tolerance}, feather: ${feather}, despill: ${despill})...`);
 
   // Create buffers for cutout (RGBA) and matte mask (Grayscale)
   const cutoutBuffer = Buffer.alloc(width * height * 4);
@@ -117,11 +118,27 @@ async function main() {
         alpha = Math.floor(ratio * 255);
       }
 
+      // Neutralize chroma spill without changing the matte. This is deliberately
+      // conservative: only channels dominated by the selected key component are
+      // reduced, so yellow pins, skin, and pink hair highlights remain intact.
+      let outR = r;
+      let outG = g;
+      let outB = b;
+      if (despill && alpha > 0) {
+        if (keyG > keyR + 64 && keyG > keyB + 64 && g > Math.max(r, b) + 8) {
+          outG = Math.max(r, b);
+        } else if (keyB > keyR + 64 && keyB > keyG + 64 && b > Math.max(r, g) + 8) {
+          outB = Math.max(r, g);
+        } else if (keyR > keyG + 64 && keyR > keyB + 64 && r > Math.max(g, b) + 8) {
+          outR = Math.max(g, b);
+        }
+      }
+
       // 1. Cutout pixel (RGBA)
       const dstIdx = (y * width + x) * 4;
-      cutoutBuffer[dstIdx] = r;
-      cutoutBuffer[dstIdx + 1] = g;
-      cutoutBuffer[dstIdx + 2] = b;
+      cutoutBuffer[dstIdx] = outR;
+      cutoutBuffer[dstIdx + 1] = outG;
+      cutoutBuffer[dstIdx + 2] = outB;
       cutoutBuffer[dstIdx + 3] = alpha;
 
       // 2. Matte mask (Grayscale)
@@ -134,9 +151,9 @@ async function main() {
 
       // Composite cutout on top of checkerboard background
       const normAlpha = alpha / 255;
-      checkerboardBuffer[dstIdx] = Math.round(r * normAlpha + cbBg * (1 - normAlpha));
-      checkerboardBuffer[dstIdx + 1] = Math.round(g * normAlpha + cbBg * (1 - normAlpha));
-      checkerboardBuffer[dstIdx + 2] = Math.round(b * normAlpha + cbBg * (1 - normAlpha));
+      checkerboardBuffer[dstIdx] = Math.round(outR * normAlpha + cbBg * (1 - normAlpha));
+      checkerboardBuffer[dstIdx + 1] = Math.round(outG * normAlpha + cbBg * (1 - normAlpha));
+      checkerboardBuffer[dstIdx + 2] = Math.round(outB * normAlpha + cbBg * (1 - normAlpha));
       checkerboardBuffer[dstIdx + 3] = 255;
     }
   }

@@ -105,6 +105,7 @@ npx tsx scripts/assets/prep-cutout.ts \
   --sample-corners \
   --tolerance 34 \
   --feather 2 \
+  --despill \
   --out assets/workbench/cutouts/milim-avatar
 ```
 
@@ -112,6 +113,7 @@ npx tsx scripts/assets/prep-cutout.ts \
 - `--key "#00ff00"`: Key out a specific color (hex format).
 - `--tolerance`: Cutoff distance for the chroma-key algorithm (0-255).
 - `--feather`: Adds alpha feathering (anti-aliased edges) at the boundary (default 2px).
+- `--despill`: Removes only the dominant chroma channel from surviving edge pixels. Use it for generated isolation plates when the matte is correct but a green/blue/red fringe remains; inspect the checkerboard preview before promotion.
 
 ### Generated Outputs
 1. `*-cutout.png`: Transparent PNG of the subject.
