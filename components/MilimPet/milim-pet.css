@@ -1,84 +1,104 @@
 /* ══════════════════════════════════════════════════════════════════════════════
-   MilimPet — Draggable Milim & Gaia companion
+   MilimPet — Milim & Gaia sprite companion
    milim-pet.css
 
+   Styles for the WebPet sprite widget (lib/pet-sprite.js).
    Uses the global token system from app/globals.css. No new colours or fonts.
-   Token cheatsheet:
-     --bg, --surface, --surface-raised, --ink, --muted, --dim, --line
-     --blue, --pink, --amber
-     --display (Bebas Neue), --brand (Syne), --body (Manrope), --mono (DM Mono)
 
-   Sizing strategy: whole diorama authored at md (110px). A single --mp-scale
-   variable on .milim-scene-inner scales it. sm=0.64, md=1, lg=1.36.
+   Spritesheet: /assets/pets/milim-gaia-spritesheet.webp
+   Cell size: 192 × 208 px  ·  Atlas: 1536 × 2288 px
+   Scales: sm=0.5 (~96px), md=0.65 (~125px, default), lg=0.85 (~163px)
    ══════════════════════════════════════════════════════════════════════════════ */
 
-/* ── Sizing scale per size variant ───────────────────────────────────────── */
-.milim-pet[data-size="sm"] { --mp-scale: 0.64; }
-.milim-pet[data-size="md"] { --mp-scale: 1;    }
-.milim-pet[data-size="lg"] { --mp-scale: 1.36; }
+/* ── Root container (WebPet sets position via CSS custom properties) ─────── */
 
-/* ── Root container ──────────────────────────────────────────────────────── */
-.milim-pet {
+.gaia-web-pet {
   position: fixed;
-  right: clamp(0.75rem, 3vw, 2rem);
-  bottom: clamp(0.75rem, 3vw, 2rem);
+  left: 0;
+  top: 0;
+  width: calc(192px * var(--pet-scale, 0.65));
+  height: calc(208px * var(--pet-scale, 0.65));
+  transform: translate3d(var(--pet-x, calc(100vw - 160px)), var(--pet-y, calc(100vh - 216px)), 0);
   z-index: 200;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.4rem;
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-  /* No transition on position — snap during drag */
 }
 
-.milim-pet:focus-visible {
+.gaia-web-pet:focus-visible {
   outline: 3px solid var(--blue);
-  outline-offset: 6px;
-  border-radius: 8px;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* ── Sprite ──────────────────────────────────────────────────────────────── */
+
+.gaia-web-pet__sprite {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 192px;
+  height: 208px;
+  transform: scale(var(--pet-scale, 0.65));
+  transform-origin: top left;
+  background-image: var(--pet-sheet);
+  background-repeat: no-repeat;
+  background-size: 1536px 2288px;
+  cursor: grab;
+  image-rendering: auto;
+  /* Smooth position transitions between frames when NOT being dragged */
+  transition: background-position 0s;
+}
+
+.gaia-web-pet[data-dragging="true"] .gaia-web-pet__sprite {
+  cursor: grabbing;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
    SPEECH BUBBLE
+   Positioned above the sprite, aligned to the right edge.
    ══════════════════════════════════════════════════════════════════════════════ */
 
-.milim-bubble {
-  position: relative;
-  max-width: min(72vw, 260px);
+.gaia-web-pet__bubble {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.5rem);
+  width: min(260px, calc(100vw - 2rem));
   background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--pink) 8%, var(--surface-raised)),
+    160deg,
+    color-mix(in srgb, var(--pink) 10%, var(--surface-raised)),
     var(--surface)
   );
-  border: 1px solid color-mix(in srgb, var(--pink) 55%, var(--line));
+  border: 1px solid color-mix(in srgb, var(--pink) 60%, var(--line));
   border-radius: 14px;
-  padding: 0.6rem 0.8rem;
+  padding: 0.65rem 0.85rem;
   box-shadow:
-    0 6px 22px rgba(0, 0, 0, 0.5),
-    0 0 18px color-mix(in srgb, var(--pink) 28%, transparent);
-  opacity: 0;
-  transform: translateY(8px) scale(0.96);
-  transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-}
-
-.milim-bubble[data-visible="true"] {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+    0 6px 24px rgba(0, 0, 0, 0.55),
+    0 0 20px color-mix(in srgb, var(--pink) 30%, transparent);
+  animation: mp-bubble-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
   pointer-events: auto;
 }
 
-.milim-bubble-text {
+.gaia-web-pet__bubble[hidden] {
+  display: none;
+}
+
+@keyframes mp-bubble-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)  scale(1);    }
+}
+
+.gaia-web-pet__bubble-text {
   margin: 0;
   font: 500 0.82rem/1.45 var(--body);
   color: var(--ink);
   text-wrap: pretty;
 }
 
+/* Inline link inside a tooltip */
 .milim-bubble-link {
   color: var(--blue);
-  border-bottom: 1px solid color-mix(in srgb, var(--blue) 45%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--blue) 50%, transparent);
   font-weight: 600;
   text-decoration: none;
 }
@@ -88,598 +108,113 @@
   border-bottom-color: var(--pink);
 }
 
-/* Tail pointing down toward the pet */
-.milim-bubble-tail {
+/* Tail pointing down toward the sprite */
+.gaia-web-pet__bubble-tail {
   position: absolute;
   bottom: -7px;
-  right: 26px;
+  right: 20px;
   width: 12px;
   height: 12px;
   background: var(--surface);
-  border-right: 1px solid color-mix(in srgb, var(--pink) 55%, var(--line));
-  border-bottom: 1px solid color-mix(in srgb, var(--pink) 55%, var(--line));
+  border-right: 1px solid color-mix(in srgb, var(--pink) 60%, var(--line));
+  border-bottom: 1px solid color-mix(in srgb, var(--pink) 60%, var(--line));
   transform: rotate(45deg);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   DIORAMA SCENE WRAPPER
+   CONTROLS (size toggle + minimize)
    ══════════════════════════════════════════════════════════════════════════════ */
 
-.milim-scene {
-  width: calc(110px * var(--mp-scale));
-  height: calc(128px * var(--mp-scale));
-  position: relative;
-  cursor: grab;
-  overflow: visible;
-  flex-shrink: 0;
-}
-
-.milim-pet[data-dragging="true"] .milim-scene {
-  cursor: grabbing;
-}
-
-.milim-scene-inner {
+.gaia-web-pet__controls {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 110px;
-  height: 128px;
-  transform: scale(var(--mp-scale));
-  transform-origin: bottom center;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   MILIM CHIBI (left side)
-   All positioned absolutely inside .mp-milim at md scale (110px scene)
-   ══════════════════════════════════════════════════════════════════════════════ */
-
-.mp-milim {
-  position: absolute;
-  left: 2px;
-  bottom: 6px;
-  width: 52px;
-  height: 108px;
-  animation: mp-sway 4.2s ease-in-out infinite;
-}
-
-/* Long flowing pink hair behind everything */
-.mp-milim-hair-back {
-  position: absolute;
-  top: 6px;
-  left: 4px;
-  width: 44px;
-  height: 80px;
-  background: linear-gradient(
-    180deg,
-    var(--pink),
-    color-mix(in srgb, var(--pink) 70%, #7a1e46)
-  );
-  border-radius: 46% 46% 40% 40% / 40% 40% 60% 60%;
-  box-shadow: 0 0 14px color-mix(in srgb, var(--pink) 45%, transparent);
-}
-
-/* Oversized black hoodie */
-.mp-milim-body {
-  position: absolute;
-  bottom: 22px;
-  left: 6px;
-  width: 40px;
-  height: 46px;
-  background: linear-gradient(180deg, #16171f, #0a0b10);
-  border: 1px solid color-mix(in srgb, var(--pink) 24%, var(--line));
-  border-radius: 40% 40% 30% 30% / 46% 46% 30% 30%;
-}
-
-/* White dragon-hint patch on the hoodie (little Gaia print) */
-.mp-milim-logo {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 16px;
-  height: 14px;
-  background: #f4f5fb;
-  border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
-  box-shadow: 0 0 4px color-mix(in srgb, var(--blue) 40%, transparent);
-}
-
-.mp-milim-logo::after {
-  content: "";
-  position: absolute;
-  top: -3px;
-  right: -2px;
-  width: 6px;
-  height: 6px;
-  background: #f4f5fb;
-  border-radius: 50%;
-}
-
-/* Legs: thigh-high socks + chunky sneakers */
-.mp-milim-legs {
-  position: absolute;
-  bottom: 0;
-  left: 12px;
-  width: 30px;
-  height: 26px;
-}
-
-.mp-leg-l,
-.mp-leg-r {
-  position: absolute;
-  bottom: 0;
-  width: 11px;
-  height: 22px;
-  background: linear-gradient(180deg, #0d0e14, #08090d);
-  border-radius: 5px 5px 3px 3px;
-}
-
-.mp-leg-l { left: 0; }
-.mp-leg-r { right: 0; }
-
-/* Pink stripes on thigh-high socks */
-.mp-leg-l::before,
-.mp-leg-r::before {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 1px;
-  right: 1px;
-  height: 2px;
-  background: var(--pink);
-  box-shadow: 0 4px 0 color-mix(in srgb, var(--pink) 80%, transparent);
-}
-
-/* Chunky sneaker */
-.mp-leg-l::after,
-.mp-leg-r::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: -2px;
-  width: 15px;
-  height: 8px;
-  background: #f4f5fb;
-  border-radius: 4px 6px 4px 4px;
-  border-bottom: 3px solid var(--pink);
-}
-
-/* Head */
-.mp-milim-head {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 36px;
-  height: 34px;
-  background: #ffe0d0;
-  border-radius: 50% 50% 46% 46% / 54% 54% 46% 46%;
-  z-index: 2;
-}
-
-/* Blue eyes */
-.mp-eye {
-  position: absolute;
-  top: 15px;
-  width: 6px;
-  height: 8px;
-  background: var(--blue);
-  border-radius: 50%;
-  box-shadow: 0 0 4px color-mix(in srgb, var(--blue) 60%, transparent);
-  animation: mp-blink 5s ease-in-out infinite;
-}
-
-.mp-eye-l { left: 9px; }
-.mp-eye-r { right: 9px; }
-
-/* Blush circles */
-.mp-blush {
-  position: absolute;
-  top: 22px;
-  width: 6px;
-  height: 3px;
-  background: color-mix(in srgb, var(--pink) 60%, transparent);
-  border-radius: 50%;
-}
-
-.mp-blush-l { left: 5px; }
-.mp-blush-r { right: 5px; }
-
-/* Yellow star hairpins */
-.mp-star {
-  position: absolute;
-  top: -2px;
-  width: 10px;
-  height: 10px;
-  background: var(--amber);
-  clip-path: polygon(
-    50% 0%, 61% 35%, 98% 35%, 68% 57%,
-    79% 91%, 50% 70%, 21% 91%, 32% 57%,
-    2% 35%, 39% 35%
-  );
-  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--amber) 70%, transparent));
-  z-index: 3;
-}
-
-.mp-star-l { left: 4px;  transform: rotate(-12deg); }
-.mp-star-r { right: 4px; transform: rotate(12deg);  }
-
-/* Front hair locks framing the face */
-.mp-milim-hair-l,
-.mp-milim-hair-r {
-  position: absolute;
-  top: 10px;
-  width: 12px;
-  height: 60px;
-  background: var(--pink);
-  border-radius: 40% 40% 60% 60%;
-  z-index: 1;
-}
-
-.mp-milim-hair-l { left: 2px;  transform: rotate(4deg);  }
-.mp-milim-hair-r { right: 2px; transform: rotate(-4deg); }
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   GAIA DRAGON (right side)
-   Ported from .craft-dragon geometry — recoloured white (#f4f5fb + blue tint)
-   so Milim (pink) and Gaia (white) read as distinct characters.
-   ══════════════════════════════════════════════════════════════════════════════ */
-
-.mp-dragon {
-  position: absolute;
-  right: 0;
-  bottom: 30px;
-  width: 48px;
-  height: 58px;
-}
-
-.mp-dragon-body {
-  position: relative;
-  width: 48px;
-  height: 58px;
-  animation: mp-float 3.8s ease-in-out infinite;
-}
-
-.mp-dragon-torso {
-  position: absolute;
-  bottom: 6px;
-  left: 8px;
-  width: 32px;
-  height: 34px;
-  background: #f4f5fb;
-  border-radius: 50% 50% 44% 44% / 60% 60% 40% 40%;
-  box-shadow:
-    0 0 12px color-mix(in srgb, var(--blue) 30%, transparent),
-    inset 0 -5px 9px color-mix(in srgb, var(--blue) 22%, #cbd5e1);
-}
-
-.mp-dragon-torso::after {
-  content: "";
-  position: absolute;
-  bottom: 4px;
-  left: 6px;
-  width: 20px;
-  height: 13px;
-  background: color-mix(in srgb, var(--blue) 12%, #ffffff);
-  border-radius: 50%;
-}
-
-.mp-dragon-head {
-  position: absolute;
-  top: 1px;
-  left: 11px;
-  width: 27px;
-  height: 25px;
-  background: #f4f5fb;
-  border-radius: 50% 50% 38% 38% / 55% 55% 45% 45%;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--blue) 22%, transparent);
-}
-
-.mp-dragon-head::before,
-.mp-dragon-head::after {
-  content: "";
-  position: absolute;
-  top: 7px;
-  width: 5px;
-  height: 5px;
-  background: var(--bg);
-  border-radius: 50%;
-  animation: mp-blink 4.6s ease-in-out infinite;
-}
-
-.mp-dragon-head::before { left: 5px; }
-.mp-dragon-head::after  { right: 5px; }
-
-.mp-horn-l,
-.mp-horn-r {
-  position: absolute;
-  top: -4px;
-  width: 4px;
-  height: 9px;
-  background: color-mix(in srgb, var(--blue) 40%, #e2e8f0);
-  border-radius: 2px 2px 1px 1px;
-}
-
-.mp-horn-l { left: 5px;  transform: rotate(-16deg); }
-.mp-horn-r { right: 5px; transform: rotate(16deg);  }
-
-.mp-wing-l,
-.mp-wing-r {
-  position: absolute;
-  bottom: 16px;
-  width: 15px;
-  height: 20px;
-  background: color-mix(in srgb, var(--blue) 30%, #ffffff);
-  animation: mp-wing-beat 3.8s ease-in-out infinite;
-}
-
-.mp-wing-l {
-  left: -3px;
-  transform-origin: right center;
-  clip-path: polygon(100% 100%, 0 0, 0 100%);
-}
-
-.mp-wing-r {
-  right: -3px;
-  transform-origin: left center;
-  clip-path: polygon(0 100%, 100% 0, 100% 100%);
-}
-
-.mp-dragon-tail {
-  position: absolute;
-  bottom: 0;
-  right: 3px;
-  width: 14px;
-  height: 14px;
-  border: 3px solid #f4f5fb;
-  border-top: none;
-  border-left: none;
-  border-radius: 0 0 8px 0;
-  transform: rotate(10deg);
-  box-shadow: 2px 2px 6px color-mix(in srgb, var(--blue) 25%, transparent);
-}
-
-/* ── Spark ───────────────────────────────────────────────────────────────── */
-
-.mp-dragon-spark {
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.85rem;
+  top: -0.4rem;
+  right: -0.4rem;
+  display: flex;
+  gap: 0.3rem;
   opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
   pointer-events: none;
 }
 
-.mp-dragon-spark[data-show="true"] {
-  animation: mp-spark 0.85s ease-out both;
-}
-
-.milim-pet[data-celebrate="true"] .mp-dragon-spark {
-  font-size: 1.15rem;
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--amber) 70%, transparent));
-}
-
-/* ── Ground shadow ───────────────────────────────────────────────────────── */
-
-.mp-shadow {
-  position: absolute;
-  bottom: 2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 84px;
-  height: 12px;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5), transparent 72%);
-  filter: blur(2px);
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   REACTION / CELEBRATE / BORED STATES
-   ══════════════════════════════════════════════════════════════════════════════ */
-
-/* Excited reaction */
-.milim-pet[data-reacting="true"] .mp-dragon-body {
-  animation: mp-float 3.8s ease-in-out infinite, mp-react 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.milim-pet[data-reacting="true"] .mp-milim {
-  animation: mp-hop 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Celebrate (canonical unlock) */
-.milim-pet[data-celebrate="true"] .mp-dragon-body {
-  animation: mp-float 3.8s ease-in-out infinite, mp-react-big 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.milim-pet[data-celebrate="true"] .mp-milim {
-  animation: mp-cheer 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.milim-pet[data-celebrate="true"] .mp-dragon-torso {
-  box-shadow:
-    0 0 20px color-mix(in srgb, var(--amber) 55%, transparent),
-    inset 0 -5px 9px color-mix(in srgb, var(--blue) 22%, #cbd5e1);
-  transition: box-shadow 0.3s ease;
-}
-
-/* Bored: droopy slow sway */
-.milim-pet[data-bored="true"] .mp-milim {
-  animation: mp-droop 4.5s ease-in-out infinite;
-}
-.milim-pet[data-bored="true"] .mp-dragon-body {
-  animation-duration: 5.5s;
-}
-
-/* Dragging: pause idle animations, grabbing cursor */
-.milim-pet[data-dragging="true"] .mp-milim,
-.milim-pet[data-dragging="true"] .mp-dragon-body {
-  animation-play-state: paused;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   CONTROLS
-   ══════════════════════════════════════════════════════════════════════════════ */
-
-.milim-pet-controls {
-  display: flex;
-  gap: 0.35rem;
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: opacity 0.18s ease, transform 0.18s ease;
-}
-
-.milim-pet:hover .milim-pet-controls,
-.milim-pet:focus-within .milim-pet-controls {
+.gaia-web-pet:hover .gaia-web-pet__controls,
+.gaia-web-pet:focus-within .gaia-web-pet__controls {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
 }
 
-.milim-pet-btn {
-  width: 30px;
-  height: 30px;
+.gaia-web-pet__size-btn,
+.gaia-web-pet__toggle {
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--surface-raised);
   border: 1px solid var(--line);
+  border-radius: 999px;
   color: var(--dim);
-  font: 0.8rem var(--mono);
+  font: 0.75rem var(--mono);
   cursor: pointer;
-  border-radius: 7px;
   transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-.milim-pet-btn:hover {
+.gaia-web-pet__size-btn:hover,
+.gaia-web-pet__toggle:hover {
   border-color: var(--pink);
   color: var(--pink);
-  background: color-mix(in srgb, var(--pink) 10%, var(--surface-raised));
+  background: color-mix(in srgb, var(--pink) 12%, var(--surface-raised));
 }
 
-.milim-pet-btn:focus-visible {
+.gaia-web-pet__size-btn:focus-visible,
+.gaia-web-pet__toggle:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 2px;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   COLLAPSED PILL
+   MINIMIZED STATE
+   Shows a tiny pink pill with just the toggle button
    ══════════════════════════════════════════════════════════════════════════════ */
 
-.milim-pet-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.4rem 0.7rem;
-  background: var(--surface-raised);
-  border: 1px solid color-mix(in srgb, var(--pink) 45%, var(--line));
+.gaia-web-pet[data-minimized="true"] {
+  width: auto;
+  height: auto;
+}
+
+.gaia-web-pet[data-minimized="true"] .gaia-web-pet__sprite,
+.gaia-web-pet[data-minimized="true"] .gaia-web-pet__bubble {
+  display: none;
+}
+
+.gaia-web-pet[data-minimized="true"] .gaia-web-pet__controls {
+  position: static;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.gaia-web-pet[data-minimized="true"] .gaia-web-pet__size-btn {
+  display: none;
+}
+
+.gaia-web-pet[data-minimized="true"] .gaia-web-pet__toggle {
+  width: auto;
+  padding: 0.35rem 0.75rem;
   border-radius: 999px;
-  color: var(--ink);
+  border-color: color-mix(in srgb, var(--pink) 55%, var(--line));
   font: 700 0.72rem/1 var(--brand);
   letter-spacing: 0.08em;
-  cursor: pointer;
+  gap: 0.4rem;
+  color: var(--ink);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  transition: border-color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
 }
 
-.milim-pet-pill:hover {
-  border-color: var(--pink);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 12px color-mix(in srgb, var(--pink) 25%, transparent);
-}
-
-.milim-pet-pill:focus-visible {
-  outline: 3px solid var(--blue);
-  outline-offset: 3px;
-}
-
-.milim-pet-pill-dragon {
-  font-size: 1.05rem;
-  animation: mp-pill-bob 3s ease-in-out infinite;
-}
-
-.milim-pet-pill-label {
-  /* inherits .milim-pet-pill font */
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   KEYFRAMES
-   ══════════════════════════════════════════════════════════════════════════════ */
-
-@keyframes mp-float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-6px); }
-}
-
-@keyframes mp-blink {
-  0%, 92%, 100% { transform: scaleY(1); }
-  95%           { transform: scaleY(0.12); }
-}
-
-@keyframes mp-wing-beat {
-  0%, 100% { transform: scaleX(1); }
-  40%      { transform: scaleX(1.22); }
-  60%      { transform: scaleX(0.88); }
-}
-
-@keyframes mp-sway {
-  0%, 100% { transform: rotate(-1.5deg) translateY(0); }
-  50%      { transform: rotate(1.5deg) translateY(-2px); }
-}
-
-@keyframes mp-spark {
-  0%   { opacity: 1; transform: translateX(-50%) translateY(0) scale(0.5); }
-  60%  { opacity: 1; transform: translateX(-50%) translateY(-12px) scale(1.2); }
-  100% { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.8); }
-}
-
-@keyframes mp-react {
-  0%   { transform: translateY(0) scale(1, 1); }
-  35%  { transform: translateY(-8px) scale(0.94, 1.08); }
-  100% { transform: translateY(0) scale(1, 1); }
-}
-
-@keyframes mp-react-big {
-  0%   { transform: translateY(0) scale(1, 1); }
-  30%  { transform: translateY(-14px) scale(0.9, 1.12); }
-  60%  { transform: translateY(-3px) scale(1.05, 0.96); }
-  100% { transform: translateY(0) scale(1, 1); }
-}
-
-@keyframes mp-hop {
-  0%   { transform: translateY(0); }
-  40%  { transform: translateY(-7px); }
-  100% { transform: translateY(0); }
-}
-
-@keyframes mp-cheer {
-  0%   { transform: translateY(0) rotate(0); }
-  25%  { transform: translateY(-9px) rotate(-6deg); }
-  55%  { transform: translateY(-3px) rotate(6deg); }
-  100% { transform: translateY(0) rotate(0); }
-}
-
-@keyframes mp-droop {
-  0%, 100% { transform: rotate(-2deg) translateY(1px); }
-  50%      { transform: rotate(2deg) translateY(3px); }
-}
-
-@keyframes mp-pill-bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-2px); }
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   RESPONSIVE
-   ══════════════════════════════════════════════════════════════════════════════ */
-
-@media (max-width: 600px) {
-  .milim-pet {
-    right: 0.6rem;
-    bottom: 0.6rem;
-    gap: 0.3rem;
-  }
-
-  .milim-bubble {
-    max-width: min(78vw, 220px);
-  }
-
-  .milim-bubble-text {
-    font-size: 0.8rem;
-  }
+.gaia-web-pet[data-minimized="true"] .gaia-web-pet__toggle::before {
+  content: "🐉";
+  font-size: 1rem;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -687,40 +222,26 @@
    ══════════════════════════════════════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: reduce) {
-  .mp-milim,
-  .mp-dragon-body,
-  .mp-wing-l,
-  .mp-wing-r,
-  .mp-dragon-head::before,
-  .mp-dragon-head::after,
-  .mp-eye,
-  .milim-pet-pill-dragon {
-    animation: none !important;
+  .gaia-web-pet__sprite {
+    transition: none;
   }
 
-  .milim-pet[data-reacting="true"] .mp-dragon-body,
-  .milim-pet[data-reacting="true"] .mp-milim,
-  .milim-pet[data-celebrate="true"] .mp-dragon-body,
-  .milim-pet[data-celebrate="true"] .mp-milim {
-    animation: none !important;
-    transform: none !important;
+  .gaia-web-pet__bubble {
+    animation: none;
   }
 
-  .mp-dragon-spark[data-show="true"] {
-    animation: none !important;
-    opacity: 0;
+  .gaia-web-pet__controls {
+    transition: none;
   }
+}
 
-  .milim-bubble {
-    transition: opacity 0.2s linear !important;
-    transform: none !important;
-  }
+/* ══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════════════════════ */
 
-  .milim-bubble[data-visible="true"] {
-    transform: none !important;
-  }
-
-  .milim-pet-controls {
-    transition: none !important;
+@media (max-width: 600px) {
+  .gaia-web-pet__bubble {
+    width: min(220px, calc(100vw - 1.5rem));
+    font-size: 0.8rem;
   }
 }

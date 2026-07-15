@@ -149,6 +149,33 @@ export const TOPIC_REACTIONS: Record<string, Tooltip[]> = {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
+// ─── HTML rendering ─────────────────────────────────────────────────────────
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/**
+ * Render a Tooltip to a safe HTML string for use with innerHTML.
+ * All text is escaped; only the inline link (if present) is rendered as an <a>.
+ */
+export function tooltipToHtml(t: Tooltip): string {
+  if (!t.link) return escapeHtml(t.text);
+  const { text, link } = t;
+  const i = text.indexOf(link.text);
+  if (i === -1) return escapeHtml(text);
+  const before = escapeHtml(text.slice(0, i));
+  const linkText = escapeHtml(link.text);
+  const after = escapeHtml(text.slice(i + link.text.length));
+  const external = link.href.startsWith("http");
+  const attrs = external ? ` target="_blank" rel="noreferrer"` : "";
+  return `${before}<a class="milim-bubble-link" href="${link.href}"${attrs}>${linkText}</a>${after}`;
+}
+
 /** Pick a random tooltip from a pool, avoiding an immediate repeat of `avoid` when possible. */
 export function pickTooltip(pool: Tooltip[], avoid?: Tooltip | null): Tooltip {
   if (pool.length === 0) return { text: "..." };
