@@ -56,6 +56,8 @@ export function ContextDietAnalyzer() {
     setAnalyzed(capped ? text.slice(0, MAX_ANALYZE_CHARS) : text);
     setSubmitState("idle");
     setSubmitError("");
+    // Milim companion reacts to a fresh analysis.
+    window.dispatchEvent(new CustomEvent("milim:page-event", { detail: { topic: "context-diet:analyzed" } }));
     // Move focus to the results so keyboard/AT users land on the new output.
     requestAnimationFrame(() => resultsRef.current?.focus());
   };

@@ -1,0 +1,331 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+   MilimPet — Milim & Gaia sprite companion
+   milim-pet.css
+
+   Styles for the WebPet sprite widget (lib/pet-sprite.js).
+   Uses the global token system from app/globals.css. No new colours or fonts.
+
+   Spritesheet: /assets/pets/milim-gaia-spritesheet.webp
+   Cell size: 192 × 208 px  ·  Atlas: 1536 × 2288 px
+   Scales: sm=0.5 (~96px), md=0.65 (~125px, default), lg=0.85 (~163px)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Root container (WebPet sets position via CSS custom properties) ─────── */
+
+.gaia-web-pet {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: calc(192px * var(--pet-scale, 0.65));
+  height: calc(208px * var(--pet-scale, 0.65));
+  transform: translate3d(var(--pet-x, calc(100vw - 160px)), var(--pet-y, calc(100vh - 216px)), 0);
+  z-index: 200;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: opacity 300ms ease;
+}
+
+/* One-Milim-at-a-time: hidden while the hero owns the Milim (home page). */
+.gaia-web-pet[data-hero-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gaia-web-pet:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* ── Sprite ──────────────────────────────────────────────────────────────── */
+
+.gaia-web-pet__sprite {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 192px;
+  height: 208px;
+  transform: scale(var(--pet-scale, 0.65));
+  transform-origin: top left;
+  background-image: var(--pet-sheet);
+  background-repeat: no-repeat;
+  background-size: 1536px 2288px;
+  cursor: grab;
+  image-rendering: auto;
+  /* Smooth position transitions between frames when NOT being dragged */
+  transition: background-position 0s;
+}
+
+.gaia-web-pet[data-dragging="true"] .gaia-web-pet__sprite {
+  cursor: grabbing;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   SPEECH BUBBLE
+   Positioned above the sprite, aligned to the right edge.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.gaia-web-pet__bubble {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.5rem);
+  width: min(260px, calc(100vw - 2rem));
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--pink) 10%, var(--surface-raised)),
+    var(--surface)
+  );
+  border: 1px solid color-mix(in srgb, var(--pink) 60%, var(--line));
+  border-radius: 14px;
+  padding: 0.65rem 0.85rem;
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.55),
+    0 0 20px color-mix(in srgb, var(--pink) 30%, transparent);
+  animation: mp-bubble-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  pointer-events: auto;
+}
+
+.gaia-web-pet__bubble[hidden] {
+  display: none;
+}
+
+@keyframes mp-bubble-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)  scale(1);    }
+}
+
+.gaia-web-pet__bubble-text {
+  margin: 0;
+  font: 500 0.82rem/1.45 var(--body);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* Inline link inside a tooltip */
+.milim-bubble-link {
+  color: var(--blue);
+  border-bottom: 1px solid color-mix(in srgb, var(--blue) 50%, transparent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.milim-bubble-link:hover {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+}
+
+/* Tail pointing down toward the sprite (default: bubble above) */
+.gaia-web-pet__bubble-tail {
+  position: absolute;
+  bottom: -7px;
+  right: 20px;
+  width: 12px;
+  height: 12px;
+  background: var(--surface);
+  border-right: 1px solid color-mix(in srgb, var(--pink) 60%, var(--line));
+  border-bottom: 1px solid color-mix(in srgb, var(--pink) 60%, var(--line));
+  transform: rotate(45deg);
+}
+
+/* Tail pointing UP when bubble flips below the sprite */
+.gaia-web-pet__bubble[data-flip-v="true"] .gaia-web-pet__bubble-tail {
+  bottom: auto;
+  top: -7px;
+  border-right: none;
+  border-bottom: none;
+  border-left: 1px solid color-mix(in srgb, var(--pink) 60%, var(--line));
+  border-top: 1px solid color-mix(in srgb, var(--pink) 60%, var(--line));
+  transform: rotate(45deg);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RESIZE HANDLE (bottom-right corner drag)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.gaia-web-pet__resize {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  cursor: se-resize;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  /* Diagonal grip lines */
+  background-image:
+    linear-gradient(135deg,
+      transparent 30%,
+      color-mix(in srgb, var(--pink) 70%, transparent) 30%,
+      color-mix(in srgb, var(--pink) 70%, transparent) 40%,
+      transparent 40%,
+      transparent 60%,
+      color-mix(in srgb, var(--pink) 50%, transparent) 60%,
+      color-mix(in srgb, var(--pink) 50%, transparent) 70%,
+      transparent 70%,
+      transparent 85%,
+      color-mix(in srgb, var(--pink) 35%, transparent) 85%
+    );
+}
+
+.gaia-web-pet:hover .gaia-web-pet__resize,
+.gaia-web-pet:focus-within .gaia-web-pet__resize {
+  opacity: 1;
+}
+
+.gaia-web-pet[data-resizing="true"] .gaia-web-pet__resize {
+  opacity: 1;
+  cursor: se-resize;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   MINI SPRITE (shown when minimized — tiny idle Milim)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.gaia-web-pet__mini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 56px;
+  overflow: hidden;
+  background: var(--surface-raised);
+  border: 1px solid color-mix(in srgb, var(--pink) 55%, var(--line));
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.45),
+    0 0 12px color-mix(in srgb, var(--pink) 20%, transparent);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+  padding: 0;
+}
+
+.gaia-web-pet__mini:hover {
+  border-color: var(--pink);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.55),
+    0 0 16px color-mix(in srgb, var(--pink) 35%, transparent);
+  transform: translateY(-1px);
+}
+
+.gaia-web-pet__mini:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.gaia-web-pet__mini-sprite {
+  width: 192px;
+  height: 208px;
+  /* Show idle frame 0,0 — scale to fit the 52×56 pill exactly */
+  background-image: var(--pet-sheet);
+  background-repeat: no-repeat;
+  background-size: 1536px 2288px;
+  background-position: 0px 0px;
+  transform: scale(0.27);
+  transform-origin: top left;
+  image-rendering: auto;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   CONTROLS (minimize button only)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.gaia-web-pet__controls {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.4rem;
+  display: flex;
+  gap: 0.3rem;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+}
+
+.gaia-web-pet:hover .gaia-web-pet__controls,
+.gaia-web-pet:focus-within .gaia-web-pet__controls {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.gaia-web-pet__toggle {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--dim);
+  font: 1rem/1 var(--mono);
+  cursor: pointer;
+  transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.gaia-web-pet__toggle:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+  background: color-mix(in srgb, var(--pink) 12%, var(--surface-raised));
+}
+
+.gaia-web-pet__toggle:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   MINIMIZED STATE
+   Full sprite hidden; mini pill (tiny Milim sprite) shown instead.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.gaia-web-pet[data-minimized="true"] {
+  /* Auto-size to just wrap the mini pill */
+  width: auto;
+  height: auto;
+}
+
+/* Hide main sprite, bubble, controls, and resize handle when minimized */
+.gaia-web-pet[data-minimized="true"] .gaia-web-pet__sprite,
+.gaia-web-pet[data-minimized="true"] .gaia-web-pet__bubble,
+.gaia-web-pet[data-minimized="true"] .gaia-web-pet__controls,
+.gaia-web-pet[data-minimized="true"] .gaia-web-pet__resize {
+  display: none;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .gaia-web-pet,
+  .gaia-web-pet[data-hero-hidden="true"] {
+    transition: opacity 200ms linear;
+  }
+
+  .gaia-web-pet__sprite {
+    transition: none;
+  }
+
+  .gaia-web-pet__bubble {
+    animation: none;
+  }
+
+  .gaia-web-pet__controls {
+    transition: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 600px) {
+  .gaia-web-pet__bubble {
+    width: min(220px, calc(100vw - 1.5rem));
+    font-size: 0.8rem;
+  }
+}
