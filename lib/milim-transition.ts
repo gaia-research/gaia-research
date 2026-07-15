@@ -73,19 +73,25 @@ export function flyMilim(opts: FlyOptions): () => void {
     return () => {};
   }
 
-  // ── Freeze the source, then measure on the next frame ─────────────────────
-  hideSource();
-
+  // ── Clone state ────────────────────────────────────────────────────────────
   let clone: HTMLDivElement | null = null;
   let done = false;
   let fallbackTimer = 0;
   let crossfadeTimer = 0;
   let rafId = 0;
+  // to-hero scroll-settle tracking
+  let scrollSettleTimer = 0;
+  let scrollListener: (() => void) | null = null;
 
   const cleanupClone = () => {
     if (crossfadeTimer) window.clearTimeout(crossfadeTimer);
     if (fallbackTimer) window.clearTimeout(fallbackTimer);
     if (rafId) cancelAnimationFrame(rafId);
+    clearTimeout(scrollSettleTimer);
+    if (scrollListener) {
+      window.removeEventListener("scroll", scrollListener);
+      scrollListener = null;
+    }
     if (clone) {
       clone.removeEventListener("transitionend", onEnd);
       clone.remove();
@@ -107,7 +113,11 @@ export function flyMilim(opts: FlyOptions): () => void {
     finish();
   }
 
-  rafId = requestAnimationFrame(() => {
+  // ── startFlight: hide source + measure on next frame ──────────────────────
+  const startFlight = () => {
+    if (done) return;
+    hideSource();
+    rafId = requestAnimationFrame(() => {
     rafId = 0;
     if (done) return;
 
@@ -188,7 +198,33 @@ export function flyMilim(opts: FlyOptions): () => void {
     // Safety net: some engines drop transitionend if the element is GC'd or
     // the tab was backgrounded mid-flight.
     fallbackTimer = window.setTimeout(finish, dur + 120);
-  });
+    }); // end requestAnimationFrame
+  }; // end startFlight
+
+  // ── Kick off ───────────────────────────────────────────────────────────────
+  if (toPet) {
+    // Hero is leaving — scroll has stopped (user just scrolled down past it).
+    // Measure immediately.
+    startFlight();
+  } else {
+    // to-hero: user is mid-scroll upward. The hero rect is still moving as
+    // the page scrolls; measuring now would target a position too high.
+    // Wait for 100ms of scroll silence before hiding the source + measuring.
+    const SETTLE_MS = 100;
+    const resetTimer = () => {
+      clearTimeout(scrollSettleTimer);
+      scrollSettleTimer = window.setTimeout(() => {
+        if (scrollListener) {
+          window.removeEventListener("scroll", scrollListener);
+          scrollListener = null;
+        }
+        startFlight();
+      }, SETTLE_MS);
+    };
+    scrollListener = resetTimer;
+    window.addEventListener("scroll", scrollListener, { passive: true });
+    resetTimer(); // also start immediately in case scroll is already stopped
+  }
 
   // cancel(): reconcile / unmount path — tear down the clone and snap to the
   // correct end state without a second onComplete.
