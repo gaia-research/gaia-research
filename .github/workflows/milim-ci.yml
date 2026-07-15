@@ -1,0 +1,94 @@
+name: milim-ci
+
+on:
+  pull_request:
+    paths:
+      - 'components/MilimLive.tsx'
+      - 'components/HeroMilimBridge.tsx'
+      - 'components/MilimPet/**'
+      - 'lib/milim-*.ts'
+      - 'scripts/milim-production-smoke.mjs'
+      - 'scripts/promote-milim-release.mjs'
+      - 'tests/milim-promotion.test.mjs'
+      - 'public/milim/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'next.config.mjs'
+      - 'tsconfig.json'
+      - 'vitest.config.ts'
+      - '.github/workflows/milim-ci.yml'
+  push:
+    paths:
+      - 'components/MilimLive.tsx'
+      - 'components/HeroMilimBridge.tsx'
+      - 'components/MilimPet/**'
+      - 'lib/milim-*.ts'
+      - 'scripts/milim-production-smoke.mjs'
+      - 'scripts/promote-milim-release.mjs'
+      - 'tests/milim-promotion.test.mjs'
+      - 'public/milim/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'next.config.mjs'
+      - 'tsconfig.json'
+      - 'vitest.config.ts'
+      - '.github/workflows/milim-ci.yml'
+  workflow_dispatch:
+
+jobs:
+  milim:
+    name: Milim production gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Verify promotion seam
+        run: npm run test:milim-promotion
+
+      - name: Build Cloudflare artifact
+        run: npm run build
+
+      - name: Build Next production server
+        run: npm run build:next
+
+      - name: Install CI-only Playwright 1.61.1
+        run: npm install --no-save --no-package-lock --ignore-scripts playwright@1.61.1
+
+      - name: Install Chromium
+        run: ./node_modules/.bin/playwright install --with-deps chromium
+
+      - name: Start Next production server
+        run: |
+          ./node_modules/.bin/next start -p 3000 > /tmp/milim-next.log 2>&1 &
+          echo $! > /tmp/milim-next.pid
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/milim-next.log
+          exit 1
+
+      - name: Smoke production Milim delivery
+        env:
+          PW_PATH: ${{ github.workspace }}/node_modules/playwright
+        run: node scripts/milim-production-smoke.mjs --base-url http://127.0.0.1:3000
+
+      - name: Stop Next production server
+        if: always()
+        run: |
+          if [ -f /tmp/milim-next.pid ]; then kill "$(cat /tmp/milim-next.pid)" || true; fi

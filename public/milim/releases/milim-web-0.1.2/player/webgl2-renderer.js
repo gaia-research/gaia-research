@@ -326,10 +326,20 @@ export function createWebGL2Renderer(canvas, options = {}) {
       frame.appearance.pose,
       `pose-${frame.appearance.pose}`,
       `milim-pose-${frame.appearance.pose}`,
-      frame.expressionTexture,
     ];
     const layers = [...new Set(candidates.map((id) => byId.get(id)).filter(Boolean))]
       .map((url) => ({ url, opacity: 1 }));
+    const expressionLayers = Array.isArray(frame.expressionLayers)
+      ? frame.expressionLayers
+      : [{ texture: frame.expressionTexture, opacity: 1 }];
+    for (const expression of expressionLayers) {
+      const url = byId.get(expression.texture);
+      if (!url || expression.opacity <= 0) continue;
+      const opacity = clamp(expression.opacity, 0, 1);
+      const existing = layers.find((layer) => layer.url === url);
+      if (existing) existing.opacity = Math.max(existing.opacity, opacity);
+      else layers.push({ url, opacity });
+    }
     const motionURL = byId.get(frame.motionTexture);
     if (motionURL) layers.push({ url: motionURL, opacity: frame.motionOpacity });
     return layers;

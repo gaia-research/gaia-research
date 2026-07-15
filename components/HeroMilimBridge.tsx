@@ -25,6 +25,7 @@ import {
   type MilimDirection,
 } from "@/lib/milim-bridge";
 import { captureHeroTransitionFrame, flyMilim } from "@/lib/milim-transition";
+import { isHeroVisibleAtThreshold } from "@/lib/milim-live-runtime";
 import {
   pickTooltip,
   tooltipToHtml,
@@ -135,7 +136,7 @@ export function HeroMilimBridge() {
     const io = new IntersectionObserver(
       (entries) => {
         const entry = entries[entries.length - 1];
-        const heroVisible = entry.isIntersecting;
+        const heroVisible = isHeroVisibleAtThreshold(entry, IO_THRESHOLD);
         latestHeroVisible.current = heroVisible;
 
         // First fire: adopt the state instantly, no animation.

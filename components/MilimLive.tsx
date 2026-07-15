@@ -16,8 +16,15 @@ import {
   type MilimController,
   type MilimExpression,
 } from "@/lib/milim-player-loader";
+import {
+  createCoalescedMilimPointerDriver,
+  reconcileMilimSceneStatus,
+  resetMilimSceneState,
+  requestMilimScene,
+  type MilimSceneState,
+} from "@/lib/milim-live-runtime";
 
-const DEFAULT_RELEASE = "/milim/releases/milim-web-0.1.1/release.json";
+const DEFAULT_RELEASE = "/milim/releases/milim-web-0.1.2/release.json";
 const SCENES = [
   { id: "cyber-slime-lab-v1", short: "LAB", label: "Cyber-Slime Laboratory" },
   { id: "slime-reactor-halo-v1", short: "HALO", label: "Slime Reactor Halo" },
@@ -29,6 +36,12 @@ const EXPRESSIONS: MilimExpression[] = [
   "starry-awe",
   "chaos-gremlin",
 ];
+type MilimSceneId = (typeof SCENES)[number]["id"];
+const INITIAL_SCENE_STATE: MilimSceneState<MilimSceneId> = {
+  activeScene: "cyber-slime-lab-v1",
+  pendingScene: null,
+  sceneError: null,
+};
 
 export interface MilimLiveProps {
   /** Static sprite shown as the fallback / reduced-motion / pre-hydration surface. */
@@ -62,9 +75,10 @@ export default function MilimLive({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stageRef = useRef<MilimController | null>(null);
   const [live, setLive] = useState(false);
-  const [activeScene, setActiveScene] = useState<(typeof SCENES)[number]["id"]>(
-    "cyber-slime-lab-v1",
+  const [reducedMotion, setReducedMotion] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
+  const [sceneState, setSceneState] = useState<MilimSceneState<MilimSceneId>>(INITIAL_SCENE_STATE);
 
   // ── Hero tooltip layer (home page only) ──────────────────────────────────
   // heroActive tracks whether *this* Milim is the one on stage. Starts false;
@@ -78,18 +92,32 @@ export default function MilimLive({
   const lastTipRef = useRef<Tooltip | null>(null);
 
   useEffect(() => {
-    // Respect reduced-motion: never boot the loop; the static sprite stands in.
-    const rm = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (rm.matches) return;
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = () => setReducedMotion(media.matches);
+    syncPreference();
+    media.addEventListener("change", syncPreference);
+    return () => media.removeEventListener("change", syncPreference);
+  }, []);
+
+  useEffect(() => {
+    // Respect reduced-motion: a preference change tears down the live player
+    // through this effect's cleanup, leaving only the static sprite.
+    if (reducedMotion) {
+      setLive(false);
+      return;
+    }
+    setLive(false);
+    setSceneState((current) => resetMilimSceneState(current, INITIAL_SCENE_STATE.activeScene));
 
     let cancelled = false;
     let io: IntersectionObserver | null = null;
     let onVisibility: (() => void) | null = null;
-    let onPointer: ((e: PointerEvent) => void) | null = null;
+    let pointerTarget: HTMLElement | null = null;
+    let pointerDriver: ReturnType<typeof createCoalescedMilimPointerDriver> | null = null;
     let expressionTimer: ReturnType<typeof setInterval> | null = null;
     let greetTimer: ReturnType<typeof setTimeout> | null = null;
     let visible = true;
-    let hidden = false;
+    let hidden = document.hidden;
 
     const sync = () => {
       const stage = stageRef.current;
@@ -117,6 +145,9 @@ export default function MilimLive({
             ) {
               setLive(true);
             }
+            if (typeof event === "object" && event !== null) {
+              setSceneState((current) => reconcileMilimSceneStatus(current, event));
+            }
           },
         });
         if (cancelled) {
@@ -142,21 +173,20 @@ export default function MilimLive({
         };
         document.addEventListener("visibilitychange", onVisibility);
 
-        // Look-at follows the pointer over the hero through semantic controls.
-        onPointer = (e: PointerEvent) => {
-          const el = canvasRef.current;
-          if (!el) return;
-          const r = el.getBoundingClientRect();
-          const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
-          const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
-          stage.drive({
-            gaze: {
-              x: Math.max(-1, Math.min(1, nx)),
-              y: Math.max(-1, Math.min(1, ny)),
-            },
+        // Look-at follows only pointers over the hero. Work is coalesced to a
+        // frame and ignored while the player is paused or being replaced.
+        const canvasElement = canvasRef.current;
+        pointerTarget = wrapRef.current;
+        if (canvasElement && pointerTarget) {
+          pointerDriver = createCoalescedMilimPointerDriver({
+            element: canvasElement,
+            drive: stage.drive,
+            isActive: () => !cancelled && visible && !hidden && stageRef.current === stage,
+            requestFrame: window.requestAnimationFrame.bind(window),
+            cancelFrame: window.cancelAnimationFrame.bind(window),
           });
-        };
-        window.addEventListener("pointermove", onPointer, { passive: true });
+          pointerTarget.addEventListener("pointermove", pointerDriver.onPointerMove, { passive: true });
+        }
 
         let expressionIndex = 0;
         expressionTimer = setInterval(() => {
@@ -180,7 +210,8 @@ export default function MilimLive({
       cancelled = true;
       if (io) io.disconnect();
       if (onVisibility) document.removeEventListener("visibilitychange", onVisibility);
-      if (onPointer) window.removeEventListener("pointermove", onPointer);
+      if (pointerTarget && pointerDriver) pointerTarget.removeEventListener("pointermove", pointerDriver.onPointerMove);
+      pointerDriver?.destroy();
       if (expressionTimer) clearInterval(expressionTimer);
       if (greetTimer) clearTimeout(greetTimer);
       if (stageRef.current) {
@@ -188,12 +219,12 @@ export default function MilimLive({
         stageRef.current = null;
       }
     };
-  }, [releaseUrl]);
+  }, [releaseUrl, reducedMotion]);
 
-  const chooseScene = (scene: (typeof SCENES)[number]["id"]) => {
+  const chooseScene = (scene: MilimSceneId) => {
+    if (sceneState.pendingScene || scene === sceneState.activeScene) return;
     const result = stageRef.current?.set({ scene }) as { ok?: boolean } | undefined;
-    if (result?.ok === false) return;
-    setActiveScene(scene);
+    setSceneState((current) => requestMilimScene(current, scene, result));
   };
 
   // ── Bridge subscription: who is the active Milim? ────────────────────────
@@ -294,20 +325,32 @@ export default function MilimLive({
       {/* Live canvas: decorative (the descriptive caption + fallback carry a11y). */}
       <canvas ref={canvasRef} className="milim-live-canvas" aria-hidden="true" data-live={live ? "shown" : "hidden"} />
       {live && (
-        <div className="milim-scene-picker" role="group" aria-label="Milim background scene">
+        <div
+          className="milim-scene-picker"
+          role="group"
+          aria-label="Milim background scene"
+          aria-busy={sceneState.pendingScene !== null}
+          aria-describedby="milim-scene-status"
+        >
           {SCENES.map((scene, index) => (
             <button
               key={scene.id}
               type="button"
               className="milim-scene-choice"
-              aria-label={`Scene ${index + 1}: ${scene.label}`}
-              aria-pressed={activeScene === scene.id}
+              aria-label={`Scene ${index + 1}: ${scene.label}${sceneState.pendingScene === scene.id ? ", loading" : ""}`}
+              aria-pressed={sceneState.activeScene === scene.id}
+              disabled={sceneState.pendingScene !== null}
               onClick={() => chooseScene(scene.id)}
             >
               <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
               {scene.short}
             </button>
           ))}
+          <p id="milim-scene-status" className="sr-only" role="status" aria-live="polite">
+            {sceneState.pendingScene
+              ? `Loading ${SCENES.find((scene) => scene.id === sceneState.pendingScene)?.label ?? "scene"}.`
+              : sceneState.sceneError ?? `Current scene: ${SCENES.find((scene) => scene.id === sceneState.activeScene)?.label ?? "unknown"}.`}
+          </p>
         </div>
       )}
       {enableTooltips && (

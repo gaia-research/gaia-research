@@ -13,11 +13,11 @@
 
 **Status:** Historical commission brief and active character/motion specification.
 
-## Purpose
+## Historical purpose (not a current production instruction)
 
-Create an authentic Live2D Cubism rig of **Milim Nova**, Gaia Research’s Chief Capability Scout, for the homepage hero, Lab 001 support moments, and future campaign surfaces.
+This brief originally requested an authentic Live2D Cubism rig of **Milim Nova**, Gaia Research’s Chief Capability Scout, for the homepage hero, Lab 001 support moments, and future campaign surfaces. That request is cancelled; the linked Milim Player plan is the only active implementation direction.
 
-Until this rig exists, the website uses a clearly labelled **code-driven 2.5D sprite loop** with a static fallback. It is not an MOC3/Live2D implementation and must never be presented as one.
+The retained naming rule is still authoritative: a code-driven 2.5D Milim surface must not be presented as an MOC3 or Live2D Cubism implementation.
 
 ## Source of truth
 
@@ -57,9 +57,13 @@ The rig must depict an **original Gaia Research mascot**, not a copy or imitatio
 - **Rendering:** polished 2D character art with materially convincing 3D laboratory light and reflections behind it. Do not bake production UI text, charts, buttons, or small labels into the character art.
 - **Originality:** do not include lookalike costume parts, signature symbols, names, or references from third-party anime/IP.
 
-## Required deliverables
+## Historical Cubism deliverables (do not produce)
 
-Deliver the editable Cubism source project and exported runtime package. Do not flatten the character into a single texture before handoff.
+The following list is retained only to explain the superseded commission and
+must not be treated as current acceptance criteria.
+
+The cancelled handoff would have required an editable Cubism source project and
+exported runtime package rather than a flattened texture.
 
 ```text
 milim-v1/

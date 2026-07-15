@@ -24,7 +24,7 @@
     {
       "bytes": 1552,
       "path": "./compile-report.json",
-      "sha256": "a1b5159c6169454123414039cc3b46db8ed4c641ae1fd9564324e7f53481af90"
+      "sha256": "11177aae5d087abee26ef56a887938fba7d617d86b77890a6d5babb87cef79ca"
     },
     {
       "bytes": 4400,
@@ -67,14 +67,14 @@
       "sha256": "56f93740450dae95cb73d12825ccb0aad151edf96d100bf4a0813dd492d3d630"
     },
     {
-      "bytes": 7302,
+      "bytes": 8652,
       "path": "./player/compose.js",
-      "sha256": "c38ca24d23d6d40dadfc88e1176bb681fd2f65e9f5f68d88bbdb2c0b119b9fbd"
+      "sha256": "195f2e5b21296983d65d4c570ed9738fd061196f67a47c644ffb220e4444038b"
     },
     {
-      "bytes": 7523,
+      "bytes": 8691,
       "path": "./player/core.js",
-      "sha256": "814547368a7b771a08ec9fa1fa64d4a27b0becab263db22689dcd889efc40676"
+      "sha256": "89a712727248287e8f0544c4ccd63bc3ddc2a20c2011894107580d8040d925e7"
     },
     {
       "bytes": 1132,
@@ -107,9 +107,9 @@
       "sha256": "67294a9378d1b13f4598b280c8ccfe2058d4fd6287aad04a247631157a3c7adc"
     },
     {
-      "bytes": 21140,
+      "bytes": 21662,
       "path": "./player/webgl2-renderer.js",
-      "sha256": "e11225282aedcc02a97c90390c25f01f80a1c8801febe506672fe0b5cf239691"
+      "sha256": "5b8211b4bd88b1b01eb2bda82e46da618787660e61e1f1b486c2cc16700a0866"
     },
     {
       "bytes": 97138,
@@ -134,7 +134,7 @@
     {
       "bytes": 258,
       "path": "./promotion.json",
-      "sha256": "7e436b9563e2e095330541fda2bd2de37adef790888c442de2423c8b4328d616"
+      "sha256": "990867ac12cce3e38ef74e3e77ab8328f7e7391d27dbaf1554868dbd2a72d353"
     },
     {
       "bytes": 113096,
@@ -191,9 +191,9 @@
   },
   "player": {
     "entry": "./player/index.js",
-    "version": "0.1.1"
+    "version": "0.1.2"
   },
-  "release": "milim-web-0.1.1",
+  "release": "milim-web-0.1.2",
   "scenes": [
     {
       "id": "cyber-slime-lab-v1",
@@ -212,8 +212,8 @@
     }
   ],
   "source": {
-    "commit": "9d6cdd9c2cf9267a305e313bdbe302722d5258b4",
-    "releasedAt": "2026-07-15T19:21:58.000Z",
+    "commit": "31ad92f272705cc4761ef3ecafb816f8668bfdb4",
+    "releasedAt": "2026-07-15T19:40:33.000Z",
     "repository": "gaia-research/milim"
   }
 }

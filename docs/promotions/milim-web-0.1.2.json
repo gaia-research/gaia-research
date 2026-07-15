@@ -1,5 +1,5 @@
 {
-  "format": "milim-current",
+  "format": "milim-public-promotion",
   "formatVersion": 1,
   "manifest": "./releases/milim-web-0.1.2/release.json",
   "release": "milim-web-0.1.2",

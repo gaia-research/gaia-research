@@ -34,7 +34,7 @@
     "./scenes/slime-reactor-halo-v1/layers/reduced-motion.webp",
     "./scenes/slime-reactor-halo-v1/scene.json"
   ],
-  "release": "milim-web-0.1.1",
-  "releasedAt": "2026-07-15T19:21:58.000Z",
-  "sourceCommit": "9d6cdd9c2cf9267a305e313bdbe302722d5258b4"
+  "release": "milim-web-0.1.2",
+  "releasedAt": "2026-07-15T19:40:33.000Z",
+  "sourceCommit": "31ad92f272705cc4761ef3ecafb816f8668bfdb4"
 }

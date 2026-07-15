@@ -9,12 +9,20 @@ export const COMPOSITION_ORDER = Object.freeze([
   "draw",
 ]);
 
-export function composeFrame({ model, durable, live, clockMs, motion, reducedMotion = false }) {
+export function composeFrame({
+  model,
+  durable,
+  live,
+  clockMs,
+  motion,
+  expressionTransition = null,
+  reducedMotion = false,
+}) {
   const frame = neutralFrame(model, clockMs);
   applyDurable(frame, model, durable);
   applyDrive(frame, live);
   if (!reducedMotion) applyIdleAndBlink(frame, model, clockMs);
-  applyExpression(frame, model, durable.expression);
+  applyExpression(frame, model, durable.expression, expressionTransition, clockMs);
   if (!reducedMotion && motion) applyOneShot(frame, motion);
   applySecondary(frame);
   return frame;
@@ -27,6 +35,7 @@ function neutralFrame(model, clockMs) {
     appearance: { hair: null, outfit: null, pose: null },
     expression: null,
     expressionTexture: null,
+    expressionLayers: [],
     motionTexture: null,
     motionOpacity: 0,
     gaze: { x: 0, y: 0 },
@@ -70,10 +79,38 @@ function applyIdleAndBlink(frame, model, clockMs) {
   setChannel(frame, "eyes.open.right", 1 - frame.blink);
 }
 
-function applyExpression(frame, model, expressionId) {
+function applyExpression(frame, model, expressionId, transition, clockMs) {
   const expression = model.expressions.find(({ id }) => id === expressionId);
   frame.expression = expressionId;
   frame.expressionTexture = expression?.texture ?? null;
+  frame.expressionLayers = expressionLayersAt(model, expressionId, transition, clockMs);
+}
+
+export function expressionLayersAt(model, expressionId, transition, clockMs) {
+  if (!transition || transition.incoming.expression !== expressionId) {
+    const expression = model.expressions.find(({ id }) => id === expressionId);
+    return expression ? [expressionLayer(expression.id, expression.texture, 1)] : [];
+  }
+
+  const elapsedMs = Math.max(0, clockMs - transition.startedAtMs);
+  const layers = transition.outgoing.map((layer) => {
+    const progress = layer.blendOutMs > 0 ? clamp(elapsedMs / layer.blendOutMs, 0, 1) : 1;
+    return expressionLayer(layer.expression, layer.texture, layer.startOpacity * (1 - progress));
+  });
+  const incomingProgress = transition.incoming.blendInMs > 0
+    ? clamp(elapsedMs / transition.incoming.blendInMs, 0, 1)
+    : 1;
+  layers.push(expressionLayer(
+    transition.incoming.expression,
+    transition.incoming.texture,
+    transition.incoming.startOpacity
+      + (1 - transition.incoming.startOpacity) * incomingProgress,
+  ));
+  return layers.filter(({ opacity }) => opacity > 0);
+}
+
+function expressionLayer(expression, texture, opacity) {
+  return { expression, texture, opacity };
 }
 
 function applyOneShot(frame, active) {

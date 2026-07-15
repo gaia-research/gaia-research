@@ -1,4 +1,4 @@
-import { composeFrame } from "./compose.js";
+import { composeFrame, expressionLayersAt } from "./compose.js";
 import { ERROR_CODES, errorResult, milimError } from "./errors.js";
 
 const DURABLE_KEYS = Object.freeze(["expression", "hair", "outfit", "pose", "scene"]);
@@ -24,6 +24,7 @@ export function createMilimCore({ model, release, reducedMotion = false, onState
   let queue = [];
   let activeMotion = null;
   let latestMotionRequest = null;
+  let expressionTransition = null;
 
   const api = {
     set(partial) {
@@ -120,6 +121,7 @@ export function createMilimCore({ model, release, reducedMotion = false, onState
       live: appliedLive,
       clockMs,
       motion: activeMotion,
+      expressionTransition,
       reducedMotion,
     });
   }
@@ -131,6 +133,16 @@ export function createMilimCore({ model, release, reducedMotion = false, onState
 
   function applyDurable(next) {
     const previous = appliedDurable;
+    if (next.expression !== previous.expression) {
+      expressionTransition = reducedMotion
+        ? null
+        : createExpressionTransition(
+          model,
+          expressionLayersAt(model, previous.expression, expressionTransition, clockMs),
+          next.expression,
+          clockMs,
+        );
+    }
     appliedDurable = { ...next };
     onStateApplied(previous, appliedDurable);
   }
@@ -140,6 +152,29 @@ export function createMilimCore({ model, release, reducedMotion = false, onState
     if (activeMotion) settle(activeMotion.request, "interrupted");
     activeMotion = { definition: request.definition, elapsedMs: 0, request };
   }
+}
+
+function createExpressionTransition(model, currentLayers, toId, startedAtMs) {
+  const definitions = new Map(model.expressions.map((expression) => [expression.id, expression]));
+  const to = model.expressions.find(({ id }) => id === toId);
+  const currentTarget = currentLayers.find(({ expression }) => expression === toId);
+  const outgoing = currentLayers
+    .filter(({ expression }) => expression !== toId)
+    .map((layer) => ({
+      ...layer,
+      startOpacity: layer.opacity,
+      blendOutMs: definitions.get(layer.expression)?.blendOutMs ?? 0,
+    }));
+  return {
+    outgoing,
+    incoming: {
+      expression: to.id,
+      texture: to.texture,
+      startOpacity: currentTarget?.opacity ?? 0,
+      blendInMs: to.blendInMs,
+    },
+    startedAtMs,
+  };
 }
 
 function durableFromDefaults(defaults) {
