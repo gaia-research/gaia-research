@@ -5,12 +5,19 @@ on:
     paths:
       - 'components/MilimLive.tsx'
       - 'components/HeroMilimBridge.tsx'
+      - 'components/MilimHero/**'
+      - 'components/MilimQaConsole/**'
       - 'components/MilimPet/**'
       - 'lib/milim-*.ts'
       - 'scripts/milim-production-smoke.mjs'
+      - 'scripts/milim-measure.mjs'
       - 'scripts/promote-milim-release.mjs'
       - 'tests/milim-promotion.test.mjs'
       - 'public/milim/**'
+      - 'public/_headers'
+      - 'app/page.tsx'
+      - 'app/milim/qa/**'
+      - 'app/globals.css'
       - 'package.json'
       - 'package-lock.json'
       - 'next.config.mjs'
@@ -21,12 +28,19 @@ on:
     paths:
       - 'components/MilimLive.tsx'
       - 'components/HeroMilimBridge.tsx'
+      - 'components/MilimHero/**'
+      - 'components/MilimQaConsole/**'
       - 'components/MilimPet/**'
       - 'lib/milim-*.ts'
       - 'scripts/milim-production-smoke.mjs'
+      - 'scripts/milim-measure.mjs'
       - 'scripts/promote-milim-release.mjs'
       - 'tests/milim-promotion.test.mjs'
       - 'public/milim/**'
+      - 'public/_headers'
+      - 'app/page.tsx'
+      - 'app/milim/qa/**'
+      - 'app/globals.css'
       - 'package.json'
       - 'package-lock.json'
       - 'next.config.mjs'
@@ -87,6 +101,11 @@ jobs:
         env:
           PW_PATH: ${{ github.workspace }}/node_modules/playwright
         run: node scripts/milim-production-smoke.mjs --base-url http://127.0.0.1:3000
+
+      - name: Measure production Milim delivery
+        env:
+          PW_PATH: ${{ github.workspace }}/node_modules/playwright
+        run: node scripts/milim-measure.mjs --base-url http://127.0.0.1:3000 --runs 3
 
       - name: Stop Next production server
         if: always()

@@ -1,0 +1,5 @@
+/milim/releases/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/milim/current.json
+  Cache-Control: public, max-age=0, must-revalidate
