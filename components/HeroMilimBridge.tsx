@@ -8,7 +8,7 @@
  * IntersectionObserver and coordinates the hand-off between the hero Milim and
  * the corner pet Milim so exactly one is ever the "active" character:
  *
- *   hero in view   →  hero shows tooltips, pet hidden
+ *   hero in view   →  hero owns the scene, pet hidden
  *   hero scrolls out → fly-morph Milim down to the corner pet
  *   scroll back up   → fly-morph Milim back up to the hero
  *
@@ -26,12 +26,6 @@ import {
 } from "@/lib/milim-bridge";
 import { captureHeroTransitionFrame, flyMilim } from "@/lib/milim-transition";
 import { isHeroVisibleAtThreshold } from "@/lib/milim-live-runtime";
-import {
-  pickTooltip,
-  tooltipToHtml,
-  TRANSITION_TO_HERO,
-  TRANSITION_TO_PET,
-} from "@/components/MilimPet/tooltips";
 
 // Mirror of MilimPet's spritesheet (the fly clone reuses it for the pet layer).
 const SHEET_URL = "/assets/pets/milim-gaia-spritesheet.webp";
@@ -53,27 +47,6 @@ export function HeroMilimBridge() {
 
     const reducedMotion = () =>
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    // ── Transient "leaving Milim" line, written straight to the live bubble ─
-    const sayLeaving = (direction: MilimDirection) => {
-      const pool = direction === "to-pet" ? TRANSITION_TO_PET : TRANSITION_TO_HERO;
-      const html = tooltipToHtml(pickTooltip(pool));
-      const sel =
-        direction === "to-pet"
-          ? { bubble: ".milim-hero-bubble", text: ".milim-hero-bubble p" }
-          : { bubble: ".gaia-web-pet__bubble", text: ".gaia-web-pet__bubble-text" };
-      const bubble = document.querySelector<HTMLElement>(sel.bubble);
-      const text = document.querySelector<HTMLElement>(sel.text);
-      if (!bubble || !text) return;
-      text.innerHTML = html;
-      bubble.hidden = false;
-      window.setTimeout(() => {
-        // Only auto-hide if it's still our transient line (the owning island
-        // may have taken the bubble back over by now).
-        if (!bubble.isConnected) return;
-        bubble.hidden = true;
-      }, 2000);
-    };
 
     // ── Commit the end state for a hand-off ──────────────────────────────────
     const settle = (direction: MilimDirection, rm: boolean) => {
@@ -97,9 +70,8 @@ export function HeroMilimBridge() {
       const rm = reducedMotion();
       emitMilim(MILIM_EVENTS.transitionStart, { direction, reducedMotion: rm });
 
-      // Stop the leaving Milim's own cycle before we borrow its bubble.
+      // Preserve the mini-pet handoff while keeping homepage CTAs unobstructed.
       if (direction === "to-pet") emitMilim(MILIM_EVENTS.heroHidden);
-      sayLeaving(direction);
 
       if (rm) {
         // No fly — the CSS opacity transitions provide a gentle crossfade.
