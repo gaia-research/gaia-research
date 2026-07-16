@@ -37,7 +37,7 @@ export type MountMilim = (
 type MilimReleaseManifest = {
   format: "milim-release";
   formatVersion: 1;
-  compatibility: { major: 1 };
+  compatibility: { major: 1 | 2 };
   player: { version: string; entry: string };
 };
 
@@ -82,7 +82,7 @@ function assertManifest(value: unknown): asserts value is MilimReleaseManifest {
     !manifest ||
     manifest.format !== "milim-release" ||
     manifest.formatVersion !== 1 ||
-    manifest.compatibility?.major !== 1 ||
+    (manifest.compatibility?.major !== 1 && manifest.compatibility?.major !== 2) ||
     !isSafeRelativeEntry(manifest.player?.entry)
   ) {
     throw new MilimAdapterError(

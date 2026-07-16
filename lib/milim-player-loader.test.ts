@@ -37,6 +37,46 @@ describe("loadMilimRelease", () => {
     expect(loaded.manifest).toEqual(release);
   });
 
+  it("loads the promoted compatibility 2 player through the same semantic adapter", async () => {
+    const compatibilityTwo = {
+      ...release,
+      compatibility: { major: 2 },
+      player: { version: "0.2.0", entry: "./player/index.js" },
+    };
+    const mountMilim = vi.fn();
+    const fetcher = vi.fn(async () => ({
+      ok: true,
+      json: async () => compatibilityTwo,
+    })) as unknown as typeof fetch;
+
+    const loaded = await loadMilimRelease(
+      "/milim/releases/milim-web-0.2.0/release.json",
+      {
+        baseUrl: "https://research.example/",
+        fetcher,
+        importer: async () => ({ mountMilim }),
+      },
+    );
+
+    expect(loaded.manifest.compatibility.major).toBe(2);
+    expect(loaded.mountMilim).toBe(mountMilim);
+  });
+
+  it("rejects compatibility majors outside the exact supported set", async () => {
+    const fetcher = vi.fn(async () => ({
+      ok: true,
+      json: async () => ({ ...release, compatibility: { major: 3 } }),
+    })) as unknown as typeof fetch;
+
+    await expect(
+      loadMilimRelease("/milim/releases/future/release.json", {
+        baseUrl: "https://research.example/",
+        fetcher,
+        importer: vi.fn(),
+      }),
+    ).rejects.toMatchObject({ code: "MILIM_RELEASE_INVALID" });
+  });
+
   it.each(["../escape.js", "/global.js", "https://evil.example/player.js"])(
     "rejects an unsafe player entry: %s",
     async (entry) => {

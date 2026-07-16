@@ -4,6 +4,10 @@ import path from "node:path";
 
 const RELEASE = /^milim-web-\d+\.\d+\.\d+$/;
 const SHA256 = /^[a-f0-9]{64}$/;
+const REQUIRED_SCENES = new Map([
+  [1, ["cyber-slime-lab-v1", "slime-reactor-halo-v1", "dragon-signal-observatory-v1"]],
+  [2, ["cyber-slime-lab-v2", "slime-reactor-halo-v2", "dragon-signal-observatory-v2"]],
+]);
 export class PromotionError extends Error { constructor(message, detail) { super(message); this.name = "PromotionError"; this.detail = detail; } }
 const fail = (condition, message, detail) => { if (!condition) throw new PromotionError(message, detail); };
 const safePath = (value, label = "path") => { fail(typeof value === "string" && /^\.\/[A-Za-z0-9._/-]+$/.test(value) && !value.includes("..") && !value.includes("\\"), `${label} is unsafe`, { value }); return value.slice(2); };
@@ -17,10 +21,19 @@ export async function verifyRelease(source, expectedRelease) {
   const manifest = JSON.parse(await readFile(path.join(source,"release.json"),"utf8"));
   fail(manifest.format === "milim-release" && manifest.formatVersion === 1, "unsupported release format");
   fail(RELEASE.test(manifest.release) && manifest.release === expectedRelease, "release name does not match --release", { manifest: manifest.release, expectedRelease });
-  fail(manifest.compatibility?.major === 1, "unsupported compatibility major");
+  const compatibility = manifest.compatibility?.major;
+  const requiredScenes = REQUIRED_SCENES.get(compatibility);
+  fail(requiredScenes, "unsupported compatibility major", { compatibility });
   fail(manifest.source?.repository === "gaia-research/milim" && /^[a-f0-9]{7,40}$/.test(manifest.source?.commit ?? "") && !Number.isNaN(Date.parse(manifest.source?.releasedAt ?? "")), "release source record is invalid");
-  const sceneIds = new Set((manifest.scenes || []).map(scene => scene?.id));
-  for (const scene of ["cyber-slime-lab-v1", "slime-reactor-halo-v1", "dragon-signal-observatory-v1"]) fail(sceneIds.has(scene), "release is missing a required v1 scene pack", { scene });
+  fail(Array.isArray(manifest.scenes), "release scene catalog is missing");
+  const sceneIds = new Set(manifest.scenes.map(scene => scene?.id));
+  fail(
+    manifest.scenes.length === requiredScenes.length &&
+      sceneIds.size === requiredScenes.length &&
+      requiredScenes.every(scene => sceneIds.has(scene)),
+    `release compatibility ${compatibility} scene catalog does not match`,
+    { actual: [...sceneIds], required: requiredScenes },
+  );
   fail(Array.isArray(manifest.files) && manifest.files.length > 0, "release files list is missing");
   const listed = new Set();
   for (const entry of manifest.files) { const relative=safePath(entry.path,"files.path"); fail(relative !== "release.json", "release.json cannot checksum itself"); fail(!listed.has(entry.path), "duplicate files entry", {path:entry.path}); listed.add(entry.path); fail(Number.isInteger(entry.bytes) && entry.bytes >= 0 && SHA256.test(entry.sha256), "invalid checksum entry", {path:entry.path}); const measured=await hash(path.join(source,relative)); fail(measured.bytes===entry.bytes && measured.sha256===entry.sha256, "checksum mismatch", {path:entry.path, expected:entry, actual:measured}); }
