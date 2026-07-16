@@ -35,6 +35,7 @@ export type PageContext =
   | "craft"
   | "context-diet"
   | "research"
+  | "mcp"
   | "idle"
   | "celebrate";
 
@@ -113,6 +114,42 @@ export const TOOLTIPS: Record<PageContext, Tooltip[]> = {
     { text: "STRONGEST COMBO ENERGY!! Put that one on the leaderboard immediately, boss!" },
     { text: "The reactor's SINGING! That's the good kind of sound, I promise! WOOO!" },
     { text: "New skill unlocked and it's CANON! I'm framing this moment forever, gosh!!" },
+  ],
+
+  mcp: [
+    {
+      text: "One stdio wire, boss — your editor talks to the whole Skill Tree. Gaia chewed the cable first to test it. He's fine.",
+      link: { text: "whole Skill Tree", href: "https://gaiaskilltree.com" },
+    },
+    {
+      text: "Registry Mode is the default! Zero checkout, live cache, evidence-backed skills on demand. Golly, that's just plug-and-play science.",
+    },
+    {
+      text: "Bonded Mode is for the builders — point GAIA_SKILL_TREE at your local checkout and your edits are live instantly. No publish cycle. No waiting. Hehe!",
+    },
+    {
+      text: "gaia_search finds the skill. gaia_inspect reads every field. gaia_status tells you what's online. Three tools, infinite power, boss!",
+    },
+    {
+      text: "Install in 60 seconds, gosh! npm i -g @gaia/mcp-server, paste the config snippet, restart your editor — done. I timed it.",
+    },
+    {
+      text: "skill-fuse over MCP is COMING, boss. Compose skills straight from your editor. Gaia's already vibrating with anticipation.",
+      link: { text: "skill-fuse over MCP is COMING", href: "/mcp" },
+    },
+    {
+      text: "Benchmark submissions via MCP — golly, that means your agent can file its own evidence without leaving the editor. The future is unhinged and I love it.",
+    },
+    {
+      text: "stdio is the protocol. Evidence is the payload. The Skill Tree is the destination. That's the whole pitch, boss — and it shipped!",
+      link: { text: "The Skill Tree is the destination", href: "https://gaiaskilltree.com" },
+    },
+    {
+      text: "Bonded Mode tip: edits to local skills show up immediately in gaia_inspect. No publish loop. Perfect for rapid iteration, gosh!",
+    },
+    {
+      text: "Read-only tools today, write tools tomorrow. Local install and skill-fuse are next on the roadmap — the strongest always has a roadmap, hehe.",
+    },
   ],
 };
 
@@ -210,5 +247,6 @@ export function contextFromPathname(pathname: string): PageContext {
   if (pathname.startsWith("/labs/context-diet")) return "context-diet";
   if (pathname.startsWith("/labs")) return "labs";
   if (pathname.startsWith("/research")) return "research";
+  if (pathname.startsWith("/mcp")) return "mcp";
   return "home";
 }
