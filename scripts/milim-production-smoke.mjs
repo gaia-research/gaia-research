@@ -6,64 +6,60 @@ const args = readArgs(process.argv.slice(2));
 const baseURL = new URL(args["base-url"] ?? "http://127.0.0.1:3000").href;
 const playwright = loadPlaywright(args["pw-path"] ?? process.env.PW_PATH);
 const timeout = 20_000;
-
-const scenes = [
-  { number: 1, label: "Cyber-Slime Laboratory" },
-  { number: 2, label: "Slime Reactor Halo" },
-  { number: 3, label: "Dragon Signal Observatory" },
-];
+const expressions = ["neutral", "joyful-winker", "demon-lord-smirk", "starry-awe", "chaos-gremlin"];
+const scenes = ["cyber-slime-lab-v1", "slime-reactor-halo-v1", "dragon-signal-observatory-v1"];
+const motions = ["idle", "greet", "point"];
 
 const browser = await playwright.chromium.launch({ headless: true });
 try {
-  await verifyLiveRelease(browser);
-  await verifyReducedMotionFallback(browser);
-  await verifyRuntimeReducedMotionChange(browser);
+  await verifyHomepage(browser);
+  await verifyQaMatrix(browser);
+  await verifyFallbacks(browser);
   await verifyNoWebGLFallback(browser);
   await verifyPetHandoff(browser);
-  console.log(JSON.stringify({ ok: true, baseURL, checks: ["ready", "scenes", "reduced-motion", "runtime-reduced-motion", "no-webgl", "pet-handoff"] }));
+  console.log(JSON.stringify({ ok: true, baseURL, checks: ["homepage-fixed-scene", "qa-matrix", "fallbacks", "no-webgl", "pet-handoff"] }));
 } finally {
   await browser.close();
 }
 
-async function verifyLiveRelease(browser) {
+async function verifyHomepage(browser) {
   const page = await newPage(browser);
   try {
-    await gotoHome(page);
-    await waitForPlayer(page, "ready");
-    for (const scene of scenes) await verifyScene(page, scene);
-  } finally {
-    await page.context().close();
-  }
+    await page.goto(baseURL, { waitUntil: "domcontentloaded", timeout });
+    await page.locator(".milim-hero .live-stage").waitFor({ state: "attached", timeout });
+    await page.waitForFunction(() => document.querySelector(".milim-hero .live-stage")?.dataset.player === "ready", undefined, { timeout });
+    const forbidden = [".milim-scene-picker", ".status-rail", ".lab-plate", ".orbit", ".spark-field", ".sprite-reflection", ".milim-hero-bubble"];
+    for (const selector of forbidden) {
+      if (await page.locator(selector).count()) throw new Error(`Homepage still exposes ${selector}`);
+    }
+  } finally { await page.context().close(); }
 }
 
-async function verifyReducedMotionFallback(browser) {
-  const page = await newPage(browser, { reducedMotion: "reduce" });
-  try {
-    await gotoHome(page);
-    await waitForPlayer(page, "fallback");
-    await page.waitForFunction(() => !document.querySelector(".milim-scene-picker"), undefined, { timeout });
-    await page.waitForFunction(() => getComputedStyle(document.querySelector(".milim-live-canvas")).display === "none", undefined, { timeout });
-  } finally {
-    await page.context().close();
-  }
-}
-
-async function verifyRuntimeReducedMotionChange(browser) {
+async function verifyQaMatrix(browser) {
   const page = await newPage(browser);
   try {
-    await gotoHome(page);
-    await waitForPlayer(page, "ready");
-    await verifyScene(page, scenes[1]);
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await waitForPlayer(page, "fallback");
-    await page.waitForFunction(() => !document.querySelector(".milim-scene-picker"), undefined, { timeout });
-    await page.emulateMedia({ reducedMotion: "no-preference" });
-    await waitForPlayer(page, "ready");
-    await expectConfirmedScene(page, scenes[0]);
-    await page.waitForFunction(() => document.querySelector(".milim-live-canvas")?.dataset.live === "shown", undefined, { timeout });
-  } finally {
-    await page.context().close();
-  }
+    for (const scene of scenes) {
+      for (const expression of expressions) {
+        await gotoQa(page, `scene=${scene}&expression=${expression}`);
+        await page.evaluate(({ scene, expression }) => window.__MILIM_QA__?.run({ scene, expression, motion: "idle" }), { scene, expression });
+      }
+    }
+    for (const motion of motions) {
+      await page.evaluate((motion) => window.__MILIM_QA__?.run({ motion }), motion);
+    }
+    const snapshot = await page.evaluate(() => window.__MILIM_QA__?.snapshot());
+    if (!snapshot?.ready || snapshot.events.length < motions.length) throw new Error("Milim QA console did not expose executable semantic controls");
+  } finally { await page.context().close(); }
+}
+
+async function verifyFallbacks(browser) {
+  const page = await newPage(browser);
+  try {
+    for (const mode of ["fallback", "reduced-motion", "missing-release"]) {
+      await gotoQa(page, `mode=${mode}`);
+      await page.waitForFunction(() => document.querySelector(".milim-qa-stage")?.dataset.player === "fallback", undefined, { timeout });
+    }
+  } finally { await page.context().close(); }
 }
 
 async function verifyNoWebGLFallback(browser) {
@@ -76,96 +72,47 @@ async function verifyNoWebGLFallback(browser) {
         return original.call(this, type, ...rest);
       };
     });
-    await gotoHome(page);
-    await waitForPlayer(page, "fallback");
-    await page.waitForFunction(() => !document.querySelector(".milim-scene-picker"), undefined, { timeout });
-  } finally {
-    await page.context().close();
-  }
+    await gotoQa(page, "");
+    await page.waitForFunction(() => document.querySelector(".milim-qa-stage")?.dataset.player === "fallback", undefined, { timeout });
+  } finally { await page.context().close(); }
 }
 
 async function verifyPetHandoff(browser) {
   const page = await newPage(browser);
   try {
-    await gotoHome(page);
-    await waitForPlayer(page, "ready");
-    await page.evaluate(() => {
-      const stage = document.querySelector(".live-stage");
-      if (!stage) throw new Error("Milim hero stage is missing");
-      const rect = stage.getBoundingClientRect();
-      window.scrollTo(0, window.scrollY + rect.bottom - rect.height * 0.29);
-    });
-    await page.waitForFunction(() => {
-      const stage = document.querySelector(".live-stage");
-      const pet = document.querySelector(".gaia-web-pet");
-      return stage?.dataset.dormant === "true" && pet?.dataset.heroHidden === "false";
-    }, undefined, { timeout });
-  } finally {
-    await page.context().close();
-  }
+    await page.goto(baseURL, { waitUntil: "domcontentloaded", timeout });
+    await page.waitForFunction(() => document.querySelector(".milim-hero .live-stage")?.dataset.player === "ready", undefined, { timeout });
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForFunction(() => document.querySelector(".gaia-web-pet")?.dataset.heroHidden === "false", undefined, { timeout });
+  } finally { await page.context().close(); }
 }
 
-async function verifyScene(page, { number, label }) {
-  const selector = `.milim-scene-choice[aria-label^="Scene ${number}: ${label}"]`;
-  await page.locator(selector).waitFor({ state: "visible", timeout });
-  const selected = await page.locator(selector).getAttribute("aria-pressed");
-  if (selected !== "true") {
-    await page.locator(selector).click();
-  }
-  await expectConfirmedScene(page, { number, label });
+async function gotoQa(page, query) {
+  await page.goto(new URL(`/milim/qa${query ? `?${query}` : ""}`, baseURL).href, { waitUntil: "domcontentloaded", timeout });
+  await page.waitForFunction(() => window.__MILIM_QA__ !== undefined, undefined, { timeout });
+  await page.waitForFunction(() => window.__MILIM_QA__?.snapshot().ready === true || document.querySelector(".milim-qa-stage")?.dataset.player === "fallback", undefined, { timeout });
 }
 
-async function expectConfirmedScene(page, { number, label }) {
-  const selector = `.milim-scene-choice[aria-label^="Scene ${number}: ${label}"]`;
-  await page.waitForFunction(
-    ({ selector: selectedSelector }) => {
-      const stage = document.querySelector(".live-stage");
-      const control = document.querySelector(selectedSelector);
-      return stage?.dataset.player === "ready"
-        && document.querySelector(".milim-live-canvas")?.dataset.live === "shown"
-        && control?.getAttribute("aria-pressed") === "true";
-    },
-    { selector },
-    { timeout },
-  );
-}
-
-async function gotoHome(page) {
-  await page.goto(baseURL, { waitUntil: "domcontentloaded", timeout });
-  await page.locator(".live-stage").waitFor({ state: "attached", timeout });
-}
-
-async function waitForPlayer(page, state) {
-  await page.waitForFunction(
-    (expected) => document.querySelector(".live-stage")?.dataset.player === expected,
-    state,
-    { timeout },
-  );
-}
-
-async function newPage(browser, options = {}) {
-  const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, ...options });
+async function newPage(browser) {
+  const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   return context.newPage();
 }
 
 function loadPlaywright(configuredPath) {
   for (const candidate of [configuredPath, "playwright"].filter(Boolean)) {
-    try {
-      const loaded = require(candidate);
-      if (loaded?.chromium) return loaded;
-    } catch {}
+    try { const loaded = require(candidate); if (loaded?.chromium) return loaded; } catch {}
   }
-  throw new Error("Playwright 1.61.1 was not found. Set PW_PATH to its package directory or install it in CI with npm install --no-save --no-package-lock playwright@1.61.1.");
+  throw new Error("Playwright 1.61.1 was not found. Set PW_PATH or install the CI-only package.");
 }
 
 function readArgs(argv) {
   const result = {};
   for (let index = 0; index < argv.length; index += 1) {
-    const arg = argv[index];
-    if (!arg.startsWith("--")) throw new Error(`Unknown argument: ${arg}`);
+    const key = argv[index];
+    if (!key.startsWith("--")) throw new Error(`Unknown argument: ${key}`);
     const value = argv[index + 1];
-    if (!value || value.startsWith("--")) throw new Error(`Missing value for ${arg}`);
-    result[arg.slice(2)] = value;
+    if (!value || value.startsWith("--")) throw new Error(`Missing value for ${key}`);
+    result[key.slice(2)] = value;
     index += 1;
   }
   return result;
