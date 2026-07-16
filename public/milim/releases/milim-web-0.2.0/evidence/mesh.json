@@ -1,0 +1,14 @@
+{
+  "algorithm": "deterministic-clipped-grid-v1",
+  "format": "milim-evidence",
+  "grid": [
+    4,
+    4
+  ],
+  "kind": "mesh",
+  "meshCount": 16,
+  "neutralKeyforms": true,
+  "source": "../rig.json",
+  "status": "pass",
+  "triangleWinding": "counter-clockwise"
+}

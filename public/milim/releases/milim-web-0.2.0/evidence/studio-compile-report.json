@@ -1,0 +1,64 @@
+{
+  "accepted": true,
+  "evidence": {
+    "expressions": [
+      "contact-sheet",
+      "expression-contact-sheet.png"
+    ],
+    "motions": [
+      "greet-contact-sheet",
+      "point-contact-sheet",
+      "idle-30fps",
+      "idle-60fps",
+      "greet-contact-sheet.png",
+      "point-contact-sheet.png",
+      "greet-point-motion.webm",
+      "point-motion.webm",
+      "idle-30fps.webm",
+      "idle-60fps.webm"
+    ],
+    "neutral": [
+      "desktop",
+      "tablet",
+      "mobile",
+      "neutral-desktop.png",
+      "neutral-tablet.png",
+      "neutral-mobile.png",
+      "neutral-reconstruction.png",
+      "neutral-reconstruction-comparison.json"
+    ],
+    "releaseVersion": "milim-web-0.2.0",
+    "reports": [
+      "mesh",
+      "mask",
+      "protected-region",
+      "physics",
+      "scene-crop",
+      "transfer",
+      "startup",
+      "frame",
+      "inactive",
+      "mesh.json",
+      "mask.json",
+      "protected-region.json",
+      "physics.json",
+      "scene-crop.json",
+      "transfer.json",
+      "startup.json",
+      "frame.json",
+      "inactive.json"
+    ],
+    "sourceCommit": "718ee18"
+  },
+  "format": "milim-compile-report",
+  "formatVersion": 2,
+  "model": {
+    "id": "milim-v1",
+    "version": "2.0.0"
+  },
+  "scenes": [
+    "cyber-slime-lab-v2",
+    "slime-reactor-halo-v2",
+    "dragon-signal-observatory-v2"
+  ]
+}

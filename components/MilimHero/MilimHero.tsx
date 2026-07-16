@@ -7,7 +7,7 @@ const FALLBACK_SRC = "/assets/north-star-live/milim-live-full-body-sprite-v01.we
 
 export function MilimHero({ children }: { children: ReactNode }) {
   const style = {
-    "--milim-lab-scene": `url("/milim/releases/${MILIM_RELEASE_VERSION}/scenes/cyber-slime-lab-v1/layers/background.webp")`,
+    "--milim-lab-scene": `url("/milim/releases/${MILIM_RELEASE_VERSION}/scenes/cyber-slime-lab-v2/layers/background.webp")`,
   } as CSSProperties;
   return (
     <section className="milim-hero" aria-labelledby="hero-title" style={style}>
@@ -18,7 +18,7 @@ export function MilimHero({ children }: { children: ReactNode }) {
         width={1024}
         height={1536}
         sizes="100vw"
-        initialState={{ scene: "cyber-slime-lab-v1", expression: "neutral" }}
+        initialState={{ scene: "cyber-slime-lab-v2", expression: "neutral" }}
       />
       <div className="milim-hero-content">{children}</div>
     </section>

@@ -8,43 +8,43 @@ import {
   type MilimSceneState,
 } from "./milim-live-runtime";
 
-const initialScene: MilimSceneState<"cyber-slime-lab-v1" | "slime-reactor-halo-v1"> = {
-  activeScene: "cyber-slime-lab-v1",
+const initialScene: MilimSceneState<"cyber-slime-lab-v2" | "slime-reactor-halo-v2"> = {
+  activeScene: "cyber-slime-lab-v2",
   pendingScene: null,
   sceneError: null,
 };
 
 describe("Milim scene confirmation", () => {
   it("resets to the release default before a replacement player mounts", () => {
-    expect(resetMilimSceneState(initialScene, "cyber-slime-lab-v1")).toEqual(initialScene);
+    expect(resetMilimSceneState(initialScene, "cyber-slime-lab-v2")).toEqual(initialScene);
     expect(
       resetMilimSceneState(
-        { activeScene: "slime-reactor-halo-v1", pendingScene: null, sceneError: null },
-        "cyber-slime-lab-v1",
+        { activeScene: "slime-reactor-halo-v2", pendingScene: null, sceneError: null },
+        "cyber-slime-lab-v2",
       ),
     ).toEqual(initialScene);
   });
 
   it("keeps the confirmed scene selected until the player confirms the pending scene", () => {
-    const pending = requestMilimScene(initialScene, "slime-reactor-halo-v1", { ok: true });
+    const pending = requestMilimScene(initialScene, "slime-reactor-halo-v2", { ok: true });
 
     expect(pending).toEqual({
-      activeScene: "cyber-slime-lab-v1",
-      pendingScene: "slime-reactor-halo-v1",
+      activeScene: "cyber-slime-lab-v2",
+      pendingScene: "slime-reactor-halo-v2",
       sceneError: null,
     });
-    expect(reconcileMilimSceneStatus(pending, { type: "scene", scene: "slime-reactor-halo-v1" })).toEqual({
-      activeScene: "slime-reactor-halo-v1",
+    expect(reconcileMilimSceneStatus(pending, { type: "scene", scene: "slime-reactor-halo-v2" })).toEqual({
+      activeScene: "slime-reactor-halo-v2",
       pendingScene: null,
       sceneError: null,
     });
   });
 
   it("clears a pending scene and preserves the last confirmed scene on player error", () => {
-    const pending = requestMilimScene(initialScene, "slime-reactor-halo-v1", { ok: true });
+    const pending = requestMilimScene(initialScene, "slime-reactor-halo-v2", { ok: true });
 
     expect(reconcileMilimSceneStatus(pending, { type: "error", error: { code: "MILIM_SCENE_INVALID" } })).toEqual({
-      activeScene: "cyber-slime-lab-v1",
+      activeScene: "cyber-slime-lab-v2",
       pendingScene: null,
       sceneError: "Could not load Slime Reactor Halo.",
     });

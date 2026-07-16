@@ -1,0 +1,8 @@
+{
+  "format": "milim-evidence",
+  "kind": "inactive",
+  "method": "reduced-motion-scene-audit",
+  "reducedMotion": "neutral-reconstruction.png",
+  "status": "pass",
+  "videoEvidenceBytes": 228157
+}

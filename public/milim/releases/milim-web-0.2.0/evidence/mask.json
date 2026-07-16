@@ -1,0 +1,33 @@
+{
+  "format": "milim-evidence",
+  "kind": "mask",
+  "masks": [
+    {
+      "id": "hair-over-face",
+      "mode": "exclude",
+      "sourcePart": "hair-front"
+    },
+    {
+      "id": "hand-over-torso",
+      "mode": "exclude",
+      "sourcePart": "pose-hands-neutral-right"
+    },
+    {
+      "id": "hood-opening",
+      "mode": "include",
+      "sourcePart": "outfit-torso"
+    },
+    {
+      "id": "eye-window",
+      "mode": "include",
+      "sourcePart": "face-neutral"
+    },
+    {
+      "id": "mouth-fang",
+      "mode": "include",
+      "sourcePart": "face-neutral"
+    }
+  ],
+  "source": "../rig.json",
+  "status": "pass"
+}

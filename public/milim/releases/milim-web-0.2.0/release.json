@@ -1,0 +1,424 @@
+{
+  "compatibility": {
+    "major": 2
+  },
+  "defaults": {
+    "expression": "neutral",
+    "hair": "classic-long-pink",
+    "outfit": "dragonoid-hoodie-v1",
+    "pose": "confident-neutral-v1",
+    "scene": "cyber-slime-lab-v2"
+  },
+  "fallbacks": {
+    "desktop": "./previews/desktop.webp",
+    "mobile": "./previews/mobile.webp",
+    "reducedMotion": "./previews/reduced-motion.webp",
+    "tablet": "./previews/tablet.webp"
+  },
+  "files": [
+    {
+      "bytes": 269,
+      "path": "./LICENSES.txt",
+      "sha256": "ebd6c7d79df7e77f33fcbb0c08b3b08c2330552581570e3b6a63ae034bcaabdd"
+    },
+    {
+      "bytes": 3576,
+      "path": "./compile-report.json",
+      "sha256": "8fc6eacd59a4da65cba1cfd111386349ad3bef8b46d2dbcb5ba2a2ecec790145"
+    },
+    {
+      "bytes": 52264,
+      "path": "./evidence/expression-contact-sheet.webp",
+      "sha256": "5118beae449f364a6180e458bc16cd8ece79e91aaae57de613446dba34b50e6d"
+    },
+    {
+      "bytes": 268,
+      "path": "./evidence/frame.json",
+      "sha256": "b4d24574999730df1d081c1715d49c441d4dd75adc4bd77438f930f7ced70a10"
+    },
+    {
+      "bytes": 14160,
+      "path": "./evidence/greet-contact-sheet.webp",
+      "sha256": "30e189f2f481b637c20ebe6a1c08e9bb46d184a6bfbcc6c2ba913291a6235cd2"
+    },
+    {
+      "bytes": 198,
+      "path": "./evidence/inactive.json",
+      "sha256": "29ce809fec173d7688969121a2645f13d6c0eb195a8f0b770a79644a19b42f4b"
+    },
+    {
+      "bytes": 2597,
+      "path": "./evidence/index.json",
+      "sha256": "3054d28b066f5ebaf01e354968207313926501864d88d55139d113377e1fb551"
+    },
+    {
+      "bytes": 631,
+      "path": "./evidence/mask.json",
+      "sha256": "6a9b7444efbcc8b1838e75eac9095d48066088714d84cea8c27adda49b015b70"
+    },
+    {
+      "bytes": 264,
+      "path": "./evidence/mesh.json",
+      "sha256": "71607539c0f7c72faf62d371bd1bc9c1eaa287a07a52492a40f526e9ade2a3c0"
+    },
+    {
+      "bytes": 233,
+      "path": "./evidence/physics.json",
+      "sha256": "399cc1e5837b2535282701ae2ff0bdad6f0f1be87d665b22c22ec0f3147651b0"
+    },
+    {
+      "bytes": 13814,
+      "path": "./evidence/point-contact-sheet.webp",
+      "sha256": "5f2df96e18e6080b85c45ff9c739ada2e464f47d254e5f4fac5c8b15b2fe7caa"
+    },
+    {
+      "bytes": 707,
+      "path": "./evidence/protected-region.json",
+      "sha256": "d9137af11ef42668f8da057c95533cacd8c75ceb4e6bd3562fb9817636c97b3c"
+    },
+    {
+      "bytes": 271,
+      "path": "./evidence/scene-crop.json",
+      "sha256": "f36e27d238ebbea6560a627e530263853ffeedb750d3cebad603a78fd66b4fae"
+    },
+    {
+      "bytes": 264,
+      "path": "./evidence/startup.json",
+      "sha256": "f6a01d1ccbbd7f3ce8a3c116ee0f7f74b8a094b560a11914fe83bad0ac872cbc"
+    },
+    {
+      "bytes": 1357,
+      "path": "./evidence/studio-compile-report.json",
+      "sha256": "8aed7e086096cf40f1d77ded81725892f63d0c17c3c056d8ecbef448288c34e9"
+    },
+    {
+      "bytes": 161,
+      "path": "./evidence/transfer.json",
+      "sha256": "7d5ae29906fa2fcf072eceb022096c83f80638cb6bc027836857d841110e9b12"
+    },
+    {
+      "bytes": 57855,
+      "path": "./evidence/videos/idle-30fps.webm",
+      "sha256": "5460bc5f8888f34e3bffcdaa23002d95b64fd848c36ecbc29ff4cffe35ccf425"
+    },
+    {
+      "bytes": 57854,
+      "path": "./evidence/videos/idle-60fps.webm",
+      "sha256": "3cd11ea6fd564b155feef048700fac51dd4f03cc68707c20de63e485e48103c4"
+    },
+    {
+      "bytes": 38890,
+      "path": "./models/milim-v2/model.json",
+      "sha256": "18698fde7da6256d1dfa92a87e1b07c83c1d42b24599fdc0cc57f3299db07cba"
+    },
+    {
+      "bytes": 92356,
+      "path": "./models/milim-v2/textures/accessory-shoes.webp",
+      "sha256": "f3c496e2b00c7fe2c6a046e7234c6a4b00952fe9dc564fc97b7e41cbb3fd8ec6"
+    },
+    {
+      "bytes": 14044,
+      "path": "./models/milim-v2/textures/accessory-star-pins.webp",
+      "sha256": "fcca48b2c0530d8250abebc296fa899c5902ac3237c0f687f99a4bc0f289cb90"
+    },
+    {
+      "bytes": 22700,
+      "path": "./models/milim-v2/textures/base-body.webp",
+      "sha256": "654b9096c4dec87032790dbe0045beef668a04f48960dbb5e91ea65d44e0589e"
+    },
+    {
+      "bytes": 55318,
+      "path": "./models/milim-v2/textures/base-legs.webp",
+      "sha256": "c00bc52f8c98bc00c9f1b7ed5eb937fb4ffd6b3a853ce5832f4122dec6070531"
+    },
+    {
+      "bytes": 84420,
+      "path": "./models/milim-v2/textures/face-neutral.webp",
+      "sha256": "31e30b288579a3b5b9157fec4b96b0eb290739aa44e92422582bffa9d78ed19d"
+    },
+    {
+      "bytes": 39062,
+      "path": "./models/milim-v2/textures/greet-left-limb.webp",
+      "sha256": "f6e8704ae1a53aaa43af0b90f4e5ccc45c1abf7f83345f63696d27689f356747"
+    },
+    {
+      "bytes": 44752,
+      "path": "./models/milim-v2/textures/greet-right-limb.webp",
+      "sha256": "8a62c898f9f02ef9d8f3baa294d15dc8b0a5df5c2ed528c163996b3ee5471a44"
+    },
+    {
+      "bytes": 41130,
+      "path": "./models/milim-v2/textures/hair-back.webp",
+      "sha256": "f81b4230d10ed11289be3092f003534fbaae36cc9e20045ea6a46631ab62c9de"
+    },
+    {
+      "bytes": 174272,
+      "path": "./models/milim-v2/textures/hair-front.webp",
+      "sha256": "7c436563e1486fc7dc3659811d2dbafbacf1e142bdb4f5a842d240f96a927f23"
+    },
+    {
+      "bytes": 16000,
+      "path": "./models/milim-v2/textures/outfit-drawstrings.webp",
+      "sha256": "0d727ac02b8064406c3e4bdbe0eb12e82d6accae5590850ed70f13c5884fb186"
+    },
+    {
+      "bytes": 43226,
+      "path": "./models/milim-v2/textures/outfit-graphic.webp",
+      "sha256": "aa7e5830ba1cb1cda7b27e1d8498e86ec5668e3478f24bad20697339eec1e7ac"
+    },
+    {
+      "bytes": 99272,
+      "path": "./models/milim-v2/textures/outfit-sleeves.webp",
+      "sha256": "f1bccaa49a1961a69d330fe1295233a8f391ee2dc97e1a34dd77e34a7dea4e6a"
+    },
+    {
+      "bytes": 55316,
+      "path": "./models/milim-v2/textures/outfit-torso.webp",
+      "sha256": "9118ee7c9fde476e221936a21c547a3aebd65605d59cff69c613338daf05d646"
+    },
+    {
+      "bytes": 55024,
+      "path": "./models/milim-v2/textures/point-right-limb.webp",
+      "sha256": "8d7053a145a0373eaaaa46cd583f60f11870acd81b7d35a59d2d705989f7d4eb"
+    },
+    {
+      "bytes": 32646,
+      "path": "./models/milim-v2/textures/pose-hands-neutral-right.webp",
+      "sha256": "0290dbc1582deded4973c7759dc8245f182e4d93ab2860aa02176ff21f48364b"
+    },
+    {
+      "bytes": 29648,
+      "path": "./models/milim-v2/textures/pose-hands-neutral.webp",
+      "sha256": "b2364f19207a9b2110344069443ba2b6cd99d12134f07b262504514a9ae70ca7"
+    },
+    {
+      "bytes": 12589,
+      "path": "./player/compose.js",
+      "sha256": "6439fbd543bce71f07638632221005e8c47f5d545683b05e5e9e7687fa11de56"
+    },
+    {
+      "bytes": 10953,
+      "path": "./player/core.js",
+      "sha256": "ef84648652c069e7b4f78c9da2dce1245c37c8491aea60f57cbb93e8eaedf84c"
+    },
+    {
+      "bytes": 1132,
+      "path": "./player/errors.js",
+      "sha256": "80fe84e9c988f28131f8fe01c79b9846474fd4f1519a625dfd1e6ab781c00144"
+    },
+    {
+      "bytes": 599,
+      "path": "./player/index.js",
+      "sha256": "7bd9b463e1c7393aa0ad72196e6f8f6231b753bf035d168411e257cc1ddbcb2b"
+    },
+    {
+      "bytes": 1746,
+      "path": "./player/lifecycle.js",
+      "sha256": "09616047c1476793cf9654b22fb4b17b69c57e680fe68ef5ae6ba50acd52caa5"
+    },
+    {
+      "bytes": 9175,
+      "path": "./player/load.js",
+      "sha256": "0c4844b0ee529ea9fe3fe21340b5bbb5951061f911d7c89e22526f39e50983ef"
+    },
+    {
+      "bytes": 4031,
+      "path": "./player/mount.js",
+      "sha256": "f335296fab4373e8fd8912d364981a66eb7f4e582863aba00f92fc0e7287cdd8"
+    },
+    {
+      "bytes": 2595,
+      "path": "./player/physics.js",
+      "sha256": "be6c9376711867fc48dd5e18b6b0f3ce26cc79973f36c561c7ce2b6727a09080"
+    },
+    {
+      "bytes": 28153,
+      "path": "./player/validate.js",
+      "sha256": "0717cd3b9be31463754d14121aff914a471dc539a31d49f91522a67b3246acff"
+    },
+    {
+      "bytes": 30876,
+      "path": "./player/webgl2-renderer.js",
+      "sha256": "87e7c485aab03f4b1f22034d2538dd24edd7d8213d18babe85bc1dc21dea27c3"
+    },
+    {
+      "bytes": 18856,
+      "path": "./previews/desktop.webp",
+      "sha256": "2880c73d7c660c3f8f3b378bff1fed04e07e31d3e42ac3c9fe544533424c0867"
+    },
+    {
+      "bytes": 34298,
+      "path": "./previews/mobile.webp",
+      "sha256": "c4d75f7662fa3ffca55463528b1a59530a9345c9f2e06a6638c92e4f8fceae87"
+    },
+    {
+      "bytes": 86002,
+      "path": "./previews/reduced-motion.webp",
+      "sha256": "656b22c29592c1cf161e7ebb317543e99eacd5cb7520a5f5da8250f721835b07"
+    },
+    {
+      "bytes": 22462,
+      "path": "./previews/tablet.webp",
+      "sha256": "dbfe6f63b301d006ac09f8c1b639f220bbd3d1b5ef3d7a34daeefcf5cc2562ef"
+    },
+    {
+      "bytes": 258,
+      "path": "./promotion.json",
+      "sha256": "c22fda92cc19081598fac0c24302c3b8f18fae09507c8cc8a0e07a7b81c9b8b7"
+    },
+    {
+      "bytes": 34552,
+      "path": "./scenes/cyber-slime-lab-v2/layers/background.webp",
+      "sha256": "a81cd4ef58ec6fcaa057f26f7fbde3a691c62a8db84ea335d7d389ee6c705a96"
+    },
+    {
+      "bytes": 42258,
+      "path": "./scenes/cyber-slime-lab-v2/layers/foreground.webp",
+      "sha256": "471336887283b2ccd2ad5f26364e3b6848ee916092ae4bd43268844022239926"
+    },
+    {
+      "bytes": 3986,
+      "path": "./scenes/cyber-slime-lab-v2/layers/light.webp",
+      "sha256": "8cc44f3f70a350a7b0337a5134d1ab7f1d2f683158ee66979d8f92a66613cf71"
+    },
+    {
+      "bytes": 86674,
+      "path": "./scenes/cyber-slime-lab-v2/layers/midground.webp",
+      "sha256": "4fbc4bf246d382970af76d473145cbf8579e36266f9cc1a1be155a9c45e3f008"
+    },
+    {
+      "bytes": 12004,
+      "path": "./scenes/cyber-slime-lab-v2/layers/particles.webp",
+      "sha256": "e395f95bbbdbe70ffda0cd15f25e7e5836e8cbd7e695464e3378121992e77adc"
+    },
+    {
+      "bytes": 86002,
+      "path": "./scenes/cyber-slime-lab-v2/layers/reduced-motion.webp",
+      "sha256": "656b22c29592c1cf161e7ebb317543e99eacd5cb7520a5f5da8250f721835b07"
+    },
+    {
+      "bytes": 2990,
+      "path": "./scenes/cyber-slime-lab-v2/layers/reflection.webp",
+      "sha256": "647a8859ae52347ecfee925f99d9aee526c2e3192bd5f623370cc435b20704d7"
+    },
+    {
+      "bytes": 1839,
+      "path": "./scenes/cyber-slime-lab-v2/scene.json",
+      "sha256": "d52d9e663a44e02515253ed76239da522cf716815e081abf626ef72d7ff4d084"
+    },
+    {
+      "bytes": 41102,
+      "path": "./scenes/dragon-signal-observatory-v2/layers/background.webp",
+      "sha256": "52d9f4fc8b69bb8813d5fda93e682153b69219117fa94129058a83319cceeabc"
+    },
+    {
+      "bytes": 45384,
+      "path": "./scenes/dragon-signal-observatory-v2/layers/foreground.webp",
+      "sha256": "d4305392011da9a3c1243cb92f4bcae05070c58068b71e0392c768535e9ac476"
+    },
+    {
+      "bytes": 141018,
+      "path": "./scenes/dragon-signal-observatory-v2/layers/light.webp",
+      "sha256": "18ee852a07ed10f36a69560f6cfc908597ce16428eaf98c7c9cd7fe3e8319dd4"
+    },
+    {
+      "bytes": 114582,
+      "path": "./scenes/dragon-signal-observatory-v2/layers/midground.webp",
+      "sha256": "c706d0d10c0801410837ecb346a9d6486d5fa39aa99110ab7f3963c9e02cf321"
+    },
+    {
+      "bytes": 5696,
+      "path": "./scenes/dragon-signal-observatory-v2/layers/particles.webp",
+      "sha256": "a24b99c1f71c06b0ca6d4ddaeceaf36b25a34209c3cbee50d72ba2a8c800f974"
+    },
+    {
+      "bytes": 113982,
+      "path": "./scenes/dragon-signal-observatory-v2/layers/reduced-motion.webp",
+      "sha256": "0e3e174b01d1fcb536fa3ea11e48ec0ed9fcc257a23e4196a902ac2d475752e7"
+    },
+    {
+      "bytes": 15562,
+      "path": "./scenes/dragon-signal-observatory-v2/layers/reflection.webp",
+      "sha256": "0b3eabbe2078fdbba87fb8f63b7a3d15475aecd5053f26f3b6755110dc6e5e64"
+    },
+    {
+      "bytes": 1849,
+      "path": "./scenes/dragon-signal-observatory-v2/scene.json",
+      "sha256": "8ba9a7ca8faa1e028056a7e5211d9b724261fac0a8d3910872e7f8312431e17f"
+    },
+    {
+      "bytes": 55268,
+      "path": "./scenes/slime-reactor-halo-v2/layers/background.webp",
+      "sha256": "1c06fe88fb1a15f55cbfbaf27c3e2c70ce58f8b6241c937a8d35899c4f475b55"
+    },
+    {
+      "bytes": 57900,
+      "path": "./scenes/slime-reactor-halo-v2/layers/foreground.webp",
+      "sha256": "0cb86ac1a78fc13846a44a0356eb913a9b638c586d7a07926a8d58832a6089f1"
+    },
+    {
+      "bytes": 178416,
+      "path": "./scenes/slime-reactor-halo-v2/layers/light.webp",
+      "sha256": "89d49f3d3c44da9a827bb99bcb0f32b7a04adfe29ba417e6ceae46aff2d8c50c"
+    },
+    {
+      "bytes": 144398,
+      "path": "./scenes/slime-reactor-halo-v2/layers/midground.webp",
+      "sha256": "1a0997c3857cce4d29e1b8d20038bc98c88f5034aba1d16413a91cf2349ec0fa"
+    },
+    {
+      "bytes": 5696,
+      "path": "./scenes/slime-reactor-halo-v2/layers/particles.webp",
+      "sha256": "a24b99c1f71c06b0ca6d4ddaeceaf36b25a34209c3cbee50d72ba2a8c800f974"
+    },
+    {
+      "bytes": 146936,
+      "path": "./scenes/slime-reactor-halo-v2/layers/reduced-motion.webp",
+      "sha256": "b8c48278e1fd8cc2b14fc3343b9a70a91844f1230b4d056f1c74a7384035643e"
+    },
+    {
+      "bytes": 19160,
+      "path": "./scenes/slime-reactor-halo-v2/layers/reflection.webp",
+      "sha256": "2a98b233da86ef5192fde967773d7e0b52861b7a12eba1b0e8634f472e9f9ae0"
+    },
+    {
+      "bytes": 1842,
+      "path": "./scenes/slime-reactor-halo-v2/scene.json",
+      "sha256": "cf7c10a80bc10011ef5c1362399afc0d033879b6acc855cdb6250b75375c01ac"
+    }
+  ],
+  "format": "milim-release",
+  "formatVersion": 1,
+  "model": {
+    "id": "milim-v1",
+    "url": "./models/milim-v2/model.json",
+    "version": "2.0.0"
+  },
+  "player": {
+    "entry": "./player/index.js",
+    "version": "0.2.0"
+  },
+  "release": "milim-web-0.2.0",
+  "scenes": [
+    {
+      "id": "cyber-slime-lab-v2",
+      "url": "./scenes/cyber-slime-lab-v2/scene.json",
+      "version": "2.0.0"
+    },
+    {
+      "id": "slime-reactor-halo-v2",
+      "url": "./scenes/slime-reactor-halo-v2/scene.json",
+      "version": "2.0.0"
+    },
+    {
+      "id": "dragon-signal-observatory-v2",
+      "url": "./scenes/dragon-signal-observatory-v2/scene.json",
+      "version": "2.0.0"
+    }
+  ],
+  "source": {
+    "commit": "3e95f74db2869b8e638ce9cddc425987aec86983",
+    "releasedAt": "2026-07-16T13:15:36.000Z",
+    "repository": "gaia-research/milim"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "crops": {
+    "desktop": {
+      "scale": 1,
+      "x": 0.5,
+      "y": 0.5
+    },
+    "mobile": {
+      "scale": 1.38,
+      "x": 0.62,
+      "y": 0.5
+    },
+    "tablet": {
+      "scale": 1.12,
+      "x": 0.56,
+      "y": 0.5
+    }
+  },
+  "effects": {
+    "lightSweep": 0.12,
+    "parallax": 0.16,
+    "particles": 18,
+    "pointer": 0.08,
+    "reflection": 0.22
+  },
+  "format": "milim-scene",
+  "formatVersion": 2,
+  "id": "slime-reactor-halo-v2",
+  "layers": [
+    {
+      "blend": "normal",
+      "depth": 0,
+      "id": "background",
+      "opacity": 1,
+      "role": "background",
+      "url": "./layers/background.webp"
+    },
+    {
+      "blend": "normal",
+      "depth": 0.32,
+      "id": "midground",
+      "opacity": 0.92,
+      "role": "midground",
+      "url": "./layers/midground.webp"
+    },
+    {
+      "blend": "normal",
+      "depth": 0.8,
+      "id": "foreground",
+      "opacity": 0.86,
+      "role": "foreground",
+      "url": "./layers/foreground.webp"
+    },
+    {
+      "blend": "screen",
+      "depth": 0.5,
+      "id": "light",
+      "opacity": 0.5,
+      "role": "light",
+      "url": "./layers/light.webp"
+    },
+    {
+      "blend": "add",
+      "depth": 0.62,
+      "id": "particle-mask",
+      "opacity": 0.62,
+      "role": "particle-mask",
+      "url": "./layers/particles.webp"
+    },
+    {
+      "blend": "screen",
+      "depth": 0.9,
+      "id": "reflection-mask",
+      "opacity": 0.35,
+      "role": "reflection-mask",
+      "url": "./layers/reflection.webp"
+    }
+  ],
+  "reducedMotion": "./layers/reduced-motion.webp",
+  "safeZones": {
+    "desktop": {
+      "scale": 0.42,
+      "x": 0.04,
+      "y": 0.08
+    },
+    "mobile": {
+      "scale": 0.28,
+      "x": 0.04,
+      "y": 0.06
+    },
+    "tablet": {
+      "scale": 0.34,
+      "x": 0.04,
+      "y": 0.07
+    }
+  },
+  "version": "2.0.0"
+}

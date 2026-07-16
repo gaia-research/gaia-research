@@ -1,0 +1,3 @@
+Milim production release
+
+All staged player code, compiled model data, scene data, evidence, and raster assets are Gaia Research-owned production material. Raster PNG sources are deterministically compiled to WebP with cwebp; no third-party browser runtime is shipped.

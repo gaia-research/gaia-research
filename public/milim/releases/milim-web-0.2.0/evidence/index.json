@@ -1,0 +1,121 @@
+{
+  "format": "milim-evidence-inventory",
+  "formatVersion": 1,
+  "items": [
+    {
+      "id": "neutral-desktop",
+      "kind": "fallback",
+      "path": "./previews/desktop.webp"
+    },
+    {
+      "id": "neutral-tablet",
+      "kind": "fallback",
+      "path": "./previews/tablet.webp"
+    },
+    {
+      "id": "neutral-mobile",
+      "kind": "fallback",
+      "path": "./previews/mobile.webp"
+    },
+    {
+      "id": "reduced-motion",
+      "kind": "fallback",
+      "path": "./previews/reduced-motion.webp"
+    },
+    {
+      "id": "expression-contact-sheet",
+      "kind": "contact-sheet",
+      "path": "./evidence/expression-contact-sheet.webp"
+    },
+    {
+      "id": "greet-contact-sheet",
+      "kind": "contact-sheet",
+      "path": "./evidence/greet-contact-sheet.webp"
+    },
+    {
+      "id": "point-contact-sheet",
+      "kind": "contact-sheet",
+      "path": "./evidence/point-contact-sheet.webp"
+    },
+    {
+      "id": "idle-30fps",
+      "kind": "motion-video",
+      "path": "./evidence/videos/idle-30fps.webm"
+    },
+    {
+      "id": "idle-60fps",
+      "kind": "motion-video",
+      "path": "./evidence/videos/idle-60fps.webm"
+    },
+    {
+      "id": "mesh",
+      "kind": "report",
+      "path": "./evidence/mesh.json"
+    },
+    {
+      "id": "mask",
+      "kind": "report",
+      "path": "./evidence/mask.json"
+    },
+    {
+      "id": "protected-region",
+      "kind": "report",
+      "path": "./evidence/protected-region.json"
+    },
+    {
+      "id": "physics",
+      "kind": "report",
+      "path": "./evidence/physics.json"
+    },
+    {
+      "id": "scene-crop",
+      "kind": "report",
+      "path": "./evidence/scene-crop.json"
+    },
+    {
+      "id": "transfer",
+      "kind": "report",
+      "path": "./evidence/transfer.json"
+    },
+    {
+      "id": "startup",
+      "kind": "report",
+      "path": "./evidence/startup.json"
+    },
+    {
+      "id": "frame",
+      "kind": "report",
+      "path": "./evidence/frame.json"
+    },
+    {
+      "id": "inactive",
+      "kind": "report",
+      "path": "./evidence/inactive.json"
+    },
+    {
+      "id": "studio-compile-report",
+      "kind": "compiler-report",
+      "path": "./evidence/studio-compile-report.json"
+    }
+  ],
+  "modelVersion": "2.0.0",
+  "release": "milim-web-0.2.0",
+  "scenes": [
+    {
+      "id": "cyber-slime-lab-v2",
+      "version": "2.0.0"
+    },
+    {
+      "id": "slime-reactor-halo-v2",
+      "version": "2.0.0"
+    },
+    {
+      "id": "dragon-signal-observatory-v2",
+      "version": "2.0.0"
+    }
+  ],
+  "source": {
+    "commit": "718ee18",
+    "release": "milim-web-0.2.0"
+  }
+}

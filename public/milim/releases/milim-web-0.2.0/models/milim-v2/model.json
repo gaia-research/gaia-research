@@ -1,0 +1,2228 @@
+{
+  "anchors": [
+    {
+      "id": "crown",
+      "x": 1024,
+      "y": 350
+    },
+    {
+      "id": "temple-left",
+      "x": 820,
+      "y": 610
+    },
+    {
+      "id": "temple-right",
+      "x": 1220,
+      "y": 610
+    },
+    {
+      "id": "nape",
+      "x": 1024,
+      "y": 820
+    },
+    {
+      "id": "shoulder-left",
+      "x": 700,
+      "y": 930
+    },
+    {
+      "id": "shoulder-right",
+      "x": 1340,
+      "y": 930
+    },
+    {
+      "id": "elbow-left",
+      "x": 570,
+      "y": 1350
+    },
+    {
+      "id": "elbow-right",
+      "x": 1470,
+      "y": 1350
+    },
+    {
+      "id": "wrist-left",
+      "x": 610,
+      "y": 1600
+    },
+    {
+      "id": "wrist-right",
+      "x": 1430,
+      "y": 1600
+    },
+    {
+      "id": "hip-left",
+      "x": 850,
+      "y": 1690
+    },
+    {
+      "id": "hip-right",
+      "x": 1200,
+      "y": 1690
+    },
+    {
+      "id": "knee-left",
+      "x": 850,
+      "y": 2220
+    },
+    {
+      "id": "knee-right",
+      "x": 1200,
+      "y": 2220
+    },
+    {
+      "id": "ankle-left",
+      "x": 850,
+      "y": 2630
+    },
+    {
+      "id": "ankle-right",
+      "x": 1200,
+      "y": 2630
+    }
+  ],
+  "appearances": {
+    "hair": [
+      {
+        "compatibleExpressions": [
+          "joyful-winker",
+          "demon-lord-smirk",
+          "starry-awe",
+          "chaos-gremlin"
+        ],
+        "compatiblePoses": [
+          "confident-neutral-v1",
+          "greet-v1",
+          "point-v1"
+        ],
+        "id": "classic-long-pink",
+        "parts": [
+          "hair-back",
+          "hair-front",
+          "accessory-star-pins"
+        ],
+        "requiredAnchors": [
+          "crown",
+          "temple-left",
+          "temple-right",
+          "nape"
+        ]
+      }
+    ],
+    "outfit": [
+      {
+        "compatibleExpressions": [
+          "joyful-winker",
+          "demon-lord-smirk",
+          "starry-awe",
+          "chaos-gremlin"
+        ],
+        "compatiblePoses": [
+          "confident-neutral-v1",
+          "greet-v1",
+          "point-v1"
+        ],
+        "id": "dragonoid-hoodie-v1",
+        "parts": [
+          "outfit-torso",
+          "outfit-sleeves",
+          "outfit-drawstrings",
+          "outfit-graphic",
+          "base-body",
+          "base-legs",
+          "accessory-shoes"
+        ],
+        "requiredAnchors": [
+          "shoulder-left",
+          "shoulder-right",
+          "hip-left",
+          "hip-right",
+          "knee-left",
+          "knee-right",
+          "ankle-left",
+          "ankle-right"
+        ]
+      }
+    ],
+    "pose": [
+      {
+        "compatibleExpressions": [
+          "joyful-winker",
+          "demon-lord-smirk",
+          "starry-awe",
+          "chaos-gremlin"
+        ],
+        "compatiblePoses": [
+          "confident-neutral-v1"
+        ],
+        "id": "confident-neutral-v1",
+        "parts": [
+          "pose-hands-neutral",
+          "pose-hands-neutral-right"
+        ],
+        "requiredAnchors": [
+          "wrist-left",
+          "wrist-right"
+        ]
+      },
+      {
+        "compatibleExpressions": [
+          "joyful-winker",
+          "demon-lord-smirk",
+          "starry-awe",
+          "chaos-gremlin"
+        ],
+        "compatiblePoses": [
+          "greet-v1"
+        ],
+        "id": "greet-v1",
+        "parts": [
+          "greet-left-limb",
+          "greet-right-limb"
+        ],
+        "requiredAnchors": [
+          "shoulder-right",
+          "elbow-right",
+          "wrist-right"
+        ]
+      },
+      {
+        "compatibleExpressions": [
+          "joyful-winker",
+          "demon-lord-smirk",
+          "starry-awe",
+          "chaos-gremlin"
+        ],
+        "compatiblePoses": [
+          "point-v1"
+        ],
+        "id": "point-v1",
+        "parts": [
+          "point-right-limb"
+        ],
+        "requiredAnchors": [
+          "shoulder-right",
+          "elbow-right",
+          "wrist-right"
+        ]
+      }
+    ]
+  },
+  "canvas": {
+    "height": 3072,
+    "width": 2048
+  },
+  "channels": [
+    "head.turn",
+    "head.nod",
+    "head.tilt",
+    "body.turn",
+    "body.lean",
+    "body.tilt",
+    "eyes.open.left",
+    "eyes.open.right",
+    "eyes.look.x",
+    "eyes.look.y",
+    "brows.form.left",
+    "brows.form.right",
+    "mouth.form",
+    "mouth.open",
+    "cheeks",
+    "fang",
+    "breath",
+    "hair.front.sway",
+    "hair.side.sway",
+    "hair.back.sway",
+    "sleeves.sway",
+    "drawstrings.sway",
+    "arm.left.pose",
+    "arm.right.pose",
+    "hand.left.pose",
+    "hand.right.pose",
+    "base.x",
+    "base.y"
+  ],
+  "deformers": [
+    {
+      "channel": "head.turn",
+      "id": "head-turn",
+      "keyforms": [
+        {
+          "at": -1,
+          "value": {
+            "opacity": 1,
+            "rotation": -0.04,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              -22,
+              0
+            ]
+          }
+        },
+        {
+          "at": 0,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "at": 1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0.04,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              22,
+              0
+            ]
+          }
+        }
+      ],
+      "kind": "transform",
+      "parts": [
+        "face-neutral",
+        "hair-front",
+        "accessory-star-pins"
+      ]
+    },
+    {
+      "channel": "body.turn",
+      "id": "body-turn",
+      "keyforms": [
+        {
+          "at": -1,
+          "value": {
+            "opacity": 1,
+            "rotation": -0.02,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              -18,
+              0
+            ]
+          }
+        },
+        {
+          "at": 0,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "at": 1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0.02,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              18,
+              0
+            ]
+          }
+        }
+      ],
+      "kind": "transform",
+      "parts": [
+        "base-body",
+        "base-legs",
+        "outfit-torso",
+        "outfit-graphic",
+        "accessory-shoes"
+      ]
+    },
+    {
+      "channel": "mouth.open",
+      "id": "face-warp",
+      "keyforms": [
+        {
+          "at": -1,
+          "offsets": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "at": 0,
+          "offsets": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "at": 1,
+          "offsets": [
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              12
+            ],
+            [
+              0,
+              12
+            ]
+          ]
+        }
+      ],
+      "kind": "warp",
+      "parts": [
+        "face-neutral"
+      ]
+    },
+    {
+      "channel": "hair.front.sway",
+      "id": "hair-front-warp",
+      "keyforms": [
+        {
+          "at": -1,
+          "offsets": [
+            [
+              -15,
+              0
+            ],
+            [
+              -10,
+              0
+            ],
+            [
+              -22,
+              8
+            ],
+            [
+              -12,
+              8
+            ]
+          ]
+        },
+        {
+          "at": 0,
+          "offsets": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "at": 1,
+          "offsets": [
+            [
+              15,
+              0
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              22,
+              8
+            ],
+            [
+              12,
+              8
+            ]
+          ]
+        }
+      ],
+      "kind": "warp",
+      "parts": [
+        "hair-front"
+      ]
+    },
+    {
+      "channel": "hair.back.sway",
+      "id": "hair-back-warp",
+      "keyforms": [
+        {
+          "at": -1,
+          "offsets": [
+            [
+              -22,
+              0
+            ],
+            [
+              -16,
+              0
+            ],
+            [
+              -30,
+              12
+            ],
+            [
+              -20,
+              12
+            ]
+          ]
+        },
+        {
+          "at": 0,
+          "offsets": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "at": 1,
+          "offsets": [
+            [
+              22,
+              0
+            ],
+            [
+              16,
+              0
+            ],
+            [
+              30,
+              12
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        }
+      ],
+      "kind": "warp",
+      "parts": [
+        "hair-back"
+      ]
+    },
+    {
+      "channel": "sleeves.sway",
+      "id": "sleeve-warp",
+      "keyforms": [
+        {
+          "at": -1,
+          "offsets": [
+            [
+              -12,
+              0
+            ],
+            [
+              -8,
+              0
+            ],
+            [
+              -18,
+              10
+            ],
+            [
+              -12,
+              10
+            ]
+          ]
+        },
+        {
+          "at": 0,
+          "offsets": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "at": 1,
+          "offsets": [
+            [
+              12,
+              0
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              18,
+              10
+            ],
+            [
+              12,
+              10
+            ]
+          ]
+        }
+      ],
+      "kind": "warp",
+      "parts": [
+        "outfit-sleeves"
+      ]
+    },
+    {
+      "channel": "drawstrings.sway",
+      "id": "drawstring-warp",
+      "keyforms": [
+        {
+          "at": -1,
+          "offsets": [
+            [
+              -8,
+              0
+            ],
+            [
+              -5,
+              0
+            ],
+            [
+              -12,
+              18
+            ],
+            [
+              -8,
+              18
+            ]
+          ]
+        },
+        {
+          "at": 0,
+          "offsets": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "at": 1,
+          "offsets": [
+            [
+              8,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              12,
+              18
+            ],
+            [
+              8,
+              18
+            ]
+          ]
+        }
+      ],
+      "kind": "warp",
+      "parts": [
+        "outfit-drawstrings"
+      ]
+    },
+    {
+      "channel": "arm.left.pose",
+      "id": "arm-left",
+      "keyforms": [
+        {
+          "at": -1,
+          "value": {
+            "opacity": 1,
+            "rotation": -0.08,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              -30,
+              0
+            ]
+          }
+        },
+        {
+          "at": 0,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "at": 1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0.08,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              30,
+              0
+            ]
+          }
+        }
+      ],
+      "kind": "transform",
+      "parts": [
+        "pose-hands-neutral",
+        "greet-left-limb"
+      ]
+    },
+    {
+      "channel": "arm.right.pose",
+      "id": "arm-right",
+      "keyforms": [
+        {
+          "at": -1,
+          "value": {
+            "opacity": 1,
+            "rotation": -0.08,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              -30,
+              0
+            ]
+          }
+        },
+        {
+          "at": 0,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "at": 1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0.08,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              30,
+              0
+            ]
+          }
+        }
+      ],
+      "kind": "transform",
+      "parts": [
+        "pose-hands-neutral-right",
+        "greet-right-limb",
+        "point-right-limb"
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "blendInMs": 0,
+      "blendOutMs": 0,
+      "channels": {},
+      "id": "neutral",
+      "parts": {},
+      "reset": "neutral"
+    },
+    {
+      "blendInMs": 140,
+      "blendOutMs": 180,
+      "channels": {
+        "eyes.open.left": 0.1,
+        "eyes.open.right": -0.9,
+        "fang": 1,
+        "mouth.form": 0.8,
+        "mouth.open": 0.35
+      },
+      "id": "joyful-winker",
+      "parts": {
+        "face-neutral": 1
+      },
+      "reset": "neutral"
+    },
+    {
+      "blendInMs": 140,
+      "blendOutMs": 180,
+      "channels": {
+        "eyes.open.left": -0.25,
+        "eyes.open.right": -0.25,
+        "fang": 1,
+        "mouth.form": 0.9,
+        "mouth.open": 0.1
+      },
+      "id": "demon-lord-smirk",
+      "parts": {
+        "face-neutral": 1
+      },
+      "reset": "neutral"
+    },
+    {
+      "blendInMs": 160,
+      "blendOutMs": 200,
+      "channels": {
+        "eyes.open.left": 0.9,
+        "eyes.open.right": 0.9,
+        "fang": 0,
+        "mouth.form": 0.5,
+        "mouth.open": 0.6
+      },
+      "id": "starry-awe",
+      "parts": {
+        "face-neutral": 1
+      },
+      "reset": "neutral"
+    },
+    {
+      "blendInMs": 120,
+      "blendOutMs": 180,
+      "channels": {
+        "cheeks": 0.85,
+        "eyes.open.left": 0.7,
+        "eyes.open.right": 0.7,
+        "mouth.form": -0.35,
+        "mouth.open": 0.2
+      },
+      "id": "chaos-gremlin",
+      "parts": {
+        "face-neutral": 1
+      },
+      "reset": "neutral"
+    }
+  ],
+  "format": "milim-model",
+  "formatVersion": 2,
+  "framing": {
+    "desktop": {
+      "safeZone": [
+        0.04,
+        0.08,
+        0.46,
+        0.84
+      ],
+      "scale": 0.78,
+      "x": 0.72,
+      "y": 0.52
+    },
+    "mobile": {
+      "safeZone": [
+        0.05,
+        0.04,
+        0.32,
+        0.92
+      ],
+      "scale": 0.52,
+      "x": 0.68,
+      "y": 0.55
+    },
+    "tablet": {
+      "safeZone": [
+        0.05,
+        0.06,
+        0.38,
+        0.88
+      ],
+      "scale": 0.66,
+      "x": 0.72,
+      "y": 0.53
+    }
+  },
+  "id": "milim-v1",
+  "masks": [
+    {
+      "id": "hair-over-face",
+      "mode": "exclude",
+      "sourcePart": "hair-front"
+    },
+    {
+      "id": "hand-over-torso",
+      "mode": "exclude",
+      "sourcePart": "pose-hands-neutral-right"
+    },
+    {
+      "id": "hood-opening",
+      "mode": "include",
+      "sourcePart": "outfit-torso"
+    },
+    {
+      "id": "eye-window",
+      "mode": "include",
+      "sourcePart": "face-neutral"
+    },
+    {
+      "id": "mouth-fang",
+      "mode": "include",
+      "sourcePart": "face-neutral"
+    }
+  ],
+  "motions": [
+    {
+      "durationMs": 10000,
+      "id": "idle-breathe",
+      "loop": true,
+      "parts": {},
+      "returnMs": 0,
+      "tracks": {
+        "breath": [
+          [
+            0,
+            0
+          ],
+          [
+            5000,
+            0.12
+          ],
+          [
+            10000,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "durationMs": 8000,
+      "id": "idle-look",
+      "loop": true,
+      "parts": {},
+      "returnMs": 0,
+      "tracks": {
+        "eyes.look.x": [
+          [
+            0,
+            0
+          ],
+          [
+            4000,
+            0.2
+          ],
+          [
+            8000,
+            0
+          ]
+        ],
+        "head.turn": [
+          [
+            0,
+            0
+          ],
+          [
+            4000,
+            0.12
+          ],
+          [
+            8000,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "durationMs": 1100,
+      "id": "greet",
+      "loop": false,
+      "parts": {
+        "greet-right-limb": [
+          [
+            0,
+            0
+          ],
+          [
+            220,
+            1
+          ],
+          [
+            860,
+            1
+          ],
+          [
+            1100,
+            0
+          ]
+        ],
+        "pose-hands-neutral-right": [
+          [
+            0,
+            1
+          ],
+          [
+            220,
+            0
+          ],
+          [
+            860,
+            0
+          ],
+          [
+            1100,
+            1
+          ]
+        ]
+      },
+      "returnMs": 240,
+      "tracks": {
+        "arm.right.pose": [
+          [
+            0,
+            0
+          ],
+          [
+            220,
+            0.45
+          ],
+          [
+            620,
+            0.85
+          ],
+          [
+            1100,
+            0
+          ]
+        ],
+        "hand.right.pose": [
+          [
+            0,
+            0
+          ],
+          [
+            220,
+            0.6
+          ],
+          [
+            620,
+            0.8
+          ],
+          [
+            1100,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "durationMs": 950,
+      "id": "point",
+      "loop": false,
+      "parts": {
+        "point-right-limb": [
+          [
+            0,
+            0
+          ],
+          [
+            240,
+            1
+          ],
+          [
+            710,
+            1
+          ],
+          [
+            950,
+            0
+          ]
+        ],
+        "pose-hands-neutral-right": [
+          [
+            0,
+            1
+          ],
+          [
+            240,
+            0
+          ],
+          [
+            710,
+            0
+          ],
+          [
+            950,
+            1
+          ]
+        ]
+      },
+      "returnMs": 240,
+      "tracks": {
+        "arm.right.pose": [
+          [
+            0,
+            0
+          ],
+          [
+            240,
+            0.7
+          ],
+          [
+            650,
+            1
+          ],
+          [
+            950,
+            0
+          ]
+        ],
+        "head.turn": [
+          [
+            0,
+            0
+          ],
+          [
+            300,
+            0.15
+          ],
+          [
+            700,
+            0.15
+          ],
+          [
+            950,
+            0
+          ]
+        ]
+      }
+    }
+  ],
+  "parts": [
+    {
+      "anchor": "hip-left",
+      "deformers": [
+        "body-turn"
+      ],
+      "drawOrder": 10,
+      "id": "base-body",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "base",
+      "texture": "base-body"
+    },
+    {
+      "anchor": "knee-left",
+      "deformers": [
+        "body-turn"
+      ],
+      "drawOrder": 20,
+      "id": "base-legs",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "base",
+      "texture": "base-legs"
+    },
+    {
+      "anchor": "nape",
+      "deformers": [
+        "hair-back-warp"
+      ],
+      "drawOrder": 30,
+      "id": "hair-back",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "hair",
+      "texture": "hair-back"
+    },
+    {
+      "anchor": "nape",
+      "deformers": [
+        "body-turn"
+      ],
+      "drawOrder": 40,
+      "id": "outfit-torso",
+      "masks": [
+        "hood-opening"
+      ],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "outfit",
+      "texture": "outfit-torso"
+    },
+    {
+      "anchor": "elbow-left",
+      "deformers": [
+        "sleeve-warp"
+      ],
+      "drawOrder": 45,
+      "id": "outfit-sleeves",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "outfit",
+      "texture": "outfit-sleeves"
+    },
+    {
+      "anchor": "nape",
+      "deformers": [
+        "drawstring-warp"
+      ],
+      "drawOrder": 50,
+      "id": "outfit-drawstrings",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": true,
+      "slot": "outfit",
+      "texture": "outfit-drawstrings"
+    },
+    {
+      "anchor": "nape",
+      "deformers": [
+        "body-turn"
+      ],
+      "drawOrder": 55,
+      "id": "outfit-graphic",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": true,
+      "slot": "outfit",
+      "texture": "outfit-graphic"
+    },
+    {
+      "anchor": "crown",
+      "deformers": [
+        "head-turn",
+        "face-warp"
+      ],
+      "drawOrder": 60,
+      "id": "face-neutral",
+      "masks": [
+        "hair-over-face",
+        "eye-window",
+        "mouth-fang"
+      ],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": true,
+      "slot": "expression",
+      "texture": "face-neutral"
+    },
+    {
+      "anchor": "crown",
+      "deformers": [
+        "hair-front-warp"
+      ],
+      "drawOrder": 70,
+      "id": "hair-front",
+      "masks": [
+        "hair-over-face"
+      ],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "hair",
+      "texture": "hair-front"
+    },
+    {
+      "anchor": "temple-left",
+      "deformers": [
+        "head-turn"
+      ],
+      "drawOrder": 80,
+      "id": "accessory-star-pins",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": true,
+      "slot": "accessory",
+      "texture": "accessory-star-pins"
+    },
+    {
+      "anchor": "wrist-left",
+      "deformers": [
+        "arm-left"
+      ],
+      "drawOrder": 90,
+      "id": "pose-hands-neutral",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "pose",
+      "texture": "pose-hands-neutral"
+    },
+    {
+      "anchor": "wrist-right",
+      "deformers": [
+        "arm-right"
+      ],
+      "drawOrder": 91,
+      "id": "pose-hands-neutral-right",
+      "masks": [
+        "hand-over-torso"
+      ],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "pose",
+      "texture": "pose-hands-neutral-right"
+    },
+    {
+      "anchor": "ankle-left",
+      "deformers": [
+        "body-turn"
+      ],
+      "drawOrder": 100,
+      "id": "accessory-shoes",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": true,
+      "slot": "accessory",
+      "texture": "accessory-shoes"
+    },
+    {
+      "anchor": "wrist-left",
+      "deformers": [
+        "arm-left"
+      ],
+      "drawOrder": 110,
+      "id": "greet-left-limb",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "pose",
+      "texture": "greet-left-limb"
+    },
+    {
+      "anchor": "wrist-right",
+      "deformers": [
+        "arm-right"
+      ],
+      "drawOrder": 111,
+      "id": "greet-right-limb",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "pose",
+      "texture": "greet-right-limb"
+    },
+    {
+      "anchor": "wrist-right",
+      "deformers": [
+        "arm-right"
+      ],
+      "drawOrder": 112,
+      "id": "point-right-limb",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            1,
+            3,
+            2
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "pose",
+      "texture": "point-right-limb"
+    }
+  ],
+  "physics": [
+    {
+      "damping": 0.22,
+      "gain": 0.6,
+      "gravity": 0,
+      "id": "hair-front-spring",
+      "inputs": [
+        "head.turn",
+        "hair.front.sway"
+      ],
+      "limit": 0.28,
+      "mass": 1,
+      "output": "hair.front.sway",
+      "rest": 0,
+      "stiffness": 0.7
+    },
+    {
+      "damping": 0.2,
+      "gain": 0.55,
+      "gravity": 0,
+      "id": "hair-side-spring",
+      "inputs": [
+        "head.turn",
+        "hair.side.sway"
+      ],
+      "limit": 0.32,
+      "mass": 1,
+      "output": "hair.side.sway",
+      "rest": 0,
+      "stiffness": 0.6
+    },
+    {
+      "damping": 0.18,
+      "gain": 0.5,
+      "gravity": 0,
+      "id": "hair-back-spring",
+      "inputs": [
+        "body.turn",
+        "hair.back.sway"
+      ],
+      "limit": 0.35,
+      "mass": 1.2,
+      "output": "hair.back.sway",
+      "rest": 0,
+      "stiffness": 0.5
+    },
+    {
+      "damping": 0.25,
+      "gain": 0.45,
+      "gravity": 0,
+      "id": "sleeve-spring",
+      "inputs": [
+        "arm.left.pose",
+        "arm.right.pose",
+        "sleeves.sway"
+      ],
+      "limit": 0.2,
+      "mass": 0.8,
+      "output": "sleeves.sway",
+      "rest": 0,
+      "stiffness": 0.75
+    },
+    {
+      "damping": 0.3,
+      "gain": 0.35,
+      "gravity": 0,
+      "id": "drawstring-spring",
+      "inputs": [
+        "body.lean",
+        "drawstrings.sway"
+      ],
+      "limit": 0.18,
+      "mass": 0.35,
+      "output": "drawstrings.sway",
+      "rest": 0,
+      "stiffness": 0.9
+    }
+  ],
+  "textures": [
+    {
+      "height": 3072,
+      "id": "hair-back",
+      "url": "./textures/hair-back.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "hair-front",
+      "url": "./textures/hair-front.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "accessory-star-pins",
+      "url": "./textures/accessory-star-pins.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "face-neutral",
+      "url": "./textures/face-neutral.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "outfit-torso",
+      "url": "./textures/outfit-torso.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "outfit-sleeves",
+      "url": "./textures/outfit-sleeves.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "outfit-drawstrings",
+      "url": "./textures/outfit-drawstrings.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "outfit-graphic",
+      "url": "./textures/outfit-graphic.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "pose-hands-neutral",
+      "url": "./textures/pose-hands-neutral.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "pose-hands-neutral-right",
+      "url": "./textures/pose-hands-neutral-right.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "base-body",
+      "url": "./textures/base-body.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "base-legs",
+      "url": "./textures/base-legs.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "accessory-shoes",
+      "url": "./textures/accessory-shoes.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "greet-left-limb",
+      "url": "./textures/greet-left-limb.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "greet-right-limb",
+      "url": "./textures/greet-right-limb.webp",
+      "width": 2048
+    },
+    {
+      "height": 3072,
+      "id": "point-right-limb",
+      "url": "./textures/point-right-limb.webp",
+      "width": 2048
+    }
+  ],
+  "version": "2.0.0"
+}

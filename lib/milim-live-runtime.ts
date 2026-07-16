@@ -8,9 +8,9 @@ type MilimSetResult = { ok?: boolean } | undefined;
 type MilimSceneStatus = { type?: unknown; scene?: unknown; error?: unknown };
 
 const SCENE_LABELS: Record<string, string> = {
-  "cyber-slime-lab-v1": "Cyber-Slime Laboratory",
-  "slime-reactor-halo-v1": "Slime Reactor Halo",
-  "dragon-signal-observatory-v1": "Dragon Signal Observatory",
+  "cyber-slime-lab-v2": "Cyber-Slime Laboratory",
+  "slime-reactor-halo-v2": "Slime Reactor Halo",
+  "dragon-signal-observatory-v2": "Dragon Signal Observatory",
 };
 
 export function requestMilimScene<Scene extends string>(

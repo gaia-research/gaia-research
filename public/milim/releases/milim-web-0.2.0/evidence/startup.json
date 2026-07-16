@@ -1,0 +1,12 @@
+{
+  "contactSheets": [
+    "expression-contact-sheet.png",
+    "greet-contact-sheet.png",
+    "point-contact-sheet.png"
+  ],
+  "evidenceFiles": 21,
+  "format": "milim-evidence",
+  "kind": "startup",
+  "method": "static-source-artifact-check",
+  "status": "pass"
+}

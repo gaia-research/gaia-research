@@ -1,9 +1,9 @@
 import type { MilimExpression } from "./milim-player-loader";
 
 export const MILIM_QA_SCENES = [
-  "cyber-slime-lab-v1",
-  "slime-reactor-halo-v1",
-  "dragon-signal-observatory-v1",
+  "cyber-slime-lab-v2",
+  "slime-reactor-halo-v2",
+  "dragon-signal-observatory-v2",
 ] as const;
 
 export const MILIM_QA_EXPRESSIONS = [
@@ -32,7 +32,7 @@ export type MilimQaQuery = {
 };
 
 const DEFAULT_QUERY: MilimQaQuery = {
-  scene: "cyber-slime-lab-v1",
+  scene: "cyber-slime-lab-v2",
   expression: "neutral",
   motion: "idle",
   mode: "live",

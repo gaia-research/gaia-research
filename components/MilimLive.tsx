@@ -9,8 +9,8 @@ import {
 } from "@/lib/milim-player-loader";
 import { createCoalescedMilimPointerDriver } from "@/lib/milim-live-runtime";
 
-/** Integrators change this one explicit pin when the immutable 0.2.0 release is promoted. */
-export const MILIM_RELEASE_VERSION = "milim-web-0.1.2";
+/** The one immutable production release pin consumed by all website adapters. */
+export const MILIM_RELEASE_VERSION = "milim-web-0.2.0";
 export const MILIM_RELEASE_URL = `/milim/releases/${MILIM_RELEASE_VERSION}/release.json`;
 
 export type MilimLiveMode = "live" | "fallback" | "reduced-motion" | "missing-release";

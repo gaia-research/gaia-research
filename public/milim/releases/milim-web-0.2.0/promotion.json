@@ -1,7 +1,6 @@
 {
-  "format": "milim-current",
+  "format": "milim-promotion-source",
   "formatVersion": 1,
-  "manifest": "./releases/milim-web-0.2.0/release.json",
   "release": "milim-web-0.2.0",
   "source": {
     "commit": "3e95f74db2869b8e638ce9cddc425987aec86983",

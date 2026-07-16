@@ -7,7 +7,7 @@ const baseURL = new URL(args["base-url"] ?? "http://127.0.0.1:3000").href;
 const playwright = loadPlaywright(args["pw-path"] ?? process.env.PW_PATH);
 const timeout = 20_000;
 const expressions = ["neutral", "joyful-winker", "demon-lord-smirk", "starry-awe", "chaos-gremlin"];
-const scenes = ["cyber-slime-lab-v1", "slime-reactor-halo-v1", "dragon-signal-observatory-v1"];
+const scenes = ["cyber-slime-lab-v2", "slime-reactor-halo-v2", "dragon-signal-observatory-v2"];
 const motions = ["idle", "greet", "point"];
 
 const browser = await playwright.chromium.launch({ headless: true });

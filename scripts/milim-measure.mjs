@@ -20,7 +20,7 @@ try {
     const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const page = await context.newPage();
     const start = performance.now();
-    await page.goto(new URL("/milim/qa?scene=cyber-slime-lab-v1&expression=neutral&measure=1", baseURL).href, { waitUntil: "domcontentloaded" });
+    await page.goto(new URL("/milim/qa?scene=cyber-slime-lab-v2&expression=neutral&measure=1", baseURL).href, { waitUntil: "domcontentloaded" });
     await page.waitForFunction(() => window.__MILIM_QA__?.snapshot().ready === true, undefined, { timeout: 20_000 });
     startups.push(performance.now() - start);
     const telemetry = await page.evaluate(async () => {

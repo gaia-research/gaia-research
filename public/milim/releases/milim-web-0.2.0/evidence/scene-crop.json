@@ -1,0 +1,16 @@
+{
+  "format": "milim-evidence",
+  "kind": "scene-crop",
+  "layerMinimum": 6,
+  "scenes": [
+    "cyber-slime-lab-v2",
+    "slime-reactor-halo-v2",
+    "dragon-signal-observatory-v2"
+  ],
+  "status": "pass",
+  "viewports": [
+    "desktop",
+    "tablet",
+    "mobile"
+  ]
+}

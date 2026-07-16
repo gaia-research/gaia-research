@@ -1,0 +1,12 @@
+{
+  "format": "milim-evidence",
+  "kind": "frame",
+  "method": "semantic-source-rig-audit",
+  "status": "pass",
+  "videoEvidence": [
+    "videos/idle-30fps.webm",
+    "videos/idle-60fps.webm",
+    "videos/greet-point-motion.webm",
+    "videos/point-motion.webm"
+  ]
+}

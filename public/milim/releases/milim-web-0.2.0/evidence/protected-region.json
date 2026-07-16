@@ -1,0 +1,27 @@
+{
+  "comparison": {
+    "authoredPixels": 1884404,
+    "checks": {
+      "alphaSeams": "pass-at-source-resolution",
+      "layerComposite": "pass",
+      "protectedRegions": "pass-by-source-pixel-comparison"
+    },
+    "maxMeanRgbError": 13.3333,
+    "meanAbsoluteRgbError": 0.0013,
+    "reconstruction": "./neutral-reconstruction.png",
+    "source": "../../../../assets/source/v2/milim-neutral-source-2048.png",
+    "unionCoverage": 0.299518
+  },
+  "format": "milim-evidence",
+  "kind": "protected-region",
+  "regions": [
+    "hoodie-dragon-graphic",
+    "hoodie-wordmark",
+    "star-pin-1",
+    "star-pin-2",
+    "sock-stripes-left",
+    "sock-stripes-right",
+    "shoe-accents"
+  ],
+  "status": "pass"
+}

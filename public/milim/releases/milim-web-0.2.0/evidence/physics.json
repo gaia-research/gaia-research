@@ -1,0 +1,13 @@
+{
+  "chains": [
+    "hair-front-spring",
+    "hair-side-spring",
+    "hair-back-spring",
+    "sleeve-spring",
+    "drawstring-spring"
+  ],
+  "fixedStepHz": 120,
+  "format": "milim-evidence",
+  "kind": "physics",
+  "status": "pass"
+}
