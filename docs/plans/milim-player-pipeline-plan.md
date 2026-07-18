@@ -1,11 +1,13 @@
-# Milim Player and Private Production Pipeline
+# Public Milim Player and Private Production Pipeline
 
-- **Status:** Ratified
+- **Status:** Ratified; repository boundary amended 2026-07-18
 - **Ratified:** 2026-07-16
 - **Tracking:** gaia-research#32
 - **Priority:** Website implementation first; reusable Milim Player seam in the same release
 - **Private source repository:** gaia-research/milim (private)
+- **Public player repository:** gaia-research/milim-player (public)
 - **Website consumer:** gaia-research
+- **Archived predecessor:** gaia-research/milim-live2d-model (archived; Stretchy-dependent)
 - **Supersedes:** docs/plans/milim-live2d-model-plan.md and the Stretchy/Cubism production paths
 
 ## Ratified decision
@@ -15,32 +17,40 @@ dependency-free web player. The project will not use Stretchy Studio, Cubism
 Core, a generic Live2D runtime, or a third-party animation framework for its
 first release.
 
-The private gaia-research/milim repository will own:
+The private gaia-research/milim repository owns:
 
 - editable Milim art and rig sources;
 - Milim Studio, the character-specific authoring environment;
 - the compiler and validators;
-- the Milim Player implementation;
 - model, scene, engine, and release versioning;
 - generated preview and acceptance artifacts;
 - future hair, outfit, pose, scene, and input-adapter improvements.
 
-The public gaia-research website repository will consume an exact compiled web
-release promoted from the private repository. The promoted player and browser
-assets are committed into gaia-research so production builds require no access
-token, private package registry, submodule checkout, or network-time dependency
-on the private repository.
+The public gaia-research/milim-player repository owns the dependency-free
+runtime implementation, stable browser API, renderer, lifecycle, validation,
+and public-safe player tests. It contains no editable Milim art, models, scenes,
+Studio source, compiler, private fixtures, release evidence, or credentials.
+
+The public gaia-research website repository consumes an exact compiled web
+release promoted from the private repository. Each bundle records and includes
+an exact reviewed milim-player version and commit. Promoted browser assets are
+committed into gaia-research so production builds require no access token,
+private package registry, submodule checkout, or runtime dependency on either
+source repository.
 
 This decision separates two concerns:
 
 1. The private repository protects editable source, authoring tools, release
    history, and unpublished experiments.
-2. The browser artifact is necessarily public after deployment. No secret,
+2. The public player makes the reusable runtime inspectable without publishing
+   Milim production inputs or pipeline history.
+3. The browser artifact is necessarily public after deployment. No secret,
    private credential, or unpublished source material may be embedded in it.
 
-Changing the repository ownership model, adding a shipped third-party runtime,
-or returning to a Cubism/Stretchy deliverable requires an explicit amendment to
-this plan.
+The Stretchy-dependent `milim-live2d-model` repository is archived and is not a
+source, dependency, or release destination. Changing this ownership model,
+adding a shipped third-party runtime, or returning to a Cubism/Stretchy
+deliverable requires an explicit amendment to this plan.
 
 ## Product outcome
 
@@ -96,6 +106,21 @@ from Stretchy. It may be used as behavioral evidence during migration, but it
 is not the v1 module contract. Any retained adapted code keeps its notice and
 provenance. New Milim-owned modules should be implemented against this plan and
 the Milim format rather than the Stretchy project shape.
+
+## GitHub Free governance policy
+
+Repository governance must use only controls available on GitHub Free.
+
+- The public milim-player repository uses basic branch protection: pull request,
+  one approval, Code Owner review, resolved conversations, and a required test.
+- The private milim pipeline uses documented compensating controls where GitHub
+  Free cannot enforce private-repository branch protection: no direct main
+  pushes, pull-request review, green validation before manual merge, and
+  immutable release directories.
+- Paid organization rulesets, merge queues, and environment gates are not phase
+  acceptance criteria and must not block the plan.
+- Making production source public is never an acceptable workaround for a
+  missing private-repository control.
 
 ## System shape
 
@@ -346,19 +371,13 @@ Background effects must preserve negative space for semantic homepage content,
 must not imitate essential UI, and must not produce rapid flashes. The scene
 pauses with the character.
 
-## Private repository layout
+## Repository layout
 
-The private repository begins as:
+The private production repository begins as:
 
     gaia-research/milim/
       AGENTS.md
       README.md
-      player/
-        index.js
-        renderer/
-        motion/
-        physics/
-        scene/
       studio/
         index.html
         app/
@@ -382,15 +401,31 @@ The private repository begins as:
       dist/
         releases/
 
+The public player repository begins as:
+
+    gaia-research/milim-player/
+      AGENTS.md
+      README.md
+      docs/
+        player-api.md
+      player/
+        index.js
+        renderer/
+        motion/
+        physics/
+        scene/
+      tests/
+        player/
+
 No workspace package manager is required for v1. Browser modules remain native
 ES modules. Tests use node:test for in-process behavior and a browser QA harness
 for rendered behavior.
 
 ## Release and versioning model
 
-The private repository owns four independently recorded versions:
+The system records four independently governed versions:
 
-- Player version: semantic version, beginning 0.1.0.
+- Player version: semantic version and public source commit, beginning 0.1.0.
 - Model version: immutable Milim model major/minor/patch.
 - Scene version: immutable scene pack version.
 - Web release version: locks one compatible player, model, and scene set.
@@ -427,6 +462,11 @@ The private release command produces:
       previews/
       LICENSES.txt
 
+Release assembly accepts only a reviewed, pinned milim-player source commit or
+immutable player artifact. It verifies the player version and commit before
+copying runtime files into the release. The private repository must not develop
+a second player implementation.
+
 The gaia-research promotion command:
 
 1. accepts an authenticated local path or downloaded private release artifact;
@@ -452,9 +492,10 @@ After this plan merges, the GitHub tracking structure should be reconciled:
   source-art pack, while preserving its hidden-region and character-lock checks.
 - #34 is retargeted from Stretchy authoring to Milim Studio rig, expression,
   motion, physics, and scene authoring.
-- #35 is retargeted from publishing a public milim-live2d-model repository to
-  creating the private gaia-research/milim repository and proving the immutable
-  promotion seam.
+- #35 is retargeted from the Stretchy-dependent milim-live2d-model repository to
+  the public gaia-research/milim-player runtime, private gaia-research/milim
+  production pipeline, and immutable promotion seam. The predecessor repository
+  remains archived.
 - #36 is closed or archived as superseded because portable .moc3 export is an
   explicit MVP non-goal.
 
@@ -495,11 +536,13 @@ fallback, promotion, and the player interface before final art production.
 
 - Merge this plan and mark prior Stretchy/Cubism plans superseded.
 - Create private gaia-research/milim.
-- Add AGENTS.md, ownership, branch protection, and release conventions.
+- Create public gaia-research/milim-player and archive milim-live2d-model.
+- Add AGENTS.md, ownership, GitHub Free-compatible controls, and release conventions.
 - Copy only necessary behavior/tests from the current prototype with provenance.
 - Establish player, compiler, studio, models, scenes, and tests directories.
 
-**Exit:** Private repository exists; plan and ownership are unambiguous.
+**Exit:** Private pipeline and public player repositories exist; the Stretchy
+predecessor is archived; ownership and Free-plan controls are unambiguous.
 
 ### Phase 1 — Contracts and release seam
 
@@ -507,7 +550,8 @@ fallback, promotion, and the player interface before final art production.
 - Define the Milim Player interface and structured errors.
 - Define default semantic channels and composition precedence.
 - Implement deterministic validation and a hand-authored minimal fixture.
-- Implement private release assembly and public promotion verification.
+- Implement private release assembly from a pinned public player commit and
+  public promotion verification.
 
 **Exit:** A tiny fixture compiles, promotes, loads, renders, and tears down on the
 website through the final interface.
@@ -617,12 +661,13 @@ separate worktrees and do not edit overlapping directories.
 
 ### File ownership lanes
 
-- Sol lane: player/, core model evaluation, physics, renderer, player tests.
+- Sol lane: public milim-player runtime, core model evaluation, physics,
+  renderer, and public-safe player tests.
 - Terra lane: studio/, compiler/, promotion scripts, gaia-research adapter.
 - Luna lane: fixtures, source manifests, scene declarations, generated evidence,
   documentation.
-- Integrator-only: shared schemas after freeze, release manifest, cross-repo
-  version pins, final promotion.
+- Integrator-only: shared compatibility schemas after freeze, public-player
+  commit pin, release manifest, cross-repo version pins, final promotion.
 
 ## Validation and acceptance
 
@@ -642,6 +687,8 @@ separate worktrees and do not edit overlapping directories.
 
 - Website code imports only the Milim Player interface and a pinned release.
 - No React module references mesh, layer, mask, physics, or curve internals.
+- Public player source contains no private model, scene, Studio, compiler, or
+  production-evidence files.
 - Private source compiles without access to gaia-research internals.
 - The same release loads in a standalone vanilla browser fixture.
 - A second scene can be added without changing the player interface.
@@ -650,7 +697,8 @@ separate worktrees and do not edit overlapping directories.
 ### Dependency acceptance
 
 - No third-party JavaScript ships in the player release.
-- No npm install is required to compile or test the private MVP modules.
+- No npm install is required to compile the private pipeline or test either the
+  private pipeline or public player MVP modules.
 - Browser release contains no Cubism, Stretchy, Spine, Rive, or PSD runtime.
 - LICENSES.txt accounts for retained provenance and shipped assets.
 
@@ -662,7 +710,7 @@ separate worktrees and do not edit overlapping directories.
 - Device pixel ratio is capped at 2.
 - Target 60fps desktop and 30fps mobile under the supported scene.
 - Hidden/offscreen animation consumes no requestAnimationFrame work.
-- Static content and fallback render before the private release finishes loading.
+- Static content and fallback render before the promoted release finishes loading.
 
 Budgets may be tightened after the tracer slice establishes measured baselines.
 Relaxing them requires evidence and an explicit plan amendment.
@@ -679,7 +727,7 @@ Relaxing them requires evidence and an explicit plan amendment.
 
 ### Release acceptance
 
-- Private source commit and release versions are recorded.
+- Private source commit, public player commit, and release versions are recorded.
 - Compiler and promotion checksums match.
 - Immutable public release path exists.
 - Standalone fixture and website use the same release manifest.
@@ -700,10 +748,11 @@ Milim Studio supports only the semantic channels, slots, masks, curves, and
 scenes required by Milim. Reject generic-character features until Milim v1 is
 live.
 
-### Private/public release drift
+### Pipeline/player/website release drift
 
-The website pins an immutable release manifest and promotion record. Never copy
-individual files without the checksum-verifying promotion command.
+The private assembler pins an exact public player commit. The website pins an
+immutable release manifest and promotion record. Never copy individual files
+without the checksum-verifying assembly and promotion commands.
 
 ### Player and model incompatibility
 
@@ -744,7 +793,9 @@ After MVP:
 2. Add an optional VTuber input adapter that maps tracking landmarks to drive().
 3. Add microphone-derived mouth controls outside the player.
 4. Add recording and transparent-background output.
-5. Consider extracting a public player only after a second consumer proves the
-   interface and the project explicitly approves publication.
+5. Add a second public consumer only after the v1 interface and license are
+   explicitly approved.
 
-The private repository remains the source of truth for all future versions.
+The private repository remains the source of truth for Milim production inputs
+and releases. The public player repository remains the source of truth for the
+runtime and stable player API.

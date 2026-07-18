@@ -4,9 +4,10 @@
 > public milim-live2d-model repository are no longer the approved direction.
 > The ratified source of truth is
 > [Milim Player and Private Production Pipeline](./milim-player-pipeline-plan.md):
-> a Milim-specific, dependency-free first release owned by a private repository
-> and promoted into the website as an immutable compiled artifact. This file is
-> retained as a historical implementation record for the existing prototype.
+> a Milim-specific, dependency-free public player paired with a private
+> production pipeline and promoted into the website as an immutable compiled
+> artifact. The Stretchy-dependent `gaia-research/milim-live2d-model` repository
+> is archived. This file is retained only as a historical implementation record.
 
 **Status:** Superseded implementation record. **Original date:** 2026-07-11.
 **Branch:** `feat/milim-live2d-integration` (worktree off `origin/feat/north-star-live-v2`).
