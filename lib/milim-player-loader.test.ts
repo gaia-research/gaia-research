@@ -21,6 +21,28 @@ function validManifest() {
 }
 
 describe("loadMilimRelease", () => {
+  it("resolves a browser-relative promoted release and player entry", async () => {
+    vi.stubGlobal("window", { location: { href: "https://research.example/milim/qa" } });
+    const fetchImpl = vi.fn(async () => ({
+      ok: true,
+      status: 200,
+      json: async () => validManifest(),
+    }));
+    const importModule = vi.fn(async () => ({ mountMilim: vi.fn() }));
+
+    try {
+      await loadMilimRelease("/milim/releases/milim-web-0.2.0/release.json", {
+        fetchImpl,
+        importModule,
+      });
+    } finally {
+      vi.unstubAllGlobals();
+    }
+
+    expect(fetchImpl).toHaveBeenCalledWith("https://research.example/milim/releases/milim-web-0.2.0/release.json");
+    expect(importModule).toHaveBeenCalledWith("https://research.example/milim/releases/milim-web-0.2.0/player/index.js");
+  });
+
   it("loads the exact pinned player and exposes only mountMilim", async () => {
     const mountMilim = vi.fn();
     const fetchImpl = vi.fn(async () => ({
@@ -40,6 +62,20 @@ describe("loadMilimRelease", () => {
     expect(importModule).toHaveBeenCalledWith("https://research.example/milim/releases/milim-web-0.2.0/player/index.js");
     expect(Object.keys(player)).toEqual(["mountMilim"]);
     expect(player.mountMilim).toBe(mountMilim);
+  });
+
+  it("preserves absolute file URLs for fixture-based release tests", async () => {
+    const fetchImpl = vi.fn(async () => ({
+      ok: true,
+      status: 200,
+      json: async () => validManifest(),
+    }));
+    const importModule = vi.fn(async () => ({ mountMilim: vi.fn() }));
+
+    await loadMilimRelease("file:///tmp/milim-fixture/release.json", { fetchImpl, importModule });
+
+    expect(fetchImpl).toHaveBeenCalledWith("file:///tmp/milim-fixture/release.json");
+    expect(importModule).toHaveBeenCalledWith("file:///tmp/milim-fixture/player/index.js");
   });
 
   it("rejects an unsupported compatibility major before importing code", async () => {

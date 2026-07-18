@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import MilimLive, { MILIM_RELEASE_URL, type MilimLifecycle } from "@/components/MilimLive";
 import type { MilimController, MilimDurableState } from "@/lib/milim-player-loader";
-import { MILIM_QA_EXPRESSIONS, MILIM_QA_MODES, MILIM_QA_MOTIONS, MILIM_QA_SCENES, type MilimQaQuery } from "@/lib/milim-qa";
+import { MILIM_QA_EXPRESSIONS, MILIM_QA_MODES, MILIM_QA_MOTIONS, MILIM_QA_SCENES, resolveMilimQaRuntimeMode, type MilimQaQuery } from "@/lib/milim-qa";
 
 type QaSnapshot = { ready: boolean; query: MilimQaQuery; lifecycle: MilimLifecycle | null; statuses: string[] };
 
@@ -42,7 +42,7 @@ export function MilimQaConsole({ query }: { query: MilimQaQuery }) {
   const rendered = useMemo(() => JSON.stringify(snapshot, null, 2), [snapshot]);
   return <main className="milim-qa">
     <header className="milim-qa-head"><p className="signal"><span /> PHASE 2 REVIEW SURFACE</p><h1>Milim tracer QA</h1><p>Semantic controls only: one tracer expression, one animated laboratory scene, and every static fallback path. Later expression and motion review belongs to Phase 4.</p></header>
-    <MilimLive className="milim-qa-stage" fallbackSrc={FALLBACK_SRC} fallbackAlt="Static Milim fallback used for tracer QA." width={1024} height={1536} sizes="100vw" mode={query.mode} releaseUrl={releaseUrl} initialState={{ scene: query.scene, expression: query.expression }} onReady={onReady} onLifecycle={onLifecycle} onStatus={onStatus} />
+    <MilimLive className="milim-qa-stage" fallbackSrc={FALLBACK_SRC} fallbackAlt="Static Milim fallback used for tracer QA." width={1024} height={1536} sizes="100vw" mode={resolveMilimQaRuntimeMode(query.mode)} releaseUrl={releaseUrl} initialState={{ scene: query.scene, expression: query.expression }} onReady={onReady} onLifecycle={onLifecycle} onStatus={onStatus} />
     <section className="milim-qa-output" aria-labelledby="milim-qa-state"><div><h2 id="milim-qa-state" className="sr-only">Machine-readable QA state</h2><pre data-testid="milim-qa-state">{rendered}</pre></div><button className="button secondary" type="button" onClick={() => window.__MILIM_QA__?.forceContextLoss()}>Test context fallback</button></section>
     <section className="milim-qa-matrix" aria-labelledby="milim-qa-matrix-title"><h2 id="milim-qa-matrix-title">Phase 2 matrix</h2><ul><li><strong>Expression:</strong> {MILIM_QA_EXPRESSIONS.join(", ")}</li><li><strong>Motion:</strong> {MILIM_QA_MOTIONS.join(", ")}</li><li><strong>Scene:</strong> {MILIM_QA_SCENES.join(", ")}</li><li><strong>Fallbacks:</strong> {MILIM_QA_MODES.filter((mode) => mode !== "live").join(", ")}</li></ul></section>
   </main>;

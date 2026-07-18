@@ -127,6 +127,7 @@ function resolvePlayerEntry(manifestUrl: URL, entry: string): URL {
 
 function resolveUrl(value: string, baseUrl?: string): URL {
   if (baseUrl) return new URL(value, baseUrl);
+  if (typeof window !== "undefined") return new URL(value, window.location.href);
   return new URL(value);
 }
 

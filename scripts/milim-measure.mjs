@@ -1,17 +1,16 @@
 #!/usr/bin/env node
-import { createRequire } from "node:module";
-import { FRAME_INTERVAL_BUDGET_MS, evaluateFrameBudget } from "./milim-measure-core.mjs";
+import { MEASUREMENT_PROFILES, evaluateFrameBudget } from "./milim-measure-core.mjs";
+import { resolvePlaywright } from "./resolve-playwright.mjs";
 
-const require = createRequire(import.meta.url);
 const args = readArgs(process.argv.slice(2));
 const baseUrl = new URL(args["base-url"] ?? "http://127.0.0.1:3010").href;
 const sampleCount = Number(args["frame-samples"] ?? 90);
-const playwright = loadPlaywright(args["pw-path"] ?? process.env.PW_PATH);
+const playwright = resolvePlaywright(args["pw-path"] ?? process.env.PW_PATH);
 const browser = await playwright.chromium.launch({ headless: true });
 
 try {
-  const desktop = await measure("desktop", { width: 1280, height: 900 }, FRAME_INTERVAL_BUDGET_MS.desktop);
-  const mobile = await measure("mobile", { width: 390, height: 844 }, FRAME_INTERVAL_BUDGET_MS.mobile);
+  const desktop = await measure(MEASUREMENT_PROFILES.desktop);
+  const mobile = await measure(MEASUREMENT_PROFILES.mobile);
   const report = { ok: desktop.ok && mobile.ok, baseUrl, sampleCount, desktop, mobile };
   console.log(JSON.stringify(report));
   if (!report.ok) process.exitCode = 1;
@@ -19,8 +18,8 @@ try {
   await browser.close();
 }
 
-async function measure(name, viewport, budgetMs) {
-  const context = await browser.newContext({ viewport });
+async function measure(profile) {
+  const context = await browser.newContext(profile.context);
   const page = await context.newPage();
   try {
     await page.goto(new URL("/milim/qa?expression=joyful-winker", baseUrl).href, { waitUntil: "networkidle", timeout: 20_000 });
@@ -42,19 +41,29 @@ async function measure(name, viewport, budgetMs) {
       };
       requestAnimationFrame(tick);
     }), sampleCount);
-    return { name, ...evaluateFrameBudget(intervals, budgetMs) };
+    return {
+      name: profile.name,
+      environment: profile.environment,
+      realDevice: profile.realDevice,
+      targetFps: profile.targetFps,
+      ...evaluateFrameBudget(intervals, profile.budgetMs),
+    };
   } catch (error) {
-    return { name, count: 0, p50: null, p95: null, budgetMs, ok: false, error: error instanceof Error ? error.message : String(error) };
+    return {
+      name: profile.name,
+      environment: profile.environment,
+      realDevice: profile.realDevice,
+      targetFps: profile.targetFps,
+      count: 0,
+      p50: null,
+      p95: null,
+      budgetMs: profile.budgetMs,
+      ok: false,
+      error: error instanceof Error ? error.message : String(error),
+    };
   } finally {
     await context.close();
   }
-}
-
-function loadPlaywright(configuredPath) {
-  for (const candidate of [configuredPath, "playwright"].filter(Boolean)) {
-    try { const loaded = require(candidate); if (loaded?.chromium) return loaded; } catch {}
-  }
-  throw new Error("Playwright was not found. Set PW_PATH or install the CI-only package.");
 }
 
 function readArgs(argv) {

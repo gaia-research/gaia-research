@@ -28,3 +28,8 @@ export function parseMilimQaQuery(params: URLSearchParams): MilimQaQuery {
     mode: pick(params.get("mode"), MILIM_QA_MODES, DEFAULT_QUERY.mode),
   };
 }
+
+/** Missing-release is a live loader probe, not a request to suppress mounting. */
+export function resolveMilimQaRuntimeMode(mode: MilimQaMode): MilimLiveMode {
+  return mode === "missing-release" ? "live" : mode;
+}

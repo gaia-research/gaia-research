@@ -1,15 +1,14 @@
 #!/usr/bin/env node
-import { createRequire } from "node:module";
+import { resolvePlaywright } from "./resolve-playwright.mjs";
 
-const require = createRequire(import.meta.url);
 const args = readArgs(process.argv.slice(2));
 const baseUrl = new URL(args["base-url"] ?? "http://127.0.0.1:3010").href;
-const playwright = loadPlaywright(args["pw-path"] ?? process.env.PW_PATH);
+const playwright = resolvePlaywright(args["pw-path"] ?? process.env.PW_PATH);
 const browser = await playwright.chromium.launch({ headless: true });
 
 try {
-  await verifyLiveAndLifecycle();
   await verifyExplicitFallbacks();
+  await verifyLiveAndLifecycle();
   await verifyReducedMotion();
   await verifyNoWebGl();
   console.log(JSON.stringify({ ok: true, baseUrl, checks: ["live", "visibility", "missing-release", "context-loss", "reduced-motion", "no-webgl"] }));
@@ -34,10 +33,20 @@ async function verifyExplicitFallbacks() {
   const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   const page = await context.newPage();
   try {
-    for (const mode of ["fallback", "reduced-motion", "missing-release"]) {
+    for (const mode of ["fallback", "reduced-motion"]) {
       await goto(page, `mode=${mode}`);
       await page.waitForFunction(() => document.querySelector(".milim-qa-stage")?.dataset.player === "fallback", undefined, { timeout: 5_000 });
     }
+
+    const missingRequests = [];
+    page.on("request", (request) => {
+      if (request.url().includes("/milim/releases/missing/release.json")) missingRequests.push(request.url());
+    });
+    await goto(page, "mode=missing-release");
+    await page.waitForFunction(() => document.querySelector(".milim-qa-stage")?.dataset.player === "fallback", undefined, { timeout: 5_000 });
+    if (missingRequests.length === 0) throw new Error("Missing-release QA did not request the missing manifest URL.");
+    const statuses = await page.evaluate(() => window.__MILIM_QA__?.snapshot().statuses ?? []);
+    if (!statuses.includes("error")) throw new Error(`Missing-release QA did not report loader error status: ${statuses.join(", ")}`);
   } finally { await context.close(); }
 }
 
@@ -79,13 +88,6 @@ async function requireLiveTracer(page) {
   if (await page.locator(".milim-qa-stage").getAttribute("data-player") !== "ready") {
     throw new Error("Pinned compatibility-2 tracer is unavailable or rejected; promote a fresh release before Phase 2 browser acceptance.");
   }
-}
-
-function loadPlaywright(configuredPath) {
-  for (const candidate of [configuredPath, "playwright"].filter(Boolean)) {
-    try { const loaded = require(candidate); if (loaded?.chromium) return loaded; } catch {}
-  }
-  throw new Error("Playwright was not found. Set PW_PATH or install the CI-only package.");
 }
 
 function readArgs(argv) {

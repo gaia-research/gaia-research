@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseMilimQaQuery } from "./milim-qa";
+import { parseMilimQaQuery, resolveMilimQaRuntimeMode } from "./milim-qa";
 
 describe("Phase 2 Milim QA query", () => {
   it("uses the compatibility-2 tracer and neutral expression by default", () => {
@@ -9,5 +9,10 @@ describe("Phase 2 Milim QA query", () => {
   it("admits only the Phase 2 tracer vocabulary", () => {
     expect(parseMilimQaQuery(new URLSearchParams("expression=joyful-winker&mode=fallback"))).toEqual({ scene: "cyber-slime-lab-v2", expression: "joyful-winker", motion: "idle", mode: "fallback" });
     expect(parseMilimQaQuery(new URLSearchParams("scene=unpromoted&expression=starry-awe&motion=greet&mode=debug"))).toEqual({ scene: "cyber-slime-lab-v2", expression: "neutral", motion: "idle", mode: "live" });
+  });
+
+  it("runs the missing-release probe through the live loader path", () => {
+    expect(resolveMilimQaRuntimeMode("missing-release")).toBe("live");
+    expect(resolveMilimQaRuntimeMode("fallback")).toBe("fallback");
   });
 });
