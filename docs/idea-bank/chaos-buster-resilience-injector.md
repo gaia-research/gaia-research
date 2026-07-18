@@ -1,6 +1,6 @@
 # Chaos-Buster Resilience Injector
 
-- **Rank:** 4
+- **Rank:** 5
 - **Viability:** High
 - **Potential:** High
 

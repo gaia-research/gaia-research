@@ -1,6 +1,6 @@
 # Proof-of-Skill Badges
 
-- **Rank:** 2
+- **Rank:** 3
 - **Viability:** Very High
 - **Potential:** High
 
