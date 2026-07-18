@@ -63,7 +63,7 @@ homepage. Milim must:
 - look toward the pointer without snapping or excessive head movement;
 - expose Joyful Winker, Demon Lord Smirk, Starry Awe, and Chaos Gremlin;
 - perform short greet and point motions, then return smoothly to idle;
-- include an animated Cyber-Slime Laboratory background scene;
+- include an independently rigged animated Milim splash-art scene;
 - pause when hidden or offscreen;
 - provide static reduced-motion, loading, error, and no-WebGL fallbacks;
 - preserve semantic HTML, navigation, and calls to action outside the canvas.
@@ -229,7 +229,7 @@ part IDs, mesh vertices, raw channels, render passes, or curve storage.
       expression: "demon-lord-smirk",
       hair: "classic-long-pink",
       outfit: "dragonoid-hoodie-v1",
-      scene: "cyber-slime-lab-v1"
+      scene: "milim-splash-v1"
     });
 
     milim.drive({
@@ -323,7 +323,7 @@ The MVP ships exactly one reviewed pack for each appearance slot:
 - Hair: classic-long-pink
 - Outfit: dragonoid-hoodie-v1
 - Pose base: confident-neutral-v1
-- Scene: cyber-slime-lab-v1
+- Scene: milim-splash-v1
 
 Hair and outfit are faithful to the current full-body sprite:
 
@@ -369,22 +369,33 @@ Scene packs provide:
 - static reduced-motion composition;
 - desktop, tablet, and mobile crop instructions.
 
+Character and scene packs are independent release units. A scene must load,
+animate, pause, reduce motion, fall back, and tear down without owning or
+embedding the Milim character model. The website release manifest pairs
+compatible versions while preserving this boundary.
+
 ## Background animation MVP
 
 Background animation is part of MVP acceptance, not a later enhancement.
 
-Cyber-Slime Laboratory v1 includes:
+Milim Splash v1 uses modular far-field, magenta-burst, cyan-burst, crystal,
+glow-mask, reflective-floor, foreground-shard, and particle layers. It includes:
 
-- slow multi-plane parallax;
-- restrained blue/pink light sweeps;
-- low-density particles or sparks;
-- a subtle floor/reflection response under Milim;
+- slow multi-plane drift and parallax;
+- restrained magenta/cyan energy and bloom pulses;
+- drifting shards, sparse sparks, and star-like twinkles;
+- a subtle floor shimmer and reflection response beneath Milim;
+- occasional restrained light sweeps;
 - optional pointer-linked movement at lower amplitude than the character gaze;
 - a static reviewed fallback for reduced motion and failed initialization.
 
 Background effects must preserve negative space for semantic homepage content,
 must not imitate essential UI, and must not produce rapid flashes. The scene
-pauses with the character.
+pauses with the character but owns an independent lifecycle and animation clock.
+Rings, cylinders, tanks, Cyber-Slime scenery, and laboratory apparatus are not
+part of the production/default direction. The binding visual references and
+phase mapping are recorded in private
+`docs/decisions/milim-splash-pack.md`.
 
 ## Repository layout
 
@@ -405,7 +416,7 @@ The private production repository begins as:
           v1/
             source/
       scenes/
-        cyber-slime-lab/
+        milim-splash/
       scripts/
         test.mjs
         release.mjs
@@ -451,11 +462,11 @@ A release manifest contains:
       "release": "milim-web-0.1.0",
       "player": "0.1.0",
       "model": "milim-v1.0.0",
-      "scene": "cyber-slime-lab-v1.0.0",
+      "scene": "milim-splash-v1.0.0",
       "compatibility": 1,
       "entry": "./player/index.js",
       "modelUrl": "./models/milim-v1/model.json",
-      "sceneUrl": "./scenes/cyber-slime-lab-v1/scene.json",
+      "sceneUrl": "./scenes/milim-splash-v1/scene.json",
       "checksums": {}
     }
 
@@ -575,12 +586,15 @@ website through the final interface.
 
 - Produce a coarse layered Milim fixture matching default hair and outfit.
 - Implement head/gaze, blink, breath, and one expression.
-- Implement a representative animated laboratory background.
+- Implement a coarse animated `milim-splash-v1` tracer with independent scene
+  lifecycle, using the ratified splash direction rather than Cyber-Slime,
+  rings, or laboratory scenery.
 - Add loading, reduced-motion, no-WebGL, context-loss, and missing-file behavior.
 - Integrate the release into MilimLive without exposing internal model details.
 
 **Exit:** Homepage runs the private-pipeline artifact end to end with animated
-character and background; static fallback remains fully functional.
+character and independently controlled splash scene; static fallback remains
+fully functional. The old Cyber-Slime visual fixture is not acceptable evidence.
 
 ### Phase 3 — Production default art and rig
 
@@ -629,15 +643,19 @@ cleanly to neutral idle at 30fps and 60fps.
 background and produce a valid new private release without hand-editing compiled
 JSON.
 
-### Phase 6 — Background and composition polish
+### Phase 6 — Splash pack and composition polish
 
-- Finalize Cyber-Slime Laboratory art layers.
-- Tune parallax, lighting, particles, reflection, and mobile crops.
+- Produce and finalize the independent Milim Splash v1 art layers from the
+  founder-ratified environment direction.
+- Tune parallax, energy pulses, lighting, shards, particles, reflection, and
+  desktop/tablet/mobile crops.
 - Verify background motion remains subordinate to semantic content.
 - Produce and approve reduced-motion static composition.
+- Record source and derivative provenance, checksums, compatibility, and
+  full-resolution owner visual approval.
 
-**Exit:** Background animation is production quality and passes accessibility,
-performance, and crop gates.
+**Exit:** The independent splash pack is production quality and passes owner,
+provenance, accessibility, performance, lifecycle, and crop gates.
 
 ### Phase 7 — Production hardening and first release
 
