@@ -22,7 +22,7 @@ async function verifyLiveAndLifecycle() {
   const page = await context.newPage();
   try {
     await goto(page, "");
-    await page.waitForFunction(() => window.__MILIM_QA__?.snapshot().ready === true, undefined, { timeout: 20_000 });
+    await requireLiveTracer(page);
     await page.evaluate(() => { const spacer = document.createElement("div"); spacer.style.height = "1400px"; document.body.append(spacer); window.scrollTo(0, document.body.scrollHeight); });
     await page.waitForFunction(() => window.__MILIM_QA__?.snapshot().lifecycle?.running === false, undefined, { timeout: 5_000 });
     await page.evaluate(() => window.__MILIM_QA__?.forceContextLoss());
@@ -69,6 +69,16 @@ async function verifyNoWebGl() {
 async function goto(page, query) {
   await page.goto(new URL(`/milim/qa${query ? `?${query}` : ""}`, baseUrl).href, { waitUntil: "domcontentloaded", timeout: 20_000 });
   await page.waitForFunction(() => window.__MILIM_QA__ !== undefined, undefined, { timeout: 10_000 });
+}
+
+async function requireLiveTracer(page) {
+  await page.waitForFunction(() => {
+    const state = document.querySelector(".milim-qa-stage")?.dataset.player;
+    return state === "ready" || state === "fallback";
+  }, undefined, { timeout: 20_000 });
+  if (await page.locator(".milim-qa-stage").getAttribute("data-player") !== "ready") {
+    throw new Error("Pinned compatibility-2 tracer is unavailable or rejected; promote a fresh release before Phase 2 browser acceptance.");
+  }
 }
 
 function loadPlaywright(configuredPath) {
