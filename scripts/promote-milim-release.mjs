@@ -8,7 +8,7 @@ const PRIVATE_REPOSITORY = "gaia-research/milim";
 const PLAYER_RECORD = Object.freeze({
   repository: "gaia-research/milim-player",
   version: "0.2.0",
-  commit: "f04300c51abc0a283a8cc0c9a78c46bb8fcf9c3b",
+  commit: "105e244e48fd773f699eef98d89d7f575956bf2c",
   entry: "./player/index.js",
   license: "Apache-2.0",
 });

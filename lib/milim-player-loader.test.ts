@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { loadMilimRelease } from "./milim-player-loader";
 
-const PLAYER_COMMIT = "f04300c51abc0a283a8cc0c9a78c46bb8fcf9c3b";
+const PLAYER_COMMIT = "105e244e48fd773f699eef98d89d7f575956bf2c";
 const DIFFERENT_FULL_COMMIT = "cccccccccccccccccccccccccccccccccccccccc";
 
 function validManifest() {
