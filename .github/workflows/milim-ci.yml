@@ -102,12 +102,12 @@ jobs:
 
       - name: Smoke production Milim delivery
         env:
-          PW_PATH: ${{ github.workspace }}/node_modules/playwright
+          PW_PATH: ${{ github.workspace }}/node_modules/playwright/index.js
         run: node scripts/milim-production-smoke.mjs --base-url http://127.0.0.1:3000
 
       - name: Measure production Milim delivery
         env:
-          PW_PATH: ${{ github.workspace }}/node_modules/playwright
+          PW_PATH: ${{ github.workspace }}/node_modules/playwright/index.js
         run: node scripts/milim-measure.mjs --base-url http://127.0.0.1:3000 --runs 3
 
       - name: Gate responsive Milim routes
@@ -116,7 +116,7 @@ jobs:
           PAGES: /,/milim/qa
           WIDTHS: 320,360,390,414,768,1280
           LABEL: milim-ci
-          PW_PATH: ${{ github.workspace }}/node_modules/playwright
+          PW_PATH: ${{ github.workspace }}/node_modules/playwright/index.js
         run: node scripts/visual-audit.mjs
 
       - name: Enforce deployed Cloudflare cache headers
