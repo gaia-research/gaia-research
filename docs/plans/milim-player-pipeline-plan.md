@@ -134,6 +134,32 @@ Repository governance must use only controls available on GitHub Free.
   immutable release directories.
 - Paid organization rulesets, merge queues, and environment gates are not phase
   acceptance criteria and must not block the plan.
+
+### Multi-phase branch and pull-request topology
+
+Milim uses one durable `dev/milim-integration` branch in each repository it
+touches. A phase has exactly one canonical pull request per affected repository;
+worker lanes contribute commits to that phase branch and never open parallel
+lane pull requests. The unavoidable private-pipeline and website repository
+boundary may therefore produce two matching pull requests for one phase, but
+never multiple pull requests for that phase in the same repository.
+
+After owner acceptance, the canonical phase pull request merges into
+`dev/milim-integration`, not `main`. Review corrections do not create a
+replacement phase pull request. Follow-up fixes to an accepted phase land on
+the integration branch, and the next phase branches from its updated head. Only
+after every phase and final website gate is accepted is the integration branch
+proposed for merge to `main`.
+
+Superseded donor and lane pull requests are closed after their reusable commit
+IDs are preserved in the decision record. They are historical evidence, not
+alternate delivery paths. The active canonical phase pull request remains the
+single review surface and must never be treated as stale.
+
+Before dispatch or review, the orchestrator rereads this plan and private
+`founder/MEMORY.md`. A founder scope decision is not actionable lane guidance
+until it is ratified in this plan, durable memory, the tracking issue, and the
+canonical pull-request mapping.
 - Making production source public is never an acceptable workaround for a
   missing private-repository control.
 
