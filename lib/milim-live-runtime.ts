@@ -13,6 +13,13 @@ const SCENE_LABELS: Record<string, string> = {
   "dragon-signal-observatory-v2": "Dragon Signal Observatory",
 };
 
+export function shouldMountMilimPlayer(
+  mode: "live" | "fallback" | "reduced-motion" | "missing-release",
+  prefersReducedMotion: boolean,
+): boolean {
+  return mode === "live" && !prefersReducedMotion;
+}
+
 export function requestMilimScene<Scene extends string>(
   state: MilimSceneState<Scene>,
   scene: Scene,

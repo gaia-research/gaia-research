@@ -15,9 +15,10 @@ try {
   await verifyHomepage(browser);
   await verifyQaMatrix(browser);
   await verifyFallbacks(browser);
+  await verifyPrefersReducedMotion(browser);
   await verifyNoWebGLFallback(browser);
   await verifyPetHandoff(browser);
-  console.log(JSON.stringify({ ok: true, baseURL, checks: ["homepage-fixed-scene", "qa-matrix", "fallbacks", "no-webgl", "pet-handoff"] }));
+  console.log(JSON.stringify({ ok: true, baseURL, checks: ["homepage-fixed-scene", "qa-matrix", "fallbacks", "prefers-reduced-motion", "no-webgl", "pet-handoff"] }));
 } finally {
   await browser.close();
 }
@@ -75,6 +76,38 @@ async function verifyNoWebGLFallback(browser) {
     await gotoQa(page, "");
     await page.waitForFunction(() => document.querySelector(".milim-qa-stage")?.dataset.player === "fallback", undefined, { timeout });
   } finally { await page.context().close(); }
+}
+
+async function verifyPrefersReducedMotion(browser) {
+  const context = await browser.newContext({
+    viewport: { width: 1280, height: 900 },
+    reducedMotion: "reduce",
+  });
+  const page = await context.newPage();
+  const releaseRequests = [];
+  page.on("request", (request) => {
+    if (request.url().includes("/milim/releases/")) releaseRequests.push(request.url());
+  });
+  try {
+    await page.addInitScript(() => {
+      window.__MILIM_REDUCED_MOTION_WEBGL_CONTEXTS__ = 0;
+      const original = HTMLCanvasElement.prototype.getContext;
+      HTMLCanvasElement.prototype.getContext = function getContext(type, ...rest) {
+        if (type === "webgl" || type === "webgl2") window.__MILIM_REDUCED_MOTION_WEBGL_CONTEXTS__ += 1;
+        return original.call(this, type, ...rest);
+      };
+    });
+    await page.goto(baseURL, { waitUntil: "domcontentloaded", timeout });
+    await page.waitForFunction(() => {
+      const stage = document.querySelector(".milim-hero .live-stage");
+      return stage?.dataset.player === "fallback" && stage?.dataset.reducedMotion === "true";
+    }, undefined, { timeout });
+    await page.locator(".milim-hero .live-stage").dispatchEvent("pointermove", { clientX: 640, clientY: 450 });
+    await page.waitForTimeout(100);
+    const webglContexts = await page.evaluate(() => window.__MILIM_REDUCED_MOTION_WEBGL_CONTEXTS__);
+    if (releaseRequests.length !== 0) throw new Error(`Reduced motion fetched player assets: ${releaseRequests.join(", ")}`);
+    if (webglContexts !== 0) throw new Error(`Reduced motion created ${webglContexts} WebGL contexts`);
+  } finally { await context.close(); }
 }
 
 async function verifyPetHandoff(browser) {

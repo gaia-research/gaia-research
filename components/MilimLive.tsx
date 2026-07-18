@@ -7,7 +7,10 @@ import {
   type MilimController,
   type MilimDurableState,
 } from "@/lib/milim-player-loader";
-import { createCoalescedMilimPointerDriver } from "@/lib/milim-live-runtime";
+import {
+  createCoalescedMilimPointerDriver,
+  shouldMountMilimPlayer,
+} from "@/lib/milim-live-runtime";
 
 /** The one immutable production release pin consumed by all website adapters. */
 export const MILIM_RELEASE_VERSION = "milim-web-0.2.0";
@@ -19,6 +22,8 @@ export type MilimLifecycle = {
   visible: boolean;
   documentHidden: boolean;
 };
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
 export interface MilimLiveProps {
   fallbackSrc: string;
@@ -58,12 +63,26 @@ export default function MilimLive({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stageRef = useRef<MilimController | null>(null);
   const initialStateRef = useRef(initialState);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [playerState, setPlayerState] = useState<"loading" | "ready" | "fallback">(
     mode === "live" ? "loading" : "fallback",
   );
 
   useEffect(() => {
-    if (mode !== "live") {
+    const mediaQuery = window.matchMedia?.(REDUCED_MOTION_QUERY);
+    if (!mediaQuery) return;
+    const synchronize = () => setPrefersReducedMotion(mediaQuery.matches);
+    synchronize();
+    mediaQuery.addEventListener("change", synchronize);
+    return () => mediaQuery.removeEventListener("change", synchronize);
+  }, []);
+
+  useEffect(() => {
+    // Read matchMedia synchronously as well as from state so the first effect can
+    // never race ahead and mount WebGL on a reduced-motion client.
+    const runtimePrefersReducedMotion = prefersReducedMotion
+      || window.matchMedia?.(REDUCED_MOTION_QUERY).matches === true;
+    if (!shouldMountMilimPlayer(mode, runtimePrefersReducedMotion)) {
       setPlayerState("fallback");
       return;
     }
@@ -145,7 +164,7 @@ export default function MilimLive({
       stageRef.current?.destroy();
       stageRef.current = null;
     };
-  }, [mode, onLifecycle, onReady, onStatus, releaseUrl]);
+  }, [mode, onLifecycle, onReady, onStatus, prefersReducedMotion, releaseUrl]);
 
   return (
     <div
@@ -154,6 +173,7 @@ export default function MilimLive({
       data-transition-src={fallbackSrc}
       data-player={playerState}
       data-milim-mode={mode}
+      data-reduced-motion={prefersReducedMotion ? "true" : "false"}
     >
       <Image
         className="milim-sprite"

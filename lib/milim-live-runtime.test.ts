@@ -2,11 +2,22 @@ import { describe, expect, it, vi } from "vitest";
 import {
   createCoalescedMilimPointerDriver,
   isHeroVisibleAtThreshold,
+  shouldMountMilimPlayer,
   resetMilimSceneState,
   reconcileMilimSceneStatus,
   requestMilimScene,
   type MilimSceneState,
 } from "./milim-live-runtime";
+
+describe("Milim runtime eligibility", () => {
+  it("mounts only live mode when the operating system allows motion", () => {
+    expect(shouldMountMilimPlayer("live", false)).toBe(true);
+    expect(shouldMountMilimPlayer("live", true)).toBe(false);
+    expect(shouldMountMilimPlayer("fallback", false)).toBe(false);
+    expect(shouldMountMilimPlayer("reduced-motion", false)).toBe(false);
+    expect(shouldMountMilimPlayer("missing-release", false)).toBe(false);
+  });
+});
 
 const initialScene: MilimSceneState<"cyber-slime-lab-v2" | "slime-reactor-halo-v2"> = {
   activeScene: "cyber-slime-lab-v2",
