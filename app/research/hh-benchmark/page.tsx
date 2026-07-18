@@ -49,7 +49,7 @@ export default function HhBenchmarkPage() {
           <div className="report-links">
             <a href="https://github.com/gaia-research/gaia-research/blob/main/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a>
             <a href="https://github.com/gaia-research/gaia-research/blob/main/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>
-            <a href="https://github.com/gaia-research/gaia-research/issues" target="_blank" rel="noreferrer">Help wanted ↗</a>
+            <a href="https://github.com/gaia-research/gaia-research/issues/62" target="_blank" rel="noreferrer">Help wanted ↗</a>
           </div>
         </header>
 

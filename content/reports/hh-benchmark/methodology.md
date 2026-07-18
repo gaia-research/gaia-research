@@ -159,7 +159,8 @@ compounds against established model baselines, with a heaven/hell trial split. I
 models (or, rarely, skills) for a living, or you just think this is a fun hard problem: **come
 build it with us, in the open.**
 
-- **Where:** the tracking issue links back here (see the repo issues).
+- **Where:** the [tracking issue (#62)](https://github.com/gaia-research/gaia-research/issues/62)
+  links back here.
 - **What we need first:** the baseline-benchmark shortlist (§2), the objective task corpus (§3
   Tier 2), and a second labeler for the seed rubric (§5).
 - **What you get:** your name on a bleeding-edge, evidence-first benchmark, and a say in how the
