@@ -16,9 +16,10 @@ import {
   type MilimDurableState,
 } from "@/lib/milim-player-loader";
 
-/** This path is intentionally inert until a fresh, locked compatibility-2 release is promoted. */
+/** Frozen compatibility-2 website release promoted from the private pipeline. */
 export const MILIM_RELEASE_VERSION = "milim-web-0.2.0";
 export const MILIM_RELEASE_URL = `/milim/releases/${MILIM_RELEASE_VERSION}/release.json`;
+export const MILIM_SPLASH_FALLBACK_URL = "/assets/north-star-live/milim-splash-v1-backdrop-tracer.webp";
 
 export type { MilimLiveMode } from "@/lib/milim-live-runtime";
 export type MilimLifecycle = { running: boolean; visible: boolean; documentHidden: boolean };
@@ -228,10 +229,7 @@ export default function MilimLive({
       data-reduced-motion={prefersReducedMotion ? "true" : "false"}
       aria-label="Milim is represented by a decorative, code-driven character."
     >
-      <div className="orbit orbit-one" aria-hidden="true" />
-      <div className="orbit orbit-two" aria-hidden="true" />
-      <div className="spark-field" aria-hidden="true">✦ · ✦ · ✦</div>
-      <div className="sprite-reflection" aria-hidden="true" />
+      <Image className="milim-splash-fallback" src={MILIM_SPLASH_FALLBACK_URL} alt="" fill priority sizes={sizes} data-live={playerState === "ready" ? "hidden" : "shown"} />
       <Image className="milim-sprite" src={fallbackSrc} alt={fallbackAlt} width={width} height={height} priority sizes={sizes} data-live={playerState === "ready" ? "hidden" : "shown"} />
       <canvas ref={canvasRef} className="milim-live-canvas" aria-hidden="true" data-live={playerState === "ready" ? "shown" : "hidden"} />
       {enableTooltips && <div className="milim-hero-bubble" role="status" aria-live="polite" ref={bubbleRef} hidden><p ref={bubbleTextRef} /><span className="milim-hero-bubble-tail" aria-hidden="true" /></div>}

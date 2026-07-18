@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "release": "milim-web-0.2.0",
+  "manifest": "./releases/milim-web-0.2.0/release.json",
+  "source": {
+    "commit": "0882acf16440436c3bf48c76563c4ea69dc54054",
+    "releasedAt": "2026-07-18T07:33:06.000Z",
+    "repository": "gaia-research/milim"
+  },
+  "player": {
+    "repository": "gaia-research/milim-player",
+    "version": "0.2.0",
+    "commit": "105e244e48fd773f699eef98d89d7f575956bf2c",
+    "entry": "./player/index.js",
+    "license": "Apache-2.0"
+  }
+}

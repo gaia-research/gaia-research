@@ -22,13 +22,13 @@ async function measure(profile) {
   const context = await browser.newContext(profile.context);
   const page = await context.newPage();
   try {
-    await page.goto(new URL("/milim/qa?expression=joyful-winker", baseUrl).href, { waitUntil: "networkidle", timeout: 20_000 });
+    await page.goto(new URL("/", baseUrl).href, { waitUntil: "networkidle", timeout: 20_000 });
     await page.waitForFunction(() => {
-      const state = document.querySelector(".milim-qa-stage")?.dataset.player;
+      const state = document.querySelector(".live-stage")?.dataset.player;
       return state === "ready" || state === "fallback";
     }, undefined, { timeout: 20_000 });
-    if (await page.locator(".milim-qa-stage").getAttribute("data-player") !== "ready") {
-      throw new Error("Pinned compatibility-2 tracer is unavailable or rejected; frame measurement cannot pass without a live release.");
+    if (await page.locator(".live-stage").getAttribute("data-player") !== "ready") {
+      throw new Error("Pinned compatibility-2 homepage tracer is unavailable or rejected; frame measurement cannot pass without a live release.");
     }
     const intervals = await page.evaluate(async (count) => new Promise((resolve) => {
       const result = [];

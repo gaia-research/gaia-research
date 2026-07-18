@@ -200,7 +200,7 @@ async function createFixture() {
   const files = {
     "player/index.js": "export const mountMilim = () => {};\n",
     "models/milim-v1/model.json": "{\"format\":\"milim-model\",\"formatVersion\":1}\n",
-    "scenes/cyber-slime-lab-v1/scene.json": "{\"format\":\"milim-scene\",\"formatVersion\":1}\n",
+    "scenes/milim-splash-v1/scene.json": "{\"format\":\"milim-scene\",\"formatVersion\":1}\n",
     "previews/desktop.webp": "desktop-fallback\n",
     "previews/tablet.webp": "tablet-fallback\n",
     "previews/mobile.webp": "mobile-fallback\n",
@@ -223,13 +223,13 @@ async function createFixture() {
     },
     player: { ...PLAYER },
     model: { id: "milim-v1", version: "1.0.0", url: "./models/milim-v1/model.json" },
-    scenes: [{ id: "cyber-slime-lab-v1", version: "1.0.0", url: "./scenes/cyber-slime-lab-v1/scene.json" }],
+    scenes: [{ id: "milim-splash-v1", version: "0.2.0", url: "./scenes/milim-splash-v1/scene.json" }],
     defaults: {
       expression: "neutral",
       hair: "classic-long-pink",
       outfit: "dragonoid-hoodie-v1",
       pose: "confident-neutral-v1",
-      scene: "cyber-slime-lab-v1",
+      scene: "milim-splash-v1",
     },
     fallbacks: {
       desktop: "./previews/desktop.webp",
