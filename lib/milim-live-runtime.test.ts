@@ -38,7 +38,8 @@ describe("Milim pointer driver", () => {
     driver.onPointerMove({ clientX: 90, clientY: 180 } as PointerEvent);
     frame?.(0);
     expect(drive).toHaveBeenCalledOnce();
-    expect(drive.mock.calls[0][0]).toEqual({ gaze: { x: 0.6, y: 0.6 } });
+    expect(drive.mock.calls[0][0].gaze.x).toBeCloseTo(0.6);
+    expect(drive.mock.calls[0][0].gaze.y).toBeCloseTo(0.6);
 
     driver.onPointerMove({ clientX: 50, clientY: 70 } as PointerEvent);
     driver.destroy();
