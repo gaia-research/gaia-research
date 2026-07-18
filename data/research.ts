@@ -71,4 +71,5 @@ export const ledger = [
   ["The Compounding Cost of CI Failures", "POSTMORTEM", "VRF", "Postmortem of Epic #780 introducing CI Churn as a first-class cost metric", "/research/ci-churn"],
   ["Agent Cost Reporting", "RESEARCH PLAN", "PRP", "Proposed study of the gap between agent estimates, rate-card totals, and invoices", "/research/cost"],
   ["Gaia MCP", "PRODUCT", "ACT", "Model Context Protocol server exposing the Gaia Skill Tree to Claude Code, Codex, and Cursor", "/mcp"],
+  ["The Hell Heaven Benchmark", "METHOD", "WIP", "Drug-trial method for scoring skills by marginal efficacy against established model baselines; drafted in public, not yet executed", "/research/hh-benchmark"],
 ] as const;

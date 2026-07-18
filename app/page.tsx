@@ -71,7 +71,7 @@ export default function Home() {
      <p>Summon every good skill in the evidenced world for autonomous fleets and long loops &mdash; under a token-ceiling firebreak. Unlocks only when the registry&rsquo;s trust-coverage clears a measured gate. Ludicrous mode ships with a seatbelt.</p>
     </article>
    </div>
-   <p className="hh-foot">The <b>Hell Heaven (HH) Index</b> &mdash; a per-skill <code>hellHeaven</code> stamp, benchmarked, not guessed &mdash; is the research that keeps the slider honest. Read the <a href="https://github.com/gaia-research/gaia-research/blob/main/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>.</p>
+   <p className="hh-foot">The <b>Hell Heaven (HH) Index</b> &mdash; a per-skill <code>hellHeaven</code> stamp, benchmarked, not guessed &mdash; is the research that keeps the slider honest. Read the <Link href="/research/hh-benchmark">benchmark method →</Link> (WIP, help wanted) &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>.</p>
    <style>{`
     .hh{padding:var(--space-dense) var(--gutter)}
     .hh-intro{max-width:64ch;margin:0 0 var(--space-tight)}
