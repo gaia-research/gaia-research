@@ -53,6 +53,47 @@ export default function Home() {
    </div>
   </section>
 
+  <section id="skill-heaven-hell" className="hh section-shell" aria-labelledby="hh-title">
+   <header className="hh-intro">
+    <p className="signal"><span /> WORK IN PROGRESS · HELL HEAVEN INDEX</p>
+    <h2 id="hh-title">Stop <em>installing</em> skills.<br />Start <em>summoning</em> them.</h2>
+    <p className="hh-lede">Marketplaces make you install skills forever &mdash; bloat you never asked for, pinned to every repo. We&rsquo;re building the exit inside <Link href="/mcp">Gaia MCP</Link>: a per-session summon over the evidenced Skill Tree, dialed by one slider from <b>Heaven</b> to <b>Hell</b> &mdash; the same <code>low → max</code> effort axis your agent already speaks.</p>
+   </header>
+   <div className="hh-poles">
+    <article className="hh-pole hh-heaven">
+     <span className="chip wip">☁ HEAVEN · SHIPS FIRST</span>
+     <h3>One step below vanilla.</h3>
+     <p>Invoking Heaven <b>evicts every installed skill from context</b> and admits back only the grilling-native ones. Cleaner than vanilla. For architecting, brainstorming, office hours &mdash; where a quiet context <em>is</em> the feature.</p>
+    </article>
+    <article className="hh-pole hh-hell">
+     <span className="chip wip">🔥 HELL · GATED</span>
+     <h3>Full gas, autopilot.</h3>
+     <p>Summon every good skill in the evidenced world for autonomous fleets and long loops &mdash; under a token-ceiling firebreak. Unlocks only when the registry&rsquo;s trust-coverage clears a measured gate. Ludicrous mode ships with a seatbelt.</p>
+    </article>
+   </div>
+   <p className="hh-foot">The <b>Hell Heaven (HH) Index</b> &mdash; a per-skill <code>hellHeaven</code> stamp, benchmarked, not guessed &mdash; is the research that keeps the slider honest. Read the <Link href="/research/hh-benchmark">benchmark method →</Link> (WIP, help wanted) &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>.</p>
+   <style>{`
+    .hh{padding:var(--space-dense) var(--gutter)}
+    .hh-intro{max-width:64ch;margin:0 0 var(--space-tight)}
+    .hh-intro h2{font-size:var(--type-display-3);margin:.4rem 0 1rem}
+    .hh-intro h2 em{font-style:normal;color:var(--pink)}
+    .hh-lede{color:var(--muted);font-size:1.0625rem;line-height:1.7}
+    .hh-lede a{color:var(--blue);border-bottom:1px solid var(--blue)}
+    .hh-lede code{font-family:var(--mono);font-size:.9em;color:var(--ink)}
+    .hh-poles{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:var(--space-tight) 0}
+    .hh-pole{border:1px solid var(--line);background:rgba(11,12,19,.8);padding:1.5rem}
+    .hh-pole h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;font-size:1.6rem;margin:1rem 0 .6rem}
+    .hh-pole p{color:var(--muted);font-size:.9375rem;line-height:1.65;margin:0}
+    .hh-pole em{font-style:normal;color:var(--ink)}
+    .hh-heaven{border-color:color-mix(in srgb,var(--blue) 45%,var(--line))}
+    .hh-hell{border-color:color-mix(in srgb,var(--pink) 45%,var(--line))}
+    .hh-foot{max-width:64ch;color:var(--dim);font:var(--type-compact)/1.7 var(--mono);letter-spacing:.02em}
+    .hh-foot code{color:var(--ink)}
+    .hh-foot a{color:var(--blue);border-bottom:1px solid var(--blue)}
+    @media(max-width:700px){.hh-poles{grid-template-columns:1fr}.hh-intro h2{font-size:clamp(2rem,9.5vw,2.75rem)}}
+   `}</style>
+  </section>
+
   <section id="skills" className="skills section-shell" aria-labelledby="skills-title"><header className="skills-intro"><h2 id="skills-title">Skills you can install today.</h2><p>Local-first Claude Code / Cursor / Windsurf skills. One line to install with the Gaia CLI &mdash; they run against your files and never upload their contents.</p></header><div className="skill-grid">{skills.map((skill)=>{const name=displayName(skill.slug);return <article className="skill-card" key={skill.slug}><div className="skill-head"><h3>{name}</h3><span className={`chip ${skill.status.toLowerCase()}`}>{skill.status} {statusText[skill.status]}</span></div><p className="skill-blurb">{skill.blurb}</p><CopyCommand className="skill-install" command={installCmd(skill.slug)} /><div className="skill-links"><a href={repoUrl(skill.slug)} target="_blank" rel="noreferrer">Repo ↗</a>{skill.inTree && <a href={treeUrl(skill.slug)} target="_blank" rel="noreferrer">In the Skill Tree ↗</a>}{skill.surface && <a {...linkProps(skill.surface.href)}>{skill.surface.label} {isExternal(skill.surface.href) ? "↗" : "→"}</a>}</div></article>;})}</div></section>
 
   <section id="ledger" className="ledger section-shell" aria-labelledby="ledger-title"><header className="ledger-intro"><div><h2 id="ledger-title">Claims deserve a trail.</h2></div><Link href="/research">Explore research →</Link></header><div className="table-wrap"><table><caption className="sr-only">Selected public research ledger entries</caption><thead><tr><th>Research item</th><th>Type</th><th>Status</th><th>Evidence note</th></tr></thead><tbody>{ledger.map(([name,type,status,note,href])=><tr key={name}><th scope="row">{href ? <a {...linkProps(href)}>{name}{isExternal(href) && " ↗"}</a> : name}</th><td>{type}</td><td><span className={`chip ${status.toLowerCase()}`}>{status} {statusText[status]}</span></td><td>{note}</td></tr>)}</tbody></table></div></section>
