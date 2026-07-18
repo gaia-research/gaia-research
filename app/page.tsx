@@ -7,7 +7,7 @@ import LabThumb from "@/components/labs/LabThumb";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { displayName, installCmd, ledger, repoUrl, skills, treeUrl } from "@/data/research";
 
-const statusText = { ACT: "ACTIVE", PRP: "PROPOSED", VRF: "VERIFIED", REV: "IN REVIEW", WIP: "EXPERIMENTAL" } as const;
+const statusText = { ACT: "ACTIVE", PRP: "PROPOSED", VRF: "VERIFIED", REV: "IN REVIEW", WIP: "EXPERIMENTAL", PLN: "PLANNED" } as const;
 
 const isExternal = (href: string) => href.startsWith("http");
 const linkProps = (href: string) => (isExternal(href) ? { href, target: "_blank", rel: "noreferrer" } : { href });

@@ -23,8 +23,17 @@ const reports = [
     status: "PRP proposed",
     title: "When Agents Report Their Own Cost",
     description:
-      "A proposed study of the gap between an agent’s self-estimate, complete rate-card pricing, and the matching invoice.",
+      "A proposed study of the gap between an agent's self-estimate, complete rate-card pricing, and the matching invoice.",
     action: "Read the plan",
+  },
+  {
+    href: "/mcp",
+    type: "Product",
+    status: "PLN planned",
+    title: "Gaia MCP",
+    description:
+      "A Model Context Protocol server that exposes the Gaia Skill Tree to Claude Code, OpenAI Codex CLI, and Cursor — install, list, compose, and benchmark skills without leaving your editor.",
+    action: "Learn more",
   },
 ] as const;
 
@@ -49,7 +58,7 @@ export default function ResearchIndexPage() {
               <article className="research-entry" key={report.href}>
                 <div className="research-entry-meta">
                   <span>{report.type}</span>
-                  <span className={`research-status ${report.status.startsWith("VRF") ? "vrf" : "prp"}`}>{report.status}</span>
+                  <span className={`research-status ${report.status.startsWith("VRF") ? "vrf" : report.status.startsWith("PLN") ? "pln" : "prp"}`}>{report.status}</span>
                 </div>
                 <h2>{report.title}</h2>
                 <p>{report.description}</p>

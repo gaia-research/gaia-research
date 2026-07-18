@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - 'lib/craft/**'
+      - 'lib/mcp/**'
       - 'data/craft/**'
+      - 'data/mcp.ts'
       - 'vitest.config.*'
       - 'package.json'
       - 'package-lock.json'
@@ -14,7 +16,9 @@ on:
       - feat/infinite-skill-craft-lab
     paths:
       - 'lib/craft/**'
+      - 'lib/mcp/**'
       - 'data/craft/**'
+      - 'data/mcp.ts'
       - 'vitest.config.*'
       - 'package.json'
       - 'package-lock.json'
@@ -40,5 +44,5 @@ jobs:
       - name: Type-check (tsc --noEmit)
         run: npx tsc --noEmit
 
-      - name: Run craft unit tests
+      - name: Run craft + mcp unit tests
         run: npm run test
