@@ -9,10 +9,9 @@ on:
       - 'components/MilimQaConsole/**'
       - 'components/MilimPet/**'
       - 'lib/milim-*.ts'
-      - 'scripts/milim-production-smoke.mjs'
-      - 'scripts/milim-measure.mjs'
-      - 'scripts/promote-milim-release.mjs'
-      - 'tests/milim-promotion.test.mjs'
+      - 'scripts/milim-*.mjs'
+      - 'scripts/visual-audit.mjs'
+      - 'tests/milim-*.test.mjs'
       - 'public/milim/**'
       - 'public/_headers'
       - 'app/page.tsx'
@@ -32,10 +31,9 @@ on:
       - 'components/MilimQaConsole/**'
       - 'components/MilimPet/**'
       - 'lib/milim-*.ts'
-      - 'scripts/milim-production-smoke.mjs'
-      - 'scripts/milim-measure.mjs'
-      - 'scripts/promote-milim-release.mjs'
-      - 'tests/milim-promotion.test.mjs'
+      - 'scripts/milim-*.mjs'
+      - 'scripts/visual-audit.mjs'
+      - 'tests/milim-*.test.mjs'
       - 'public/milim/**'
       - 'public/_headers'
       - 'app/page.tsx'
@@ -48,6 +46,11 @@ on:
       - 'vitest.config.ts'
       - '.github/workflows/milim-ci.yml'
   workflow_dispatch:
+    inputs:
+      edge_url:
+        description: 'Optional deployed Cloudflare HTTPS origin for cache-header enforcement'
+        required: false
+        type: string
 
 jobs:
   milim:
@@ -71,8 +74,8 @@ jobs:
       - name: Run unit tests
         run: npm test
 
-      - name: Verify promotion seam
-        run: npm run test:milim-promotion
+      - name: Verify Milim production scripts
+        run: node --test tests/milim-*.test.mjs
 
       - name: Build Cloudflare artifact
         run: npm run build
@@ -106,6 +109,21 @@ jobs:
         env:
           PW_PATH: ${{ github.workspace }}/node_modules/playwright
         run: node scripts/milim-measure.mjs --base-url http://127.0.0.1:3000 --runs 3
+
+      - name: Gate responsive Milim routes
+        env:
+          BASE_URL: http://127.0.0.1:3000
+          PAGES: /,/milim/qa
+          WIDTHS: 320,360,390,414,768,1280
+          LABEL: milim-ci
+          PW_PATH: ${{ github.workspace }}/node_modules/playwright
+        run: node scripts/visual-audit.mjs
+
+      - name: Enforce deployed Cloudflare cache headers
+        if: github.event_name == 'workflow_dispatch' && inputs.edge_url != ''
+        env:
+          MILIM_EDGE_URL: ${{ inputs.edge_url }}
+        run: node scripts/milim-cache-headers.mjs --edge-url "$MILIM_EDGE_URL"
 
       - name: Stop Next production server
         if: always()
