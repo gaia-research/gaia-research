@@ -26,7 +26,7 @@ export async function promoteMilimRelease({
   requireFullCommit(expectedSourceCommit, "expected private source");
   requireFullCommit(expectedPlayerCommit, "expected public player");
   if (expectedPlayerCommit !== PLAYER_RECORD.commit) {
-    throw new Error("Milim promotion requires the approved Phase 1 player commit");
+    throw new Error("Milim promotion requires the frozen 0.2.0 player commit");
   }
   const sourceRoot = resolve(sourceDirectory);
   const manifest = JSON.parse(await readFile(join(sourceRoot, "release.json"), "utf8"));
@@ -85,8 +85,12 @@ function validateReleaseManifest(manifest, expectedSourceCommit, expectedPlayerC
   if (manifest.format !== "milim-release" || manifest.formatVersion !== 1) {
     throw new Error("Milim release must use milim-release formatVersion 1");
   }
-  if (!isRecord(manifest.compatibility) || manifest.compatibility.major !== 1) {
-    throw new Error("Milim Phase 1 release compatibility.major must be 1");
+  if (!isRecord(manifest.compatibility)) {
+    throw new Error("Milim release compatibility must be an object");
+  }
+  requireExactKeys(manifest.compatibility, ["major"], "compatibility");
+  if (![1, 2].includes(manifest.compatibility.major)) {
+    throw new Error("Milim release compatibility.major must be 1 or 2");
   }
   if (typeof manifest.release !== "string" || !/^milim-web-\d+\.\d+\.\d+$/.test(manifest.release)) {
     throw new Error("Milim release manifest has an invalid release identifier");
@@ -99,7 +103,7 @@ function validateReleaseManifest(manifest, expectedSourceCommit, expectedPlayerC
 
   requireExactKeys(manifest.player, ["commit", "entry", "license", "repository", "version"], "player");
   requireFullCommit(manifest.player.commit, "public player");
-  if (manifest.player.commit !== PLAYER_RECORD.commit) throw new Error("Milim release does not use the approved Phase 1 player commit");
+  if (manifest.player.commit !== PLAYER_RECORD.commit) throw new Error("Milim release does not use the frozen 0.2.0 player commit");
   if (manifest.player.commit !== expectedPlayerCommit) throw new Error("Milim public player commit does not match the reviewed commit");
   for (const field of ["repository", "version", "entry", "license"]) {
     if (manifest.player[field] !== PLAYER_RECORD[field]) {

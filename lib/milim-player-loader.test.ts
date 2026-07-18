@@ -6,7 +6,10 @@ const DIFFERENT_FULL_COMMIT = "cccccccccccccccccccccccccccccccccccccccc";
 
 function validManifest() {
   return {
+    format: "milim-release",
+    formatVersion: 1,
     release: "milim-web-0.2.0",
+    compatibility: { major: 1 },
     player: {
       repository: "gaia-research/milim-player",
       version: "0.2.0",
@@ -39,6 +42,43 @@ describe("loadMilimRelease", () => {
     expect(player.mountMilim).toBe(mountMilim);
   });
 
+  it("rejects an unsupported compatibility major before importing code", async () => {
+    const manifest = validManifest();
+    manifest.compatibility.major = 3;
+    const importModule = vi.fn();
+
+    await expect(loadMilimRelease("https://research.example/release.json", {
+      fetchImpl: async () => ({ ok: true, status: 200, json: async () => manifest }),
+      importModule,
+    })).rejects.toThrow(/compatibility\.major must be 1 or 2/);
+    expect(importModule).not.toHaveBeenCalled();
+  });
+
+  it("loads compatibility major 2 through the same pinned player seam", async () => {
+    const manifest = validManifest();
+    manifest.compatibility.major = 2;
+    const mountMilim = vi.fn();
+
+    const player = await loadMilimRelease("https://research.example/release.json", {
+      fetchImpl: async () => ({ ok: true, status: 200, json: async () => manifest }),
+      importModule: async () => ({ mountMilim }),
+    });
+
+    expect(player.mountMilim).toBe(mountMilim);
+  });
+
+  it("rejects compatibility shape drift before importing code", async () => {
+    const manifest = validManifest();
+    (manifest.compatibility as { major: number; minor?: number }).minor = 0;
+    const importModule = vi.fn();
+
+    await expect(loadMilimRelease("https://research.example/release.json", {
+      fetchImpl: async () => ({ ok: true, status: 200, json: async () => manifest }),
+      importModule,
+    })).rejects.toThrow(/compatibility fields do not match the frozen release format/);
+    expect(importModule).not.toHaveBeenCalled();
+  });
+
   it("rejects abbreviated player provenance before importing code", async () => {
     const manifest = validManifest();
     manifest.player.commit = "abcdef0";
@@ -59,7 +99,7 @@ describe("loadMilimRelease", () => {
     await expect(loadMilimRelease("https://research.example/release.json", {
       fetchImpl: async () => ({ ok: true, status: 200, json: async () => manifest }),
       importModule,
-    })).rejects.toThrow(/approved Phase 1 player commit/);
+    })).rejects.toThrow(/frozen 0\.2\.0 player commit/);
     expect(importModule).not.toHaveBeenCalled();
   });
 

@@ -74,7 +74,7 @@ test("rejects a different full player SHA even when the caller expects it", asyn
       promotionsDirectory: fixture.promotionsDirectory,
       expectedSourceCommit: SOURCE_COMMIT,
       expectedPlayerCommit: DIFFERENT_PLAYER_COMMIT,
-    }), /approved Phase 1 player commit/);
+    }), /frozen 0\.2\.0 player commit/);
   } finally {
     await rm(fixture.root, { recursive: true, force: true });
   }
@@ -102,14 +102,43 @@ test("rejects an unsafe public player entry", async () => {
   }
 });
 
-test("requires milim-release v1 with compatibility major 1", async () => {
+test("promotes compatibility major 2 under the frozen release and player contract", async () => {
   const fixture = await createFixture();
   try {
     fixture.manifest.compatibility.major = 2;
     await writeManifest(fixture);
-    await assert.rejects(promote(fixture), /compatibility\.major must be 1/);
+    const result = await promote(fixture);
+    assert.equal(result.release, "milim-web-0.2.0");
+    assert.equal(
+      JSON.parse(await readFile(join(result.destination, "release.json"), "utf8")).compatibility.major,
+      2,
+    );
   } finally {
     await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
+test("rejects compatibility shape drift", async () => {
+  const fixture = await createFixture();
+  try {
+    fixture.manifest.compatibility = { major: 2, minor: 0 };
+    await writeManifest(fixture);
+    await assert.rejects(promote(fixture), /compatibility fields do not match the frozen release format/);
+  } finally {
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
+test("rejects unsupported compatibility majors", async () => {
+  for (const major of [0, 3, 2.5, "2"]) {
+    const fixture = await createFixture();
+    try {
+      fixture.manifest.compatibility.major = major;
+      await writeManifest(fixture);
+      await assert.rejects(promote(fixture), /compatibility\.major must be 1 or 2/);
+    } finally {
+      await rm(fixture.root, { recursive: true, force: true });
+    }
   }
 });
 

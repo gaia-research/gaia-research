@@ -83,12 +83,24 @@ function validatePlayerRecord(manifest: unknown) {
   if (!isRecord(manifest) || !isRecord(manifest.player)) {
     throw new Error("Milim release is missing player provenance");
   }
+  if (manifest.format !== "milim-release" || manifest.formatVersion !== 1) {
+    throw new Error("Milim release must use the frozen milim-release formatVersion 1");
+  }
+  if (!isRecord(manifest.compatibility)) {
+    throw new Error("Milim release compatibility must be an object");
+  }
+  if (!hasExactKeys(manifest.compatibility, ["major"])) {
+    throw new Error("Milim compatibility fields do not match the frozen release format");
+  }
+  if (![1, 2].includes(manifest.compatibility.major as number)) {
+    throw new Error("Milim release compatibility.major must be 1 or 2");
+  }
   const player = manifest.player;
   if (typeof player.commit !== "string" || !/^[a-f0-9]{40}$/.test(player.commit)) {
     throw new Error("Milim release player provenance requires a full lowercase 40-character commit");
   }
   if (player.commit !== MILIM_PLAYER_RECORD.commit) {
-    throw new Error("Milim release does not use the approved Phase 1 player commit");
+    throw new Error("Milim release does not use the frozen 0.2.0 player commit");
   }
   for (const field of ["repository", "version", "entry", "license"] as const) {
     if (player[field] !== MILIM_PLAYER_RECORD[field]) {
@@ -120,4 +132,11 @@ function resolveUrl(value: string, baseUrl?: string): URL {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function hasExactKeys(value: Record<string, unknown>, expected: readonly string[]): boolean {
+  const actual = Object.keys(value).sort();
+  const sortedExpected = [...expected].sort();
+  return actual.length === sortedExpected.length
+    && actual.every((key, index) => key === sortedExpected[index]);
 }
