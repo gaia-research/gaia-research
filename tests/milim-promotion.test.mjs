@@ -2,12 +2,13 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import test from "node:test";
 import { promoteMilimRelease } from "../scripts/promote-milim-release.mjs";
 
 const SOURCE_COMMIT = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
-const PLAYER_COMMIT = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+const PLAYER_COMMIT = "f04300c51abc0a283a8cc0c9a78c46bb8fcf9c3b";
+const DIFFERENT_PLAYER_COMMIT = "cccccccccccccccccccccccccccccccccccccccc";
 const PLAYER = {
   repository: "gaia-research/milim-player",
   version: "0.2.0",
@@ -62,6 +63,23 @@ test("rejects missing, abbreviated, or mismatched public player provenance", asy
   }
 });
 
+test("rejects a different full player SHA even when the caller expects it", async () => {
+  const fixture = await createFixture();
+  try {
+    fixture.manifest.player.commit = DIFFERENT_PLAYER_COMMIT;
+    await writeManifest(fixture);
+    await assert.rejects(promoteMilimRelease({
+      sourceDirectory: fixture.sourceDirectory,
+      publicDirectory: fixture.publicDirectory,
+      promotionsDirectory: fixture.promotionsDirectory,
+      expectedSourceCommit: SOURCE_COMMIT,
+      expectedPlayerCommit: DIFFERENT_PLAYER_COMMIT,
+    }), /approved Phase 1 player commit/);
+  } finally {
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
 test("rejects a mismatched private source commit", async () => {
   const fixture = await createFixture();
   try {
@@ -84,10 +102,47 @@ test("rejects an unsafe public player entry", async () => {
   }
 });
 
+test("requires milim-release v1 with compatibility major 1", async () => {
+  const fixture = await createFixture();
+  try {
+    fixture.manifest.compatibility.major = 2;
+    await writeManifest(fixture);
+    await assert.rejects(promote(fixture), /compatibility\.major must be 1/);
+  } finally {
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
+test("requires safe ./ files paths and excludes release.json from inventory", async () => {
+  for (const path of ["player/index.js", "./release.json"]) {
+    const fixture = await createFixture();
+    try {
+      fixture.manifest.files[0].path = path;
+      await writeManifest(fixture);
+      await assert.rejects(promote(fixture), /safe \.\/ path|release\.json must be excluded/);
+    } finally {
+      await rm(fixture.root, { recursive: true, force: true });
+    }
+  }
+});
+
+test("verifies files byte counts", async () => {
+  const fixture = await createFixture();
+  try {
+    fixture.manifest.files[0].bytes += 1;
+    await writeManifest(fixture);
+    await assert.rejects(promote(fixture), /byte count drift/);
+  } finally {
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
+
 test("rejects checksum drift before copying the release", async () => {
   const fixture = await createFixture();
   try {
-    await writeFile(join(fixture.sourceDirectory, "model.bin"), "tampered\n");
+    const modelPath = join(fixture.sourceDirectory, "models/milim-v1/model.json");
+    const original = await readFile(modelPath, "utf8");
+    await writeFile(modelPath, `X${original.slice(1)}`);
     await assert.rejects(promote(fixture), /checksum drift/);
     await assert.rejects(readFile(join(fixture.publicDirectory, "releases/milim-web-0.2.0/release.json")), { code: "ENOENT" });
   } finally {
@@ -113,25 +168,51 @@ async function createFixture() {
   const sourceDirectory = join(root, "private", "milim-web-0.2.0");
   const publicDirectory = join(root, "public", "milim");
   const promotionsDirectory = join(root, "docs", "promotions");
-  await mkdir(join(sourceDirectory, "player"), { recursive: true });
   const files = {
     "player/index.js": "export const mountMilim = () => {};\n",
-    "model.bin": "verified-model-payload\n",
+    "models/milim-v1/model.json": "{\"format\":\"milim-model\",\"formatVersion\":1}\n",
+    "scenes/cyber-slime-lab-v1/scene.json": "{\"format\":\"milim-scene\",\"formatVersion\":1}\n",
+    "previews/desktop.webp": "desktop-fallback\n",
+    "previews/tablet.webp": "tablet-fallback\n",
+    "previews/mobile.webp": "mobile-fallback\n",
+    "previews/reduced.webp": "reduced-fallback\n",
   };
   for (const [relativePath, contents] of Object.entries(files)) {
-    await writeFile(join(sourceDirectory, relativePath), contents);
+    const target = join(sourceDirectory, relativePath);
+    await mkdir(dirname(target), { recursive: true });
+    await writeFile(target, contents);
   }
   const manifest = {
-    schemaVersion: 1,
+    format: "milim-release",
+    formatVersion: 1,
     release: "milim-web-0.2.0",
-    compatibility: { major: 2 },
+    compatibility: { major: 1 },
     source: {
       repository: "gaia-research/milim",
       commit: SOURCE_COMMIT,
       releasedAt: "2026-07-17T00:00:00.000Z",
     },
     player: { ...PLAYER },
-    checksums: Object.fromEntries(Object.entries(files).map(([path, contents]) => [path, sha256(contents)])),
+    model: { id: "milim-v1", version: "1.0.0", url: "./models/milim-v1/model.json" },
+    scenes: [{ id: "cyber-slime-lab-v1", version: "1.0.0", url: "./scenes/cyber-slime-lab-v1/scene.json" }],
+    defaults: {
+      expression: "neutral",
+      hair: "classic-long-pink",
+      outfit: "dragonoid-hoodie-v1",
+      pose: "confident-neutral-v1",
+      scene: "cyber-slime-lab-v1",
+    },
+    fallbacks: {
+      desktop: "./previews/desktop.webp",
+      tablet: "./previews/tablet.webp",
+      mobile: "./previews/mobile.webp",
+      reducedMotion: "./previews/reduced.webp",
+    },
+    files: Object.entries(files).map(([path, contents]) => ({
+      path: `./${path}`,
+      bytes: Buffer.byteLength(contents),
+      sha256: sha256(contents),
+    })),
   };
   await writeFile(join(sourceDirectory, "release.json"), `${JSON.stringify(manifest, null, 2)}\n`);
   return { root, sourceDirectory, publicDirectory, promotionsDirectory, manifest };

@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { loadMilimRelease } from "./milim-player-loader";
 
-const PLAYER_COMMIT = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+const PLAYER_COMMIT = "f04300c51abc0a283a8cc0c9a78c46bb8fcf9c3b";
+const DIFFERENT_FULL_COMMIT = "cccccccccccccccccccccccccccccccccccccccc";
 
 function validManifest() {
   return {
@@ -47,6 +48,18 @@ describe("loadMilimRelease", () => {
       fetchImpl: async () => ({ ok: true, status: 200, json: async () => manifest }),
       importModule,
     })).rejects.toThrow(/40-character commit/);
+    expect(importModule).not.toHaveBeenCalled();
+  });
+
+  it("rejects a different full player commit before importing code", async () => {
+    const manifest = validManifest();
+    manifest.player.commit = DIFFERENT_FULL_COMMIT;
+    const importModule = vi.fn(async () => ({ mountMilim: vi.fn() }));
+
+    await expect(loadMilimRelease("https://research.example/release.json", {
+      fetchImpl: async () => ({ ok: true, status: 200, json: async () => manifest }),
+      importModule,
+    })).rejects.toThrow(/approved Phase 1 player commit/);
     expect(importModule).not.toHaveBeenCalled();
   });
 

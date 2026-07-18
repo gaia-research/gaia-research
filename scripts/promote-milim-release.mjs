@@ -8,6 +8,7 @@ const PRIVATE_REPOSITORY = "gaia-research/milim";
 const PLAYER_RECORD = Object.freeze({
   repository: "gaia-research/milim-player",
   version: "0.2.0",
+  commit: "f04300c51abc0a283a8cc0c9a78c46bb8fcf9c3b",
   entry: "./player/index.js",
   license: "Apache-2.0",
 });
@@ -24,10 +25,13 @@ export async function promoteMilimRelease({
 }) {
   requireFullCommit(expectedSourceCommit, "expected private source");
   requireFullCommit(expectedPlayerCommit, "expected public player");
+  if (expectedPlayerCommit !== PLAYER_RECORD.commit) {
+    throw new Error("Milim promotion requires the approved Phase 1 player commit");
+  }
   const sourceRoot = resolve(sourceDirectory);
   const manifest = JSON.parse(await readFile(join(sourceRoot, "release.json"), "utf8"));
   validateReleaseManifest(manifest, expectedSourceCommit, expectedPlayerCommit);
-  await verifyChecksumsAndInventory(sourceRoot, manifest.checksums);
+  await verifyFilesAndInventory(sourceRoot, manifest.files);
 
   const releasesRoot = join(resolve(publicDirectory), "releases");
   const destination = join(releasesRoot, manifest.release);
@@ -65,7 +69,7 @@ export async function promoteMilimRelease({
     manifest: `public/milim/releases/${manifest.release}/release.json`,
     source,
     player,
-    checksums: manifest.checksums,
+    files: manifest.files,
   };
   await writeJson(join(resolve(publicDirectory), "current.json"), current);
   const promotionPath = join(resolve(promotionsDirectory), `${manifest.release}.json`);
@@ -75,7 +79,16 @@ export async function promoteMilimRelease({
 }
 
 function validateReleaseManifest(manifest, expectedSourceCommit, expectedPlayerCommit) {
-  if (!isRecord(manifest) || typeof manifest.release !== "string" || !/^milim-web-\d+\.\d+\.\d+$/.test(manifest.release)) {
+  if (!isRecord(manifest)) throw new Error("Milim release manifest must be an object");
+  if (!isRecord(manifest.player)) throw new Error("Milim release is missing public player provenance");
+  requireExactKeys(manifest, ["compatibility", "defaults", "fallbacks", "files", "format", "formatVersion", "model", "player", "release", "scenes", "source"], "release manifest");
+  if (manifest.format !== "milim-release" || manifest.formatVersion !== 1) {
+    throw new Error("Milim release must use milim-release formatVersion 1");
+  }
+  if (!isRecord(manifest.compatibility) || manifest.compatibility.major !== 1) {
+    throw new Error("Milim Phase 1 release compatibility.major must be 1");
+  }
+  if (typeof manifest.release !== "string" || !/^milim-web-\d+\.\d+\.\d+$/.test(manifest.release)) {
     throw new Error("Milim release manifest has an invalid release identifier");
   }
   if (!isRecord(manifest.source) || manifest.source.repository !== PRIVATE_REPOSITORY) {
@@ -84,31 +97,52 @@ function validateReleaseManifest(manifest, expectedSourceCommit, expectedPlayerC
   requireFullCommit(manifest.source.commit, "private source");
   if (manifest.source.commit !== expectedSourceCommit) throw new Error("Milim private source commit does not match the reviewed commit");
 
-  if (!isRecord(manifest.player)) throw new Error("Milim release is missing public player provenance");
+  requireExactKeys(manifest.player, ["commit", "entry", "license", "repository", "version"], "player");
   requireFullCommit(manifest.player.commit, "public player");
+  if (manifest.player.commit !== PLAYER_RECORD.commit) throw new Error("Milim release does not use the approved Phase 1 player commit");
   if (manifest.player.commit !== expectedPlayerCommit) throw new Error("Milim public player commit does not match the reviewed commit");
   for (const field of ["repository", "version", "entry", "license"]) {
     if (manifest.player[field] !== PLAYER_RECORD[field]) {
       throw new Error(`Milim public player ${field} does not match the frozen 0.2.0 record`);
     }
   }
-  if (!isRecord(manifest.checksums)) throw new Error("Milim release checksums must be an object");
+  if (!isRecord(manifest.model)) throw new Error("Milim release model must be an object");
+  if (!Array.isArray(manifest.scenes) || manifest.scenes.length === 0 || manifest.scenes.some((scene) => !isRecord(scene))) {
+    throw new Error("Milim release scenes must be a non-empty array");
+  }
+  if (!isRecord(manifest.defaults)) throw new Error("Milim release defaults must be an object");
+  if (!isRecord(manifest.fallbacks)) throw new Error("Milim release fallbacks must be an object");
+  if (!Array.isArray(manifest.files) || manifest.files.length === 0) throw new Error("Milim release files must be a non-empty array");
 }
 
-async function verifyChecksumsAndInventory(sourceRoot, checksums) {
-  const payloadFiles = (await listPayloadFiles(sourceRoot)).filter((path) => path !== "release.json").sort();
-  const checksumFiles = Object.keys(checksums).sort();
-  for (const path of checksumFiles) {
-    if (!isSafeRelativePath(path)) throw new Error(`Unsafe checksum path: ${path}`);
-    if (typeof checksums[path] !== "string" || !SHA256.test(checksums[path])) throw new Error(`Invalid SHA-256 checksum for ${path}`);
+async function verifyFilesAndInventory(sourceRoot, files) {
+  const payloadFiles = (await listPayloadFiles(sourceRoot))
+    .filter((path) => path !== "release.json")
+    .map((path) => `./${path}`)
+    .sort();
+  const listedPaths = [];
+  const seen = new Set();
+  for (const file of files) {
+    if (!isRecord(file)) throw new Error("Milim release files entries must be objects");
+    requireExactKeys(file, ["bytes", "path", "sha256"], "files entry");
+    if (!isSafeReleasePath(file.path)) throw new Error(`Milim release files path must be a safe ./ path: ${file.path}`);
+    if (file.path === "./release.json") throw new Error("Milim release.json must be excluded from files");
+    if (seen.has(file.path)) throw new Error(`Milim release files contains a duplicate path: ${file.path}`);
+    seen.add(file.path);
+    listedPaths.push(file.path);
+    if (!Number.isInteger(file.bytes) || file.bytes < 0) throw new Error(`Invalid byte count for ${file.path}`);
+    if (typeof file.sha256 !== "string" || !SHA256.test(file.sha256)) throw new Error(`Invalid SHA-256 checksum for ${file.path}`);
   }
-  if (payloadFiles.length !== checksumFiles.length || payloadFiles.some((path, index) => path !== checksumFiles[index])) {
-    throw new Error("Milim checksum inventory does not exactly match the release payload");
+  listedPaths.sort();
+  if (payloadFiles.length !== listedPaths.length || payloadFiles.some((path, index) => path !== listedPaths[index])) {
+    throw new Error("Milim files inventory does not exactly match the release payload");
   }
-  for (const path of checksumFiles) {
-    const contents = await readFile(join(sourceRoot, ...path.split("/")));
+  for (const file of files) {
+    const relativePath = file.path.slice(2);
+    const contents = await readFile(join(sourceRoot, ...relativePath.split("/")));
+    if (contents.byteLength !== file.bytes) throw new Error(`Milim byte count drift detected for ${file.path}`);
     const actual = createHash("sha256").update(contents).digest("hex");
-    if (actual !== checksums[path]) throw new Error(`Milim checksum drift detected for ${path}`);
+    if (actual !== file.sha256) throw new Error(`Milim checksum drift detected for ${file.path}`);
   }
 }
 
@@ -127,14 +161,21 @@ async function listPayloadFiles(root, relative = "") {
   return files;
 }
 
-function isSafeRelativePath(path) {
+function isSafeReleasePath(path) {
   return typeof path === "string"
-    && path.length > 0
+    && path.startsWith("./")
+    && path.length > 2
     && !path.includes("\\")
-    && !path.startsWith("/")
-    && posix.normalize(path) === path
-    && path !== ".."
-    && !path.startsWith("../");
+    && posix.normalize(path.slice(2)) === path.slice(2)
+    && !path.slice(2).startsWith("../");
+}
+
+function requireExactKeys(value, expected, label) {
+  const actual = Object.keys(value).sort();
+  const sortedExpected = [...expected].sort();
+  if (actual.length !== sortedExpected.length || actual.some((key, index) => key !== sortedExpected[index])) {
+    throw new Error(`Milim ${label} fields do not match the frozen release format`);
+  }
 }
 
 function requireFullCommit(value, label) {
