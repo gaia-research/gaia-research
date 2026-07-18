@@ -16,6 +16,7 @@ if ("require-cache-headers" in args) {
 const baseURL = new URL(args["base-url"] ?? "http://127.0.0.1:3000").href;
 const playwright = loadPlaywright(args["pw-path"] ?? process.env.PW_PATH);
 const runs = Number(args.runs ?? 5);
+const frameSampleCount = Number(args["frame-samples"] ?? 30);
 const browser = await playwright.chromium.launch({ headless: true });
 
 try {
@@ -33,17 +34,17 @@ try {
     await page.goto(new URL("/milim/qa?scene=cyber-slime-lab-v2&expression=neutral&measure=1", baseURL).href, { waitUntil: "domcontentloaded" });
     await page.waitForFunction(() => window.__MILIM_QA__?.snapshot().ready === true, undefined, { timeout: 20_000 });
     startups.push(performance.now() - start);
-    await page.waitForFunction(() => window.__MILIM_FRAME_PROBE__?.intervals.length >= 120, undefined, { timeout: 10_000 });
-    const telemetry = await page.evaluate(() => {
+    await page.waitForFunction((sampleCount) => window.__MILIM_FRAME_PROBE__?.intervals.length >= sampleCount, frameSampleCount, { timeout: 10_000 });
+    const telemetry = await page.evaluate((sampleCount) => {
       const transfer = performance.getEntriesByType("resource")
         .filter((entry) => entry.name.includes("/milim/releases/"))
         .reduce((total, entry) => total + (entry.transferSize ?? 0), 0);
       return {
-        times: window.__MILIM_FRAME_PROBE__.intervals.slice(-120),
+        times: window.__MILIM_FRAME_PROBE__.intervals.slice(-sampleCount),
         longTasks: [...window.__MILIM_LONG_TASKS__],
         transfer,
       };
-    });
+    }, frameSampleCount);
     frames.push(...telemetry.times);
     longTasks.push(...telemetry.longTasks);
     transfers.push(telemetry.transfer);

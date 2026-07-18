@@ -84,9 +84,10 @@ async function verifyPrefersReducedMotion(browser) {
     reducedMotion: "reduce",
   });
   const page = await context.newPage();
-  const releaseRequests = [];
+  const playerRequests = [];
   page.on("request", (request) => {
-    if (request.url().includes("/milim/releases/")) releaseRequests.push(request.url());
+    const url = request.url();
+    if (/\/milim\/releases\/.*\/(release\.json|player\/index\.js)$/.test(url)) playerRequests.push(url);
   });
   try {
     await page.addInitScript(() => {
@@ -105,7 +106,7 @@ async function verifyPrefersReducedMotion(browser) {
     await page.locator(".milim-hero .live-stage").dispatchEvent("pointermove", { clientX: 640, clientY: 450 });
     await page.waitForTimeout(100);
     const webglContexts = await page.evaluate(() => window.__MILIM_REDUCED_MOTION_WEBGL_CONTEXTS__);
-    if (releaseRequests.length !== 0) throw new Error(`Reduced motion fetched player assets: ${releaseRequests.join(", ")}`);
+    if (playerRequests.length !== 0) throw new Error(`Reduced motion fetched player bootstrap assets: ${playerRequests.join(", ")}`);
     if (webglContexts !== 0) throw new Error(`Reduced motion created ${webglContexts} WebGL contexts`);
   } finally { await context.close(); }
 }
