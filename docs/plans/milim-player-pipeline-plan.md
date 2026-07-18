@@ -68,9 +68,24 @@ homepage. Milim must:
 - provide static reduced-motion, loading, error, and no-WebGL fallbacks;
 - preserve semantic HTML, navigation, and calls to action outside the canvas.
 
-The current sprite is the visual lock and fallback, not the production rig
-source. Its default hair and outfit must be reconstructed as complete modular
-parts, including art hidden by the current pose.
+The current V1 sprite is the binding visual gold master and fallback, not a
+license to regenerate the character. Production art must preserve its face,
+proportions, pose energy, hair rendering, outfit silhouette, protected
+graphics, and overall illustration quality while reconstructing complete
+modular parts hidden by the current pose. A separately generated whole-character
+neutral that merely matches the written character description is invalid.
+
+All Phase 3 image work uses the `gaia-image-production` workflow with
+`gpt-image-2` only. Generation is limited to reference-guided edits or inpainting
+for hidden regions and approved replacement limbs. The owner must approve a
+full-resolution V1-versus-candidate neutral comparison before layer separation,
+rigging, or Phase 4 visual acceptance proceeds.
+
+The project is reuse-and-polish first. Existing approved V1 neutral,
+expression, greet, and point masters are authoritative inputs and visual
+targets. Workers must inventory and reuse them before generating anything. The
+milestone phases harden and modularize completed work; they do not authorize
+new whole-character, expression, gesture, or scene art from scratch.
 
 ## MVP priorities
 
@@ -569,21 +584,31 @@ character and background; static fallback remains fully functional.
 
 ### Phase 3 — Production default art and rig
 
-- Create the complete neutral art source at 2048 px or greater.
+- Reconstruct the complete neutral art source at 2048 px or greater from the
+  approved V1 visual gold master; do not regenerate the whole character.
 - Reconstruct hidden hands, arms, torso, sleeves, and hair regions.
+- Reject the existing donor V2 neutral candidate because its face, proportions,
+  pose, hair rendering, and overall finish drift from V1.
 - Lock anchors, masks, mesh density, protected graphics, and draw order.
 - Author the default hair and outfit packs.
 - Author head/body keyforms, gaze, mouth, brows, breath, and physics chains.
-- Generate and review desktop/tablet/mobile static previews.
+- Before separation, obtain owner approval of full-resolution V1-versus-neutral
+  face, silhouette, proportion, hair, outfit, and protected-graphic audits.
+- After separation, review 1:1 composites, alpha seams, anatomy, masks,
+  deformation, and desktop/tablet/mobile static previews.
 
 **Exit:** Neutral Milim matches the character lock with no holes, seams, or
-unreadable outfit art under the supported deformation range.
+unreadable outfit art under the supported deformation range. The owner has
+explicitly approved the reconstructed neutral and its live-browser composite.
 
 ### Phase 4 — Expressions and motion
 
-- Author all four expressions with neutral reset and blend timings.
+- Map the four existing approved V1 expression masters onto the accepted Phase
+  3 rig, preserving their identity while applying neutral reset and blend
+  timings; do not independently regenerate them.
 - Author idle-breathe and idle-look loops.
-- Author greet and point, including replacement art where needed.
+- Map the existing V1 greet and point masters onto the rig, using them as
+  gesture targets and limb donors; create only missing replacement pixels.
 - Implement expression/motion arbitration and interruption semantics.
 - Tune hair, sleeve, hood, and drawstring secondary motion.
 - Generate contact sheets and video/screenshot evidence.
