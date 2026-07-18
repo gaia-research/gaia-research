@@ -121,8 +121,9 @@ for (const path of PAGES) {
     const slug = path.replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "home";
     await page.screenshot({ path: `${OUT}/${slug}__${width}.png`, fullPage: true }).catch(() => {});
     const cutoff = overflow != null && overflow > 1;
-    // Non-404 console errors only (the Milim rig bundle 404 is an expected fallback).
-    const realErrors = errors.filter((e) => !/404|Failed to load resource/i.test(e));
+    // A failed resource is a visual-gate failure. Static fallback is intentional,
+    // but a missing promoted release must remain visible evidence.
+    const realErrors = errors;
     const bad = cutoff || realErrors.length || status !== 200;
     if (bad) issues++;
     report.push({ path, width, status, overflow, culprits, errors });

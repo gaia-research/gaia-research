@@ -6,7 +6,42 @@ export const MILIM_PLAYER_RECORD = Object.freeze({
   license: "Apache-2.0",
 } as const);
 
-export type MountMilim = (...args: unknown[]) => unknown;
+export type MilimExpression =
+  | "neutral"
+  | "joyful-winker"
+  | "demon-lord-smirk"
+  | "starry-awe"
+  | "chaos-gremlin";
+
+export type MilimDurableState = {
+  expression: MilimExpression;
+  hair: string;
+  outfit: string;
+  pose: string;
+  scene: string;
+};
+
+/** The public player controller is the only runtime surface React may use. */
+export type MilimController = {
+  set(state: Partial<MilimDurableState>): unknown;
+  drive(controls: {
+    gaze?: { x: number; y: number };
+    head?: { x: number; y: number; z: number };
+    mouthOpen?: number;
+  }): unknown;
+  perform(motion: "greet" | "point"): Promise<unknown>;
+  setRunning(running: boolean): void;
+  destroy(): void;
+};
+
+export type MountMilim = (
+  canvas: HTMLCanvasElement,
+  options: {
+    src: string;
+    reducedMotion?: boolean;
+    onStatus?(status: unknown): void;
+  },
+) => Promise<MilimController>;
 
 type FetchResponse = {
   ok: boolean;

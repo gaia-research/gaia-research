@@ -355,3 +355,20 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
   .mcp-tool-params div{grid-template-columns:1fr;gap:.15rem}
   .mcp-tabs{flex-wrap:wrap}
 }
+
+/* Phase 2 deterministic tracer review surface; production content remains at /. */
+.milim-qa{width:var(--shell-width);margin:auto;padding:var(--space-dense) 0 var(--space-expansive)}
+.milim-qa-head{max-width:66ch;margin-bottom:var(--space-tight)}
+.milim-qa-head h1{margin:.6rem 0 1rem}
+.milim-qa-head p:last-child{color:var(--muted)}
+.milim-qa-stage{width:100%;height:min(72vw,720px);min-height:460px;border:1px solid var(--line);background:#05060a;overflow:hidden}
+.milim-qa-stage .milim-sprite{animation:none}
+.milim-qa-stage .sprite-caption{right:1rem}
+.milim-qa-output{margin-top:var(--space-tight);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;border:1px solid var(--line);background:var(--surface);padding:1rem}
+.milim-qa-output pre{min-width:0;max-width:100%;overflow:auto;margin:0;color:var(--blue);font:.75rem/1.55 var(--mono);white-space:pre-wrap}
+.milim-qa-output button{align-self:start}
+.milim-qa-matrix{margin-top:var(--space-tight);border:1px solid var(--line);padding:1rem}
+.milim-qa-matrix h2{font-size:var(--type-display-3);margin:0 0 .75rem}
+.milim-qa-matrix ul{display:flex;flex-wrap:wrap;gap:.5rem 1rem;margin:0;padding:0;list-style:none;font:.75rem var(--mono);color:var(--dim)}
+.milim-qa-matrix strong{color:var(--blue);font-weight:500}
+@media(max-width:700px){.milim-qa{padding-left:var(--gutter);padding-right:var(--gutter)}.milim-qa-stage{height:112vw;min-height:390px}.milim-qa-output{grid-template-columns:1fr}.milim-qa-output button{width:100%}}
