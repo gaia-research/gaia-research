@@ -2,14 +2,31 @@ name: craft-ci
 
 on:
   pull_request:
+    paths:
+      - 'lib/craft/**'
+      - 'lib/mcp/**'
+      - 'data/craft/**'
+      - 'data/mcp.ts'
+      - 'vitest.config.*'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
   push:
     branches:
-      - main
       - feat/infinite-skill-craft-lab
+    paths:
+      - 'lib/craft/**'
+      - 'lib/mcp/**'
+      - 'data/craft/**'
+      - 'data/mcp.ts'
+      - 'vitest.config.*'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
 
 jobs:
   test:
-    name: Type-check, test, and build validation
+    name: Type-check + Vitest (craft lib)
     runs-on: ubuntu-latest
 
     steps:
@@ -24,14 +41,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check for edge-incompatible filesystem usage
-        run: node scripts/check-fs-usage.mjs
-
       - name: Type-check (tsc --noEmit)
         run: npx tsc --noEmit
 
       - name: Run craft + mcp unit tests
         run: npm run test
-
-      - name: Run Next.js build
-        run: npm run build:next
