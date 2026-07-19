@@ -88,7 +88,8 @@
 | `VISION.md` / `MISSION.md` | Public story + mission/roadmap (R0–R4). Slider language in VISION §3 pending rewrite per N1. |
 | `docs/idea-bank/skill-heaven-hell-mvp.md` | Engineering findings record (eviction, doses, placebo, summoning). Its decision log is historical. |
 | `docs/plans/skill-heaven-hell-mvp-plan.md` | M0–M5 implementation plan. |
-| `docs/plans/m2-heaven-launcher-plan.md` | M2 handover plan (launcher profile compiler; implements D1/D6/D7). |
+| `docs/plans/m2-heaven-launcher-plan.md` | M2 handover plan (launcher profile compiler; implements D1/D6/D7). Closed 2026-07-20; historical record. |
+| `docs/plans/skill-heaven-continuation-plan.md` | Post-naming continuation plan of record (consolidation sweep, monorepo restructure, D10 verification gates, claude-heaven slice 1, pi-heaven vanguard, session debts). |
 | `docs/plans/skill-heaven-native-shaping.md` | WIP proposals for the next slice (third dose, necessity map, context pack). Proposals only. |
 | `docs/labs/harness-capability-matrix.md` | M0 evidence: verified harness cells + GO verdict. |
 | `content/reports/hh-benchmark/` | Methodology, R0 two-dose census, data. |

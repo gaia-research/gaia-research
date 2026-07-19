@@ -1,5 +1,18 @@
 # M2 — Skill Heaven launcher (profile compiler): handover plan
 
+> **CLOSED 2026-07-20 — naming ratified, plan superseded.** Open item 8 closed
+> via **N8/N9/D10/D11** (RFC
+> [#68](https://github.com/gaia-research/gaia-research/issues/68), PR #69): the
+> repo is **`gaia-research/skill-heaven`** (monorepo + Claude plugin
+> marketplace); the **per-harness installables (`claude-heaven`, `pi-heaven`,
+> …) are the user-facing product**; the core `skill-heaven` bin is the research
+> driver. The `hh-launcher` working name is retired — its checkout was seeded
+> into the new repo. Build items 1–8 below are complete; everything still open
+> continues in
+> [`skill-heaven-continuation-plan.md`](./skill-heaven-continuation-plan.md).
+> The body below is kept as the historical handover record — read `hh-launcher`
+> / `<launcher-repo>` / `<launcher-bin>` as `skill-heaven`.
+>
 > **Status: approved by the owner 2026-07-19; first implementation pass landed
 > the same day** (sibling `hh-launcher/` checkout + this repo's matrix/ledger
 > updates — see the M2 status block in
@@ -37,7 +50,8 @@ user-runnable tool.
 Owner amendments ratified 2026-07-19 (now RATIFICATION D6/D7):
 
 - **D6 — repo split.** The launcher ships as a **user-facing installable in its
-  own repo** (name OPEN, item 8). Research, benchmarks (census / ledger /
+  own repo** (named `gaia-research/skill-heaven` when item 8 closed,
+  2026-07-20). Research, benchmarks (census / ledger /
   matrix / reports) and the site **stay in `gaia-research`**. The ledger-of-record
   (`scripts/hell-heaven-bench/data/ledger.jsonl`) and its validator never move.
 - **D7 — grok joins the harness scope**, alongside Claude Code (reference), pi
@@ -71,7 +85,7 @@ Ratified constraints obeyed, not re-litigated:
 
 | Artifact | Repo |
 |---|---|
-| Installable CLI (profile compiler + exec + record emission), its tests, its README | **launcher repo** (create it; working name `<launcher-repo>` until item 8 closes — do not brand it) |
+| Installable CLI (profile compiler + exec + record emission), its tests, its README | **`gaia-research/skill-heaven`** (created 2026-07-19; item 8 closed 2026-07-20) |
 | Capability-matrix updates (T6/T7 spike, pi/codex/cursor re-checks, **new grok column**) | `gaia-research` — `docs/labs/harness-capability-matrix.md` |
 | Ledger of record + validator (`ledger.ts`, `data/ledger.jsonl`) | `gaia-research` (unchanged) |
 | Census + dose discipline (`census.ts`) | `gaia-research` (unchanged) |
@@ -255,11 +269,14 @@ harness-dose census M2a, necessity map M2b, any prompt eviction
 (`tokens.system` stays null); ledger `v2` fields (`promptProfile`, `packHash`);
 context-pack seed skills; native `--heaven-mode`; counted (non-chars4)
 tokenizer backend; skill-invocation instrumentation via stream-json (noted
-follow-up); publishing/branding the installable (name is OPEN item 8).
+follow-up); publishing/branding the installable (naming closed 2026-07-20; npm
+publish remains a separate owner decision).
 
 ## 8. Flagged for the owner (not blocking)
 
-1. **Launcher repo + binary name** (OPEN item 8; pends N4/N5 + persona lane) —
+1. ~~**Launcher repo + binary name**~~ — closed 2026-07-20 (N9): repo
+   `gaia-research/skill-heaven`, core bin `skill-heaven`, doors
+   `claude-heaven`/`pi-heaven`/…. Historical text: (OPEN item 8) —
    scaffold under a working name, no branding.
 2. **CLI flag vocabulary** (`--posture` + `--level` alias) provisional until N5
    closes; launcher README says so.
