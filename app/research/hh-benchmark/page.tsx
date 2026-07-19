@@ -1,9 +1,9 @@
-import fs from "node:fs";
-import path from "node:path";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+// loaded as raw text by webpack asset/source
+import methodologyMd from "@/content/reports/hh-benchmark/methodology.md";
 
 export const metadata = {
   title: "The Hell Heaven Benchmark — Methodology",
@@ -17,13 +17,9 @@ export const dynamic = "force-static";
 export const revalidate = false;
 
 function loadMethodology() {
-  const file = path.join(process.cwd(), "content/reports/hh-benchmark/methodology.md");
-  const raw = fs.readFileSync(file, "utf8");
-  // Drop the leading H1 (the page header renders its own title) and the
-  // status HTML comment beneath it; keep everything from the first paragraph.
-  return raw
+  return methodologyMd
     .split("\n")
-    .filter((line) => !line.startsWith("# ") && !line.trim().startsWith("<!--"))
+    .filter((line: string) => !line.startsWith("# ") && !line.trim().startsWith("<!--"))
     .join("\n")
     .trim();
 }

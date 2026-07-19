@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -7,6 +5,8 @@ import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyCommand from "@/components/CopyCommand";
 import ReportCharts from "@/components/ReportCharts";
 import { installCmd, repoUrl, treeUrl } from "@/data/research";
+// loaded as raw text by webpack asset/source
+import postmortemMd from "@/content/reports/ci-churn/postmortem.md";
 
 // This page must be rendered while the Markdown source is available at build
 // time. Cloudflare Workers cannot read the deployed filesystem at request time.
@@ -28,12 +28,7 @@ const SKILL_SLUG = "skill-ci-churn";
 // lines — the H1 title and the H2 subtitle are rendered by the page header
 // below, so we don't want react-markdown to repeat them.
 function loadPostmortem() {
-  const file = path.join(
-    process.cwd(),
-    "content/reports/ci-churn/postmortem.md",
-  );
-  const raw = fs.readFileSync(file, "utf8");
-  return raw.split("\n").slice(2).join("\n").trim();
+  return postmortemMd.split("\n").slice(2).join("\n").trim();
 }
 
 export default function CiChurnReportPage() {
