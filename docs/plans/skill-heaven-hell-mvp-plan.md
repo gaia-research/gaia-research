@@ -45,6 +45,18 @@ from).
 
 ### M2 — Heaven mechanism, in-harness first (decision A)
 
+> **Status 2026-07-19: implemented (first pass).** The launcher-shaped profile
+> compiler exists in its own repo (working name `hh-launcher`, sibling checkout;
+> GitHub repo creation pends OPEN item 8 naming) per
+> [`m2-heaven-launcher-plan.md`](./m2-heaven-launcher-plan.md) and D6/D7.
+> 30 unit tests + census parity fixture green; live demos a–d ran on Claude Code
+> 2.1.215 and pi 0.80.10; two `hh-m2-smoke` records appended to the ledger of
+> record (validator-clean). T6 resolved **negative** — curated re-admission
+> ships as `--setting-sources project` + `--plugin-dir` (T8); see the matrix's
+> M2 re-check table for T6/T7/T8, the pi `--no-skills` race (P1), and the
+> quota/binary-deferred codex & cursor cells. grok column added (D7): discovery
+> ✅, suppression mechanism nonexistent → grok is native-posture-only for now.
+
 Preferred shape: **inside the harness** — e.g. `claude --heaven-mode` semantics.
 Two spikes on Claude Code, pick by evidence:
 

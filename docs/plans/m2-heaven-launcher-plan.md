@@ -1,6 +1,18 @@
 # M2 — Skill Heaven launcher (profile compiler): handover plan
 
-> **Status: approved by the owner 2026-07-19; not yet implemented.** This is the
+> **Status: approved by the owner 2026-07-19; first implementation pass landed
+> the same day** (sibling `hh-launcher/` checkout + this repo's matrix/ledger
+> updates — see the M2 status block in
+> [`skill-heaven-hell-mvp-plan.md`](./skill-heaven-hell-mvp-plan.md)).
+> **One evidence-forced deviation from §4:** T6 resolved *negative* and the T7
+> config-dir fallback is auth-blocked on macOS (Keychain credentials), so the
+> frozen `plugin-dir` default is the **T8 composition** — `--setting-sources
+> project` + `--plugin-dir` (bundled CLI skills remain as a recorded residual)
+> — not `--disable-slash-commands` + `--plugin-dir`. Details + repro rows:
+> [`../labs/harness-capability-matrix.md`](../labs/harness-capability-matrix.md)
+> (M2 re-check table). Flagged for owner review alongside §8.
+>
+> This is the
 > handover plan for the implementing agent. **Decision authority:
 > [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)** — this plan
 > implements D1/D6/D7; the founder doc decides. Companions:
