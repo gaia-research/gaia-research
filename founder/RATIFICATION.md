@@ -40,6 +40,8 @@
 | D3 | **LOCKED** | **Managed surfaces (claude.ai connector) carry the summon side only** for the MVP — no session-boot control there. The **full mode ladder on every surface remains the north star**; each surface climbs as its capabilities allow. |
 | D4 | **LOCKED** | `gaia-mcp` keeps a **≤2-tool surface** (`search_skills`, `summon`); its own schema footprint is measured and subtracted in every claim. Heaven's purest form uses no server. |
 | D5 | **LOCKED** | **Hell routing is deterministic and performance-first**: nearest-neighbor over a build-time frozen embedding index (pinned model, versioned artifact, version handshake); ranked/origin skills sort first; no model call ever decides a loadout; stress bar = hundreds of skills. |
+| D6 | **LOCKED** | **The launcher ships as a user-facing installable in its own repo** (ratified 2026-07-19). Research, benchmarks (census / ledger / capability matrix / reports), and the site stay in `gaia-research`. The launcher repo consumes `hh-ledger`-compatible record shapes and the two-dose pricing discipline from here; the ledger-of-record and its validator never move. Repo name and installable/binary name: **OPEN** (pend N4/N5 and the persona lane #119–#121). |
+| D7 | **LOCKED** | **Grok is in the harness scope** (ratified 2026-07-19), joining Claude Code (reference), pi (second), Codex, and Cursor. M0 discipline applies unchanged: grok gets an empirical capability-matrix column on a pinned version, and no cell is load-bearing until verified; launcher support follows what its verified cells allow. |
 
 ## 4. Measurement & claims
 
@@ -67,6 +69,7 @@
 5. **Necessity-map lane taxonomy** (two lanes or three).
 6. **Heaven persona name** (#120; candidates on the brand board).
 7. **Shaping-doc §9 deltas** (M2 three-dose clause, M2a harness-dose census, M2b necessity map, ledger v2 fields, R1 rubric input, context-pack seed skills, harness-dose leaderboard) — each awaiting ratify/reject.
+8. **Launcher repo name + installable/binary name** (per D6; pends N4/N5 and the persona lane).
 
 ## 7. Pointer map (where everything lives)
 
@@ -78,6 +81,7 @@
 | `VISION.md` / `MISSION.md` | Public story + mission/roadmap (R0–R4). Slider language in VISION §3 pending rewrite per N1. |
 | `docs/idea-bank/skill-heaven-hell-mvp.md` | Engineering findings record (eviction, doses, placebo, summoning). Its decision log is historical. |
 | `docs/plans/skill-heaven-hell-mvp-plan.md` | M0–M5 implementation plan. |
+| `docs/plans/m2-heaven-launcher-plan.md` | M2 handover plan (launcher profile compiler; implements D1/D6/D7). |
 | `docs/plans/skill-heaven-native-shaping.md` | WIP proposals for the next slice (third dose, necessity map, context pack). Proposals only. |
 | `docs/labs/harness-capability-matrix.md` | M0 evidence: verified harness cells + GO verdict. |
 | `content/reports/hh-benchmark/` | Methodology, R0 two-dose census, data. |
@@ -96,6 +100,12 @@
 | `research/hell-heaven-h1/` | H1 −97.4% standing-dose result. |
 | `deliverables/proposal/byo-skill-tree-enterprise-brief.md` + personas board, #119–#121 | Enterprise brief; persona lane. |
 
+### Launcher repo (name OPEN — per D6)
+
+User-facing installable launcher (profile compiler CLI). Not yet created; the
+M2 handover plan (`docs/plans/m2-heaven-launcher-plan.md`) specifies what lands
+there vs. what stays in `gaia-research`.
+
 ### Canon
 
 `gaia-skill-tree` — read-only; epic **#1002 (Yggdrasil II)** is the stamp schema
@@ -103,6 +113,11 @@ target.
 
 ## 8. Supersession log
 
+- **2026-07-19 (later same day)** — **D6** (launcher = user-facing installable
+  in its own repo; research/benchmarks/site stay in `gaia-research`) and **D7**
+  (grok joins the harness scope) ratified by the owner. Open item 8 (launcher
+  repo/binary name) added. M2 handover plan recorded at
+  `docs/plans/m2-heaven-launcher-plan.md`.
 - **2026-07-19** — Doc established. Consolidates and supersedes the decision
   logs in `docs/idea-bank/skill-heaven-hell-mvp.md` (owner decisions A/B/C),
   `docs/plans/skill-heaven-native-shaping.md` §1 (D1–D3), and the slider
