@@ -4,6 +4,9 @@
 - **Viability:** High (Heaven), Medium-High (Hell — gated by benchmark + Ygg II)
 - **Potential:** Very High
 - **Status:** Ratified 2026-07-18 (brainstorm findings + owner decisions logged below)
+- **Decision authority (2026-07-19):** decisions consolidated into
+  [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md) — the decision log
+  below is **historical**; the findings remain the engineering reference.
 - **Companion plan:** [`../plans/skill-heaven-hell-mvp-plan.md`](../plans/skill-heaven-hell-mvp-plan.md)
 - **Source docs:** `VISION.md` / `MISSION.md` / `content/reports/hh-benchmark/methodology.md`
   (branch `feat/skill-heaven-hell-vision`), tracking issue

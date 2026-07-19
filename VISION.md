@@ -4,6 +4,10 @@
 > Voice per [`PRODUCT.md`](PRODUCT.md): High-Energy Academic — Joy. Rigor. Spark.
 > Public-facing. The enterprise operational playbook (Bring-Your-Own-Tree, private
 > fusion, grade-against-canon) is staged in `marketing-tasks` — see §7.
+>
+> **Decision authority:** [`founder/RATIFICATION.md`](founder/RATIFICATION.md).
+> Where this doc lags ratified decisions (e.g. §3's slider — ratified as discrete
+> **mode switching**, N1), the founder doc wins pending rewrite.
 
 ---
 

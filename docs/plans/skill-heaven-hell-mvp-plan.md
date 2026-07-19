@@ -4,6 +4,8 @@
 > [`../idea-bank/skill-heaven-hell-mvp.md`](../idea-bank/skill-heaven-hell-mvp.md).
 > Scope: the R0–R3 slice of `MISSION.md` §3, Heaven first, Hell staged behind it.
 > Baseline harnesses: **Claude Code, Codex CLI, Cursor, pi.**
+> **Decision authority:** [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)
+> — this plan implements; the founder doc decides.
 
 ## 0. Posture
 

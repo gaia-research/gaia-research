@@ -1,7 +1,12 @@
 # Heaven-Native — Shaping Draft (third dose, the ladder, the context pack)
 
-> **Status: DRAFT in active shaping — decision log §1 is owner-ratified; everything
-> else awaits ratify/reject.** Brainstorm output (2026-07-19, continued same day),
+> **Status: WIP proposals only. Decision authority:
+> [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)** — §1 below is a
+> mirror of decisions now consolidated there; §9's deltas are open items
+> (oracle §6.7). Naming note: this doc's "Heaven-0/Heaven-1" shorthand predates
+> oracle N3 (levels use agentic terms `off·low·med·high·xhigh·max`; modes lean
+> "Skill Heaven / Skill Hell mode" per N2; slider framing superseded by mode
+> switching per N1). Brainstorm output (2026-07-19, continued same day),
 > shaped against the ratified corpus after Slice 1 (PR #64) and now **reconciled
 > against the marketing-tasks side**: master RFC
 > (`marketing-tasks/deliverables/proposal/skill-heaven-hell-mvp-rfc.md`), the
@@ -27,7 +32,7 @@ the testable rubric input for the HH Index `heaven-native` stamp, and (e) the
 **context pack** as Heaven's deliverable — the artifact that makes Heaven the
 authoring half of Hell's autonomy, not just a quieter room.
 
-## 1. Decision log — 2026-07-19 (owner-ratified, this session)
+## 1. Decision log — 2026-07-19 (mirror — authority: [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md))
 
 - **(D1) The launcher ships M2; in-harness-native is a future iteration.** The M2
   vehicle is the `claude-heaven`-shaped **profile compiler**: launcher UX on the
