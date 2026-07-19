@@ -1,7 +1,7 @@
 # RATIFICATION — Skill Heaven / Skill Hell (the oracle)
 
 > **This is the single source of truth for decisions.** Last ratified:
-> **2026-07-19** (owner). One live doc at a time; superseded versions move to
+> **2026-07-20** (owner). One live doc at a time; superseded versions move to
 > [`archived/`](./archived/). Where any other doc disagrees — including
 > `VISION.md`, the marketing-tasks master RFC, or older decision logs — **this
 > doc wins** and the other doc is pending rewrite.
@@ -21,6 +21,8 @@
 | N5 | **OPEN** | **One scale or two** — a single mode×level scale spanning heaven→hell, or two dials (mode + level). |
 | N6 | **LOCKED** | The index is the **Hell Heaven (HH) Index**; schema key `hellHeaven` (reconciled 2026-07-18). |
 | N7 | **LOCKED** | **Milim is the Hell-mode persona.** The Heaven persona's name is reserved and undecided (marketing-tasks #119/#120/#121); nothing may hard-code one. Credit Matt Pocock for naming Skill Hell; the frame is "Stop installing. Start summoning." |
+| N8 | **LOCKED** | **Product positioning: scalpel, not door** (ratified 2026-07-20, RFC #68). The user lives in bare `claude`/`pi` and reaches for this when it hurts — *"this task needs a clean room."* The pain vocabulary is **context bloat**; the name carries the **brand**, the tagline carries the **symptom** ("Strip your agent's context bloat — run clean"). Mental model is **harness-first**: users think "claude" first, then heaven — the product lives where the harness name lives, never as a `sudo`-style wrapper identity. |
+| N9 | **LOCKED** | **Names ratified; open item 8 closed** (2026-07-20, RFC #68). Repo: **`gaia-research/skill-heaven`** — a **monorepo** (shared engine + per-harness packages) that doubles as the Claude Code plugin marketplace. User-facing installables are **per-harness**: `claude-heaven`, `pi-heaven`, `codex-heaven`, …; the core **`skill-heaven` bin survives as the research driver** (`--print`/`--record`, benchmark-arm orchestration). In-session commands: `/skill-heaven` and `/skill-hell`. The `skill-heaven-hell` fallback name is retired. **LEANING inversion ratified**: extensions are the user-facing product; the core is the engine + research instrument — the "flagship agentic tool" title belongs to the family of harness doors, not the core bin. **N4/N5 are explicitly decoupled from naming** (they govern flag/level vocabulary, not repo/installable names) and stay OPEN; the persona lane (#119–#121) governs marketing copy only. |
 
 ## 2. Posture semantics (what the modes mean)
 
@@ -44,6 +46,8 @@
 | D7 | **LOCKED** | **Grok is in the harness scope** (ratified 2026-07-19), joining Claude Code (reference), pi (second), Codex, and Cursor. M0 discipline applies unchanged: grok gets an empirical capability-matrix column on a pinned version, and no cell is load-bearing until verified; launcher support follows what its verified cells allow. |
 | D8 | **LOCKED** | **Implementation differs per harness; the outcome must be the same** (ratified 2026-07-19, PR #67). `pi-heaven` is an extension; codex may be launcher or plugin; **preference goes to in-harness plugins** unless proven not to work. Corollary: **a "will not work" ledger is as important as a "will work" one** — verified negative findings are first-class evidence, recorded with the same rigor (matrix ❓/NEGATIVE rows, honest endpoint-FALSE ledger records). |
 | D9 | **LOCKED** | **Ratification and implementation land in the same PR** (ratified 2026-07-19, PR #67) — decisions are made as the work proceeds, so the decision record and the code embodying it travel together. |
+| D10 | **LOCKED** | **Awareness-first surface, honest switch** (ratified 2026-07-20, RFC #68). `claude-heaven` = claude at **native posture by default** + a **statusline segment** showing posture and standing dose (the ambient readout that creates the pain moment). `/skill-heaven` = heaven posture picker; physics is boot-time (D2), so it composes the new profile and hands the user the exact **relaunch command with `--resume` baked in** — the conversation survives the switch. **No magic respawn**: no harness verifiably lets a slash command replace its own process; the flagship interaction never rides an unverified cell. `/skill-hell` = **the locked door**: benchmark status, ledger link, "opens when Hell is proven safe" — B4's honesty discipline made visible; it becomes the hell activator only when P2's gate opens. Verification gates before load-bearing copy: `--resume`-recomposes-profile cell, statusline API cells, plugin self-dose priced (D4), marketplace-from-monorepo layout. |
+| D11 | **LOCKED** | **pi-heaven is the R&D vanguard; claude-heaven stays the flagship** (ratified 2026-07-20, RFC #68 addendum). pi's extension API can plausibly deliver the D10 surface at full fidelity (native widget, first-class commands, possibly extension-driven restart — the "magic switch" rung), so the interaction design is proven on pi first and ported down to Claude Code's restrictive plugin surface (D3 ladder; D1 unchanged: Claude Code remains reference harness, and marketing weight stays on `claude-heaven`). The B5 clean sandboxed pi doubles as pi-heaven's dev/test fixture. Caveats pending matrix rows on pinned 0.80.10: extension-API cells unverified; the `--no-skills` discovery race still blocks pi floor. |
 
 ## 4. Measurement & claims
 
@@ -72,7 +76,7 @@
 5. **Necessity-map lane taxonomy** (two lanes or three).
 6. **Heaven persona name** (#120; candidates on the brand board).
 7. **Shaping-doc §9 deltas** (M2 three-dose clause, M2a harness-dose census, M2b necessity map, ledger v2 fields, R1 rubric input, context-pack seed skills, harness-dose leaderboard) — each awaiting ratify/reject.
-8. **Launcher repo name + installable/binary name** (per D6; pends N4/N5 and the persona lane). **Owner direction (LEANING, 2026-07-19 PR #67):** core self-fork → `gaia-research/skill-heaven`; per-harness implementations as extensions → `gaia-research/claude-heaven`, `gaia-research/pi-heaven`, …; if split-repo tradeoffs prove too big, the single-repo name is `gaia-research/skill-heaven-hell`. Skill Heaven is the **flagship agentic tool** (skill-tree stays flagship skill infrastructure); Skill Hell follows the same pattern. All final products in their repos; all research stays in `gaia-research`. Final decision on RFC.
+8. ~~Launcher repo name + installable/binary name~~ — **CLOSED 2026-07-20** by N8/N9/D10/D11 (RFC #68). The prior LEANING's hierarchy was inverted; see the supersession log.
 
 ## 7. Pointer map (where everything lives)
 
@@ -103,11 +107,15 @@
 | `research/hell-heaven-h1/` | H1 −97.4% standing-dose result. |
 | `deliverables/proposal/byo-skill-tree-enterprise-brief.md` + personas board, #119–#121 | Enterprise brief; persona lane. |
 
-### Launcher repo (name OPEN — per D6)
+### `gaia-research/skill-heaven` (named per N9 — the product monorepo)
 
-User-facing installable launcher (profile compiler CLI). Not yet created; the
-M2 handover plan (`docs/plans/m2-heaven-launcher-plan.md`) specifies what lands
-there vs. what stays in `gaia-research`.
+Shared engine + per-harness installables (`claude-heaven`, `pi-heaven`, …) +
+plugin marketplace; core `skill-heaven` bin is the research driver. Seeded from
+the `hh-launcher` working checkout (working name retired). The M2 handover plan
+(`docs/plans/m2-heaven-launcher-plan.md`) specifies what lands there vs. what
+stays in `gaia-research`; naming RFC:
+[gaia-research#68](https://github.com/gaia-research/gaia-research/issues/68)
+(draft archived at `docs/plans/skill-heaven-naming-rfc-issue-draft.md`).
 
 ### Canon
 
@@ -116,6 +124,22 @@ target.
 
 ## 8. Supersession log
 
+- **2026-07-20 (naming RFC #68 rulings)** — **N8** (scalpel positioning,
+  context-bloat pain vocabulary, brand-name + symptom-tagline, harness-first
+  mental model), **N9** (names: `gaia-research/skill-heaven` monorepo-as-
+  marketplace; per-harness installables `claude-heaven`/`pi-heaven`/…; core bin
+  = research driver; `/skill-heaven` + `/skill-hell`; `skill-heaven-hell`
+  fallback retired), **D10** (awareness-first surface: native default +
+  statusline dose readout; honest switch via relaunch-with-`--resume`; hell as
+  locked door) and **D11** (pi-heaven vanguard / claude-heaven flagship)
+  ratified from the owner's grilling-session rulings. **Open item 8 closed.**
+  **Supersedes the prior item-8 LEANING's hierarchy**: the old framing made
+  `skill-heaven` the flagship product with per-harness *extensions*; the
+  harness-first ruling inverts it — the extensions ARE the user-facing product,
+  `skill-heaven` is the engine, marketplace, and research instrument. Every
+  name in the old leaning survives; what each name *denotes* changed. N4/N5
+  explicitly decoupled from naming and remain OPEN. npm availability verified
+  2026-07-19 (all five candidate names unclaimed).
 - **2026-07-19 (evening, PR #67 rulings)** — **D8** (per-harness implementation,
   same outcome; in-harness plugins preferred; negative-findings ledger is
   first-class), **D9** (ratification + implementation share a PR) and **B5**
