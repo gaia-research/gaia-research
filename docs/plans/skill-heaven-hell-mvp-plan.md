@@ -52,10 +52,18 @@ from).
 > 30 unit tests + census parity fixture green; live demos a–d ran on Claude Code
 > 2.1.215 and pi 0.80.10; two `hh-m2-smoke` records appended to the ledger of
 > record (validator-clean). T6 resolved **negative** — curated re-admission
-> ships as `--setting-sources project` + `--plugin-dir` (T8); see the matrix's
-> M2 re-check table for T6/T7/T8, the pi `--no-skills` race (P1), and the
-> quota/binary-deferred codex & cursor cells. grok column added (D7): discovery
-> ✅, suppression mechanism nonexistent → grok is native-posture-only for now.
+> shipped first as T8, whose bundled-skills residual the owner **vetoed**; the
+> frozen routes are now **T9** (curated: `--setting-sources project` +
+> `--plugin-dir` + `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1`, zero residual) and
+> **T9b** (floor: T2 suppression + the same additions, observed `NONE`). Three
+> more `hh-m2-smoke` records (5 total) landed on the T9 routes, including one
+> honest endpoint-FALSE floor run (built-in slash commands are intermittently
+> listed — T10 negative: they are not skills and survive every suppression
+> knob). See the matrix's M2 re-check table for T6–T10, the pi `--no-skills`
+> race (P1), and the quota/binary-deferred codex & cursor cells (`agent` on
+> this workstation is grok — owner-confirmed, G5). grok column added (D7):
+> discovery ✅, suppression mechanism nonexistent → grok is native-posture-only
+> for now.
 
 Preferred shape: **inside the harness** — e.g. `claude --heaven-mode` semantics.
 Two spikes on Claude Code, pick by evidence:

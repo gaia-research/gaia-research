@@ -42,6 +42,8 @@
 | D5 | **LOCKED** | **Hell routing is deterministic and performance-first**: nearest-neighbor over a build-time frozen embedding index (pinned model, versioned artifact, version handshake); ranked/origin skills sort first; no model call ever decides a loadout; stress bar = hundreds of skills. |
 | D6 | **LOCKED** | **The launcher ships as a user-facing installable in its own repo** (ratified 2026-07-19). Research, benchmarks (census / ledger / capability matrix / reports), and the site stay in `gaia-research`. The launcher repo consumes `hh-ledger`-compatible record shapes and the two-dose pricing discipline from here; the ledger-of-record and its validator never move. Repo name and installable/binary name: **OPEN** (pend N4/N5 and the persona lane #119–#121). |
 | D7 | **LOCKED** | **Grok is in the harness scope** (ratified 2026-07-19), joining Claude Code (reference), pi (second), Codex, and Cursor. M0 discipline applies unchanged: grok gets an empirical capability-matrix column on a pinned version, and no cell is load-bearing until verified; launcher support follows what its verified cells allow. |
+| D8 | **LOCKED** | **Implementation differs per harness; the outcome must be the same** (ratified 2026-07-19, PR #67). `pi-heaven` is an extension; codex may be launcher or plugin; **preference goes to in-harness plugins** unless proven not to work. Corollary: **a "will not work" ledger is as important as a "will work" one** — verified negative findings are first-class evidence, recorded with the same rigor (matrix ❓/NEGATIVE rows, honest endpoint-FALSE ledger records). |
+| D9 | **LOCKED** | **Ratification and implementation land in the same PR** (ratified 2026-07-19, PR #67) — decisions are made as the work proceeds, so the decision record and the code embodying it travel together. |
 
 ## 4. Measurement & claims
 
@@ -51,6 +53,7 @@
 | B2 | **LOCKED** | **Own-placebo anchoring.** The baseline is our own same-harness no-skill run; published benchmark scores are calibration only. (Issue #62's early "borrowed baseline / same seed" copy predates this — the methodology page and this doc win.) |
 | B3 | **LOCKED** | **Determinism does not exist** in any target harness: N repeats + confidence intervals; the ledger validator rejects `seed`. |
 | B4 | **LOCKED** | **The ledger is always on**; the claim-discipline table (master RFC §6.3) binds all public copy; **no claim ships ahead of its benchmark**; pivot trigger per MISSION §3 (if Hell doesn't net-save, Heaven becomes the hero). |
+| B5 | **LOCKED** | **Benchmark arms run on clean sandboxed harness installs** (ratified 2026-07-19, PR #67, on the pi floor race): a user-configured local install is *not* the benchmark — it is native-posture evidence at best. Workstation runs (e.g. the `hh-m2-smoke` records) are smoke/demo evidence and say so in their notes. |
 
 ## 5. Governance & structure
 
@@ -69,7 +72,7 @@
 5. **Necessity-map lane taxonomy** (two lanes or three).
 6. **Heaven persona name** (#120; candidates on the brand board).
 7. **Shaping-doc §9 deltas** (M2 three-dose clause, M2a harness-dose census, M2b necessity map, ledger v2 fields, R1 rubric input, context-pack seed skills, harness-dose leaderboard) — each awaiting ratify/reject.
-8. **Launcher repo name + installable/binary name** (per D6; pends N4/N5 and the persona lane).
+8. **Launcher repo name + installable/binary name** (per D6; pends N4/N5 and the persona lane). **Owner direction (LEANING, 2026-07-19 PR #67):** core self-fork → `gaia-research/skill-heaven`; per-harness implementations as extensions → `gaia-research/claude-heaven`, `gaia-research/pi-heaven`, …; if split-repo tradeoffs prove too big, the single-repo name is `gaia-research/skill-heaven-hell`. Skill Heaven is the **flagship agentic tool** (skill-tree stays flagship skill infrastructure); Skill Hell follows the same pattern. All final products in their repos; all research stays in `gaia-research`. Final decision on RFC.
 
 ## 7. Pointer map (where everything lives)
 
@@ -113,6 +116,17 @@ target.
 
 ## 8. Supersession log
 
+- **2026-07-19 (evening, PR #67 rulings)** — **D8** (per-harness implementation,
+  same outcome; in-harness plugins preferred; negative-findings ledger is
+  first-class), **D9** (ratification + implementation share a PR) and **B5**
+  (benchmark arms = clean sandboxed installs) ratified from the owner's PR #67
+  blocker rulings. The T8 curated route's bundled-skills residual was **vetoed**
+  and resolved the same day by the T9/T9b compositions
+  (`CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1`; matrix M2 re-check table). Open
+  item 8 gained the owner's LEANING naming direction (`skill-heaven` core +
+  per-harness `*-heaven` extensions). Grok deferred pending research (beta;
+  possibly SuperGrok-gated); owner confirmed the local `agent` binary is grok,
+  not Cursor (G5).
 - **2026-07-19 (later same day)** — **D6** (launcher = user-facing installable
   in its own repo; research/benchmarks/site stay in `gaia-research`) and **D7**
   (grok joins the harness scope) ratified by the owner. Open item 8 (launcher

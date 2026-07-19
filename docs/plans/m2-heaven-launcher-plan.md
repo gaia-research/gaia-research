@@ -4,13 +4,18 @@
 > the same day** (sibling `hh-launcher/` checkout + this repo's matrix/ledger
 > updates — see the M2 status block in
 > [`skill-heaven-hell-mvp-plan.md`](./skill-heaven-hell-mvp-plan.md)).
-> **One evidence-forced deviation from §4:** T6 resolved *negative* and the T7
-> config-dir fallback is auth-blocked on macOS (Keychain credentials), so the
-> frozen `plugin-dir` default is the **T8 composition** — `--setting-sources
-> project` + `--plugin-dir` (bundled CLI skills remain as a recorded residual)
-> — not `--disable-slash-commands` + `--plugin-dir`. Details + repro rows:
+> **Deviation history:** T6 resolved *negative* and the T7 config-dir fallback
+> is auth-blocked on macOS (Keychain credentials), so the first pass shipped
+> the **T8 composition** (`--setting-sources project` + `--plugin-dir`) with
+> bundled CLI skills as a recorded residual. **The owner vetoed that residual
+> (PR #67 rulings)**; the veto was resolved the same day by **T9**: T8 +
+> `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1` — curated listing = the curated set
+> only, zero residual. Floor is the matching **T9b** composition (T2
+> suppression + `--setting-sources project` + the env knob → `NONE`). The env
+> knob is undocumented (string-probed from the 2.1.215 binary) — version-pinned,
+> re-verified on every CLI upgrade. Details + repro rows:
 > [`../labs/harness-capability-matrix.md`](../labs/harness-capability-matrix.md)
-> (M2 re-check table). Flagged for owner review alongside §8.
+> (M2 re-check table, T6–T10).
 >
 > This is the
 > handover plan for the implementing agent. **Decision authority:
