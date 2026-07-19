@@ -2,6 +2,8 @@
 
 > What we're building, in what order, and how we keep it honest.
 > Companion to [`VISION.md`](VISION.md). Voice per [`PRODUCT.md`](PRODUCT.md): Joy. Rigor. Spark.
+> **Decision authority:** [`founder/RATIFICATION.md`](founder/RATIFICATION.md) — this doc
+> describes; the founder doc decides.
 
 ---
 
