@@ -5,7 +5,7 @@ import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyCommand from "@/components/CopyCommand";
 import ReportCharts from "@/components/ReportCharts";
 import { installCmd, repoUrl, treeUrl } from "@/data/research";
-// @ts-expect-error - loaded as raw text by webpack asset/source
+// loaded as raw text by webpack asset/source
 import postmortemMd from "@/content/reports/ci-churn/postmortem.md";
 
 // This page must be rendered while the Markdown source is available at build

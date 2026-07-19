@@ -2,7 +2,7 @@ import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
-// @ts-expect-error - loaded as raw text by webpack asset/source
+// loaded as raw text by webpack asset/source
 import methodologyMd from "@/content/reports/hh-benchmark/methodology.md";
 
 export const metadata = {

@@ -4,7 +4,7 @@ import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyCommand from "@/components/CopyCommand";
 import { installCmd, repoUrl, treeUrl } from "@/data/research";
-// @ts-expect-error - loaded as raw text by webpack asset/source
+// loaded as raw text by webpack asset/source
 import researchPlanMd from "@/content/reports/cost/research-plan.md";
 
 export const metadata = {
