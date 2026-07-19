@@ -1,0 +1,631 @@
+{
+  "artifact": "hh-benchmark R0 two-part-dose census",
+  "milestone": "M1",
+  "generatedAt": "2026-07-18T22:47:11.789Z",
+  "tokenizer": {
+    "backend": "chars4",
+    "note": "chars4 = max(1, floor(chars/4)); H1-prototype parity (marketing-tasks scripts/hell-heaven-bench/ledger.py estimate_tokens). Proxy, not the Claude tokenizer."
+  },
+  "sources": {
+    "canon": {
+      "path": "/workspace/gaia-skill-tree",
+      "commit": "f07a057f56ffd38a82d86f18b3821ac94384a1d5"
+    }
+  },
+  "doses": {
+    "standing": "one-line listing (`- name: description`), paid every session while installed",
+    "invocation": "full SKILL.md body, paid only on invoke"
+  },
+  "contracts": {
+    "scanned": 97,
+    "unique": 65,
+    "standingTokens": {
+      "count": 65,
+      "sum": 8919,
+      "mean": 137.22,
+      "min": 15,
+      "p25": 73,
+      "median": 160,
+      "p75": 190,
+      "p90": 222,
+      "max": 280
+    },
+    "standingTokensIncludingDuplicates": {
+      "count": 97,
+      "sum": 12919,
+      "mean": 133.19,
+      "min": 15,
+      "p25": 72,
+      "median": 157,
+      "p75": 190,
+      "p90": 221,
+      "max": 280
+    },
+    "invocationTokens": {
+      "count": 65,
+      "sum": 88416,
+      "mean": 1360.25,
+      "min": 36,
+      "p25": 924,
+      "median": 1128,
+      "p75": 1548,
+      "p90": 2401,
+      "max": 5548
+    },
+    "overstatementFactor": {
+      "count": 65,
+      "sum": 721.31,
+      "mean": 11.1,
+      "min": 2.4,
+      "p25": 6.58,
+      "median": 8.76,
+      "p75": 13.22,
+      "p90": 23.2,
+      "max": 40.77
+    },
+    "records": [
+      {
+        "id": "ci-churn",
+        "source": ".agents/skills/ci-churn/SKILL.md",
+        "standingTokens": 127,
+        "invocationTokens": 1419,
+        "overstatement": 11.17,
+        "contentSha256": "930481d0e5398296f1b050e274bce61a67b8e6f34d2fe8492be18435de36d774"
+      },
+      {
+        "id": "ev-adversarial-audit",
+        "source": ".agents/skills/ev-adversarial-audit/SKILL.md",
+        "standingTokens": 201,
+        "invocationTokens": 1045,
+        "overstatement": 5.2,
+        "contentSha256": "2b3fc43c4362ce6c765c0a70ad2317733fa53b31ba17d272c67adb4febde269d"
+      },
+      {
+        "id": "ev-collection",
+        "source": ".agents/skills/ev-collection/SKILL.md",
+        "standingTokens": 190,
+        "invocationTokens": 1255,
+        "overstatement": 6.61,
+        "contentSha256": "64ce10918f392a0415955b5ee7a402e24223a8eb83ec9b855064a98c89f127ee"
+      },
+      {
+        "id": "ev-link-validation",
+        "source": ".agents/skills/ev-link-validation/SKILL.md",
+        "standingTokens": 195,
+        "invocationTokens": 858,
+        "overstatement": 4.4,
+        "contentSha256": "5c3d5b60d9b18cfac726b6eb45619388b27b0d0dd1095a77a6c669b4f86d2b07"
+      },
+      {
+        "id": "ev-pipeline",
+        "source": ".agents/skills/ev-pipeline/SKILL.md",
+        "standingTokens": 211,
+        "invocationTokens": 1110,
+        "overstatement": 5.26,
+        "contentSha256": "fc6a65c98115149a1d4b1083c6341c7bdd0f743677e627ba9fcfbc95541339f1"
+      },
+      {
+        "id": "ev-star-verification",
+        "source": ".agents/skills/ev-star-verification/SKILL.md",
+        "standingTokens": 160,
+        "invocationTokens": 1128,
+        "overstatement": 7.05,
+        "contentSha256": "69a944af7b5ae5aa47a8b1ed4b99d238c0add966159bff970ca17fa169a5acae"
+      },
+      {
+        "id": "evidence-verification-pipeline",
+        "source": ".agents/skills/evidence-verification-pipeline/SKILL.md",
+        "standingTokens": 186,
+        "invocationTokens": 1025,
+        "overstatement": 5.51,
+        "contentSha256": "7e62cc4574c479945575c40bca0ddfbdd48943c1dabbda33f5fbc2a41805f9dc"
+      },
+      {
+        "id": "feature-pipeline",
+        "source": ".agents/skills/feature-pipeline/SKILL.md",
+        "standingTokens": 230,
+        "invocationTokens": 3041,
+        "overstatement": 13.22,
+        "contentSha256": "c98ad8644bba1d8c56f759ada4f60da6eda8fabc1dc15c2152b2bf960e1a9617"
+      },
+      {
+        "id": "firecrawl",
+        "source": ".agents/skills/firecrawl/SKILL.md",
+        "standingTokens": 79,
+        "invocationTokens": 3221,
+        "overstatement": 40.77,
+        "contentSha256": "0ded5ee529c371f77d9a1c7d37740c17f7fc1b070192aa6f0f17c693a3f766f7"
+      },
+      {
+        "id": "fp-drift",
+        "source": ".agents/skills/fp-drift/SKILL.md",
+        "standingTokens": 177,
+        "invocationTokens": 997,
+        "overstatement": 5.63,
+        "contentSha256": "c8e46fedde40cfdee24dee744ff01f9d83a0163eb0651bda73f38fdafa45b05e"
+      },
+      {
+        "id": "fp-explore",
+        "source": ".agents/skills/fp-explore/SKILL.md",
+        "standingTokens": 157,
+        "invocationTokens": 1017,
+        "overstatement": 6.48,
+        "contentSha256": "c84b40b5f0e8ce41705d567131b264cd76b833d11b752b49f959ba640a00605f"
+      },
+      {
+        "id": "fp-implement",
+        "source": ".agents/skills/fp-implement/SKILL.md",
+        "standingTokens": 200,
+        "invocationTokens": 1316,
+        "overstatement": 6.58,
+        "contentSha256": "24870e7c12b9702ec30932b55cf865e005e8b1fa03fa63b75a0e381c4a8edb5f"
+      },
+      {
+        "id": "fp-iterate",
+        "source": ".agents/skills/fp-iterate/SKILL.md",
+        "standingTokens": 167,
+        "invocationTokens": 1078,
+        "overstatement": 6.46,
+        "contentSha256": "31c92a6acaac395783722357b48543f0b6201c689970571b149cfc7c472ab8d0"
+      },
+      {
+        "id": "fp-plan",
+        "source": ".agents/skills/fp-plan/SKILL.md",
+        "standingTokens": 168,
+        "invocationTokens": 1110,
+        "overstatement": 6.61,
+        "contentSha256": "d47098a4c188b2c8a97b0e0e8389d63468cb99edb8593376e5ec62a951cb8f09"
+      },
+      {
+        "id": "fp-review",
+        "source": ".agents/skills/fp-review/SKILL.md",
+        "standingTokens": 168,
+        "invocationTokens": 900,
+        "overstatement": 5.36,
+        "contentSha256": "515494d534347075f37fd2ac58140fccb50240652292b643c82e7cd190ecf677"
+      },
+      {
+        "id": "gaia-audit",
+        "source": ".agents/skills/gaia-audit/SKILL.md",
+        "standingTokens": 178,
+        "invocationTokens": 1274,
+        "overstatement": 7.16,
+        "contentSha256": "546d3fca783497232380b35feac51f966a031b96e8495d3caf19e1abbf4c1d11"
+      },
+      {
+        "id": "gaia-bot-curate",
+        "source": ".agents/skills/gaia-bot-curate/SKILL.md",
+        "standingTokens": 184,
+        "invocationTokens": 1735,
+        "overstatement": 9.43,
+        "contentSha256": "bf34082da5f717e5c37bb5f2eba6a2c2a8c2eb62a49b40d066a6d1cfb9ae1d5b"
+      },
+      {
+        "id": "gaia-curate-chain",
+        "source": ".agents/skills/gaia-curate-chain/SKILL.md",
+        "standingTokens": 47,
+        "invocationTokens": 654,
+        "overstatement": 13.91,
+        "contentSha256": "e1a9727b4b44bdc4d75472fdf67130e988a61f57527ddde5e407c5e10ecbd65e"
+      },
+      {
+        "id": "gaia-curate-dynamic",
+        "source": ".agents/skills/gaia-curate-dynamic/SKILL.md",
+        "standingTokens": 59,
+        "invocationTokens": 1369,
+        "overstatement": 23.2,
+        "contentSha256": "d5981d31414a7e189ee165a7033c76d1bd71c4dc0384d297bff998b3becf216f"
+      },
+      {
+        "id": "gaia-curate-trending",
+        "source": ".agents/skills/gaia-curate-trending/SKILL.md",
+        "standingTokens": 57,
+        "invocationTokens": 924,
+        "overstatement": 16.21,
+        "contentSha256": "9c4dc952a0a20ab2b9148ccbe9f5af0fbda58574aa2b57fc7a136d073edffa6b"
+      },
+      {
+        "id": "gaia-curate",
+        "source": ".agents/skills/gaia-curate/SKILL.md",
+        "standingTokens": 62,
+        "invocationTokens": 523,
+        "overstatement": 8.44,
+        "contentSha256": "e98c3a465eb82b12583b3ffba062ae15231a00ca00ab9923a83d8e9ecdf2a0c3"
+      },
+      {
+        "id": "gaia-curation-review",
+        "source": ".agents/skills/gaia-curation-review/SKILL.md",
+        "standingTokens": 72,
+        "invocationTokens": 1256,
+        "overstatement": 17.44,
+        "contentSha256": "928901fd6d6ad4be03aa84c5e33ad5168b92f65bef5d00d6004683af9e6a2ca5"
+      },
+      {
+        "id": "gaia-docs-sync",
+        "source": ".agents/skills/gaia-docs-sync/SKILL.md",
+        "standingTokens": 222,
+        "invocationTokens": 1548,
+        "overstatement": 6.97,
+        "contentSha256": "0877c93288a26a7757de67799719e865e544d4797d3d044ab1d67300f8304263"
+      },
+      {
+        "id": "gaia-draft-curate",
+        "source": ".agents/skills/gaia-draft-curate/SKILL.md",
+        "standingTokens": 70,
+        "invocationTokens": 1155,
+        "overstatement": 16.5,
+        "contentSha256": "7b56761b079354f8dc28857f37031c20562c860c4d68cf670897d803e9f65159"
+      },
+      {
+        "id": "gaia-fuse-full-suite",
+        "source": ".agents/skills/gaia-fuse-full-suite/SKILL.md",
+        "standingTokens": 222,
+        "invocationTokens": 2232,
+        "overstatement": 10.05,
+        "contentSha256": "4ae0cce93fcb18ddf96c0fbb37ec7c5603ecc1f5983ee2ebfa6dd8c228187bfe"
+      },
+      {
+        "id": "gaia-ingest-batch",
+        "source": ".agents/skills/gaia-ingest-batch/SKILL.md",
+        "standingTokens": 80,
+        "invocationTokens": 641,
+        "overstatement": 8.01,
+        "contentSha256": "21487e9ee152e2b60aeda39e2427a7a79438c420e2522c8cf7615d07f6e6ad99"
+      },
+      {
+        "id": "gaia-ingest",
+        "source": ".agents/skills/gaia-ingest/SKILL.md",
+        "standingTokens": 95,
+        "invocationTokens": 1036,
+        "overstatement": 10.91,
+        "contentSha256": "f364ac0387971944f9eb446bc788132ff071ecb89c8acf9f4fb22e819c9241c6"
+      },
+      {
+        "id": "gaia-meta-audit",
+        "source": ".agents/skills/gaia-meta-audit/SKILL.md",
+        "standingTokens": 178,
+        "invocationTokens": 1991,
+        "overstatement": 11.19,
+        "contentSha256": "ed5e641e5690fd85a55f3ed6511a5f162ac9a22993619ae1604084b896261a42"
+      },
+      {
+        "id": "gaia-meta-sweep",
+        "source": ".agents/skills/gaia-meta-sweep/SKILL.md",
+        "standingTokens": 123,
+        "invocationTokens": 3343,
+        "overstatement": 27.18,
+        "contentSha256": "e518cede8c8b36dfc5d0cd70cfa867ad10a4ae5b8eaea37237ea4bda5368e970"
+      },
+      {
+        "id": "gaia-orchestrator",
+        "source": ".agents/skills/gaia-orchestrator/SKILL.md",
+        "standingTokens": 73,
+        "invocationTokens": 485,
+        "overstatement": 6.64,
+        "contentSha256": "6644f9e0709318d52ea8dcae033001a272291ea357052822bd368d1cd00154d2"
+      },
+      {
+        "id": "gaia-preview",
+        "source": ".agents/skills/gaia-preview/SKILL.md",
+        "standingTokens": 221,
+        "invocationTokens": 965,
+        "overstatement": 4.37,
+        "contentSha256": "8745b4d57c4f72c80771c9c1a54a8bf8eb33aec0c051f288bf5959c7f05620fe"
+      },
+      {
+        "id": "gaia-release",
+        "source": ".agents/skills/gaia-release/SKILL.md",
+        "standingTokens": 80,
+        "invocationTokens": 1418,
+        "overstatement": 17.73,
+        "contentSha256": "cceede73f2092ff6e874b33af661e77a889849c0a164c70cca359757cdb522e7"
+      },
+      {
+        "id": "gaia-tm-inspect",
+        "source": ".agents/skills/gaia-tm-inspect/SKILL.md",
+        "standingTokens": 157,
+        "invocationTokens": 1213,
+        "overstatement": 7.73,
+        "contentSha256": "ac20061d868e349789ec067fc0edb11f4bb8d1e1770d65c77de8086a99989c86"
+      },
+      {
+        "id": "gaia-trace-timeline",
+        "source": ".agents/skills/gaia-trace-timeline/SKILL.md",
+        "standingTokens": 215,
+        "invocationTokens": 1243,
+        "overstatement": 5.78,
+        "contentSha256": "1b6f0371d4dbf2d212faa4466d73da52a345abccdb44cd65f21223e556ce4f0c"
+      },
+      {
+        "id": "gaia-triage",
+        "source": ".agents/skills/gaia-triage/SKILL.md",
+        "standingTokens": 194,
+        "invocationTokens": 1613,
+        "overstatement": 8.31,
+        "contentSha256": "8efdc5b8abcbc54b65ef318de0303ff1d2f733b20e8346e8ece44a0e5eb15d8e"
+      },
+      {
+        "id": "graphify-triage",
+        "source": ".agents/skills/graphify-triage/SKILL.md",
+        "standingTokens": 186,
+        "invocationTokens": 956,
+        "overstatement": 5.14,
+        "contentSha256": "0c089b395bd8150e4476bcf477ec9087779950f64582532241bc6f996c452fe4"
+      },
+      {
+        "id": "grill-me",
+        "source": ".agents/skills/grill-me/SKILL.md",
+        "standingTokens": 15,
+        "invocationTokens": 36,
+        "overstatement": 2.4,
+        "contentSha256": "6189dfceb7304a6e5558f75d87e68fa3bc7fcf7ba120e44f21f8a61fe01eba54"
+      },
+      {
+        "id": "grilling",
+        "source": ".agents/skills/grilling/SKILL.md",
+        "standingTokens": 41,
+        "invocationTokens": 166,
+        "overstatement": 4.05,
+        "contentSha256": "fe00af3e1815f97c0a7644605479328a726b5cd95ba6ef56a4be2a92fae6c20f"
+      },
+      {
+        "id": "honesty-mode",
+        "source": ".agents/skills/honesty-mode/SKILL.md",
+        "standingTokens": 96,
+        "invocationTokens": 1116,
+        "overstatement": 11.63,
+        "contentSha256": "ffc2838213fb73685bcd02a7c93bf3d34d7ad5819d8717f392a8cc472580c1d3"
+      },
+      {
+        "id": "memory-snapshot",
+        "source": ".agents/skills/memory-snapshot/SKILL.md",
+        "standingTokens": 173,
+        "invocationTokens": 1515,
+        "overstatement": 8.76,
+        "contentSha256": "6dc05d2e2e4be1b5e3cdba30a0c54ec4916e4f8c747c8b236c9de2f161b8ece3"
+      },
+      {
+        "id": "gaia-post",
+        "source": ".agents/skills/meta-post/SKILL.md",
+        "standingTokens": 45,
+        "invocationTokens": 1167,
+        "overstatement": 25.93,
+        "contentSha256": "848385dda2b4cdb2459ed0ef058061c235134f1dd303bceffbfadc4228fc73a2"
+      },
+      {
+        "id": "pr",
+        "source": ".agents/skills/pr/SKILL.md",
+        "standingTokens": 43,
+        "invocationTokens": 817,
+        "overstatement": 19,
+        "contentSha256": "2c75e4de966b0e46cae7d099a6b812d4826beae78cc9ee96b7ca20baafa99b0e"
+      },
+      {
+        "id": "regen",
+        "source": ".agents/skills/regen/SKILL.md",
+        "standingTokens": 51,
+        "invocationTokens": 730,
+        "overstatement": 14.31,
+        "contentSha256": "46a54766968edaaf09d63e5d1e91e8c1aacf66be4c4fcbb9c818ee9e090dd271"
+      },
+      {
+        "id": "review",
+        "source": ".agents/skills/review/SKILL.md",
+        "standingTokens": 106,
+        "invocationTokens": 996,
+        "overstatement": 9.4,
+        "contentSha256": "0f1c3edf07b730ae7644c68d716faaa43be0fd81a27c06e13baf6b55712e7edb"
+      },
+      {
+        "id": "skill-template",
+        "source": ".agents/skills/skill-template/SKILL.md",
+        "standingTokens": 226,
+        "invocationTokens": 2236,
+        "overstatement": 9.89,
+        "contentSha256": "9f0bf3748069db957c12781611380cdfb11d3d67309c9b8c1cb9eb1253f7d23d"
+      },
+      {
+        "id": "terminal-simulation",
+        "source": ".agents/skills/terminal-simulation/SKILL.md",
+        "standingTokens": 74,
+        "invocationTokens": 2401,
+        "overstatement": 32.45,
+        "contentSha256": "62250bdf216c63ea54aad48d1187e37b8064b37ac21b85759435d4e8e034138f"
+      },
+      {
+        "id": "update-suite-instructions",
+        "source": ".agents/skills/update-suite-instructions/SKILL.md",
+        "standingTokens": 32,
+        "invocationTokens": 374,
+        "overstatement": 11.69,
+        "contentSha256": "bb5fa724a13e6a40a8a21601adee6ded92c164850e915214b7b77ec31eedcb20"
+      },
+      {
+        "id": "feature-pipeline",
+        "source": ".claude/skills/feature-pipeline/SKILL.md",
+        "standingTokens": 230,
+        "invocationTokens": 3043,
+        "overstatement": 13.23,
+        "contentSha256": "f251771b6e4c712e47949b828a42ee1ed32ab78232493bda5da040da096078d6"
+      },
+      {
+        "id": "fp-drift",
+        "source": ".claude/skills/fp-drift/SKILL.md",
+        "standingTokens": 166,
+        "invocationTokens": 802,
+        "overstatement": 4.83,
+        "contentSha256": "b9b5d26c14afb3bb12b400ec1982a924036160d07917428c87c8690f79493aa3"
+      },
+      {
+        "id": "fuse",
+        "source": ".claude/skills/fuse/SKILL.md",
+        "standingTokens": 39,
+        "invocationTokens": 262,
+        "overstatement": 6.72,
+        "contentSha256": "64c73b816070c128797e5b645234c5a4d10d5ffcabae8a93423264acc083d5a4"
+      },
+      {
+        "id": "gaia-bot-curate",
+        "source": ".claude/skills/gaia-bot-curate/SKILL.md",
+        "standingTokens": 184,
+        "invocationTokens": 1736,
+        "overstatement": 9.43,
+        "contentSha256": "e19b815acf53821647566bf224053628d78be4357a094383c2e6816c23841c24"
+      },
+      {
+        "id": "gaia-intake-close",
+        "source": ".claude/skills/gaia-intake-close/SKILL.md",
+        "standingTokens": 125,
+        "invocationTokens": 1339,
+        "overstatement": 10.71,
+        "contentSha256": "d93d27356874f0eabb463102615c99e0a164f0eb959b3b2860d274bce0193c15"
+      },
+      {
+        "id": "gaia-meta-sweep",
+        "source": ".claude/skills/gaia-meta-sweep/SKILL.md",
+        "standingTokens": 280,
+        "invocationTokens": 3498,
+        "overstatement": 12.49,
+        "contentSha256": "f85d5529c7dd6b90db696a9ac1c968b4dd7f8d556c1a53e38604f0253bcd343d"
+      },
+      {
+        "id": "gaia-orchestrator",
+        "source": ".claude/skills/gaia-orchestrator/SKILL.md",
+        "standingTokens": 73,
+        "invocationTokens": 485,
+        "overstatement": 6.64,
+        "contentSha256": "54d44b4a15ebc685da4489811c1672bd5b9055b61f78f3d17b5fd8019f4f8f93"
+      },
+      {
+        "id": "gaia-release",
+        "source": ".claude/skills/gaia-release/SKILL.md",
+        "standingTokens": 80,
+        "invocationTokens": 1094,
+        "overstatement": 13.68,
+        "contentSha256": "e0b3436fcb53ea559597ac74431eecaaaefaca0f2fb96ee8fc30e41c9a30ba1c"
+      },
+      {
+        "id": "gaia-triage",
+        "source": ".claude/skills/gaia-triage/SKILL.md",
+        "standingTokens": 194,
+        "invocationTokens": 1614,
+        "overstatement": 8.32,
+        "contentSha256": "9ed270d65c619c5eb005ee3802e5c374aa67ea4156df43b8eb746980a85a7aff"
+      },
+      {
+        "id": "graphify-triage",
+        "source": ".claude/skills/graphify-triage/SKILL.md",
+        "standingTokens": 186,
+        "invocationTokens": 956,
+        "overstatement": 5.14,
+        "contentSha256": "8879372f04e72a2a548ee23dcbacb0e0df6d1c260aba99fea3f060b76520e950"
+      },
+      {
+        "id": "honesty-mode",
+        "source": ".claude/skills/honesty-mode/SKILL.md",
+        "standingTokens": 96,
+        "invocationTokens": 1116,
+        "overstatement": 11.63,
+        "contentSha256": "fcf6f98e8a6d43e73cdce29c7b002c51fa2cf3555af53484d98015b7f0221309"
+      },
+      {
+        "id": "impeccable",
+        "source": ".claude/skills/impeccable/SKILL.md",
+        "standingTokens": 227,
+        "invocationTokens": 5548,
+        "overstatement": 24.44,
+        "contentSha256": "2bc172093fb22657facb0d6905db3da3ffa87259744db5c1b0760d5d45f4b5c9"
+      },
+      {
+        "id": "memory-snapshot",
+        "source": ".claude/skills/memory-snapshot/SKILL.md",
+        "standingTokens": 173,
+        "invocationTokens": 1585,
+        "overstatement": 9.16,
+        "contentSha256": "bd521c8c536ece8eab219c26ae8a6de09fb1c09ffe14a29b4160e65400969df9"
+      },
+      {
+        "id": "gaia-post",
+        "source": ".claude/skills/meta-post/SKILL.md",
+        "standingTokens": 45,
+        "invocationTokens": 1194,
+        "overstatement": 26.53,
+        "contentSha256": "8dc7b7f6b2362b93bbdcc79e71e71f32d43a6252cfc94842250b72387fd79b44"
+      },
+      {
+        "id": "pi-cost",
+        "source": ".claude/skills/pi-cost/SKILL.md",
+        "standingTokens": 57,
+        "invocationTokens": 252,
+        "overstatement": 4.42,
+        "contentSha256": "863ba3ef6705c94f5ba9001537938431236831dc0ddeae4b30891fea4060f2e9"
+      },
+      {
+        "id": "trust-appraise-all",
+        "source": ".claude/skills/trust-appraise-all/SKILL.md",
+        "standingTokens": 170,
+        "invocationTokens": 1230,
+        "overstatement": 7.24,
+        "contentSha256": "1d09318f9011583b8262185cd105c4ba6d0a021419a57ef8e437ab4b2151424b"
+      },
+      {
+        "id": "trust-appraise",
+        "source": ".claude/skills/trust-appraise/SKILL.md",
+        "standingTokens": 80,
+        "invocationTokens": 619,
+        "overstatement": 7.74,
+        "contentSha256": "32e548de246730afc5879d018b4ad8afdd585db49e2501a02ab95668661faa4a"
+      },
+      {
+        "id": "trust-methodology-consult",
+        "source": ".claude/skills/trust-methodology-consult/SKILL.md",
+        "standingTokens": 221,
+        "invocationTokens": 2395,
+        "overstatement": 10.84,
+        "contentSha256": "ac6b9aa135087760ed536437e4f006623593ee3ddebe82cba25d803b5ba6f546"
+      }
+    ]
+  },
+  "registryListings": {
+    "note": "Standing dose only. Bodies live upstream (hash-pinned in skills-lock.json): invocation dose is UNPRICED here (null), never zero.",
+    "graphNodes": {
+      "count": 243,
+      "standingTokens": {
+        "count": 243,
+        "sum": 9384,
+        "mean": 38.62,
+        "min": 3,
+        "p25": 28,
+        "median": 36,
+        "p75": 46,
+        "p90": 56,
+        "max": 129
+      }
+    },
+    "namedSkills": {
+      "count": 280,
+      "standingTokens": {
+        "count": 280,
+        "sum": 14498,
+        "mean": 51.78,
+        "min": 15,
+        "p25": 35,
+        "median": 46,
+        "p75": 60,
+        "p90": 87,
+        "max": 147
+      }
+    }
+  },
+  "h1Restatement": {
+    "claim": "H1's -97.4% (research/hell-heaven-h1/ledger.md) is a STANDING-DOSE claim: top-5 evidenced skills carried 249 standing tokens vs 9,453 for all 243 graph-node listings (live graph, 2026-07-16 snapshot, same chars4 proxy). It is not a total-token or invocation-dose claim; invocation dose was unpriced there and is priced (for in-tree contracts) by this census. Net total saving remains PENDING the R2 paired benchmark.",
+    "publishedStandingTokens": {
+      "allGraphNodeListings": 9453,
+      "top5Evidenced": 249,
+      "deltaPct": -97.4
+    },
+    "thisCheckoutStandingTokens": {
+      "allGraphNodeListings": 9384
+    }
+  }
+}
