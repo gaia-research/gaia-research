@@ -1,0 +1,42 @@
+{
+  "format": "milim-compile-report",
+  "formatVersion": 1,
+  "payloadFiles": [
+    "./LICENSES.txt",
+    "./licenses/milim-player-LICENSE.txt",
+    "./licenses/milim-player-NOTICE.txt",
+    "./models/milim-v1/model.json",
+    "./models/milim-v1/textures/joyful-winker.webp",
+    "./models/milim-v1/textures/milim-neutral-tracer.webp",
+    "./models/milim-v1/textures/transparent.webp",
+    "./player/compose.js",
+    "./player/core.js",
+    "./player/errors.js",
+    "./player/index.js",
+    "./player/lifecycle.js",
+    "./player/load.js",
+    "./player/mount.js",
+    "./player/physics.js",
+    "./player/validate.js",
+    "./player/webgl2-renderer.js",
+    "./previews/desktop.webp",
+    "./previews/mobile.webp",
+    "./previews/reduced-motion.webp",
+    "./previews/tablet.webp",
+    "./scenes/milim-splash-v1/layers/background.webp",
+    "./scenes/milim-splash-v1/layers/foreground.webp",
+    "./scenes/milim-splash-v1/layers/midground.webp",
+    "./scenes/milim-splash-v1/layers/reduced-motion.webp",
+    "./scenes/milim-splash-v1/scene.json"
+  ],
+  "player": {
+    "commit": "4746bf59d7b4459df1a10011b9e20ff3596866cf",
+    "entry": "./player/index.js",
+    "license": "Apache-2.0",
+    "repository": "gaia-research/milim-player",
+    "version": "0.3.0"
+  },
+  "release": "milim-web-0.3.0",
+  "releasedAt": "2026-07-20T00:00:00.000Z",
+  "sourceCommit": "bd17f8dd96277e1cd4babdc57e5b3f01f60cba36"
+}

@@ -1,0 +1,74 @@
+{
+  "crops": {
+    "desktop": {
+      "scale": 1,
+      "x": 0.5,
+      "y": 0.5
+    },
+    "mobile": {
+      "scale": 1.3,
+      "x": 0.5,
+      "y": 0.5
+    },
+    "tablet": {
+      "scale": 1.08,
+      "x": 0.5,
+      "y": 0.5
+    }
+  },
+  "effects": {
+    "lightSweep": 0.12,
+    "parallax": 0.16,
+    "particles": 12,
+    "pointer": 0.06,
+    "reflection": 0.18
+  },
+  "format": "milim-scene",
+  "formatVersion": 2,
+  "id": "milim-splash-v1",
+  "layers": [
+    {
+      "blend": "normal",
+      "depth": 0,
+      "id": "far-field",
+      "opacity": 1,
+      "role": "background",
+      "url": "./layers/background.webp"
+    },
+    {
+      "blend": "screen",
+      "depth": 0.5,
+      "id": "energy-field",
+      "opacity": 0.26,
+      "role": "midground",
+      "url": "./layers/midground.webp"
+    },
+    {
+      "blend": "screen",
+      "depth": 1,
+      "id": "floor-reflection",
+      "opacity": 0.18,
+      "role": "foreground",
+      "url": "./layers/foreground.webp"
+    }
+  ],
+  "reducedMotion": "./layers/reduced-motion.webp",
+  "safeZones": {
+    "desktop": {
+      "scale": 1,
+      "x": 0.5,
+      "y": 0.5
+    },
+    "mobile": {
+      "scale": 1.3,
+      "x": 0.5,
+      "y": 0.5
+    },
+    "tablet": {
+      "scale": 1.08,
+      "x": 0.5,
+      "y": 0.5
+    }
+  },
+  "version": "0.2.0"
+}

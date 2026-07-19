@@ -17,41 +17,8 @@
 // Playwright is intentionally NOT a project dependency (keeps the Cloudflare
 // bundle lean). This script resolves it from: (1) PW_PATH, (2) a normal
 // require/import, (3) the most recent npx cache under the user's home.
-import { mkdirSync, writeFileSync, existsSync, readdirSync, statSync } from "node:fs";
-import { pathToFileURL } from "node:url";
-import { join } from "node:path";
-import { homedir } from "node:os";
-
-async function resolveChromium() {
-  // 1. explicit override
-  if (process.env.PW_PATH) {
-    const m = await import(pathToFileURL(process.env.PW_PATH).href);
-    return m.chromium ?? m.default?.chromium;
-  }
-  // 2. plain resolution (works if playwright is installed somewhere on the path)
-  try {
-    const m = await import("playwright");
-    if (m.chromium ?? m.default?.chromium) return m.chromium ?? m.default?.chromium;
-  } catch { /* fall through */ }
-  // 3. scan npx cache for the newest playwright install
-  const npxCache = join(homedir(), "AppData", "Local", "npm-cache", "_npx");
-  const linuxCache = join(homedir(), ".npm", "_npx");
-  for (const base of [npxCache, linuxCache]) {
-    if (!existsSync(base)) continue;
-    const candidates = readdirSync(base)
-      .map((d) => join(base, d, "node_modules", "playwright", "index.js"))
-      .filter((p) => existsSync(p))
-      .sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs);
-    if (candidates.length) {
-      const m = await import(pathToFileURL(candidates[0]).href);
-      return m.chromium ?? m.default?.chromium;
-    }
-  }
-  throw new Error(
-    "Could not resolve Playwright. Install it (npx playwright install) or set PW_PATH " +
-      "to an absolute path to a playwright/index.js."
-  );
-}
+import { mkdirSync, writeFileSync } from "node:fs";
+import { resolvePlaywright } from "./resolve-playwright.mjs";
 
 const BASE = process.env.BASE_URL || "http://localhost:3000";
 const PAGES = (process.env.PAGES || "/,/research/ci-churn,/labs/context-diet,/labs").split(",");
@@ -95,7 +62,7 @@ function overflowProbe(vw) {
   };
 }
 
-const chromium = await resolveChromium();
+const { chromium } = resolvePlaywright(process.env.PW_PATH);
 const browser = await chromium.launch();
 const report = [];
 let issues = 0;
@@ -121,8 +88,9 @@ for (const path of PAGES) {
     const slug = path.replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "home";
     await page.screenshot({ path: `${OUT}/${slug}__${width}.png`, fullPage: true }).catch(() => {});
     const cutoff = overflow != null && overflow > 1;
-    // Non-404 console errors only (the Milim rig bundle 404 is an expected fallback).
-    const realErrors = errors.filter((e) => !/404|Failed to load resource/i.test(e));
+    // A failed resource is a visual-gate failure. Static fallback is intentional,
+    // but a missing promoted release must remain visible evidence.
+    const realErrors = errors;
     const bad = cutoff || realErrors.length || status !== 200;
     if (bad) issues++;
     report.push({ path, width, status, overflow, culprits, errors });

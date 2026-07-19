@@ -63,14 +63,29 @@ homepage. Milim must:
 - look toward the pointer without snapping or excessive head movement;
 - expose Joyful Winker, Demon Lord Smirk, Starry Awe, and Chaos Gremlin;
 - perform short greet and point motions, then return smoothly to idle;
-- include an animated Cyber-Slime Laboratory background scene;
+- include an independently rigged animated Milim splash-art scene;
 - pause when hidden or offscreen;
 - provide static reduced-motion, loading, error, and no-WebGL fallbacks;
 - preserve semantic HTML, navigation, and calls to action outside the canvas.
 
-The current sprite is the visual lock and fallback, not the production rig
-source. Its default hair and outfit must be reconstructed as complete modular
-parts, including art hidden by the current pose.
+The current V1 sprite is the binding visual gold master and fallback, not a
+license to regenerate the character. Production art must preserve its face,
+proportions, pose energy, hair rendering, outfit silhouette, protected
+graphics, and overall illustration quality while reconstructing complete
+modular parts hidden by the current pose. A separately generated whole-character
+neutral that merely matches the written character description is invalid.
+
+All Phase 3 image work uses the `gaia-image-production` workflow with
+`gpt-image-2` only. Generation is limited to reference-guided edits or inpainting
+for hidden regions and approved replacement limbs. The owner must approve a
+full-resolution V1-versus-candidate neutral comparison before layer separation,
+rigging, or Phase 4 visual acceptance proceeds.
+
+The project is reuse-and-polish first. Existing approved V1 neutral,
+expression, greet, and point masters are authoritative inputs and visual
+targets. Workers must inventory and reuse them before generating anything. The
+milestone phases harden and modularize completed work; they do not authorize
+new whole-character, expression, gesture, or scene art from scratch.
 
 ## MVP priorities
 
@@ -119,6 +134,32 @@ Repository governance must use only controls available on GitHub Free.
   immutable release directories.
 - Paid organization rulesets, merge queues, and environment gates are not phase
   acceptance criteria and must not block the plan.
+
+### Multi-phase branch and pull-request topology
+
+Milim uses one durable `dev/milim-integration` branch in each repository it
+touches. A phase has exactly one canonical pull request per affected repository;
+worker lanes contribute commits to that phase branch and never open parallel
+lane pull requests. The unavoidable private-pipeline and website repository
+boundary may therefore produce two matching pull requests for one phase, but
+never multiple pull requests for that phase in the same repository.
+
+After owner acceptance, the canonical phase pull request merges into
+`dev/milim-integration`, not `main`. Review corrections do not create a
+replacement phase pull request. Follow-up fixes to an accepted phase land on
+the integration branch, and the next phase branches from its updated head. Only
+after every phase and final website gate is accepted is the integration branch
+proposed for merge to `main`.
+
+Superseded donor and lane pull requests are closed after their reusable commit
+IDs are preserved in the decision record. They are historical evidence, not
+alternate delivery paths. The active canonical phase pull request remains the
+single review surface and must never be treated as stale.
+
+Before dispatch or review, the orchestrator rereads this plan and private
+`founder/MEMORY.md`. A founder scope decision is not actionable lane guidance
+until it is ratified in this plan, durable memory, the tracking issue, and the
+canonical pull-request mapping.
 - Making production source public is never an acceptable workaround for a
   missing private-repository control.
 
@@ -214,7 +255,7 @@ part IDs, mesh vertices, raw channels, render passes, or curve storage.
       expression: "demon-lord-smirk",
       hair: "classic-long-pink",
       outfit: "dragonoid-hoodie-v1",
-      scene: "cyber-slime-lab-v1"
+      scene: "milim-splash-v1"
     });
 
     milim.drive({
@@ -308,7 +349,7 @@ The MVP ships exactly one reviewed pack for each appearance slot:
 - Hair: classic-long-pink
 - Outfit: dragonoid-hoodie-v1
 - Pose base: confident-neutral-v1
-- Scene: cyber-slime-lab-v1
+- Scene: milim-splash-v1
 
 Hair and outfit are faithful to the current full-body sprite:
 
@@ -354,22 +395,33 @@ Scene packs provide:
 - static reduced-motion composition;
 - desktop, tablet, and mobile crop instructions.
 
+Character and scene packs are independent release units. A scene must load,
+animate, pause, reduce motion, fall back, and tear down without owning or
+embedding the Milim character model. The website release manifest pairs
+compatible versions while preserving this boundary.
+
 ## Background animation MVP
 
 Background animation is part of MVP acceptance, not a later enhancement.
 
-Cyber-Slime Laboratory v1 includes:
+Milim Splash v1 uses modular far-field, magenta-burst, cyan-burst, crystal,
+glow-mask, reflective-floor, foreground-shard, and particle layers. It includes:
 
-- slow multi-plane parallax;
-- restrained blue/pink light sweeps;
-- low-density particles or sparks;
-- a subtle floor/reflection response under Milim;
+- slow multi-plane drift and parallax;
+- restrained magenta/cyan energy and bloom pulses;
+- drifting shards, sparse sparks, and star-like twinkles;
+- a subtle floor shimmer and reflection response beneath Milim;
+- occasional restrained light sweeps;
 - optional pointer-linked movement at lower amplitude than the character gaze;
 - a static reviewed fallback for reduced motion and failed initialization.
 
 Background effects must preserve negative space for semantic homepage content,
 must not imitate essential UI, and must not produce rapid flashes. The scene
-pauses with the character.
+pauses with the character but owns an independent lifecycle and animation clock.
+Rings, cylinders, tanks, Cyber-Slime scenery, and laboratory apparatus are not
+part of the production/default direction. The binding visual references and
+phase mapping are recorded in private
+`docs/decisions/milim-splash-pack.md`.
 
 ## Repository layout
 
@@ -390,7 +442,7 @@ The private production repository begins as:
           v1/
             source/
       scenes/
-        cyber-slime-lab/
+        milim-splash/
       scripts/
         test.mjs
         release.mjs
@@ -436,11 +488,11 @@ A release manifest contains:
       "release": "milim-web-0.1.0",
       "player": "0.1.0",
       "model": "milim-v1.0.0",
-      "scene": "cyber-slime-lab-v1.0.0",
+      "scene": "milim-splash-v1.0.0",
       "compatibility": 1,
       "entry": "./player/index.js",
       "modelUrl": "./models/milim-v1/model.json",
-      "sceneUrl": "./scenes/cyber-slime-lab-v1/scene.json",
+      "sceneUrl": "./scenes/milim-splash-v1/scene.json",
       "checksums": {}
     }
 
@@ -560,30 +612,43 @@ website through the final interface.
 
 - Produce a coarse layered Milim fixture matching default hair and outfit.
 - Implement head/gaze, blink, breath, and one expression.
-- Implement a representative animated laboratory background.
+- Implement a coarse animated `milim-splash-v1` tracer with independent scene
+  lifecycle, using the ratified splash direction rather than Cyber-Slime,
+  rings, or laboratory scenery.
 - Add loading, reduced-motion, no-WebGL, context-loss, and missing-file behavior.
 - Integrate the release into MilimLive without exposing internal model details.
 
 **Exit:** Homepage runs the private-pipeline artifact end to end with animated
-character and background; static fallback remains fully functional.
+character and independently controlled splash scene; static fallback remains
+fully functional. The old Cyber-Slime visual fixture is not acceptable evidence.
 
 ### Phase 3 — Production default art and rig
 
-- Create the complete neutral art source at 2048 px or greater.
+- Reconstruct the complete neutral art source at 2048 px or greater from the
+  approved V1 visual gold master; do not regenerate the whole character.
 - Reconstruct hidden hands, arms, torso, sleeves, and hair regions.
+- Reject the existing donor V2 neutral candidate because its face, proportions,
+  pose, hair rendering, and overall finish drift from V1.
 - Lock anchors, masks, mesh density, protected graphics, and draw order.
 - Author the default hair and outfit packs.
 - Author head/body keyforms, gaze, mouth, brows, breath, and physics chains.
-- Generate and review desktop/tablet/mobile static previews.
+- Before separation, obtain owner approval of full-resolution V1-versus-neutral
+  face, silhouette, proportion, hair, outfit, and protected-graphic audits.
+- After separation, review 1:1 composites, alpha seams, anatomy, masks,
+  deformation, and desktop/tablet/mobile static previews.
 
 **Exit:** Neutral Milim matches the character lock with no holes, seams, or
-unreadable outfit art under the supported deformation range.
+unreadable outfit art under the supported deformation range. The owner has
+explicitly approved the reconstructed neutral and its live-browser composite.
 
 ### Phase 4 — Expressions and motion
 
-- Author all four expressions with neutral reset and blend timings.
+- Map the four existing approved V1 expression masters onto the accepted Phase
+  3 rig, preserving their identity while applying neutral reset and blend
+  timings; do not independently regenerate them.
 - Author idle-breathe and idle-look loops.
-- Author greet and point, including replacement art where needed.
+- Map the existing V1 greet and point masters onto the rig, using them as
+  gesture targets and limb donors; create only missing replacement pixels.
 - Implement expression/motion arbitration and interruption semantics.
 - Tune hair, sleeve, hood, and drawstring secondary motion.
 - Generate contact sheets and video/screenshot evidence.
@@ -604,15 +669,19 @@ cleanly to neutral idle at 30fps and 60fps.
 background and produce a valid new private release without hand-editing compiled
 JSON.
 
-### Phase 6 — Background and composition polish
+### Phase 6 — Splash pack and composition polish
 
-- Finalize Cyber-Slime Laboratory art layers.
-- Tune parallax, lighting, particles, reflection, and mobile crops.
+- Produce and finalize the independent Milim Splash v1 art layers from the
+  founder-ratified environment direction.
+- Tune parallax, energy pulses, lighting, shards, particles, reflection, and
+  desktop/tablet/mobile crops.
 - Verify background motion remains subordinate to semantic content.
 - Produce and approve reduced-motion static composition.
+- Record source and derivative provenance, checksums, compatibility, and
+  full-resolution owner visual approval.
 
-**Exit:** Background animation is production quality and passes accessibility,
-performance, and crop gates.
+**Exit:** The independent splash pack is production quality and passes owner,
+provenance, accessibility, performance, lifecycle, and crop gates.
 
 ### Phase 7 — Production hardening and first release
 
