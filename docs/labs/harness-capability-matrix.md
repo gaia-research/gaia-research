@@ -81,6 +81,7 @@ content* leak, not a skills-listing leak (prompt eviction is M2b, unratified).
 | G2 | `grok inspect` (clean project) + `GROK_CONFIG_DIR=<bogus> grok inspect` | 90 skills listed (bundled + user from `~/.claude/skills`), identical under the env var | grok skill discovery ✅ empirical; `GROK_CONFIG_DIR` is not a scoping mechanism; no suppression flag exists in `--help` |
 | G4 | `which cursor cursor-agent` | not found | every Cursor cell ❓-deferred locally: install `cursor-agent`, then rerun the T-series probes |
 | G5 | `which agent && agent --version` (owner ruling said Cursor "runs as `agent`") | `/Users/…/.local/bin/agent` → **`grok 0.2.103 (Grok Build TUI)`** | **NEGATIVE**: `agent` is grok's binary, not Cursor's — **owner confirmed** (PR #67): the tool believed to be Cursor here is grok; no Cursor CLI is installed, G4 stands |
+| G6 | `which agent cursor-agent && agent --version && cursor-agent --version` (2026-07-20) | `agent` → symlink to `~/.local/share/cursor-agent/versions/2026.07.16-899851b/cursor-agent`; both report **`2026.07.16-899851b`** (Cursor CLI); `grok` is its own binary at **0.2.103** | **Supersedes G4/G5** (owner reinstalled Cursor CLI 2026-07-19 evening): `agent` == `cursor-agent` == Cursor CLI now. Cursor column probes unblocked; **audit any prior cursor-column evidence sourced via `agent` for grok contamination** before trusting it — see `docs/plans/skill-heaven-continuation-plan.md` WS6 |
 
 Also load-bearing from `claude --help` (2.1.211): `--effort <low|medium|high|xhigh|max>` — the
 effort axis the postures map onto (`Heaven · Auto · Ultra · Hell`) already exists as a
@@ -145,7 +146,10 @@ across arms but intermittently fail a strict `^NONE$` floor endpoint. `DEFAULT_C
 is frozen to `plugin-dir` *meaning the T9 composition*; `--mechanism config-dir` stays
 available so the T7 route remains reproducible where file-based credentials exist. Still
 open: the two ❓ Codex cells (quota-deferred to 2026-07-25, repro in G1) and every Cursor
-cell (no local binary — and `agent` on this workstation is grok, not Cursor; G4/G5).
+cell (no local binary at probe time — and `agent` on this workstation was grok,
+not Cursor; G4/G5. **Superseded 2026-07-20 by G6**: Cursor CLI 2026.07.16 is now
+installed as both `agent` and `cursor-agent`; column re-probe pending, WS6 of
+`docs/plans/skill-heaven-continuation-plan.md`).
 
 ## Sources
 

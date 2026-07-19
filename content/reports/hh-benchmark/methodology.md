@@ -2,6 +2,16 @@
 
 <!-- Status: DRAFT METHOD, NOT YET EXECUTED. Public WIP. Help wanted. -->
 
+> **Reconciliation note (2026-07-20).** Where this draft disagrees with
+> [`founder/RATIFICATION.md`](../../../founder/RATIFICATION.md), the
+> ratification doc wins. Two passages below predate ratified decisions and are
+> pending rewrite: **§2's "borrowed baseline"** — superseded by **B2
+> (own-placebo anchoring)**: the placebo arm is our *own same-harness no-skill
+> run; published benchmark scores are calibration only. And every mention of
+> **"same seed" / a ledger `seed` field** (§1, §6) — superseded by **B3**:
+> determinism does not exist in any target harness; the design is N repeats +
+> confidence intervals, and the run-ledger validator rejects `seed`.
+
 **How do you benchmark a *skill*?** Not a model — a skill. The thing you bolt onto an
 agent to make it better at something. Everyone can feel when a skill helps. Almost nobody
 has written down how to *prove* it. This is our attempt, in the open, before we've run it.

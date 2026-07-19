@@ -45,9 +45,13 @@ from).
 
 ### M2 — Heaven mechanism, in-harness first (decision A)
 
-> **Status 2026-07-19: implemented (first pass).** The launcher-shaped profile
-> compiler exists in its own repo (working name `hh-launcher`, sibling checkout;
-> GitHub repo creation pends OPEN item 8 naming) per
+> **Status 2026-07-20: implemented; naming closed.** The launcher-shaped
+> profile compiler lives in **`gaia-research/skill-heaven`** (monorepo + Claude
+> plugin marketplace, per N8/N9 — the `hh-launcher` working name is retired;
+> per-harness installables `claude-heaven`/`pi-heaven`/… are the user-facing
+> product, the core `skill-heaven` bin is the research driver). Continuation:
+> [`skill-heaven-continuation-plan.md`](./skill-heaven-continuation-plan.md).
+> First pass per
 > [`m2-heaven-launcher-plan.md`](./m2-heaven-launcher-plan.md) and D6/D7.
 > 30 unit tests + census parity fixture green; live demos a–d ran on Claude Code
 > 2.1.215 and pi 0.80.10; two `hh-m2-smoke` records appended to the ledger of
