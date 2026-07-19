@@ -7,8 +7,8 @@ import { fileURLToPath } from "node:url";
 const PRIVATE_REPOSITORY = "gaia-research/milim";
 const PLAYER_RECORD = Object.freeze({
   repository: "gaia-research/milim-player",
-  version: "0.2.0",
-  commit: "105e244e48fd773f699eef98d89d7f575956bf2c",
+  version: "0.3.0",
+  commit: "4746bf59d7b4459df1a10011b9e20ff3596866cf",
   entry: "./player/index.js",
   license: "Apache-2.0",
 });
@@ -26,7 +26,7 @@ export async function promoteMilimRelease({
   requireFullCommit(expectedSourceCommit, "expected private source");
   requireFullCommit(expectedPlayerCommit, "expected public player");
   if (expectedPlayerCommit !== PLAYER_RECORD.commit) {
-    throw new Error("Milim promotion requires the frozen 0.2.0 player commit");
+    throw new Error("Milim promotion requires the frozen 0.3.0 player commit");
   }
   const sourceRoot = resolve(sourceDirectory);
   const manifest = JSON.parse(await readFile(join(sourceRoot, "release.json"), "utf8"));
@@ -103,11 +103,11 @@ function validateReleaseManifest(manifest, expectedSourceCommit, expectedPlayerC
 
   requireExactKeys(manifest.player, ["commit", "entry", "license", "repository", "version"], "player");
   requireFullCommit(manifest.player.commit, "public player");
-  if (manifest.player.commit !== PLAYER_RECORD.commit) throw new Error("Milim release does not use the frozen 0.2.0 player commit");
+  if (manifest.player.commit !== PLAYER_RECORD.commit) throw new Error("Milim release does not use the frozen 0.3.0 player commit");
   if (manifest.player.commit !== expectedPlayerCommit) throw new Error("Milim public player commit does not match the reviewed commit");
   for (const field of ["repository", "version", "entry", "license"]) {
     if (manifest.player[field] !== PLAYER_RECORD[field]) {
-      throw new Error(`Milim public player ${field} does not match the frozen 0.2.0 record`);
+      throw new Error(`Milim public player ${field} does not match the frozen 0.3.0 record`);
     }
   }
   if (!isRecord(manifest.model)) throw new Error("Milim release model must be an object");

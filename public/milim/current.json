@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "release": "milim-web-0.2.0",
-  "manifest": "./releases/milim-web-0.2.0/release.json",
+  "release": "milim-web-0.3.0",
+  "manifest": "./releases/milim-web-0.3.0/release.json",
   "source": {
-    "commit": "0882acf16440436c3bf48c76563c4ea69dc54054",
-    "releasedAt": "2026-07-18T07:33:06.000Z",
+    "commit": "bd17f8dd96277e1cd4babdc57e5b3f01f60cba36",
+    "releasedAt": "2026-07-20T00:00:00.000Z",
     "repository": "gaia-research/milim"
   },
   "player": {
     "repository": "gaia-research/milim-player",
-    "version": "0.2.0",
-    "commit": "105e244e48fd773f699eef98d89d7f575956bf2c",
+    "version": "0.3.0",
+    "commit": "4746bf59d7b4459df1a10011b9e20ff3596866cf",
     "entry": "./player/index.js",
     "license": "Apache-2.0"
   }

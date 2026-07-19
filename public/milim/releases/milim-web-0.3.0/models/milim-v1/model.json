@@ -1,0 +1,886 @@
+{
+  "anchors": [
+    {
+      "id": "root",
+      "x": 1024,
+      "y": 1536
+    }
+  ],
+  "appearances": {
+    "hair": [
+      {
+        "compatibleExpressions": [
+          "neutral",
+          "joyful-winker",
+          "tracer-blink",
+          "tracer-gaze"
+        ],
+        "compatiblePoses": [
+          "confident-neutral-v1"
+        ],
+        "id": "classic-long-pink",
+        "parts": [
+          "milim-hair"
+        ],
+        "requiredAnchors": [
+          "root"
+        ]
+      }
+    ],
+    "outfit": [
+      {
+        "compatibleExpressions": [
+          "neutral",
+          "joyful-winker",
+          "tracer-blink",
+          "tracer-gaze"
+        ],
+        "compatiblePoses": [
+          "confident-neutral-v1"
+        ],
+        "id": "dragonoid-hoodie-v1",
+        "parts": [
+          "milim-outfit"
+        ],
+        "requiredAnchors": [
+          "root"
+        ]
+      }
+    ],
+    "pose": [
+      {
+        "compatibleExpressions": [
+          "neutral",
+          "joyful-winker",
+          "tracer-blink",
+          "tracer-gaze"
+        ],
+        "compatiblePoses": [
+          "confident-neutral-v1"
+        ],
+        "id": "confident-neutral-v1",
+        "parts": [
+          "milim-pose"
+        ],
+        "requiredAnchors": [
+          "root"
+        ]
+      }
+    ]
+  },
+  "canvas": {
+    "height": 3072,
+    "width": 2048
+  },
+  "channels": [
+    "breath",
+    "head.turn",
+    "eyes.look.x",
+    "eyes.look.y",
+    "eyes.open.left",
+    "eyes.open.right",
+    "mouth.form",
+    "hair.front.sway"
+  ],
+  "deformers": [
+    {
+      "channel": "breath",
+      "id": "breath-transform",
+      "keyforms": [
+        {
+          "at": -1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              0.995,
+              0.995
+            ],
+            "translate": [
+              0,
+              3
+            ]
+          }
+        },
+        {
+          "at": 0,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "at": 1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1.006,
+              1.006
+            ],
+            "translate": [
+              0,
+              -6
+            ]
+          }
+        }
+      ],
+      "kind": "transform",
+      "parts": [
+        "milim-base",
+        "milim-hair",
+        "milim-outfit",
+        "milim-pose",
+        "milim-expression-joyful-winker"
+      ]
+    },
+    {
+      "channel": "head.turn",
+      "id": "head-turn-transform",
+      "keyforms": [
+        {
+          "at": -1,
+          "value": {
+            "opacity": 1,
+            "rotation": -0.8,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              -14,
+              0
+            ]
+          }
+        },
+        {
+          "at": 0,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "at": 1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0.8,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              14,
+              0
+            ]
+          }
+        }
+      ],
+      "kind": "transform",
+      "parts": [
+        "milim-base",
+        "milim-expression-joyful-winker"
+      ]
+    },
+    {
+      "channel": "eyes.look.x",
+      "id": "gaze-x-transform",
+      "keyforms": [
+        {
+          "at": -1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              -4,
+              0
+            ]
+          }
+        },
+        {
+          "at": 0,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "at": 1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              4,
+              0
+            ]
+          }
+        }
+      ],
+      "kind": "transform",
+      "parts": [
+        "milim-base",
+        "milim-expression-joyful-winker"
+      ]
+    },
+    {
+      "channel": "eyes.look.y",
+      "id": "gaze-y-transform",
+      "keyforms": [
+        {
+          "at": -1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              0,
+              4
+            ]
+          }
+        },
+        {
+          "at": 0,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "at": 1,
+          "value": {
+            "opacity": 1,
+            "rotation": 0,
+            "scale": [
+              1,
+              1
+            ],
+            "translate": [
+              0,
+              -4
+            ]
+          }
+        }
+      ],
+      "kind": "transform",
+      "parts": [
+        "milim-base",
+        "milim-expression-joyful-winker"
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "blendInMs": 0,
+      "blendOutMs": 0,
+      "channels": {
+        "eyes.look.x": 0,
+        "eyes.look.y": 0,
+        "eyes.open.left": 1,
+        "eyes.open.right": 1,
+        "head.turn": 0,
+        "mouth.form": 0
+      },
+      "id": "neutral",
+      "parts": {
+        "milim-base": 1,
+        "milim-expression-joyful-winker": 0
+      },
+      "reset": "neutral"
+    },
+    {
+      "blendInMs": 140,
+      "blendOutMs": 180,
+      "channels": {
+        "eyes.open.left": 0,
+        "eyes.open.right": 1,
+        "mouth.form": 0.6
+      },
+      "id": "joyful-winker",
+      "parts": {
+        "milim-base": 0,
+        "milim-expression-joyful-winker": 1
+      },
+      "reset": "neutral"
+    },
+    {
+      "blendInMs": 40,
+      "blendOutMs": 80,
+      "channels": {
+        "eyes.open.left": 0,
+        "eyes.open.right": 0
+      },
+      "id": "tracer-blink",
+      "parts": {
+        "milim-base": 1,
+        "milim-expression-joyful-winker": 0
+      },
+      "reset": "neutral"
+    },
+    {
+      "blendInMs": 100,
+      "blendOutMs": 140,
+      "channels": {
+        "eyes.look.x": 0.25,
+        "eyes.look.y": -0.1,
+        "head.turn": 0.1
+      },
+      "id": "tracer-gaze",
+      "parts": {
+        "milim-base": 1,
+        "milim-expression-joyful-winker": 0
+      },
+      "reset": "neutral"
+    }
+  ],
+  "format": "milim-model",
+  "formatVersion": 2,
+  "framing": {
+    "desktop": {
+      "safeZone": [
+        0.46,
+        0.04,
+        0.5,
+        0.92
+      ],
+      "scale": 0.78,
+      "x": 0.7,
+      "y": 0.5
+    },
+    "mobile": {
+      "safeZone": [
+        0.12,
+        0.04,
+        0.82,
+        0.92
+      ],
+      "scale": 0.64,
+      "x": 0.62,
+      "y": 0.51
+    },
+    "tablet": {
+      "safeZone": [
+        0.4,
+        0.04,
+        0.56,
+        0.92
+      ],
+      "scale": 0.72,
+      "x": 0.68,
+      "y": 0.5
+    }
+  },
+  "id": "milim-v1",
+  "masks": [],
+  "motions": [
+    {
+      "durationMs": 10000,
+      "id": "idle-breathe",
+      "loop": true,
+      "parts": {},
+      "returnMs": 0,
+      "tracks": {
+        "breath": [
+          [
+            0,
+            0
+          ],
+          [
+            5000,
+            1
+          ],
+          [
+            10000,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "durationMs": 8000,
+      "id": "idle-look",
+      "loop": true,
+      "parts": {},
+      "returnMs": 0,
+      "tracks": {
+        "eyes.look.x": [
+          [
+            0,
+            0
+          ],
+          [
+            4000,
+            0.2
+          ],
+          [
+            8000,
+            0
+          ]
+        ],
+        "eyes.look.y": [
+          [
+            0,
+            0
+          ],
+          [
+            4000,
+            -0.08
+          ],
+          [
+            8000,
+            0
+          ]
+        ],
+        "head.turn": [
+          [
+            0,
+            0
+          ],
+          [
+            4000,
+            0.12
+          ],
+          [
+            8000,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "durationMs": 140,
+      "id": "tracer-blink",
+      "loop": false,
+      "parts": {},
+      "returnMs": 120,
+      "tracks": {
+        "eyes.open.left": [
+          [
+            0,
+            1
+          ],
+          [
+            70,
+            0
+          ],
+          [
+            140,
+            1
+          ]
+        ],
+        "eyes.open.right": [
+          [
+            0,
+            1
+          ],
+          [
+            70,
+            0
+          ],
+          [
+            140,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "durationMs": 1600,
+      "id": "tracer-gaze",
+      "loop": false,
+      "parts": {},
+      "returnMs": 200,
+      "tracks": {
+        "eyes.look.x": [
+          [
+            0,
+            0
+          ],
+          [
+            800,
+            0.25
+          ],
+          [
+            1600,
+            0
+          ]
+        ],
+        "eyes.look.y": [
+          [
+            0,
+            0
+          ],
+          [
+            800,
+            -0.1
+          ],
+          [
+            1600,
+            0
+          ]
+        ],
+        "head.turn": [
+          [
+            0,
+            0
+          ],
+          [
+            800,
+            0.1
+          ],
+          [
+            1600,
+            0
+          ]
+        ]
+      }
+    }
+  ],
+  "parts": [
+    {
+      "anchor": "root",
+      "deformers": [
+        "breath-transform",
+        "head-turn-transform",
+        "gaze-x-transform",
+        "gaze-y-transform"
+      ],
+      "drawOrder": 0,
+      "id": "milim-base",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            0,
+            2,
+            3
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "base",
+      "texture": "milim-neutral-tracer"
+    },
+    {
+      "anchor": "root",
+      "deformers": [
+        "breath-transform"
+      ],
+      "drawOrder": 10,
+      "id": "milim-hair",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            0,
+            2,
+            3
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "hair",
+      "texture": "transparent-placeholder"
+    },
+    {
+      "anchor": "root",
+      "deformers": [
+        "breath-transform"
+      ],
+      "drawOrder": 20,
+      "id": "milim-outfit",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            0,
+            2,
+            3
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": true,
+      "slot": "outfit",
+      "texture": "transparent-placeholder"
+    },
+    {
+      "anchor": "root",
+      "deformers": [
+        "breath-transform"
+      ],
+      "drawOrder": 30,
+      "id": "milim-pose",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            0,
+            2,
+            3
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "pose",
+      "texture": "transparent-placeholder"
+    },
+    {
+      "anchor": "root",
+      "deformers": [
+        "breath-transform",
+        "head-turn-transform",
+        "gaze-x-transform",
+        "gaze-y-transform"
+      ],
+      "drawOrder": 40,
+      "id": "milim-expression-joyful-winker",
+      "masks": [],
+      "mesh": {
+        "triangles": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            0,
+            2,
+            3
+          ]
+        ],
+        "vertices": [
+          {
+            "u": 0,
+            "v": 0,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 0,
+            "x": 2048,
+            "y": 0
+          },
+          {
+            "u": 1,
+            "v": 1,
+            "x": 2048,
+            "y": 3072
+          },
+          {
+            "u": 0,
+            "v": 1,
+            "x": 0,
+            "y": 3072
+          }
+        ]
+      },
+      "protected": false,
+      "slot": "expression",
+      "texture": "milim-joyful-winker-tracer"
+    }
+  ],
+  "physics": [
+    {
+      "damping": 0.62,
+      "gain": 0.18,
+      "gravity": 0,
+      "id": "coarse-hair-response",
+      "inputs": [
+        "breath"
+      ],
+      "limit": 0.12,
+      "mass": 1,
+      "output": "hair.front.sway",
+      "rest": 0,
+      "stiffness": 0.8
+    }
+  ],
+  "textures": [
+    {
+      "height": 1536,
+      "id": "milim-neutral-tracer",
+      "url": "./textures/milim-neutral-tracer.webp",
+      "width": 1024
+    },
+    {
+      "height": 1536,
+      "id": "milim-joyful-winker-tracer",
+      "url": "./textures/joyful-winker.webp",
+      "width": 1024
+    },
+    {
+      "height": 2,
+      "id": "transparent-placeholder",
+      "url": "./textures/transparent.webp",
+      "width": 2
+    }
+  ],
+  "version": "2.0.0"
+}

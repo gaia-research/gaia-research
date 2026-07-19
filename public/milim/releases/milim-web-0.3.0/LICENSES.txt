@@ -1,0 +1,7 @@
+Milim Phase 2 compatibility-2 Studio tracer fixture
+
+Private Gaia Research pipeline material. This fixture does not grant rights to
+Milim character art, model packs, scene packs, or Gaia Research branding.
+
+The public Milim Player runtime is Apache-2.0 and remains separately governed
+by gaia-research/milim-player.

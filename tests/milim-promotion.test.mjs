@@ -7,11 +7,11 @@ import test from "node:test";
 import { promoteMilimRelease } from "../scripts/promote-milim-release.mjs";
 
 const SOURCE_COMMIT = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
-const PLAYER_COMMIT = "105e244e48fd773f699eef98d89d7f575956bf2c";
+const PLAYER_COMMIT = "4746bf59d7b4459df1a10011b9e20ff3596866cf";
 const DIFFERENT_PLAYER_COMMIT = "cccccccccccccccccccccccccccccccccccccccc";
 const PLAYER = {
   repository: "gaia-research/milim-player",
-  version: "0.2.0",
+  version: "0.3.0",
   commit: PLAYER_COMMIT,
   entry: "./player/index.js",
   license: "Apache-2.0",
@@ -30,8 +30,8 @@ test("promotes a verified release and preserves both provenance chains", async (
     });
 
     const current = JSON.parse(await readFile(join(fixture.publicDirectory, "current.json"), "utf8"));
-    const promotion = JSON.parse(await readFile(join(fixture.promotionsDirectory, "milim-web-0.2.0.json"), "utf8"));
-    assert.equal(result.release, "milim-web-0.2.0");
+    const promotion = JSON.parse(await readFile(join(fixture.promotionsDirectory, "milim-web-0.3.0.json"), "utf8"));
+    assert.equal(result.release, "milim-web-0.3.0");
     assert.deepEqual(current.source, {
       repository: "gaia-research/milim",
       commit: SOURCE_COMMIT,
@@ -40,7 +40,7 @@ test("promotes a verified release and preserves both provenance chains", async (
     assert.deepEqual(current.player, PLAYER);
     assert.deepEqual(promotion.source, current.source);
     assert.deepEqual(promotion.player, PLAYER);
-    assert.equal(await readFile(join(fixture.publicDirectory, "releases/milim-web-0.2.0/player/index.js"), "utf8"), "export const mountMilim = () => {};\n");
+    assert.equal(await readFile(join(fixture.publicDirectory, "releases/milim-web-0.3.0/player/index.js"), "utf8"), "export const mountMilim = () => {};\n");
   } finally {
     await rm(fixture.root, { recursive: true, force: true });
   }
@@ -74,7 +74,7 @@ test("rejects a different full player SHA even when the caller expects it", asyn
       promotionsDirectory: fixture.promotionsDirectory,
       expectedSourceCommit: SOURCE_COMMIT,
       expectedPlayerCommit: DIFFERENT_PLAYER_COMMIT,
-    }), /frozen 0\.2\.0 player commit/);
+    }), /frozen 0\.3\.0 player commit/);
   } finally {
     await rm(fixture.root, { recursive: true, force: true });
   }
@@ -108,7 +108,7 @@ test("promotes compatibility major 2 under the frozen release and player contrac
     fixture.manifest.compatibility.major = 2;
     await writeManifest(fixture);
     const result = await promote(fixture);
-    assert.equal(result.release, "milim-web-0.2.0");
+    assert.equal(result.release, "milim-web-0.3.0");
     assert.equal(
       JSON.parse(await readFile(join(result.destination, "release.json"), "utf8")).compatibility.major,
       2,
@@ -173,7 +173,7 @@ test("rejects checksum drift before copying the release", async () => {
     const original = await readFile(modelPath, "utf8");
     await writeFile(modelPath, `X${original.slice(1)}`);
     await assert.rejects(promote(fixture), /checksum drift/);
-    await assert.rejects(readFile(join(fixture.publicDirectory, "releases/milim-web-0.2.0/release.json")), { code: "ENOENT" });
+    await assert.rejects(readFile(join(fixture.publicDirectory, "releases/milim-web-0.3.0/release.json")), { code: "ENOENT" });
   } finally {
     await rm(fixture.root, { recursive: true, force: true });
   }
@@ -182,7 +182,7 @@ test("rejects checksum drift before copying the release", async () => {
 test("refuses to overwrite an immutable destination", async () => {
   const fixture = await createFixture();
   try {
-    const destination = join(fixture.publicDirectory, "releases/milim-web-0.2.0");
+    const destination = join(fixture.publicDirectory, "releases/milim-web-0.3.0");
     await mkdir(destination, { recursive: true });
     await writeFile(join(destination, "sentinel.txt"), "keep\n");
     await assert.rejects(promote(fixture), /Immutable Milim destination already exists/);
@@ -194,7 +194,7 @@ test("refuses to overwrite an immutable destination", async () => {
 
 async function createFixture() {
   const root = await mkdtemp(join(tmpdir(), "milim-phase1-promotion-"));
-  const sourceDirectory = join(root, "private", "milim-web-0.2.0");
+  const sourceDirectory = join(root, "private", "milim-web-0.3.0");
   const publicDirectory = join(root, "public", "milim");
   const promotionsDirectory = join(root, "docs", "promotions");
   const files = {
@@ -214,7 +214,7 @@ async function createFixture() {
   const manifest = {
     format: "milim-release",
     formatVersion: 1,
-    release: "milim-web-0.2.0",
+    release: "milim-web-0.3.0",
     compatibility: { major: 1 },
     source: {
       repository: "gaia-research/milim",
@@ -223,7 +223,7 @@ async function createFixture() {
     },
     player: { ...PLAYER },
     model: { id: "milim-v1", version: "1.0.0", url: "./models/milim-v1/model.json" },
-    scenes: [{ id: "milim-splash-v1", version: "0.2.0", url: "./scenes/milim-splash-v1/scene.json" }],
+    scenes: [{ id: "milim-splash-v1", version: "0.3.0", url: "./scenes/milim-splash-v1/scene.json" }],
     defaults: {
       expression: "neutral",
       hair: "classic-long-pink",

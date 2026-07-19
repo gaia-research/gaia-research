@@ -1,7 +1,7 @@
 export const MILIM_PLAYER_RECORD = Object.freeze({
   repository: "gaia-research/milim-player",
-  version: "0.2.0",
-  commit: "105e244e48fd773f699eef98d89d7f575956bf2c",
+  version: "0.3.0",
+  commit: "4746bf59d7b4459df1a10011b9e20ff3596866cf",
   entry: "./player/index.js",
   license: "Apache-2.0",
 } as const);
@@ -100,11 +100,11 @@ function validatePlayerRecord(manifest: unknown) {
     throw new Error("Milim release player provenance requires a full lowercase 40-character commit");
   }
   if (player.commit !== MILIM_PLAYER_RECORD.commit) {
-    throw new Error("Milim release does not use the frozen 0.2.0 player commit");
+    throw new Error("Milim release does not use the frozen 0.3.0 player commit");
   }
   for (const field of ["repository", "version", "entry", "license"] as const) {
     if (player[field] !== MILIM_PLAYER_RECORD[field]) {
-      throw new Error(`Milim release player ${field} does not match the frozen 0.2.0 contract`);
+      throw new Error(`Milim release player ${field} does not match the frozen 0.3.0 contract`);
     }
   }
   return player as {

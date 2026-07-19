@@ -17,7 +17,7 @@ import {
 } from "@/lib/milim-player-loader";
 
 /** Frozen compatibility-2 website release promoted from the private pipeline. */
-export const MILIM_RELEASE_VERSION = "milim-web-0.2.0";
+export const MILIM_RELEASE_VERSION = "milim-web-0.3.0";
 export const MILIM_RELEASE_URL = `/milim/releases/${MILIM_RELEASE_VERSION}/release.json`;
 export const MILIM_SPLASH_FALLBACK_URL = "/assets/north-star-live/milim-splash-v1-backdrop-tracer.webp";
 

@@ -1,0 +1,187 @@
+{
+  "compatibility": {
+    "major": 2
+  },
+  "defaults": {
+    "expression": "neutral",
+    "hair": "classic-long-pink",
+    "outfit": "dragonoid-hoodie-v1",
+    "pose": "confident-neutral-v1",
+    "scene": "milim-splash-v1"
+  },
+  "fallbacks": {
+    "desktop": "./previews/desktop.webp",
+    "mobile": "./previews/mobile.webp",
+    "reducedMotion": "./previews/reduced-motion.webp",
+    "tablet": "./previews/tablet.webp"
+  },
+  "files": [
+    {
+      "bytes": 316,
+      "path": "./LICENSES.txt",
+      "sha256": "b0660160dc83ccdbe584cf8d1d0dc5bacd536926eef39b9aadc3e3a14937a315"
+    },
+    {
+      "bytes": 1406,
+      "path": "./compile-report.json",
+      "sha256": "ea7f3d538d680868b51522e87e84c24538b7ba2d6a04e43357be9da828436e82"
+    },
+    {
+      "bytes": 11357,
+      "path": "./licenses/milim-player-LICENSE.txt",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "bytes": 115,
+      "path": "./licenses/milim-player-NOTICE.txt",
+      "sha256": "ed7913215f1075dade3c35dc32a161aaf72a6f0546353fc53ec0ca7435a2c10f"
+    },
+    {
+      "bytes": 15700,
+      "path": "./models/milim-v1/model.json",
+      "sha256": "e4771fc0268e54db106b93c5394c77339637cc70b5ea41f394b41067b4910319"
+    },
+    {
+      "bytes": 138308,
+      "path": "./models/milim-v1/textures/joyful-winker.webp",
+      "sha256": "1b0b0d15e0652c473846c54317f1df5a24ab0f4aeb9fd9318392f99d485cd3bd"
+    },
+    {
+      "bytes": 97138,
+      "path": "./models/milim-v1/textures/milim-neutral-tracer.webp",
+      "sha256": "1fe14818ab29d965c0a5a79664f646859b58e1d646c2e6690c6cbbda9cf26d81"
+    },
+    {
+      "bytes": 34,
+      "path": "./models/milim-v1/textures/transparent.webp",
+      "sha256": "e5a2f0af4dfb54bb6b7cc3cdc67e7478466a9323f1bcb57438ee47a2b763312b"
+    },
+    {
+      "bytes": 12671,
+      "path": "./player/compose.js",
+      "sha256": "96b3d65f57a4953ec885a5ddb6b2afb594fa81cb72f1de87aa480790781008a2"
+    },
+    {
+      "bytes": 11530,
+      "path": "./player/core.js",
+      "sha256": "51a1d6bb45e597aa6b25bbcb4bfc13c7a683d4315f46b199f0bdcba71d9c6829"
+    },
+    {
+      "bytes": 1132,
+      "path": "./player/errors.js",
+      "sha256": "80fe84e9c988f28131f8fe01c79b9846474fd4f1519a625dfd1e6ab781c00144"
+    },
+    {
+      "bytes": 599,
+      "path": "./player/index.js",
+      "sha256": "7bd9b463e1c7393aa0ad72196e6f8f6231b753bf035d168411e257cc1ddbcb2b"
+    },
+    {
+      "bytes": 2292,
+      "path": "./player/lifecycle.js",
+      "sha256": "ff796d6c8847ebce8449c952468d68d92e1ec8f81ff836eb6e2fc6e53dde797b"
+    },
+    {
+      "bytes": 9175,
+      "path": "./player/load.js",
+      "sha256": "0c4844b0ee529ea9fe3fe21340b5bbb5951061f911d7c89e22526f39e50983ef"
+    },
+    {
+      "bytes": 4079,
+      "path": "./player/mount.js",
+      "sha256": "958ffef8bdf972f6d51250f909ae9f5abdc593dea8dc2e15257b281acd7cfa0c"
+    },
+    {
+      "bytes": 2595,
+      "path": "./player/physics.js",
+      "sha256": "be6c9376711867fc48dd5e18b6b0f3ce26cc79973f36c561c7ce2b6727a09080"
+    },
+    {
+      "bytes": 28396,
+      "path": "./player/validate.js",
+      "sha256": "ce17ec19679e0f3d4e4e471618666be73859177d39a5ce6b815d33dd83309a1c"
+    },
+    {
+      "bytes": 30911,
+      "path": "./player/webgl2-renderer.js",
+      "sha256": "589ec186ef5447aeff20a8fd50525d873516a26fc013cadae17299f015516326"
+    },
+    {
+      "bytes": 309962,
+      "path": "./previews/desktop.webp",
+      "sha256": "892c85a7064ff3312f51c6658c58bc62daf764f432735366b6a43f966c1d1dec"
+    },
+    {
+      "bytes": 159938,
+      "path": "./previews/mobile.webp",
+      "sha256": "22a3fc2fad232c114df42726235bcfbde6fe4a2ba579b89504973d5122b87180"
+    },
+    {
+      "bytes": 309962,
+      "path": "./previews/reduced-motion.webp",
+      "sha256": "892c85a7064ff3312f51c6658c58bc62daf764f432735366b6a43f966c1d1dec"
+    },
+    {
+      "bytes": 192730,
+      "path": "./previews/tablet.webp",
+      "sha256": "518eba34799904f9603a4c9dc43c1f5670b38c38adaec9c707db661322a1aa4e"
+    },
+    {
+      "bytes": 469,
+      "path": "./promotion.json",
+      "sha256": "cd1ce941b6152e30cf6221268bd303d469ad10e5dcbd5cb7cfcfb392c11028b2"
+    },
+    {
+      "bytes": 252328,
+      "path": "./scenes/milim-splash-v1/layers/background.webp",
+      "sha256": "bfd897975594331c8a349a0560307bf9371eb5ab126973571c4548746cb5c9fc"
+    },
+    {
+      "bytes": 381844,
+      "path": "./scenes/milim-splash-v1/layers/foreground.webp",
+      "sha256": "ad387ae6fd7cb7cbd5101d778c45a6da85c4d3c9c9b6bf3ad6f27e1bae554b2e"
+    },
+    {
+      "bytes": 962758,
+      "path": "./scenes/milim-splash-v1/layers/midground.webp",
+      "sha256": "a449063dc547b48f04fb5342fa8d0bc9d417f9b3c728fa2bd504b9a7a0b626ef"
+    },
+    {
+      "bytes": 312122,
+      "path": "./scenes/milim-splash-v1/layers/reduced-motion.webp",
+      "sha256": "b20a099a7e32d93935787f2de01b68e1b2276ae0a81f914579834a26258277d7"
+    },
+    {
+      "bytes": 1306,
+      "path": "./scenes/milim-splash-v1/scene.json",
+      "sha256": "a306eeeecff0fd6af6e0d0eb7cab541cdbb6853e7665ce1dc5b88030fe296137"
+    }
+  ],
+  "format": "milim-release",
+  "formatVersion": 1,
+  "model": {
+    "id": "milim-v1",
+    "url": "./models/milim-v1/model.json",
+    "version": "2.0.0"
+  },
+  "player": {
+    "commit": "4746bf59d7b4459df1a10011b9e20ff3596866cf",
+    "entry": "./player/index.js",
+    "license": "Apache-2.0",
+    "repository": "gaia-research/milim-player",
+    "version": "0.3.0"
+  },
+  "release": "milim-web-0.3.0",
+  "scenes": [
+    {
+      "id": "milim-splash-v1",
+      "url": "./scenes/milim-splash-v1/scene.json",
+      "version": "0.2.0"
+    }
+  ],
+  "source": {
+    "commit": "bd17f8dd96277e1cd4babdc57e5b3f01f60cba36",
+    "releasedAt": "2026-07-20T00:00:00.000Z",
+    "repository": "gaia-research/milim"
+  }
+}
