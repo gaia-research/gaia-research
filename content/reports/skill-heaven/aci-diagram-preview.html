@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-Tier ACI Architecture Proposal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; }
+        .tier-card { border-left: 4px solid #38bdf8; background-color: #1e293b; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; }
+        .tier-0 { border-color: #94a3b8; }
+        .tier-1 { border-color: #38bdf8; } /* Rimuru Blue */
+        .tier-2 { border-color: #ec4899; } /* Milim Pink */
+        .tier-3 { border-color: #8b5cf6; }
+        .tier-4 { border-color: #ef4444; }
+    </style>
+</head>
+<body class="p-4 md:p-8 font-sans max-w-7xl mx-auto">
+
+    <header class="mb-10 text-center">
+        <h1 class="text-4xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-sky-500">Skill-Heaven: 5-Tier ACI Architecture</h1>
+        <p class="text-slate-400">Scaling tool-augmented reasoning while preventing context bloat and tool-use toxicity.</p>
+    </header>
+
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-10">
+        <!-- Diagram Section -->
+        <div class="bg-slate-900 p-6 rounded-xl border border-slate-700 shadow-2xl flex flex-col justify-center">
+            <h2 class="text-2xl font-semibold mb-4 text-slate-200">Architectural Flow</h2>
+            <div class="mermaid">
+                flowchart TD
+                    UserIntent([User Intent / Query]) --> ACI{ACI Tier Router}
+                    
+                    subgraph Slider [Dynamic Exposure Slider]
+                        direction TB
+                        T0["Tier 0: Off Mode<br/>(K=0, Parametric)"]
+                        T1["Tier 1: Low / Skill Heaven<br/>(K=1, CMTF)"]
+                        T2["Tier 2: Native Mode<br/>(K≈5, BoR Retrieval)"]
+                        T3["Tier 3: High Mode<br/>(K≈16, DAG Topology)"]
+                        T4["Tier 4: Max / Skill Hell<br/>(K≈64, Multi-Agent)"]
+                    end
+                    
+                    ACI --> T0
+                    ACI --> T1
+                    ACI --> T2
+                    ACI --> T3
+                    ACI --> T4
+                    
+                    T4 --> FB["Firebreaks<br/>(Tool-MVR / Isolated Planning)"]
+                    FB --> Exec[(Environment)]
+                    
+                    T0 --> Exec
+                    T1 --> Exec
+                    T2 --> Exec
+                    T3 --> Exec
+                    
+                    style T0 fill:#1e293b,stroke:#94a3b8,stroke-width:2px,color:#fff
+                    style T1 fill:#0c4a6e,stroke:#38bdf8,stroke-width:2px,color:#fff
+                    style T2 fill:#831843,stroke:#ec4899,stroke-width:2px,color:#fff
+                    style T3 fill:#4c1d95,stroke:#8b5cf6,stroke-width:2px,color:#fff
+                    style T4 fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
+                    style FB fill:#b45309,stroke:#fbbf24,stroke-width:2px,color:#fff
+            </div>
+            <p class="mt-6 text-sm text-slate-400 text-center">
+                * K = Number of Tools exposed simultaneously in the LLM Context Window.
+            </p>
+        </div>
+
+        <!-- Explanations Section -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-semibold mb-4 text-slate-200">The "Why": Literature Justification</h2>
+
+            <div class="tier-card tier-0">
+                <h3 class="text-xl font-bold text-slate-300">Tier 0: Off Mode</h3>
+                <p class="text-sm mt-2 text-slate-300"><strong>Mechanism:</strong> No tools exposed. Relies purely on parametric knowledge.</p>
+                <p class="text-sm mt-2 text-pink-400"><strong>Why?</strong> The EMNLP 2024 paper <em>"Context Length Alone Hurts LLM Performance"</em> proves that simply inflating the context window degrades reasoning by up to 85%, even with perfect retrieval. Exposing tools during purely architectural/logical tasks wastes bandwidth and triggers the <em>SMART</em> "tool overuse bias."</p>
+            </div>
+
+            <div class="tier-card tier-1">
+                <h3 class="text-xl font-bold text-sky-400">Tier 1: Low Mode (Skill Heaven)</h3>
+                <p class="text-sm mt-2 text-slate-300"><strong>Mechanism:</strong> Exposes K=1 tool per step using strict precondition-effect causal graphs.</p>
+                <p class="text-sm mt-2 text-sky-300"><strong>Why?</strong> <em>Causal Minimal Tool Filtering (CMTF)</em> and <em>"Looking Is Not Picking"</em> showed that dense semantic retrieval causes "ToolChoiceConfusion" (logit-level representational collisions). By enforcing strict causality, CMTF achieves 0.99 pass rates while cutting token usage by 90%.</p>
+            </div>
+
+            <div class="tier-card tier-2">
+                <h3 class="text-xl font-bold text-pink-500">Tier 2: Native Mode (Balanced)</h3>
+                <p class="text-sm mt-2 text-slate-300"><strong>Mechanism:</strong> A dynamic shortlist (K≈5-7) of bounded native primitives (search, edit).</p>
+                <p class="text-sm mt-2 text-pink-300"><strong>Why?</strong> <em>SWE-agent</em> proved that a constrained interface (e.g., 100-line viewer, syntax-guarded edits) outperforms raw linux shells (18.0% vs 11.0% pass rate). <em>CodeAct</em> proved that a unified, minimal action space vastly improves LLM System 2 planning over heavily fragmented JSON schemas.</p>
+            </div>
+
+            <div class="tier-card tier-3">
+                <h3 class="text-xl font-bold text-purple-400">Tier 3: High Mode (Topological)</h3>
+                <p class="text-sm mt-2 text-slate-300"><strong>Mechanism:</strong> Lazy-loads detailed schemas (K≈16) by traversing a Directed Acyclic Graph (DAG).</p>
+                <p class="text-sm mt-2 text-purple-300"><strong>Why?</strong> <em>ToolNet</em> demonstrated that flat lists fail at scale, but ~80% of tools have fewer than 6 logical successors. <em>GraSP</em> showed that compiling tools into DAGs allows the ACI to enforce execution order and isolate failures (O(depth)) without dumping massive schemas into the prompt.</p>
+            </div>
+
+            <div class="tier-card tier-4">
+                <h3 class="text-xl font-bold text-red-500">Tier 4: Max Mode (Skill Hell)</h3>
+                <p class="text-sm mt-2 text-slate-300"><strong>Mechanism:</strong> Access to the entire registry via multi-agent delegation. Prompt exposure hard-capped at K≈64. Requires rigid firebreaks.</p>
+                <p class="text-sm mt-2 text-red-300"><strong>Why?</strong> <em>AnyTool</em> proved that dumping 16k APIs into a 128k GPT-4 window collapses performance to 14%, establishing 64 as a prompt saturation limit. To mitigate hallucination, <em>Tool-MVR</em> mandates a secondary verifier agent to reflect on tool syntax before execution (boosting correction to 58.9%). Isolated Planning prevents cross-tool prompt poisoning.</p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
