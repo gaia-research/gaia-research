@@ -1,5 +1,5 @@
 {
-  "total": 40,
+  "total": 37,
   "contributors": {
     "garrytan": {
       "count": 47
@@ -14,7 +14,7 @@
       "count": 9
     },
     "gsd-build": {
-      "count": 5
+      "count": 6
     },
     "ruvnet": {
       "count": 48
@@ -71,7 +71,7 @@
       "count": 1
     },
     "glincker": {
-      "count": 2
+      "count": 1
     },
     "getagentseal": {
       "count": 1
@@ -89,7 +89,7 @@
       "count": 1
     },
     "nousresearch": {
-      "count": 2
+      "count": 1
     },
     "openai": {
       "count": 2
@@ -110,15 +110,6 @@
       "count": 1
     },
     "yonatangross": {
-      "count": 1
-    },
-    "anthropics": {
-      "count": 4
-    },
-    "skillkit": {
-      "count": 1
-    },
-    "skillsmp": {
       "count": 1
     }
   }

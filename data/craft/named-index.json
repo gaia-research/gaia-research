@@ -1491,62 +1491,6 @@
       "d": "Production-grade RAG retrieval skill covering 30+ patterns including core pipeline composition, HyDE query expansion, pgvector hybrid search, cross-encoder reranking, multimodal chunking, and agentic self-RAG and corrective-RAG loops.",
       "g": "rag-pipeline",
       "lvl": "1★"
-    },
-    "anthropic-web-search": {
-      "c": "anthropics",
-      "t": "Anthropic Web Search & Research Skill",
-      "d": "Official Anthropic agent skill for searching the web and synthesizing citations.",
-      "src": "anthropic",
-      "srcUrl": "https://github.com/anthropics/skills"
-    },
-    "anthropic-code-interpreter": {
-      "c": "anthropics",
-      "t": "Anthropic Code Interpreter Skill",
-      "d": "Executes Python code in a secure sandbox to solve data and analysis tasks.",
-      "src": "anthropic",
-      "srcUrl": "https://github.com/anthropics/skills"
-    },
-    "anthropic-frontend-design": {
-      "c": "anthropics",
-      "t": "Anthropic Frontend Design Skill",
-      "d": "Official Anthropic SKILL.md for generating responsive UI components and design tokens.",
-      "src": "anthropic",
-      "srcUrl": "https://github.com/anthropics/skills/tree/main/skills/frontend-design"
-    },
-    "anthropic-pdf-processor": {
-      "c": "anthropics",
-      "t": "Anthropic PDF Document Parser",
-      "d": "Official Anthropic SKILL.md for extracting structured markdown and tables from PDF documents.",
-      "src": "anthropic",
-      "srcUrl": "https://github.com/anthropics/skills/tree/main/skills/pdf-processor"
-    },
-    "skillkit-react-testing-suite": {
-      "c": "skillkit",
-      "t": "SkillKit React Component Testing Package",
-      "d": "SkillKit marketplace package for scaffolding Vitest and React Testing Library unit tests.",
-      "src": "skillkit",
-      "srcUrl": "https://skillkit.io"
-    },
-    "glincker-claude-refactor-pro": {
-      "c": "glincker",
-      "t": "GLINCKER Claude Code Refactoring Skill",
-      "d": "GLINCKER Claude Code Marketplace SKILL.md for incremental refactoring and clean code architecture.",
-      "src": "glincker",
-      "srcUrl": "https://github.com/GLINCKER/claude-code-marketplace"
-    },
-    "skillsmp-web-audit": {
-      "c": "skillsmp",
-      "t": "SkillsMP Web Performance Audit Skill",
-      "d": "SkillsMP marketplace SKILL.md for analyzing performance and rendering bottlenecks.",
-      "src": "skillsmp",
-      "srcUrl": "https://skillsmp.com"
-    },
-    "nousresearch-hermes-agent-orchestrator": {
-      "c": "nousresearch",
-      "t": "NousResearch Hermes Agent Swarm Orchestrator",
-      "d": "Official NousResearch Hermes Agent SKILL.md for multi-agent swarm orchestration.",
-      "src": "nousresearch",
-      "srcUrl": "https://github.com/NousResearch/hermes-agent"
     }
   },
   "slugToContributor": {
@@ -1762,15 +1706,7 @@
     "career-ops": "santifer",
     "unittest-generator": "upsonic",
     "find-skills": "vercel",
-    "orchestkit-rag": "yonatangross",
-    "anthropic-web-search": "anthropics",
-    "anthropic-code-interpreter": "anthropics",
-    "anthropic-frontend-design": "anthropics",
-    "anthropic-pdf-processor": "anthropics",
-    "skillkit-react-testing-suite": "skillkit",
-    "glincker-claude-refactor-pro": "glincker",
-    "skillsmp-web-audit": "skillsmp",
-    "nousresearch-hermes-agent-orchestrator": "nousresearch"
+    "orchestkit-rag": "yonatangross"
   },
   "unlinkedSlugs": []
 }

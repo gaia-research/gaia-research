@@ -38,11 +38,7 @@ import { pairKey } from '@/lib/craft/types';
 import type { FusionResult, FusionTier } from '@/lib/craft/types';
 import { findRecipe, skillTreeUrl } from '@/lib/craft/recipes';
 import { findStarterRecipe } from '@/lib/craft/starter-recipes';
-import {
-  getAllNamedSkillSlugs,
-  lookupNamedSkill,
-  namedContributor,
-} from '@/lib/craft/named-index';
+import { lookupNamedSkill, namedContributor } from '@/lib/craft/named-index';
 import { findTopCandidateSlugs } from '@/lib/craft/similarity-shim';
 import {
   buildFusionPrompt,
@@ -310,8 +306,6 @@ interface StoredFusion {
   /** Only present for canonical results that map to a real named skill. */
   slug?: string;
   contributor?: string;
-  source?: 'skillsmp' | 'skillkit' | 'glincker' | 'anthropic' | 'nousresearch' | 'registry';
-  sourceUrl?: string;
   /** Curse metadata (rare easter-egg outcome). */
   cursed?: boolean;
   curseId?: string;
@@ -331,8 +325,6 @@ function toStored(
   };
   if (result.description) stored.description = result.description;
   if (result.skillTitle) stored.skillTitle = result.skillTitle;
-  if (result.source) stored.source = result.source;
-  if (result.sourceUrl) stored.sourceUrl = result.sourceUrl;
   if (ref) {
     stored.slug = ref.slug;
     stored.contributor = ref.contributor;
@@ -360,8 +352,6 @@ function rehydrate(stored: StoredFusion): FusionResult {
     isFirstDiscovery: false,
     passesSkillCheck: stored.passesSkillCheck,
     contributor: stored.contributor,
-    source: stored.source,
-    sourceUrl: stored.sourceUrl,
     skillTreeUrl: skillTreeUrl(stored.contributor, stored.slug),
     experimental: !stored.passesSkillCheck,
     cursed: stored.cursed || undefined,
@@ -661,8 +651,6 @@ export async function POST(request: Request): Promise<Response> {
           isFirstDiscovery: true,
           passesSkillCheck: true,
           contributor: promotion.contributor,
-          source: named?.source,
-          sourceUrl: named?.sourceUrl,
           skillTreeUrl: skillTreeUrl(promotion.contributor, promotion.slug),
           experimental: false,
         };

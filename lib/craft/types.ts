@@ -55,10 +55,6 @@ export interface SkillCard {
    * Builders collection. Additive optional field.
    */
   contributor?: string;
-  /** Source registry/marketplace (e.g., 'skillsmp', 'skillkit', 'glincker', 'anthropic', 'nousresearch', 'registry'). */
-  source?: 'skillsmp' | 'skillkit' | 'glincker' | 'anthropic' | 'nousresearch' | 'registry';
-  /** External or canonical skill page URL. */
-  sourceUrl?: string;
   /** Unix-ms timestamp of when this card was first discovered by this browser session. */
   discoveredAt?: number;
 }
@@ -106,10 +102,6 @@ export interface FusionResult {
    * Format: `https://gaiaskilltree.com/named/#explorer/{contributor}/{slug}`
    */
   skillTreeUrl?: string;
-  /** Source registry/marketplace (e.g., 'skillsmp', 'skillkit', 'glincker', 'anthropic', 'nousresearch', 'registry'). */
-  source?: 'skillsmp' | 'skillkit' | 'glincker' | 'anthropic' | 'nousresearch' | 'registry';
-  /** External or canonical skill page URL. */
-  sourceUrl?: string;
   /** True when this result carries a curse effect (rare gremlin outcome). */
   cursed?: boolean;
   /** Reference id into the Curse table when `cursed` is true. */

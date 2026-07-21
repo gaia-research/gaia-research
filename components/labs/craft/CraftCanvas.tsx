@@ -1554,41 +1554,16 @@ function InstancePopover({
         </button>
       </div>
 
-      {(canonical || first || easteregg || experimental || card.cursed || card.source) && (
+      {(canonical || first || easteregg || experimental || card.cursed) && (
         <div className="craft-pop-tags">
           {first && (
             <span className="craft-badge craft-badge-first" title="Nobody had found this combo before you, boss.">
               ⭐ First
             </span>
           )}
-          {canonical && !card.source && (
+          {canonical && (
             <span className="craft-badge craft-badge-canon" title="A real skill in the Gaia Skill Tree.">
               ★ Real Skill
-            </span>
-          )}
-          {card.source === 'skillsmp' && (
-            <span className="craft-badge craft-badge-skillsmp" title="SkillsMP Marketplace SKILL.md.">
-              🌐 SkillsMP Skill
-            </span>
-          )}
-          {card.source === 'skillkit' && (
-            <span className="craft-badge craft-badge-skillkit" title="SkillKit Marketplace SKILL.md Package.">
-              📦 SkillKit Package
-            </span>
-          )}
-          {card.source === 'glincker' && (
-            <span className="craft-badge craft-badge-glincker" title="GLINCKER Claude Code Marketplace SKILL.md.">
-              🤖 GLINCKER Skill
-            </span>
-          )}
-          {card.source === 'anthropic' && (
-            <span className="craft-badge craft-badge-anthropic" title="Official Anthropic Agent SKILL.md.">
-              🦙 Anthropic Skill
-            </span>
-          )}
-          {card.source === 'nousresearch' && (
-            <span className="craft-badge craft-badge-nous" title="NousResearch Hermes Agent SKILL.md.">
-              🧠 NousResearch Skill
             </span>
           )}
           {easteregg && !card.cursed && (
@@ -1636,12 +1611,11 @@ function InstancePopover({
           )}
           <a
             className="craft-unlock"
-            href={card.sourceUrl || card.skillTreeUrl}
+            href={card.skillTreeUrl}
             target="_blank"
             rel="noreferrer noopener"
           >
-            {card.sourceUrl ? "View Source Repository" : "Open in the Skill Tree"}{" "}
-            <span aria-hidden="true">↗</span>
+            Open in the Skill Tree <span aria-hidden="true">↗</span>
           </a>
         </div>
       ) : (

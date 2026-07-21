@@ -92,6 +92,98 @@ describe('POST /labs/infinite-skill-craft/api/fuse', () => {
     expect(systemMessage.content).toContain('CONVERGENCE GRAVITY');
   });
 
+  it('injects real ground-truth slugs (not invented ones) as candidates for a recognisable pair', async () => {
+    const mockAiRun = vi.fn().mockResolvedValue({
+      response: JSON.stringify({
+        name: '/scrape',
+        emoji: '🕷️',
+        blurb: 'Web extraction boss',
+        description: 'Extracts web data',
+        passesSkillCheck: true,
+      }),
+    });
+    const mockKv = {
+      get: vi.fn().mockResolvedValue(null),
+      put: vi.fn().mockResolvedValue(undefined),
+    };
+
+    vi.mocked(getCloudflareContext).mockResolvedValue({
+      env: {
+        AI: { run: mockAiRun },
+        CRAFT_KV: mockKv,
+      } as any,
+      cf: {} as any,
+      ctx: { waitUntil: vi.fn() } as any,
+    });
+
+    const req = new Request('http://localhost/api/fuse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ a: 'web', b: 'scrape' }),
+    });
+
+    await POST(req);
+
+    const systemMessage = mockAiRun.mock.calls[0][1].messages.find(
+      (m: any) => m.role === 'system'
+    );
+    const allSlugs = new Set(getAllNamedSkillSlugs());
+
+    // Pull out the comma-joined vocabulary list embedded after the
+    // "PREFER that exact name" instruction and check every candidate is a
+    // real registry slug — the attractor system must only ever point devs at
+    // skills that actually exist in gaia-skill-tree.
+    const match = systemMessage.content.match(/PREFER that exact name so devs recognise it: (.+)\./);
+    expect(match).toBeTruthy();
+    const injectedSlugs = match![1].split(', ').map((s: string) => s.trim());
+    expect(injectedSlugs.length).toBeGreaterThan(0);
+    for (const slug of injectedSlugs) {
+      expect(allSlugs.has(slug)).toBe(true);
+    }
+    // The obviously relevant real skill should be discoverable for this pair.
+    expect(injectedSlugs).toContain('scrape');
+  });
+
+  it('promotes an emergent fusion to canonical when the AI names a real registry skill (discovery path)', async () => {
+    const mockAiRun = vi.fn().mockResolvedValue({
+      response: JSON.stringify({
+        name: '/scrape',
+        emoji: '🕷️',
+        blurb: 'Web extraction boss',
+        description: 'Extracts web data',
+        passesSkillCheck: true,
+      }),
+    });
+    const mockKv = {
+      get: vi.fn().mockResolvedValue(null),
+      put: vi.fn().mockResolvedValue(undefined),
+    };
+
+    vi.mocked(getCloudflareContext).mockResolvedValue({
+      env: {
+        AI: { run: mockAiRun },
+        CRAFT_KV: mockKv,
+      } as any,
+      cf: {} as any,
+      ctx: { waitUntil: vi.fn() } as any,
+    });
+
+    const req = new Request('http://localhost/api/fuse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ a: 'web', b: 'scrape' }),
+    });
+
+    const res = await POST(req);
+    const data = await res.json();
+
+    expect(data.tier).toBe('canonical');
+    expect(data.contributor).toBe('garrytan');
+    expect(data.skillTreeUrl).toContain('garrytan');
+    expect(data.skillTreeUrl).toContain('scrape');
+    expect(data.experimental).toBe(false);
+  });
+
   it('handles AI run exceptions defensively with experimental fallback (never 500s)', async () => {
     const mockAiRun = vi.fn().mockRejectedValue(new Error('Workers AI model overloaded'));
     const mockKv = {
