@@ -16,7 +16,7 @@
 
 | Harness | Version checked | How |
 |---|---|---|
-| Claude Code | **2.1.211** (`claude --version`); M2 re-check on **2.1.215** (macOS, 2026-07-19) | empirical, headless `-p` runs in a throwaway project |
+| Claude Code | **2.1.211** (`claude --version`); M2 re-check on **2.1.215** (macOS, 2026-07-19); **WS3 gate (a) on 2.1.216** (macOS, 2026-07-21) | empirical, headless `-p` runs in a throwaway project |
 | Codex CLI | current docs (July 2026); **0.144.6 local** (2026-07-19, quota-limited) | [developers.openai.com/codex/skills](https://developers.openai.com/codex/skills) + local probes |
 | Cursor (cursor-agent CLI) | current docs (July 2026, CLI stable); **binary not installed locally** (2026-07-19) | [cursor.com/docs/cli](https://cursor.com/docs/cli/using) |
 | pi (badlogic/pi-mono coding agent) | current docs (July 2026); **0.80.10 local, empirical** (2026-07-19) | [pi coding-agent skills docs](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/skills.md) + live runs |
@@ -150,6 +150,71 @@ cell (no local binary at probe time — and `agent` on this workstation was grok
 not Cursor; G4/G5. **Superseded 2026-07-20 by G6**: Cursor CLI 2026.07.16 is now
 installed as both `agent` and `cursor-agent`; column re-probe pending, WS6 of
 `docs/plans/skill-heaven-continuation-plan.md`).
+
+## WS3 verification gates — gate (a): `--resume` profile recomposition
+
+**Milestone:** WS3 of
+[`docs/plans/skill-heaven-continuation-plan.md`](../plans/skill-heaven-continuation-plan.md)
+(gate table). **Date:** 2026-07-21. **Version:** Claude Code **2.1.216** (macOS,
+this workstation; env knob re-verified for this version — see GA0). Model: haiku
+for every run. Same listing-probe prompt `$Q` as the M0/M2 sections. Clean
+throwaway project (no project skills). **Curated argv** below is the frozen T9
+route: `--setting-sources project --strict-mcp-config --mcp-config
+'{"mcpServers":{}}' --plugin-dir <heaven-set>` with
+`CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1`; `<heaven-set>` is a hand-built plugin dir
+whose sole skill is the distinctively-named `gate-a-probe` (so its appearance in
+the listing proves the *new* curated profile composed at boot). Sessions are
+created with `--session-id <uuid>` and resumed with `-r/--resume <uuid>`.
+
+**Gate question (plan):** does `claude --resume <id>` with a *new*
+`--plugin-dir`/`--setting-sources` profile compose the **new** profile at boot?
+**Verdict: ✅ YES — but only via `--fork-session`.** Plain `--resume` applies a
+profile's *additive* half only (new `--plugin-dir` skills are admitted) and
+silently drops its *subtractive* half (`--setting-sources project` +
+`CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` do **not** evict); the resumed session
+rehydrates its original standing skills listing and layers the new plugin on top
+— a **superset** dose, not the picked posture. Adding **`--fork-session`**
+(resume into a new session id) rebuilds the system prompt from the current flags,
+so the curated profile composes with **zero residual** (identical to a fresh
+session) **while carrying the conversation history forward**.
+
+| # | Command | Observed | Cell verified |
+|---|---|---|---|
+| GA0 | `strings ~/.local/share/claude/versions/2.1.216 \| grep CLAUDE_CODE_DISABLE` | `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` **present** (+ new siblings `…_CLAUDE_API_SKILL`, `…_CLAUDE_CODE_SKILL`, `…_POLICY_SKILLS`) | the undocumented T9 env knob **survives the 2.1.215→2.1.216 upgrade** |
+
+> **Versioning policy (owner ruling, 2026-07-21):** the T9 env knob and the
+> resume/fork recomposition behavior are now **assumed forward-stable** across
+> Claude Code upgrades — no longer a per-upgrade blocking re-verify. The only
+> standing obligation is to **record the exact `claude --version` used at each
+> test** (as every row here does). Re-run the repro only if a symptom surfaces.
+| GA-C1 | `echo "$Q" \| claude -p --model haiku` | 64-skill listing (user-dir + bundled CLI skills; incl. `graphify` residual); `gate-a-probe` **absent** | vanilla-fresh baseline on 2.1.216 |
+| GA-C2 | `echo "$Q" \| CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1 claude -p --model haiku <curated argv>` (fresh session) | **`heaven-set:gate-a-probe`** only, **2/2 runs** | **T9 curated route re-verified on 2.1.216** — zero residual on a fresh session |
+| GA-1 | `echo "$Q" \| CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1 claude -p --model haiku --resume <vanilla id> <curated argv>` | full 64-skill vanilla listing **+ `heaven-set:gate-a-probe`** appended, **2/2 runs** | **NEGATIVE for plain resume**: `--resume` is *additive-only* — the new `--plugin-dir` composes but the subtractive flags are ignored; the original standing dose persists → superset, not recomposition |
+| GA-2 | GA-1 command **+ `--fork-session`** | **`heaven-set:gate-a-probe`** only (zero residual, == GA-C2) | **`--fork-session` recomposes the new profile fully** at boot — the subtractive half now applies |
+| GA-3 | seed session with codeword `ZEPHYR-7`, then `--resume <id> --fork-session <curated argv>` asking for the codeword | **`ZEPHYR-7`** | fork **carries conversation history forward** (recomposition is not a fresh-context reset) |
+| GA-3b | control: plain `--resume <id>` asking for the codeword | **`ZEPHYR-7`** | history carries on plain resume too — the GA-1 vs GA-2 difference is **purely skill composition**, not context |
+
+**Zero-mutation check:** all writes confined to the scratchpad fixture; `~/.claude`
+skills/settings byte-identical across runs (67 user skill dirs before/after);
+`gaia-research` working tree carried no new changes from the probe. Session
+transcript files are created by design (`-p` persistence) and are the only
+on-disk side effect.
+
+**Ruling — D12, RATIFIED 2026-07-21 (amends D10, rides this PR per D9):** the
+honest switch delivers the picked posture on the *same conversation*, and the
+relaunch command `/skill-heaven` prints is
+`claude --resume <id> --fork-session <profile argv>` — **not** the bare
+`claude --resume` D10 originally worded. Plain `--resume` would keep the user's
+old standing dose and merely add the curated set, i.e. the tool becoming its own
+bloat — the precise failure the scalpel exists to prevent. Forking is *better*
+than the plan's flagged negative contingency: it preserves history **and**
+recomposes, so no honest-new-session climbdown is needed. **Owner condition
+(binding on WS4):** the switch creates a **new session id**, so the
+`/skill-heaven` picker output, the statusline, and any copy **must make the fork
+explicit** (same history, new id, composed at the picked posture) — forking is
+ratified precisely *because* it is disclosed. The WS4 slice-1 step-2
+relaunch-command builder must emit `--fork-session`, and its acceptance test
+must assert the fork is surfaced to the user.
 
 ## Sources
 
