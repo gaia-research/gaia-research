@@ -605,8 +605,11 @@ export async function POST(request: Request): Promise<Response> {
       let raw: RawFusionJson;
       if (bindings.AI) {
         try {
-          // Fast candidate targeting via top similarity candidates (reduces context size & TTFT latency)
-          const candidateSlugs = findTopCandidateSlugs(na, nb, 5);
+          // Fast candidate targeting via top similarity candidates (reduces context size & TTFT latency).
+          // 8 rather than 5: promotion still requires an exact name match (see resolvePromotion
+          // below), so widening the pool only gives the model more real options to land on
+          // exactly — no matching-precision risk, cost is a handful of extra short slugs.
+          const candidateSlugs = findTopCandidateSlugs(na, nb, 8);
           const messages = buildFusionPrompt(na, nb, candidateSlugs);
           const response = await bindings.AI.run(FUSION_MODEL, {
             messages,
