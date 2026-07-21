@@ -216,6 +216,67 @@ ratified precisely *because* it is disclosed. The WS4 slice-1 step-2
 relaunch-command builder must emit `--fork-session`, and its acceptance test
 must assert the fork is surfaced to the user.
 
+## WS3 verification gates — gate (b): statusline API
+
+**Date:** 2026-07-21. **Version:** Claude Code **2.1.216**. **Method note:** the
+statusline renders only in the interactive TUI — it does **not** fire in headless
+`-p`, so the settings shape and the input-JSON field set were confirmed by
+**string-probing the 2.1.216 build** (`strings <bin>`) plus Claude Code's own
+in-binary help text; a live stdin capture needs an interactive session (deferred,
+repro below). Field *names* are authoritative from the binary; the nested
+grouping follows Claude Code's documented statusLine schema.
+
+**Gate question (plan):** the segment mechanism, its input JSON, and **where the
+standing-dose number comes from** (census over the composed loadout at compile
+time vs. live introspection). **Verdict:** the dose readout is
+**census-derived, not live-introspected** — the statusline input carries **no
+standing-dose token field**. This resolves D10's open "compile-time census vs.
+live introspection" sub-question in favor of **census** (consistent with B1/D4).
+
+| # | Probe | Observed | Cell verified |
+|---|---|---|---|
+| GB-1 | `strings <bin> \| grep -A2 '"statusLine"'`; `--help` | settings block `"statusLine": { "type": "command", "command": "<path>" }`; convention `~/.claude/statusline-command.sh`; `/statusline` slash-command + `statusline-setup` subagent present | statusline is a **user-supplied command segment**, per-session settings — a shell command Claude pipes JSON to and renders the stdout of |
+| GB-2 | `strings <bin>` field-name probe | input JSON fields present: `session_id`, `transcript_path`, `cwd`, model `display_name`, workspace `current_dir`/`project_dir`, `output_style`, cost `total_cost_usd` / `total_duration_ms` / `total_lines_added` / `total_lines_removed`, `exceeds_200k_tokens`, `version` | the command receives **session + model + cost + a context-threshold flag** on stdin |
+| GB-3 | inspect GB-2 for any per-loadout standing-token field | **none** — the only context signal is `exceeds_200k_tokens` (**boolean**, not a count); no standing/loadout token number is provided | **dose-source = census over the composed loadout at (re)compile time**, NOT live introspection. The `⚡ native · 14.2k standing` number must come from `census.ts` over the active profile; `transcript_path` could yield a *running-usage* number later (invocation side, B1), but never the **standing** dose |
+
+**Blocks:** WS4 step-1 statusline segment. The segment computes its standing-dose
+number by censusing the profile it launched with (refreshed when the profile is
+recomposed — i.e. after a D12 fork), never from Claude's statusline input.
+**Deferred (needs interactive session):** a live stdin capture to confirm the
+exact nested JSON shape and that `exceeds_200k_tokens` is the only token signal at
+runtime — repro: set `statusLine.command` to a script that appends stdin to a
+file, open an interactive `claude`, read the file.
+
+## WS3 verification gates — gate (c): plugin self-dose (D4)
+
+**Date:** 2026-07-21. **Method:** the ratified census method — `makeListingLine`
+(`- <id>: <description>`, whitespace-collapsed) + `tokenize` (chars4) from
+`scripts/hell-heaven-bench/census.ts`, the same proxy every R0 number uses.
+`/skill-heaven` and `/skill-hell` have no committed command definitions yet
+(WS4), so **representative draft descriptions** are priced; final WS4 copy
+re-prices with the same method and must stay under the budget this sets.
+
+**Gate question (plan):** the standing tokens the `/skill-heaven` + `/skill-hell`
+commands themselves add to every session (the tool must not be its own bloat).
+**Verdict:** combined **≈57 tok/session** (chars4) with tight draft copy —
+**negligible** (~0.4 % of the 14.2k native standing dose in the D10 mock). The
+tool is not its own bloat, and the number is disclosed.
+
+| Command | Listing line (chars) | Standing dose (chars4) |
+|---|---|---|
+| `/skill-heaven` | `- skill-heaven: Switch skill posture — floor, curated, or native; composes the profile and prints the fork-relaunch command.` (124) | ≈31 tok |
+| `/skill-hell` | `- skill-hell: Locked door: Hell-mode benchmark status and ledger link; opens only when Hell is proven safe.` (107) | ≈26 tok |
+| **combined self-dose** | | **≈57 tok / session** |
+
+**Caveats:** chars4 is a proxy, not the Claude tokenizer (as everywhere in R0 —
+recorded, swappable when a counted backend lands); descriptions are **draft** —
+WS4 re-prices; if the listed id carries a plugin-name prefix
+(`heaven-set:skill-heaven`), add ~4 chars/line (≈1 tok, negligible). **Discipline
+(D4/B1):** this self-dose is disclosed and subtracted in every claim — it is the
+only standing cost `claude-heaven`'s doors add (Heaven's purest form uses no
+server). **Blocks:** WS4 steps 2–3 copy + README claims; the final command
+descriptions must price at or below this budget.
+
 ## Sources
 
 - Claude Code 2.1.211 `--help` + empirical runs above (this container, 2026-07-18).
