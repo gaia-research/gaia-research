@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+  <!-- Combined hex silhouette + spark silhouette, all filled black, no strokes -->
+  <!-- Safari pinned tab mask icon -->
+
+  <!-- Filled hexagon -->
+  <path
+    d="M8,1 L14.06,4.5 L14.06,11.5 L8,15 L1.94,11.5 L1.94,4.5 Z"
+    fill="#000000"
+  />
+
+  <!-- 4-point spark at top-left (scaled to 16x16 space: centered at ~3,3) -->
+  <path
+    d="M3,0 L3.375,1.625 L5,2 L3.375,2.375 L3,4 L2.625,2.375 L1,2 L2.625,1.625 Z"
+    fill="#000000"
+  />
+</svg>
