@@ -342,7 +342,7 @@ export function SupabaseConsole() {
 
   return (
     <div className="supabase-console" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-      {/* ── Diagnostic Ping Monitor Header ───────────────────────────────────── */}
+      {/* ── Unified Hero & Diagnostic Monitor ─────────────────────────────────── */}
       <div
         className="ledger-card"
         style={{
@@ -354,15 +354,18 @@ export function SupabaseConsole() {
       >
         <div style={{ position: "absolute", top: 0, right: 0, width: 6, height: 6, background: "var(--pink)" }} />
         
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "1.2rem" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem", marginBottom: "1.2rem" }}>
           <div>
             <span className="signal" style={{ margin: 0 }}>
               <span className={healthData?.status === "ONLINE" ? "led-verified" : ""} />
-              LIVE TELEMETRY &amp; SCHEMA MONITOR
+              CYBER-SLIME LABORATORY · SUPABASE INTEGRATION HUB
             </span>
-            <h2 style={{ font: "1.8rem var(--display)", margin: ".3rem 0 0", textTransform: "uppercase" }}>
-              Supabase Diagnostics Console
-            </h2>
+            <h1 style={{ font: "var(--type-display-2) var(--display)", margin: ".3rem 0 .5rem", textTransform: "uppercase" }}>
+              Supabase Diagnostics &amp; Schemas
+            </h1>
+            <p style={{ color: "var(--muted)", maxWidth: "60ch", font: ".95rem var(--body)", margin: 0 }}>
+              Live backend diagnostic console, schema inspector, and planned feature sampler for Gaia Research database services.
+            </p>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
@@ -493,15 +496,15 @@ export function SupabaseConsole() {
         )}
       </div>
 
-      {/* ── Feature Status Matrix Table ────────────────────────────────────── */}
+      {/* ── Feature Matrix & Interactive Selection Table ───────────────────── */}
       <section>
         <div style={{ marginBottom: "1rem" }}>
           <span className="section-kicker">FEATURE SUMMARY &amp; AUDIT</span>
           <h2 style={{ font: "var(--type-display-3) var(--display)", margin: ".2rem 0" }}>
-            Integration Feature Matrix
+            Integration Schema Sampler
           </h2>
           <p style={{ color: "var(--muted)", font: ".9rem var(--body)", margin: 0 }}>
-            Complete ledger of live and planned Supabase features across telemetry, submissions, authentication, and verification.
+            Click any row or schema below to inspect its PostgreSQL DDL definition, column specs, RLS policies, and code snippets.
           </p>
         </div>
 
@@ -514,12 +517,19 @@ export function SupabaseConsole() {
                 <th>AUTH MODE</th>
                 <th>STATUS</th>
                 <th>MIGRATION SOURCE</th>
-                <th>INSPECT</th>
+                <th>ACTION</th>
               </tr>
             </thead>
             <tbody>
               {SCHEMAS.map((s) => (
-                <tr key={s.id} style={{ background: s.id === activeSchemaId ? "rgba(56, 189, 248, 0.05)" : undefined }}>
+                <tr
+                  key={s.id}
+                  onClick={() => setActiveSchemaId(s.id)}
+                  style={{
+                    background: s.id === activeSchemaId ? "rgba(56, 189, 248, 0.08)" : undefined,
+                    cursor: "pointer",
+                  }}
+                >
                   <th style={{ font: "bold .9rem var(--mono)" }}>
                     <span style={{ color: s.enabled ? "var(--pink)" : "var(--dim)" }}>{s.title}</span>
                   </th>
@@ -540,11 +550,20 @@ export function SupabaseConsole() {
                   <td>
                     <button
                       type="button"
-                      onClick={() => setActiveSchemaId(s.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveSchemaId(s.id);
+                      }}
                       className="button secondary"
-                      style={{ minHeight: 28, padding: ".2rem .6rem", fontSize: ".75rem" }}
+                      style={{
+                        minHeight: 26,
+                        padding: ".2rem .6rem",
+                        fontSize: ".75rem",
+                        borderColor: s.id === activeSchemaId ? "var(--pink)" : undefined,
+                        color: s.id === activeSchemaId ? "var(--pink)" : undefined,
+                      }}
                     >
-                      Inspect →
+                      {s.id === activeSchemaId ? "Inspecting" : "Inspect →"}
                     </button>
                   </td>
                 </tr>
@@ -554,31 +573,8 @@ export function SupabaseConsole() {
         </div>
       </section>
 
-      {/* ── Interactive Schema Inspector ─────────────────────────────────── */}
+      {/* ── Schema Detail Inspector ────────────────────────────────────────── */}
       <section style={{ border: "1px solid var(--line)", background: "var(--surface)", padding: "1.5rem" }}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem", marginBottom: "1.5rem", borderBottom: "1px solid var(--line)", paddingBottom: "1rem" }}>
-          {SCHEMAS.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => setActiveSchemaId(s.id)}
-              style={{
-                font: ".8rem var(--mono)",
-                padding: ".5rem 1rem",
-                background: s.id === activeSchemaId ? "var(--pink)" : "var(--bg)",
-                color: s.id === activeSchemaId ? "var(--bg)" : "var(--ink)",
-                border: `1px solid ${s.id === activeSchemaId ? "var(--pink)" : "var(--line)"}`,
-                cursor: "pointer",
-                fontWeight: 700,
-                letterSpacing: ".04em",
-              }}
-            >
-              {s.enabled ? "●" : "○"} {s.title}
-            </button>
-          ))}
-        </div>
-
-        {/* Selected Schema Inspector Body */}
         <div>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: "1rem" }}>
             <div>
@@ -696,7 +692,7 @@ export function SupabaseConsole() {
           <div style={{ marginTop: "1.5rem" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: ".5rem" }}>
               <h4 style={{ font: ".8rem var(--mono)", color: "var(--pink)", textTransform: "uppercase", letterSpacing: ".08em", margin: 0 }}>
-                SERVER INTEGRATION CODE snippet (@supabase/server)
+                SERVER INTEGRATION CODE SNIPPET (@supabase/server)
               </h4>
               <button
                 type="button"
@@ -735,7 +731,7 @@ export function SupabaseConsole() {
             <span style={{ font: ".75rem var(--mono)", color: "var(--dim)", textTransform: "uppercase" }}>Push Migrations to Database</span>
             <div className="copy-command" style={{ marginTop: ".3rem" }}>
               <div className="copy-command-text">
-                supabase db push
+                npx supabase db push
               </div>
               <button
                 type="button"
