@@ -5,19 +5,20 @@
  *
  * Returns an approximate global fusion count: { count: number }
  *
- * Reads from Cloudflare KV (CRAFT_KV) under the key "stats:total-fusions".
- * The fuse route increments this counter on every new (non-cached) fusion.
- * Falls back to a hardcoded baseline when the binding is unavailable (localhost).
+ * Primary source: Supabase craft_stats table (`total_fusions`).
+ * Fallback source: Cloudflare KV (CRAFT_KV) under key "stats:total-fusions".
  *
  * Design guarantees (matches the fuse route pattern):
  *  • NEVER 500s — every error path returns a valid { count: N } JSON response.
- *  • FULLY PLAYABLE ON LOCALHOST — KV binding absent = dev fallback baseline.
+ *  • FULLY PLAYABLE ON LOCALHOST — missing bindings/credentials fall back gracefully.
  *  • NO PII — count only, no pair keys, no user data.
  *
  * Binding required in wrangler.jsonc: CRAFT_KV (same namespace as fuse route).
+ * Env required for Supabase: SUPABASE_URL + SUPABASE_SECRET_KEY.
  */
 
 import { NextResponse } from "next/server";
+import { getSupabaseServiceClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,8 +36,31 @@ interface StatsBindings {
 }
 
 const STATS_KEY = "stats:total-fusions";
-/** Dev-mode baseline — something plausible but not embarrassingly low. */
-const DEV_FALLBACK_COUNT = 4_312;
+
+// ---------------------------------------------------------------------------
+// Supabase count lookup
+// ---------------------------------------------------------------------------
+
+async function getSupabaseFusionCount(): Promise<number | null> {
+  try {
+    const sb = getSupabaseServiceClient();
+    if (!sb) return null;
+
+    const { data, error } = await sb
+      .from("craft_stats")
+      .select("value")
+      .eq("key", "total_fusions")
+      .maybeSingle();
+
+    if (error || !data || typeof data.value !== "number") {
+      return null;
+    }
+
+    return Number(data.value);
+  } catch {
+    return null;
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Binding resolution (identical guard pattern to fuse route)
@@ -59,27 +83,28 @@ async function resolveBindings(): Promise<StatsBindings> {
 
 export async function GET(): Promise<Response> {
   try {
+    // 1. Try Supabase live telemetry count first
+    const sbCount = await getSupabaseFusionCount();
+    if (sbCount !== null) {
+      return NextResponse.json({ count: sbCount });
+    }
+
+    // 2. Fall back to Cloudflare KV counter
     const bindings = await resolveBindings();
-
-    if (!bindings.CRAFT_KV) {
-      // Localhost / no CF binding — return the dev baseline.
-      return NextResponse.json({ count: DEV_FALLBACK_COUNT });
+    if (bindings.CRAFT_KV) {
+      const raw = await bindings.CRAFT_KV.get(STATS_KEY);
+      if (raw !== null) {
+        const count = parseInt(raw, 10);
+        if (!isNaN(count)) {
+          return NextResponse.json({ count });
+        }
+      }
     }
 
-    const raw = await bindings.CRAFT_KV.get(STATS_KEY);
-    if (raw === null) {
-      // KV key doesn't exist yet (brand new deployment) — return 0 (or baseline).
-      return NextResponse.json({ count: 0 });
-    }
-
-    const count = parseInt(raw, 10);
-    if (isNaN(count)) {
-      return NextResponse.json({ count: DEV_FALLBACK_COUNT });
-    }
-
-    return NextResponse.json({ count });
+    // 3. Fallback when neither Supabase nor KV are available
+    return NextResponse.json({ count: 0 });
   } catch {
-    // Any unexpected error — return baseline rather than 500.
-    return NextResponse.json({ count: DEV_FALLBACK_COUNT });
+    // Any unexpected error — return 0 count rather than 500.
+    return NextResponse.json({ count: 0 });
   }
 }
