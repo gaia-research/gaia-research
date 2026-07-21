@@ -1567,8 +1567,8 @@ function InstancePopover({
             </span>
           )}
           {card.source === 'mcp' && (
-            <span className="craft-badge craft-badge-mcp" title="Model Context Protocol Server tool.">
-              🔌 MCP Server
+            <span className="craft-badge craft-badge-mcp" title="Model Context Protocol Agent Tool & Skill.">
+              🔌 MCP Tool
             </span>
           )}
           {card.source === 'anthropic' && (
