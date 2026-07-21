@@ -38,7 +38,11 @@ import { pairKey } from '@/lib/craft/types';
 import type { FusionResult, FusionTier } from '@/lib/craft/types';
 import { findRecipe, skillTreeUrl } from '@/lib/craft/recipes';
 import { findStarterRecipe } from '@/lib/craft/starter-recipes';
-import { lookupNamedSkill, namedContributor } from '@/lib/craft/named-index';
+import {
+  getAllNamedSkillSlugs,
+  lookupNamedSkill,
+  namedContributor,
+} from '@/lib/craft/named-index';
 import {
   buildFusionPrompt,
   FUSION_MODEL,
@@ -604,7 +608,8 @@ export async function POST(request: Request): Promise<Response> {
       let raw: RawFusionJson;
       if (bindings.AI) {
         try {
-          const messages = buildFusionPrompt(na, nb);
+          const candidateSlugs = getAllNamedSkillSlugs();
+          const messages = buildFusionPrompt(na, nb, candidateSlugs);
           const response = await bindings.AI.run(FUSION_MODEL, {
             messages,
             temperature: FUSION_TEMPERATURE,

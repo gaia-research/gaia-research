@@ -10,7 +10,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { lookupNamedSkill, namedContributor } from './named-index';
+import { lookupNamedSkill, namedContributor, getAllNamedSkillSlugs } from './named-index';
 
 describe('lookupNamedSkill', () => {
   it('returns the real registry fields for a known slug (scrape → garrytan)', () => {
@@ -80,3 +80,14 @@ describe('namedContributor', () => {
     expect(namedContributor('')).toBeUndefined();
   });
 });
+
+describe('getAllNamedSkillSlugs', () => {
+  it('returns an array of all named skill slugs', () => {
+    const slugs = getAllNamedSkillSlugs();
+    expect(Array.isArray(slugs)).toBe(true);
+    expect(slugs.length).toBeGreaterThan(0);
+    expect(slugs).toContain('scrape');
+    expect(slugs).toContain('design-html');
+  });
+});
+

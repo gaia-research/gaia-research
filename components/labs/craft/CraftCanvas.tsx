@@ -981,6 +981,42 @@ export function CraftCanvas() {
     announce("All curses cleansed.");
   }, [activeCurses, flashToast, announce]);
 
+  // ── Tidy canvas (sweeps experimental / non-skill cards off canvas) ─────────
+  const tidyCanvas = useCallback(() => {
+    if (nodesRef.current.length === 0) return;
+    const currentNodes = nodesRef.current;
+    const prunedIds = new Set<string>();
+
+    const remaining = currentNodes.filter((n) => {
+      const card = cardById(n.cardId);
+      if (!card) return true;
+      const isPrunable =
+        card.experimental === true ||
+        card.passesSkillCheck === false ||
+        card.inert === true;
+      if (isPrunable) {
+        prunedIds.add(n.instanceId);
+        return false;
+      }
+      return true;
+    });
+
+    if (prunedIds.size === 0) {
+      flashToast("No experimental cards to tidy, boss.");
+      return;
+    }
+
+    setNodes(remaining);
+    setSelected((prev) => prev.filter((id) => !prunedIds.has(id)));
+    setPopover((prev) => (prev && prunedIds.has(prev) ? null : prev));
+    flashToast(
+      `Swept ${prunedIds.size} experimental card${
+        prunedIds.size === 1 ? "" : "s"
+      } off the canvas, boss.`
+    );
+    announce(`Tidied ${prunedIds.size} cards from canvas.`);
+  }, [cardById, flashToast, announce]);
+
   // ── Clear canvas (keeps discoveries + curses) ──────────────────────────────
   const clearCanvas = useCallback(() => {
     if (nodesRef.current.length === 0) return;
@@ -1207,6 +1243,15 @@ export function CraftCanvas() {
               <b>tap</b> a result for its details. Curses are cosmetic and always cleansable.
             </p>
             <div className="craft-foot-controls">
+              <button
+                type="button"
+                className="craft-tidy"
+                onClick={tidyCanvas}
+                disabled={nodes.length === 0}
+                title="Sweep experimental and non-skill cards off the canvas"
+              >
+                Tidy canvas
+              </button>
               <button
                 type="button"
                 className="craft-clear"
