@@ -310,7 +310,7 @@ interface StoredFusion {
   /** Only present for canonical results that map to a real named skill. */
   slug?: string;
   contributor?: string;
-  source?: 'anthropic' | 'mattpocock' | 'addyosmani' | 'superpowers' | 'skillkit' | 'glincker' | 'registry';
+  source?: 'skillsmp' | 'skillkit' | 'glincker' | 'anthropic' | 'nousresearch' | 'registry';
   sourceUrl?: string;
   /** Curse metadata (rare easter-egg outcome). */
   cursed?: boolean;

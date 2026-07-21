@@ -1520,27 +1520,6 @@
       "src": "anthropic",
       "srcUrl": "https://github.com/anthropics/skills/tree/main/skills/pdf-processor"
     },
-    "mattpocock-typescript-pro": {
-      "c": "mattpocock",
-      "t": "Matt Pocock TypeScript Type Surgery",
-      "d": "Matt Pocock SKILL.md for diagnosing complex generic types, infer types, and type assertions.",
-      "src": "mattpocock",
-      "srcUrl": "https://github.com/mattpocock/skills"
-    },
-    "addyosmani-web-perf-audit": {
-      "c": "addyosmani",
-      "t": "Addy Osmani Web Performance Audit",
-      "d": "Addy Osmani SKILL.md for analyzing Core Web Vitals, bundle size, and rendering bottlenecks.",
-      "src": "addyosmani",
-      "srcUrl": "https://github.com/addyosmani/agent-skills"
-    },
-    "obra-superpowers-system-audit": {
-      "c": "obra",
-      "t": "Superpowers System Security Audit",
-      "d": "Obra Superpowers SKILL.md for scanning dependencies, shell environment, and permission risks.",
-      "src": "superpowers",
-      "srcUrl": "https://github.com/obra/superpowers"
-    },
     "skillkit-react-testing-suite": {
       "c": "skillkit",
       "t": "SkillKit React Component Testing Package",
@@ -1554,6 +1533,20 @@
       "d": "GLINCKER Claude Code Marketplace SKILL.md for incremental refactoring and clean code architecture.",
       "src": "glincker",
       "srcUrl": "https://github.com/GLINCKER/claude-code-marketplace"
+    },
+    "skillsmp-web-audit": {
+      "c": "skillsmp",
+      "t": "SkillsMP Web Performance Audit Skill",
+      "d": "SkillsMP marketplace SKILL.md for analyzing performance and rendering bottlenecks.",
+      "src": "skillsmp",
+      "srcUrl": "https://skillsmp.com"
+    },
+    "nousresearch-hermes-agent-orchestrator": {
+      "c": "nousresearch",
+      "t": "NousResearch Hermes Agent Swarm Orchestrator",
+      "d": "Official NousResearch Hermes Agent SKILL.md for multi-agent swarm orchestration.",
+      "src": "nousresearch",
+      "srcUrl": "https://github.com/NousResearch/hermes-agent"
     }
   },
   "slugToContributor": {
@@ -1774,11 +1767,10 @@
     "anthropic-code-interpreter": "anthropics",
     "anthropic-frontend-design": "anthropics",
     "anthropic-pdf-processor": "anthropics",
-    "mattpocock-typescript-pro": "mattpocock",
-    "addyosmani-web-perf-audit": "addyosmani",
-    "obra-superpowers-system-audit": "obra",
     "skillkit-react-testing-suite": "skillkit",
-    "glincker-claude-refactor-pro": "glincker"
+    "glincker-claude-refactor-pro": "glincker",
+    "skillsmp-web-audit": "skillsmp",
+    "nousresearch-hermes-agent-orchestrator": "nousresearch"
   },
   "unlinkedSlugs": []
 }

@@ -1,12 +1,17 @@
 /**
  * scripts/craft/sync-marketplace.ts
  *
- * Automated ingestion of external agent skill marketplaces and repositories (SKILL.md specs).
- * Source registry: gaia-skill-tree/registry/skill-sources.md
+ * Automated ingestion of allowed external agent skill marketplaces.
+ * Approved Load-Bearing Marketplaces:
+ *   1. SkillsMP (`skillsmp`)
+ *   2. SkillKit (`skillkit`)
+ *   3. GLINCKER Claude Marketplace (`glincker`)
+ *   4. Anthropic Official Skills (`anthropic`)
+ *   5. NousResearch Hermes Agent (`nousresearch`)
  *
- * Merges external SKILL.md skills into data/craft/named-index.json with source metadata
- * (`src`, `srcUrl`), enabling Infinite Skill Craft to promote emergent fusions
- * directly into real external ecosystem skills (Anthropic, SkillKit, Matt Pocock, Superpowers).
+ * BLACKLIST ENFORCEMENT: Any source outside of these approved marketplaces
+ * (e.g. personal individual repos, mcp servers, npm packages, etc.) is strictly
+ * blocked/blacklisted from marketplace ingestion.
  *
  * Usage: npx tsx scripts/craft/sync-marketplace.ts
  */
@@ -17,7 +22,16 @@ import path from 'node:path';
 const INDEX_PATH = path.resolve(__dirname, '../../data/craft/named-index.json');
 const ROSTER_PATH = path.resolve(__dirname, '../../data/craft/contributors.json');
 
-type SkillSourceType = 'anthropic' | 'mattpocock' | 'addyosmani' | 'superpowers' | 'skillkit' | 'glincker' | 'registry';
+/** Approved load-bearing marketplaces strictly allowed in Infinite Skill Craft */
+export const ALLOWED_MARKETPLACES = [
+  'skillsmp',
+  'skillkit',
+  'glincker',
+  'anthropic',
+  'nousresearch',
+] as const;
+
+export type AllowedMarketplace = (typeof ALLOWED_MARKETPLACES)[number];
 
 interface ContributorRoster {
   total: number;
@@ -30,7 +44,7 @@ interface RawSkillRecord {
   g?: string;
   d: string;
   lvl?: string;
-  src?: SkillSourceType;
+  src?: AllowedMarketplace | 'registry';
   srcUrl?: string;
 }
 
@@ -41,15 +55,39 @@ interface NamedIndexJson {
   unlinkedSlugs: string[];
 }
 
-/** Pre-indexed seed SKILL.md agent marketplace skills from skill-sources.md */
+/** Pre-indexed seed SKILL.md marketplace skills from allowed sources only */
 const MARKETPLACE_SEEDS: Array<{
   slug: string;
   contributor: string;
   title: string;
   description: string;
-  src: SkillSourceType;
+  src: AllowedMarketplace;
   srcUrl: string;
 }> = [
+  {
+    slug: 'skillsmp-web-audit',
+    contributor: 'skillsmp',
+    title: 'SkillsMP Web Performance Audit Skill',
+    description: 'SkillsMP marketplace SKILL.md for analyzing performance and rendering bottlenecks.',
+    src: 'skillsmp',
+    srcUrl: 'https://skillsmp.com',
+  },
+  {
+    slug: 'skillkit-react-testing-suite',
+    contributor: 'skillkit',
+    title: 'SkillKit React Component Testing Package',
+    description: 'SkillKit marketplace SKILL.md package for scaffolding unit and component tests.',
+    src: 'skillkit',
+    srcUrl: 'https://skillkit.io',
+  },
+  {
+    slug: 'glincker-claude-refactor-pro',
+    contributor: 'glincker',
+    title: 'GLINCKER Claude Code Refactoring Skill',
+    description: 'GLINCKER Claude Code Marketplace SKILL.md for incremental refactoring and architecture.',
+    src: 'glincker',
+    srcUrl: 'https://github.com/GLINCKER/claude-code-marketplace',
+  },
   {
     slug: 'anthropic-frontend-design',
     contributor: 'anthropics',
@@ -67,44 +105,12 @@ const MARKETPLACE_SEEDS: Array<{
     srcUrl: 'https://github.com/anthropics/skills/tree/main/skills/pdf-processor',
   },
   {
-    slug: 'mattpocock-typescript-pro',
-    contributor: 'mattpocock',
-    title: 'Matt Pocock TypeScript Type Surgery',
-    description: 'Matt Pocock SKILL.md for diagnosing complex generic types, infer types, and type assertions.',
-    src: 'mattpocock',
-    srcUrl: 'https://github.com/mattpocock/skills',
-  },
-  {
-    slug: 'addyosmani-web-perf-audit',
-    contributor: 'addyosmani',
-    title: 'Addy Osmani Web Performance Audit',
-    description: 'Addy Osmani SKILL.md for analyzing Core Web Vitals, bundle size, and rendering bottlenecks.',
-    src: 'addyosmani',
-    srcUrl: 'https://github.com/addyosmani/agent-skills',
-  },
-  {
-    slug: 'obra-superpowers-system-audit',
-    contributor: 'obra',
-    title: 'Superpowers System Security Audit',
-    description: 'Obra Superpowers SKILL.md for scanning dependencies, shell environment, and permission risks.',
-    src: 'superpowers',
-    srcUrl: 'https://github.com/obra/superpowers',
-  },
-  {
-    slug: 'skillkit-react-testing-suite',
-    contributor: 'skillkit',
-    title: 'SkillKit React Component Testing Package',
-    description: 'SkillKit marketplace package for scaffolding Vitest and React Testing Library unit tests.',
-    src: 'skillkit',
-    srcUrl: 'https://skillkit.io',
-  },
-  {
-    slug: 'glincker-claude-refactor-pro',
-    contributor: 'glincker',
-    title: 'GLINCKER Claude Code Refactoring Skill',
-    description: 'GLINCKER Claude Code Marketplace SKILL.md for incremental refactoring and clean code architecture.',
-    src: 'glincker',
-    srcUrl: 'https://github.com/GLINCKER/claude-code-marketplace',
+    slug: 'nousresearch-hermes-agent-orchestrator',
+    contributor: 'nousresearch',
+    title: 'NousResearch Hermes Agent Swarm Orchestrator',
+    description: 'Official NousResearch Hermes Agent SKILL.md for multi-agent swarm orchestration.',
+    src: 'nousresearch',
+    srcUrl: 'https://github.com/NousResearch/hermes-agent',
   },
 ];
 
@@ -114,22 +120,27 @@ export function syncMarketplaceSkills(): { added: number; total: number } {
     return { added: 0, total: 0 };
   }
 
-  // Purge any legacy MCP seeds from named-index.json to keep index pure SKILL.md only
   const raw = fs.readFileSync(INDEX_PATH, 'utf8');
   const index = JSON.parse(raw) as NamedIndexJson;
 
-  delete index.skills['mcp-postgres-connector'];
-  delete index.skills['mcp-brave-search'];
-  delete index.skills['skillsmp-github-automation'];
-  delete index.skills['obra-superpowers-bash'];
-  delete index.slugToContributor['mcp-postgres-connector'];
-  delete index.slugToContributor['mcp-brave-search'];
-  delete index.slugToContributor['skillsmp-github-automation'];
-  delete index.slugToContributor['obra-superpowers-bash'];
+  // BLACKLIST ENFORCEMENT: Purge any non-allowed external marketplace seeds
+  const allowedSet = new Set<string>([...ALLOWED_MARKETPLACES, 'registry']);
+  for (const [slug, rec] of Object.entries(index.skills)) {
+    if (rec.src && !allowedSet.has(rec.src)) {
+      delete index.skills[slug];
+      delete index.slugToContributor[slug];
+    }
+  }
 
   let addedCount = 0;
 
   for (const item of MARKETPLACE_SEEDS) {
+    // Blacklist guardrail check
+    if (!ALLOWED_MARKETPLACES.includes(item.src)) {
+      console.warn(`⛔ Blocked blacklisted marketplace source: ${item.src}`);
+      continue;
+    }
+
     if (!index.skills[item.slug]) {
       index.skills[item.slug] = {
         c: item.contributor,
@@ -155,7 +166,7 @@ export function syncMarketplaceSkills(): { added: number; total: number } {
 
   fs.writeFileSync(ROSTER_PATH, JSON.stringify(roster, null, 2), 'utf8');
   fs.writeFileSync(INDEX_PATH, JSON.stringify(index, null, 2), 'utf8');
-  console.log(`✅ Ingested ${addedCount} SKILL.md marketplace skills into named-index.json (Total: ${Object.keys(index.skills).length})`);
+  console.log(`✅ Ingested ${addedCount} approved marketplace skills into named-index.json (Total: ${Object.keys(index.skills).length})`);
   return { added: addedCount, total: Object.keys(index.skills).length };
 }
 

@@ -1566,24 +1566,9 @@ function InstancePopover({
               ★ Real Skill
             </span>
           )}
-          {card.source === 'anthropic' && (
-            <span className="craft-badge craft-badge-anthropic" title="Official Anthropic Agent SKILL.md.">
-              🦙 Anthropic Skill
-            </span>
-          )}
-          {card.source === 'mattpocock' && (
-            <span className="craft-badge craft-badge-pocock" title="Matt Pocock Agent SKILL.md.">
-              ⚡ Matt Pocock Skill
-            </span>
-          )}
-          {card.source === 'addyosmani' && (
-            <span className="craft-badge craft-badge-addy" title="Addy Osmani Agent SKILL.md.">
-              🚀 Addy Osmani Skill
-            </span>
-          )}
-          {card.source === 'superpowers' && (
-            <span className="craft-badge craft-badge-superpowers" title="Obra Superpowers Agent SKILL.md.">
-              🦸 Superpowers Skill
+          {card.source === 'skillsmp' && (
+            <span className="craft-badge craft-badge-skillsmp" title="SkillsMP Marketplace SKILL.md.">
+              🌐 SkillsMP Skill
             </span>
           )}
           {card.source === 'skillkit' && (
@@ -1594,6 +1579,16 @@ function InstancePopover({
           {card.source === 'glincker' && (
             <span className="craft-badge craft-badge-glincker" title="GLINCKER Claude Code Marketplace SKILL.md.">
               🤖 GLINCKER Skill
+            </span>
+          )}
+          {card.source === 'anthropic' && (
+            <span className="craft-badge craft-badge-anthropic" title="Official Anthropic Agent SKILL.md.">
+              🦙 Anthropic Skill
+            </span>
+          )}
+          {card.source === 'nousresearch' && (
+            <span className="craft-badge craft-badge-nous" title="NousResearch Hermes Agent SKILL.md.">
+              🧠 NousResearch Skill
             </span>
           )}
           {easteregg && !card.cursed && (
