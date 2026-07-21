@@ -10,12 +10,12 @@
  *   3. A Supabase failure never throws or affects the caller
  */
 
-import { describe, it, expect, vi, beforeEach, type MockInstance } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // ── Mock @/lib/supabase/server before importing telemetry ───────────────────
 const mockInsert = vi.fn().mockResolvedValue({ error: null });
 const mockFrom = vi.fn(() => ({ insert: mockInsert }));
-const mockClient = { from: mockFrom };
+const mockClient = { from: mockFrom } as any;
 
 vi.mock('@/lib/supabase/server', () => ({
   getSupabaseServiceClient: vi.fn(() => mockClient),
@@ -32,7 +32,7 @@ const flush = () => new Promise<void>((r) => setTimeout(r, 0));
 beforeEach(() => {
   vi.clearAllMocks();
   mockInsert.mockResolvedValue({ error: null });
-  (getSupabaseServiceClient as MockInstance).mockReturnValue(mockClient);
+  vi.mocked(getSupabaseServiceClient).mockReturnValue(mockClient);
 });
 
 // ── Tests ────────────────────────────────────────────────────────────────────
@@ -85,7 +85,7 @@ describe('recordFusionEvent', () => {
   });
 
   it('does not throw when getSupabaseServiceClient returns null', async () => {
-    (getSupabaseServiceClient as MockInstance).mockReturnValue(null);
+    vi.mocked(getSupabaseServiceClient).mockReturnValue(null);
 
     expect(() => recordFusionEvent('canonical', false, 'a+b')).not.toThrow();
     await flush();
