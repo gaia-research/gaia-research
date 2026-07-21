@@ -120,18 +120,21 @@ command + observed output), landing in `gaia-research` via its implementing PR
 **A negative result is a first-class finding (D8)** — recorded, and the D10
 copy it blocks changes rather than ships anyway.
 
-| Gate | Question | Blocks |
-|---|---|---|
-| **(a) `--resume` recomposition** | Does `claude --resume <id>` with a *new* `--plugin-dir`/`--setting-sources` profile compose the **new** profile at boot (T9-route relaunch + listing probe)? | `/skill-heaven` honest-switch copy; WS4 step 2 |
-| **(b) statusline API** | Segment mechanism (settings `statusLine` command shape on the pinned version), its input JSON, and **where the standing-dose number comes from** (census over the composed loadout at compile time vs. live introspection) | WS4 step 1 statusline segment |
-| **(c) plugin self-dose (D4)** | Standing tokens the `/skill-heaven` + `/skill-hell` commands themselves add to every session — priced via census method and published (the tool must not be its own bloat) | WS4 steps 2–3 copy; README claims |
-| **(d) marketplace-from-monorepo** | Multi-plugin subdirectory + marketplace manifest layout on the pinned version; `claude-heaven` installable from the repo | WS2 marketplace claim; install docs |
+| Gate | Question | Status | Blocks |
+|---|---|---|---|
+| **(a) in-session recomposition** | Can `--resume`/`--fork-session` with a new profile recompose *subtractively* at boot? | ✅ **RESOLVED NEGATIVE (2026-07-22, 2.1.216)** — subtractive is launcher-locked; user-scope survives every continued session. Matrix gate (a); **D12**. | (unblocked) `/skill-heaven` copy; WS4 step 2 |
+| **(b) statusline API** | Segment mechanism, input JSON, and **where the standing-dose number comes from** (census vs. live) | ✅ **RESOLVED (2026-07-22)** — census-derived; `context_window` counts are running-usage, not standing. Matrix gate (b). | WS4 step 1 statusline segment |
+| **(c) plugin self-dose (D4)** | Standing tokens the `/skill-heaven` + `/skill-hell` commands themselves add | ✅ ≈57 tok/session (matrix gate (c)) | WS4 steps 2–3 copy; README claims |
+| **(d) marketplace-from-monorepo** | Multi-plugin subdirectory + marketplace manifest layout; `claude-heaven` installable from the repo | ⏳ pending WS2 | WS2 marketplace claim; install docs |
+| **(e) behavioral restraint (D13)** | Does a heaven-native skill (`grill-me` class) reliably suppress *use* of in-context skills without a physical purge? | ❓ **UNVERIFIED — research track (gaia-skill-tree)**. Matrix gate (e). | the below-vanilla behavioral notch in WS4 slider copy |
 
-Gates (a)–(c) need only the existing repo layout and can run immediately;
-(d) rides the WS2 restructure PR. If (a) resolves **negative**, the honest
-switch becomes honest-new-session copy ("relaunch starts a fresh conversation")
-— flag to the owner before shipping; do not improvise a workaround on an
-unverified cell.
+Gates (a)–(c) are **resolved** (matrix rows landed). Gate (a) came back
+**NEGATIVE for subtractive in-session recomposition** — this did **not** collapse
+to "honest-new-session copy"; it produced the **two-dose design** (D12) and the
+**one-slider surface** (D13): `claude-heaven` launcher owns the subtractive floor,
+`/skill-heaven` is the in-session upward scalpel with a launcher-locked lower
+bound. Gate (d) rides WS2; gate (e) is research-pending (D13) and blocks only the
+behavioral notch, not the MVP physical slider.
 
 ### WS4 — claude-heaven slice 1 (flagship, D10)
 
@@ -142,13 +145,25 @@ Strict order, each step gated:
    summoning, no flags injected beyond the statusline wiring — plus the
    posture/standing-dose readout (shape per RFC #68: `⚡ native · 14.2k
    standing`). The ambient number is the pain moment the scalpel serves.
-2. **`/skill-heaven` honest switch** (needs gate a): posture picker
-   (floor/curated/native) that **composes the new profile and prints the exact
-   relaunch command with `--resume` baked in**. No magic respawn — the
-   flagship interaction never rides an unverified cell.
-3. **`/skill-hell` locked door**: benchmark status, ledger link, "opens when
-   Hell is proven safe" (B4 made visible; converts pull into #62 attention).
-   Copy bound by the claim-discipline table; needs gate (c) pricing only.
+2. **`/skill-heaven` posture slider** (gate a resolved; **D12/D13**): the active
+   **downward** control, summonable anytime. It renders the posture slider and
+   moves the session **upward** from the launch floor (additive `--plugin-dir`,
+   bundled toggle) — it **cannot** physically descend below the launch floor.
+   Therefore:
+   - Under **`claude-heaven`** (launched at the floor) the slider is fully
+     unlocked downward.
+   - Under **vanilla claude** the lower notches render **visibly locked** —
+     *"relaunch via `claude-heaven` to unlock the clean room"* (locked-notch
+     upsell). No magic respawn; the flagship never rides an unverified cell.
+   - The **below-vanilla behavioral notch** (heaven-native restraint, D13) renders
+     as "coming — research" until **gate (e)** passes; MVP ships the physical
+     slider only.
+3. **`/skill-hell` locked door** (D13: **shown in ALL modes**): benchmark status,
+   ledger link, "opens when Hell is proven safe" (B4 made visible; converts pull
+   into #62 attention). Stays the consistent locked gate across vanilla /
+   `claude-heaven` / `pi-heaven`; the additive upward capability is not exposed as
+   an active control until P2 opens it. Copy bound by the claim-discipline table;
+   needs gate (c) pricing only.
 
 Acceptance per step: zero-mutation check (`git status` clean, `~/.claude`
 untouched, temp dirs gone); statusline number cross-checks `census.ts` on the
@@ -230,9 +245,10 @@ codex/grok column completion; ledger v2 fields.
 3. **VISION.md + master RFC rewrite scheduling** — both flagged pending; VISION
    also pends the N1 slider-language rewrite, so it may warrant one combined
    pass.
-4. **Gate (a) negative contingency** — if `--resume` does not recompose, the
-   honest switch becomes honest-new-session copy; owner sees the reworded
-   interaction before it ships.
+4. ~~**Gate (a) negative contingency**~~ — **RESOLVED 2026-07-22.** Gate (a)
+   came back NEGATIVE for subtractive in-session recomposition; owner ratified the
+   two-dose design (D12) + one-slider surface (D13) rather than an
+   honest-new-session climbdown. See the WS3 gate table above and matrix gate (a).
 
 ## Appendix A — issue #62 replacement copy (draft)
 
