@@ -30,6 +30,10 @@ create table if not exists public.craft_fusion_events (
   pair_key    text not null check (char_length(pair_key) <= 128)
 );
 
+alter table public.craft_fusion_events add column if not exists tier text check (tier in ('canonical', 'easteregg', 'emergent'));
+alter table public.craft_fusion_events add column if not exists cache_hit boolean;
+alter table public.craft_fusion_events add column if not exists pair_key text check (char_length(pair_key) <= 128);
+
 create index if not exists craft_fusion_events_created_idx
   on public.craft_fusion_events (created_at desc);
 
