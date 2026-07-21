@@ -1566,19 +1566,34 @@ function InstancePopover({
               ★ Real Skill
             </span>
           )}
-          {card.source === 'mcp' && (
-            <span className="craft-badge craft-badge-mcp" title="Model Context Protocol Agent Tool & Skill.">
-              🔌 MCP Tool
-            </span>
-          )}
           {card.source === 'anthropic' && (
-            <span className="craft-badge craft-badge-anthropic" title="Official Anthropic Agent Skill.">
+            <span className="craft-badge craft-badge-anthropic" title="Official Anthropic Agent SKILL.md.">
               🦙 Anthropic Skill
             </span>
           )}
-          {card.source === 'skillsmp' && (
-            <span className="craft-badge craft-badge-skillsmp" title="SkillsMP Marketplace Skill.">
-              🌐 SkillsMP Skill
+          {card.source === 'mattpocock' && (
+            <span className="craft-badge craft-badge-pocock" title="Matt Pocock Agent SKILL.md.">
+              ⚡ Matt Pocock Skill
+            </span>
+          )}
+          {card.source === 'addyosmani' && (
+            <span className="craft-badge craft-badge-addy" title="Addy Osmani Agent SKILL.md.">
+              🚀 Addy Osmani Skill
+            </span>
+          )}
+          {card.source === 'superpowers' && (
+            <span className="craft-badge craft-badge-superpowers" title="Obra Superpowers Agent SKILL.md.">
+              🦸 Superpowers Skill
+            </span>
+          )}
+          {card.source === 'skillkit' && (
+            <span className="craft-badge craft-badge-skillkit" title="SkillKit Marketplace SKILL.md Package.">
+              📦 SkillKit Package
+            </span>
+          )}
+          {card.source === 'glincker' && (
+            <span className="craft-badge craft-badge-glincker" title="GLINCKER Claude Code Marketplace SKILL.md.">
+              🤖 GLINCKER Skill
             </span>
           )}
           {easteregg && !card.cursed && (

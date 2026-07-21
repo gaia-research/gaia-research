@@ -1,12 +1,12 @@
 /**
  * scripts/craft/sync-marketplace.ts
  *
- * Automated ingestion of external marketplace and open-source agent skills.
+ * Automated ingestion of external agent skill marketplaces and repositories (SKILL.md specs).
  * Source registry: gaia-skill-tree/registry/skill-sources.md
  *
- * Merges external skills into data/craft/named-index.json with source metadata
+ * Merges external SKILL.md skills into data/craft/named-index.json with source metadata
  * (`src`, `srcUrl`), enabling Infinite Skill Craft to promote emergent fusions
- * directly into real external ecosystem skills (MCP, Anthropic, SkillsMP).
+ * directly into real external ecosystem skills (Anthropic, SkillKit, Matt Pocock, Superpowers).
  *
  * Usage: npx tsx scripts/craft/sync-marketplace.ts
  */
@@ -16,6 +16,8 @@ import path from 'node:path';
 
 const INDEX_PATH = path.resolve(__dirname, '../../data/craft/named-index.json');
 const ROSTER_PATH = path.resolve(__dirname, '../../data/craft/contributors.json');
+
+type SkillSourceType = 'anthropic' | 'mattpocock' | 'addyosmani' | 'superpowers' | 'skillkit' | 'glincker' | 'registry';
 
 interface ContributorRoster {
   total: number;
@@ -28,7 +30,7 @@ interface RawSkillRecord {
   g?: string;
   d: string;
   lvl?: string;
-  src?: 'mcp' | 'anthropic' | 'skillsmp' | 'registry';
+  src?: SkillSourceType;
   srcUrl?: string;
 }
 
@@ -39,62 +41,70 @@ interface NamedIndexJson {
   unlinkedSlugs: string[];
 }
 
-/** Pre-indexed seed marketplace skills from skill-sources.md */
+/** Pre-indexed seed SKILL.md agent marketplace skills from skill-sources.md */
 const MARKETPLACE_SEEDS: Array<{
   slug: string;
   contributor: string;
   title: string;
   description: string;
-  src: 'mcp' | 'anthropic' | 'skillsmp' | 'registry';
+  src: SkillSourceType;
   srcUrl: string;
 }> = [
   {
-    slug: 'anthropic-web-search',
+    slug: 'anthropic-frontend-design',
     contributor: 'anthropics',
-    title: 'Anthropic Web Search & Research Skill',
-    description: 'Official Anthropic agent skill for searching the web and synthesizing citations.',
+    title: 'Anthropic Frontend Design Skill',
+    description: 'Official Anthropic SKILL.md for generating responsive UI components and design tokens.',
     src: 'anthropic',
-    srcUrl: 'https://github.com/anthropics/skills',
+    srcUrl: 'https://github.com/anthropics/skills/tree/main/skills/frontend-design',
   },
   {
-    slug: 'anthropic-code-interpreter',
+    slug: 'anthropic-pdf-processor',
     contributor: 'anthropics',
-    title: 'Anthropic Code Interpreter Skill',
-    description: 'Executes Python code in a secure sandbox to solve data and analysis tasks.',
+    title: 'Anthropic PDF Document Parser',
+    description: 'Official Anthropic SKILL.md for extracting structured markdown and tables from PDF documents.',
     src: 'anthropic',
-    srcUrl: 'https://github.com/anthropics/skills',
+    srcUrl: 'https://github.com/anthropics/skills/tree/main/skills/pdf-processor',
   },
   {
-    slug: 'mcp-postgres-connector',
-    contributor: 'mcp-so',
-    title: 'MCP PostgreSQL Database Tool',
-    description: 'Model Context Protocol tool for inspecting schemas and executing PostgreSQL queries.',
-    src: 'mcp',
-    srcUrl: 'https://mcp.so',
+    slug: 'mattpocock-typescript-pro',
+    contributor: 'mattpocock',
+    title: 'Matt Pocock TypeScript Type Surgery',
+    description: 'Matt Pocock SKILL.md for diagnosing complex generic types, infer types, and type assertions.',
+    src: 'mattpocock',
+    srcUrl: 'https://github.com/mattpocock/skills',
   },
   {
-    slug: 'mcp-brave-search',
-    contributor: 'mcp-so',
-    title: 'MCP Brave Search Tool',
-    description: 'Model Context Protocol tool providing web and local search access to AI agents.',
-    src: 'mcp',
-    srcUrl: 'https://mcp.so',
+    slug: 'addyosmani-web-perf-audit',
+    contributor: 'addyosmani',
+    title: 'Addy Osmani Web Performance Audit',
+    description: 'Addy Osmani SKILL.md for analyzing Core Web Vitals, bundle size, and rendering bottlenecks.',
+    src: 'addyosmani',
+    srcUrl: 'https://github.com/addyosmani/agent-skills',
   },
   {
-    slug: 'skillsmp-github-automation',
-    contributor: 'skillsmp',
-    title: 'SkillsMP GitHub PR & Issue Workflow',
-    description: 'SkillsMP marketplace skill for triaging GitHub issues and managing pull requests.',
-    src: 'skillsmp',
-    srcUrl: 'https://skillsmp.com',
-  },
-  {
-    slug: 'obra-superpowers-bash',
+    slug: 'obra-superpowers-system-audit',
     contributor: 'obra',
-    title: 'Superpowers Autonomous Bash Controller',
-    description: 'Obra superpowers skill for executing terminal commands and inspecting system output.',
-    src: 'anthropic',
+    title: 'Superpowers System Security Audit',
+    description: 'Obra Superpowers SKILL.md for scanning dependencies, shell environment, and permission risks.',
+    src: 'superpowers',
     srcUrl: 'https://github.com/obra/superpowers',
+  },
+  {
+    slug: 'skillkit-react-testing-suite',
+    contributor: 'skillkit',
+    title: 'SkillKit React Component Testing Package',
+    description: 'SkillKit marketplace package for scaffolding Vitest and React Testing Library unit tests.',
+    src: 'skillkit',
+    srcUrl: 'https://skillkit.io',
+  },
+  {
+    slug: 'glincker-claude-refactor-pro',
+    contributor: 'glincker',
+    title: 'GLINCKER Claude Code Refactoring Skill',
+    description: 'GLINCKER Claude Code Marketplace SKILL.md for incremental refactoring and clean code architecture.',
+    src: 'glincker',
+    srcUrl: 'https://github.com/GLINCKER/claude-code-marketplace',
   },
 ];
 
@@ -104,8 +114,18 @@ export function syncMarketplaceSkills(): { added: number; total: number } {
     return { added: 0, total: 0 };
   }
 
+  // Purge any legacy MCP seeds from named-index.json to keep index pure SKILL.md only
   const raw = fs.readFileSync(INDEX_PATH, 'utf8');
   const index = JSON.parse(raw) as NamedIndexJson;
+
+  delete index.skills['mcp-postgres-connector'];
+  delete index.skills['mcp-brave-search'];
+  delete index.skills['skillsmp-github-automation'];
+  delete index.skills['obra-superpowers-bash'];
+  delete index.slugToContributor['mcp-postgres-connector'];
+  delete index.slugToContributor['mcp-brave-search'];
+  delete index.slugToContributor['skillsmp-github-automation'];
+  delete index.slugToContributor['obra-superpowers-bash'];
 
   let addedCount = 0;
 
@@ -135,7 +155,7 @@ export function syncMarketplaceSkills(): { added: number; total: number } {
 
   fs.writeFileSync(ROSTER_PATH, JSON.stringify(roster, null, 2), 'utf8');
   fs.writeFileSync(INDEX_PATH, JSON.stringify(index, null, 2), 'utf8');
-  console.log(`✅ Ingested ${addedCount} marketplace skills into named-index.json (Total: ${Object.keys(index.skills).length})`);
+  console.log(`✅ Ingested ${addedCount} SKILL.md marketplace skills into named-index.json (Total: ${Object.keys(index.skills).length})`);
   return { added: addedCount, total: Object.keys(index.skills).length };
 }
 

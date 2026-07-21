@@ -30,8 +30,8 @@ interface RawRecord {
   d: string;
   /** level badge, e.g. "2★" (optional) */
   lvl?: string;
-  /** source registry/marketplace (optional: 'mcp' | 'anthropic' | 'skillsmp' | 'registry') */
-  src?: 'mcp' | 'anthropic' | 'skillsmp' | 'registry';
+  /** source registry/marketplace (optional) */
+  src?: 'anthropic' | 'mattpocock' | 'addyosmani' | 'superpowers' | 'skillkit' | 'glincker' | 'registry';
   /** source URL (optional) */
   srcUrl?: string;
 }
@@ -67,7 +67,7 @@ export interface NamedSkill {
   /** level badge, e.g. "2★" (present when the registry provides it). */
   level?: string;
   /** source registry/marketplace (optional) */
-  source?: 'mcp' | 'anthropic' | 'skillsmp' | 'registry';
+  source?: 'anthropic' | 'mattpocock' | 'addyosmani' | 'superpowers' | 'skillkit' | 'glincker' | 'registry';
   /** source URL (optional) */
   sourceUrl?: string;
 }

@@ -1506,33 +1506,54 @@
       "src": "anthropic",
       "srcUrl": "https://github.com/anthropics/skills"
     },
-    "mcp-postgres-connector": {
-      "c": "mcp-so",
-      "t": "MCP PostgreSQL Database Connector",
-      "d": "Model Context Protocol server for inspecting schemas and querying PostgreSQL databases.",
-      "src": "mcp",
-      "srcUrl": "https://mcp.so"
-    },
-    "mcp-brave-search": {
-      "c": "mcp-so",
-      "t": "MCP Brave Search API Tool",
-      "d": "Model Context Protocol server providing web and local search access to AI agents.",
-      "src": "mcp",
-      "srcUrl": "https://mcp.so"
-    },
-    "skillsmp-github-automation": {
-      "c": "skillsmp",
-      "t": "SkillsMP GitHub PR & Issue Workflow",
-      "d": "SkillsMP marketplace skill for triaging GitHub issues and managing pull requests.",
-      "src": "skillsmp",
-      "srcUrl": "https://skillsmp.com"
-    },
-    "obra-superpowers-bash": {
-      "c": "obra",
-      "t": "Superpowers Autonomous Bash Controller",
-      "d": "Obra superpowers skill for executing terminal commands and inspecting system output.",
+    "anthropic-frontend-design": {
+      "c": "anthropics",
+      "t": "Anthropic Frontend Design Skill",
+      "d": "Official Anthropic SKILL.md for generating responsive UI components and design tokens.",
       "src": "anthropic",
+      "srcUrl": "https://github.com/anthropics/skills/tree/main/skills/frontend-design"
+    },
+    "anthropic-pdf-processor": {
+      "c": "anthropics",
+      "t": "Anthropic PDF Document Parser",
+      "d": "Official Anthropic SKILL.md for extracting structured markdown and tables from PDF documents.",
+      "src": "anthropic",
+      "srcUrl": "https://github.com/anthropics/skills/tree/main/skills/pdf-processor"
+    },
+    "mattpocock-typescript-pro": {
+      "c": "mattpocock",
+      "t": "Matt Pocock TypeScript Type Surgery",
+      "d": "Matt Pocock SKILL.md for diagnosing complex generic types, infer types, and type assertions.",
+      "src": "mattpocock",
+      "srcUrl": "https://github.com/mattpocock/skills"
+    },
+    "addyosmani-web-perf-audit": {
+      "c": "addyosmani",
+      "t": "Addy Osmani Web Performance Audit",
+      "d": "Addy Osmani SKILL.md for analyzing Core Web Vitals, bundle size, and rendering bottlenecks.",
+      "src": "addyosmani",
+      "srcUrl": "https://github.com/addyosmani/agent-skills"
+    },
+    "obra-superpowers-system-audit": {
+      "c": "obra",
+      "t": "Superpowers System Security Audit",
+      "d": "Obra Superpowers SKILL.md for scanning dependencies, shell environment, and permission risks.",
+      "src": "superpowers",
       "srcUrl": "https://github.com/obra/superpowers"
+    },
+    "skillkit-react-testing-suite": {
+      "c": "skillkit",
+      "t": "SkillKit React Component Testing Package",
+      "d": "SkillKit marketplace package for scaffolding Vitest and React Testing Library unit tests.",
+      "src": "skillkit",
+      "srcUrl": "https://skillkit.io"
+    },
+    "glincker-claude-refactor-pro": {
+      "c": "glincker",
+      "t": "GLINCKER Claude Code Refactoring Skill",
+      "d": "GLINCKER Claude Code Marketplace SKILL.md for incremental refactoring and clean code architecture.",
+      "src": "glincker",
+      "srcUrl": "https://github.com/GLINCKER/claude-code-marketplace"
     }
   },
   "slugToContributor": {
@@ -1751,10 +1772,13 @@
     "orchestkit-rag": "yonatangross",
     "anthropic-web-search": "anthropics",
     "anthropic-code-interpreter": "anthropics",
-    "mcp-postgres-connector": "mcp-so",
-    "mcp-brave-search": "mcp-so",
-    "skillsmp-github-automation": "skillsmp",
-    "obra-superpowers-bash": "obra"
+    "anthropic-frontend-design": "anthropics",
+    "anthropic-pdf-processor": "anthropics",
+    "mattpocock-typescript-pro": "mattpocock",
+    "addyosmani-web-perf-audit": "addyosmani",
+    "obra-superpowers-system-audit": "obra",
+    "skillkit-react-testing-suite": "skillkit",
+    "glincker-claude-refactor-pro": "glincker"
   },
   "unlinkedSlugs": []
 }
