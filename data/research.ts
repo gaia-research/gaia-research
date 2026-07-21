@@ -6,7 +6,7 @@
 // so that adding a skill (or renaming one, e.g. dropping the "skill-" prefix
 // later) is a one-line change here and the whole site adapts automatically.
 //
-// Install is via the Gaia CLI:  gaia install gaia-research/<slug>
+// Install is via npx:  npx skills install gaia-research/<slug>
 //
 // `inTree`   -> already browsable in the Skill Tree explorer.
 // `surface`  -> an on-site page that demonstrates or documents the skill
@@ -57,7 +57,7 @@ const skills = [
 // ── Derivations (never hard-code these downstream) ──────────────────────────
 export const displayName = (slug: string) => slug.replace(/^skill-/, "");
 export const repoUrl = (slug: string) => `https://github.com/${ORG}/${slug}`;
-export const installCmd = (slug: string) => `gaia install ${ORG}/${slug}`;
+export const installCmd = (slug: string) => `npx skills install ${ORG}/${slug}`;
 export const treeUrl = (slug: string) => `https://gaiaskilltree.com/named/#explorer/${ORG}/${slug}`;
 
 export const allSkills: readonly Skill[] = skills;
