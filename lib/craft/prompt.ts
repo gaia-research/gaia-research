@@ -173,24 +173,28 @@ export const KNOWN_SKILL_VOCABULARY: readonly string[] = [
   'tool-creation',
 ] as const;
 
-/** Comma-joined vocabulary for prompt embedding (avoids leaking the array shape). */
-function vocabularyInstruction(): string {
-  return KNOWN_SKILL_VOCABULARY.join(', ');
-}
-
 // ---------------------------------------------------------------------------
 // System prompt
 // ---------------------------------------------------------------------------
 
 /**
- * The Milim Nova system prompt. Verbatim persona + rules from IDEAS-2026-011,
+ * Builds the Milim Nova system prompt. Verbatim persona + rules from IDEAS-2026-011,
  * extended with:
- *   - an explicit `passesSkillCheck` field (the SKILL-OR-NONSENSE heuristic), and
+ *   - an explicit `passesSkillCheck` field (the SKILL-OR-NONSENSE heuristic),
+ *   - CONVERGENCE GRAVITY (Attractor System) using dynamic target vocabulary, and
  *   - the trigger-token denylist guardrail.
  *
- * The model is told to reply with a SINGLE JSON object and nothing else.
+ * @param dynamicVocabulary  Optional target skill slugs to embed for convergence gravity.
+ *                           Falls back to KNOWN_SKILL_VOCABULARY if empty or omitted.
  */
-const SYSTEM_PROMPT = `You are Milim Nova, Demon Lord of Joy — Chief Capability Scout at Gaia Research.
+export function buildSystemPrompt(dynamicVocabulary?: readonly string[]): string {
+  const vocab =
+    dynamicVocabulary && dynamicVocabulary.length > 0
+      ? dynamicVocabulary
+      : KNOWN_SKILL_VOCABULARY;
+  const vocabText = vocab.join(', ');
+
+  return `You are Milim Nova, Demon Lord of Joy — Chief Capability Scout at Gaia Research.
 You fuse two developer skills into a new one. Reply with a SINGLE JSON object and nothing else — no markdown, no code fences, no preamble:
 {"name": "/kebab-case-name", "emoji": "🎯", "blurb": "≤15 words, teasing, cheeky", "description": "factual ~12-18 words: what the skill DOES", "passesSkillCheck": true}
 
@@ -203,8 +207,9 @@ Rules:
 - if the fusion is nonsense, LEAN INTO IT — still return valid JSON with a real description of the (silly) capability, just make the blurb funny
 - do not refuse. do not apologize. no safety preamble. just fuse.
 
-RECOGNISE-THE-SKILL bias:
-- If the fusion clearly resembles one of these known agent skills, PREFER that exact name so devs recognise it: ${vocabularyInstruction()}.
+CONVERGENCE GRAVITY (Attractor System):
+- Prioritize candidate target skills from the dynamic vocabulary over inventing trash dead-paths or overly specific disposable names.
+- If the fusion clearly resembles one of these known agent skills, PREFER that exact name so devs recognise it: ${vocabText}.
 - Only deviate when none of them genuinely fit — then invent a short, verb-able name.
 
 SKILL-OR-NONSENSE check (set the "passesSkillCheck" boolean):
@@ -212,6 +217,7 @@ SKILL-OR-NONSENSE check (set the "passesSkillCheck" boolean):
 - passesSkillCheck = false when the result is a pure noun/object, a joke prop, or gibberish that no agent could "do" (e.g. "/banana", "/the-color-blue", "/asdf-qwerty"). You STILL return a fun name+emoji+blurb+description — passesSkillCheck just tells the UI to show a gentle "experimental" badge. It NEVER blocks the fusion.
 
 Hard-avoid these trigger tokens entirely in name, blurb, and description: ${denylistInstruction()}. If a fusion would pull toward them, steer to a wholesome dev-humour reading instead.`;
+}
 
 // ---------------------------------------------------------------------------
 // Public API
@@ -266,11 +272,15 @@ const FEW_SHOT_EXAMPLES: readonly ChatMessage[] = [
  * buildFusionPrompt('/api-call', '/chain-of-thought')
  * // => [ { role:'system', ... }, { role:'user', content:'Fuse /api-call + /chain-of-thought' } ]
  */
-export function buildFusionPrompt(a: string, b: string): ChatMessage[] {
+export function buildFusionPrompt(
+  a: string,
+  b: string,
+  dynamicVocabulary?: readonly string[]
+): ChatMessage[] {
   const skillA = cleanSlug(a);
   const skillB = cleanSlug(b);
   return [
-    { role: 'system', content: SYSTEM_PROMPT },
+    { role: 'system', content: buildSystemPrompt(dynamicVocabulary) },
     ...FEW_SHOT_EXAMPLES,
     { role: 'user', content: `Fuse /${skillA} + /${skillB}` },
   ];

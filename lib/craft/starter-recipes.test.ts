@@ -18,6 +18,7 @@
 import { describe, it, expect } from 'vitest';
 import { STARTER_RECIPES, findStarterRecipe, type StarterRecipe } from './starter-recipes';
 import { pairKey } from './types';
+import { lookupNamedSkill } from './named-index';
 
 describe('STARTER_RECIPES', () => {
   const entries = Object.entries(STARTER_RECIPES);
@@ -55,6 +56,32 @@ describe('STARTER_RECIPES', () => {
     expect(withSlug.length).toBeGreaterThan(0);
     for (const recipe of withSlug) {
       expect(recipe.contributor, `${recipe.name} has a slug but no contributor`).toBeTruthy();
+    }
+  });
+});
+
+describe('deterministic real-skill coverage (regression floor, not a target)', () => {
+  // This pins today's KNOWN baseline so it can't silently decay further — it is
+  // NOT the coverage target. A reachability investigation found deterministic
+  // discovery from the 4 seeds is currently 100% hand-authored (the real
+  // registry's own recipes.json contributes zero reachable paths) and covers
+  // only ~17% of named skills. Raising that bar is the job of the
+  // full-registry-discoverability epic (gaia-research issue #89, sub-issues
+  // #85-#88) — this test just stops today's number from getting worse while
+  // that work is scoped and sequenced.
+  it('does not regress below the current baseline of distinct real skills reachable from the seeds', () => {
+    const withSlug = Object.values(STARTER_RECIPES).filter((r) => r.slug);
+    const distinctRealSlugs = new Set(withSlug.map((r) => r.slug));
+    expect(distinctRealSlugs.size).toBeGreaterThanOrEqual(36);
+  });
+
+  it('every reachable "real skill" slug still resolves in the live named-index (no stale/renamed references)', () => {
+    const withSlug = Object.values(STARTER_RECIPES).filter((r) => r.slug);
+    for (const recipe of withSlug) {
+      expect(
+        lookupNamedSkill(recipe.slug as string),
+        `${recipe.name} claims slug "${recipe.slug}" but it no longer resolves in named-index.json`
+      ).toBeDefined();
     }
   });
 });

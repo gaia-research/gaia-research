@@ -39,6 +39,7 @@ import type { FusionResult, FusionTier } from '@/lib/craft/types';
 import { findRecipe, skillTreeUrl } from '@/lib/craft/recipes';
 import { findStarterRecipe } from '@/lib/craft/starter-recipes';
 import { lookupNamedSkill, namedContributor } from '@/lib/craft/named-index';
+import { findTopCandidateSlugs } from '@/lib/craft/similarity-shim';
 import {
   buildFusionPrompt,
   FUSION_MODEL,
@@ -604,7 +605,12 @@ export async function POST(request: Request): Promise<Response> {
       let raw: RawFusionJson;
       if (bindings.AI) {
         try {
-          const messages = buildFusionPrompt(na, nb);
+          // Fast candidate targeting via top similarity candidates (reduces context size & TTFT latency).
+          // 8 rather than 5: promotion still requires an exact name match (see resolvePromotion
+          // below), so widening the pool only gives the model more real options to land on
+          // exactly — no matching-precision risk, cost is a handful of extra short slugs.
+          const candidateSlugs = findTopCandidateSlugs(na, nb, 8);
+          const messages = buildFusionPrompt(na, nb, candidateSlugs);
           const response = await bindings.AI.run(FUSION_MODEL, {
             messages,
             temperature: FUSION_TEMPERATURE,
