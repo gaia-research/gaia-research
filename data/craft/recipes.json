@@ -9,11 +9,11 @@
   },
   {
     "pairKey": "document-editing+tool-use",
-    "result": "setup-matt-pocock-skills",
+    "result": "firecrawl-build-onboarding",
     "emoji": "✨",
-    "blurb": "Fuse /document-editing + /tool-use to unlock /setup-matt-pocock-skills.",
-    "contributor": "mattpocock",
-    "slug": "setup-matt-pocock-skills"
+    "blurb": "Fuse /document-editing + /tool-use to unlock /firecrawl-build-onboarding.",
+    "contributor": "firecrawl",
+    "slug": "firecrawl-build-onboarding"
   },
   {
     "pairKey": "evaluate-output+score-relevance",
@@ -718,6 +718,21 @@
   },
   {
     "pairKey": "",
+    "result": "firecrawl-skills",
+    "emoji": "✨",
+    "blurb": "Fuse /web-scrape + /web-search + /browser-control + /agent-environment-setup + /literature-search to unlock /firecrawl-skills.",
+    "prereqs": [
+      "web-scrape",
+      "web-search",
+      "browser-control",
+      "agent-environment-setup",
+      "literature-search"
+    ],
+    "contributor": "firecrawl",
+    "slug": "firecrawl-skills"
+  },
+  {
+    "pairKey": "",
     "result": "gstack",
     "emoji": "✨",
     "blurb": "Fuse /question-answer + /evaluate-output + /code-review-pipeline + /ux-audit + /vertical-slice-planning + /design-system-extraction + /design-review + /code-generation + /systematic-debugging + /e2e-testing + /finishing-a-development-branch + /deployment-automation + /detect-anomaly + /document-editing + /browser-automation + /security-audit + /browser-control + /web-scrape + /skill-authoring + /write-report + /multi-agent-debate + /skill-performance-benchmarking + /automated-testing + /mcp-integration + /memory-manage + /guardrails + /knowledge-management + /format-output + /workspace-automation + /project-management + /prompt-optimization to unlock /gstack.",
@@ -863,15 +878,15 @@
   },
   {
     "pairKey": "",
-    "result": "humanize-prose",
+    "result": "speak-like-favor",
     "emoji": "✨",
-    "blurb": "Fuse /document-editing + /audience-model + /format-output to unlock /humanize-prose.",
+    "blurb": "Fuse /document-editing + /audience-model + /format-output to unlock /speak-like-favor.",
     "prereqs": [
       "document-editing",
       "audience-model",
       "format-output"
     ],
-    "slug": "humanize-prose"
+    "slug": "speak-like-favor"
   },
   {
     "pairKey": "",
@@ -1354,16 +1369,16 @@
   },
   {
     "pairKey": "",
-    "result": "scrape",
+    "result": "firecrawl-build-scrape",
     "emoji": "✨",
-    "blurb": "Fuse /web-search + /parse-html + /extract-entities to unlock /scrape.",
+    "blurb": "Fuse /web-search + /parse-html + /extract-entities to unlock /firecrawl-build-scrape.",
     "prereqs": [
       "web-search",
       "parse-html",
       "extract-entities"
     ],
-    "contributor": "garrytan",
-    "slug": "scrape"
+    "contributor": "firecrawl",
+    "slug": "firecrawl-build-scrape"
   },
   {
     "pairKey": "",

@@ -114,6 +114,12 @@
     "type": "basic"
   },
   {
+    "id": "crm-data-cleanup",
+    "name": "/crm-data-cleanup",
+    "displayName": "CRM Data Cleanup",
+    "type": "basic"
+  },
+  {
     "id": "cultural-localization",
     "name": "/cultural-localization",
     "displayName": "Cultural Localization",
@@ -159,6 +165,30 @@
     "id": "evaluate-output",
     "name": "/evaluate-output",
     "displayName": "Evaluate Output",
+    "type": "basic"
+  },
+  {
+    "id": "event-attendance-metrics",
+    "name": "/event-attendance-metrics",
+    "displayName": "Event Attendance Metrics",
+    "type": "basic"
+  },
+  {
+    "id": "event-attendee-management",
+    "name": "/event-attendee-management",
+    "displayName": "Event Attendee Management",
+    "type": "basic"
+  },
+  {
+    "id": "event-support-triage",
+    "name": "/event-support-triage",
+    "displayName": "Event Support Triage",
+    "type": "basic"
+  },
+  {
+    "id": "event-ticket-transfer",
+    "name": "/event-ticket-transfer",
+    "displayName": "Event Ticket Transfer",
     "type": "basic"
   },
   {
@@ -231,6 +261,12 @@
     "id": "git-diff-risk-analysis",
     "name": "/git-diff-risk-analysis",
     "displayName": "Git Diff Risk Analysis",
+    "type": "basic"
+  },
+  {
+    "id": "grant-application-processing",
+    "name": "/grant-application-processing",
+    "displayName": "Grant Application Processing",
     "type": "basic"
   },
   {
@@ -588,6 +624,12 @@
     "type": "basic"
   },
   {
+    "id": "transactional-email-resend",
+    "name": "/transactional-email-resend",
+    "displayName": "Transactional Email Resend",
+    "type": "basic"
+  },
+  {
     "id": "translate",
     "name": "/translate",
     "displayName": "Translate",
@@ -885,6 +927,12 @@
     "id": "finishing-a-development-branch",
     "name": "/finishing-a-development-branch",
     "displayName": "Finishing a Development Branch",
+    "type": "extra"
+  },
+  {
+    "id": "firecrawl",
+    "name": "/firecrawl",
+    "displayName": "Firecrawl",
     "type": "extra"
   },
   {
