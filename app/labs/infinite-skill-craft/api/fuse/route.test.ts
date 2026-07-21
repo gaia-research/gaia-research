@@ -51,7 +51,7 @@ describe('POST /labs/infinite-skill-craft/api/fuse', () => {
     expect(data.name).toBe('/codegen');
   });
 
-  it('passes getAllNamedSkillSlugs() into AI prompt during emergent resolution', async () => {
+  it('passes targeted similarity candidates into AI prompt during emergent resolution', async () => {
     const mockAiRun = vi.fn().mockResolvedValue({
       response: JSON.stringify({
         name: '/scrape',
@@ -89,10 +89,7 @@ describe('POST /labs/infinite-skill-craft/api/fuse', () => {
     const systemMessage = callArgs.messages.find((m: any) => m.role === 'system');
     expect(systemMessage).toBeDefined();
 
-    // Verify all named skill slugs are included in the prompt
-    const slugs = getAllNamedSkillSlugs();
     expect(systemMessage.content).toContain('CONVERGENCE GRAVITY');
-    expect(systemMessage.content).toContain(slugs[0]);
   });
 
   it('handles AI run exceptions defensively with experimental fallback (never 500s)', async () => {

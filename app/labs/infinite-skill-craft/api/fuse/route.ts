@@ -43,6 +43,7 @@ import {
   lookupNamedSkill,
   namedContributor,
 } from '@/lib/craft/named-index';
+import { findTopCandidateSlugs } from '@/lib/craft/similarity-shim';
 import {
   buildFusionPrompt,
   FUSION_MODEL,
@@ -309,6 +310,8 @@ interface StoredFusion {
   /** Only present for canonical results that map to a real named skill. */
   slug?: string;
   contributor?: string;
+  source?: 'mcp' | 'anthropic' | 'skillsmp' | 'registry';
+  sourceUrl?: string;
   /** Curse metadata (rare easter-egg outcome). */
   cursed?: boolean;
   curseId?: string;
@@ -328,6 +331,8 @@ function toStored(
   };
   if (result.description) stored.description = result.description;
   if (result.skillTitle) stored.skillTitle = result.skillTitle;
+  if (result.source) stored.source = result.source;
+  if (result.sourceUrl) stored.sourceUrl = result.sourceUrl;
   if (ref) {
     stored.slug = ref.slug;
     stored.contributor = ref.contributor;
@@ -355,6 +360,8 @@ function rehydrate(stored: StoredFusion): FusionResult {
     isFirstDiscovery: false,
     passesSkillCheck: stored.passesSkillCheck,
     contributor: stored.contributor,
+    source: stored.source,
+    sourceUrl: stored.sourceUrl,
     skillTreeUrl: skillTreeUrl(stored.contributor, stored.slug),
     experimental: !stored.passesSkillCheck,
     cursed: stored.cursed || undefined,
@@ -608,7 +615,8 @@ export async function POST(request: Request): Promise<Response> {
       let raw: RawFusionJson;
       if (bindings.AI) {
         try {
-          const candidateSlugs = getAllNamedSkillSlugs();
+          // Fast candidate targeting via top similarity candidates (reduces context size & TTFT latency)
+          const candidateSlugs = findTopCandidateSlugs(na, nb, 5);
           const messages = buildFusionPrompt(na, nb, candidateSlugs);
           const response = await bindings.AI.run(FUSION_MODEL, {
             messages,
@@ -653,6 +661,8 @@ export async function POST(request: Request): Promise<Response> {
           isFirstDiscovery: true,
           passesSkillCheck: true,
           contributor: promotion.contributor,
+          source: named?.source,
+          sourceUrl: named?.sourceUrl,
           skillTreeUrl: skillTreeUrl(promotion.contributor, promotion.slug),
           experimental: false,
         };

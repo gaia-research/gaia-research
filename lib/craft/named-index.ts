@@ -30,6 +30,10 @@ interface RawRecord {
   d: string;
   /** level badge, e.g. "2★" (optional) */
   lvl?: string;
+  /** source registry/marketplace (optional: 'mcp' | 'anthropic' | 'skillsmp' | 'registry') */
+  src?: 'mcp' | 'anthropic' | 'skillsmp' | 'registry';
+  /** source URL (optional) */
+  srcUrl?: string;
 }
 
 interface RawIndex {
@@ -62,6 +66,10 @@ export interface NamedSkill {
   genericSkillRef?: string;
   /** level badge, e.g. "2★" (present when the registry provides it). */
   level?: string;
+  /** source registry/marketplace (optional) */
+  source?: 'mcp' | 'anthropic' | 'skillsmp' | 'registry';
+  /** source URL (optional) */
+  sourceUrl?: string;
 }
 
 /**
@@ -86,6 +94,8 @@ export function lookupNamedSkill(slug: string): NamedSkill | undefined {
   };
   if (rec.g) out.genericSkillRef = rec.g;
   if (rec.lvl) out.level = rec.lvl;
+  if (rec.src) out.source = rec.src;
+  if (rec.srcUrl) out.sourceUrl = rec.srcUrl;
   return out;
 }
 

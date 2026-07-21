@@ -1554,16 +1554,31 @@ function InstancePopover({
         </button>
       </div>
 
-      {(canonical || first || easteregg || experimental || card.cursed) && (
+      {(canonical || first || easteregg || experimental || card.cursed || card.source) && (
         <div className="craft-pop-tags">
           {first && (
             <span className="craft-badge craft-badge-first" title="Nobody had found this combo before you, boss.">
               ⭐ First
             </span>
           )}
-          {canonical && (
+          {canonical && !card.source && (
             <span className="craft-badge craft-badge-canon" title="A real skill in the Gaia Skill Tree.">
               ★ Real Skill
+            </span>
+          )}
+          {card.source === 'mcp' && (
+            <span className="craft-badge craft-badge-mcp" title="Model Context Protocol Server tool.">
+              🔌 MCP Server
+            </span>
+          )}
+          {card.source === 'anthropic' && (
+            <span className="craft-badge craft-badge-anthropic" title="Official Anthropic Agent Skill.">
+              🦙 Anthropic Skill
+            </span>
+          )}
+          {card.source === 'skillsmp' && (
+            <span className="craft-badge craft-badge-skillsmp" title="SkillsMP Marketplace Skill.">
+              🌐 SkillsMP Skill
             </span>
           )}
           {easteregg && !card.cursed && (
@@ -1611,11 +1626,12 @@ function InstancePopover({
           )}
           <a
             className="craft-unlock"
-            href={card.skillTreeUrl}
+            href={card.sourceUrl || card.skillTreeUrl}
             target="_blank"
             rel="noreferrer noopener"
           >
-            Open in the Skill Tree <span aria-hidden="true">↗</span>
+            {card.sourceUrl ? "View Source Repository" : "Open in the Skill Tree"}{" "}
+            <span aria-hidden="true">↗</span>
           </a>
         </div>
       ) : (

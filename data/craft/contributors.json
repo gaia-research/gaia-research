@@ -1,5 +1,5 @@
 {
-  "total": 37,
+  "total": 40,
   "contributors": {
     "garrytan": {
       "count": 47
@@ -14,7 +14,7 @@
       "count": 9
     },
     "gsd-build": {
-      "count": 6
+      "count": 5
     },
     "ruvnet": {
       "count": 48
@@ -23,7 +23,7 @@
       "count": 34
     },
     "obra": {
-      "count": 12
+      "count": 13
     },
     "anthropic": {
       "count": 2
@@ -110,6 +110,15 @@
       "count": 1
     },
     "yonatangross": {
+      "count": 1
+    },
+    "anthropics": {
+      "count": 2
+    },
+    "mcp-so": {
+      "count": 2
+    },
+    "skillsmp": {
       "count": 1
     }
   }
