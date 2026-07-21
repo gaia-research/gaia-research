@@ -33,6 +33,7 @@
  */
 
 import { NextResponse } from 'next/server';
+import { getSupabaseServiceClient } from '@/lib/supabase/server';
 import { pairKey } from '@/lib/craft/types';
 import type { FusionResult, FusionTier } from '@/lib/craft/types';
 import { findRecipe, skillTreeUrl } from '@/lib/craft/recipes';
@@ -435,6 +436,30 @@ function parseModelResponse(
 }
 
 // ---------------------------------------------------------------------------
+// Telemetry — fire-and-forget, never affects the fusion response.
+// ---------------------------------------------------------------------------
+
+function recordFusionEvent(
+  tier: string,
+  cacheHit: boolean,
+  pairHash: string
+): void {
+  void (async () => {
+    try {
+      const sb = getSupabaseServiceClient();
+      if (!sb) return;
+      await sb.from('craft_fusion_events').insert({
+        tier,
+        cache_hit: cacheHit,
+        pair_hash: pairHash,
+      });
+    } catch {
+      // Supabase unavailable or misconfigured — silently ignored.
+    }
+  })();
+}
+
+// ---------------------------------------------------------------------------
 // Route handler
 // ---------------------------------------------------------------------------
 
@@ -487,6 +512,7 @@ export async function POST(request: Request): Promise<Response> {
       const result = rehydrate(JSON.parse(cached) as StoredFusion);
       // A returning player: this is no longer a first discovery.
       result.isFirstDiscovery = false;
+      recordFusionEvent(result.tier, true, key);
       return NextResponse.json(result);
     }
   } catch {
@@ -652,5 +678,6 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   // ── e. Respond ────────────────────────────────────────────────────────────
+  recordFusionEvent(result.tier, false, key);
   return NextResponse.json(result);
 }
