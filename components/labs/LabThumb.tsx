@@ -3,7 +3,7 @@
 // keyframes. Animations idle-loop subtly and intensify on card hover; all of it
 // stills under prefers-reduced-motion (see .labthumb rules in globals.css).
 
-type LabThumbKind = "craft" | "diet";
+type LabThumbKind = "craft" | "diet" | "supabase";
 
 export function LabThumb({ kind }: { kind: LabThumbKind }) {
   if (kind === "craft") {
@@ -15,6 +15,17 @@ export function LabThumb({ kind }: { kind: LabThumbKind }) {
         <span className="lt-spark" />
         <span className="lt-chip lt-chip-b">⚙️</span>
         <span className="lt-infinity">∞</span>
+      </div>
+    );
+  }
+  if (kind === "supabase") {
+    // Supabase motif: ⚡ + 🗄️ live telemetry query pulse
+    return (
+      <div className="labthumb labthumb-craft" aria-hidden="true">
+        <span className="lt-grid" />
+        <span className="lt-chip lt-chip-a">🗄️</span>
+        <span className="lt-spark" />
+        <span className="lt-chip lt-chip-b">⚡</span>
       </div>
     );
   }

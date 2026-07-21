@@ -27,6 +27,15 @@ const labs = [
     cta: "Trim a prompt",
     href: "/labs/context-diet",
   },
+  {
+    kind: "supabase" as const,
+    title: "Supabase Hub",
+    tag: "Dev · Dashboard",
+    description:
+      "Developer sampler & diagnostic console for Supabase schemas, triggers, RLS policies, and live telemetry health.",
+    cta: "Inspect schemas",
+    href: "/labs/supabase",
+  },
 ] as const;
 
 export default function LabsIndexPage() {
