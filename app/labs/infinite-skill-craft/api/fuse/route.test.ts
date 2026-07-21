@@ -184,6 +184,44 @@ describe('POST /labs/infinite-skill-craft/api/fuse', () => {
     expect(data.experimental).toBe(false);
   });
 
+  it('does NOT promote to canonical when the AI invents a name absent from the registry', async () => {
+    const mockAiRun = vi.fn().mockResolvedValue({
+      response: JSON.stringify({
+        name: '/quantum-blorp-synthesizer',
+        emoji: '✨',
+        blurb: 'Made-up nonsense name',
+        description: 'Not a real skill in gaia-skill-tree',
+        passesSkillCheck: true,
+      }),
+    });
+    const mockKv = {
+      get: vi.fn().mockResolvedValue(null),
+      put: vi.fn().mockResolvedValue(undefined),
+    };
+
+    vi.mocked(getCloudflareContext).mockResolvedValue({
+      env: {
+        AI: { run: mockAiRun },
+        CRAFT_KV: mockKv,
+      } as any,
+      cf: {} as any,
+      ctx: { waitUntil: vi.fn() } as any,
+    });
+
+    const req = new Request('http://localhost/api/fuse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ a: 'quantum', b: 'blorp' }),
+    });
+
+    const res = await POST(req);
+    const data = await res.json();
+
+    expect(data.tier).not.toBe('canonical');
+    expect(data.contributor).toBeUndefined();
+    expect(data.skillTreeUrl).toBeUndefined();
+  });
+
   it('handles AI run exceptions defensively with experimental fallback (never 500s)', async () => {
     const mockAiRun = vi.fn().mockRejectedValue(new Error('Workers AI model overloaded'));
     const mockKv = {
