@@ -211,6 +211,15 @@ function normaliseName(raw: string): string {
   return `/${cleaned || 'mystery-fusion'}`;
 }
 
+/**
+ * Strips any leading `experimental-` prefix from a slug so fallback names
+ * never compound the prefix when fusing skills that were themselves fallbacks.
+ * e.g. "experimental-crawler-x" → "crawler-x"
+ */
+function deExperimentalise(slug: string): string {
+  return slug.replace(/^experimental-/, '');
+}
+
 /** Picks the first grapheme-ish emoji, defaulting to a sparkle. */
 function safeEmoji(raw: unknown): string {
   if (typeof raw === 'string' && raw.trim().length > 0) {
@@ -385,13 +394,17 @@ function parseModelResponse(
   a: string,
   b: string
 ): RawFusionJson {
-  const fallback = (): RawFusionJson => ({
-    name: normaliseName(`experimental-${a}-${b}`),
-    emoji: '🧪',
-    blurb: 'The fusion fizzled, boss — labelling it experimental for now.',
-    description: `An experimental fusion of ${a} and ${b}; capability not yet verified against the registry.`,
-    passesSkillCheck: false,
-  });
+  const fallback = (): RawFusionJson => {
+    const ca = deExperimentalise(a);
+    const cb = deExperimentalise(b);
+    return {
+      name: normaliseName(`${ca}-${cb}`),
+      emoji: '🧪',
+      blurb: 'The fusion fizzled, boss — but something sparked.',
+      description: `A fusion of ${ca} and ${cb}; capability not yet verified against the registry.`,
+      passesSkillCheck: false,
+    };
+  };
 
   try {
     // Workers AI chat responses commonly surface text under `.response`.
@@ -586,10 +599,10 @@ export async function POST(request: Request): Promise<Response> {
         } catch {
           // Any AI failure → safe experimental fallback (never a 500).
           raw = {
-            name: normaliseName(`experimental-${na}-${nb}`),
+            name: normaliseName(`${deExperimentalise(na)}-${deExperimentalise(nb)}`),
             emoji: '🧪',
-            blurb: 'The forge sputtered, boss — marking this one experimental.',
-            description: `An experimental fusion of ${na} and ${nb}; capability not yet verified.`,
+            blurb: 'The forge sputtered, boss — but something sparked.',
+            description: `A fusion of ${deExperimentalise(na)} and ${deExperimentalise(nb)}; capability not yet verified.`,
             passesSkillCheck: false,
           };
         }
