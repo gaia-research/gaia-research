@@ -33,6 +33,7 @@
  */
 
 import { NextResponse } from 'next/server';
+import { recordFusionEvent } from '@/lib/craft/telemetry';
 import { pairKey } from '@/lib/craft/types';
 import type { FusionResult, FusionTier } from '@/lib/craft/types';
 import { findRecipe, skillTreeUrl } from '@/lib/craft/recipes';
@@ -477,6 +478,18 @@ export async function POST(request: Request): Promise<Response> {
   const kv = kvOrShim(bindings);
   const key = pairKey(na, nb);
 
+  // Cloudflare execution context — used to register fire-and-forget promises
+  // with waitUntil() so they aren't killed when the response is sent.
+  // Absent on localhost (next dev); telemetry degrades gracefully without it.
+  let cfCtx: { waitUntil(p: Promise<unknown>): void } | undefined;
+  try {
+    const mod = await import('@opennextjs/cloudflare');
+    const ctx = await mod.getCloudflareContext();
+    cfCtx = ctx?.ctx ?? undefined;
+  } catch {
+    // No CF context on localhost — fine.
+  }
+
   // ── b. Cache lookup ──────────────────────────────────────────────────────
   try {
     const cached = await kv.get(key);
@@ -487,6 +500,7 @@ export async function POST(request: Request): Promise<Response> {
       const result = rehydrate(JSON.parse(cached) as StoredFusion);
       // A returning player: this is no longer a first discovery.
       result.isFirstDiscovery = false;
+      recordFusionEvent(result.tier, true, key, cfCtx);
       return NextResponse.json(result);
     }
   } catch {
@@ -652,5 +666,6 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   // ── e. Respond ────────────────────────────────────────────────────────────
+  recordFusionEvent(result.tier, false, key, cfCtx);
   return NextResponse.json(result);
 }

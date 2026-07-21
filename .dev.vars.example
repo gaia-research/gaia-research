@@ -4,3 +4,8 @@
 # Safe to expose in the browser at build time (RLS protects the table).
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+
+# Server-only — used by @supabase/server/core createAdminClient (bypasses RLS).
+# In production: wrangler secret put SUPABASE_SECRET_KEY
+SUPABASE_URL=
+SUPABASE_SECRET_KEY=
