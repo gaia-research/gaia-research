@@ -57,10 +57,7 @@ export function LabLeaderboard({
         against Lab 001&apos;s {beatThreshold}% result. Early days — the board is still filling up.
       </p>
       {!isSupabaseConfigured ? (
-        <p className="pending">
-          Leaderboard offline — no Supabase configured for this build. The analyzer runs fully
-          without it.
-        </p>
+        <></>
       ) : loading ? (
         <p className="pending">Loading…</p>
       ) : rows.length === 0 ? (
