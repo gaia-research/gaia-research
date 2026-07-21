@@ -151,70 +151,125 @@ not Cursor; G4/G5. **Superseded 2026-07-20 by G6**: Cursor CLI 2026.07.16 is now
 installed as both `agent` and `cursor-agent`; column re-probe pending, WS6 of
 `docs/plans/skill-heaven-continuation-plan.md`).
 
-## WS3 verification gates — gate (a): `--resume` profile recomposition
+## WS3 verification gates — gate (a): in-session profile recomposition (the posture slider)
 
 **Milestone:** WS3 of
 [`docs/plans/skill-heaven-continuation-plan.md`](../plans/skill-heaven-continuation-plan.md)
-(gate table). **Date:** 2026-07-21. **Version:** Claude Code **2.1.216** (macOS,
-this workstation; env knob re-verified for this version — see GA0). Model: haiku
-for every run. Same listing-probe prompt `$Q` as the M0/M2 sections. Clean
-throwaway project (no project skills). **Curated argv** below is the frozen T9
-route: `--setting-sources project --strict-mcp-config --mcp-config
-'{"mcpServers":{}}' --plugin-dir <heaven-set>` with
-`CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1`; `<heaven-set>` is a hand-built plugin dir
-whose sole skill is the distinctively-named `gate-a-probe` (so its appearance in
-the listing proves the *new* curated profile composed at boot). Sessions are
-created with `--session-id <uuid>` and resumed with `-r/--resume <uuid>`.
+(gate table). **Date:** 2026-07-22 (corrected). **Version:** Claude Code
+**2.1.216** (macOS, this workstation). Model: haiku for every run. Clean throwaway
+project (no project skills).
 
-**Gate question (plan):** does `claude --resume <id>` with a *new*
-`--plugin-dir`/`--setting-sources` profile compose the **new** profile at boot?
-**Verdict: ✅ YES — but only via `--fork-session`.** Plain `--resume` applies a
-profile's *additive* half only (new `--plugin-dir` skills are admitted) and
-silently drops its *subtractive* half (`--setting-sources project` +
-`CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` do **not** evict); the resumed session
-rehydrates its original standing skills listing and layers the new plugin on top
-— a **superset** dose, not the picked posture. Adding **`--fork-session`**
-(resume into a new session id) rebuilds the system prompt from the current flags,
-so the curated profile composes with **zero residual** (identical to a fresh
-session) **while carrying the conversation history forward**.
+> ⚠️ **Correction of the 2026-07-21 first pass.** The original gate-(a) writeup
+> (and the D12 lock it drove) claimed `--resume --fork-session` **recomposes the
+> curated posture subtractively with zero residual**. That was **falsified**: it
+> came from the "ask the model to list its skills" method, which haiku
+> **under-reports** — a freshly-added marker plugin *looks* like the whole
+> listing was replaced when it was not. Re-probed **deterministically** below and
+> the verdict flips. See RATIFICATION.md D12 (corrected) + supersession log.
 
-| # | Command | Observed | Cell verified |
-|---|---|---|---|
-| GA0 | `strings ~/.local/share/claude/versions/2.1.216 \| grep CLAUDE_CODE_DISABLE` | `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` **present** (+ new siblings `…_CLAUDE_API_SKILL`, `…_CLAUDE_CODE_SKILL`, `…_POLICY_SKILLS`) | the undocumented T9 env knob **survives the 2.1.215→2.1.216 upgrade** |
+**Method (deterministic).** Ground truth = **prompt-token count** from
+`claude -p --output-format json`, summing
+`usage.(input_tokens + cache_creation_input_tokens + cache_read_input_tokens)`.
+The one trusted binary signal is **`firecrawl-crawl`** — a real *user-scope* skill
+(`~/.claude/skills/firecrawl-crawl`) probed YES/NO; reliably YES at native, NO at
+the clean-room floor, so it is the proxy for "user/global-scope skills present."
+Marker-plugin self-listing is **never** trusted (that is what fooled the first
+pass); additive-plugin presence is inferred from token deltas only. **Curated /
+T9 argv:** `--setting-sources project --strict-mcp-config --mcp-config
+'{"mcpServers":{}}' --plugin-dir <heaven-set>` + `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1`.
 
-> **Versioning policy (owner ruling, 2026-07-21):** the T9 env knob and the
-> resume/fork recomposition behavior are now **assumed forward-stable** across
-> Claude Code upgrades — no longer a per-upgrade blocking re-verify. The only
-> standing obligation is to **record the exact `claude --version` used at each
-> test** (as every row here does). Re-run the repro only if a symptom surfaces.
-| GA-C1 | `echo "$Q" \| claude -p --model haiku` | 64-skill listing (user-dir + bundled CLI skills; incl. `graphify` residual); `gate-a-probe` **absent** | vanilla-fresh baseline on 2.1.216 |
-| GA-C2 | `echo "$Q" \| CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1 claude -p --model haiku <curated argv>` (fresh session) | **`heaven-set:gate-a-probe`** only, **2/2 runs** | **T9 curated route re-verified on 2.1.216** — zero residual on a fresh session |
-| GA-1 | `echo "$Q" \| CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1 claude -p --model haiku --resume <vanilla id> <curated argv>` | full 64-skill vanilla listing **+ `heaven-set:gate-a-probe`** appended, **2/2 runs** | **NEGATIVE for plain resume**: `--resume` is *additive-only* — the new `--plugin-dir` composes but the subtractive flags are ignored; the original standing dose persists → superset, not recomposition |
-| GA-2 | GA-1 command **+ `--fork-session`** | **`heaven-set:gate-a-probe`** only (zero residual, == GA-C2) | **`--fork-session` recomposes the new profile fully** at boot — the subtractive half now applies |
-| GA-3 | seed session with codeword `ZEPHYR-7`, then `--resume <id> --fork-session <curated argv>` asking for the codeword | **`ZEPHYR-7`** | fork **carries conversation history forward** (recomposition is not a fresh-context reset) |
-| GA-3b | control: plain `--resume <id>` asking for the codeword | **`ZEPHYR-7`** | history carries on plain resume too — the GA-1 vs GA-2 difference is **purely skill composition**, not context |
+**Gate question (plan):** can an in-session relaunch (`--resume` /
+`--resume --fork-session`) with a *new* profile compose the **picked** posture —
+in particular, can it *subtractively* recompose while preserving history?
+**Verdict: ❌ NEGATIVE for subtractive recomposition.** On a **continued session**,
+**no flag or flag-combination — plain `--resume`, `--resume --fork-session`, or
+any tested mix — evicts user/global-scope skills**: `firecrawl-crawl` survives
+every resume/fork (confirmed across 3 flag combos + reruns). The additive half
+works (new `--plugin-dir` composes) and restrictive flags shed ~6k tok of
+*non-skill* weight, but the user-scope skill listing is resolved at a point in the
+resume pathway the subtractive flags never reach. **`--fork-session` behaves
+identically to plain `--resume` on composition** — it only forks the session id;
+it does **not** recompose. History carries forward on both (codeword recalled).
 
-**Zero-mutation check:** all writes confined to the scratchpad fixture; `~/.claude`
-skills/settings byte-identical across runs (67 user skill dirs before/after);
-`gaia-research` working tree carried no new changes from the probe. Session
-transcript files are created by design (`-p` persistence) and are the only
-on-disk side effect.
+**Consequence:** subtractive recomposition and conversation-history survival are
+**mutually exclusive** on Claude Code 2.1.216. The fully-subtractive floor is
+reachable **only at boot** (fresh session, T9 route) → **`claude-heaven` launcher
+is the only path to the floor** (launcher-locked). The in-session `/skill-heaven`
+scalpel can move **upward** (additive) and shed some non-skill weight, but cannot
+descend below its launch floor. This is the **posture slider** the product ships.
 
-**Ruling — D12, RATIFIED 2026-07-21 (amends D10, rides this PR per D9):** the
-honest switch delivers the picked posture on the *same conversation*, and the
-relaunch command `/skill-heaven` prints is
-`claude --resume <id> --fork-session <profile argv>` — **not** the bare
-`claude --resume` D10 originally worded. Plain `--resume` would keep the user's
-old standing dose and merely add the curated set, i.e. the tool becoming its own
-bloat — the precise failure the scalpel exists to prevent. Forking is *better*
-than the plan's flagged negative contingency: it preserves history **and**
-recomposes, so no honest-new-session climbdown is needed. **Owner condition
-(binding on WS4):** the switch creates a **new session id**, so the
-`/skill-heaven` picker output, the statusline, and any copy **must make the fork
-explicit** (same history, new id, composed at the picked posture) — forking is
-ratified precisely *because* it is disclosed. The WS4 slice-1 step-2
-relaunch-command builder must emit `--fork-session`, and its acceptance test
-must assert the fork is surfaced to the user.
+**Poles (this run):** native fresh **≈25.2k tok (firecrawl YES)** · clean-room
+fresh T9 **≈17.0k tok (firecrawl NO)**.
+
+**The slider (continued-session sweep — each flag applied on resume, both
+`--resume` and `--resume --fork-session`; tokens + firecrawl):**
+
+| Route | On a continued session | Tokens | firecrawl | Read |
+|---|---|---|---|---|
+| GA0 env knob | — | — | — | `strings <bin>` → `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` **present** on 2.1.216 (+ siblings `…_CLAUDE_API_SKILL`, `…_CLAUDE_CODE_SKILL`, `…_POLICY_SKILLS`); T9 route survives the 2.1.215→.216 upgrade |
+| A · `--plugin-dir` alone | **Honored** (additive) | ≈25.3k | YES | new skill admitted cleanly, fork or resume |
+| B · `DISABLE_BUNDLED=1` alone | **Negligible weight here** (~50 tok) | ≈25.3k | YES | can't distinguish ignored-vs-low-impact in this env |
+| C · `--setting-sources project` alone | **Partially honored** | ≈19.2–19.5k | **YES** | sheds ~6k *non-skill* tok, but user-scope skills **survive** |
+| D · `--strict-mcp-config` + empty MCP | **No observable effect** | ≈25.5k | YES | no MCP servers present to evict in this env |
+| E · full curated combo (A+B+C+D) | **Does NOT evict user-scope** | ≈19.2k (fork & resume; reruns 19.24k ×2) | **YES** | one initial resume run showed NO → **re-tested 2×, both YES**; treated as a haiku self-report flake, not a real mechanism |
+| J1 · `--safe-mode` on resume | **Not honored** (fresh: honored) | ≈22.2k | **YES** (fresh: NO) | same signature as C/E — evicts fresh, silently fails to evict on any continued session |
+| F · clean-room seed, resume with **no** flags (climb UP) | **Fully honored** | ≈25.8k | YES | omitting restrictive flags on resume restores native — the upward climb is instant/unconditional |
+| G · clean-room seed **+ new `--plugin-dir`** (add at floor) | **Honored, stable** | ≈17.2k (×3) | NO | additive-from-floor = clean +233 tok delta, reproduced ×3 |
+| H · `CLAUDE_CONFIG_DIR=<empty>` on resume | **Breaks resume** | ERROR | — | `"No conversation found…"` (session index is config-dir-scoped); copying the `.jsonl` in gets past that → `"Not logged in"` (Keychain auth). **Two-layer dead end** |
+| J2 · `HOME=<empty>` on resume | **Breaks resume** | ERROR | — | same structural failure as H (HOME sets default config dir) |
+| I · transcript re-inject via `--append-system-prompt` into a **fresh** clean-room session | N/A (new session, not a resume) | +68 tok (trivial history) … +1,745 tok (~1,400-word) over floor | NO | the one viable "subtractive + keep context" path, but it is a **new session** with **flattened text** history (no tool/turn state). Cheap; stays well below native |
+
+> **Versioning policy (corrected 2026-07-22).** The 2026-07-21 "assume
+> forward-stable, don't re-verify" relaxation is **reverted** as premature (a
+> symptom surfaced on the *same* pinned version). The T9 knob and resume/fork
+> behavior are **undocumented and version-pinned** → **re-run this sweep on every
+> Claude Code upgrade**; always record the exact `claude --version`.
+
+**Slider map (authoritative):**
+- **Launcher-only floor** ≈17.0k, firecrawl NO — evicts bundled *and* user/global
+  skills + MCP + non-project settings. Reachable **only** via `claude-heaven` at boot.
+- **Scalpel floor (in-session)** ≈19.2–19.6k, firecrawl **YES** — can shed the top
+  ~⅓ of the gap (via `--setting-sources project` / `--safe-mode`) but **cannot**
+  evict user/global skills on any continued session.
+- **Scalpel ceiling** — unbounded upward: omit flags to restore native (F);
+  stack `--plugin-dir` freely (G), cheap and fully reliable.
+- **Honored on a continued session:** `--plugin-dir` (additive) · omitting flags to
+  climb up · adding `--plugin-dir` from a floor.
+- **NOT honored (works fresh, fails on resume/fork):** `--setting-sources project`
+  (partial — non-skill weight only) · `--safe-mode`. User-scope skill eviction: none.
+
+**Escape-route verdict:** in-session user-scope eviction is **not achievable by
+any route tested**. Config-dir/HOME swaps break `--resume` structurally, then hit
+Keychain auth (G3). **Transcript re-inject (I) is the only viable "clean-room +
+keep context" path** — but it is a *new* session with flattened text, suited to
+handoff-notes continuity, **not** exact tool/turn-state resume. Net cost is cheap
+(+68…+1,745 tok). **KEEP** as a clearly-labeled escape hatch, not as "resume."
+
+**Recommended `/skill-heaven` slider stops (feeds WS4):**
+1. **Native (default)** — no flags.
+2. **Lean** — `--setting-sources project` (or `--safe-mode`): same-session ~25% cut;
+   label honestly *"trims project/settings weight; does not remove your personal skills."*
+3. **Add-ons** — `--plugin-dir` stacks, cheap, reliable in either direction.
+4. **Clean-room = LAUNCHER-LOCKED** — labeled explicitly out of scalpel reach:
+   *"True clean-room (evicts personal skills, MCP, bundled skills) requires
+   restarting via `claude-heaven`; it cannot be reached mid-session."* Optional
+   escape hatch: the transcript re-inject path, labeled *"new session, notes
+   carried over."*
+
+**Zero-mutation check:** `~/.claude/skills` = 67 entries, names diffed clean
+before/after; `~/.claude/settings.json` SHA-256 unchanged; no
+`settings.local.json` in either snapshot; only expected session-transcript files
+written under `~/.claude/projects/`.
+
+**Ruling — D12, CORRECTED & RATIFIED 2026-07-22 (supersedes the falsified
+2026-07-21 lock; amends D10; rides this PR per D9).** Skill Heaven ships **both
+surfaces in the MVP**: (1) **`claude-heaven` clean-room launcher** owns the
+launcher-locked subtractive floor — the *only* path to the deepest Heaven, and
+that scarcity is the enticement (clean-room-first); (2) **`/skill-heaven` upward
+scalpel** moves posture in-session from the launched floor **upward**, carrying
+history, and **must present the lowest heaven-mode as visibly locked to launcher
+mode** (lock affordance in the picker/statusline). Every fork that changes the
+session id discloses it. Full decision text in RATIFICATION.md D12.
 
 ## WS3 verification gates — gate (b): statusline API
 
@@ -229,23 +284,33 @@ grouping follows Claude Code's documented statusLine schema.
 **Gate question (plan):** the segment mechanism, its input JSON, and **where the
 standing-dose number comes from** (census over the composed loadout at compile
 time vs. live introspection). **Verdict:** the dose readout is
-**census-derived, not live-introspected** — the statusline input carries **no
-standing-dose token field**. This resolves D10's open "compile-time census vs.
-live introspection" sub-question in favor of **census** (consistent with B1/D4).
+**census-derived, not live-introspected** — the statusline input **does** carry
+live token counts (a `context_window` object: `total_input_tokens`,
+`context_window_size`, `used_percentage`, …), but those are **running-session
+usage** (whole conversation: system + skills + messages + tool results),
+**not the loadout's isolated *standing* dose**. No field isolates the skills-only
+standing number, so it must still come from `census.ts` over the active profile.
+This resolves D10's "compile-time census vs. live introspection" sub-question in
+favor of **census** for the *standing* number (consistent with B1/D4) — while the
+`context_window` counts are available for a separate *running-usage* readout later
+(invocation side, B1).
 
 | # | Probe | Observed | Cell verified |
 |---|---|---|---|
 | GB-1 | `strings <bin> \| grep -A2 '"statusLine"'`; `--help` | settings block `"statusLine": { "type": "command", "command": "<path>" }`; convention `~/.claude/statusline-command.sh`; `/statusline` slash-command + `statusline-setup` subagent present | statusline is a **user-supplied command segment**, per-session settings — a shell command Claude pipes JSON to and renders the stdout of |
-| GB-2 | `strings <bin>` field-name probe | input JSON fields present: `session_id`, `transcript_path`, `cwd`, model `display_name`, workspace `current_dir`/`project_dir`, `output_style`, cost `total_cost_usd` / `total_duration_ms` / `total_lines_added` / `total_lines_removed`, `exceeds_200k_tokens`, `version` | the command receives **session + model + cost + a context-threshold flag** on stdin |
-| GB-3 | inspect GB-2 for any per-loadout standing-token field | **none** — the only context signal is `exceeds_200k_tokens` (**boolean**, not a count); no standing/loadout token number is provided | **dose-source = census over the composed loadout at (re)compile time**, NOT live introspection. The `⚡ native · 14.2k standing` number must come from `census.ts` over the active profile; `transcript_path` could yield a *running-usage* number later (invocation side, B1), but never the **standing** dose |
+| GB-2 | `strings <bin>` field-name probe (2.1.216) | input JSON fields present: `session_id`, `transcript_path`, `cwd`, model `display_name`, workspace `current_dir`/`project_dir`, `output_style`, cost `total_cost_usd` / `total_duration_ms` / `total_lines_added` / `total_lines_removed`, `exceeds_200k_tokens`, `version`; **plus a nested `context_window` object** (`context_window_size`, `total_input_tokens`, `total_output_tokens`, `used_percentage`, `remaining_percentage`) **and a `rate_limits` object** (`five_hour` / `seven_day` `.used_percentage`) | the command receives **session + model + cost + live context-window token counts + rate-limit usage** on stdin (richer than the boolean threshold alone) |
+| GB-3 | inspect GB-2 for a per-loadout *standing*-token field | `context_window.total_input_tokens` **is** a live token count, but it is **whole-session running usage** (system + skills + messages + tool results), **not** the skills-only *standing* dose; **no field isolates the standing number** | **dose-source = census over the composed loadout at (re)compile time**, NOT live introspection. The `⚡ native · 14.2k standing` number must come from `census.ts` over the active profile; `context_window.total_input_tokens` (or `transcript_path`) yields a *running-usage* readout later (invocation side, B1), but **never** the isolated **standing** dose. Correction: the earlier "only `exceeds_200k_tokens`, boolean not a count" claim understated the input — counts exist; they're just the wrong *scope* for the standing readout |
 
 **Blocks:** WS4 step-1 statusline segment. The segment computes its standing-dose
-number by censusing the profile it launched with (refreshed when the profile is
-recomposed — i.e. after a D12 fork), never from Claude's statusline input.
+number by censusing the profile it launched with (`claude-heaven` launcher floor,
+or the posture the upward scalpel composed — D12), never from Claude's statusline
+input. The `context_window` counts are usable for a **second, distinct** readout
+(live running usage), clearly labeled apart from the standing dose.
 **Deferred (needs interactive session):** a live stdin capture to confirm the
-exact nested JSON shape and that `exceeds_200k_tokens` is the only token signal at
-runtime — repro: set `statusLine.command` to a script that appends stdin to a
-file, open an interactive `claude`, read the file.
+exact nested JSON shape at runtime (the field set above is from the 2.1.216
+binary + in-binary help text; not yet observed live) — repro: set
+`statusLine.command` to a script that appends stdin to a file, open an
+interactive `claude`, read the file.
 
 ## WS3 verification gates — gate (c): plugin self-dose (D4)
 
@@ -276,6 +341,35 @@ WS4 re-prices; if the listed id carries a plugin-name prefix
 only standing cost `claude-heaven`'s doors add (Heaven's purest form uses no
 server). **Blocks:** WS4 steps 2–3 copy + README claims; the final command
 descriptions must price at or below this budget.
+
+## WS3 verification gates — gate (e): behavioral restraint (D13) — ❓ UNVERIFIED, research-pending
+
+**Status:** ❓ **NOT YET RUN — research track (gaia-skill-tree).** Load-bearing
+copy must not rely on this cell until it passes. Recorded here per D13 so the
+claim is disclosed as unverified rather than assumed (M0 discipline; D8's
+"will-not-work ledger is first-class").
+
+**What D13 needs verified.** The physical posture slider (gate (a)) is
+launcher-gated below the launch floor. D13 posits a **second, ungated downward
+track**: a *heaven-native skill* (the `grilling` / "grill-me" class) that reaches
+a posture **a notch below vanilla behaviorally** by **restraining the model's
+*use* of skills that remain physically in context** — an intentional shift, not a
+context purge. This is a **behavioral / prompt-adherence claim**, not a
+context-composition one, so tokens won't measure it.
+
+**Gate question:** does a heaven-native restraint skill **reliably suppress
+invocation of other in-context skills** (and hold under adversarial "please use
+skill X" pressure), across models (esp. the cheap tier), without a physical
+purge? **Proposed method (when run):** compose a session with N known skills in
+context + a restraint skill; issue tasks that would normally trigger those skills;
+measure invocation rate with vs. without the restraint skill (objective:
+suppression rate, false-restraint rate); repeat ×runs, report CIs (no
+determinism). **Depends on:** gaia-skill-tree producing the heaven-native skill
+set first (repo boundary: authored upstream, flows through marketing-tasks).
+**Blocks:** any WS4 copy that promises "below-vanilla in-session" behavior; the
+behavioral notch in the `/skill-heaven` slider UI. Until green, the MVP slider
+ships **physical-only** (gate (a)); the behavioral notch renders as
+"coming — research" and never as a working stop.
 
 ## Sources
 
