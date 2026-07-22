@@ -88,6 +88,18 @@ gaia-research  ──►  marketing-tasks  ──►  gaia-skill-tree
 
 If you change the schema JSON files, mirror the change in the validator (or vice versa) — they can silently drift.
 
+### Craft registry sync (`data/craft/*`) — current upstream schema assumptions
+
+`scripts/craft/sync-skill-tree.ts` regenerates `data/craft/{skills,recipes,named-index,contributors}.json` from a **READ-ONLY** sibling `gaia-skill-tree/registry` checkout (path resolved from `GAIA_SKILL_TREE_REGISTRY` env, or a fixed relative sibling path as fallback). `data/craft/emoji-map.json` is hand-maintained and never regenerated. As of `gaia-skill-tree v6.8.16` (commit `61867a3`):
+
+- **Named skills** live at `registry/named/<contributor>/<slug>.md` (YAML frontmatter per file, contract in `registry/schema/namedSkill.schema.json`) — **not** the deleted `registry/named-skills.json`, and **not** `registry/real-skills.json` (a different, staler provenance catalog — do not use it as a source).
+- **Generic skill nodes** live at `registry/nodes/{basic,extra,unique,ultimate}/*.json` (`unique` has no directory yet — tolerated as absent).
+- **Fusion recipes** live at `registry/combinations.md` (unchanged markdown table shape).
+
+The sync script has a fail-loud `assertRegistryShape()` gate (floors, known-skill canaries, and a delta guard against the previously-committed snapshot) that **aborts before writing any output** if the registry shape looks broken — this is the mechanism meant to prevent ever silently regenerating near-empty data again (see `docs/plans/epic-89-sub-85-registry-sync-repair-plan.md` for the full incident writeup and mapping). If you touch this mapping, update the header comment in `sync-skill-tree.ts` and this note together — they document the same contract and can silently drift apart.
+
+Do **not** hand-edit `data/craft/*.json` — they must always come from running the sync script.
+
 ## Node / npm version contract (CI & local must match)
 
 The CI workflow (`.github/workflows/craft-ci.yml`) pins **Node 22** (`node-version: '22'`). Keep it there.

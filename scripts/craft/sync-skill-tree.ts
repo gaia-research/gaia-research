@@ -8,7 +8,8 @@
 //                             plus multi-prereq entries with `prereqs` array
 //   data/craft/named-index.json — LEAN-BUT-RICH slug -> { c, t, g?, d, lvl? } map
 //                             (+ unlinked slugs + a derived slugToContributor for
-//                             backward-compat) built from registry/named-skills.json.
+//                             backward-compat) built from
+//                             registry/named/<contributor>/<slug>.md frontmatter.
 //                             GROUND TRUTH: we store the real registry title (t) and
 //                             description (d) so canonical unlocks read as unmistakably
 //                             real skills. Anti-bloat: we still store ONLY slug+contributor
@@ -19,12 +20,44 @@
 //                             { total, contributors: { <handle>: { count } } } where
 //                             count = how many NAMED skills that contributor authored.
 //                             Handles + counts ONLY (no titles/urls) — derived from the
-//                             same named-skills.json pass as named-index.json.
+//                             same named/ walk as named-index.json.
+//
+// ---------------------------------------------------------------------------
+// Registry schema assumptions (as of gaia-skill-tree v6.8.16, commit 61867a3)
+// ---------------------------------------------------------------------------
+// These are the load-bearing assumptions this script makes about the upstream
+// registry shape. If any of these ever changes, assertRegistryShape() below is
+// designed to abort the sync loudly (before writing output) rather than
+// silently regenerate near-empty data. Update this comment when you touch the
+// mapping so the next migration is easy to spot.
+//
+//   - registry/nodes/{basic,extra,unique,ultimate}/*.json — generic skill nodes.
+//     `unique` is in the upstream schema enum but has no directory yet (0 files
+//     today, tolerated as absent). Each file: { id, name, type? }.
+//   - registry/combinations.md — markdown table of fusion recipes. Row shape:
+//     "| diamond [contributor](../docs/u/contributor/)/slug | Class | Prereq A, Prereq B | star | Conditions |"
+//     Also supports "/generic-slug" (no contributor) and redacted-block/slug
+//     (redacted contributor) result cells.
+//   - registry/named/<contributor>/<slug>.md — THE authoritative named-skill
+//     source (superseded the deleted registry/named-skills.json). YAML
+//     frontmatter per file, contract in registry/schema/namedSkill.schema.json.
+//     Required frontmatter fields we read: id ("contributor/slug"), name,
+//     contributor, genericSkillRef, description, level ("N★"); optional: title
+//     (reviewer epithet, only on status: named).
+//   - registry/real-skills.json — a DIFFERENT, staler provenance catalog
+//     (source-repo items, not the named registry). Deliberately NOT used as a
+//     source here — see docs/plans/epic-89-sub-85-registry-sync-repair-plan.md §2.
 //
 // Run: npx tsx scripts/craft/sync-skill-tree.ts
+// Env: GAIA_SKILL_TREE_REGISTRY — override the registry root (used by CI, which
+//      checks out gaia-skill-tree at an arbitrary path, not a fixed sibling
+//      depth). FORCE_RESYNC=1 — bypass the delta-guard sanity assertion (see
+//      assertRegistryShape below); use only when a real, reviewed registry
+//      contraction is expected.
 
 import fs from 'fs';
 import path from 'path';
+import yaml from 'js-yaml';
 import { pairKey } from '../../lib/craft/types';
 import type { Recipe } from '../../lib/craft/types';
 
@@ -32,7 +65,9 @@ import type { Recipe } from '../../lib/craft/types';
 // Config — path to sibling gaia-skill-tree checkout (READ-ONLY)
 // ---------------------------------------------------------------------------
 
-const REGISTRY_ROOT = path.resolve(__dirname, '../../../../../../gaia-skill-tree/registry');
+const REGISTRY_ROOT =
+  process.env.GAIA_SKILL_TREE_REGISTRY ??
+  path.resolve(__dirname, '../../../../../../gaia-skill-tree/registry');
 const OUT_DIR = path.resolve(__dirname, '../../data/craft');
 
 // ---------------------------------------------------------------------------
@@ -45,7 +80,7 @@ interface SkillEntry {
   name: string;
   /** Human-readable name from registry JSON, e.g. "Hypothesis Generation" */
   displayName: string;
-  type: 'basic' | 'extra' | 'ultimate';
+  type: 'basic' | 'extra' | 'unique' | 'ultimate';
   contributor?: string;
   slug?: string;
 }
@@ -63,7 +98,8 @@ interface MultiPrereqRecipe {
 /**
  * A single lean-but-rich named-skill record keyed by slug. Field names are
  * short on purpose (this map is shipped in the client bundle) but every value
- * is GROUND TRUTH copied verbatim from registry/named-skills.json.
+ * is GROUND TRUTH copied verbatim from registry/named/<contributor>/<slug>.md
+ * frontmatter.
  */
 interface NamedSkillRecord {
   /** contributor handle, e.g. "garrytan". */
@@ -126,7 +162,14 @@ interface ContributorRoster {
 // ---------------------------------------------------------------------------
 
 function loadNodes(): SkillEntry[] {
-  const tiers: Array<'basic' | 'extra' | 'ultimate'> = ['basic', 'extra', 'ultimate'];
+  // 'unique' is in the upstream schema enum but has no directory on disk yet —
+  // tolerated as absent (see the "Registry schema assumptions" header comment).
+  const tiers: Array<'basic' | 'extra' | 'unique' | 'ultimate'> = [
+    'basic',
+    'extra',
+    'unique',
+    'ultimate',
+  ];
   const entries: SkillEntry[] = [];
 
   for (const tier of tiers) {
@@ -378,13 +421,13 @@ function makeBlurb(resultSlug: string, prereqSlugs: string[]): string {
 // ---------------------------------------------------------------------------
 // Step 5b: Build the lean-but-rich named-skill index (slug -> ground-truth record)
 //
-// READ-ONLY on gaia-skill-tree. Reads registry/named-skills.json, whose shape is:
-//   { buckets: { <genericSkill>: [ { id, contributor, title, description,
-//                                    genericSkillRef, level, ... } ] } }
-// The `id` field is the authoritative "<contributor>/<slug>" pair used to derive
-// the explorer deep-link; title/description/genericSkillRef/level are GROUND TRUTH
-// copied verbatim so canonical unlocks read as real skills. We skip entries whose
-// contributor is redacted (████████).
+// READ-ONLY on gaia-skill-tree. Reads registry/named/<contributor>/<slug>.md —
+// one YAML-frontmatter file per named skill (superseded the deleted
+// registry/named-skills.json — see the header comment for the full mapping).
+// Frontmatter fields are GROUND TRUTH, copied verbatim (clamped for bundle
+// size) so canonical unlocks read as real skills. There are no redacted
+// (████████) directories in the .md source today, but the unlinkedSlugs field
+// is kept for shape/back-compat and always emitted as [] here.
 // ---------------------------------------------------------------------------
 
 function isRedacted(s: string | undefined): boolean {
@@ -398,8 +441,107 @@ function cleanText(raw: unknown, max: number): string {
   return t.length > max ? t.slice(0, max).trimEnd() : t;
 }
 
-function buildNamedIndex(): NamedIndex {
-  const namedPath = path.join(REGISTRY_ROOT, 'named-skills.json');
+/** The frontmatter fields we actually consume from a named-skill .md file. */
+interface NamedFrontmatter {
+  id?: string;
+  name?: string;
+  contributor?: string;
+  origin?: boolean;
+  genericSkillRef?: string;
+  status?: string;
+  title?: string;
+  level?: string;
+  description?: string;
+}
+
+/**
+ * Slice the `---\n...\n---` YAML frontmatter block off the top of a markdown
+ * file and parse it. Returns `undefined` if the file has no frontmatter block
+ * or the block fails to parse (caller should warn + skip, never throw here —
+ * a single malformed file shouldn't abort the whole sync; the global sanity
+ * gate in assertRegistryShape() is what catches a systemic shape change).
+ */
+function parseFrontmatter(raw: string): NamedFrontmatter | undefined {
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!match) return undefined;
+  try {
+    const doc = yaml.load(match[1]);
+    return (doc && typeof doc === 'object' ? doc : undefined) as NamedFrontmatter | undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/** One parsed named-skill source file, ready to feed the index + roster builders. */
+interface NamedSkillFile {
+  /** Contributor handle, taken from the directory name (== frontmatter contributor). */
+  contributor: string;
+  /** Skill slug, taken from the filename (basename, no `.md`). */
+  slug: string;
+  frontmatter: NamedFrontmatter;
+}
+
+/**
+ * Walk `REGISTRY_ROOT/named/<contributor>/<slug>.md`, sorted contributor dirs
+ * then sorted filenames (deterministic across runs), parsing frontmatter for
+ * each file. Shared by buildNamedIndex() and buildContributorRoster() so the
+ * two can never drift on what counts as "one named skill".
+ */
+function listNamedSkillFiles(): NamedSkillFile[] {
+  const namedRoot = path.join(REGISTRY_ROOT, 'named');
+  const files: NamedSkillFile[] = [];
+
+  if (!fs.existsSync(namedRoot)) {
+    console.warn(`⚠ named/ directory not found at: ${namedRoot} — emitting empty file list`);
+    return files;
+  }
+
+  const contributorDirs = fs
+    .readdirSync(namedRoot, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name)
+    .sort();
+
+  for (const contributor of contributorDirs) {
+    if (isRedacted(contributor)) continue;
+    const dir = path.join(namedRoot, contributor);
+    const mdFiles = fs
+      .readdirSync(dir)
+      .filter((f) => f.endsWith('.md'))
+      .sort();
+
+    for (const file of mdFiles) {
+      const slug = path.basename(file, '.md');
+      try {
+        const raw = fs.readFileSync(path.join(dir, file), 'utf8');
+        const frontmatter = parseFrontmatter(raw);
+        if (!frontmatter) {
+          console.warn(`⚠ No parseable frontmatter in ${contributor}/${file} — skipping`);
+          continue;
+        }
+        // The id field, when present, is the authoritative "<contributor>/<slug>"
+        // pair. It should agree with the on-disk location; warn (don't abort a
+        // single file) if it doesn't — the global sanity gate catches systemic drift.
+        if (frontmatter.id) {
+          const idSlug = frontmatter.id.split('/')[1];
+          if (idSlug && idSlug !== slug) {
+            console.warn(
+              `⚠ ${contributor}/${file}: frontmatter id "${frontmatter.id}" disagrees ` +
+                `with filename slug "${slug}" — using filename`,
+            );
+          }
+        }
+        files.push({ contributor, slug, frontmatter });
+      } catch (e) {
+        console.warn(`⚠ Failed to read/parse ${contributor}/${file}: ${e} — skipping`);
+      }
+    }
+  }
+
+  return files;
+}
+
+function buildNamedIndex(files: NamedSkillFile[]): NamedIndex {
   const index: NamedIndex = {
     generatedAt: new Date().toISOString().slice(0, 10),
     skills: {},
@@ -407,120 +549,139 @@ function buildNamedIndex(): NamedIndex {
     unlinkedSlugs: [],
   };
 
-  if (!fs.existsSync(namedPath)) {
-    console.warn(`⚠ named-skills.json not found at: ${namedPath} — emitting empty index`);
-    return index;
-  }
+  // Tracks whether the record currently held for a slug came from an
+  // `origin: true` file, so a later origin:true file can still win a
+  // collision even though walk order is alphabetical, not origin-first.
+  const slugIsOrigin: Record<string, boolean> = {};
 
-  interface RegistryEntry {
-    id?: string;
-    contributor?: string;
-    title?: string;
-    description?: string;
-    genericSkillRef?: string;
-    level?: string;
-  }
-  let parsed: { buckets?: Record<string, RegistryEntry[]> };
-  try {
-    parsed = JSON.parse(fs.readFileSync(namedPath, 'utf8'));
-  } catch (e) {
-    console.warn(`⚠ Failed to parse named-skills.json: ${e} — emitting empty index`);
-    return index;
-  }
+  for (const { contributor, slug, frontmatter } of files) {
+    const fmContributor = cleanText(frontmatter.contributor, 60) || contributor;
+    const title =
+      cleanText(frontmatter.title, 120) || cleanText(frontmatter.name, 120) || slug;
+    const description = cleanText(frontmatter.description, 260);
+    const genericSkillRef = cleanText(frontmatter.genericSkillRef, 60);
+    const level = cleanText(frontmatter.level, 8);
+    const isOrigin = frontmatter.origin === true;
 
-  const buckets = parsed.buckets ?? {};
-  const unlinked = new Set<string>();
-
-  for (const bucket of Object.keys(buckets)) {
-    for (const entry of buckets[bucket]) {
-      const id = entry.id ?? '';
-      const slashAt = id.indexOf('/');
-      if (slashAt <= 0) continue; // need both a contributor and a slug
-      const contributorFromId = id.slice(0, slashAt);
-      const slug = id.slice(slashAt + 1).trim();
-      if (!slug) continue;
-
-      // Prefer the explicit contributor field, fall back to the id prefix.
-      const contributor = (entry.contributor ?? contributorFromId).trim();
-
-      // Skip redacted contributors — but remember the slug as "known but unlinked".
-      if (isRedacted(contributor) || isRedacted(contributorFromId)) {
-        unlinked.add(slug);
-        continue;
-      }
-
-      // First-write-wins on slug collisions (deterministic across runs given
-      // stable bucket/entry ordering in the source file).
-      if (!index.skills[slug]) {
-        const title = cleanText(entry.title, 120);
-        const description = cleanText(entry.description, 260);
-        const genericSkillRef = cleanText(entry.genericSkillRef, 60);
-        const level = cleanText(entry.level, 8);
-        const record: NamedSkillRecord = {
-          c: contributor,
-          // Ground truth: real registry title, falling back to the slug only if the
-          // registry somehow omits it (shouldn't happen for status 'named').
-          t: title || slug,
-          d: description,
-        };
-        if (genericSkillRef) record.g = genericSkillRef;
-        if (level) record.lvl = level;
-        index.skills[slug] = record;
-        index.slugToContributor[slug] = contributor;
-      }
+    const existing = index.skills[slug];
+    // Collision policy (deterministic — walk order is contributor asc, then
+    // slug asc): write if this is the first file for the slug, or if this
+    // file has origin: true and the currently-held record doesn't. Otherwise
+    // keep the first-seen (alphabetically first) entry. The loser is not
+    // lost — it still appears in the index under any other slugs it
+    // authored, only the colliding slug becomes single-owner.
+    if (!existing || (isOrigin && !slugIsOrigin[slug])) {
+      const record: NamedSkillRecord = { c: fmContributor, t: title, d: description };
+      if (genericSkillRef) record.g = genericSkillRef;
+      if (level) record.lvl = level;
+      index.skills[slug] = record;
+      index.slugToContributor[slug] = fmContributor;
+      slugIsOrigin[slug] = isOrigin;
     }
   }
 
-  // Only surface slugs that never got a linked contributor.
-  index.unlinkedSlugs = [...unlinked].filter((s) => !index.skills[s]).sort();
+  // No redacted directories exist in the .md source today; keep the field for
+  // shape/back-compat.
+  index.unlinkedSlugs = [];
 
   return index;
 }
 
 /**
  * Build the TINY contributor roster (handle -> named-skill count) for the
- * Builders collection. Reads the SAME named-skills.json as buildNamedIndex but
- * counts EVERY named-skill entry a contributor authored (not deduped by slug),
- * so `sum(count) === number of linkable named skills`. Redacted contributors
- * are skipped so no ████████ handle can ever leak into the client bundle.
+ * Builders collection. Reads the SAME named/ walk as buildNamedIndex but
+ * counts EVERY named-skill .md file a contributor authored (not deduped by
+ * slug), so `sum(count) === file count`. Redacted contributors are skipped so
+ * no ████████ handle can ever leak into the client bundle (none exist in the
+ * .md source today, but the guard is kept).
  */
-function buildContributorRoster(): ContributorRoster {
-  const namedPath = path.join(REGISTRY_ROOT, 'named-skills.json');
+function buildContributorRoster(files: NamedSkillFile[]): ContributorRoster {
   const roster: ContributorRoster = { total: 0, contributors: {} };
 
-  if (!fs.existsSync(namedPath)) {
-    console.warn(`⚠ named-skills.json not found at: ${namedPath} — emitting empty roster`);
-    return roster;
-  }
-
-  interface RegistryEntry {
-    id?: string;
-    contributor?: string;
-  }
-  let parsed: { buckets?: Record<string, RegistryEntry[]> };
-  try {
-    parsed = JSON.parse(fs.readFileSync(namedPath, 'utf8'));
-  } catch (e) {
-    console.warn(`⚠ Failed to parse named-skills.json: ${e} — emitting empty roster`);
-    return roster;
-  }
-
-  const buckets = parsed.buckets ?? {};
-  for (const bucket of Object.keys(buckets)) {
-    for (const entry of buckets[bucket]) {
-      const id = entry.id ?? '';
-      const slashAt = id.indexOf('/');
-      if (slashAt <= 0) continue;
-      const contributorFromId = id.slice(0, slashAt);
-      const handle = (entry.contributor ?? contributorFromId).trim();
-      if (!handle || isRedacted(handle) || isRedacted(contributorFromId)) continue;
-      roster.contributors[handle] ??= { count: 0 };
-      roster.contributors[handle].count += 1;
-    }
+  for (const { contributor, frontmatter } of files) {
+    const handle = cleanText(frontmatter.contributor, 60) || contributor;
+    if (!handle || isRedacted(handle)) continue;
+    roster.contributors[handle] ??= { count: 0 };
+    roster.contributors[handle].count += 1;
   }
 
   roster.total = Object.keys(roster.contributors).length;
   return roster;
+}
+
+// ---------------------------------------------------------------------------
+// Sanity gate — fail loudly, never write near-empty (see docs/plans/
+// epic-89-sub-85-registry-sync-repair-plan.md §5). Runs after loading and
+// BEFORE any writeFileSync. Throws (non-zero exit) if any assumption below is
+// violated, so a broken read aborts the sync instead of silently regenerating
+// near-empty data (the "235 named skills → 0" trap this issue exists to fix).
+// ---------------------------------------------------------------------------
+
+function assertShape(condition: boolean, message: string): void {
+  if (!condition) {
+    throw new Error(`❌ Registry sanity check failed: ${message}`);
+  }
+}
+
+function assertRegistryShape(args: {
+  nodes: SkillEntry[];
+  twoInputRecipeCount: number;
+  namedFiles: NamedSkillFile[];
+  namedIndex: NamedIndex;
+}): void {
+  const { nodes, twoInputRecipeCount, namedFiles, namedIndex } = args;
+
+  // Node layout still present.
+  assertShape(
+    nodes.length >= 200,
+    `node layout changed: expected >=200 nodes, got ${nodes.length} — check registry/nodes/*`,
+  );
+
+  // Combinations still parseable.
+  assertShape(
+    twoInputRecipeCount >= 30,
+    `combinations.md shape changed: <30 2-input recipes parsed (got ${twoInputRecipeCount})`,
+  );
+
+  // Named-skill source still present & non-trivial.
+  assertShape(
+    namedFiles.length >= 200,
+    `named/ layout changed or missing: expected >=200 .md files, got ${namedFiles.length}`,
+  );
+
+  // Canary fixtures the tests depend on (lib/craft/named-index.test.ts).
+  assertShape(
+    namedIndex.skills['scrape']?.c === 'garrytan',
+    'canary "scrape" missing or contributor mismatch — named schema changed',
+  );
+  assertShape(
+    namedIndex.skills['design-html']?.c === 'garrytan',
+    'canary "design-html" missing or contributor mismatch — named schema changed',
+  );
+
+  // Regression guard vs the currently-committed snapshot (the "235→113" trap):
+  // refuse to write if the new named count drops below 50% of the previously
+  // committed count, unless the operator explicitly opts in via FORCE_RESYNC.
+  const prevNamedIndexPath = path.join(OUT_DIR, 'named-index.json');
+  let prevNamedCount = 0;
+  if (fs.existsSync(prevNamedIndexPath)) {
+    try {
+      const prev = JSON.parse(fs.readFileSync(prevNamedIndexPath, 'utf8')) as {
+        skills?: Record<string, unknown>;
+      };
+      prevNamedCount = Object.keys(prev.skills ?? {}).length;
+    } catch {
+      // Unreadable/corrupt previous snapshot — treat as "no baseline", don't block.
+      prevNamedCount = 0;
+    }
+  }
+  const newNamedCount = Object.keys(namedIndex.skills).length;
+  const forced = process.env.FORCE_RESYNC === '1';
+  assertShape(
+    prevNamedCount === 0 || newNamedCount >= 0.5 * prevNamedCount || forced,
+    `named count collapsed: ${prevNamedCount} → ${newNamedCount} (>50% drop). ` +
+      `Set FORCE_RESYNC=1 if this contraction is real and reviewed.`,
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -589,6 +750,22 @@ function main() {
   console.log(`   ${recipes.length} canonical 2-input recipes`);
   console.log(`   ${multiRecipes.length} multi-prereq recipes (chained)`);
 
+  // 4b. Build the named-skill index + contributor roster from the named/ walk.
+  const namedFiles = listNamedSkillFiles();
+  console.log(`   Found ${namedFiles.length} named-skill .md files`);
+  const namedIndex = buildNamedIndex(namedFiles);
+  const roster = buildContributorRoster(namedFiles);
+
+  // 4c. Sanity gate — throws (aborts, non-zero exit) BEFORE any write if the
+  // registry shape looks broken. This is the mechanism that prevents ever
+  // silently regenerating near-empty data again.
+  assertRegistryShape({
+    nodes: skills,
+    twoInputRecipeCount: recipes.length,
+    namedFiles,
+    namedIndex,
+  });
+
   // 5. Write output files
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
@@ -618,7 +795,6 @@ function main() {
   console.log(`✅ Wrote data/craft/recipes.json (${recipesOut.length} total entries)`);
 
   // 5c. named-index.json — compact slug -> contributor map (anti-bloat).
-  const namedIndex = buildNamedIndex();
   const namedIndexPath = path.join(OUT_DIR, 'named-index.json');
   fs.writeFileSync(namedIndexPath, JSON.stringify(namedIndex, null, 2), 'utf8');
   const namedCount = Object.keys(namedIndex.skills).length;
@@ -629,7 +805,6 @@ function main() {
   );
 
   // 5d. contributors.json — tiny handle->count roster for the Builders collection.
-  const roster = buildContributorRoster();
   const rosterPath = path.join(OUT_DIR, 'contributors.json');
   fs.writeFileSync(rosterPath, JSON.stringify(roster, null, 2), 'utf8');
   const rosterBytes = fs.statSync(rosterPath).size;
