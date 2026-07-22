@@ -1,0 +1,43 @@
+name: hh-benchmark-claims
+
+# Provenance gate for the Hell/Heaven benchmark evidence. Two review passes on
+# the M2 deliverables failed the same "provenance overclaim" class (a number/sha
+# presented as committed that traced to nothing). This runs the claims gate +
+# ledger validation so a machine catches it before a human has to.
+on:
+  pull_request:
+    paths:
+      - 'scripts/hell-heaven-bench/**'
+      - 'docs/labs/harness-capability-matrix.md'
+      - 'content/reports/hh-benchmark/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/hell-heaven-bench/**'
+      - 'docs/labs/harness-capability-matrix.md'
+      - 'content/reports/hh-benchmark/**'
+
+jobs:
+  claims:
+    name: Ledger validate + claims-provenance gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Node 22 per the repo's version contract (CLAUDE.md — do NOT downgrade
+      # below 22, wrangler needs it). The gate scripts import only Node built-ins
+      # and local files, so no `npm ci` is required; tsx is fetched on demand.
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate the ledger schema (every record hh-ledger/v1-valid)
+        run: npx --yes tsx scripts/hell-heaven-bench/ledger.ts validate
+
+      - name: Claims-provenance gate (matrix M2 rows + hh-benchmark reports)
+        run: npx --yes tsx scripts/hell-heaven-bench/check-claims.ts
+
+      - name: Claims-gate self-tests (17 fixtures)
+        run: npx --yes tsx scripts/hell-heaven-bench/check-claims.test.ts
