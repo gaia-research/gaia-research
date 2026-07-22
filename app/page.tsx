@@ -16,7 +16,7 @@ const linkProps = (href: string) => (isExternal(href) ? { href, target: "_blank"
 export default function Home() {
  return <><SiteHeader /><main id="main">
   <section className="hero" aria-labelledby="hero-title">
-   <Image className="lab-plate" src="/assets/north-star-live/north-star-live-lab-plate-v01.webp" alt="" fill priority sizes="100vw" />
+   <Image className="splash-plate" src="/assets/north-star-live/milim-splash-v1-backdrop-tracer.webp" alt="" fill priority sizes="100vw" />
    <div className="hero-layout">
     <div className="hero-copy"><p className="signal"><span /> PUBLIC RESEARCH SIGNAL</p><h1 id="hero-title">Pushing the limits of <em>agent</em> capability.</h1><p className="hero-lede">Gaia Research is the open laboratory for evidence-first agent work. We observe, benchmark, verify, and publish the frontier &mdash; every claim links back to its receipts.</p><div className="actions"><Link className="button primary" href="/labs/infinite-skill-craft">Play Infinite Skill Craft <span>→</span></Link><a className="button secondary" href="#ledger">Read the ledger <span>→</span></a></div></div>
     <MilimLive fallbackSrc="/assets/north-star-live/milim-live-full-body-sprite-v01.webp" fallbackAlt="Milim, Gaia Research's Chief Capability Scout, standing in a laboratory hoodie." width={1024} height={1536} sizes="(max-width: 700px) 88vw, (max-width: 1200px) 46vw, 34vw" caption="MILIM · CHIEF CAPABILITY SCOUT" enableTooltips />

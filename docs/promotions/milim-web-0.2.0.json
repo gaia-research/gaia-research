@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "promotedAt": "2026-07-18T07:34:10.593Z",
+  "release": "milim-web-0.2.0",
+  "manifest": "public/milim/releases/milim-web-0.2.0/release.json",
+  "source": {
+    "commit": "0882acf16440436c3bf48c76563c4ea69dc54054",
+    "releasedAt": "2026-07-18T07:33:06.000Z",
+    "repository": "gaia-research/milim"
+  },
+  "player": {
+    "repository": "gaia-research/milim-player",
+    "version": "0.2.0",
+    "commit": "105e244e48fd773f699eef98d89d7f575956bf2c",
+    "entry": "./player/index.js",
+    "license": "Apache-2.0"
+  },
+  "files": [
+    {
+      "bytes": 316,
+      "path": "./LICENSES.txt",
+      "sha256": "b0660160dc83ccdbe584cf8d1d0dc5bacd536926eef39b9aadc3e3a14937a315"
+    },
+    {
+      "bytes": 1406,
+      "path": "./compile-report.json",
+      "sha256": "bbb2cf3ad5e65ffbd811464c7f9204a96dc8dfce0d1fd86d3a0360f0807bd376"
+    },
+    {
+      "bytes": 11357,
+      "path": "./licenses/milim-player-LICENSE.txt",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "bytes": 115,
+      "path": "./licenses/milim-player-NOTICE.txt",
+      "sha256": "ed7913215f1075dade3c35dc32a161aaf72a6f0546353fc53ec0ca7435a2c10f"
+    },
+    {
+      "bytes": 15700,
+      "path": "./models/milim-v1/model.json",
+      "sha256": "e4771fc0268e54db106b93c5394c77339637cc70b5ea41f394b41067b4910319"
+    },
+    {
+      "bytes": 138308,
+      "path": "./models/milim-v1/textures/joyful-winker.webp",
+      "sha256": "1b0b0d15e0652c473846c54317f1df5a24ab0f4aeb9fd9318392f99d485cd3bd"
+    },
+    {
+      "bytes": 97138,
+      "path": "./models/milim-v1/textures/milim-neutral-tracer.webp",
+      "sha256": "1fe14818ab29d965c0a5a79664f646859b58e1d646c2e6690c6cbbda9cf26d81"
+    },
+    {
+      "bytes": 34,
+      "path": "./models/milim-v1/textures/transparent.webp",
+      "sha256": "e5a2f0af4dfb54bb6b7cc3cdc67e7478466a9323f1bcb57438ee47a2b763312b"
+    },
+    {
+      "bytes": 12589,
+      "path": "./player/compose.js",
+      "sha256": "6439fbd543bce71f07638632221005e8c47f5d545683b05e5e9e7687fa11de56"
+    },
+    {
+      "bytes": 10953,
+      "path": "./player/core.js",
+      "sha256": "ef84648652c069e7b4f78c9da2dce1245c37c8491aea60f57cbb93e8eaedf84c"
+    },
+    {
+      "bytes": 1132,
+      "path": "./player/errors.js",
+      "sha256": "80fe84e9c988f28131f8fe01c79b9846474fd4f1519a625dfd1e6ab781c00144"
+    },
+    {
+      "bytes": 599,
+      "path": "./player/index.js",
+      "sha256": "7bd9b463e1c7393aa0ad72196e6f8f6231b753bf035d168411e257cc1ddbcb2b"
+    },
+    {
+      "bytes": 1746,
+      "path": "./player/lifecycle.js",
+      "sha256": "09616047c1476793cf9654b22fb4b17b69c57e680fe68ef5ae6ba50acd52caa5"
+    },
+    {
+      "bytes": 9175,
+      "path": "./player/load.js",
+      "sha256": "0c4844b0ee529ea9fe3fe21340b5bbb5951061f911d7c89e22526f39e50983ef"
+    },
+    {
+      "bytes": 4031,
+      "path": "./player/mount.js",
+      "sha256": "f335296fab4373e8fd8912d364981a66eb7f4e582863aba00f92fc0e7287cdd8"
+    },
+    {
+      "bytes": 2595,
+      "path": "./player/physics.js",
+      "sha256": "be6c9376711867fc48dd5e18b6b0f3ce26cc79973f36c561c7ce2b6727a09080"
+    },
+    {
+      "bytes": 28396,
+      "path": "./player/validate.js",
+      "sha256": "ce17ec19679e0f3d4e4e471618666be73859177d39a5ce6b815d33dd83309a1c"
+    },
+    {
+      "bytes": 30876,
+      "path": "./player/webgl2-renderer.js",
+      "sha256": "87e7c485aab03f4b1f22034d2538dd24edd7d8213d18babe85bc1dc21dea27c3"
+    },
+    {
+      "bytes": 309962,
+      "path": "./previews/desktop.webp",
+      "sha256": "892c85a7064ff3312f51c6658c58bc62daf764f432735366b6a43f966c1d1dec"
+    },
+    {
+      "bytes": 159938,
+      "path": "./previews/mobile.webp",
+      "sha256": "22a3fc2fad232c114df42726235bcfbde6fe4a2ba579b89504973d5122b87180"
+    },
+    {
+      "bytes": 309962,
+      "path": "./previews/reduced-motion.webp",
+      "sha256": "892c85a7064ff3312f51c6658c58bc62daf764f432735366b6a43f966c1d1dec"
+    },
+    {
+      "bytes": 192730,
+      "path": "./previews/tablet.webp",
+      "sha256": "518eba34799904f9603a4c9dc43c1f5670b38c38adaec9c707db661322a1aa4e"
+    },
+    {
+      "bytes": 469,
+      "path": "./promotion.json",
+      "sha256": "6cf10456fa17a818fb9a8e56248b83c544c4c5ed071628cb3ccd2bd8220f97d6"
+    },
+    {
+      "bytes": 252328,
+      "path": "./scenes/milim-splash-v1/layers/background.webp",
+      "sha256": "bfd897975594331c8a349a0560307bf9371eb5ab126973571c4548746cb5c9fc"
+    },
+    {
+      "bytes": 381844,
+      "path": "./scenes/milim-splash-v1/layers/foreground.webp",
+      "sha256": "ad387ae6fd7cb7cbd5101d778c45a6da85c4d3c9c9b6bf3ad6f27e1bae554b2e"
+    },
+    {
+      "bytes": 962758,
+      "path": "./scenes/milim-splash-v1/layers/midground.webp",
+      "sha256": "a449063dc547b48f04fb5342fa8d0bc9d417f9b3c728fa2bd504b9a7a0b626ef"
+    },
+    {
+      "bytes": 312122,
+      "path": "./scenes/milim-splash-v1/layers/reduced-motion.webp",
+      "sha256": "b20a099a7e32d93935787f2de01b68e1b2276ae0a81f914579834a26258277d7"
+    },
+    {
+      "bytes": 1306,
+      "path": "./scenes/milim-splash-v1/scene.json",
+      "sha256": "a306eeeecff0fd6af6e0d0eb7cab541cdbb6853e7665ce1dc5b88030fe296137"
+    }
+  ]
+}
