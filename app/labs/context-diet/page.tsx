@@ -74,7 +74,7 @@ export default function ContextDietPage() {
             <p>Every context file pays rent on every run—even when it is nowhere near a hard limit. Measure the drag, set a natural-language goal, and let Context Diet propose what to keep, compress, externalize, or retire.</p>
             <a className="button primary" href="#analyzer">Estimate the diet <span>↓</span></a>
           </div>
-          <Image src="/assets/context-diet-hero.webp" alt="A glowing laboratory visualization of compressed context streams." width={1600} height={900} priority sizes="(max-width: 800px) 100vw, 50vw" />
+          <Image src="/assets/context-diet-hero.webp" alt="Milim and Gaia sharing an oversized basket of fried chicken at a midnight diner counter." width={1600} height={900} priority sizes="(max-width: 800px) 100vw, 50vw" />
         </section>
 
         <section id="analyzer" className="section-shell"><ContextDietAnalyzer /></section>
@@ -93,7 +93,7 @@ export default function ContextDietPage() {
         </section>
 
         <section className="lab-method section-shell">
-          <Image src="/assets/context-diet-token-compression-motif.webp" alt="" width={1200} height={800} sizes="(max-width: 800px) 100vw, 45vw" />
+          <Image src="/assets/context-diet-token-compression-motif.webp" alt="A happy Milim trying on an outfit in a sunny mall fitting-room mirror." width={1600} height={900} sizes="(max-width: 800px) 100vw, 45vw" />
           <div>
             <span className="section-kicker">TWO PASSES · ONE NATURAL PROMPT</span>
             <h2>First diagnose. Then decide what leaves.</h2>

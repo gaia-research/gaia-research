@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "assets/workbench/generated/context-diet-hero-chicken-diner-b.png",
+    "sha256": "ba50d0cd97876fa0fd3a7c772d3cfd8eff3cda01d7a3c411089f811661d24f8d",
+    "dimensions": {
+      "width": 1672,
+      "height": 941,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/context-diet-hero.webp",
+      "format": "webp",
+      "width": 1600,
+      "height": 900,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 82,
+      "sha256": "30c697c130f423f3e8884cd5bde9786877d4275b12edd2a5a2930b160628b1c6",
+      "bytes": 136618
+    }
+  ],
+  "timestamp": "2026-07-22T15:34:53.648Z"
+}
