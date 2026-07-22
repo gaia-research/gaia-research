@@ -1,10 +1,27 @@
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { BlogArchive } from "@/components/BlogArchive";
+import { skillEvalsEditorialThumbnail } from "@/data/blog";
 
 export const metadata = {
-  title: "Blog · Gaia Research",
+  title: "Blog",
   description:
-    "Thought leadership, engineering essays, and AI agent dispatches from Nova and the Gaia Research team.",
+    "Gaia Research field notes on agent skills, AI image and video production, and token cost.",
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    type: "website",
+    url: "/blog",
+    title: "Blog | Gaia Research",
+    description:
+      "Gaia Research field notes on agent skills, AI image and video production, and token cost.",
+    images: [skillEvalsEditorialThumbnail.src.src],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog | Gaia Research",
+    description:
+      "Gaia Research field notes on agent skills, AI image and video production, and token cost.",
+    images: [skillEvalsEditorialThumbnail.src.src],
+  },
 };
 
 export default function BlogIndexPage() {
