@@ -55,3 +55,16 @@ Ranked by combined **viability** and **potential**.
 - **Potential:** Medium
 - **Why now:** Practical enabling work from the site plan that can evolve into reusable registry ingestion tooling.
 - **Doc:** [`nextjs-registry-sync-build-pipeline.md`](./nextjs-registry-sync-build-pipeline.md)
+
+## Rank 10 — Gaia Production Team & Native Asset Pipelines
+- **Viability:** High
+- **Potential:** Very High
+- **Why now:** Dedicated end-to-end production home for Milim Player, 2.5D animation pipelines, and native image generation skills (`gpt-image-2`), elevating brand asset craft.
+- **Doc:** [`gaia-production-team.md`](./gaia-production-team.md)
+
+## Rank 11 — Automated Change Management Team & Infrastructure
+- **Viability:** High
+- **Potential:** Very High
+- **Why now:** Hermes Agent cron-scheduled engine for automated changelog hunting, epic merge signal ingestion from `gaia-skill-tree` & `gaia-research`, auto `docs/en` updates, and frontend UI/marketing triggers.
+- **Doc:** [`change-management-team.md`](./change-management-team.md)
+
