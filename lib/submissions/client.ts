@@ -5,7 +5,7 @@
 // All calls degrade gracefully to an offline result when Supabase is
 // unconfigured — nothing throws on the network path.
 
-import { getSupabase, isSupabaseConfigured } from "@/lib/supabase/client";
+import { getSupabase, isSupabaseConfigured as isBrowserSupabaseConfigured } from "@/lib/supabase/client";
 import { validateContextDiet } from "./validate";
 import type {
   ContextDietPayload,
@@ -43,6 +43,17 @@ export async function fetchLeaderboard(
   kind: SubmissionKind,
   opts: LeaderboardOpts = {},
 ): Promise<SubmissionRow[]> {
+  if (kind === "context-diet") {
+    try {
+      const limit = Math.min(Math.max(opts.limit ?? 10, 1), 50);
+      const response = await fetch(`/api/context-diet/leaderboard?limit=${limit}`, { cache: "no-store" });
+      if (!response.ok) return [];
+      const result = (await response.json()) as { ok: boolean; rows?: SubmissionRow[] };
+      return result.ok && Array.isArray(result.rows) ? result.rows : [];
+    } catch {
+      return [];
+    }
+  }
   const supabase = getSupabase();
   if (!supabase) return [];
 
@@ -74,7 +85,22 @@ export async function submitContextDiet(
   } catch (err) {
     return { ok: false, error: (err as Error).message };
   }
-  return submit("context-diet", payload);
+  try {
+    const response = await fetch("/api/context-diet/leaderboard", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) {
+      const result = (await response.json().catch(() => null)) as { error?: string } | null;
+      return { ok: false, offline: response.status === 503, error: result?.error ?? "submission failed" };
+    }
+    return { ok: true };
+  } catch {
+    return { ok: false, offline: true };
+  }
 }
 
-export { isSupabaseConfigured };
+/** Context Diet uses the server route and does not require public browser keys. */
+export const isSupabaseConfigured = true;
+export { isBrowserSupabaseConfigured };

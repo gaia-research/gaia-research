@@ -6,14 +6,18 @@
 // is the opt-in leaderboard submit, which sends anonymized metrics only.
 
 import { useMemo, useRef, useState } from "react";
+import CopyCommand from "@/components/CopyCommand";
+import { installCmd } from "@/data/research";
 import { measure } from "@/lib/context-diet/analyze";
 import { projectReduction } from "@/lib/context-diet/project";
+import { projectTarget, MAX_ESTIMATED_REDUCTION_PCT } from "@/lib/context-diet/target";
 import { estimateCost, MODEL_RATES } from "@/lib/context-diet/cost";
 import { submitContextDiet, isSupabaseConfigured } from "@/lib/submissions/client";
 import { LabLeaderboard } from "./LabLeaderboard";
 import { PrivacyNote } from "./PrivacyNote";
 
 const SKILL_REPO_URL = "https://github.com/gaia-research/skill-context-diet";
+const SKILL_INSTALL = installCmd("skill-context-diet");
 
 const num = (n: number) => n.toLocaleString("en-US");
 const usd = (n: number) =>
@@ -25,6 +29,7 @@ const usd = (n: number) =>
 const MAX_ANALYZE_CHARS = 200_000;
 
 type SubmitState = "idle" | "sending" | "sent" | "error" | "offline";
+type GitHubFile = { name: string; url: string; size?: number; content?: string };
 
 export function ContextDietAnalyzer() {
   const [text, setText] = useState("");
@@ -36,6 +41,12 @@ export function ContextDietAnalyzer() {
   const [submitError, setSubmitError] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
   const [truncated, setTruncated] = useState(false);
+  const [desiredPct, setDesiredPct] = useState(42);
+  const [githubUrl, setGithubUrl] = useState("");
+  const [githubFiles, setGithubFiles] = useState<GitHubFile[]>([]);
+  const [selectedGithubUrl, setSelectedGithubUrl] = useState("");
+  const [githubState, setGithubState] = useState<"idle" | "scanning" | "loading" | "ready" | "error">("idle");
+  const [githubError, setGithubError] = useState("");
   const resultsRef = useRef<HTMLDivElement | null>(null);
 
   const rate = MODEL_RATES.find((r) => r.id === rateId) ?? MODEL_RATES[1];
@@ -45,10 +56,10 @@ export function ContextDietAnalyzer() {
     if (analyzed === null) return null;
     const m = measure(analyzed);
     const band = projectReduction(m);
-    const tokensSavedTarget = m.approxTokens - band.projectedTokensTarget;
-    const cost = estimateCost(tokensSavedTarget, rate.inputPerMTok);
-    return { m, band, tokensSavedTarget, cost };
-  }, [analyzed, rate.inputPerMTok]);
+    const target = projectTarget(m.totalChars, desiredPct);
+    const cost = estimateCost(target.tokensSaved, rate.inputPerMTok);
+    return { m, band, target, cost };
+  }, [analyzed, desiredPct, rate.inputPerMTok]);
 
   const handleAnalyze = () => {
     const capped = text.length > MAX_ANALYZE_CHARS;
@@ -62,6 +73,47 @@ export function ContextDietAnalyzer() {
     requestAnimationFrame(() => resultsRef.current?.focus());
   };
 
+  const handleGitHubScan = async () => {
+    setGithubState("scanning");
+    setGithubError("");
+    setGithubFiles([]);
+    setSelectedGithubUrl("");
+    try {
+      const response = await fetch(`/api/context-diet/github?url=${encodeURIComponent(githubUrl.trim())}`);
+      const data = await response.json();
+      if (!response.ok || !data.ok) throw new Error(data.error || "GitHub scan failed.");
+      const files: GitHubFile[] = data.file ? [data.file] : data.files ?? [];
+      setGithubFiles(files);
+      setGithubState("ready");
+      if (files.length === 0) setGithubError("No recognized agent-context files were found in the bounded public repository scan.");
+    } catch (error) {
+      setGithubState("error");
+      setGithubError(error instanceof Error ? error.message : "GitHub scan failed.");
+    }
+  };
+
+  const handleGitHubChoose = async () => {
+    const selected = githubFiles.find((file) => file.url === selectedGithubUrl);
+    if (!selected) return;
+    setGithubState("loading");
+    setGithubError("");
+    try {
+      let content = selected.content;
+      if (content === undefined) {
+        const response = await fetch(`/api/context-diet/github?url=${encodeURIComponent(selected.url)}`);
+        const data = await response.json();
+        if (!response.ok || !data.ok || typeof data.file?.content !== "string") throw new Error(data.error || "Could not load that file.");
+        content = data.file.content;
+      }
+      setText(content ?? "");
+      setAnalyzed(null);
+      setGithubState("ready");
+    } catch (error) {
+      setGithubState("error");
+      setGithubError(error instanceof Error ? error.message : "Could not load that file.");
+    }
+  };
+
   const handleSubmit = async () => {
     if (!result) return;
     if (!isSupabaseConfigured) {
@@ -71,9 +123,9 @@ export function ContextDietAnalyzer() {
     setSubmitState("sending");
     const res = await submitContextDiet({
       tokensBefore: result.m.approxTokens,
-      tokensAfter: result.band.projectedTokensTarget,
-      reductionPct: result.band.targetPct,
-      strategyKey: result.band.targetKey,
+      tokensAfter: result.target.projectedTokens,
+      reductionPct: result.target.appliedPct,
+      strategyKey: "user-target",
       handle: handle || undefined,
     });
     if (res.ok) {
@@ -90,6 +142,39 @@ export function ContextDietAnalyzer() {
   return (
     <div className="cd-analyzer">
       <PrivacyNote />
+
+      <div className="cd-quickstart" aria-label="Context Diet quick actions">
+        <div>
+          <span className="cd-label">Install Context Diet</span>
+          <CopyCommand command={SKILL_INSTALL} />
+        </div>
+        <a className="button secondary" href="#context-diet-leaderboard">View leaderboard <span>↓</span></a>
+      </div>
+
+      <section className="cd-github" aria-labelledby="github-scan-title">
+        <div>
+          <span className="cd-label" id="github-scan-title">Or scan a public GitHub repository</span>
+          <p className="cd-note">GitHub only. The server checks a bounded repository tree for common agent-context files; it never follows arbitrary URLs.</p>
+        </div>
+        <div className="cd-github-row">
+          <input className="cd-handle" type="url" value={githubUrl} onChange={(event) => setGithubUrl(event.target.value)} placeholder="https://github.com/owner/repo or …/blob/main/CLAUDE.md" aria-label="Public GitHub repository or agent-context file URL" />
+          <button type="button" className="button secondary" onClick={handleGitHubScan} disabled={!githubUrl.trim() || githubState === "scanning" || githubState === "loading"}>{githubState === "scanning" ? "Scanning…" : "Find files"}</button>
+        </div>
+        {githubFiles.length > 0 && (
+          <fieldset className="cd-github-files">
+            <legend className="cd-label">Choose one file to load</legend>
+            {githubFiles.map((file) => (
+              <label key={file.url}>
+                <input type="radio" name="github-context-file" value={file.url} checked={selectedGithubUrl === file.url} onChange={() => setSelectedGithubUrl(file.url)} />
+                <span>{file.name}</span>
+                {file.size !== undefined && <small>{num(file.size)} bytes</small>}
+              </label>
+            ))}
+            <button type="button" className="button primary" disabled={!selectedGithubUrl || githubState === "loading"} onClick={handleGitHubChoose}>{githubState === "loading" ? "Loading…" : "Use selected file"}</button>
+          </fieldset>
+        )}
+        {githubError && <p className="cd-note cd-err" role="alert">{githubError}</p>}
+      </section>
 
       <label className="cd-field">
         <span className="cd-label">Paste any agent-context file</span>
@@ -127,7 +212,7 @@ export function ContextDietAnalyzer() {
             <div className="analyzer-readout">
               <b>{num(result.m.approxTokens)}</b>
               <span className="compression-arrow" aria-hidden="true">→</span>
-              <b className="readout-target">~{num(result.band.projectedTokensTarget)}</b>
+              <b className="readout-target">~{num(result.target.projectedTokens)}</b>
               <span className="readout-unit">tokens</span>
               <p className="readout-detail">
                 {num(result.m.totalChars)} chars · {result.m.sectionCount} sections · optional budget{" "}
@@ -145,13 +230,23 @@ export function ContextDietAnalyzer() {
           <div className="reduction-band">
             <div>
               <span className="section-kicker">FIRST-PASS ESTIMATE · NO MUTATION</span>
+              <label className="cd-target-slider">
+                <span><b>Desired reduction</b><strong>{result.target.requestedPct}%</strong></span>
+                <input type="range" min="0" max="100" step="1" value={desiredPct} onChange={(event) => setDesiredPct(Number(event.target.value))} aria-describedby="target-guidance" />
+              </label>
               <p>
-                <strong>
-                  {result.band.lowPct}%–{result.band.highPct}%
-                </strong>{" "}
-                — a measured safe-to-lean screening band, with <strong>{result.band.targetPct}%</strong> as the Lab 001 reference.
-                Projected ~{num(result.band.projectedTokensTarget)} tokens (from{" "}
-                {num(result.m.approxTokens)}).
+                Your target: <strong>{result.target.requestedPct}%</strong>. Defensible benchmark recommendation: <strong>{result.band.targetPct}%</strong>.
+                Projected result: <strong>{num(result.target.projectedChars)} chars / ~{num(result.target.projectedTokens)} tokens</strong>.
+              </p>
+              <div className="cd-target-graph" role="img" aria-label={`Projected remaining context after ${result.target.appliedPct}% reduction`}><span style={{ width: `${100 - result.target.appliedPct}%` }} /></div>
+              <p className={`cd-note${result.target.requestedPct >= 80 ? " cd-warn" : ""}`} id="target-guidance">
+                {result.target.clamped
+                  ? `100% would imply deleting protected context. Projection is clamped at the estimated ${MAX_ESTIMATED_REDUCTION_PCT}% reduction floor until the installed skill audits the actual rules.`
+                  : result.target.requestedPct >= 80
+                    ? "80% is a stretch target. The installed skill may recommend less after identifying protected context."
+                    : result.target.requestedPct > result.band.targetPct
+                      ? "This target exceeds the measured recommendation. Treat it as owner-approved retirement, not ordinary compaction."
+                      : "This target sits within the measured recommendation; the installed skill still verifies every protected rule."}
               </p>
               <p className="cd-note">
                 This browser estimate cannot inventory protected rules. The installed skill audits the
@@ -178,7 +273,7 @@ export function ContextDietAnalyzer() {
                 <span> saved / 1M reads</span>
               </p>
               <p className="cd-note">
-                {num(result.tokensSavedTarget)} input tokens saved on every read.
+                {num(result.target.tokensSaved)} input tokens saved on every read.
               </p>
             </div>
           </div>
@@ -230,7 +325,9 @@ export function ContextDietAnalyzer() {
                     <code>skill-context-diet</code> from GitHub — the packaged{" "}
                     <code>SKILL.md</code> accepts natural-language goals such as “get near 80%.” The
                     first invocation only audits and estimates. Return later with an explicit “apply”
-                    to authorize destructive retirement against the saved, hash-verified plan.
+                    to authorize destructive retirement against the saved, hash-verified plan. After
+                    completion, the skill can preview the exact aggregate leaderboard payload and ask
+                    whether you want to submit it—no file contents, paths, rules, or prompts included.
                   </p>
                   <a
                     className="button secondary"
@@ -288,7 +385,7 @@ export function ContextDietAnalyzer() {
         </>
       )}
 
-      <details className="cd-disclosure cd-leaderboard-disclosure">
+      <details className="cd-disclosure cd-leaderboard-disclosure" id="context-diet-leaderboard" open>
         <summary>
           Leaderboard
           <span className="cd-disclosure-meta">beat Lab 001 · 41.6%</span>

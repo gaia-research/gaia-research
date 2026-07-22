@@ -7,7 +7,6 @@
 
 import { useEffect, useState } from "react";
 import { fetchLeaderboard } from "@/lib/submissions/client";
-import { isSupabaseConfigured } from "@/lib/supabase/client";
 import type { SubmissionKind, SubmissionRow } from "@/lib/submissions/types";
 
 const num = (n: number) => n.toLocaleString("en-US");
@@ -29,14 +28,10 @@ export function LabLeaderboard({
   refreshKey?: number;
 }) {
   const [rows, setRows] = useState<SubmissionRow[]>([]);
-  const [loading, setLoading] = useState(isSupabaseConfigured);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let alive = true;
-    if (!isSupabaseConfigured) {
-      setLoading(false);
-      return;
-    }
     setLoading(true);
     fetchLeaderboard(kind, { orderBy: "reduction_pct", limit }).then((data) => {
       if (alive) {
@@ -56,9 +51,7 @@ export function LabLeaderboard({
         Community submissions · self-reported anonymized metrics from the local estimator, ranked
         against Lab 001&apos;s {beatThreshold}% result. Early days — the board is still filling up.
       </p>
-      {!isSupabaseConfigured ? (
-        <></>
-      ) : loading ? (
+      {loading ? (
         <p className="pending">Loading…</p>
       ) : rows.length === 0 ? (
         <p className="pending">No submissions yet. Be the first to beat {beatThreshold}%.</p>
