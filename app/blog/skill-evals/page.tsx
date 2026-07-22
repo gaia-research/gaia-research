@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
@@ -41,11 +40,11 @@ export default function BlogPostPage() {
         </header>
 
         <figure className="blog-post-illustration">
-          <Image
-            src={skillEvalsEditorialThumbnail.src}
+          <img
+            src={skillEvalsEditorialThumbnail.src.src}
+            width={skillEvalsEditorialThumbnail.src.width}
+            height={skillEvalsEditorialThumbnail.src.height}
             alt={skillEvalsEditorialThumbnail.alt}
-            priority
-            sizes="(max-width: 760px) 100vw, 56rem"
           />
         </figure>
 

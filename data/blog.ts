@@ -25,8 +25,8 @@ export const skillEvalsEditorialThumbnail = {
 export const blogPosts: readonly BlogPost[] = [
   {
     href: "/blog/skill-evals",
-    category: "Field note",
-    date: "July 2026",
+    category: "Agent Skills",
+    date: "July 22, 2026",
     readTime: "5 min read",
     title: "Don't Ship Skills Without Evals",
     description:
