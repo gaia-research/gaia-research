@@ -6,7 +6,9 @@ import { HeroMilimBridge } from "@/components/HeroMilimBridge";
 import CopyCommand from "@/components/CopyCommand";
 import LabThumb from "@/components/labs/LabThumb";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import { BlogPostCard } from "@/components/BlogPostCard";
 import { displayName, installCmd, ledger, repoUrl, skills, treeUrl } from "@/data/research";
+import { blogPosts } from "@/data/blog";
 
 const statusText = { ACT: "ACTIVE", PRP: "PROPOSED", VRF: "VERIFIED", REV: "IN REVIEW", WIP: "EXPERIMENTAL", PLN: "PLANNED" } as const;
 
@@ -50,6 +52,20 @@ export default function Home() {
       <span className="play-go">Trim a prompt <span aria-hidden="true">→</span></span>
      </div>
     </Link>
+   </div>
+  </section>
+
+  <section id="blog" className="blog-home section-shell" aria-labelledby="blog-home-title">
+   <header className="blog-home-intro">
+    <div>
+     <p className="signal"><span /> FROM THE BLOG</p>
+     <h2 id="blog-home-title">A little field research.</h2>
+     <p>Short, human-readable notes from the Gaia lab—where the work gets a little strange before it gets useful.</p>
+    </div>
+    <Link href="/blog">All blog posts <span aria-hidden="true">→</span></Link>
+   </header>
+   <div className="blog-home-list">
+    {blogPosts.slice(0, 3).map((post) => <BlogPostCard key={post.href} post={post} />)}
    </div>
   </section>
 

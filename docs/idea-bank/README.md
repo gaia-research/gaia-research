@@ -68,3 +68,10 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** Hermes Agent cron-scheduled engine for automated changelog hunting, epic merge signal ingestion from `gaia-skill-tree` & `gaia-research`, auto `docs/en` updates, and frontend UI/marketing triggers.
 - **Doc:** [`change-management-team.md`](./change-management-team.md)
 
+## Rank 12 — Skill Eval Harness & Continuous Lifecycle Management
+- **Viability:** Very High
+- **Potential:** Exceptional
+- **Why now:** Derived from DeepMind Staff Engineer Philipp Schmid's research ("Don't Ship Skills Without Evals"); establishes standardized JSON/YAML test harnesses, progressive disclosure budgeting (<500 words, no-op removal), capability vs. preference skill separation, and ablation testing for skill retirement.
+- **Doc:** [`skill-eval-harness-and-lifecycle.md`](./skill-eval-harness-and-lifecycle.md)
+
+

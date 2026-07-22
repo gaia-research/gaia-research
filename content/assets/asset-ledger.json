@@ -2407,6 +2407,24 @@
       ]
     },
     {
+      "id": "skill-evals-editorial-thumbnail",
+      "path": "assets/generated/skill-evals-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "approved",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research · gpt-image-2 editorial commission",
+      "alt": "Tiny pink-haired Milim studies a paper star at a round table in a moonlit observatory archive.",
+      "sha256": "b3ff0ed4decf8c66fa603abfa6c88392daec781467def964b261da82794c9d0e",
+      "bytes": 292260,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": [],
+      "notes": "Approved for PR #99 as the blog thumbnail and inline editorial image. Promoted from assets/workbench/generated/skill-evals-observatory-screenprint-v01.png."
+    },
+    {
       "id": "hexagon-spark",
       "path": "assets/svg/hexagon-spark.svg",
       "kind": "illustration",
