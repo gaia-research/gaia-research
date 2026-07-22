@@ -101,3 +101,11 @@ export function lookupNamedSkill(slug: string): NamedSkill | undefined {
 export function namedContributor(slug: string): string | undefined {
   return SKILLS[slug]?.c ?? SLUG_TO_CONTRIBUTOR[slug];
 }
+
+/**
+ * Return an array of all named skill slugs present in the ground-truth index.
+ */
+export function getAllNamedSkillSlugs(): string[] {
+  return Object.keys(SKILLS);
+}
+

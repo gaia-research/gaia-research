@@ -33,11 +33,13 @@
  */
 
 import { NextResponse } from 'next/server';
+import { recordFusionEvent } from '@/lib/craft/telemetry';
 import { pairKey } from '@/lib/craft/types';
 import type { FusionResult, FusionTier } from '@/lib/craft/types';
 import { findRecipe, skillTreeUrl } from '@/lib/craft/recipes';
 import { findStarterRecipe } from '@/lib/craft/starter-recipes';
 import { lookupNamedSkill, namedContributor } from '@/lib/craft/named-index';
+import { findTopCandidateSlugs } from '@/lib/craft/similarity-shim';
 import {
   buildFusionPrompt,
   FUSION_MODEL,
@@ -209,6 +211,15 @@ function normaliseName(raw: string): string {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
   return `/${cleaned || 'mystery-fusion'}`;
+}
+
+/**
+ * Strips any leading `experimental-` prefix from a slug so fallback names
+ * never compound the prefix when fusing skills that were themselves fallbacks.
+ * e.g. "experimental-crawler-x" → "crawler-x"
+ */
+function deExperimentalise(slug: string): string {
+  return slug.replace(/^experimental-/, '');
 }
 
 /** Picks the first grapheme-ish emoji, defaulting to a sparkle. */
@@ -385,13 +396,17 @@ function parseModelResponse(
   a: string,
   b: string
 ): RawFusionJson {
-  const fallback = (): RawFusionJson => ({
-    name: normaliseName(`experimental-${a}-${b}`),
-    emoji: '🧪',
-    blurb: 'The fusion fizzled, boss — labelling it experimental for now.',
-    description: `An experimental fusion of ${a} and ${b}; capability not yet verified against the registry.`,
-    passesSkillCheck: false,
-  });
+  const fallback = (): RawFusionJson => {
+    const ca = deExperimentalise(a);
+    const cb = deExperimentalise(b);
+    return {
+      name: normaliseName(`${ca}-${cb}`),
+      emoji: '🧪',
+      blurb: 'The fusion fizzled, boss — but something sparked.',
+      description: `A fusion of ${ca} and ${cb}; capability not yet verified against the registry.`,
+      passesSkillCheck: false,
+    };
+  };
 
   try {
     // Workers AI chat responses commonly surface text under `.response`.
@@ -477,6 +492,18 @@ export async function POST(request: Request): Promise<Response> {
   const kv = kvOrShim(bindings);
   const key = pairKey(na, nb);
 
+  // Cloudflare execution context — used to register fire-and-forget promises
+  // with waitUntil() so they aren't killed when the response is sent.
+  // Absent on localhost (next dev); telemetry degrades gracefully without it.
+  let cfCtx: { waitUntil(p: Promise<unknown>): void } | undefined;
+  try {
+    const mod = await import('@opennextjs/cloudflare');
+    const ctx = await mod.getCloudflareContext();
+    cfCtx = ctx?.ctx ?? undefined;
+  } catch {
+    // No CF context on localhost — fine.
+  }
+
   // ── b. Cache lookup ──────────────────────────────────────────────────────
   try {
     const cached = await kv.get(key);
@@ -487,6 +514,7 @@ export async function POST(request: Request): Promise<Response> {
       const result = rehydrate(JSON.parse(cached) as StoredFusion);
       // A returning player: this is no longer a first discovery.
       result.isFirstDiscovery = false;
+      recordFusionEvent(result.tier, true, key, cfCtx);
       return NextResponse.json(result);
     }
   } catch {
@@ -577,7 +605,12 @@ export async function POST(request: Request): Promise<Response> {
       let raw: RawFusionJson;
       if (bindings.AI) {
         try {
-          const messages = buildFusionPrompt(na, nb);
+          // Fast candidate targeting via top similarity candidates (reduces context size & TTFT latency).
+          // 8 rather than 5: promotion still requires an exact name match (see resolvePromotion
+          // below), so widening the pool only gives the model more real options to land on
+          // exactly — no matching-precision risk, cost is a handful of extra short slugs.
+          const candidateSlugs = findTopCandidateSlugs(na, nb, 8);
+          const messages = buildFusionPrompt(na, nb, candidateSlugs);
           const response = await bindings.AI.run(FUSION_MODEL, {
             messages,
             temperature: FUSION_TEMPERATURE,
@@ -586,10 +619,10 @@ export async function POST(request: Request): Promise<Response> {
         } catch {
           // Any AI failure → safe experimental fallback (never a 500).
           raw = {
-            name: normaliseName(`experimental-${na}-${nb}`),
+            name: normaliseName(`${deExperimentalise(na)}-${deExperimentalise(nb)}`),
             emoji: '🧪',
-            blurb: 'The forge sputtered, boss — marking this one experimental.',
-            description: `An experimental fusion of ${na} and ${nb}; capability not yet verified.`,
+            blurb: 'The forge sputtered, boss — but something sparked.',
+            description: `A fusion of ${deExperimentalise(na)} and ${deExperimentalise(nb)}; capability not yet verified.`,
             passesSkillCheck: false,
           };
         }
@@ -652,5 +685,6 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   // ── e. Respond ────────────────────────────────────────────────────────────
+  recordFusionEvent(result.tier, false, key, cfCtx);
   return NextResponse.json(result);
 }

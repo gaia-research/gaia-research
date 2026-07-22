@@ -10,6 +10,8 @@
 | 6 | Dynamic Agent Evolution Tracking | Medium | Very High | Long | Yes | Partial | Labs with repeated workloads | Powerful differentiator, but trust and anti-gaming design are hard. |
 | 7 | Gaia-Lite Headless Toolkit Extraction | High | Medium-High | Medium | Yes | No | Core platform maintainers | Enabler for cleaner packaging of many future tools. |
 | 8 | Next.js Registry Sync Build Pipeline | High | Medium | Short-Medium | Yes | No | Web platform maintainers | Good infrastructure leverage, but narrower external appeal. |
+| 9 | Gaia Production Team & Native Asset Pipelines | High | Very High | Medium | No | Yes | Creative tech & media leads | End-to-end media home for Milim Player, 2.5D animation, and native image gen skills. |
+| 10 | Automated Change Management Team | High | Very High | Medium | No | Yes | DevOps & documentation maintainers | Hermes Agent cron-scheduled engine for changelogs, epic merges, docs/en updates, and marketing triggers. |
 
 ## Suggested sort views
 
@@ -26,19 +28,23 @@
 ### By strategic upside
 1. Flight Digest Telemetry Adapter
 2. Dynamic Agent Evolution Tracking
-3. Raphael Prober MCP Server
-4. Chaos-Buster Resilience Injector
-5. Proof-of-Skill Badges
-6. Gaia-Lite Headless Toolkit Extraction
-7. Milim HUD Terminal Overlay
-8. Next.js Registry Sync Build Pipeline
+3. Gaia Production Team & Native Asset Pipelines
+4. Automated Change Management Team
+5. Raphael Prober MCP Server
+6. Chaos-Buster Resilience Injector
+7. Proof-of-Skill Badges
+8. Gaia-Lite Headless Toolkit Extraction
+9. Milim HUD Terminal Overlay
+10. Next.js Registry Sync Build Pipeline
 
 ### By easiest standalone packaging
 1. Proof-of-Skill Badges
 2. Milim HUD Terminal Overlay
-3. Flight Digest Telemetry Adapter
-4. Chaos-Buster Resilience Injector
-5. Raphael Prober MCP Server
-6. Dynamic Agent Evolution Tracking
-7. Next.js Registry Sync Build Pipeline
-8. Gaia-Lite Headless Toolkit Extraction
+3. Gaia Production Team & Native Asset Pipelines
+4. Automated Change Management Team
+5. Flight Digest Telemetry Adapter
+6. Chaos-Buster Resilience Injector
+7. Raphael Prober MCP Server
+8. Dynamic Agent Evolution Tracking
+9. Next.js Registry Sync Build Pipeline
+10. Gaia-Lite Headless Toolkit Extraction

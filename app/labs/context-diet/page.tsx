@@ -17,7 +17,7 @@ export default function ContextDietPage() {
       <aside className="wip-banner" aria-label="Context Diet Lab 001 leaderboard status">
         <div>
           <span className="wip-tag">Lab 001 · benchmark complete</span>
-          <p>The estimator and Lab 001 results are live. The community leaderboard is still coming online.</p>
+          <p>The estimator and Lab 001 results are live. Community leaderboard is LIVE — climb the board.</p>
           <a href="https://github.com/gaia-research">Follow the lab source ↗</a>
         </div>
       </aside>

@@ -1,11 +1,11 @@
-import fs from "node:fs";
-import path from "node:path";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyCommand from "@/components/CopyCommand";
 import { installCmd, repoUrl, treeUrl } from "@/data/research";
+// loaded as raw text by webpack asset/source
+import researchPlanMd from "@/content/reports/cost/research-plan.md";
 
 export const metadata = {
   title: "When Agents Report Their Own Cost",
@@ -21,9 +21,7 @@ export const revalidate = false;
 const SKILL_SLUG = "skill-cost";
 
 function loadResearchPlan() {
-  const file = path.join(process.cwd(), "content/reports/cost/research-plan.md");
-  const raw = fs.readFileSync(file, "utf8");
-  return raw.split("\n").slice(2).join("\n").trim();
+  return researchPlanMd.split("\n").slice(2).join("\n").trim();
 }
 
 export default function CostResearchPage() {

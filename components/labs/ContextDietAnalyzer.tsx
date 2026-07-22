@@ -273,11 +273,11 @@ export function ContextDietAnalyzer() {
                     </div>
                   )}
                   {!isSupabaseConfigured && optIn && (
-                    <p className="cd-note">Leaderboard offline — submissions are disabled.</p>
+                    <></>
                   )}
                   {submitState === "sent" && <p className="cd-note cd-ok">Submitted. Thanks!</p>}
                   {submitState === "offline" && (
-                    <p className="cd-note">Leaderboard offline — not submitted.</p>
+                    <p className="cd-note">Couldn&apos;t reach the leaderboard — run didn&apos;t land, boss.</p>
                   )}
                   {submitState === "error" && <p className="cd-note cd-err">{submitError}</p>}
                 </div>

@@ -1,6 +1,6 @@
 # Flight Digest Telemetry Adapter
 
-- **Rank:** 1
+- **Rank:** 2
 - **Viability:** Very High
 - **Potential:** Very High
 
