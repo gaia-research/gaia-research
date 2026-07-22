@@ -48,3 +48,4 @@ scripts/.visual-audit/
 # Infinite Skill Craft local dev fusion cache (session-only, never committed)
 .craft-dev-cache.json
 .craft-dev-cache.bak.json
+scripts/.hh-demo/
