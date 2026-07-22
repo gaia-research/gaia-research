@@ -6,9 +6,9 @@
 // unconfigured — nothing throws on the network path.
 
 import { getSupabase, isSupabaseConfigured as isBrowserSupabaseConfigured } from "@/lib/supabase/client";
-import { validateContextDiet } from "./validate";
+import { validateContextDietEvidence } from "./validate";
 import type {
-  ContextDietPayload,
+  ContextDietEvidenceRequest,
   LeaderboardOpts,
   SubmissionKind,
   SubmissionPayload,
@@ -77,11 +77,11 @@ export async function fetchLeaderboard(
 
 /** First typed consumer of the generic layer. Validates before sending. */
 export async function submitContextDiet(
-  metrics: Omit<ContextDietPayload, "kind" | "labId">,
+  evidence: ContextDietEvidenceRequest,
 ): Promise<SubmitResult> {
-  let payload: ContextDietPayload;
+  let payload: ContextDietEvidenceRequest;
   try {
-    payload = validateContextDiet(metrics);
+    payload = validateContextDietEvidence(evidence);
   } catch (err) {
     return { ok: false, error: (err as Error).message };
   }

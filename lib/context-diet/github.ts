@@ -11,6 +11,12 @@ export type GitHubTarget = {
   path?: string;
 };
 
+export type PublicGitHubContext = GitHubTarget & {
+  ref: string;
+  path: string;
+  content: string;
+};
+
 export function isAgentContextPath(path: string): boolean {
   const normalized = path.replace(/^\/+/, "");
   const base = normalized.split("/").pop() ?? "";
@@ -71,4 +77,27 @@ export async function readBoundedResponse(response: Response, maxBytes: number):
   let offset = 0;
   for (const chunk of chunks) { merged.set(chunk, offset); offset += chunk.byteLength; }
   return new TextDecoder().decode(merged);
+}
+
+const githubHeaders = { Accept: "application/vnd.github+json", "User-Agent": "gaia-research-context-diet" };
+const encodePath = (path: string) => path.split("/").map(encodeURIComponent).join("/");
+
+/** Fetch one recognized public context file without ever following the user URL. */
+export async function fetchPublicGitHubContext(input: string): Promise<PublicGitHubContext> {
+  const target = parsePublicGitHubUrl(input);
+  if (!target.ref || !target.path) throw new Error("Use a GitHub /blob/ link to a context file.");
+  const root = `https://api.github.com/repos/${encodeURIComponent(target.owner)}/${encodeURIComponent(target.repo)}`;
+  const response = await fetch(
+    `${root}/contents/${encodePath(target.path)}?ref=${encodeURIComponent(target.ref)}`,
+    { headers: githubHeaders, cache: "no-store", signal: AbortSignal.timeout(8_000) },
+  );
+  const data = JSON.parse(await readBoundedResponse(response, MAX_CONTEXT_FILE_BYTES * 2));
+  if (data.type !== "file" || typeof data.content !== "string" || data.encoding !== "base64") {
+    throw new Error("GitHub did not return a readable context file.");
+  }
+  if (Number(data.size) > MAX_CONTEXT_FILE_BYTES) throw new Error("Context file is larger than 200 KB.");
+  const binary = atob(data.content.replace(/\n/g, ""));
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  if (bytes.byteLength > MAX_CONTEXT_FILE_BYTES) throw new Error("Context file is larger than 200 KB.");
+  return { ...target, ref: target.ref, path: target.path, content: new TextDecoder().decode(bytes) };
 }

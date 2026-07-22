@@ -9,7 +9,7 @@ export function PrivacyNote() {
       <strong>Private by design.</strong> Your context is never sent to the leaderboard.
       <InfoTip label="How Context Diet protects your context">
         Pasted text stays in your browser. For a public GitHub link, the server retrieves only the
-        repository listing and file you choose. Sharing aggregate token metrics is always opt-in.
+        repository listing and file you choose. Ranked results require separate, public before/after GitHub links.
       </InfoTip>
     </p>
   );

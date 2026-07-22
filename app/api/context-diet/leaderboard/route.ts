@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServiceClient } from "@/lib/supabase/server";
-import { validateContextDiet } from "@/lib/submissions/validate";
+import { validateContextDietEvidence } from "@/lib/submissions/validate";
+import { fetchPublicGitHubContext } from "@/lib/context-diet/github";
+import { approxTokens } from "@/lib/context-diet/analyze";
+import type { ContextDietPayload } from "@/lib/submissions/types";
 
 const TABLE = "submissions";
 const MAX_BODY_BYTES = 2_048;
@@ -62,15 +65,48 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "payload too large" }, { status: 413 });
   }
 
-  let payload;
+  let evidence;
   try {
-    payload = validateContextDiet(JSON.parse(raw));
+    evidence = validateContextDietEvidence(JSON.parse(raw));
   } catch (error) {
     return NextResponse.json(
       { ok: false, error: error instanceof Error ? error.message : "invalid payload" },
       { status: 400 },
     );
   }
+
+  let before;
+  let after;
+  try {
+    [before, after] = await Promise.all([
+      fetchPublicGitHubContext(evidence.beforeUrl),
+      fetchPublicGitHubContext(evidence.afterUrl),
+    ]);
+  } catch (error) {
+    return NextResponse.json(
+      { ok: false, error: error instanceof Error ? error.message : "public evidence could not be verified" },
+      { status: 422 },
+    );
+  }
+  const beforeChars = before.content.replace(/\r\n?/g, "\n").length;
+  const afterChars = after.content.replace(/\r\n?/g, "\n").length;
+  if (afterChars >= beforeChars) {
+    return NextResponse.json({ ok: false, error: "after evidence must be smaller than before evidence" }, { status: 422 });
+  }
+  const tokensBefore = approxTokens(beforeChars);
+  const tokensAfter = approxTokens(afterChars);
+  const reductionPct = Math.round(((beforeChars - afterChars) / beforeChars) * 1_000) / 10;
+  const payload: ContextDietPayload = {
+    kind: "context-diet",
+    labId: "lab-001",
+    tokensBefore,
+    tokensAfter,
+    reductionPct,
+    strategyKey: "verified-public-git",
+    verified: true,
+    evidence: { beforeUrl: evidence.beforeUrl, afterUrl: evidence.afterUrl },
+    ...(evidence.handle ? { handle: evidence.handle } : {}),
+  };
 
   const supabase = getSupabaseServiceClient();
   if (!supabase) {
@@ -83,5 +119,5 @@ export async function POST(request: Request) {
     payload,
   });
   if (error) return NextResponse.json({ ok: false, error: "submission failed" }, { status: 500 });
-  return NextResponse.json({ ok: true }, { status: 201 });
+  return NextResponse.json({ ok: true, payload }, { status: 201 });
 }

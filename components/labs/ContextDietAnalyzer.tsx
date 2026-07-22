@@ -2,8 +2,8 @@
 
 // Live Context Diet analyzer. Everything here runs in the browser: the pasted
 // text lives only in React state, is analyzed by the pure lib/context-diet
-// functions, and is NEVER uploaded, logged, or persisted. The only network call
-// is the opt-in leaderboard submit, which sends anonymized metrics only.
+// functions, and is NEVER uploaded, logged, or persisted. Ranked leaderboard
+// submissions are accepted separately only from public GitHub revision evidence.
 
 import { useMemo, useRef, useState } from "react";
 import CopyCommand from "@/components/CopyCommand";
@@ -12,7 +12,6 @@ import { measure } from "@/lib/context-diet/analyze";
 import { projectReduction } from "@/lib/context-diet/project";
 import { projectTarget, MAX_ESTIMATED_REDUCTION_PCT } from "@/lib/context-diet/target";
 import { estimateCost, MODEL_RATES } from "@/lib/context-diet/cost";
-import { submitContextDiet, isSupabaseConfigured } from "@/lib/submissions/client";
 import { LabLeaderboard } from "./LabLeaderboard";
 import { PrivacyNote } from "./PrivacyNote";
 import { InfoTip } from "./InfoTip";
@@ -29,18 +28,13 @@ const usd = (n: number) =>
 // leading slice and flagged to the user.
 const MAX_ANALYZE_CHARS = 200_000;
 
-type SubmitState = "idle" | "sending" | "sent" | "error" | "offline";
 type GitHubFile = { name: string; url: string; size?: number; content?: string };
 
 export function ContextDietAnalyzer() {
   const [text, setText] = useState("");
   const [analyzed, setAnalyzed] = useState<string | null>(null);
   const [rateId, setRateId] = useState("sonnet");
-  const [optIn, setOptIn] = useState(false);
-  const [handle, setHandle] = useState("");
-  const [submitState, setSubmitState] = useState<SubmitState>("idle");
-  const [submitError, setSubmitError] = useState("");
-  const [refreshKey, setRefreshKey] = useState(0);
+  const refreshKey = 0;
   const [truncated, setTruncated] = useState(false);
   const [desiredPct, setDesiredPct] = useState(42);
   const [githubUrl, setGithubUrl] = useState("");
@@ -68,8 +62,6 @@ export function ContextDietAnalyzer() {
     const capped = text.length > MAX_ANALYZE_CHARS;
     setTruncated(capped);
     setAnalyzed(capped ? text.slice(0, MAX_ANALYZE_CHARS) : text);
-    setSubmitState("idle");
-    setSubmitError("");
     // Milim companion reacts to a fresh analysis.
     window.dispatchEvent(new CustomEvent("milim:page-event", { detail: { topic: "context-diet:analyzed" } }));
     // Move focus to the results so keyboard/AT users land on the new output.
@@ -114,32 +106,6 @@ export function ContextDietAnalyzer() {
     } catch (error) {
       setGithubState("error");
       setGithubError(error instanceof Error ? error.message : "Could not load that file.");
-    }
-  };
-
-  const handleSubmit = async () => {
-    if (!result) return;
-    if (!isSupabaseConfigured) {
-      setSubmitState("offline");
-      return;
-    }
-    setSubmitState("sending");
-    const res = await submitContextDiet({
-      tokensBefore: result.m.approxTokens,
-      tokensAfter: result.target.projectedTokens,
-      reductionPct: result.target.appliedPct,
-      strategyKey: "user-target",
-      handle: handle || undefined,
-    });
-    if (res.ok) {
-      setSubmitState("sent");
-      setLeaderboardOpen(true);
-      setRefreshKey((k) => k + 1); // refresh the leaderboard
-    } else if (res.offline) {
-      setSubmitState("offline");
-    } else {
-      setSubmitState("error");
-      setSubmitError(res.error ?? "Submission failed.");
     }
   };
 
@@ -354,45 +320,9 @@ export function ContextDietAnalyzer() {
                   </a>
                 </div>
                 <div className="cd-submit">
-                  <label className="cd-optin">
-                    <input
-                      type="checkbox"
-                      checked={optIn}
-                      onChange={(e) => setOptIn(e.target.checked)}
-                    />
-                    <span>
-                      Submit anonymized metrics to the leaderboard (token counts + reduction % only).
-                    </span>
-                  </label>
-                  {optIn && (
-                    <div className="cd-submit-row">
-                      <input
-                        type="text"
-                        className="cd-handle"
-                        value={handle}
-                        onChange={(e) => setHandle(e.target.value)}
-                        placeholder="handle (optional)"
-                        maxLength={32}
-                        aria-label="Optional leaderboard handle"
-                      />
-                      <button
-                        type="button"
-                        className="button secondary"
-                        onClick={handleSubmit}
-                        disabled={!isSupabaseConfigured || submitState === "sending"}
-                      >
-                        {submitState === "sending" ? "Submitting…" : "Submit"}
-                      </button>
-                    </div>
-                  )}
-                  {!isSupabaseConfigured && optIn && (
-                    <></>
-                  )}
-                  {submitState === "sent" && <p className="cd-note cd-ok">Submitted. Thanks!</p>}
-                  {submitState === "offline" && (
-                    <p className="cd-note">Couldn&apos;t reach the leaderboard — run didn&apos;t land, boss.</p>
-                  )}
-                  {submitState === "error" && <p className="cd-note cd-err">{submitError}</p>}
+                  <span className="cd-label">Verified leaderboard</span>
+                  <p>Ranked entries require public GitHub before/after file revisions. The server fetches both files and calculates the result itself.</p>
+                  <p className="cd-note">Browser slider values are never accepted. Private diets remain private and unranked.</p>
                 </div>
               </div>
             </details>

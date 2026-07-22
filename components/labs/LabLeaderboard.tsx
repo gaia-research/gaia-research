@@ -50,8 +50,8 @@ export function LabLeaderboard({
       <div className="lb-heading">
         <span className="section-kicker">COMMUNITY RESULTS</span>
         <InfoTip label="About leaderboard results">
-          Self-reported aggregate metrics, ranked against Lab 001&apos;s {beatThreshold}% result. No
-          context contents or file paths are included.
+          Server-calculated results from public GitHub before/after revisions, ranked against Lab
+          001&apos;s {beatThreshold}% result.
         </InfoTip>
       </div>
       {loading ? (
@@ -85,7 +85,7 @@ export function LabLeaderboard({
                     <td>
                       {num(r.payload.tokensBefore)} → {num(r.payload.tokensAfter)}
                     </td>
-                    <td>{r.payload.strategyKey ?? "—"}</td>
+                    <td>{r.payload.verified ? "Verified public" : "Legacy"}</td>
                     <td>{fmtDate(r.created_at)}</td>
                   </tr>
                 );

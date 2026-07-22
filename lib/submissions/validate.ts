@@ -4,7 +4,8 @@
 // numeric/enum fields, so raw prompt text can never be attached and sent — even
 // by a careless future caller. Handles are sanitized to a safe charset.
 
-import type { ContextDietPayload } from "./types";
+import type { ContextDietEvidenceRequest } from "./types";
+import { parsePublicGitHubUrl } from "@/lib/context-diet/github";
 
 const HANDLE_MAX = 32;
 const HANDLE_ALLOWED = /[^A-Za-z0-9_-]/g;
@@ -16,42 +17,31 @@ export function sanitizeHandle(raw?: string): string | undefined {
   return cleaned.length > 0 ? cleaned : undefined;
 }
 
-function isFiniteNumber(x: unknown): x is number {
-  return typeof x === "number" && Number.isFinite(x);
-}
-
 /**
  * Validate and normalize a context-diet payload. Throws on bad shape or
  * out-of-range values. Only whitelisted keys survive — any extra field
  * (e.g. an accidental `text`) is dropped, not forwarded.
  */
-export function validateContextDiet(input: unknown): ContextDietPayload {
+export function validateContextDietEvidence(input: unknown): ContextDietEvidenceRequest {
   if (typeof input !== "object" || input === null) {
     throw new Error("payload must be an object");
   }
   const p = input as Record<string, unknown>;
 
-  if (!isFiniteNumber(p.tokensBefore) || p.tokensBefore < 0) {
-    throw new Error("tokensBefore must be a non-negative number");
+  if (typeof p.beforeUrl !== "string" || typeof p.afterUrl !== "string") {
+    throw new Error("public beforeUrl and afterUrl are required");
   }
-  if (!isFiniteNumber(p.tokensAfter) || p.tokensAfter < 0) {
-    throw new Error("tokensAfter must be a non-negative number");
+  const before = parsePublicGitHubUrl(p.beforeUrl);
+  const after = parsePublicGitHubUrl(p.afterUrl);
+  if (!before.ref || !before.path || !after.ref || !after.path) {
+    throw new Error("evidence must use GitHub /blob/ file links");
   }
-  if (!isFiniteNumber(p.reductionPct) || p.reductionPct < 0 || p.reductionPct > 100) {
-    throw new Error("reductionPct must be between 0 and 100");
+  if (before.owner !== after.owner || before.repo !== after.repo || before.path !== after.path) {
+    throw new Error("before and after evidence must identify the same public file");
   }
+  if (before.ref === after.ref) throw new Error("before and after evidence must use different revisions");
 
-  const payload: ContextDietPayload = {
-    kind: "context-diet",
-    labId: "lab-001",
-    tokensBefore: Math.round(p.tokensBefore),
-    tokensAfter: Math.round(p.tokensAfter),
-    reductionPct: Math.round(p.reductionPct * 10) / 10,
-  };
-
-  if (typeof p.strategyKey === "string" && p.strategyKey.length <= 40) {
-    payload.strategyKey = p.strategyKey;
-  }
+  const payload: ContextDietEvidenceRequest = { beforeUrl: p.beforeUrl, afterUrl: p.afterUrl };
   const handle = sanitizeHandle(typeof p.handle === "string" ? p.handle : undefined);
   if (handle) payload.handle = handle;
 
