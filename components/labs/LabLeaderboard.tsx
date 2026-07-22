@@ -8,6 +8,7 @@
 import { useEffect, useState } from "react";
 import { fetchLeaderboard } from "@/lib/submissions/client";
 import type { SubmissionKind, SubmissionRow } from "@/lib/submissions/types";
+import { InfoTip } from "./InfoTip";
 
 const num = (n: number) => n.toLocaleString("en-US");
 
@@ -46,11 +47,13 @@ export function LabLeaderboard({
 
   return (
     <section className="lab-leaderboard">
-      <span className="section-kicker">LEADERBOARD · BEAT LAB 001 ({beatThreshold}%)</span>
-      <p className="lb-disclaimer">
-        Community submissions · self-reported anonymized metrics from the local estimator, ranked
-        against Lab 001&apos;s {beatThreshold}% result. Early days — the board is still filling up.
-      </p>
+      <div className="lb-heading">
+        <span className="section-kicker">COMMUNITY RESULTS</span>
+        <InfoTip label="About leaderboard results">
+          Self-reported aggregate metrics, ranked against Lab 001&apos;s {beatThreshold}% result. No
+          context contents or file paths are included.
+        </InfoTip>
+      </div>
       {loading ? (
         <p className="pending">Loading…</p>
       ) : rows.length === 0 ? (

@@ -15,6 +15,7 @@ import { estimateCost, MODEL_RATES } from "@/lib/context-diet/cost";
 import { submitContextDiet, isSupabaseConfigured } from "@/lib/submissions/client";
 import { LabLeaderboard } from "./LabLeaderboard";
 import { PrivacyNote } from "./PrivacyNote";
+import { InfoTip } from "./InfoTip";
 
 const SKILL_REPO_URL = "https://github.com/gaia-research/skill-context-diet";
 const SKILL_INSTALL = installCmd("skill-context-diet");
@@ -47,7 +48,9 @@ export function ContextDietAnalyzer() {
   const [selectedGithubUrl, setSelectedGithubUrl] = useState("");
   const [githubState, setGithubState] = useState<"idle" | "scanning" | "loading" | "ready" | "error">("idle");
   const [githubError, setGithubError] = useState("");
+  const [leaderboardOpen, setLeaderboardOpen] = useState(false);
   const resultsRef = useRef<HTMLDivElement | null>(null);
+  const leaderboardRef = useRef<HTMLDetailsElement | null>(null);
 
   const rate = MODEL_RATES.find((r) => r.id === rateId) ?? MODEL_RATES[1];
 
@@ -130,6 +133,7 @@ export function ContextDietAnalyzer() {
     });
     if (res.ok) {
       setSubmitState("sent");
+      setLeaderboardOpen(true);
       setRefreshKey((k) => k + 1); // refresh the leaderboard
     } else if (res.offline) {
       setSubmitState("offline");
@@ -143,18 +147,13 @@ export function ContextDietAnalyzer() {
     <div className="cd-analyzer">
       <PrivacyNote />
 
-      <div className="cd-quickstart" aria-label="Context Diet quick actions">
-        <div>
-          <span className="cd-label">Install Context Diet</span>
-          <CopyCommand command={SKILL_INSTALL} />
-        </div>
-        <a className="button secondary" href="#context-diet-leaderboard">View leaderboard <span>↓</span></a>
-      </div>
-
       <section className="cd-github" aria-labelledby="github-scan-title">
-        <div>
-          <span className="cd-label" id="github-scan-title">Or scan a public GitHub repository</span>
-          <p className="cd-note">GitHub only. The server checks a bounded repository tree for common agent-context files; it never follows arbitrary URLs.</p>
+        <div className="cd-section-heading">
+          <h2 id="github-scan-title">Scan a public GitHub repo</h2>
+          <InfoTip label="Which GitHub links are supported">
+            GitHub only. The scanner checks a bounded public repository tree for common agent-context
+            files and never follows arbitrary URLs.
+          </InfoTip>
         </div>
         <div className="cd-github-row">
           <input className="cd-handle" type="url" value={githubUrl} onChange={(event) => setGithubUrl(event.target.value)} placeholder="https://github.com/owner/repo or …/blob/main/CLAUDE.md" aria-label="Public GitHub repository or agent-context file URL" />
@@ -177,7 +176,7 @@ export function ContextDietAnalyzer() {
       </section>
 
       <label className="cd-field">
-        <span className="cd-label">Paste any agent-context file</span>
+        <span className="cd-section-heading"><span>Or paste a context file</span></span>
         <textarea
           className="cd-input"
           value={text}
@@ -200,9 +199,29 @@ export function ContextDietAnalyzer() {
         </button>
       </div>
 
+      <div className="cd-quickstart" aria-label="Context Diet quick actions">
+        <div>
+          <span className="cd-label">Install Context Diet</span>
+          <CopyCommand command={SKILL_INSTALL} />
+        </div>
+        <button
+          type="button"
+          className="button secondary"
+          onClick={() => {
+            setLeaderboardOpen(true);
+            requestAnimationFrame(() => leaderboardRef.current?.scrollIntoView({ block: "start" }));
+          }}
+        >
+          View leaderboard <span aria-hidden="true">↓</span>
+        </button>
+      </div>
+
       {result && (
         <>
-          <div className="analyzer-console" role="status" ref={resultsRef} tabIndex={-1}>
+          <p className="sr-only" role="status" aria-live="polite">
+            Estimate updated: {num(result.m.approxTokens)} tokens before, approximately {num(result.target.projectedTokens)} after a {result.target.appliedPct}% reduction.
+          </p>
+          <div className="analyzer-console" role="region" aria-label="Context Diet estimate" ref={resultsRef} tabIndex={-1}>
             <header>
               <span className="led" /> ANALYZER LIVE ·{" "}
               {result.m.overLimit
@@ -229,15 +248,22 @@ export function ContextDietAnalyzer() {
 
           <div className="reduction-band">
             <div>
-              <span className="section-kicker">FIRST-PASS ESTIMATE · NO MUTATION</span>
+              <div className="cd-section-heading">
+                <h2>Tune the estimate</h2>
+                <InfoTip label="What this estimate means">
+                  This is a read-only projection. The installed skill audits protected rules before
+                  recommending any actual changes.
+                </InfoTip>
+              </div>
               <label className="cd-target-slider">
                 <span><b>Desired reduction</b><strong>{result.target.requestedPct}%</strong></span>
                 <input type="range" min="0" max="100" step="1" value={desiredPct} onChange={(event) => setDesiredPct(Number(event.target.value))} aria-describedby="target-guidance" />
               </label>
-              <p>
-                Your target: <strong>{result.target.requestedPct}%</strong>. Defensible benchmark recommendation: <strong>{result.band.targetPct}%</strong>.
-                Projected result: <strong>{num(result.target.projectedChars)} chars / ~{num(result.target.projectedTokens)} tokens</strong>.
-              </p>
+              <dl className="cd-target-stats">
+                <div><dt>Recommended</dt><dd>{result.band.targetPct}%</dd></div>
+                <div><dt>Projected size</dt><dd>{num(result.target.projectedChars)} chars</dd></div>
+                <div><dt>Projected tokens</dt><dd>~{num(result.target.projectedTokens)}</dd></div>
+              </dl>
               <div className="cd-target-graph" role="img" aria-label={`Projected remaining context after ${result.target.appliedPct}% reduction`}><span style={{ width: `${100 - result.target.appliedPct}%` }} /></div>
               <p className={`cd-note${result.target.requestedPct >= 80 ? " cd-warn" : ""}`} id="target-guidance">
                 {result.target.clamped
@@ -248,14 +274,7 @@ export function ContextDietAnalyzer() {
                       ? "This target exceeds the measured recommendation. Treat it as owner-approved retirement, not ordinary compaction."
                       : "This target sits within the measured recommendation; the installed skill still verifies every protected rule."}
               </p>
-              <p className="cd-note">
-                This browser estimate cannot inventory protected rules. The installed skill audits the
-                file, proposes safe / recommended / aggressive plans, and may find a larger defensible cut.{" "}
-                <a href="#evidence-title" className="cd-inline-link">
-                  See the benchmark ↓
-                </a>{" "}
-                Verify faithfulness before adopting.
-              </p>
+              <a href="#evidence-title" className="cd-inline-link">See benchmark evidence ↓</a>
             </div>
             <div className="reduction-cost">
               <label>
@@ -316,19 +335,15 @@ export function ContextDietAnalyzer() {
 
           <div className="cd-export">
             <details className="cd-disclosure">
-              <summary>Adopt the skill &amp; leaderboard</summary>
+              <summary>Next steps</summary>
               <div className="cd-export-body">
                 <div>
-                  <span className="cd-label">Continue with the real audit</span>
-                  <p>
-                    Context Diet ships as an installable GAIA skill. Grab{" "}
-                    <code>skill-context-diet</code> from GitHub — the packaged{" "}
-                    <code>SKILL.md</code> accepts natural-language goals such as “get near 80%.” The
-                    first invocation only audits and estimates. Return later with an explicit “apply”
-                    to authorize destructive retirement against the saved, hash-verified plan. After
-                    completion, the skill can preview the exact aggregate leaderboard payload and ask
-                    whether you want to submit it—no file contents, paths, rules, or prompts included.
-                  </p>
+                  <span className="cd-label">Run the verified audit</span>
+                  <p>Install the skill to audit protected rules and generate a recoverable plan before anything changes.</p>
+                  <details className="cd-mini-details">
+                    <summary>How applying changes works</summary>
+                    <p>The first run is read-only. A later explicit “apply” authorizes changes against a hash-verified plan. Leaderboard sharing requires separate consent.</p>
+                  </details>
                   <a
                     className="button secondary"
                     href={SKILL_REPO_URL}
@@ -385,7 +400,13 @@ export function ContextDietAnalyzer() {
         </>
       )}
 
-      <details className="cd-disclosure cd-leaderboard-disclosure" id="context-diet-leaderboard" open>
+      <details
+        className="cd-disclosure cd-leaderboard-disclosure"
+        id="context-diet-leaderboard"
+        ref={leaderboardRef}
+        open={leaderboardOpen}
+        onToggle={(event) => setLeaderboardOpen(event.currentTarget.open)}
+      >
         <summary>
           Leaderboard
           <span className="cd-disclosure-meta">beat Lab 001 · 41.6%</span>
