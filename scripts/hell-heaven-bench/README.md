@@ -9,7 +9,32 @@ registry-proxy prototype — leave it alone.
 |---|---|---|
 | `census.ts` | **M1 / R0** | Two-part-dose census: standing (listing line) vs invocation (full `SKILL.md`) — never one number. Artifact: `content/reports/hh-benchmark/r0-census.md` + `data/r0-census.json`. |
 | `ledger.ts` | **M3 / R2 plumbing** | JSONL run ledger (methodology §6 + two-dose token categories). Always on: every run, manual or fleet, appends here. |
+| `check-claims.ts` | **provenance gate** | Binds prose to committed evidence: every token number / sha in the gated docs must trace to a committed `ledger.jsonl` / `r0-census.json` record, or carry the `‡` sigil (= declared uncommitted context). Run before any docs PR. |
 | `data/ledger.jsonl` | — | The ledger. Checked in; append-only. Includes the `hh-m2-smoke` launcher smoke records (B4 — flagged for easy owner veto). |
+
+### Claims-provenance gate (why it exists)
+
+Two review passes on the M2 deliverables failed the **same class** — *provenance
+overclaim* (prose asserting committed/measured status the artifacts don't back: a
+false census-sha "match", an "unmeasured enumeration", "every quantitative claim
+is committed" when the native pole / delta / invocation live only in gitignored
+`.hh-demo/`). The honesty discipline (M0 / B1–B5) was enforced **only by human
+review**, so the review *was* the missing linter. `check-claims.ts` is that
+linter, so a machine catches it first:
+
+```bash
+# gate the ledger-backed docs (matrix M2 rows + the hh-benchmark reports):
+npx tsx scripts/hell-heaven-bench/check-claims.ts
+# self-tests (fixtures in __fixtures__/check-claims/):
+npx tsx scripts/hell-heaven-bench/check-claims.test.ts
+```
+
+A doc opts its ledger-backed region in with `<!-- ledger-claims:begin -->` …
+`<!-- ledger-claims:end -->` fences (a fence-free doc is scanned whole); numbers
+that are genuinely uncommitted must be tagged `‡`. The demo runner
+(`demo-m2-floor-live.sh`) tags its own native/delta output with `‡` so writeups
+inherit the marker. Exits non-zero on any untraceable claim — wire it into CI /
+pre-PR alongside `ledger.ts validate`.
 
 **M2 (launcher):** the launcher-shaped profile compiler lives in
 **[`gaia-research/skill-heaven`](https://github.com/gaia-research/skill-heaven)**

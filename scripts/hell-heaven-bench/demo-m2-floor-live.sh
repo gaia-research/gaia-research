@@ -104,12 +104,20 @@ echo "   $DOSE_LINE"
 echo
 
 # --- summary --------------------------------------------------------------------
+# ONLY the floor placebo + curated heaven records get appended to the ledger.
+# The native perTurn and the native-floor delta are NOT committed — they live in
+# the gitignored scripts/.hh-demo/ only. They are printed with a ‡ marker so any
+# writeup drafted from this output inherits "uncommitted context" instead of
+# laundering these into "committed evidence" (the seam that failed two reviews;
+# enforced by check-claims.ts).
 DELTA=$(( T_NAT - T_FLR ))
 echo "==================== SUMMARY ($CLAUDE_VER, model $MODEL) ===================="
-printf '  native (vanilla) perTurn : %8s tok   firecrawl-crawl listed = %s\n' "$T_NAT" "$E_NAT"
-printf '  floor            perTurn : %8s tok   firecrawl-crawl = NONE  = %s\n' "$T_FLR" "$E_FLR"
-printf '  curated(impecc.) perTurn : %8s tok   impeccable listed      = %s\n' "$T_CUR" "$E_CUR"
-printf '  LIVE per-turn delta (native - floor) : %s tok saved by the floor\n' "$DELTA"
+printf '  native (vanilla) perTurn : %8s tok ‡ firecrawl-crawl listed = %s\n' "$T_NAT" "$E_NAT"
+printf '  floor            perTurn : %8s tok   firecrawl-crawl = NONE  = %s  (committed)\n' "$T_FLR" "$E_FLR"
+printf '  curated(impecc.) perTurn : %8s tok   impeccable listed      = %s  (committed)\n' "$T_CUR" "$E_CUR"
+printf '  LIVE per-turn delta (native - floor) : %s tok ‡ (uncommitted; native pole not appended)\n' "$DELTA"
+printf '  the load-bearing committed delta is floor -> curated: %s tok\n' "$(( T_CUR - T_FLR ))"
+echo "  ‡ = uncommitted workstation context (gitignored .hh-demo/), NOT a ledger record."
 echo
 echo "Records written (validator-clean by construction — record.ts calls validateRecord):"
 ls -1 "$OUT"/rec-*.json

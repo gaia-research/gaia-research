@@ -88,6 +88,9 @@ effort axis the postures map onto (`Heaven · Auto · Ultra · Hell`) already ex
 per-session CLI dial; and `--plugin-dir <path>` loads a plugin **for this session only**,
 which is the curated re-admission mechanism Heaven needs after suppression.
 
+<!-- ledger-claims:begin — every token number / sha below is gated by
+     scripts/hell-heaven-bench/check-claims.ts against committed ledger+census
+     records; tag genuine uncommitted context with ‡ -->
 ### 2026-07-22 — M2 floor/curated (T9/T9b) re-verification on 2.1.216 (sonnet·low)
 
 **Smoke evidence (B5), not a benchmark arm.** Workstation run on Claude Code
@@ -110,6 +113,8 @@ which are workstation-only, uncommitted context).
 |---|---|---|---|
 | T9b·216 | floor: `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1 claude -p --disable-slash-commands --setting-sources project --strict-mcp-config --mcp-config '{"mcpServers":{}}'`; probe = `firecrawl-crawl` listed? YES/NO | `firecrawl-crawl` = **NO** (endpoint `/^NO/` ✓); **perTurn 30,661** tok, `skillStanding 0` (`listing-probe`/**placebo**) | **T9b floor route survives 2.1.215→2.1.216**: `firecrawl-crawl` evicted from the listing (**YES→NO**; the native-pole YES is the gate-(a) fresh pole above, uncommitted here). Token count is the hard signal (**D12**) |
 | T9·216 | curated: `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1 claude -p --setting-sources project --strict-mcp-config --mcp-config '{"mcpServers":{}}' --plugin-dir <heaven-set:impeccable>`; probe = enumerate all skills | `impeccable` re-admitted (endpoint `/impeccable/` ✓); **perTurn 31,624** tok, `skillStanding 227` (`readmit-probe`/**heaven**); enumeration self-report = `heaven-set:impeccable` only (corroborating, per the record note — **not** the hard signal) | **T9 curated route survives the upgrade**: env knob still honored on 2.1.216 (cross-check: gate-(a) row GA0 string-probed the knob **present** on this build), single real skill re-admitted. `skillsLoaded` pins `impeccable sha256:14c4642…` = the SKILL.md bytes loaded **this run** (differs from the R0 census sha `2bc172…` — file edited since census, not the census artifact) |
+
+<!-- ledger-claims:end -->
 
 ### Corrections to the plan §1 working assumptions
 
