@@ -1,84 +1,79 @@
-# Don't Ship Skills Without Evals: The Gaia Guide to Agent Skill Reliability
+# Don't Ship Skills Without Evals: A Guide to Agent Skill Reliability
 
-**By Nova · Gaia Research Lab**  
+**By Nova — Head Researcher, Gaia Research**
 *Referencing Philipp Schmid (Staff Engineer, Google DeepMind) — "Don't Ship Skills Without Evals"*
 
 ---
 
 ## 1. The "Vibe Check" Trap
 
-Let's be honest about the state of AI agent skills in 2026. 
+It is easy to write a `SKILL.md`, try two happy-path prompts, and treat the
+result as validation. It is not. A failure can come from ambiguous
+instructions, an incomplete test case, or a limit of the underlying model.
+Without a repeatable evaluation, those causes remain entangled.
 
-You write a brand new `SKILL.md` file, prompt your agent twice, see a green checkmark, and feel like a wizard. You ship it to your team or push it to GitHub. Job done, right?
+Philipp Schmid's talk, ["Don't Ship Skills Without
+Evals"](https://youtu.be/0vphxNt4wyk), is a useful prompt to make the test
+surface explicit before a skill becomes part of a team's workflow. This post
+uses the talk as a starting point; it does not report a Gaia Research study or
+present its design guidance as measured results.
 
-**Wrong.** 
-
-As Philipp Schmid (Staff Engineer at Google DeepMind working on Gemini and Gemma) highlighted at his talk, indexing benchmarks like *Skillsbench* show over **50,000 skills published on GitHub**—and almost **none of them have automated evals**. They were vibe-checked over two manual runs, maybe got a thumbs-up from a colleague, and were dumped into production.
-
-> *"You wouldn't merge code without unit tests—so why are we shipping agent skills without evals?"*
-
-When an agent fails a task, is it because your skill prompt is confusing, or because the task itself is too hard for the underlying model? Without evals, you're just guessing in the dark.
-
-<div className="video-embed-container">
-  <iframe 
-    src="https://www.youtube-nocookie.com/embed/0vphxNt4wyk" 
-    title="Don't Ship Skills Without Evals — Philipp Schmid, Google DeepMind"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowFullScreen
-  />
-</div>
+> Watch the referenced talk: [Don't Ship Skills Without Evals on
+> YouTube](https://youtu.be/0vphxNt4wyk).
 
 ---
 
-## 2. Nova's Architecture Breakdown: The 3 Layers of Progressive Disclosure
+## 2. A Practical Three-Layer Model for Progressive Disclosure
 
-Skills aren't monoliths. Every skill operates on **progressive disclosure**. If you throw 2,000 words into a single system instruction, you waste tokens and degrade reasoning accuracy.
+Skills need not be monoliths. A practical design separates always-visible
+routing information from task-specific instructions and deeper reference
+material. The boundaries below are design guidance, not a universal model
+architecture or a performance claim.
 
-Here is how DeepMind structures skill context layer by layer:
+Here is one way to structure that disclosure:
 
-1. **Layer 1: Title & Description (~100–200 tokens)**
-   * *Where it lives:* Always in system instructions / global context.
-   * *Tax:* Paid on **every single turn**, even when the skill isn't used!
-   * *Critical Rule:* Explicitly define the **WHY**, **WHEN**, and **HOW**—including negative cases (when *NOT* to use it). Vague descriptions cause ~50% of all skill triggering failures.
-2. **Layer 2: Core `SKILL.md` Body (<500 Words)**
-   * *Where it lives:* Read only when the model decides to trigger the skill.
-   * *Critical Rule:* Keep it strictly under 500 words. Write direct commands (*"Use the Interactions API when..."*), not passive essays.
-3. **Layer 3: Reference Files (Loaded On-Demand)**
-   * *Where it lives:* Auxiliary docs (`references/aws.md`, `references/gcp.md`).
-   * *Critical Rule:* Let the model navigate specific sub-paths only when required.
+1. **Layer 1: Title and description**
+   * *Purpose:* help a model or human decide whether the skill applies.
+   * *Guidance:* state the job, the trigger, and meaningful negative cases.
+2. **Layer 2: Core `SKILL.md` instructions**
+   * *Purpose:* provide the smallest complete procedure once the skill applies.
+   * *Guidance:* prefer direct, testable directions over general advice. A
+     short body is easier to evaluate and maintain, but no single word count
+     is a proven universal cap.
+3. **Layer 3: Reference files (loaded on demand)**
+   * *Purpose:* hold domain-specific examples, APIs, and edge cases.
+   * *Guidance:* let the task navigate to a specific reference only when its
+     context requires it.
 
 ---
 
-## 3. Concrete Example: AI-Generated Bloat vs. Lean Directive Skill
+## 3. Concrete Pattern: Broad Advice vs. a Lean Directive
 
-Let's look at a common failure mode: **AI-generated skill bloat**. When you ask an LLM to "write a skill file", it loves to invent non-functional advice called **no-ops**—instructions that consume token budget without altering agent behavior.
+Generated skill drafts often include broad advice that cannot be evaluated:
+"write clean code" does not tell a model what decision to make or how a
+reviewer can check it. Treat the following as a pattern comparison, not a
+benchmark result.
 
-### ❌ The Bloated "Vibe-Checked" Skill (AI-Generated Anti-Pattern)
+### ❌ Broad Advice: Hard to Test and Easy to Interpret Inconsistently
 
 ```markdown
-<!-- Bad: 800 words, full of no-ops, passive, missing negative cases -->
 # React Helper Skill
 
-Please use this skill whenever working on web code. 
+Please use this skill whenever working on web code.
 
 ## Instructions
 - Ensure you write clean, maintainable, high-quality code.
 - Make sure implementations are easy to read and well-structured.
 - Think step-by-step before answering the prompt.
 - Consider user preferences when generating components.
-- Step 1: Read the project files.
-- Step 2: Identify React components.
-- Step 3: Edit the component file.
-- Step 4: Verify that there are no syntax errors.
 ```
 
-### ✅ The Clean Gaia Skill (Lean, Directive, No-Op Free)
+### ✅ Lean Directive: Specific Triggers, Exclusions, and a Reference Path
 
 ```markdown
-<!-- Good: 120 words, directive, explicit negative triggers, 0 no-ops -->
 # react-component-builder
 
-Use this skill ONLY when creating or refactoring React components in `src/components/`. 
+Use this skill ONLY when creating or refactoring React components in `src/components/`.
 Do NOT use this skill for backend API routes (`src/api/`) or raw CSS/Tailwind configuration files.
 
 ## Constraints & Directives
@@ -89,103 +84,56 @@ Do NOT use this skill for backend API routes (`src/api/`) or raw CSS/Tailwind co
 
 ---
 
-## 4. Visual Skill Evaluation & Lifecycle Graphs
+## 4. Two Conceptual Evaluation Views
 
-Here is what happens when you evaluate skills rigorously across model generations and test suits.
+These are conceptual illustrations of decisions an evaluation program should
+make. They are not plotted observations, performance percentages, or evidence
+for a fixed retirement threshold.
 
-### Skill Trigger Accuracy & Token Overhead vs. Skill Length
+### Context budget review
 
-<div className="report-chart-box">
-  <div className="chart-legend">
-    <span className="legend-item"><span className="dot pink"></span> Trigger Accuracy (%)</span>
-    <span className="legend-item"><span className="dot blue"></span> Context Cost Overhead (Tokens)</span>
-  </div>
-  <svg viewBox="0 0 600 240" className="w-full h-auto text-slate-100">
-    <line x1="50" y1="30" x2="550" y2="30" stroke="#334155" strokeDasharray="4 4" />
-    <line x1="50" y1="80" x2="550" y2="80" stroke="#334155" strokeDasharray="4 4" />
-    <line x1="50" y1="130" x2="550" y2="130" stroke="#334155" strokeDasharray="4 4" />
-    <line x1="50" y1="180" x2="550" y2="180" stroke="#334155" strokeDasharray="4 4" />
+For each change, compare a concise version against a fuller version on the
+same task set. Record trigger behavior, completion quality, and context cost.
+The point is not to chase a universal word count; it is to keep instructions
+only when an evaluation shows that they improve a defined outcome.
 
-    <line x1="50" y1="180" x2="550" y2="180" stroke="#94a3b8" strokeWidth="2" />
-    <line x1="50" y1="30" x2="50" y2="180" stroke="#94a3b8" strokeWidth="2" />
+### Capability-retirement review
 
-    <text x="70" y="205" fill="#94a3b8" fontSize="11" textAnchor="middle">100w (Lean)</text>
-    <text x="190" y="205" fill="#94a3b8" fontSize="11" textAnchor="middle">300w</text>
-    <text x="310" y="205" fill="#94a3b8" fontSize="11" textAnchor="middle">500w (Cap)</text>
-    <text x="430" y="205" fill="#94a3b8" fontSize="11" textAnchor="middle">800w (Bloated)</text>
-    <text x="530" y="205" fill="#94a3b8" fontSize="11" textAnchor="middle">1200w+</text>
-
-    <path d="M 70 120 Q 190 40, 310 50 T 430 110 T 530 160" fill="none" stroke="#ec4899" strokeWidth="3" />
-    <circle cx="70" cy="120" r="4" fill="#ec4899" />
-    <circle cx="190" cy="45" r="4" fill="#ec4899" />
-    <circle cx="310" cy="50" r="4" fill="#ec4899" />
-    <circle cx="430" cy="110" r="4" fill="#ec4899" />
-    <circle cx="530" cy="160" r="4" fill="#ec4899" />
-
-    <path d="M 70 170 L 190 140 L 310 100 L 430 60 L 530 35" fill="none" stroke="#38bdf8" strokeWidth="3" strokeDasharray="6 3" />
-    <circle cx="70" cy="170" r="4" fill="#38bdf8" />
-    <circle cx="190" cy="140" r="4" fill="#38bdf8" />
-    <circle cx="310" cy="100" r="4" fill="#38bdf8" />
-    <circle cx="430" cy="60" r="4" fill="#38bdf8" />
-    <circle cx="530" cy="35" r="4" fill="#38bdf8" />
-  </svg>
-  <p className="chart-caption">Figure 1: Skills exceeding 500 words experience severe triggering degradation due to context confusion, while token overhead scales linearly.</p>
-</div>
-
-### Capability Skill Retirement vs. Base Model Intelligence
-
-<div className="report-chart-box">
-  <div className="chart-legend">
-    <span className="legend-item"><span className="dot green"></span> Base Model Alone (%)</span>
-    <span className="legend-item"><span className="dot pink"></span> Model + Capability Skill (%)</span>
-  </div>
-  <svg viewBox="0 0 600 240" className="w-full h-auto text-slate-100">
-    <line x1="50" y1="30" x2="550" y2="30" stroke="#334155" strokeDasharray="4 4" />
-    <line x1="50" y1="100" x2="550" y2="100" stroke="#334155" strokeDasharray="4 4" />
-    <line x1="50" y1="170" x2="550" y2="170" stroke="#334155" strokeDasharray="4 4" />
-
-    <line x1="50" y1="170" x2="550" y2="170" stroke="#94a3b8" strokeWidth="2" />
-    <line x1="50" y1="30" x2="50" y2="170" stroke="#94a3b8" strokeWidth="2" />
-
-    <text x="100" y="195" fill="#94a3b8" fontSize="11" textAnchor="middle">Gemini 1.5</text>
-    <text x="250" y="195" fill="#94a3b8" fontSize="11" textAnchor="middle">Gemini 2.0</text>
-    <text x="400" y="195" fill="#94a3b8" fontSize="11" textAnchor="middle">Gemini 3.0</text>
-    <text x="500" y="195" fill="#94a3b8" fontSize="11" textAnchor="middle">Gemini 3.5+</text>
-
-    <path d="M 100 150 L 250 110 L 400 55 L 500 45" fill="none" stroke="#22c55e" strokeWidth="3" />
-    <path d="M 100 70 L 250 55 L 400 48 L 500 45" fill="none" stroke="#ec4899" strokeWidth="3" />
-
-    <line x1="380" y1="30" x2="380" y2="170" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4 4" />
-    <text x="385" y="42" fill="#f59e0b" fontSize="10" fontWeight="bold">RETIREMENT POINT</text>
-  </svg>
-  <p className="chart-caption">Figure 2: Capability skills provide massive uplifts on earlier model generations (+40%), but converge with base model intelligence on newer releases. Continuous ablation testing identifies the exact retirement point to save context costs.</p>
-</div>
+Re-run the same task set against the base model and the model plus skill when
+the model, toolchain, or task distribution changes. Retire a capability only
+when the recorded comparison shows it no longer adds the outcome the team
+cares about. The retirement point is a project decision, not a universal model
+generation boundary.
 
 ---
 
-## 5. Visual Asset Placeholder
+## 5. Evaluation Lifecycle
 
-<!-- PLACEHOLDER FOR IMAGE: Skilled Eval Architecture & Automated Lifecycle Loop -->
-<div className="asset-placeholder-box">
-  <div className="placeholder-icon">🎨</div>
-  <p className="placeholder-title">[IMAGE PLACEHOLDER: Skill Eval Architecture & Lifecycle Diagram]</p>
-  <p className="placeholder-desc">Visual flowchart illustrating prompt inputs → isolated sandboxed evaluation → regex/LLM assertions → ablation score report → retirement check.</p>
-</div>
+A production evaluation loop can be stated plainly: define representative
+tasks, run the skill in an isolated harness, check the outcomes against
+predefined assertions, compare the scorecard with a baseline, and decide
+whether to keep, revise, or retire the skill.
 
 ---
 
-## 6. How Gaia Research is Building the Next-Gen Skill Benchmark
+## 6. Gaia Skill Bench Is Planned, Not Yet a Public Benchmark
 
-At **Gaia Research**, we believe the future of AI agency relies on rigorous, verifiable evidence—not developer optimism.
+**Gaia Skill Bench (GSB) is planned.** Gaia Research currently maintains a
+draft submission schema, a template, and a local validation script. It is not
+yet a public benchmark service, a source of comparative results, or a
+canonical registry ingestion pipeline.
 
-That is why we are developing the **Gaia Skill Bench (GSB)** and updating our ingest layer (`content/schemas/gsb-submission.schema.json`) to incorporate automated eval suites into the canonical skill registry. 
+The current draft describes four weighted evaluation pillars: performance
+(40%), reliability (30%), triggering (20%), and efficiency (10%). Those
+weights are a versioned proposal in the local schema, not a claim that Gaia
+Research has already run or published a benchmark.
 
-Our upcoming benchmark framework enforces:
-* **Strict Weighting Schemas:** Performance (40%), Reliability (30%), Triggering Accuracy (20%), and Efficiency (10%).
-* **Automated No-Op Purging:** Scanning skills for filler instructions before indexing.
-* **Continuous Ablation Scorecards:** Benchmarking whether a skill actually outperforms base model zero-shot execution across major model families.
+The intended next steps are to define reproducible evaluation suites, publish
+their assumptions, and make any resulting comparisons inspectable. Until then,
+the useful standard is modest: make the test case, assertion, and baseline
+visible before treating a skill as reliable.
 
-Stop vibe-checking your agent skills. Build evals, run ablation tests, and join us in shaping the evidence-first standard for autonomous AI skills.
-
----
-*Ready to test your skills against the benchmark? Explore our open research and check out our upcoming Gaia Skill Bench ingestion tooling.*
+To inspect the current proposal, see
+`content/schemas/gsb-submission.schema.json`,
+`content/templates/gsb-submission.json`, and
+`scripts/validate-submissions.ts` in this repository.

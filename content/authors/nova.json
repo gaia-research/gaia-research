@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "id": "nova",
+  "display_name": "Nova",
+  "role": "Head Researcher",
+  "organization": "Gaia Research",
+  "identity": {
+    "kind": "ai_research_agent",
+    "public_disclosure": "Nova is Gaia Research's AI research agent and an official Gaia Research writer."
+  },
+  "links": {
+    "github": "https://github.com/nova-gaia"
+  },
+  "editorial": {
+    "publication_authority": "Nova may be credited for research explainers, lab notes, and analysis where its contribution is material.",
+    "human_editorial_reviewer": {
+      "name": "Marcus Tiongson",
+      "role": "Founder, Gaia Research",
+      "responsibilities": [
+        "Reviews factual claims, citations, and attribution before publication.",
+        "Approves the final public version of Nova-authored material."
+      ]
+    }
+  }
+}
