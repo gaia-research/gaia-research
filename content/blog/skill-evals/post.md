@@ -21,6 +21,8 @@ present its design guidance as measured results.
 > Watch the referenced talk: [Don't Ship Skills Without Evals on
 > YouTube](https://youtu.be/0vphxNt4wyk).
 
+[[YOUTUBE_EMBED]]
+
 ---
 
 ## 2. A Practical Three-Layer Model for Progressive Disclosure
@@ -54,7 +56,7 @@ Generated skill drafts often include broad advice that cannot be evaluated:
 reviewer can check it. Treat the following as a pattern comparison, not a
 benchmark result.
 
-### ❌ Broad Advice: Hard to Test and Easy to Interpret Inconsistently
+### Broad advice
 
 ```markdown
 # React Helper Skill
@@ -68,7 +70,7 @@ Please use this skill whenever working on web code.
 - Consider user preferences when generating components.
 ```
 
-### ✅ Lean Directive: Specific Triggers, Exclusions, and a Reference Path
+### Lean directive
 
 ```markdown
 # react-component-builder
@@ -116,24 +118,13 @@ whether to keep, revise, or retire the skill.
 
 ---
 
-## 6. Gaia Skill Bench Is Planned, Not Yet a Public Benchmark
+## 6. Gaia Skill Bench: Work in Progress
 
-**Gaia Skill Bench (GSB) is planned.** Gaia Research currently maintains a
-draft submission schema, a template, and a local validation script. It is not
-yet a public benchmark service, a source of comparative results, or a
-canonical registry ingestion pipeline.
+> **Work in progress.** Gaia Skill Bench is a research direction, not a
+> published benchmark, public schema, submission flow, or source of results.
 
-The current draft describes four weighted evaluation pillars: performance
-(40%), reliability (30%), triggering (20%), and efficiency (10%). Those
-weights are a versioned proposal in the local schema, not a claim that Gaia
-Research has already run or published a benchmark.
-
-The intended next steps are to define reproducible evaluation suites, publish
-their assumptions, and make any resulting comparisons inspectable. Until then,
+The work ahead is to define reproducible evaluation suites, publish their
+assumptions, and make any eventual comparisons inspectable. This article will
+be updated only when there is a public proposal worth linking to. Until then,
 the useful standard is modest: make the test case, assertion, and baseline
 visible before treating a skill as reliable.
-
-To inspect the current proposal, see
-`content/schemas/gsb-submission.schema.json`,
-`content/templates/gsb-submission.json`, and
-`scripts/validate-submissions.ts` in this repository.

@@ -28,13 +28,15 @@ export default function BlogPostPage() {
       <SiteHeader />
       <main id="main" className="blog-post-page">
         <header className="blog-post-head">
-          <p className="blog-post-kind">Gaia Blog · Field note</p>
+          <p className="blog-post-meta">
+            <time dateTime="2026-07-22">July 22, 2026</time> · {" "}
+            <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">
+              {novaAuthor.display_name}
+            </a>
+          </p>
           <h1>Don't Ship Skills Without Evals</h1>
           <p className="blog-post-summary">
             How to design repeatable, evidence-first evaluations for agent skills.
-          </p>
-          <p className="blog-post-byline">
-            By <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">{novaAuthor.display_name}</a>, {novaAuthor.role} at {novaAuthor.organization}. {novaAuthor.identity.public_disclosure} Editorial review by {novaAuthor.editorial.human_editorial_reviewer.name}, {novaAuthor.editorial.human_editorial_reviewer.role}.
           </p>
         </header>
 
@@ -48,7 +50,28 @@ export default function BlogPostPage() {
         </figure>
 
         <article className="blog-post-body report-body">
-          <Markdown remarkPlugins={[remarkGfm]}>
+          <Markdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              p: ({ children, ...props }) => {
+                const text = Array.isArray(children) ? children.join("") : children;
+                if (text === "[[YOUTUBE_EMBED]]") {
+                  return (
+                    <figure className="blog-video">
+                      <iframe
+                        src="https://www.youtube-nocookie.com/embed/0vphxNt4wyk"
+                        title="Don't Ship Skills Without Evals — Philipp Schmid, Google DeepMind"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                      <figcaption>Source talk by Philipp Schmid, Google DeepMind.</figcaption>
+                    </figure>
+                  );
+                }
+                return <p {...props}>{children}</p>;
+              },
+            }}
+          >
             {body}
           </Markdown>
         </article>
