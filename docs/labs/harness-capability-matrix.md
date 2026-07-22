@@ -96,10 +96,10 @@ under-reports its own skill listing — the self-report flake that falsified the
 2026-07-21 gate-(a) pass; **D12**). Per **D12** the `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS`
 knob is undocumented and version-pinned, so the T9/T9b routes are **re-verified on
 every CLI upgrade — this row is that re-verification** for the 2.1.215→2.1.216
-step. Driver: [`scripts/hell-heaven-bench/demo-m2-floor-live.sh`](../../../scripts/hell-heaven-bench/demo-m2-floor-live.sh)
+step. Driver: [`scripts/hell-heaven-bench/demo-m2-floor-live.sh`](../../scripts/hell-heaven-bench/demo-m2-floor-live.sh)
 (the `skill-heaven` bin composes each route). Every number below is drawn from a
 **committed `hh-ledger/v1` record**
-([`data/ledger.jsonl`](../../../scripts/hell-heaven-bench/data/ledger.jsonl),
+([`data/ledger.jsonl`](../../scripts/hell-heaven-bench/data/ledger.jsonl),
 `benchmarkId: hh-m2-smoke`, `recordedAt 2026-07-22T07:23Z`). The absolute
 `perTurn` levels are this workstation's 67-skill loadout in one session and drift
 with cache/cwd — the **eviction / re-admission** is the load-bearing fact, not the

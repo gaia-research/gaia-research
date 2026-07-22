@@ -14,10 +14,17 @@
 > falsified the 2026-07-21 gate-(a) pass. Sonnet-low self-reports reliably here;
 > tokens remain authoritative regardless (**D12**).
 >
-> **Every quantitative claim below is drawn from a committed artifact** — the
-> three `hh-ledger/v1` records this run emitted
-> ([`data/ledger.jsonl`](../../../scripts/hell-heaven-bench/data/ledger.jsonl),
-> last three; the floor + curated pair is appended). Reproduce with
+> **The load-bearing figures — the floor and curated `perTurn` counts — are
+> drawn from committed `hh-ledger/v1` records:** the floor **placebo** (30,661)
+> + curated **heaven** (31,624) pair this run appended to
+> [`data/ledger.jsonl`](../../../scripts/hell-heaven-bench/data/ledger.jsonl)
+> (its **last two** records; `skillStanding 227` on the curated one is committed
+> too). The **native** `perTurn` (46,849 ‡), the vanilla→floor **delta**
+> (−16,188 ‡), and the `chars4` **invocation** dose (5,917 ‡) are **not
+> committed** — the demo emits them to the gitignored `scripts/.hh-demo/` and
+> they are marked **‡ = uncommitted workstation context** at each use below.
+> They corroborate; the committed floor/curated numbers (and the +963 delta
+> between them) are the claims. Reproduce with
 > [`scripts/hell-heaven-bench/demo-m2-floor-live.sh`](../../../scripts/hell-heaven-bench/demo-m2-floor-live.sh).
 
 ## Method (why tokens, not self-reports)
@@ -48,11 +55,12 @@ claude --disable-slash-commands --strict-mcp-config --mcp-config '{"mcpServers":
 
 | Posture (record) | `firecrawl-crawl` listed? | `perTurn` tokens |
 |---|:---:|---:|
-| **native** (vanilla claude) | **YES** (`^YES` ✓) | **46,849** |
-| **floor** (`--posture floor`) | **NO** (`^NO` ✓) | **30,661** |
+| **native** (vanilla claude) | **YES** (`^YES` ✓) | **46,849 ‡** |
+| **floor** (`--posture floor`) | **NO** (`^NO` ✓) | **30,661** (committed) |
 
-**Live per-turn delta: −16,188 tokens** between vanilla and floor, on this
-workstation's loadout. The `firecrawl-crawl` probe flips **YES → NO** — the skill
+**Live per-turn delta: −16,188 ‡ tokens** between vanilla and floor, on this
+workstation's loadout (‡ = uncommitted workstation context; only the floor
+30,661 is a committed record — the native pole and delta corroborate). The `firecrawl-crawl` probe flips **YES → NO** — the skill
 is gone from the listing — corroborating the token drop. (Context, not a
 measurement: this workstation has 67 skills installed under `~/.claude/skills`,
 which is why vanilla carries so much standing weight; the floor evicts all of
@@ -76,7 +84,7 @@ heaven-set:impeccable
 
 **Floor → curated: +963 per-turn tokens** — one skill re-admitted, nothing else.
 The tool's own `chars4` dose summary prices the skill independently:
-`standing=227 invocation=5917` — an order-of-magnitude cross-check on the
+`standing=227` (committed on the curated record) `invocation=5917 ‡` — an order-of-magnitude cross-check on the
 re-admission (a different tokenizer over the skill's listing line vs. the live
 harness prompt, so not expected to match the +963 to the token; both recorded,
 neither collapsed into one number, **B1**).
@@ -92,11 +100,11 @@ $ npx tsx scripts/hell-heaven-bench/ledger.ts validate
 OK — 10 valid record(s)   # 8 → 10
 ```
 
-| task | arm | `perTurn` | endpoint | model / harness |
-|---|---|---:|---|---|
-| `listing-probe-native` | heaven | 46,849 | `^YES` ✓ (listed) | sonnet·low / 2.1.216 |
-| `listing-probe` (appended) | **placebo** | 30,661 | `^NO` ✓ (dropped) | sonnet·low / 2.1.216 |
-| `readmit-probe` (appended) | heaven | 31,624 | `/impeccable/` ✓ | sonnet·low / 2.1.216 |
+| task | arm | `perTurn` | endpoint | model / harness | in ledger? |
+|---|---|---:|---|---|---|
+| `listing-probe-native` | heaven | 46,849 ‡ | `^YES` ✓ (listed) | sonnet·low / 2.1.216 | **no** — emitted to gitignored `.hh-demo/`, not appended |
+| `listing-probe` | **placebo** | 30,661 | `^NO` ✓ (dropped) | sonnet·low / 2.1.216 | **yes** (appended) |
+| `readmit-probe` | heaven | 31,624 | `/impeccable/` ✓ | sonnet·low / 2.1.216 | **yes** (appended) |
 
 `skillsLoaded` for the curated record pins `impeccable`
 `sha256:14c4642…` — the exact bytes of the SKILL.md loaded **this run**. Note
@@ -110,9 +118,11 @@ follow-up work, tracked separately.)
 - **Does:** the `skill-heaven` bin composes floor and curated live on 2.1.216
   with zero shared-state mutation (`git status` clean in both repos, `~/.claude`
   untouched, temp dirs disposable); the T9/T9b routes survive the 2.1.215 →
-  2.1.216 upgrade; the standing-dose eviction (−16k per-turn) and single-skill
-  re-admission (+963 per-turn, `heaven-set:impeccable` only) are real and
-  token-measured from committed records; the ledger round-trips clean.
+  2.1.216 upgrade; the single-skill re-admission (**+963 per-turn** between the
+  two **committed** records, floor 30,661 → curated 31,624, `heaven-set:impeccable`
+  only) is real and token-measured; the standing-dose eviction (−16k per-turn vs.
+  the native pole) is corroborating **uncommitted** workstation context (‡); the
+  ledger round-trips clean.
 - **Does not:** price any skill's *worth* (that needs paired task arms with N
   repeats + CIs, **B3**, on clean installs, **B5**), nor measure invocation dose
   live (stream-json instrumentation is a follow-up — `skillInvocation` stays
