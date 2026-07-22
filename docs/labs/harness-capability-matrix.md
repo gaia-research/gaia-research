@@ -16,7 +16,7 @@
 
 | Harness | Version checked | How |
 |---|---|---|
-| Claude Code | **2.1.211** (`claude --version`); M2 re-check on **2.1.215** (macOS, 2026-07-19); **WS3 gate (a) on 2.1.216** (macOS, 2026-07-21, corrected 2026-07-22); **M2 floor/curated (T9/T9b) re-verified on 2.1.216** (sonnet·low, macOS, 2026-07-22) | empirical, headless `-p` runs in a throwaway project |
+| Claude Code | **2.1.211** (`claude --version`); M2 re-check on **2.1.215** (macOS, 2026-07-19); **WS3 gate (a) on 2.1.216** (macOS, 2026-07-21, corrected 2026-07-22); **M2 floor/curated (T9/T9b) re-verified on 2.1.216** (sonnet·low, macOS, 2026-07-22); **WS3 gate (d) marketplace-from-monorepo on 2.1.216** (macOS, 2026-07-23) | empirical, headless `-p` runs in a throwaway project |
 | Codex CLI | current docs (July 2026); **0.144.6 local** (2026-07-19, quota-limited) | [developers.openai.com/codex/skills](https://developers.openai.com/codex/skills) + local probes |
 | Cursor (cursor-agent CLI) | current docs (July 2026, CLI stable); **binary not installed locally** (2026-07-19) | [cursor.com/docs/cli](https://cursor.com/docs/cli/using) |
 | pi (badlogic/pi-mono coding agent) | current docs (July 2026); **0.80.10 local, empirical** (2026-07-19) | [pi coding-agent skills docs](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/skills.md) + live runs |
@@ -369,6 +369,58 @@ WS4 re-prices; if the listed id carries a plugin-name prefix
 only standing cost `claude-heaven`'s doors add (Heaven's purest form uses no
 server). **Blocks:** WS4 steps 2–3 copy + README claims; the final command
 descriptions must price at or below this budget.
+
+## WS3 verification gates — gate (d): marketplace-from-monorepo (D10)
+
+**Date:** 2026-07-23. **Version:** Claude Code **2.1.216** (macOS, this
+workstation). **Method:** live install probe against the **public** monorepo, run
+in a **throwaway `CLAUDE_CONFIG_DIR`** (zero mutation to the real `~/.claude`;
+verified afterward — no `skill-heaven` marketplace present in the real config).
+The artifact under test is the root `.claude-plugin/marketplace.json` that landed
+on `gaia-research/skill-heaven` `main` via the WS2 manifest merge
+(`skill-heaven@29afbc7`).
+
+**Gate question (plan / D10):** does the *marketplace-from-monorepo layout* work —
+can a user add the monorepo as a Claude Code marketplace and install the
+per-harness Claude door (`claude-heaven`) from it, with the **relative** plugin
+`source` (`./packages/claude-heaven/plugin`) resolving correctly under the
+repo-root `.claude-plugin/` (N9: the monorepo *"doubles as the Claude Code plugin
+marketplace"*)? **Verdict: ✅ POSITIVE.** `marketplace add` clones and validates
+the catalog; `claude-heaven@skill-heaven` installs and enables; the relative
+source resolves against `packages/claude-heaven/plugin`. pi-heaven and other
+harness doors are **not** in this manifest by design (N9 — they ship through their
+own harness's channel), so the Claude Code marketplace lists `claude-heaven` only.
+
+| # | Command | Observed | Cell verified |
+|---|---|---|---|
+| GD-1 | `claude plugin marketplace add gaia-research/skill-heaven` | `✔ Successfully added marketplace: skill-heaven (declared in user settings)` (clones repo, "validating marketplace" → OK) | repo-root `.claude-plugin/marketplace.json` is a valid Claude Code marketplace catalog; add-from-GitHub-monorepo works |
+| GD-2 | `claude plugin marketplace list` | `skill-heaven` · `Source: GitHub (gaia-research/skill-heaven)` | the monorepo is registered as a marketplace source |
+| GD-3 | `claude plugin install claude-heaven@skill-heaven` | `✔ Successfully installed plugin: claude-heaven@skill-heaven (scope: user)` | the relative `source: ./packages/claude-heaven/plugin` resolves + installs from a subdirectory of the marketplace root |
+| GD-4 | `claude plugin list` | `claude-heaven@skill-heaven` · `Version: 0.0.0` · `Status: ✔ enabled` | installed door is enabled; cache at `plugins/cache/skill-heaven/claude-heaven`, marketplace clone at `plugins/marketplaces/skill-heaven/packages/claude-heaven` |
+| GD-5 | `claude plugin validate .` (in a fresh clone of `main`) | `Validating marketplace manifest: …/.claude-plugin/marketplace.json` → `✔ Validation passed` (no warnings) | the manifest + the referenced `plugin.json` pass the harness's own validator on the merged tree |
+
+**Repro (throwaway config, ~30s):**
+
+```bash
+export CLAUDE_CONFIG_DIR="$(mktemp -d)/gd-probe"
+claude plugin marketplace add gaia-research/skill-heaven
+claude plugin marketplace list
+claude plugin install claude-heaven@skill-heaven
+claude plugin list                       # claude-heaven@skill-heaven, enabled
+rm -rf "$CLAUDE_CONFIG_DIR"               # leaves the real ~/.claude untouched
+```
+
+**Caveats:** version-pinned — the `/plugin` CLI surface and cache layout are
+Claude-Code-internal and undocumented as a contract; **re-run on Claude Code
+upgrades** (record the exact `claude --version`). `claude-heaven` is a **WS4
+scaffold** — it installs and enables but wires **no commands/skills yet** (its own
+`plugin.json` says so), so this gate proves *distribution*, not door behavior; the
+`/skill-heaven` + `/skill-hell` behavior rides gate (a)/(c) + WS4. The install
+succeeding does **not** itself add standing dose (gate (c) prices the eventual
+command self-dose separately). **Unblocks:** WS4 slice 1 (statusline segment →
+`/skill-heaven` picker → `/skill-hell` locked door) can now assume a
+real, installable-from-monorepo Claude Code door; closes the last **pending** D10
+verification gate (a/b/c already green; e is research-track).
 
 ## WS3 verification gates — gate (e): behavioral restraint (D13) — ❓ UNVERIFIED, research-pending
 
