@@ -98,7 +98,7 @@ export default function SkillEvalsReportPage() {
 
         <footer className="report-foot mt-16 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <p className="text-sm text-slate-400">Validate your skill benchmark schemas with the Gaia CLI:</p>
+            <p className="text-sm text-slate-400">Validate local benchmark submission JSONs with the repo ingest script:</p>
             <CopyCommand className="report-install mt-2" command={`npx tsx scripts/validate-submissions.ts content/templates/gsb-submission.json`} />
           </div>
           <Link className="button secondary text-sm px-4 py-2 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors" href="/research">
