@@ -1,21 +1,21 @@
 # Don't Ship Skills Without Evals: A Guide to Agent Skill Reliability
 
-**By Nova · Gaia Research Lab**  
+**By Marcus Tiongson · Gaia Research**  
 *Referencing Philipp Schmid (Staff Engineer, Google DeepMind) — "Don't Ship Skills Without Evals"*
 
 ---
 
 ## 1. The "Vibe Check" Trap
 
-Let's look at the actual telemetry of AI agent skills in production.
+Let me start with the actual telemetry of AI agent skills in production.
 
 When building an agent skill, it's easy to write a `SKILL.md` file, test it manually twice, watch it succeed, and merge it. But manual confirmation on two happy-path runs is not verification.
 
-As Philipp Schmid (Staff Engineer at Google DeepMind working on Gemini and Gemma) highlighted in his recent talk, indexing benchmarks like *Skillsbench* evaluated over **50,000 skills published on GitHub**—and almost **none of them carried automated evals**. They were vibe-checked over two manual runs, received informal peer approval, and shipped.
+As Philipp Schmid (Staff Engineer at Google DeepMind working on Gemini and Gemma) highlighted in his talk, indexing benchmarks like *Skillsbench* evaluated over **50,000 skills published on GitHub**—and almost **none of them carried automated evals**. They were vibe-checked over two manual runs, received informal peer approval, and shipped.
 
 > *"You wouldn't merge code without tests—so why are we shipping skills without evals?"*
 
-Agents are non-deterministic systems. When a task execution fails in production, you cannot tell without evals whether the failure was caused by a ambiguous skill description or an intrinsically over-complex prompt. Evals turn educated guesses into actionable telemetry.
+Agents are non-deterministic systems. When a task execution fails in production, you cannot tell without evals whether the failure was caused by an ambiguous skill description or an intrinsically over-complex prompt. Evals turn educated guesses into actionable telemetry.
 
 <div className="video-embed-container">
   <iframe 
@@ -28,7 +28,7 @@ Agents are non-deterministic systems. When a task execution fails in production,
 
 ---
 
-## 2. Progressive Disclosure Architecture: The 3 Layers
+## 2. Architecture Breakdown: The 3 Layers of Progressive Disclosure
 
 Skills are structured around **progressive disclosure**. Forcing long instructions into global system prompts wastes context budget and degrades reasoning focus.
 
@@ -37,13 +37,13 @@ DeepMind structures skill context into three discrete layers:
 1. **Layer 1: Title & Description (~100–200 tokens)**
    * *Scope:* Ingested into system instructions on every turn.
    * *Context Tax:* Paid continuously, even when the skill is idle.
-   * *Rule:* Explicitly define **WHY**, **WHEN**, and **HOW**—including negative cases (when *NOT* to trigger). Ambiguous descriptions account for ~50% of skill invocation failures.
+   * *Directive:* Explicitly define **WHY**, **WHEN**, and **HOW**—including negative cases (when *NOT* to trigger). Ambiguous descriptions account for ~50% of skill invocation failures.
 2. **Layer 2: Core `SKILL.md` Body (<500 Words)**
    * *Scope:* Read into context only when the agent selects the skill.
-   * *Rule:* Enforce a strict ceiling under 500 words. Use clear directives (*"Use the Interactions API when building chat features"*), avoiding passive phrasing.
+   * *Directive:* Enforce a strict ceiling under 500 words. Use clear directives (*"Use the Interactions API when building chat features"*), avoiding passive phrasing.
 3. **Layer 3: Reference Files (Loaded On-Demand)**
    * *Scope:* Auxiliary documentation (`references/aws.md`, `references/gcp.md`).
-   * *Rule:* Allow the agent to navigate specific sub-paths only when domain context demands it.
+   * *Directive:* Allow the agent to navigate specific sub-paths only when domain context demands it.
 
 ---
 
@@ -176,7 +176,7 @@ Evaluating skills systematically across model generations and test sets yields c
 
 At **Gaia Research**, our work focuses on evidence-based agent verification rather than developer intuition.
 
-We are updating our benchmark ingest engine (`content/schemas/gsb-submission.schema.json`) for the **Gaia Skill Bench (GSB)** to integrate automated evaluation suits into the skill registry.
+We are updating our benchmark ingest engine (`content/schemas/gsb-submission.schema.json`) for the **Gaia Skill Bench (GSB)** to integrate automated evaluation suites into the skill registry.
 
 The GSB benchmark specification enforces:
 * **Weighted Evaluation Metrics:** Performance (40%), Reliability (30%), Triggering Accuracy (20%), and Efficiency (10%).
