@@ -34,7 +34,14 @@ A doc opts its ledger-backed region in with `<!-- ledger-claims:begin -->` …
 that are genuinely uncommitted must be tagged `‡`. The demo runner
 (`demo-m2-floor-live.sh`) tags its own native/delta output with `‡` so writeups
 inherit the marker. Exits non-zero on any untraceable claim — wire it into CI /
-pre-PR alongside `ledger.ts validate`.
+pre-PR alongside `ledger.ts validate`. Two red-team passes hardened it; the
+`__fixtures__/check-claims/` suite (17 cases) pins each class it catches.
+
+**Declared scope limits** (the gate's honest edges, enumerated in the source
+header — not silent gaps): only fenced regions are gated (put every ledger-backed
+claim *inside* the fence); markdown pipe tables only (no HTML `<table>`);
+magnitude-existence, not record-binding (a real committed number reused in an
+unrelated sentence passes); per-line sha match; ASCII digits only.
 
 **M2 (launcher):** the launcher-shaped profile compiler lives in
 **[`gaia-research/skill-heaven`](https://github.com/gaia-research/skill-heaven)**

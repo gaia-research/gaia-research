@@ -26,6 +26,9 @@ const REASON_ASSERTS: Record<string, string> = {
   "bad-sha-short-truncation.md": "asserts a sha MATCH",
   "bad-bare-number-equals-delta.md": "traces to no committed record",
   "bad-standing-under-100.md": "traces to no committed record",
+  // second red-team pass (salvage validation):
+  "bad-tok-abbrev-header.md": "traces to no committed record",
+  "bad-single-sha-census-match.md": "asserts a sha MATCH to the census",
 };
 
 const ev = buildEvidence(LEDGER, CENSUS);

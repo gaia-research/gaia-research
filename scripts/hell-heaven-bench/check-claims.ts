@@ -36,10 +36,19 @@
 // is scanned whole). Standalone-only so prose that merely *mentions* the marker
 // does not toggle scanning.
 //
-// KNOWN LIMITATIONS (documented, not silently ignored): the sha false-match
-// check is per physical line (a match split across two lines evades it); ASCII
-// digits only (fullwidth digits are not recognized). Both are out of scope for
-// this all-ASCII, single-line-claim doc set; revisit if that changes.
+// KNOWN LIMITATIONS (documented, not silently ignored — an honest scope
+// statement is the whole point of this gate):
+//   * Fence scope is by design: only fenced regions (or a fence-free doc) are
+//     gated. Content OUTSIDE a doc's fences is NOT scanned — put every
+//     ledger-backed claim inside the fence; numbers left outside are the
+//     author's responsibility (they are assumed to be other evidence types).
+//   * Markdown pipe tables only — HTML <table> cells are not parsed.
+//   * Magnitude-existence, not record-binding: a number is checked for existing
+//     as SOME committed value, not bound to the specific record the sentence is
+//     about. A real committed magnitude reused in an unrelated context passes.
+//   * The sha false-match check is per physical line (a match split across two
+//     lines evades it); ASCII digits only (fullwidth digits are not recognized).
+// These are the gate's edges, not silent gaps; revisit if the doc set changes.
 //
 // CLI:
 //   npx tsx scripts/hell-heaven-bench/check-claims.ts [--file <md> ...]
@@ -66,8 +75,11 @@ const FENCE_END = /^\s*<!--\s*ledger-claims:end\s*-->\s*$/;
 // "delta"/"invocation" stay valid PROSE keywords, but only perTurn/tokens/
 // standing/dose name a token *column* (dropping bare "invocation", which also
 // means function/retry invocation counts).
-const COLUMN_WORDS = /per-?turn|tokens?\b|standing|dose/i;
+const COLUMN_WORDS = /per-?turn|tok(?:ens)?\b|standing|dose/i;
 const DIFFER_WORDS = /\b(differ(?:s|ent|ing)?|not|never|distinct|edited|changed)\b|≠|!=/i;
+// Equivalence phrasing, for the single-sha "matches the census record" claim
+// (the ≥2-sha case is caught wording-agnostically; this catches the 1-sha form).
+const MATCH_WORDS = /\b(match(?:es|ed|ing)?|same|equals?|identical|consistent|equivalent)\b|==/i;
 const BARE_NUM = /[+\-−–—]?\d[\d,]*/g;
 // Note the gap before the 2nd capture excludes sign chars ([^\d\n+\-−–—]) so a
 // leading +/− stays WITH the number (a signed delta must not silently lose its
@@ -269,6 +281,17 @@ export function scanDoc(file: string, ev: Evidence): Finding[] {
             token: distinct.join(" / "),
             reason: `line asserts a sha MATCH between ${distinct.join(" and ")} but they resolve to different artifacts (add a "differ"/"not" disclaimer or ${SIGIL})`,
           });
+      } else if (distinct.length === 1 && /census/i.test(line) && MATCH_WORDS.test(line) && !DIFFER_WORDS.test(line)) {
+        // single-sha form: "sha X matches the census record" — one hash + a
+        // worded equivalence claim to the census, with no second hash to verify
+        // against. Cannot be confirmed; force citing the census sha explicitly.
+        findings.push({
+          file: rel,
+          line: lineNo,
+          kind: "sha",
+          token: distinct[0],
+          reason: `line asserts a sha MATCH to the census with only one sha (${distinct[0]}…) — cite the census sha to compare, add a "differ"/"not" disclaimer, or ${SIGIL}`,
+        });
       }
     }
   }
