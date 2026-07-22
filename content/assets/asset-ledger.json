@@ -1630,17 +1630,18 @@
       "id": "context-diet-hero",
       "path": "assets/generated/context-diet-hero.webp",
       "kind": "hero-illustration",
-      "status": "candidate",
+      "status": "approved",
       "sourceType": "generated",
       "license": "internal-review-required",
       "credit": "Gaia Research asset workflow",
-      "alt": "",
-      "sha256": "ac7a5f555eb0308f5fa3d9c4e90a1553e99c673410952beb9d5aa5f49f5f5cdc",
-      "bytes": 201538,
+      "alt": "Milim and Gaia sharing an oversized basket of fried chicken at a midnight diner counter.",
+      "sha256": "30c697c130f423f3e8884cd5bde9786877d4275b12edd2a5a2930b160628b1c6",
+      "bytes": 136618,
       "dimensions": {
-        "width": 1536,
-        "height": 1024
+        "width": 1600,
+        "height": 900
       },
+      "notes": "Approved from assets/workbench/generated/context-diet-hero-chicken-diner-b.png; exported as compact 1600x900 WebP at quality 82.",
       "derivatives": [
         "assets/generated/exports/context-diet/context-diet-og.png",
         "assets/generated/exports/context-diet/context-diet-og.webp",
@@ -1707,17 +1708,18 @@
       "id": "context-diet-token-compression-motif",
       "path": "assets/generated/context-diet-token-compression-motif.webp",
       "kind": "illustration",
-      "status": "candidate",
+      "status": "approved",
       "sourceType": "generated",
       "license": "internal-review-required",
       "credit": "Gaia Research asset workflow",
-      "alt": "",
-      "sha256": "77415d2f6c253ded2b6b58d0525795760f8b4978444683b064160ad473299d53",
-      "bytes": 165024,
+      "alt": "A happy Milim trying on an outfit in a sunny mall fitting-room mirror.",
+      "sha256": "67d88b38c4068dd10e1f374cca3027223b56ef16371fe9c06fd8dea25e9e3bcf",
+      "bytes": 100276,
       "dimensions": {
-        "width": 1254,
-        "height": 1254
+        "width": 1600,
+        "height": 900
       },
+      "notes": "Approved from assets/workbench/generated/context-diet-method-mall-mirror-approved.png; exported as compact 1600x900 WebP at quality 82.",
       "derivatives": []
     },
     {

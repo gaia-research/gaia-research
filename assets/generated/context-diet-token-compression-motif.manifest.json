@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "assets/workbench/generated/context-diet-method-mall-mirror-approved.png",
+    "sha256": "c51731b93612ac65c0f19ffeab6e2a0785e484e7daf0490870fc58435f31fc7d",
+    "dimensions": {
+      "width": 1672,
+      "height": 941,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/context-diet-token-compression-motif.webp",
+      "format": "webp",
+      "width": 1600,
+      "height": 900,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 82,
+      "sha256": "67d88b38c4068dd10e1f374cca3027223b56ef16371fe9c06fd8dea25e9e3bcf",
+      "bytes": 100276
+    }
+  ],
+  "timestamp": "2026-07-22T15:34:55.019Z"
+}
