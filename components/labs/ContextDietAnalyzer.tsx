@@ -92,7 +92,7 @@ export function ContextDietAnalyzer() {
       <PrivacyNote />
 
       <label className="cd-field">
-        <span className="cd-label">Paste your context file</span>
+        <span className="cd-label">Paste any agent-context file</span>
         <textarea
           className="cd-input"
           value={text}
@@ -121,8 +121,8 @@ export function ContextDietAnalyzer() {
             <header>
               <span className="led" /> ANALYZER LIVE ·{" "}
               {result.m.overLimit
-                ? `OVER LIMIT BY ${num(result.m.overBy)} CHARS`
-                : `WITHIN LIMIT · ${num(result.m.headroom)} HEADROOM`}
+                ? `BUDGET ALERT · ${num(result.m.overBy)} CHARS OVER OPTIONAL LIMIT`
+                : `OPTIMIZATION SCAN · ${num(result.m.totalChars)} CHARS`}
             </header>
             <div className="analyzer-readout">
               <b>{num(result.m.approxTokens)}</b>
@@ -130,8 +130,8 @@ export function ContextDietAnalyzer() {
               <b className="readout-target">~{num(result.band.projectedTokensTarget)}</b>
               <span className="readout-unit">tokens</span>
               <p className="readout-detail">
-                {num(result.m.totalChars)} chars · {result.m.sectionCount} sections · limit{" "}
-                {num(result.m.limit)} · projected via {result.band.targetTitle}
+                {num(result.m.totalChars)} chars · {result.m.sectionCount} sections · optional budget{" "}
+                {num(result.m.limit)} · measured benchmark projection
               </p>
             </div>
             {truncated && (
@@ -144,20 +144,20 @@ export function ContextDietAnalyzer() {
 
           <div className="reduction-band">
             <div>
-              <span className="section-kicker">PROJECTED REDUCTION</span>
+              <span className="section-kicker">FIRST-PASS ESTIMATE · NO MUTATION</span>
               <p>
                 <strong>
                   {result.band.lowPct}%–{result.band.highPct}%
                 </strong>{" "}
-                — target <strong>{result.band.targetPct}%</strong> via {result.band.targetTitle}.
+                — a measured safe-to-lean screening band, with <strong>{result.band.targetPct}%</strong> as the Lab 001 reference.
                 Projected ~{num(result.band.projectedTokensTarget)} tokens (from{" "}
                 {num(result.m.approxTokens)}).
               </p>
               <p className="cd-note">
-                Projected from Context Diet — Lab 001&apos;s four reduction{" "}
-                <em>strategies</em> (measured recipes for trimming a prompt), not a live rewrite.{" "}
+                This browser estimate cannot inventory protected rules. The installed skill audits the
+                file, proposes safe / recommended / aggressive plans, and may find a larger defensible cut.{" "}
                 <a href="#evidence-title" className="cd-inline-link">
-                  How is this projected? ↓
+                  See the benchmark ↓
                 </a>{" "}
                 Verify faithfulness before adopting.
               </p>
@@ -224,12 +224,13 @@ export function ContextDietAnalyzer() {
               <summary>Adopt the skill &amp; leaderboard</summary>
               <div className="cd-export-body">
                 <div>
-                  <span className="cd-label">Adopt the skill</span>
+                  <span className="cd-label">Continue with the real audit</span>
                   <p>
                     Context Diet ships as an installable GAIA skill. Grab{" "}
                     <code>skill-context-diet</code> from GitHub — the packaged{" "}
-                    <code>SKILL.md</code>, the four measured strategies, and the recipe for
-                    running your own diet. Bring the projection above as your target.
+                    <code>SKILL.md</code> accepts natural-language goals such as “get near 80%.” The
+                    first invocation only audits and estimates. Return later with an explicit “apply”
+                    to authorize destructive retirement against the saved, hash-verified plan.
                   </p>
                   <a
                     className="button secondary"
