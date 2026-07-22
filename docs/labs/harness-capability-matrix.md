@@ -88,9 +88,9 @@ effort axis the postures map onto (`Heaven · Auto · Ultra · Hell`) already ex
 per-session CLI dial; and `--plugin-dir <path>` loads a plugin **for this session only**,
 which is the curated re-admission mechanism Heaven needs after suppression.
 
-<!-- ledger-claims:begin — every token number / sha below is gated by
-     scripts/hell-heaven-bench/check-claims.ts against committed ledger+census
-     records; tag genuine uncommitted context with ‡ -->
+<!-- ledger-claims:begin -->
+<!-- Every token number / sha below is gated by check-claims.ts against
+     committed ledger + census records; tag uncommitted context with the sigil. -->
 ### 2026-07-22 — M2 floor/curated (T9/T9b) re-verification on 2.1.216 (sonnet·low)
 
 **Smoke evidence (B5), not a benchmark arm.** Workstation run on Claude Code

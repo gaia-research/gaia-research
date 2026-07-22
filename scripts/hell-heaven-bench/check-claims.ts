@@ -15,18 +15,31 @@
 // WHAT IT CHECKS (over docs/labs/harness-capability-matrix.md +
 // content/reports/hh-benchmark/*.md by default):
 //   1. Every token-context NUMBER (a markdown column headed perTurn/tokens/
-//      standing, or a prose number adjacent to tok/perTurn/standing/invocation/
-//      delta) must either (a) carry the ‡ sigil = "declared uncommitted
-//      workstation context", or (b) match a committed value from the ledger /
-//      census (or a legitimate delta between two committed perTurns).
+//      standing/dose, or a prose/cell number adjacent to tok/perTurn/standing/
+//      invocation/delta) must either (a) carry the ‡ sigil = "declared
+//      uncommitted workstation context", or (b) equal a MEASURED committed value
+//      (ledger token counts + census per-record doses). A signed delta (+963 /
+//      −963) may instead equal a difference between two committed perTurns; a
+//      *bare* number may not (that would let arbitrary pairwise differences
+//      bless fabricated figures).
 //   2. Every truncated/full SHA near sha-vocabulary must be a prefix of a
-//      committed ledger sha or a census sha. A line that asserts a *match*
-//      ("match"/"same"/"equal") between two shas that do not resolve to one full
-//      sha FAILS (the census-sha fabrication); "differ"/"not"/"≠" disables it.
+//      committed ledger sha or a census sha. A line carrying two shas that do
+//      not resolve to one full sha, without a "differ"/"not" disclaimer, FAILS
+//      (the census-sha fabrication).
 //
-// THE ‡ SIGIL. Uncommitted-but-corroborating numbers are allowed in prose *iff*
-// tagged ‡ in the same table cell or line. The demo runner tags its own native/
-// delta output with ‡ so prose written from it inherits the marker.
+// THE ‡ SIGIL. Uncommitted-but-corroborating numbers are allowed *iff* tagged ‡
+// in the same table cell or line. The demo runner tags its own native/delta
+// output with ‡ so prose written from it inherits the marker.
+//
+// FENCES. A doc opts its ledger-backed region in with a STANDALONE-comment fence
+// `<!-- ledger-claims:begin -->` … `<!-- ledger-claims:end -->` (a fence-free doc
+// is scanned whole). Standalone-only so prose that merely *mentions* the marker
+// does not toggle scanning.
+//
+// KNOWN LIMITATIONS (documented, not silently ignored): the sha false-match
+// check is per physical line (a match split across two lines evades it); ASCII
+// digits only (fullwidth digits are not recognized). Both are out of scope for
+// this all-ASCII, single-line-claim doc set; revisit if that changes.
 //
 // CLI:
 //   npx tsx scripts/hell-heaven-bench/check-claims.ts [--file <md> ...]
@@ -46,9 +59,21 @@ const DEFAULT_DOCS = [
 ];
 
 export const SIGIL = "‡";
-const TOKEN_WORDS = /(perTurn|per-turn|standing|invocation|delta|tokens?|tok)\b/i;
-const MATCH_WORDS = /\b(match(?:es|ed|ing)?|same|equal(?:s)?|identical)\b/i;
-const DIFFER_WORDS = /\b(differ(?:s|ent|ing)?|not|never|≠|!=|distinct)\b/i;
+// Fences must be a STANDALONE html comment line, so prose mentioning the marker
+// (e.g. docs about this convention) does not toggle scanning.
+const FENCE_BEGIN = /^\s*<!--\s*ledger-claims:begin\s*-->\s*$/;
+const FENCE_END = /^\s*<!--\s*ledger-claims:end\s*-->\s*$/;
+// "delta"/"invocation" stay valid PROSE keywords, but only perTurn/tokens/
+// standing/dose name a token *column* (dropping bare "invocation", which also
+// means function/retry invocation counts).
+const COLUMN_WORDS = /per-?turn|tokens?\b|standing|dose/i;
+const DIFFER_WORDS = /\b(differ(?:s|ent|ing)?|not|never|distinct|edited|changed)\b|≠|!=/i;
+const BARE_NUM = /[+\-−–—]?\d[\d,]*/g;
+// Note the gap before the 2nd capture excludes sign chars ([^\d\n+\-−–—]) so a
+// leading +/− stays WITH the number (a signed delta must not silently lose its
+// sign and be re-read as a bare number).
+const PROSE_NUM =
+  /([+\-−–—]?\d[\d,]*)\s*(?:tok|tokens|per-turn|perTurn)\b|(?:perTurn|per-turn|standing|invocation|delta)\b[^\d\n+\-−–—]{0,12}([+\-−–—]?\d[\d,]*)/gi;
 
 export interface Finding {
   file: string;
@@ -71,17 +96,15 @@ function collectInts(obj: unknown, out: Set<number>): void {
   else if (obj && typeof obj === "object") for (const v of Object.values(obj)) collectInts(v, out);
 }
 
-function collectShas(text: string, out: Set<string>): void {
-  for (const m of text.matchAll(/[0-9a-f]{64}/g)) out.add(m[0]);
-}
-
-interface Evidence {
-  numbers: Set<number>; // committed token values + census integers + legit deltas
+export interface Evidence {
+  measured: Set<number>; // genuinely measured committed values (ledger + census per-record doses)
+  deltas: Set<number>; // pairwise |perTurn − perTurn|; only bless SIGNED deltas
   shas: Set<string>; // full committed/census shas
 }
 
 export function buildEvidence(ledgerFile: string, censusFile: string): Evidence {
-  const numbers = new Set<number>();
+  const measured = new Set<number>();
+  const deltas = new Set<number>();
   const shas = new Set<string>();
   const perTurns: number[] = [];
 
@@ -94,32 +117,59 @@ export function buildEvidence(ledgerFile: string, censusFile: string): Evidence 
       for (const key of ["perTurn", "skillStanding", "skillInvocation", "system"]) {
         const v = t[key];
         if (typeof v === "number") {
-          numbers.add(Math.abs(v));
+          measured.add(Math.abs(v));
           if (key === "perTurn") perTurns.push(v);
         }
       }
       for (const s of rec.skillsLoaded ?? []) if (s?.contentSha256) shas.add(String(s.contentSha256).replace(/^sha256:/, ""));
     }
   }
-  // legitimate deltas: any |perTurnA − perTurnB| between two committed records.
+  // legitimate deltas: |perTurnA − perTurnB| between two committed records —
+  // kept SEPARATE from `measured` so only explicitly-signed deltas may use them.
   for (let i = 0; i < perTurns.length; i++)
-    for (let j = i + 1; j < perTurns.length; j++) numbers.add(Math.abs(perTurns[i] - perTurns[j]));
+    for (let j = i + 1; j < perTurns.length; j++) deltas.add(Math.abs(perTurns[i] - perTurns[j]));
 
   if (existsSync(censusFile)) {
     const text = readFileSync(censusFile, "utf8");
-    collectShas(text, shas);
-    collectInts(JSON.parse(text), numbers);
+    for (const m of text.matchAll(/[0-9a-f]{64}/g)) shas.add(m[0]);
+    // ONLY per-record measured doses (…contracts.records[]) — NOT the summary
+    // stats (sum/min/max/p25/p90) that would bless unrelated aggregate numbers.
+    const census = JSON.parse(text);
+    collectInts(census?.contracts?.records ?? [], measured);
   }
-  return { numbers, shas };
+  return { measured, deltas, shas };
+}
+
+// ── claim checks ────────────────────────────────────────────────────────────
+function looksStructural(numStr: string, ctx: string): boolean {
+  const bare = numStr.replace(/^[+\-−–—]/, ""); // strip sign before building the probe
+  if (/^20\d\d$/.test(bare)) return true; // year
+  const esc = bare.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (new RegExp(`\\d\\.\\d\\.${esc}|${esc}\\.\\d`).test(ctx)) return true; // version piece
+  return false;
+}
+
+function checkNumberToken(numStr: string, scope: string, ev: Evidence): string | null {
+  if (scope.includes(SIGIL)) return null; // declared uncommitted → allowed
+  if (looksStructural(numStr, scope)) return null;
+  const n = normalizeNum(numStr);
+  if (n === null) return null;
+  const abs = Math.abs(n);
+  const standingCtx = /standing/i.test(scope);
+  // magnitude floor avoids row indices / percentages, EXCEPT in a standing
+  // context (standing doses run small: 0, 33, 227 — a fabricated 99 must not slip).
+  if (!standingCtx && abs < 100) return null;
+  if (ev.measured.has(abs)) return null;
+  const signed = /^[+\-−–—]/.test(numStr);
+  if (signed && ev.deltas.has(abs)) return null; // signed deltas may equal a committed perTurn difference
+  return `unmarked token number ${numStr} traces to no committed record (add ${SIGIL} if it is uncommitted context)`;
 }
 
 // ── doc scanning ────────────────────────────────────────────────────────────
-// Returns the header-cell index set of a markdown table whose header names a
-// token column, so we can scan exactly those data cells.
 function tokenColumnsOf(headerCells: string[]): Set<number> {
   const cols = new Set<number>();
   headerCells.forEach((c, i) => {
-    if (/perturn|tokens?|standing|invocation|dose/i.test(c)) cols.add(i);
+    if (COLUMN_WORDS.test(c)) cols.add(i);
   });
   return cols;
 }
@@ -132,38 +182,6 @@ function splitRow(line: string): string[] {
 function isSeparator(line: string): boolean {
   return /^\s*\|?[\s:|-]+\|?\s*$/.test(line) && line.includes("-");
 }
-
-// numbers that are never token claims even next to a token word (years, versions
-// handled by regex context; these are explicit structural allowlists).
-function looksStructural(numStr: string, ctx: string): boolean {
-  // version fragments like 2.1.216, dates 2026-07-22, counts "10 valid record(s)"
-  const bare = numStr.replace(/^[+\-−–—]/, ""); // strip sign before building the probe
-  if (/^20\d\d$/.test(bare)) return true; // year
-  const esc = bare.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  if (new RegExp(`\\d\\.\\d\\.${esc}|${esc}\\.\\d`).test(ctx)) return true; // version piece
-  return false;
-}
-
-function checkNumberToken(
-  numStr: string,
-  cellOrLine: string,
-  ev: Evidence,
-): string | null {
-  if (cellOrLine.includes(SIGIL)) return null; // declared uncommitted → allowed
-  if (looksStructural(numStr, cellOrLine)) return null;
-  const n = normalizeNum(numStr);
-  if (n === null) return null;
-  if (n < 100) return null; // token counts of interest are ≥100; avoids row indices, %s
-  if (ev.numbers.has(Math.abs(n))) return null;
-  return `unmarked token number ${numStr} traces to no committed record (add ${SIGIL} if it is uncommitted context)`;
-}
-
-// Only regions that are SUPPOSED to trace to the ledger are gated. A doc opts
-// its ledger-backed claims in with fences; a doc with NO fences (a dedicated
-// report) is scanned whole. This keeps the gate off unrelated evidence — git
-// commit refs, the gate-(a) deterministic sweep's own inline numbers, etc.
-const FENCE_BEGIN = /ledger-claims:begin/;
-const FENCE_END = /ledger-claims:end/;
 
 export function scanDoc(file: string, ev: Evidence): Finding[] {
   const findings: Finding[] = [];
@@ -194,47 +212,54 @@ export function scanDoc(file: string, ev: Evidence): Finding[] {
       tokenCols = new Set();
     }
 
-    // 1a. table token columns → check each data cell
-    if (inTable && tokenCols.size && line.includes("|")) {
+    // 1. numbers. Collect (number, ‡-scope) candidates, then check deduped.
+    const cands: Array<{ num: string; scope: string }> = [];
+    if (inTable && line.includes("|")) {
       const cells = splitRow(line);
-      for (const col of tokenCols) {
-        const cell = cells[col] ?? "";
-        for (const m of cell.matchAll(/[+\-−–—]?[\d][\d,]*/g)) {
-          const reason = checkNumberToken(m[0], cell, ev);
-          if (reason) findings.push({ file: rel, line: lineNo, kind: "number", token: m[0], reason });
+      cells.forEach((cell, idx) => {
+        // token columns: bare numbers (no keyword needed)
+        if (tokenCols.has(idx)) for (const m of cell.matchAll(BARE_NUM)) cands.push({ num: m[0], scope: cell });
+        // EVERY cell (incl. notes/free-text): keyword-adjacent numbers — closes
+        // the "hide the overclaim in the notes column" bypass.
+        for (const m of cell.matchAll(PROSE_NUM)) {
+          const s = m[1] ?? m[2];
+          if (s) cands.push({ num: s, scope: cell });
         }
+      });
+    } else {
+      for (const m of line.matchAll(PROSE_NUM)) {
+        const s = m[1] ?? m[2];
+        if (s) cands.push({ num: s, scope: line });
       }
     }
-
-    // 1b. prose: numbers adjacent to a token word (both orders), whole line as ‡ scope
-    if (!inTable || !tokenCols.size) {
-      const numRe = /([+\-−–—]?\d[\d,]*)\s*(?:tok|tokens|per-turn|perTurn)\b|(?:perTurn|per-turn|standing|invocation|delta)\b[^\d\n]{0,12}([+\-−–—]?\d[\d,]*)/gi;
-      for (const m of line.matchAll(numRe)) {
-        const numStr = m[1] ?? m[2];
-        if (!numStr) continue;
-        const reason = checkNumberToken(numStr, line, ev);
-        if (reason) findings.push({ file: rel, line: lineNo, kind: "number", token: numStr, reason });
-      }
+    const seen = new Set<string>();
+    for (const { num, scope } of cands) {
+      const key = `${num} ${scope}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const reason = checkNumberToken(num, scope, ev);
+      if (reason) findings.push({ file: rel, line: lineNo, kind: "number", token: num, reason });
     }
 
     // 2. sha provenance + false-match heuristic.
     // A hex token is a *content-sha claim* only when it is ≥40 hex, OR is
-    // ellipsis-truncated (14c4642…) — this excludes git commit refs (@f07a057,
-    // versions/…-899851b) which are neither.
-    const shaHits = [...line.matchAll(/\b([0-9a-f]{6,64})(?:…|\.\.\.)/g), ...line.matchAll(/\b([0-9a-f]{40,64})\b/g)]
+    // ellipsis-truncated (14c4642…, or even 2bc1…) — excludes git commit refs
+    // (@f07a057, versions/…-899851b) which are neither.
+    const shaHits = [...line.matchAll(/\b([0-9a-f]{4,64})(?:…|\.\.\.)/g), ...line.matchAll(/\b([0-9a-f]{40,64})\b/g)]
       .map((m) => m[1])
-      .filter((h) => h.length >= 6 && /[a-f]/.test(h));
-    const shaCtx = /sha256|contentSha|census|SKILL\.md|skillsLoaded/i.test(line);
-    const resolved = (h: string) => [...ev.shas].some((full) => full.startsWith(h));
-    if (shaCtx) {
+      .filter((h) => h.length >= 4 && /[a-f]/.test(h));
+    const shaCtx = /sha256|contentSha|census|SKILL\.md|skillsLoaded|hash/i.test(line);
+    const resolves = (h: string) => [...ev.shas].some((full) => full.startsWith(h));
+    if (shaCtx && shaHits.length) {
       for (const h of shaHits) {
-        if (!resolved(h)) {
-          findings.push({ file: rel, line: lineNo, kind: "sha", token: h, reason: `sha ${h}… is not a prefix of any committed/census sha` });
-        }
+        if (!resolves(h)) findings.push({ file: rel, line: lineNo, kind: "sha", token: h, reason: `sha ${h}… is not a prefix of any committed/census sha` });
       }
-      // false-match: "match" word + two shas that don't share a full sha, and no "differ" disclaimer
+      // false-match: two distinct shas on one line that do NOT resolve to a
+      // single full sha, and no "differ"/"not"/"edited" disclaimer → an implicit
+      // equality claim between different artifacts. (Wording-agnostic: does not
+      // rely on catching "matches"/"=="/"consistent with".)
       const distinct = [...new Set(shaHits)];
-      if (MATCH_WORDS.test(line) && !DIFFER_WORDS.test(line) && distinct.length >= 2) {
+      if (distinct.length >= 2 && !DIFFER_WORDS.test(line)) {
         const sameFull = [...ev.shas].some((full) => distinct.every((h) => full.startsWith(h)));
         if (!sameFull)
           findings.push({
@@ -242,7 +267,7 @@ export function scanDoc(file: string, ev: Evidence): Finding[] {
             line: lineNo,
             kind: "sha",
             token: distinct.join(" / "),
-            reason: `line asserts a sha MATCH between ${distinct.join(" and ")} but they resolve to different artifacts`,
+            reason: `line asserts a sha MATCH between ${distinct.join(" and ")} but they resolve to different artifacts (add a "differ"/"not" disclaimer or ${SIGIL})`,
           });
       }
     }

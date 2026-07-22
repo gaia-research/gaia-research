@@ -19,6 +19,13 @@ const CENSUS = join(HERE, "..", "..", "content", "reports", "hh-benchmark", "dat
 const REASON_ASSERTS: Record<string, string> = {
   "bad-uncommitted-number.md": "traces to no committed record",
   "bad-sha-match.md": "asserts a sha MATCH",
+  // hardening fixtures from the red-team pass (each pins the class it catches):
+  "bad-notes-column-overclaim.md": "traces to no committed record",
+  "bad-fence-marker-self-mention.md": "traces to no committed record",
+  "bad-sha-match-consistent-with.md": "asserts a sha MATCH",
+  "bad-sha-short-truncation.md": "asserts a sha MATCH",
+  "bad-bare-number-equals-delta.md": "traces to no committed record",
+  "bad-standing-under-100.md": "traces to no committed record",
 };
 
 const ev = buildEvidence(LEDGER, CENSUS);
