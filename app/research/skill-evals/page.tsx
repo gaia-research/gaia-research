@@ -3,19 +3,19 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyCommand from "@/components/CopyCommand";
+import { TriggerAccuracyChart, RetirementCurveChart } from "@/components/SkillEvalCharts";
 import postMd from "@/content/reports/skill-evals/post.md";
 
 export const dynamic = "force-static";
 export const revalidate = false;
 
 export const metadata = {
-  title: "Don't Ship Skills Without Evals — Marcus Tiongson",
+  title: "Don't Ship Skills Without Evals — Marcus Tiongson | Gaia Research",
   description:
     "A Gaia Research analysis by Marcus Tiongson referencing DeepMind Staff Engineer Philipp Schmid's talk on agent skill reliability, progressive disclosure, no-op purging, and continuous ablation testing.",
 };
 
 function loadPost() {
-  // Strip H1 title & subtitle since header renders them
   return postMd.split("\n").slice(4).join("\n").trim();
 }
 
@@ -47,7 +47,7 @@ export default function SkillEvalsReportPage() {
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-slate-500">Status</dt>
-              <dd><span className="chip vrf">VRF VERIFIED</span></dd>
+              <dd><span className="chip vrf">PLN PLANNED</span></dd>
             </div>
           </dl>
         </header>
@@ -64,30 +64,27 @@ export default function SkillEvalsReportPage() {
                     </div>
                   );
                 }
-                if (className?.includes("report-chart-box")) {
-                  return (
-                    <figure className="my-10 p-6 rounded-xl border border-slate-800 bg-slate-900/60 backdrop-blur-sm">
-                      {children}
-                    </figure>
-                  );
-                }
-                if (className?.includes("asset-placeholder-box")) {
-                  return (
-                    <div className="my-10 p-8 rounded-xl border-2 border-dashed border-slate-800 bg-slate-950/50 text-center">
-                      {children}
-                    </div>
-                  );
-                }
                 return <div className={className} {...props}>{children}</div>;
               },
               iframe: ({ node, ...props }) => (
                 <iframe className="w-full h-full border-0" {...props} />
               ),
               p: ({ node, children, ...props }) => {
-                if (typeof children === 'string' && children.includes('[IMAGE PLACEHOLDER')) {
+                const text = typeof children === "string" ? children : "";
+                if (text.includes("[CHART_TRIGGER_ACCURACY]")) {
+                  return <TriggerAccuracyChart />;
+                }
+                if (text.includes("[CHART_RETIREMENT_CURVE]")) {
+                  return <RetirementCurveChart />;
+                }
+                if (text.includes("[IMAGE_PLACEHOLDER_SKILL_ARCH]")) {
                   return (
-                    <div className="my-8 p-6 rounded-lg border border-pink-500/30 bg-pink-950/10 text-pink-300 text-center font-mono text-sm">
-                      {children}
+                    <div className="my-10 p-8 rounded-xl border-2 border-dashed border-slate-800 bg-slate-950/50 text-center">
+                      <div className="text-3xl mb-2">🎨</div>
+                      <p className="font-semibold text-slate-200">[IMAGE PLACEHOLDER: Skill Eval Architecture & Lifecycle Diagram]</p>
+                      <p className="text-sm text-slate-400 mt-1">
+                        Visual flowchart illustrating prompt inputs → isolated sandboxed evaluation → regex/LLM assertions → ablation score report → retirement check.
+                      </p>
                     </div>
                   );
                 }
