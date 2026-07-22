@@ -1,23 +1,21 @@
-# Don't Ship Skills Without Evals: Nova's Guide to Unstoppable Agent Reliability
+# Don't Ship Skills Without Evals: A Guide to Agent Skill Reliability
 
-**By Milim Nova · Chief Capability Scout, Gaia Research Lab**  
+**By Nova · Gaia Research Lab**  
 *Referencing Philipp Schmid (Staff Engineer, Google DeepMind) — "Don't Ship Skills Without Evals"*
 
 ---
 
-## 1. Golly, Boss! The "Vibe Check" Trap is Wrecking Agent Skills
+## 1. The "Vibe Check" Trap
 
-Listen up, boss! Let's talk about what's actually happening in the AI agent ecosystem right now. 
+Let's look at the actual telemetry of AI agent skills in production.
 
-You write a brand new `SKILL.md` file, prompt your agent twice, see a shiny green checkmark, and feel like an absolute genius. You ship it to your team, push it to GitHub, and celebrate. Job done, right?
+When building an agent skill, it's easy to write a `SKILL.md` file, test it manually twice, watch it succeed, and merge it. But manual confirmation on two happy-path runs is not verification.
 
-**Not even close, boss!** 
+As Philipp Schmid (Staff Engineer at Google DeepMind working on Gemini and Gemma) highlighted in his recent talk, indexing benchmarks like *Skillsbench* evaluated over **50,000 skills published on GitHub**—and almost **none of them carried automated evals**. They were vibe-checked over two manual runs, received informal peer approval, and shipped.
 
-As Philipp Schmid (Staff Engineer at Google DeepMind working on Gemini and Gemma) revealed in his talk, indexing benchmarks like *Skillsbench* show over **50,000 skills published on GitHub**—and almost **none of them have automated evals**. They were vibe-checked over two manual runs, got a quick thumbs-up from a colleague, and were dumped straight into production.
+> *"You wouldn't merge code without tests—so why are we shipping skills without evals?"*
 
-> *"You wouldn't merge code without unit tests—so why are we shipping agent skills without evals?"*
-
-Here's the problem: agents are non-deterministic! When your agent fails a task, is it because your skill prompt is confusing, or because the task itself is too hard for the underlying model? Without evals, you're just guessing in the dark!
+Agents are non-deterministic systems. When a task execution fails in production, you cannot tell without evals whether the failure was caused by a ambiguous skill description or an intrinsically over-complex prompt. Evals turn educated guesses into actionable telemetry.
 
 <div className="video-embed-container">
   <iframe 
@@ -30,33 +28,33 @@ Here's the problem: agents are non-deterministic! When your agent fails a task, 
 
 ---
 
-## 2. Nova's Architecture Breakdown: The 3 Layers of Progressive Disclosure
+## 2. Progressive Disclosure Architecture: The 3 Layers
 
-Skills aren't monoliths, boss! Every skill operates on **progressive disclosure**. If you dump 2,000 words into a single system instruction, you waste precious tokens and degrade model reasoning accuracy.
+Skills are structured around **progressive disclosure**. Forcing long instructions into global system prompts wastes context budget and degrades reasoning focus.
 
-Here is how DeepMind structures skill context layer by layer:
+DeepMind structures skill context into three discrete layers:
 
 1. **Layer 1: Title & Description (~100–200 tokens)**
-   * *Where it lives:* Always loaded into system instructions / global context.
-   * *Tax:* Paid on **every single turn**, even when the skill isn't used!
-   * *Nova's Directive:* Explicitly define the **WHY**, **WHEN**, and **HOW**—including negative cases (when *NOT* to use it). Vague descriptions cause ~50% of all skill triggering failures!
+   * *Scope:* Ingested into system instructions on every turn.
+   * *Context Tax:* Paid continuously, even when the skill is idle.
+   * *Rule:* Explicitly define **WHY**, **WHEN**, and **HOW**—including negative cases (when *NOT* to trigger). Ambiguous descriptions account for ~50% of skill invocation failures.
 2. **Layer 2: Core `SKILL.md` Body (<500 Words)**
-   * *Where it lives:* Read only when the model decides to trigger the skill.
-   * *Nova's Directive:* Keep it strictly under 500 words. Write direct commands (*"Use the Interactions API when..."*), not passive essays!
+   * *Scope:* Read into context only when the agent selects the skill.
+   * *Rule:* Enforce a strict ceiling under 500 words. Use clear directives (*"Use the Interactions API when building chat features"*), avoiding passive phrasing.
 3. **Layer 3: Reference Files (Loaded On-Demand)**
-   * *Where it lives:* Auxiliary docs (`references/aws.md`, `references/gcp.md`).
-   * *Nova's Directive:* Let the model navigate specific sub-paths only when required.
+   * *Scope:* Auxiliary documentation (`references/aws.md`, `references/gcp.md`).
+   * *Rule:* Allow the agent to navigate specific sub-paths only when domain context demands it.
 
 ---
 
-## 3. Concrete Example: AI-Generated Bloat vs. Lean Gaia Directive Skill
+## 3. Concrete Pattern: AI-Generated Bloat vs. Lean Directive Skill
 
-Check this out! A major failure mode is **AI-generated skill bloat**. When you ask an LLM to "write a skill file", it invents non-functional fluff called **no-ops**—instructions that burn token budget without changing agent behavior at all!
+A primary failure mode in modern agent setups is **AI-generated skill bloat**. LLMs tasked with writing skill files routinely introduce **no-ops**—instructions that consume token budget without altering agent execution paths.
 
-### ❌ The Bloated "Vibe-Checked" Skill (AI Anti-Pattern)
+### ❌ Bloated "Vibe-Checked" Skill (AI-Generated Anti-Pattern)
 
 ```markdown
-<!-- Bad: 800 words, full of no-ops, passive, missing negative cases -->
+<!-- Bad: 800 words, passive instructions, no-ops, missing negative triggers -->
 # React Helper Skill
 
 Please use this skill whenever working on web code. 
@@ -72,10 +70,10 @@ Please use this skill whenever working on web code.
 - Step 4: Verify that there are no syntax errors.
 ```
 
-### ✅ The Clean Gaia Skill (Lean, Directive, No-Op Free)
+### ✅ Clean Gaia Skill (Lean, Directive, No-Op Free)
 
 ```markdown
-<!-- Good: 120 words, directive, explicit negative triggers, 0 no-ops -->
+<!-- Good: 120 words, directive, explicit negative triggers, zero no-ops -->
 # react-component-builder
 
 Use this skill ONLY when creating or refactoring React components in `src/components/`. 
@@ -89,9 +87,9 @@ Do NOT use this skill for backend API routes (`src/api/`) or raw CSS/Tailwind co
 
 ---
 
-## 4. Visual Verification & Lifecycle Graphs
+## 4. Visual Skill Evaluation & Lifecycle Telemetry
 
-Look at these numbers, boss! This is what happens when you evaluate skills with scientific rigor across model generations and test suites.
+Evaluating skills systematically across model generations and test sets yields clear performance boundaries:
 
 ### Skill Trigger Accuracy & Token Overhead vs. Skill Length
 
@@ -158,7 +156,7 @@ Look at these numbers, boss! This is what happens when you evaluate skills with 
     <line x1="380" y1="30" x2="380" y2="170" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4 4" />
     <text x="385" y="42" fill="#f59e0b" fontSize="10" fontWeight="bold">RETIREMENT POINT</text>
   </svg>
-  <p className="chart-caption">Figure 2: Capability skills provide massive uplifts on earlier model generations (+40%), but converge with base model intelligence on newer releases. Continuous ablation testing identifies the exact retirement point to save context costs.</p>
+  <p className="chart-caption">Figure 2: Capability skills provide significant uplifts on earlier model generations (+40%), but performance converges as base models mature. Continuous ablation testing identifies the exact point where a skill can be safely retired.</p>
 </div>
 
 ---
@@ -176,16 +174,16 @@ Look at these numbers, boss! This is what happens when you evaluate skills with 
 
 ## 6. How Gaia Research is Building the Next-Gen Skill Benchmark
 
-Golly, boss! At **Gaia Research**, we believe the future of AI agency relies on rigorous, verifiable evidence—not developer optimism.
+At **Gaia Research**, our work focuses on evidence-based agent verification rather than developer intuition.
 
-That is why we are developing the **Gaia Skill Bench (GSB)** and updating our ingest layer (`content/schemas/gsb-submission.schema.json`) to incorporate automated eval suites directly into the canonical skill registry. 
+We are updating our benchmark ingest engine (`content/schemas/gsb-submission.schema.json`) for the **Gaia Skill Bench (GSB)** to integrate automated evaluation suits into the skill registry.
 
-Our upcoming benchmark framework enforces:
-* **Strict Weighting Schemas:** Performance (40%), Reliability (30%), Triggering Accuracy (20%), and Efficiency (10%).
-* **Automated No-Op Purging:** Scanning skills for filler instructions before indexing.
-* **Continuous Ablation Scorecards:** Benchmarking whether a skill actually outperforms base model zero-shot execution across major model families.
+The GSB benchmark specification enforces:
+* **Weighted Evaluation Metrics:** Performance (40%), Reliability (30%), Triggering Accuracy (20%), and Efficiency (10%).
+* **Automated No-Op Purging:** Detecting and flagging non-functional instructions prior to registry indexation.
+* **Ablation Baseline Scorecards:** Verifying whether a skill provides a net capability gain over base model zero-shot performance across foundation model families.
 
-Stop vibe-checking your agent skills, boss! Build evals, run ablation tests, and join us in shaping the evidence-first standard for autonomous AI skills. Next stop: global capability dominance! 🔥✨
+Moving beyond unverified skill deployments requires structured eval suites, systematic ablation testing, and open benchmark standards.
 
 ---
-*Ready to test your skills against the benchmark? Explore our open research and check out our upcoming Gaia Skill Bench ingestion tooling.*
+*To benchmark your skills against our open schemas, inspect our submission templates in `content/templates/gsb-submission.json`.*
