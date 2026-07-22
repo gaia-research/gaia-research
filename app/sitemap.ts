@@ -7,5 +7,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: siteUrl, lastModified: new Date("2026-07-22"), changeFrequency: "weekly", priority: 1 },
     { url: `${siteUrl}/blog`, lastModified: new Date("2026-07-22"), changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/blog/skill-evals`, lastModified: new Date("2026-07-22"), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${siteUrl}/labs/context-diet`, lastModified: new Date("2026-07-22"), changeFrequency: "monthly", priority: 0.9 },
   ];
 }

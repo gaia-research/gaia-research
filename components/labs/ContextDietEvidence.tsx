@@ -25,11 +25,11 @@ export function ContextDietEvidence() {
       {/* ── Before / after: the diet itself ─────────────────────────────── */}
       <figure className="cd-chart cd-diet">
         <figcaption>
-          <span className="section-kicker">BEFORE → AFTER · THIS REPO&apos;S CLAUDE.md</span>
+          <span className="section-kicker">BEFORE → AFTER · ORIGINAL LAB 001 CORPUS</span>
           <p>
-            The winning strategy cut <strong>{num(reductionSaved)} chars</strong> (
-            {reductionPct}%) — from over the {num(baseline.limit)} limit to{" "}
-            {num(after.headroom)} under it.
+            The benchmark winner cut <strong>{num(reductionSaved)} chars</strong> (
+            {reductionPct}%). The limit was a constraint in this run—not a prerequisite for using
+            Context Diet.
           </p>
         </figcaption>
 
@@ -76,9 +76,9 @@ export function ContextDietEvidence() {
         <figcaption>
           <span className="section-kicker">STRATEGY BAKE-OFF · REDUCTION %</span>
           <p>
-            Four reduction strategies, all verified <strong>100% faithful</strong> against the
-            true 124-rule inventory. Ranked by how much they cut; the winner is the target the
-            estimator projects toward.
+            Four historical strategies, all verified <strong>100% faithful</strong> against the
+            true 124-rule inventory. The current skill also treats “no change” as a valid outcome
+            and separates faithful compaction from owner-approved retirement.
           </p>
         </figcaption>
 

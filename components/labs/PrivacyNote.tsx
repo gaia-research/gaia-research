@@ -1,12 +1,16 @@
 // Static privacy note. Not "use client" — no interactivity; it renders on the
 // server as part of the analyzer surface. Wording satisfies Issue #16 task 5.
 
+import { InfoTip } from "./InfoTip";
+
 export function PrivacyNote() {
   return (
     <p className="privacy-note" role="note">
-      <strong>Private by design.</strong> Analysis runs entirely in your browser. Pasted text is
-      never uploaded, logged, or stored. Only anonymized metrics (token counts and reduction %) are
-      sent — and only if you opt in below.
+      <strong>Private by design.</strong> Your context is never sent to the leaderboard.
+      <InfoTip label="How Context Diet protects your context">
+        Pasted text stays in your browser. For a public GitHub link, the server retrieves only the
+        repository listing and file you choose. Ranked results require separate, public before/after GitHub links.
+      </InfoTip>
     </p>
   );
 }
