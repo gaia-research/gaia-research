@@ -8,7 +8,8 @@
 //                             plus multi-prereq entries with `prereqs` array
 //   data/craft/named-index.json — LEAN-BUT-RICH slug -> { c, t, g?, d, lvl? } map
 //                             (+ unlinked slugs + a derived slugToContributor for
-//                             backward-compat) built from registry/named-skills.json.
+//                             backward-compat) built from
+//                             registry/named/<contributor>/<slug>.md frontmatter.
 //                             GROUND TRUTH: we store the real registry title (t) and
 //                             description (d) so canonical unlocks read as unmistakably
 //                             real skills. Anti-bloat: we still store ONLY slug+contributor
@@ -19,12 +20,67 @@
 //                             { total, contributors: { <handle>: { count } } } where
 //                             count = how many NAMED skills that contributor authored.
 //                             Handles + counts ONLY (no titles/urls) — derived from the
-//                             same named-skills.json pass as named-index.json.
+//                             same named/ walk as named-index.json.
+//
+// ---------------------------------------------------------------------------
+// Registry schema assumptions — Yggdrasil II (post gaia-skill-tree PR #1185)
+// ---------------------------------------------------------------------------
+// ⚠️ LANDING GATE — do not merge this branch's PR until BOTH:
+//   1. gaia-skill-tree PR #1185 ("Yggdrasil II — staging integration") has
+//      actually merged into gaia-skill-tree `main`, and
+//   2. a human has reviewed the regenerated data/craft/*.json diff against the
+//      real post-merge registry.
+//   See docs/plans/epic-89-sub-85-registry-sync-repair-plan-v2-yggdrasil2.md §8.
+//   Until #1185 merges, gaia-skill-tree `main` still has the OLD `extra`/
+//   `ultimate` layout — running this script against it is expected to abort
+//   via the pre-migration layout guard in assertRegistryShape() below, not
+//   silently regenerate near-empty/wrong data.
+//
+// These are the load-bearing assumptions this script makes about the upstream
+// registry shape. If any of these ever changes, assertRegistryShape() below is
+// designed to abort the sync loudly (before writing output) rather than
+// silently regenerate near-empty data. Update this comment when you touch the
+// mapping so the next migration is easy to spot.
+//
+//   - registry/nodes/{basic,fusion}/*.json — generic skill nodes. Yggdrasil II
+//     consolidated the old `extra`/`ultimate` tiers into a single `fusion`
+//     tier (node `type` field is now `"fusion"`, was `"extra"`/`"ultimate"`).
+//     `basic/` is unchanged. Each file: { id, name, type, prerequisites: [] }.
+//     We deliberately do NOT support the old dual layout — this branch targets
+//     the post-migration schema only (see the landing-gate note above).
+//   - registry/combinations.md — NO LONGER READ. On Yggdrasil II this file is
+//     an emptied 95-byte header-only stub (and is slated for outright deletion
+//     upstream). Fusion recipes are instead derived directly from each fusion
+//     node's own `"prerequisites": [...]` array (verified byte-identical field
+//     across the old and new schema — see plan §2a) via deriveRecipes() below.
+//   - registry/named/<contributor>/<slug>.md — THE authoritative named-skill
+//     source (superseded the deleted registry/named-skills.json). YAML
+//     frontmatter per file, contract in registry/schema/namedSkill.schema.json.
+//     Required frontmatter fields we read: id ("contributor/slug"), name,
+//     contributor, genericSkillRef, description, level ("N★"), origin;
+//     optional: title (reviewer epithet, only on status: named). Yggdrasil II
+//     adds `metaEpoch`/`migrationBatch` fields, but only inside timeline
+//     entries we never read — purely additive, non-breaking.
+//   - genericSkillRef reverse-map — named skills declare
+//     `genericSkillRef: <fusion-node-id>` in frontmatter. A fusion node's
+//     recipe result/contributor/slug are recovered by reverse-mapping its id
+//     through this field (see buildGenericRefMap()/deriveRecipes() below and
+//     plan §3). When a fusion node has NO named ref, the recipe is generic
+//     (result = slug = the node's own id, contributor omitted).
+//   - registry/real-skills.json — a DIFFERENT, staler provenance catalog
+//     (source-repo items, not the named registry). Deliberately NOT used as a
+//     source here — see docs/plans/epic-89-sub-85-registry-sync-repair-plan.md §2.
 //
 // Run: npx tsx scripts/craft/sync-skill-tree.ts
+// Env: GAIA_SKILL_TREE_REGISTRY — override the registry root (used by CI, which
+//      checks out gaia-skill-tree at an arbitrary path, not a fixed sibling
+//      depth). FORCE_RESYNC=1 — bypass the delta-guard sanity assertion (see
+//      assertRegistryShape below); use only when a real, reviewed registry
+//      contraction is expected.
 
 import fs from 'fs';
 import path from 'path';
+import yaml from 'js-yaml';
 import { pairKey } from '../../lib/craft/types';
 import type { Recipe } from '../../lib/craft/types';
 
@@ -32,7 +88,9 @@ import type { Recipe } from '../../lib/craft/types';
 // Config — path to sibling gaia-skill-tree checkout (READ-ONLY)
 // ---------------------------------------------------------------------------
 
-const REGISTRY_ROOT = path.resolve(__dirname, '../../../../../../gaia-skill-tree/registry');
+const REGISTRY_ROOT =
+  process.env.GAIA_SKILL_TREE_REGISTRY ??
+  path.resolve(__dirname, '../../../../../../gaia-skill-tree/registry');
 const OUT_DIR = path.resolve(__dirname, '../../data/craft');
 
 // ---------------------------------------------------------------------------
@@ -45,9 +103,15 @@ interface SkillEntry {
   name: string;
   /** Human-readable name from registry JSON, e.g. "Hypothesis Generation" */
   displayName: string;
-  type: 'basic' | 'extra' | 'ultimate';
+  type: 'basic' | 'fusion';
   contributor?: string;
   slug?: string;
+  /**
+   * Node's own `prerequisites` array (raw slugs), read straight off the
+   * registry JSON. INTERNAL ONLY — used by deriveRecipes(); never written to
+   * skills.json (kept out of skillsOut's mapped shape below).
+   */
+  prerequisites?: string[];
 }
 
 interface MultiPrereqRecipe {
@@ -63,7 +127,8 @@ interface MultiPrereqRecipe {
 /**
  * A single lean-but-rich named-skill record keyed by slug. Field names are
  * short on purpose (this map is shipped in the client bundle) but every value
- * is GROUND TRUTH copied verbatim from registry/named-skills.json.
+ * is GROUND TRUTH copied verbatim from registry/named/<contributor>/<slug>.md
+ * frontmatter.
  */
 interface NamedSkillRecord {
   /** contributor handle, e.g. "garrytan". */
@@ -121,12 +186,22 @@ interface ContributorRoster {
   contributors: Record<string, { count: number }>;
 }
 
+/** Reverse-map target: the named skill a fusion node's `genericSkillRef` resolves to. */
+interface GenericRefTarget {
+  contributor: string;
+  slug: string;
+}
+
 // ---------------------------------------------------------------------------
-// Step 1: Load all node JSON files from basic / extra / ultimate
+// Step 1: Load all node JSON files from basic / fusion
 // ---------------------------------------------------------------------------
 
 function loadNodes(): SkillEntry[] {
-  const tiers: Array<'basic' | 'extra' | 'ultimate'> = ['basic', 'extra', 'ultimate'];
+  // Post-migration layout ONLY (Yggdrasil II) — see the header comment's
+  // landing-gate note. No `extra`/`ultimate`/`unique` fallback; a pre-migration
+  // checkout is caught loudly by the assertRegistryShape() guard instead of
+  // silently producing a near-empty basic-only regen.
+  const tiers: Array<'basic' | 'fusion'> = ['basic', 'fusion'];
   const entries: SkillEntry[] = [];
 
   for (const tier of tiers) {
@@ -139,7 +214,12 @@ function loadNodes(): SkillEntry[] {
     for (const file of files) {
       try {
         const raw = fs.readFileSync(path.join(dir, file), 'utf8');
-        const node = JSON.parse(raw) as { id: string; name: string; type?: string };
+        const node = JSON.parse(raw) as {
+          id: string;
+          name: string;
+          type?: string;
+          prerequisites?: string[];
+        };
         const id = node.id ?? path.basename(file, '.json');
         const name = node.name ?? id;
         entries.push({
@@ -147,9 +227,8 @@ function loadNodes(): SkillEntry[] {
           name: `/${id}`,   // slash-style
           displayName: name,
           type: tier,
-          // Store the human-readable display name for name-based lookup
-          ...(name !== id ? { _displayName: name } : {}),
-        } as SkillEntry & { _displayName?: string });
+          prerequisites: Array.isArray(node.prerequisites) ? node.prerequisites : [],
+        });
       } catch (e) {
         console.warn(`⚠ Failed to parse ${file}: ${e}`);
       }
@@ -160,129 +239,7 @@ function loadNodes(): SkillEntry[] {
 }
 
 // ---------------------------------------------------------------------------
-// Step 2: Parse combinations.md
-//
-// Table format:
-//   | ◇/◆ [contributor](../docs/u/contributor/)/slug-or-/generic | Class | Prereqs | Stars | Conditions |
-//
-// Cases:
-//   [contributor](../docs/u/contributor/)/skill-slug  → contributor + slug
-//   /skill-slug                                        → generic, no contributor
-//   ████████/skill-slug                                → redacted contributor, keep recipe but omit contributor
-// ---------------------------------------------------------------------------
-
-interface ParsedCombo {
-  resultName: string;        // display name (the slug in most cases)
-  contributor?: string;      // undefined if generic or redacted
-  slug?: string;             // the skill slug under contributor namespace
-  prereqs: string[];         // skill names as written in the table (to be resolved to slugs)
-}
-
-function parseCombinations(): ParsedCombo[] {
-  const mdPath = path.join(REGISTRY_ROOT, 'combinations.md');
-  if (!fs.existsSync(mdPath)) {
-    throw new Error(`combinations.md not found at: ${mdPath}`);
-  }
-  const lines = fs.readFileSync(mdPath, 'utf8').split('\n');
-  const results: ParsedCombo[] = [];
-
-  for (const line of lines) {
-    // Only process table rows
-    if (!line.trim().startsWith('|')) continue;
-    // Skip header and separator rows
-    if (/^\| Skill\b/.test(line.trim()) || /^\|[-|]+$/.test(line.trim())) continue;
-
-    // Split cells
-    const cells = line.split('|').map(c => c.trim()).filter(c => c.length > 0);
-    if (cells.length < 3) continue;
-
-    const skillCell = cells[0];
-    // Remove leading ◇ ◆ diamond
-    const cleanSkill = skillCell.replace(/^[◇◆]\s*/, '');
-
-    let contributor: string | undefined;
-    let resultName: string;
-    let slug: string | undefined;
-
-    // Case A: [contributor](../docs/u/contributor/)/skill-slug
-    const namedMatch = cleanSkill.match(/^\[([^\]]+)\]\([^)]+\)\/(.+)$/);
-    if (namedMatch) {
-      contributor = namedMatch[1];
-      slug = namedMatch[2].trim();
-      resultName = slug;
-    } else {
-      // Case B: /generic-slug (no contributor)
-      const genericMatch = cleanSkill.match(/^\/(.+)$/);
-      if (genericMatch) {
-        resultName = genericMatch[1].trim();
-        slug = resultName;
-      } else {
-        // Case C: ████████/skill-slug — redacted contributor
-        const redactedMatch = cleanSkill.match(/^█+\/(.+)$/);
-        if (redactedMatch) {
-          // No contributor, but keep the skill slug
-          resultName = redactedMatch[1].trim();
-          slug = resultName;
-          contributor = undefined;
-        } else {
-          // Unrecognised format — skip
-          continue;
-        }
-      }
-    }
-
-    // Parse prerequisites column (index 2)
-    const prereqCell = cells[2] ?? '';
-    if (!prereqCell || prereqCell === '—' || prereqCell === '-') continue;
-
-    // Prerequisites are comma-separated skill names
-    const prereqs = prereqCell
-      .split(',')
-      .map(p => p.trim())
-      .filter(p => p.length > 0);
-
-    if (prereqs.length === 0) continue;
-
-    results.push({ resultName, contributor, slug, prereqs });
-  }
-
-  return results;
-}
-
-// ---------------------------------------------------------------------------
-// Step 3: Build a name→slug lookup from loaded nodes
-// ---------------------------------------------------------------------------
-
-function buildNameIndex(skills: SkillEntry[]): Map<string, string> {
-  const index = new Map<string, string>();
-  for (const s of skills) {
-    // Index by slug id (lowercased)
-    index.set(s.id.toLowerCase(), s.id);
-    // Index by kebab-space-converted id (e.g. "api call" -> "api-call")
-    index.set(s.id.replace(/-/g, ' ').toLowerCase(), s.id);
-    // Index by the human-readable display name from registry JSON
-    // e.g. "Hypothesis Generation" -> "hypothesis-generate"
-    index.set(s.displayName.toLowerCase(), s.id);
-    // Also kebabified display name as fallback
-    index.set(s.displayName.toLowerCase().replace(/\s+/g, '-'), s.id);
-  }
-  return index;
-}
-
-/** Convert a display prereq string from combinations.md to a slug */
-function toSlug(name: string, nameIndex: Map<string, string>): string {
-  const lower = name.toLowerCase().trim();
-  // Direct lookup
-  if (nameIndex.has(lower)) return nameIndex.get(lower)!;
-  // Try kebab-cased version
-  const kebab = lower.replace(/\s+/g, '-');
-  if (nameIndex.has(kebab)) return nameIndex.get(kebab)!;
-  // Fallback: convert to kebab ourselves
-  return kebab;
-}
-
-// ---------------------------------------------------------------------------
-// Step 4: Load and assign emojis — use emoji-map.json if available
+// Step 2: Load and assign emojis — use emoji-map.json if available
 // ---------------------------------------------------------------------------
 
 function loadEmojiMap(): Record<string, string> {
@@ -367,7 +324,7 @@ function makeGetEmoji(emojiMap: Record<string, string>) {
 }
 
 // ---------------------------------------------------------------------------
-// Step 5: Build recipe blurb from result skill name
+// Step 3: Build recipe blurb from result skill name
 // ---------------------------------------------------------------------------
 
 function makeBlurb(resultSlug: string, prereqSlugs: string[]): string {
@@ -376,15 +333,13 @@ function makeBlurb(resultSlug: string, prereqSlugs: string[]): string {
 }
 
 // ---------------------------------------------------------------------------
-// Step 5b: Build the lean-but-rich named-skill index (slug -> ground-truth record)
+// Step 4: Named-skill source — registry/named/<contributor>/<slug>.md
 //
-// READ-ONLY on gaia-skill-tree. Reads registry/named-skills.json, whose shape is:
-//   { buckets: { <genericSkill>: [ { id, contributor, title, description,
-//                                    genericSkillRef, level, ... } ] } }
-// The `id` field is the authoritative "<contributor>/<slug>" pair used to derive
-// the explorer deep-link; title/description/genericSkillRef/level are GROUND TRUTH
-// copied verbatim so canonical unlocks read as real skills. We skip entries whose
-// contributor is redacted (████████).
+// READ-ONLY on gaia-skill-tree. One YAML-frontmatter file per named skill.
+// Frontmatter fields are GROUND TRUTH, copied verbatim (clamped for bundle
+// size) so canonical unlocks read as real skills. There are no redacted
+// (████████) directories in the .md source today, but the unlinkedSlugs field
+// is kept for shape/back-compat and always emitted as [] here.
 // ---------------------------------------------------------------------------
 
 function isRedacted(s: string | undefined): boolean {
@@ -398,8 +353,138 @@ function cleanText(raw: unknown, max: number): string {
   return t.length > max ? t.slice(0, max).trimEnd() : t;
 }
 
-function buildNamedIndex(): NamedIndex {
-  const namedPath = path.join(REGISTRY_ROOT, 'named-skills.json');
+/** The frontmatter fields we actually consume from a named-skill .md file. */
+interface NamedFrontmatter {
+  id?: string;
+  name?: string;
+  contributor?: string;
+  origin?: boolean;
+  genericSkillRef?: string;
+  status?: string;
+  title?: string;
+  level?: string;
+  description?: string;
+}
+
+/**
+ * Slice the `---\n...\n---` YAML frontmatter block off the top of a markdown
+ * file and parse it. Returns `undefined` if the file has no frontmatter block
+ * or the block fails to parse (caller should warn + skip, never throw here —
+ * a single malformed file shouldn't abort the whole sync; the global sanity
+ * gate in assertRegistryShape() is what catches a systemic shape change).
+ */
+function parseFrontmatter(raw: string): NamedFrontmatter | undefined {
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!match) return undefined;
+  try {
+    const doc = yaml.load(match[1]);
+    return (doc && typeof doc === 'object' ? doc : undefined) as NamedFrontmatter | undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/** One parsed named-skill source file, ready to feed the index + roster + genericRef builders. */
+interface NamedSkillFile {
+  /** Contributor handle, taken from the directory name (== frontmatter contributor). */
+  contributor: string;
+  /** Skill slug, taken from the filename (basename, no `.md`). */
+  slug: string;
+  frontmatter: NamedFrontmatter;
+}
+
+/**
+ * Walk `REGISTRY_ROOT/named/<contributor>/<slug>.md`, sorted contributor dirs
+ * then sorted filenames (deterministic across runs), parsing frontmatter for
+ * each file. Shared by buildNamedIndex(), buildContributorRoster(), and
+ * buildGenericRefMap() so none of the three can ever drift on what counts as
+ * "one named skill" or on walk order.
+ */
+function listNamedSkillFiles(): NamedSkillFile[] {
+  const namedRoot = path.join(REGISTRY_ROOT, 'named');
+  const files: NamedSkillFile[] = [];
+
+  if (!fs.existsSync(namedRoot)) {
+    console.warn(`⚠ named/ directory not found at: ${namedRoot} — emitting empty file list`);
+    return files;
+  }
+
+  const contributorDirs = fs
+    .readdirSync(namedRoot, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name)
+    .sort();
+
+  for (const contributor of contributorDirs) {
+    if (isRedacted(contributor)) continue;
+    const dir = path.join(namedRoot, contributor);
+    const mdFiles = fs
+      .readdirSync(dir)
+      .filter((f) => f.endsWith('.md'))
+      .sort();
+
+    for (const file of mdFiles) {
+      const slug = path.basename(file, '.md');
+      try {
+        const raw = fs.readFileSync(path.join(dir, file), 'utf8');
+        const frontmatter = parseFrontmatter(raw);
+        if (!frontmatter) {
+          console.warn(`⚠ No parseable frontmatter in ${contributor}/${file} — skipping`);
+          continue;
+        }
+        // The id field, when present, is the authoritative "<contributor>/<slug>"
+        // pair. It should agree with the on-disk location; warn (don't abort a
+        // single file) if it doesn't — the global sanity gate catches systemic drift.
+        if (frontmatter.id) {
+          const idSlug = frontmatter.id.split('/')[1];
+          if (idSlug && idSlug !== slug) {
+            console.warn(
+              `⚠ ${contributor}/${file}: frontmatter id "${frontmatter.id}" disagrees ` +
+                `with filename slug "${slug}" — using filename`,
+            );
+          }
+        }
+        files.push({ contributor, slug, frontmatter });
+      } catch (e) {
+        console.warn(`⚠ Failed to read/parse ${contributor}/${file}: ${e} — skipping`);
+      }
+    }
+  }
+
+  return files;
+}
+
+/**
+ * Generic collision-resolution reducer shared by buildNamedIndex() (keyed by
+ * skill slug) and buildGenericRefMap() (keyed by genericSkillRef) — identical
+ * policy so the two can never disagree: first file wins in walk order
+ * (contributor asc, then slug asc — see listNamedSkillFiles()), UNLESS a
+ * later file has `origin: true` and the currently-held winner does not, in
+ * which case the origin file takes over.
+ */
+function reduceByKeyPreferOrigin<T>(
+  files: NamedSkillFile[],
+  keyOf: (f: NamedSkillFile) => string | undefined,
+  valueOf: (f: NamedSkillFile) => T,
+): Map<string, T> {
+  const result = new Map<string, T>();
+  const keyIsOrigin = new Map<string, boolean>();
+
+  for (const file of files) {
+    const key = keyOf(file);
+    if (!key) continue;
+    const isOrigin = file.frontmatter.origin === true;
+
+    if (!result.has(key) || (isOrigin && !keyIsOrigin.get(key))) {
+      result.set(key, valueOf(file));
+      keyIsOrigin.set(key, isOrigin);
+    }
+  }
+
+  return result;
+}
+
+function buildNamedIndex(files: NamedSkillFile[]): NamedIndex {
   const index: NamedIndex = {
     generatedAt: new Date().toISOString().slice(0, 10),
     skills: {},
@@ -407,120 +492,288 @@ function buildNamedIndex(): NamedIndex {
     unlinkedSlugs: [],
   };
 
-  if (!fs.existsSync(namedPath)) {
-    console.warn(`⚠ named-skills.json not found at: ${namedPath} — emitting empty index`);
-    return index;
+  const winners = reduceByKeyPreferOrigin(files, (f) => f.slug, (f) => f);
+
+  for (const [slug, file] of winners) {
+    const { contributor, frontmatter } = file;
+    const fmContributor = cleanText(frontmatter.contributor, 60) || contributor;
+    const title =
+      cleanText(frontmatter.title, 120) || cleanText(frontmatter.name, 120) || slug;
+    const description = cleanText(frontmatter.description, 260);
+    const genericSkillRef = cleanText(frontmatter.genericSkillRef, 60);
+    const level = cleanText(frontmatter.level, 8);
+
+    const record: NamedSkillRecord = { c: fmContributor, t: title, d: description };
+    if (genericSkillRef) record.g = genericSkillRef;
+    if (level) record.lvl = level;
+    index.skills[slug] = record;
+    index.slugToContributor[slug] = fmContributor;
   }
 
-  interface RegistryEntry {
-    id?: string;
-    contributor?: string;
-    title?: string;
-    description?: string;
-    genericSkillRef?: string;
-    level?: string;
-  }
-  let parsed: { buckets?: Record<string, RegistryEntry[]> };
-  try {
-    parsed = JSON.parse(fs.readFileSync(namedPath, 'utf8'));
-  } catch (e) {
-    console.warn(`⚠ Failed to parse named-skills.json: ${e} — emitting empty index`);
-    return index;
-  }
-
-  const buckets = parsed.buckets ?? {};
-  const unlinked = new Set<string>();
-
-  for (const bucket of Object.keys(buckets)) {
-    for (const entry of buckets[bucket]) {
-      const id = entry.id ?? '';
-      const slashAt = id.indexOf('/');
-      if (slashAt <= 0) continue; // need both a contributor and a slug
-      const contributorFromId = id.slice(0, slashAt);
-      const slug = id.slice(slashAt + 1).trim();
-      if (!slug) continue;
-
-      // Prefer the explicit contributor field, fall back to the id prefix.
-      const contributor = (entry.contributor ?? contributorFromId).trim();
-
-      // Skip redacted contributors — but remember the slug as "known but unlinked".
-      if (isRedacted(contributor) || isRedacted(contributorFromId)) {
-        unlinked.add(slug);
-        continue;
-      }
-
-      // First-write-wins on slug collisions (deterministic across runs given
-      // stable bucket/entry ordering in the source file).
-      if (!index.skills[slug]) {
-        const title = cleanText(entry.title, 120);
-        const description = cleanText(entry.description, 260);
-        const genericSkillRef = cleanText(entry.genericSkillRef, 60);
-        const level = cleanText(entry.level, 8);
-        const record: NamedSkillRecord = {
-          c: contributor,
-          // Ground truth: real registry title, falling back to the slug only if the
-          // registry somehow omits it (shouldn't happen for status 'named').
-          t: title || slug,
-          d: description,
-        };
-        if (genericSkillRef) record.g = genericSkillRef;
-        if (level) record.lvl = level;
-        index.skills[slug] = record;
-        index.slugToContributor[slug] = contributor;
-      }
-    }
-  }
-
-  // Only surface slugs that never got a linked contributor.
-  index.unlinkedSlugs = [...unlinked].filter((s) => !index.skills[s]).sort();
+  // No redacted directories exist in the .md source today; keep the field for
+  // shape/back-compat.
+  index.unlinkedSlugs = [];
 
   return index;
 }
 
 /**
  * Build the TINY contributor roster (handle -> named-skill count) for the
- * Builders collection. Reads the SAME named-skills.json as buildNamedIndex but
- * counts EVERY named-skill entry a contributor authored (not deduped by slug),
- * so `sum(count) === number of linkable named skills`. Redacted contributors
- * are skipped so no ████████ handle can ever leak into the client bundle.
+ * Builders collection. Reads the SAME named/ walk as buildNamedIndex but
+ * counts EVERY named-skill .md file a contributor authored (not deduped by
+ * slug), so `sum(count) === file count`. Redacted contributors are skipped so
+ * no ████████ handle can ever leak into the client bundle (none exist in the
+ * .md source today, but the guard is kept).
  */
-function buildContributorRoster(): ContributorRoster {
-  const namedPath = path.join(REGISTRY_ROOT, 'named-skills.json');
+function buildContributorRoster(files: NamedSkillFile[]): ContributorRoster {
   const roster: ContributorRoster = { total: 0, contributors: {} };
 
-  if (!fs.existsSync(namedPath)) {
-    console.warn(`⚠ named-skills.json not found at: ${namedPath} — emitting empty roster`);
-    return roster;
-  }
-
-  interface RegistryEntry {
-    id?: string;
-    contributor?: string;
-  }
-  let parsed: { buckets?: Record<string, RegistryEntry[]> };
-  try {
-    parsed = JSON.parse(fs.readFileSync(namedPath, 'utf8'));
-  } catch (e) {
-    console.warn(`⚠ Failed to parse named-skills.json: ${e} — emitting empty roster`);
-    return roster;
-  }
-
-  const buckets = parsed.buckets ?? {};
-  for (const bucket of Object.keys(buckets)) {
-    for (const entry of buckets[bucket]) {
-      const id = entry.id ?? '';
-      const slashAt = id.indexOf('/');
-      if (slashAt <= 0) continue;
-      const contributorFromId = id.slice(0, slashAt);
-      const handle = (entry.contributor ?? contributorFromId).trim();
-      if (!handle || isRedacted(handle) || isRedacted(contributorFromId)) continue;
-      roster.contributors[handle] ??= { count: 0 };
-      roster.contributors[handle].count += 1;
-    }
+  for (const { contributor, frontmatter } of files) {
+    const handle = cleanText(frontmatter.contributor, 60) || contributor;
+    if (!handle || isRedacted(handle)) continue;
+    roster.contributors[handle] ??= { count: 0 };
+    roster.contributors[handle].count += 1;
   }
 
   roster.total = Object.keys(roster.contributors).length;
   return roster;
+}
+
+/**
+ * Build the `genericSkillRef -> {contributor, slug}` reverse-map (plan §3c):
+ * named skills declare `genericSkillRef: <fusion-node-id>` in frontmatter;
+ * this inverts that relation so deriveRecipes() can recover the attributed
+ * named skill for a generic fusion node. Uses the exact same walk + collision
+ * policy as buildNamedIndex() (via reduceByKeyPreferOrigin) so the two can
+ * never disagree on a tie-break.
+ */
+function buildGenericRefMap(files: NamedSkillFile[]): Map<string, GenericRefTarget> {
+  return reduceByKeyPreferOrigin(
+    files,
+    (f) => cleanText(f.frontmatter.genericSkillRef, 60) || undefined,
+    (f) => ({
+      contributor: cleanText(f.frontmatter.contributor, 60) || f.contributor,
+      slug: f.slug,
+    }),
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Step 5: Derive fusion recipes from node.prerequisites (plan §3 — replaces
+// the deleted combinations.md parser entirely).
+// ---------------------------------------------------------------------------
+
+interface DeriveRecipesResult {
+  recipes: Recipe[];
+  multiRecipes: MultiPrereqRecipe[];
+  /** Count of fusion nodes with >=1 named ref (for the assertRegistryShape floor). */
+  fusionNodesWithNamedRef: number;
+}
+
+/**
+ * For each fusion node, read its own `prerequisites` array and emit a Recipe
+ * (2 prereqs) or MultiPrereqRecipe (>=3 prereqs). The recipe's `result`/
+ * `slug`/`contributor` are recovered via the genericSkillRef reverse-map when
+ * one exists (Option B, plan §3b) — otherwise they fall back to the node's own
+ * generic id with no contributor. Fusion nodes with <2 prerequisites are
+ * skipped with a warning (none exist today; the Yggdrasil II schema
+ * technically permits 1-prereq fusion nodes, so this is a defensive guard).
+ *
+ * 2-input recipes are emitted in DESCENDING node-id order. This matters only
+ * for the ~2 fusion-node pairs whose prerequisites collide on the same
+ * pairKey (plan §3d) — lib/craft/recipes.ts's getRecipeMap() dedupes by
+ * pairKey with last-write-wins, so array order decides the winner. Emitting
+ * descending means the alphabetically EARLIER node id is pushed LAST for a
+ * shared pairKey and therefore wins the in-memory lookup (documented as
+ * canonical in the plan: "the alphabetically-later node id loses the
+ * pairKey"). All colliding recipes are still written to recipes.json — only
+ * the in-memory findRecipe() lookup dedupes.
+ */
+function deriveRecipes(
+  nodes: SkillEntry[],
+  genericRefMap: Map<string, GenericRefTarget>,
+  getEmoji: (slug: string) => string,
+): DeriveRecipesResult {
+  const fusionNodes = nodes.filter((n) => n.type === 'fusion');
+  const fusionNodesWithNamedRef = fusionNodes.filter((n) => genericRefMap.has(n.id)).length;
+
+  const sorted = [...fusionNodes].sort((a, b) => (a.id < b.id ? 1 : a.id > b.id ? -1 : 0));
+
+  const recipes: Recipe[] = [];
+  const multiRecipes: MultiPrereqRecipe[] = [];
+
+  for (const node of sorted) {
+    const prereqs = node.prerequisites ?? [];
+
+    if (prereqs.length < 2) {
+      console.warn(
+        `⚠ Fusion node "${node.id}" has ${prereqs.length} prerequisite(s) (need >=2) — skipping recipe derivation`,
+      );
+      continue;
+    }
+
+    const named = genericRefMap.get(node.id);
+    const result = named ? named.slug : node.id;
+    const slug = named ? named.slug : node.id;
+    const contributor = named ? named.contributor : undefined;
+    const emoji = getEmoji(slug);
+    const blurb = makeBlurb(result, prereqs);
+
+    if (prereqs.length === 2) {
+      const [a, b] = prereqs;
+      recipes.push({
+        pairKey: pairKey(a, b),
+        result,
+        emoji,
+        blurb,
+        ...(contributor ? { contributor } : {}),
+        ...(slug ? { slug } : {}),
+      });
+    } else {
+      multiRecipes.push({
+        pairKey: '',
+        result,
+        emoji,
+        blurb,
+        prereqs,
+        ...(contributor ? { contributor } : {}),
+        ...(slug ? { slug } : {}),
+      });
+    }
+  }
+
+  return { recipes, multiRecipes, fusionNodesWithNamedRef };
+}
+
+// ---------------------------------------------------------------------------
+// Sanity gate — fail loudly, never write near-empty (see docs/plans/
+// epic-89-sub-85-registry-sync-repair-plan-v2-yggdrasil2.md §6). Runs after
+// loading and BEFORE any writeFileSync. Throws (non-zero exit) if any
+// assumption below is violated, so a broken read aborts the sync instead of
+// silently regenerating near-empty data (the "235 named skills → 0" trap this
+// issue exists to fix).
+// ---------------------------------------------------------------------------
+
+function assertShape(condition: boolean, message: string): void {
+  if (!condition) {
+    throw new Error(`❌ Registry sanity check failed: ${message}`);
+  }
+}
+
+function assertRegistryShape(args: {
+  nodes: SkillEntry[];
+  basicCount: number;
+  fusionCount: number;
+  recipes: Recipe[];
+  multiRecipes: MultiPrereqRecipe[];
+  namedFiles: NamedSkillFile[];
+  namedIndex: NamedIndex;
+  fusionNodesWithNamedRef: number;
+}): void {
+  const {
+    nodes,
+    basicCount,
+    fusionCount,
+    recipes,
+    multiRecipes,
+    namedFiles,
+    namedIndex,
+    fusionNodesWithNamedRef,
+  } = args;
+
+  // §4a pre-migration layout guard — checked FIRST so a stale (pre-#1185)
+  // gaia-skill-tree checkout fails with an actionable message instead of
+  // tripping the generic floor checks below with a confusing near-empty count.
+  const hasLegacyLayout =
+    fs.existsSync(path.join(REGISTRY_ROOT, 'nodes', 'extra')) ||
+    fs.existsSync(path.join(REGISTRY_ROOT, 'nodes', 'ultimate'));
+  assertShape(
+    fusionCount > 0 || !hasLegacyLayout,
+    'pre-Yggdrasil-II layout detected (registry/nodes/extra or registry/nodes/ultimate ' +
+      'present, registry/nodes/fusion missing/empty) — this branch targets the ' +
+      'post-gaia-skill-tree-#1185 schema only; do not run against the old gaia-skill-tree ' +
+      '`main` until #1185 merges. See docs/plans/epic-89-sub-85-registry-sync-repair-plan-v2-yggdrasil2.md §4a.',
+  );
+
+  assertShape(
+    nodes.length >= 220,
+    `total node count too low: expected >=220 (basic+fusion), got ${nodes.length}`,
+  );
+  assertShape(
+    fusionCount >= 100,
+    `fusion node count too low: expected >=100, got ${fusionCount} — check registry/nodes/fusion`,
+  );
+  assertShape(
+    basicCount >= 100,
+    `basic node count too low: expected >=100, got ${basicCount} — check registry/nodes/basic`,
+  );
+  assertShape(
+    recipes.length >= 45,
+    `2-input recipe count too low: expected >=45, got ${recipes.length} — check node.prerequisites reads`,
+  );
+  assertShape(
+    multiRecipes.length >= 50,
+    `multi-prereq recipe count too low: expected >=50, got ${multiRecipes.length}`,
+  );
+  assertShape(
+    fusionNodesWithNamedRef >= 60,
+    `fusion-nodes-with-named-ref too low: expected >=60, got ${fusionNodesWithNamedRef} — check the genericSkillRef reverse-map`,
+  );
+  assertShape(
+    namedFiles.length >= 250,
+    `named/ layout changed or missing: expected >=250 .md files, got ${namedFiles.length}`,
+  );
+
+  // Named-schema canary fixtures the tests depend on (lib/craft/named-index.test.ts).
+  assertShape(
+    namedIndex.skills['scrape']?.c === 'garrytan',
+    'canary "scrape" missing or contributor mismatch — named schema changed',
+  );
+  assertShape(
+    namedIndex.skills['design-html']?.c === 'garrytan',
+    'canary "design-html" missing or contributor mismatch — named schema changed',
+  );
+
+  // End-to-end recipe canaries (plan §6) — prove the prerequisites read AND
+  // the genericSkillRef reverse-map work together correctly.
+  const canaryA = recipes.find((r) => r.pairKey === pairKey('api-call', 'tool-use'));
+  assertShape(
+    canaryA?.result === 'flow-nexus-platform' && canaryA?.contributor === 'ruvnet',
+    `recipe canary A failed: api-call+tool-use should resolve to flow-nexus-platform/ruvnet, ` +
+      `got ${JSON.stringify(canaryA)}`,
+  );
+  const canaryB = recipes.find(
+    (r) => r.pairKey === pairKey('multi-agent-debate', 'swarm-topology-management'),
+  );
+  assertShape(
+    canaryB?.result === 'swarm-advanced' && canaryB?.contributor === 'ruvnet',
+    `recipe canary B failed: multi-agent-debate+swarm-topology-management should resolve to ` +
+      `swarm-advanced/ruvnet, got ${JSON.stringify(canaryB)}`,
+  );
+
+  // Regression guard vs the currently-committed snapshot (the "235→0" trap):
+  // refuse to write if the new named count drops below 50% of the previously
+  // committed count, unless the operator explicitly opts in via FORCE_RESYNC.
+  const prevNamedIndexPath = path.join(OUT_DIR, 'named-index.json');
+  let prevNamedCount = 0;
+  if (fs.existsSync(prevNamedIndexPath)) {
+    try {
+      const prev = JSON.parse(fs.readFileSync(prevNamedIndexPath, 'utf8')) as {
+        skills?: Record<string, unknown>;
+      };
+      prevNamedCount = Object.keys(prev.skills ?? {}).length;
+    } catch {
+      // Unreadable/corrupt previous snapshot — treat as "no baseline", don't block.
+      prevNamedCount = 0;
+    }
+  }
+  const newNamedCount = Object.keys(namedIndex.skills).length;
+  const forced = process.env.FORCE_RESYNC === '1';
+  assertShape(
+    prevNamedCount === 0 || newNamedCount >= 0.5 * prevNamedCount || forced,
+    `named count collapsed: ${prevNamedCount} → ${newNamedCount} (>50% drop). ` +
+      `Set FORCE_RESYNC=1 if this contraction is real and reviewed.`,
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -528,21 +781,16 @@ function buildContributorRoster(): ContributorRoster {
 // ---------------------------------------------------------------------------
 
 function main() {
-  console.log('🌿 Gaia Skill Tree sync starting...');
+  console.log('🌿 Gaia Skill Tree sync starting (Yggdrasil II schema)...');
   console.log(`   Registry: ${REGISTRY_ROOT}`);
 
-  // 1. Load skills from node JSON files
-  const skills = loadNodes();
-  console.log(`   Loaded ${skills.length} skill nodes`);
+  // 1. Load skills from node JSON files (basic + fusion only).
+  const nodes = loadNodes();
+  const basicCount = nodes.filter((n) => n.type === 'basic').length;
+  const fusionCount = nodes.filter((n) => n.type === 'fusion').length;
+  console.log(`   Loaded ${nodes.length} skill nodes (${basicCount} basic, ${fusionCount} fusion)`);
 
-  // 2. Parse combinations.md
-  const combos = parseCombinations();
-  console.log(`   Parsed ${combos.length} combination rows`);
-
-  // 3. Build name → slug index
-  const nameIndex = buildNameIndex(skills);
-
-  // 3b. Load emoji map (may not exist on first run — falls back to defaults)
+  // 2. Load emoji map (may not exist on first run — falls back to defaults).
   const emojiMapRaw = loadEmojiMap();
   const getEmoji = makeGetEmoji(emojiMapRaw);
   const emojiMapSize = Object.keys(emojiMapRaw).length;
@@ -552,48 +800,44 @@ function main() {
     console.log('   emoji-map.json not found — using hardcoded defaults');
   }
 
-  // 4. Produce recipes
-  const recipes: Recipe[] = [];
-  const multiRecipes: MultiPrereqRecipe[] = [];
+  // 3. Build the named-skill index + contributor roster + genericSkillRef
+  //    reverse-map from the named/ walk.
+  const namedFiles = listNamedSkillFiles();
+  console.log(`   Found ${namedFiles.length} named-skill .md files`);
+  const namedIndex = buildNamedIndex(namedFiles);
+  const roster = buildContributorRoster(namedFiles);
+  const genericRefMap = buildGenericRefMap(namedFiles);
+  console.log(`   ${genericRefMap.size} distinct genericSkillRef values`);
 
-  for (const combo of combos) {
-    const prereqSlugs = combo.prereqs.map(p => toSlug(p, nameIndex));
-
-    if (combo.prereqs.length === 2) {
-      // Canonical 2-input fusion
-      const [a, b] = prereqSlugs;
-      const recipe: Recipe = {
-        pairKey: pairKey(a, b),
-        result: combo.resultName,
-        emoji: getEmoji(combo.slug ?? combo.resultName),
-        blurb: makeBlurb(combo.resultName, prereqSlugs),
-        ...(combo.contributor ? { contributor: combo.contributor } : {}),
-        ...(combo.slug ? { slug: combo.slug } : {}),
-      };
-      recipes.push(recipe);
-    } else if (combo.prereqs.length >= 3) {
-      // Multi-prereq — recorded for future chained fusion support
-      const multiRecipe: MultiPrereqRecipe = {
-        pairKey: '',   // sentinel: not directly fused as a pair
-        result: combo.resultName,
-        emoji: getEmoji(combo.slug ?? combo.resultName),
-        blurb: makeBlurb(combo.resultName, prereqSlugs),
-        prereqs: prereqSlugs,
-        ...(combo.contributor ? { contributor: combo.contributor } : {}),
-        ...(combo.slug ? { slug: combo.slug } : {}),
-      };
-      multiRecipes.push(multiRecipe);
-    }
-  }
-
+  // 4. Derive recipes directly from each fusion node's prerequisites array.
+  const { recipes, multiRecipes, fusionNodesWithNamedRef } = deriveRecipes(
+    nodes,
+    genericRefMap,
+    getEmoji,
+  );
   console.log(`   ${recipes.length} canonical 2-input recipes`);
   console.log(`   ${multiRecipes.length} multi-prereq recipes (chained)`);
+  console.log(`   ${fusionNodesWithNamedRef} fusion nodes have >=1 named ref`);
 
-  // 5. Write output files
+  // 5. Sanity gate — throws (aborts, non-zero exit) BEFORE any write if the
+  // registry shape looks broken. This is the mechanism that prevents ever
+  // silently regenerating near-empty data again.
+  assertRegistryShape({
+    nodes,
+    basicCount,
+    fusionCount,
+    recipes,
+    multiRecipes,
+    namedFiles,
+    namedIndex,
+    fusionNodesWithNamedRef,
+  });
+
+  // 6. Write output files
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
   // skills.json
-  const skillsOut = skills.map(s => ({
+  const skillsOut = nodes.map(s => ({
     id: s.id,
     name: s.name,           // slash-style e.g. /api-call
     displayName: s.displayName,
@@ -617,8 +861,7 @@ function main() {
   );
   console.log(`✅ Wrote data/craft/recipes.json (${recipesOut.length} total entries)`);
 
-  // 5c. named-index.json — compact slug -> contributor map (anti-bloat).
-  const namedIndex = buildNamedIndex();
+  // named-index.json — compact slug -> contributor map (anti-bloat).
   const namedIndexPath = path.join(OUT_DIR, 'named-index.json');
   fs.writeFileSync(namedIndexPath, JSON.stringify(namedIndex, null, 2), 'utf8');
   const namedCount = Object.keys(namedIndex.skills).length;
@@ -628,8 +871,7 @@ function main() {
       `${namedIndex.unlinkedSlugs.length} unlinked, ${(namedBytes / 1024).toFixed(2)} KB)`,
   );
 
-  // 5d. contributors.json — tiny handle->count roster for the Builders collection.
-  const roster = buildContributorRoster();
+  // contributors.json — tiny handle->count roster for the Builders collection.
   const rosterPath = path.join(OUT_DIR, 'contributors.json');
   fs.writeFileSync(rosterPath, JSON.stringify(roster, null, 2), 'utf8');
   const rosterBytes = fs.statSync(rosterPath).size;
@@ -646,7 +888,7 @@ function main() {
     console.log(`     ${i + 1}. @${handle} — ${count} skills`);
   });
 
-  // 6. Print 3 example recipe entries
+  // 7. Print 3 example recipe entries
   console.log('\n📖 Example canonical recipe entries:');
   recipes.slice(0, 3).forEach((r, i) => {
     console.log(`   ${i + 1}. ${r.pairKey} → ${r.result} ${r.emoji}`);
