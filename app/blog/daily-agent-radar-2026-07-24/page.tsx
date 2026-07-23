@@ -88,7 +88,7 @@ function YoutubeEmbed() {
 
 function ParameterPerturbationFlowchart() {
   return (
-    <figure className="blog-figure my-8 p-6 rounded-xl border border-slate-800 bg-slate-950/80 shadow-lg">
+    <figure className="blog-figure my-8 p-4 sm:p-6 rounded-xl border border-slate-800 bg-slate-950/80 shadow-lg overflow-hidden">
       <figcaption className="text-sm font-semibold text-slate-300 mb-4">
         Figure 1. SkillOpt Optimization Loop: Rollouts → Optimizer Model → Validation Gate
       </figcaption>
@@ -99,24 +99,24 @@ function ParameterPerturbationFlowchart() {
           </marker>
         </defs>
         <rect x="20" y="55" width="160" height="70" rx="6" fill="#0f172a" stroke="#ec4899" strokeWidth="1.5" />
-        <text x="100" y="86" textAnchor="middle" fill="#f0f1f5" fontSize="12" fontWeight="bold" fontFamily="monospace">Task Rollouts</text>
+        <text x="100" y="86" textAnchor="middle" fill="#f0f1f5" fontSize="13" fontWeight="bold" fontFamily="monospace">Task Rollouts</text>
         <text x="100" y="105" textAnchor="middle" fill="#ec4899" fontSize="11" fontFamily="monospace">pass / fail scored</text>
 
         <path d="M 180,90 L 250,90" stroke="#38bdf8" strokeWidth="2" markerEnd="url(#arrow)" />
 
         <rect x="250" y="55" width="170" height="70" rx="6" fill="#0f172a" stroke="#38bdf8" strokeWidth="1.5" />
-        <text x="335" y="86" textAnchor="middle" fill="#f0f1f5" fontSize="12" fontWeight="bold" fontFamily="monospace">Optimizer Model</text>
+        <text x="335" y="86" textAnchor="middle" fill="#f0f1f5" fontSize="13" fontWeight="bold" fontFamily="monospace">Optimizer Model</text>
         <text x="335" y="105" textAnchor="middle" fill="#38bdf8" fontSize="11" fontFamily="monospace">proposes edits</text>
 
         <path d="M 420,90 L 490,90" stroke="#38bdf8" strokeWidth="2" />
 
         <rect x="490" y="55" width="130" height="70" rx="6" fill="#0f172a" stroke="#fbbf24" strokeWidth="1.5" />
-        <text x="555" y="86" textAnchor="middle" fill="#f0f1f5" fontSize="12" fontWeight="bold" fontFamily="monospace">Validation</text>
+        <text x="555" y="86" textAnchor="middle" fill="#f0f1f5" fontSize="13" fontWeight="bold" fontFamily="monospace">Validation</text>
         <text x="555" y="105" textAnchor="middle" fill="#fbbf24" fontSize="11" fontFamily="monospace">gate: score &gt; cur</text>
 
         <path d="M 555,125 C 555,165 100,165 100,125" fill="none" stroke="#ec4899" strokeWidth="1.5" strokeDasharray="4 4" />
       </svg>
-      <p className="text-xs text-slate-500 mt-2">
+      <p className="text-xs text-slate-400 mt-3">
         Frozen agent runs task rollouts. Optimizer model proposes structured edits. Only edits clearing the validation gate (scoreₜₙₑᵘ &gt; scoreₜᵘⁱʳʳʳʳʳ) are written to the skill file.
       </p>
     </figure>
@@ -125,7 +125,7 @@ function ParameterPerturbationFlowchart() {
 
 function LossVsPrecisionConvergenceCurve() {
   return (
-    <figure className="blog-figure my-8 p-6 rounded-xl border border-slate-800 bg-slate-950/80 shadow-lg">
+    <figure className="blog-figure my-8 p-4 sm:p-6 rounded-xl border border-slate-800 bg-slate-950/80 shadow-lg overflow-hidden">
       <figcaption className="text-sm font-semibold text-slate-300 mb-4">
         Figure 2. SkillOpt Task Accuracy — Baseline vs. Optimized (GPT-5.5, Direct Chat)
       </figcaption>
@@ -143,39 +143,39 @@ function LossVsPrecisionConvergenceCurve() {
         <text x="20" y="184" fill="#64748b" fontSize="11" fontFamily="monospace">25%</text>
 
         {/* Baseline bars (pink) */}
-        <rect x="75"  y="155" width="22" height="25" fill="#ec4899" opacity="0.6" />
-        <rect x="165" y="147" width="22" height="33" fill="#ec4899" opacity="0.6" />
-        <rect x="255" y="153" width="22" height="27" fill="#ec4899" opacity="0.6" />
-        <rect x="345" y="113" width="22" height="67" fill="#ec4899" opacity="0.6" />
-        <rect x="435" y="111" width="22" height="69" fill="#ec4899" opacity="0.6" />
-        <rect x="525" y="118" width="22" height="62" fill="#ec4899" opacity="0.6" />
+        <rect x="75"  y="155" width="22" height="25" fill="#ec4899" opacity="0.6" rx="2" />
+        <rect x="165" y="147" width="22" height="33" fill="#ec4899" opacity="0.6" rx="2" />
+        <rect x="255" y="153" width="22" height="27" fill="#ec4899" opacity="0.6" rx="2" />
+        <rect x="345" y="113" width="22" height="67" fill="#ec4899" opacity="0.6" rx="2" />
+        <rect x="435" y="111" width="22" height="69" fill="#ec4899" opacity="0.6" rx="2" />
+        <rect x="525" y="118" width="22" height="62" fill="#ec4899" opacity="0.6" rx="2" />
 
         {/* SkillOpt bars (sky blue) */}
-        <rect x="100" y="44"  width="22" height="136" fill="#38bdf8" opacity="0.85" />
-        <rect x="190" y="38"  width="22" height="142" fill="#38bdf8" opacity="0.85" />
-        <rect x="280" y="47"  width="22" height="133" fill="#38bdf8" opacity="0.85" />
-        <rect x="370" y="36"  width="22" height="144" fill="#38bdf8" opacity="0.85" />
-        <rect x="460" y="34"  width="22" height="146" fill="#38bdf8" opacity="0.85" />
-        <rect x="550" y="42"  width="22" height="138" fill="#38bdf8" opacity="0.85" />
+        <rect x="100" y="44"  width="22" height="136" fill="#38bdf8" opacity="0.85" rx="2" />
+        <rect x="190" y="38"  width="22" height="142" fill="#38bdf8" opacity="0.85" rx="2" />
+        <rect x="280" y="47"  width="22" height="133" fill="#38bdf8" opacity="0.85" rx="2" />
+        <rect x="370" y="36"  width="22" height="144" fill="#38bdf8" opacity="0.85" rx="2" />
+        <rect x="460" y="34"  width="22" height="146" fill="#38bdf8" opacity="0.85" rx="2" />
+        <rect x="550" y="42"  width="22" height="138" fill="#38bdf8" opacity="0.85" rx="2" />
 
         {/* X-axis task labels */}
-        <text x="86"  y="198" textAnchor="middle" fill="#64748b" fontSize="9" fontFamily="monospace">Spreadsheet</text>
-        <text x="176" y="198" textAnchor="middle" fill="#64748b" fontSize="9" fontFamily="monospace">OfficeQA</text>
-        <text x="266" y="198" textAnchor="middle" fill="#64748b" fontSize="9" fontFamily="monospace">LiveMath</text>
-        <text x="356" y="198" textAnchor="middle" fill="#64748b" fontSize="9" fontFamily="monospace">ALFWorld</text>
-        <text x="446" y="198" textAnchor="middle" fill="#64748b" fontSize="9" fontFamily="monospace">DocVQA</text>
-        <text x="536" y="198" textAnchor="middle" fill="#64748b" fontSize="9" fontFamily="monospace">SearchQA</text>
+        <text x="86"  y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">Spreadsheet</text>
+        <text x="176" y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">OfficeQA</text>
+        <text x="266" y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">LiveMath</text>
+        <text x="356" y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">ALFWorld</text>
+        <text x="446" y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">DocVQA</text>
+        <text x="536" y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">SearchQA</text>
 
         {/* Legend */}
-        <g transform="translate(390, 40)">
-          <rect x="0" y="0" width="160" height="50" rx="4" fill="#0f172a" stroke="#1e293b" />
-          <rect x="12" y="13" width="16" height="10" fill="#ec4899" opacity="0.6" />
-          <text x="34" y="22" fill="#e2e8f0" fontSize="10" fontFamily="monospace">Baseline</text>
-          <rect x="12" y="29" width="16" height="10" fill="#38bdf8" opacity="0.85" />
-          <text x="34" y="38" fill="#e2e8f0" fontSize="10" fontFamily="monospace">SkillOpt</text>
+        <g transform="translate(420, 35)">
+          <rect x="0" y="0" width="150" height="46" rx="4" fill="#0f172a" stroke="#1e293b" />
+          <rect x="12" y="11" width="16" height="10" fill="#ec4899" opacity="0.6" rx="1" />
+          <text x="36" y="20" fill="#e2e8f0" fontSize="10" fontFamily="monospace">Baseline</text>
+          <rect x="12" y="27" width="16" height="10" fill="#38bdf8" opacity="0.85" rx="1" />
+          <text x="36" y="36" fill="#e2e8f0" fontSize="10" fontFamily="monospace">SkillOpt</text>
         </g>
       </svg>
-      <p className="text-xs text-slate-500 mt-3">
+      <p className="text-xs text-slate-400 mt-3">
         Real benchmark results from the SkillOpt paper (Yang et al., Microsoft Research, 2026). Average lift of +23.5 points across six tasks in direct-chat mode.
       </p>
     </figure>
@@ -226,6 +226,13 @@ export default function BlogPostPage() {
           <Markdown
             remarkPlugins={[remarkGfm]}
             components={{
+              table: ({ children, ...props }) => (
+                <div className="overflow-x-auto my-6 border border-slate-800 rounded-lg">
+                  <table className="w-full text-left text-sm" {...props}>
+                    {children}
+                  </table>
+                </div>
+              ),
               p: ({ children, ...props }) => {
                 const text = Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "";
                 if (text === "[[YOUTUBE_EMBED]]") {
@@ -246,7 +253,7 @@ export default function BlogPostPage() {
         </article>
 
         <footer className="blog-post-foot mt-16 pt-8 border-t border-slate-800">
-          <Link href="/blog" className="text-sky-400 font-medium hover:underline flex items-center gap-2">
+          <Link href="/blog" className="text-sky-400 font-medium hover:underline inline-flex items-center gap-2 min-h-[44px] px-2 py-1">
             ← Back to Blog
           </Link>
         </footer>
