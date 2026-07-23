@@ -14,11 +14,21 @@ const articlePath = "/blog/daily-agent-radar-2026-07-24";
 const articleUrl = `${siteUrl}${articlePath}`;
 const thumbnailUrl = `${siteUrl}${dailyAgentRadarThumbnail.src.src}`;
 const articleDescription =
-  "Ever wondered why adding 'IMPORTANT' to your SKILL.md makes the model stray? A field note on SkillOpt Zeroth-Order parameter tuning.";
+  "SkillOpt applies Zeroth-Order optimization to agent SKILL.md files, replacing manual prompt tuning with evidence-backed evaluation loops. A field note by Gaia Research.";
 
 export const metadata = {
-  title: "SkillOpt: Zeroth-Order Parameter Tuning for Agent Skills — Gaia Blog",
+  title: "SkillOpt: Zeroth-Order Parameter Tuning for Agent Skills — Gaia Research",
   description: articleDescription,
+  keywords: [
+    "SkillOpt",
+    "agent skill optimization",
+    "SKILL.md",
+    "zeroth-order optimization",
+    "prompt tuning",
+    "agent evaluation",
+    "LLM prompt engineering",
+    "Gaia Research",
+  ],
   alternates: { canonical: articlePath },
   openGraph: {
     type: "article",

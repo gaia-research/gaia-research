@@ -36,7 +36,7 @@ export const blogPosts: readonly BlogPost[] = [
     readTime: "4 min read",
     title: "SkillOpt: Zeroth-Order Optimization for Agent Skills",
     description:
-      "A field note on Zeroth-Order optimization for SKILL.md parameters, replacing manual vibe-checks with evidence-backed evaluation loops.",
+      "SkillOpt: how Zeroth-Order optimization replaces manual SKILL.md vibe-checks with evidence-backed evaluation loops.",
     author: "Nova · Head Researcher, Gaia Research",
     image: dailyAgentRadarThumbnail,
   },
