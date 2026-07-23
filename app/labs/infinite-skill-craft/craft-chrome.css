@@ -122,10 +122,16 @@
 }
 
 .craft-modal-body {
-  padding: 1.4rem 1.5rem 1.75rem;
+  padding: 1.6rem 1.75rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
+}
+
+.craft-modal-lead {
+  font-size: 1.05rem !important;
+  color: var(--text) !important;
+  line-height: 1.6 !important;
 }
 
 /* ── Prose inside modals ─────────────────────────────────────────────────── */
@@ -200,14 +206,14 @@
 .craft-onboard-steps {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .craft-onboard-step {
   display: flex;
   align-items: flex-start;
-  gap: 0.9rem;
-  padding: 0.9rem;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem;
   background: color-mix(in srgb, var(--surface) 60%, var(--bg));
   border: 1px solid var(--line);
   transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
@@ -257,10 +263,11 @@
 /* "What IS a skill" callout — the anti-confusion shield */
 
 .craft-skill-callout {
-  padding: 1rem 1.1rem;
-  border: 1px solid var(--pink);
+  padding: 1.1rem 1.3rem;
+  border: 1px solid color-mix(in srgb, var(--pink) 40%, transparent);
   background: color-mix(in srgb, var(--pink) 6%, var(--surface));
   position: relative;
+  border-radius: 2px;
 }
 
 .craft-skill-callout::before {
@@ -1204,6 +1211,106 @@
   100% { transform: scale(1); }
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   INTERACTIVE TOOLTIPS & QUIETER RESPONSIVE BREATHING ROOM
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.craft-tooltip-trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0 0.2rem;
+  cursor: help;
+  vertical-align: middle;
+}
+
+.craft-tooltip-badge {
+  font: 0.68rem var(--mono);
+  color: var(--blue);
+  background: color-mix(in srgb, var(--blue) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--blue) 35%, transparent);
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.craft-tooltip-trigger:hover .craft-tooltip-badge,
+.craft-tooltip-trigger:focus-visible .craft-tooltip-badge,
+.craft-tooltip-trigger.is-active .craft-tooltip-badge {
+  color: var(--pink);
+  background: color-mix(in srgb, var(--pink) 15%, transparent);
+  border-color: color-mix(in srgb, var(--pink) 45%, transparent);
+}
+
+.craft-tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font: 700 0.65rem/1 var(--mono);
+  color: var(--blue);
+  background: color-mix(in srgb, var(--blue) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--blue) 35%, transparent);
+  transition: all 0.15s ease;
+}
+
+.craft-tooltip-trigger:hover .craft-tooltip-icon,
+.craft-tooltip-trigger:focus-visible .craft-tooltip-icon,
+.craft-tooltip-trigger.is-active .craft-tooltip-icon {
+  color: var(--pink);
+  background: color-mix(in srgb, var(--pink) 18%, transparent);
+  border-color: color-mix(in srgb, var(--pink) 50%, transparent);
+}
+
+.craft-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: max-content;
+  max-width: 280px;
+  padding: 0.6rem 0.85rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  color: var(--ink);
+  font: 400 0.82rem / 1.5 var(--body);
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: normal;
+  z-index: 300;
+  pointer-events: none;
+  border-radius: 2px;
+  animation: craft-tooltip-fade 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.craft-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px 5px 0 5px;
+  border-style: solid;
+  border-color: var(--line) transparent transparent transparent;
+}
+
+@keyframes craft-tooltip-fade {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
 /* ── Reduced motion ────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1274,6 +1381,21 @@
 @media (max-width: 600px) {
   .craft-modal {
     max-height: calc(100dvh - 2rem);
+  }
+
+  .craft-modal-body {
+    padding: 1.25rem 1.25rem 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .craft-tooltip {
+    max-width: 230px;
+    left: -20px;
+    transform: translateY(4px);
+  }
+
+  .craft-tooltip::after {
+    left: 30px;
   }
 
   .craft-modal-terms > div {

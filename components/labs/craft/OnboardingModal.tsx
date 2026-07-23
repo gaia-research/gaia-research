@@ -26,6 +26,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { allContributors } from "@/lib/craft/contributors";
+import { CraftTooltip } from "./CraftTooltip";
 
 export const ONBOARD_STORAGE_KEY = "isc-onboarded";
 
@@ -141,21 +142,18 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
         </header>
 
         <div className="craft-modal-body">
-          <p>
-            Hey boss! 👋 You&apos;ve just landed in <strong>Infinite Skill Craft</strong> — a
-            drag-and-drop fusion sandbox where you combine AI agent skills to discover
-            what emerges. Think of it as a skill taxonomy explorer dressed up as a game.
+          <p className="craft-modal-lead">
+            Combine AI agent skills on a free-floating canvas to discover what emerges, boss!
           </p>
 
           {/* Anti-confusion shield — what an agent skill actually IS */}
           <div className="craft-skill-callout" role="note">
-            <p className="craft-skill-callout-label">🔑 Key concept: what is a skill?</p>
-            <p>
-              An <strong>agent skill</strong> is a <strong>packaged capability</strong> — a{" "}
-              <code>SKILL.md</code> instruction set that gives an AI agent a specific ability: an
-              action it can perform, a context it can understand, a tool it can wield. Think
-              &ldquo;/prompt&rdquo; or &ldquo;/code&rdquo; — not a random noun or
-              vibe, but a <em>named, usable ability</em>. Skills are the atoms of agent behaviour.
+            <p className="craft-skill-callout-text">
+              <strong>🔑 What is a skill?</strong> An agent skill is a packaged capability (<code>SKILL.md</code>){" "}
+              that gives an AI agent a named ability like <code>/prompt</code> or <code>/code</code>.
+              <CraftTooltip content="Skills are instruction-first building blocks that define actions an agent can perform, tools it wields, or context it understands — not random vibes, but usable abilities.">
+                <span className="craft-tooltip-badge">ⓘ Details</span>
+              </CraftTooltip>
             </p>
           </div>
 
@@ -164,11 +162,9 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
             <div className="craft-onboard-step" role="listitem">
               <span className="craft-onboard-step-emoji" aria-hidden="true">🃏</span>
               <div className="craft-onboard-step-text">
-                <span className="craft-onboard-step-title">1 · Drop skills on the canvas</span>
+                <span className="craft-onboard-step-title">1 · Drop skills on canvas</span>
                 <p className="craft-onboard-step-desc">
-                  Click a skill in the inventory to drop it on the canvas — drag as many
-                  as you like. Start with the four one-word elements: <strong>/prompt</strong>,{" "}
-                  <strong>/code</strong>, <strong>/web</strong>, <strong>/data</strong>.
+                  Click inventory skills to place them on the canvas. Start with <strong>/prompt</strong>, <strong>/code</strong>, <strong>/web</strong>, or <strong>/data</strong>.
                 </p>
               </div>
             </div>
@@ -176,13 +172,23 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
             <div className="craft-onboard-step" role="listitem">
               <span className="craft-onboard-step-emoji" aria-hidden="true">⚗️</span>
               <div className="craft-onboard-step-text">
-                <span className="craft-onboard-step-title">2 · Drag two together to fuse</span>
+                <span className="craft-onboard-step-title">2 · Drag together to fuse</span>
                 <p className="craft-onboard-step-desc">
-                  Drag one instance on top of another and the forge invents a result.{" "}
-                  <strong>Canonical</strong> results ✦ are real skills in the Gaia Skill Tree —
-                  tap the result for its <strong>Skill Tree</strong> link.{" "}
-                  <strong>Experimental</strong> 🧪 results are AI-invented combos — plausible,
-                  but not yet on the registry.
+                  Overlap two skills to fuse them into a new creation. Discover{" "}
+                  <strong>
+                    Canonical ✦
+                    <CraftTooltip content="Verified skills in the Gaia Skill Tree registry. Tap their result card to open their live spec page!">
+                      <span className="craft-tooltip-icon">ⓘ</span>
+                    </CraftTooltip>
+                  </strong>{" "}
+                  or{" "}
+                  <strong>
+                    Experimental 🧪
+                    <CraftTooltip content="AI-invented combinations generated on the fly. Plausible capability ideas for you to judge, boss!">
+                      <span className="craft-tooltip-icon">ⓘ</span>
+                    </CraftTooltip>
+                  </strong>{" "}
+                  results.
                 </p>
               </div>
             </div>
@@ -190,25 +196,19 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
             <div className="craft-onboard-step" role="listitem">
               <span className="craft-onboard-step-emoji" aria-hidden="true">🌳</span>
               <div className="craft-onboard-step-text">
-                <span className="craft-onboard-step-title">3 · Build your tree</span>
+                <span className="craft-onboard-step-title">3 · Grow your skill tree</span>
                 <p className="craft-onboard-step-desc">
-                  Every fusion adds to your personal inventory. Drop your discoveries back
-                  on the canvas and fuse them to grow your skill tree. Clear the canvas any
-                  time — your discoveries stay. Some combos carry curses, always cleansable, boss.
-                </p>
-                <p className="craft-onboard-step-desc">
-                  And here&apos;s the treasure: every real skill has a <strong>builder</strong>{" "}
-                  behind it. Unlock a canonical skill from a Gaia Skill Tree contributor for the
-                  first time and you <strong>collect</strong> them — collect all {BUILDERS_TOTAL}, boss.
+                  Discoveries join your inventory for future fusions. Discover canonical skills to collect{" "}
+                  <strong>
+                    all {BUILDERS_TOTAL} builder cards
+                    <CraftTooltip content="Every real skill has an open-source contributor behind it. Discover canonical skills to collect their badges!">
+                      <span className="craft-tooltip-icon">ⓘ</span>
+                    </CraftTooltip>
+                  </strong>.
                 </p>
               </div>
             </div>
           </div>
-
-          <p>
-            Progress is saved in your browser. No accounts, no data sent anywhere, no vibes
-            except craft.
-          </p>
 
           <button
             ref={ctaRef}

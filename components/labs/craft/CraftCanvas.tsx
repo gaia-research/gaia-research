@@ -54,6 +54,7 @@ import {
   ContributorCollection,
   type UnlockedBuilder,
 } from "./ContributorCollection";
+import { CraftTooltip } from "./CraftTooltip";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -1083,9 +1084,11 @@ export function CraftCanvas() {
           <header className="craft-sidebar-head">
             <div>
               <p className="craft-kicker">Inventory</p>
-              <p className="craft-count" aria-live="off">
-                <b>{discoveredCount}</b> discoveries
-              </p>
+              <CraftTooltip content="Total skills unlocked in your personal inventory. Fusing skills expands your tree!" align="left">
+                <p className="craft-count" aria-live="off">
+                  <b>{discoveredCount}</b> discoveries
+                </p>
+              </CraftTooltip>
               <button
                 type="button"
                 className={`craft-builders-pill${buildersFresh ? " is-fresh" : ""}`}
@@ -1102,16 +1105,17 @@ export function CraftCanvas() {
               </button>
             </div>
             <div className="craft-curse-controls">
-              <button
-                type="button"
-                className="craft-cleanse"
-                onClick={cleanse}
-                disabled={activeCurses.length === 0}
-                title={activeCurses.length === 0 ? CLEANSE_INACTIVE_LABEL : CLEANSE_LABEL}
-                aria-label={activeCurses.length === 0 ? CLEANSE_INACTIVE_LABEL : CLEANSE_LABEL}
-              >
-                {CLEANSE_LABEL}
-              </button>
+              <CraftTooltip content={activeCurses.length === 0 ? "No active curses to cleanse" : "Cleanse active curse gremlins from your canvas"}>
+                <button
+                  type="button"
+                  className="craft-cleanse"
+                  onClick={cleanse}
+                  disabled={activeCurses.length === 0}
+                  aria-label={activeCurses.length === 0 ? CLEANSE_INACTIVE_LABEL : CLEANSE_LABEL}
+                >
+                  {CLEANSE_LABEL}
+                </button>
+              </CraftTooltip>
             </div>
           </header>
 
@@ -1243,27 +1247,31 @@ export function CraftCanvas() {
               <b>tap</b> a result for its details. Curses are cosmetic and always cleansable.
             </p>
             <div className="craft-foot-controls">
-              <button
-                type="button"
-                className="craft-tidy"
-                onClick={tidyCanvas}
-                disabled={nodes.length === 0}
-                title="Sweep experimental and non-skill cards off the canvas"
-              >
-                Tidy canvas
-              </button>
-              <button
-                type="button"
-                className="craft-clear"
-                onClick={clearCanvas}
-                disabled={nodes.length === 0}
-                title="Remove everything from the canvas (keeps your discoveries)"
-              >
-                Clear canvas
-              </button>
-              <button type="button" className="craft-reset" onClick={resetProgress}>
-                Reset progress
-              </button>
+              <CraftTooltip content="Sweep non-skill and experimental noise cards off your canvas">
+                <button
+                  type="button"
+                  className="craft-tidy"
+                  onClick={tidyCanvas}
+                  disabled={nodes.length === 0}
+                >
+                  Tidy canvas
+                </button>
+              </CraftTooltip>
+              <CraftTooltip content="Remove all instances from canvas. Your inventory discoveries remain safe!">
+                <button
+                  type="button"
+                  className="craft-clear"
+                  onClick={clearCanvas}
+                  disabled={nodes.length === 0}
+                >
+                  Clear canvas
+                </button>
+              </CraftTooltip>
+              <CraftTooltip content="Reset inventory and canvas back to the 4 starter element skills">
+                <button type="button" className="craft-reset" onClick={resetProgress}>
+                  Reset progress
+                </button>
+              </CraftTooltip>
             </div>
           </footer>
         </div>

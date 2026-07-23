@@ -35,9 +35,8 @@ export default function InfiniteSkillCraftPage() {
               See what <em>hatches.</em>
             </h1>
             <p>
-              Drop skills onto a free-floating canvas, drag two together, and the forge
-              runs the fusion. Canonical results unlock a real page in the Gaia Skill Tree —
-              everything else is a fresh experiment for you to judge, boss.
+              Drop skills on the canvas and drag two together to fuse. Canonical results ✦ unlock
+              real Gaia Skill Tree specs, while experimental 🧪 combos push the capability frontier, boss.
             </p>
             <p className="craft-homage">
               A homage to{" "}
