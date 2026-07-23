@@ -553,12 +553,20 @@ export async function POST(request: Request): Promise<Response> {
       experimental: false,
     };
   } else if (findDerivedRecipe(na, nb)) {
-    // Derived canonical tier: a 2-prereq fusion edge from bridges.json whose
-    // prerequisites are exactly the two input skills. This tier is the result of
-    // the build-time AND-reachability closure over the registry graph (Plan B
-    // / Issue #86). It fires for any pair of registry basic/fusion skills that
-    // combine into a known fusion node — zero hand-authoring required; new
-    // registry skills become reachable automatically on the next sync.
+    // Derived canonical tier: covers two sub-cases resolved by findDerivedRecipe:
+    //
+    //   a) Registry-derived (Metric A): a 2-prereq fusion edge from bridges.json
+    //      whose prerequisites are exactly the two input skills. This tier is the
+    //      result of the build-time AND-reachability closure over the registry graph
+    //      (Plan B / Issue #86). New registry skills become reachable automatically
+    //      on the next sync — zero hand-authoring required.
+    //
+    //   b) Seed-bridge (A′ / Metric B): one of the pair is a game seed slug
+    //      (prompt/code/web/data) and the other is a root basic with a seed bridge.
+    //      findDerivedRecipe returns the basic's own id (bridges make the basic
+    //      reachable; the result IS the basic). The player "unlocks" the basic from
+    //      their seed card, gaining an entry point into the registry graph.
+    //      Deep-linking targets the named skill via that basic when one exists.
     const derivedResult = findDerivedRecipe(na, nb)!;
     const named = lookupNamedSkill(derivedResult);
     const contributor = namedContributor(derivedResult);
