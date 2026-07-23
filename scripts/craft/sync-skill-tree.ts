@@ -634,6 +634,90 @@ function buildContributorRoster(files: NamedSkillFile[]): ContributorRoster {
 }
 
 // ---------------------------------------------------------------------------
+// Step 5e: Embed + upsert named skills into Cloudflare Vectorize (Epic #89 / #87)
+// ---------------------------------------------------------------------------
+//
+// Embeds every named skill's "title. description" text at sync time so the
+// fuse route's Vectorize fuzzy-promotion tier (lib/craft/vectorize-promotion.ts)
+// can match paraphrased fusion names against the real registry.
+//
+// FIRE-AND-OPTIONAL: this script runs as a plain `tsx` process (local dev, CI),
+// which has no Cloudflare Workers bindings — there is no `getCloudflareContext()`
+// equivalent outside an actual Worker request. `env` is therefore always `{}` at
+// today's call site; the early-exit below keeps every sync (local + CI) green.
+// Wiring a live embed run means adding a Cloudflare REST API client (account id +
+// `CLOUDFLARE_API_TOKEN`) to the scheduled resync workflow
+// (.github/workflows/craft-registry-resync.yml), gated so it skips silently in
+// PR/fork contexts (plan §5.2) — that requires live Cloudflare credentials this
+// implementation does not have access to, and is left as follow-up work.
+
+interface EmbedAiLike {
+  run(model: string, input: { text: string[] }): Promise<{ data?: number[][] }>;
+}
+
+interface UpsertVectorizeLike {
+  upsert(
+    vectors: Array<{ id: string; values: number[]; metadata?: Record<string, string> }>,
+  ): Promise<unknown>;
+}
+
+const EMBED_MODEL = '@cf/baai/bge-base-en-v1.5';
+const EMBED_TEXT_MAX_CHARS = 512;
+const EMBED_BATCH_SIZE = 50;
+
+/**
+ * Embeds every named skill (title + description) and upserts the vectors into
+ * Cloudflare Vectorize, batched to stay within Workers AI batch limits.
+ *
+ * Fire-and-optional: if either binding is absent (local dev, CI, offline) this
+ * exits early with a warning — it must never block the sync.
+ */
+async function embedAndUpsertNamedSkills(
+  namedIndex: NamedIndex,
+  env: { AI?: EmbedAiLike; VECTORIZE?: UpsertVectorizeLike },
+): Promise<void> {
+  if (!env.AI || !env.VECTORIZE) {
+    console.warn('[sync] VECTORIZE or AI binding absent — skipping embedding upsert.');
+    return;
+  }
+
+  const slugs = Object.keys(namedIndex.skills);
+  let upserted = 0;
+  for (let i = 0; i < slugs.length; i += EMBED_BATCH_SIZE) {
+    const batchSlugs = slugs.slice(i, i + EMBED_BATCH_SIZE);
+    const texts = batchSlugs.map((slug) => {
+      const rec = namedIndex.skills[slug];
+      return `${rec.t}. ${rec.d}`.slice(0, EMBED_TEXT_MAX_CHARS);
+    });
+
+    try {
+      const embedResult = await env.AI.run(EMBED_MODEL, { text: texts });
+      const vectors = embedResult.data ?? [];
+      const toUpsert = batchSlugs
+        .map((slug, idx) => ({ slug, vector: vectors[idx] }))
+        .filter((v): v is { slug: string; vector: number[] } => Array.isArray(v.vector));
+
+      if (toUpsert.length > 0) {
+        await env.VECTORIZE.upsert(
+          toUpsert.map(({ slug, vector }) => ({
+            id: slug,
+            values: vector,
+            metadata: { slug },
+          })),
+        );
+        upserted += toUpsert.length;
+      }
+    } catch (err) {
+      // A single batch failure shouldn't abort the sync — the registry data is
+      // already written. Log loudly and continue with the next batch.
+      console.error(`⚠ Vectorize embed/upsert failed for batch starting at ${i}: ${err}`);
+    }
+  }
+
+  console.log(`✅ Embedded + upserted ${upserted}/${slugs.length} named skills into Vectorize`);
+}
+
+// ---------------------------------------------------------------------------
 // Sanity gate — fail loudly, never write near-empty (see docs/plans/
 // epic-89-sub-85-registry-sync-repair-plan.md §5). Runs after loading and
 // BEFORE any writeFileSync. Throws (non-zero exit) if any assumption below is
@@ -732,7 +816,7 @@ function assertRegistryShape(args: {
 // Main
 // ---------------------------------------------------------------------------
 
-function main() {
+async function main() {
   console.log('🌿 Gaia Skill Tree sync starting...');
   console.log(`   Registry: ${REGISTRY_ROOT}`);
 
@@ -866,6 +950,12 @@ function main() {
     console.log(`     ${i + 1}. @${handle} — ${count} skills`);
   });
 
+  // 5e. Embed + upsert named skills into Vectorize (Epic #89 / #87) — fire-and-
+  // optional; no-ops with a warning when run without live Cloudflare bindings
+  // (always the case for this plain `tsx` script today — see the function's
+  // doc comment for the live-wiring follow-up).
+  await embedAndUpsertNamedSkills(namedIndex, {});
+
   // 6. Print 3 example recipe entries
   console.log('\n📖 Example canonical recipe entries:');
   recipes.slice(0, 3).forEach((r, i) => {
@@ -899,4 +989,7 @@ function main() {
   console.log('\n✨ Sync complete!');
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
