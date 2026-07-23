@@ -13,32 +13,75 @@
   --craft-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Hero tweaks (single column — no image on this lab) ──────────────────── */
-.craft-hero {
-  grid-template-columns: 1fr;
-  min-height: 0;
+/* ── Title bar (replaces full lab-hero — game is the hero) ───────────────── */
+.craft-title-bar {
+  width: var(--shell-width);
+  margin: 0 auto;
+  padding: 1.5rem var(--gutter) 1rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
-.craft-hero > div {
-  max-width: 62ch;
+.craft-title-bar-inner {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  width: 100%;
 }
-.craft-hero h1 em {
+.craft-title-kicker {
+  flex: none;
+  margin: 0;
+}
+.craft-title-h1 {
+  font: 400 clamp(1.6rem, 3.5vw, 2.4rem) / 1 var(--display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 0;
+  flex: none;
+}
+.craft-title-h1 em {
   color: var(--pink);
   font-style: normal;
 }
-.craft-homage {
-  margin: 1.25rem 0 0 !important;
-  font: var(--type-compact) / 1.6 var(--mono);
-  color: var(--dim) !important;
+.craft-title-sub {
+  margin: 0;
+  font: 0.78rem / 1.5 var(--mono);
+  color: var(--dim);
   letter-spacing: 0.02em;
+  flex: 1;
+  min-width: 18ch;
 }
-.craft-homage a {
-  color: var(--blue);
-  border-bottom: 1px solid color-mix(in srgb, var(--blue) 40%, transparent);
-}
-.craft-homage a:hover {
+.craft-title-sub em {
   color: var(--pink);
-  border-bottom-color: var(--pink);
+  font-style: normal;
 }
+.craft-title-homage {
+  color: var(--dim);
+  border-bottom: 1px solid color-mix(in srgb, var(--dim) 40%, transparent);
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.craft-title-homage:hover {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+@media (max-width: 600px) {
+  .craft-title-bar {
+    padding: 1rem var(--gutter) 0.75rem;
+  }
+  .craft-title-bar-inner {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .craft-title-sub {
+    flex: none;
+  }
+}
+
 
 /* ── Shell ─────────────────────────────────────────────────────────────── */
 .craft {
