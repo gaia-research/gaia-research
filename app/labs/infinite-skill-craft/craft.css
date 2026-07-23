@@ -816,6 +816,35 @@
   outline-offset: 4px;
 }
 
+/* Stage footer controls */
+.craft-tidy,
+.craft-clear,
+.craft-reset {
+  flex: none;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--dim);
+  min-height: 36px;
+  padding: 0.35rem 0.75rem;
+  font: 0.72rem var(--mono);
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.craft-tidy:hover {
+  color: var(--text);
+  border-color: var(--blue);
+}
+.craft-tidy:disabled,
+.craft-clear:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.craft-clear:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
 /* Stage footer */
 .craft-stage-foot {
   display: flex;
@@ -832,18 +861,6 @@
 }
 .craft-stage-foot .craft-hint b {
   color: var(--blue);
-}
-.craft-reset {
-  flex: none;
-  background: transparent;
-  border: 1px solid var(--line);
-  color: var(--dim);
-  min-height: 36px;
-  padding: 0.35rem 0.75rem;
-  font: 0.72rem var(--mono);
-  letter-spacing: 0.03em;
-  cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease;
 }
 .craft-reset:hover {
   color: var(--danger);
