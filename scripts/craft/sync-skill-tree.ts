@@ -23,7 +23,8 @@
 //                             same named/ walk as named-index.json.
 //
 // ---------------------------------------------------------------------------
-// Registry schema assumptions (as of gaia-skill-tree v6.8.16, commit 61867a3)
+// Registry schema assumptions (Yggdrasil II taxonomy — verified against
+// gaia-skill-tree @ dev/yggdrasil-ii-staging, HEAD b572c7dcc)
 // ---------------------------------------------------------------------------
 // These are the load-bearing assumptions this script makes about the upstream
 // registry shape. If any of these ever changes, assertRegistryShape() below is
@@ -31,19 +32,27 @@
 // silently regenerate near-empty data. Update this comment when you touch the
 // mapping so the next migration is easy to spot.
 //
-//   - registry/nodes/{basic,extra,unique,ultimate}/*.json — generic skill nodes.
-//     `unique` is in the upstream schema enum but has no directory yet (0 files
-//     today, tolerated as absent). Each file: { id, name, type? }.
-//   - registry/combinations.md — markdown table of fusion recipes. Row shape:
-//     "| diamond [contributor](../docs/u/contributor/)/slug | Class | Prereq A, Prereq B | star | Conditions |"
-//     Also supports "/generic-slug" (no contributor) and redacted-block/slug
-//     (redacted contributor) result cells.
+//   - registry/nodes/{basic,fusion}/*.json — generic skill nodes.
+//     The Yggdrasil II taxonomy migration (metaEpoch "yggdrasil-ii", #997)
+//     replaced the old {basic, extra, unique, ultimate} tiers with just two:
+//       basic  — standalone skill, no prerequisites  (~113 files)
+//       fusion — composed skill; carries inline `prerequisites: string[]`
+//                containing the prerequisite skill IDs (~130 files)
+//     `extra`, `unique`, and `ultimate` no longer exist on disk.
+//     Each file shape: { id, name, type, prerequisites?: string[], ... }
+//   - registry/combinations.md — markdown table of fusion recipes (unchanged
+//     shape). Note: on yggdrasil-ii-staging this table is intentionally empty
+//     — all fusion edges migrated to inline prerequisites on fusion nodes.
+//     The gate in assertRegistryShape() accepts either source (>= 30 rows OR
+//     >= 30 fusion nodes with inline prereqs), so it stays valid across both
+//     registry generations.
 //   - registry/named/<contributor>/<slug>.md — THE authoritative named-skill
 //     source (superseded the deleted registry/named-skills.json). YAML
 //     frontmatter per file, contract in registry/schema/namedSkill.schema.json.
 //     Required frontmatter fields we read: id ("contributor/slug"), name,
 //     contributor, genericSkillRef, description, level ("N★"); optional: title
-//     (reviewer epithet, only on status: named).
+//     (reviewer epithet, only on status: named). Unchanged by Yggdrasil II
+//     (280 files, same schema).
 //   - registry/real-skills.json — a DIFFERENT, staler provenance catalog
 //     (source-repo items, not the named registry). Deliberately NOT used as a
 //     source here — see docs/plans/epic-89-sub-85-registry-sync-repair-plan.md §2.
@@ -53,7 +62,9 @@
 //      checks out gaia-skill-tree at an arbitrary path, not a fixed sibling
 //      depth). FORCE_RESYNC=1 — bypass the delta-guard sanity assertion (see
 //      assertRegistryShape below); use only when a real, reviewed registry
-//      contraction is expected.
+//      contraction is expected. GAIA_CRAFT_OUT_DIR — override the output
+//      directory (default: data/craft relative to repo root). Used by tests to
+//      write into an isolated temp dir so they never touch the real data/craft/.
 
 import fs from 'fs';
 import path from 'path';
@@ -68,7 +79,9 @@ import type { Recipe } from '../../lib/craft/types';
 const REGISTRY_ROOT =
   process.env.GAIA_SKILL_TREE_REGISTRY ??
   path.resolve(__dirname, '../../../../../../gaia-skill-tree/registry');
-const OUT_DIR = path.resolve(__dirname, '../../data/craft');
+const OUT_DIR =
+  process.env.GAIA_CRAFT_OUT_DIR ??
+  path.resolve(__dirname, '../../data/craft');
 
 // ---------------------------------------------------------------------------
 // Types for generated outputs
@@ -80,7 +93,10 @@ interface SkillEntry {
   name: string;
   /** Human-readable name from registry JSON, e.g. "Hypothesis Generation" */
   displayName: string;
-  type: 'basic' | 'extra' | 'unique' | 'ultimate';
+  /** Yggdrasil II taxonomy: basic (no prerequisites) or fusion (has inline prerequisites). */
+  type: 'basic' | 'fusion';
+  /** Prerequisite skill IDs for fusion nodes (populated from inline prerequisites field). */
+  prerequisites?: string[];
   contributor?: string;
   slug?: string;
 }
@@ -158,18 +174,14 @@ interface ContributorRoster {
 }
 
 // ---------------------------------------------------------------------------
-// Step 1: Load all node JSON files from basic / extra / ultimate
+// Step 1: Load all node JSON files from basic / fusion (Yggdrasil II schema)
 // ---------------------------------------------------------------------------
 
 function loadNodes(): SkillEntry[] {
-  // 'unique' is in the upstream schema enum but has no directory on disk yet —
-  // tolerated as absent (see the "Registry schema assumptions" header comment).
-  const tiers: Array<'basic' | 'extra' | 'unique' | 'ultimate'> = [
-    'basic',
-    'extra',
-    'unique',
-    'ultimate',
-  ];
+  // Yggdrasil II taxonomy: only basic and fusion tiers exist on disk.
+  // The existsSync guard is kept per-tier so a future rename still fails loud
+  // via assertRegistryShape() rather than silently dropping nodes.
+  const tiers: Array<'basic' | 'fusion'> = ['basic', 'fusion'];
   const entries: SkillEntry[] = [];
 
   for (const tier of tiers) {
@@ -182,14 +194,25 @@ function loadNodes(): SkillEntry[] {
     for (const file of files) {
       try {
         const raw = fs.readFileSync(path.join(dir, file), 'utf8');
-        const node = JSON.parse(raw) as { id: string; name: string; type?: string };
+        const node = JSON.parse(raw) as {
+          id: string;
+          name: string;
+          type?: string;
+          prerequisites?: string[];
+        };
         const id = node.id ?? path.basename(file, '.json');
         const name = node.name ?? id;
+        // Capture inline prerequisites for fusion nodes (Plan B edge list source).
+        // Basic nodes have [] or undefined — omit the field to keep skills.json lean.
+        const prerequisites = node.prerequisites && node.prerequisites.length > 0
+          ? node.prerequisites
+          : undefined;
         entries.push({
           id,
           name: `/${id}`,   // slash-style
           displayName: name,
           type: tier,
+          ...(prerequisites ? { prerequisites } : {}),
           // Store the human-readable display name for name-based lookup
           ...(name !== id ? { _displayName: name } : {}),
         } as SkillEntry & { _displayName?: string });
@@ -637,10 +660,30 @@ function assertRegistryShape(args: {
     `node layout changed: expected >=200 nodes, got ${nodes.length} — check registry/nodes/*`,
   );
 
-  // Combinations still parseable.
+  // Yggdrasil II schema: fusion tier must exist and be non-trivially populated.
+  // These assertions fire loudly if the tier map goes stale again (analogous to
+  // the named-skill canaries below). Verified against dev/yggdrasil-ii-staging:
+  // 130 fusion nodes, all carrying inline prerequisites.
   assertShape(
-    twoInputRecipeCount >= 30,
-    `combinations.md shape changed: <30 2-input recipes parsed (got ${twoInputRecipeCount})`,
+    nodes.some(n => n.type === 'fusion'),
+    'no fusion-type nodes loaded — nodes/fusion missing or tier map stale',
+  );
+  const fusionWithPrereqs = nodes.filter(n => n.type === 'fusion' && n.prerequisites && n.prerequisites.length > 0).length;
+  assertShape(
+    fusionWithPrereqs >= 30,
+    `fusion nodes present but <30 carry inline prerequisites (got ${fusionWithPrereqs}) — schema drift`,
+  );
+
+  // Combinations / fusion-edge coverage: either combinations.md has parseable
+  // 2-input rows (old registry) OR inline prerequisites on fusion nodes carry
+  // the edges (Yggdrasil II — combinations.md is intentionally empty there,
+  // all edges migrated to nodes/fusion/*.json prerequisites). At least one
+  // source must supply >= 30 edges or something structural broke.
+  assertShape(
+    twoInputRecipeCount >= 30 || fusionWithPrereqs >= 30,
+    `no fusion-edge data: combinations.md yielded ${twoInputRecipeCount} 2-input recipes ` +
+      `and only ${fusionWithPrereqs} fusion nodes carry inline prerequisites — ` +
+      `expected >=30 from at least one source`,
   );
 
   // Named-skill source still present & non-trivial.
@@ -775,6 +818,7 @@ function main() {
     name: s.name,           // slash-style e.g. /api-call
     displayName: s.displayName,
     type: s.type,
+    ...(s.prerequisites && s.prerequisites.length > 0 ? { prerequisites: s.prerequisites } : {}),
     ...(s.contributor ? { contributor: s.contributor } : {}),
     ...(s.slug ? { slug: s.slug } : {}),
   }));
