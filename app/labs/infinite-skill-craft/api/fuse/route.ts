@@ -17,7 +17,10 @@
  * EMERGENT→CANONICAL PROMOTION: after the LLM names a fusion, we normalise the
  * name to a slug and look it up in `data/craft/named-index.json`. If it matches a
  * real Gaia Skill Tree skill we PROMOTE the result to `canonical`, keep the model's
- * description, and attach the derived deep-link — the aha + funnel payoff.
+ * description, and attach the derived deep-link — the aha + funnel payoff. When the
+ * exact-slug match misses, a Vectorize fuzzy tier (Epic #89 / #87) gets one more
+ * shot at the same promotion for paraphrased names ("Scraping the Web" → web-scraper)
+ * before the result is finally left as plain emergent.
  *
  * Results are cached forever in Cloudflare KV keyed by an order-independent
  * `pairKey(a, b)`, so the first discoverer's answer becomes canon for that pair.
@@ -29,7 +32,7 @@
  *  • FULLY PLAYABLE ON LOCALHOST with zero Cloudflare credentials. `next dev`
  *    has no bindings, so every binding access is guarded: KV degrades to an
  *    in-memory Map shim and AI degrades to a deterministic local mock fusion.
- * Bindings (wrangler.jsonc): AI (Workers AI) · CRAFT_KV (KV)
+ * Bindings (wrangler.jsonc): AI (Workers AI) · CRAFT_KV (KV) · VECTORIZE (Vectorize, #87)
  */
 
 import { NextResponse } from 'next/server';
@@ -41,6 +44,8 @@ import { findStarterRecipe } from '@/lib/craft/starter-recipes';
 import { findDerivedRecipe } from '@/lib/craft/bridges';
 import { lookupNamedSkill, namedContributor } from '@/lib/craft/named-index';
 import { findTopCandidateSlugs } from '@/lib/craft/similarity-shim';
+import { resolveVectorizePromotion } from '@/lib/craft/vectorize-promotion';
+import type { VectorizeLike } from '@/lib/craft/vectorize-promotion';
 import {
   buildFusionPrompt,
   FUSION_MODEL,
@@ -73,13 +78,14 @@ interface KvLike {
 interface AiLike {
   run(
     model: string,
-    input: { messages: unknown; temperature?: number }
+    input: { messages: unknown; temperature?: number } | { text: string[] }
   ): Promise<unknown>;
 }
 
 interface CraftBindings {
   CRAFT_KV?: KvLike;
   AI?: AiLike;
+  VECTORIZE?: VectorizeLike;
 }
 
 // ---------------------------------------------------------------------------
@@ -158,6 +164,7 @@ async function resolveBindings(): Promise<CraftBindings> {
     return {
       CRAFT_KV: env.CRAFT_KV,
       AI: env.AI,
+      VECTORIZE: env.VECTORIZE,
     };
   } catch {
     // No Cloudflare context (localhost `next dev`, tests, etc.) — return empty.
@@ -671,7 +678,16 @@ export async function POST(request: Request): Promise<Response> {
       // EMERGENT → CANONICAL PROMOTION: if the model's name matches a real named
       // skill, promote to canonical + attach the derived deep-link, keeping the
       // model's own description. This is the aha + funnel payoff for organic combos.
-      const promotion = resolvePromotion(raw.name);
+      let promotion = resolvePromotion(raw.name);
+
+      // TIER 2 (Epic #89 / #87): the exact-match gate above missed — try a
+      // Vectorize fuzzy match on the model's name + blurb before giving up and
+      // staying emergent. Supplements, never replaces, the exact match above.
+      if (!promotion) {
+        const queryText = `${raw.name}. ${raw.blurb ?? ''}`.slice(0, 512);
+        promotion = await resolveVectorizePromotion(queryText, bindings);
+      }
+
       const description =
         raw.description ??
         `A fresh fusion of ${na} and ${nb} an agent can invoke as a single skill.`;
