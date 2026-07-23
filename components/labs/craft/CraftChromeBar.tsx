@@ -14,6 +14,7 @@ import { useState } from "react";
 import { OnboardingModal } from "./OnboardingModal";
 import { AboutModal } from "./AboutModal";
 import { TrafficCounter } from "./TrafficCounter";
+import { CraftTooltip } from "./CraftTooltip";
 
 export function CraftChromeBar() {
   // Each modal has its own open state; OnboardingModal handles its own
@@ -25,27 +26,32 @@ export function CraftChromeBar() {
     <>
       {/* The toolbar — sits between hero and canvas */}
       <div className="craft-chrome-bar" role="toolbar" aria-label="Lab controls">
-        <TrafficCounter />
+        <CraftTooltip content="Live count of skill fusions run by crafters across the network!" align="left" as="div">
+          <TrafficCounter />
+        </CraftTooltip>
 
         <div className="craft-chrome-actions">
-          <button
-            type="button"
-            className="craft-chrome-btn craft-chrome-btn-help"
-            onClick={() => setOnboardingOpen(true)}
-            aria-label="Show welcome guide — what is a skill?"
-            title="What is a skill? (welcome guide)"
-          >
-            <span aria-hidden="true">?</span> What&apos;s a skill
-          </button>
+          <CraftTooltip content="Re-open the welcome tutorial and learn what an agent skill is!">
+            <button
+              type="button"
+              className="craft-chrome-btn craft-chrome-btn-help"
+              onClick={() => setOnboardingOpen(true)}
+              aria-label="Show welcome guide — what is a skill?"
+            >
+              <span aria-hidden="true">?</span> What&apos;s a skill
+            </button>
+          </CraftTooltip>
 
-          <button
-            type="button"
-            className="craft-chrome-btn"
-            onClick={() => setAboutOpen(true)}
-            aria-label="About this lab and credits"
-          >
-            About
-          </button>
+          <CraftTooltip content="View credits, Neal Agarwal homage attribution, and lab background.">
+            <button
+              type="button"
+              className="craft-chrome-btn"
+              onClick={() => setAboutOpen(true)}
+              aria-label="About this lab and credits"
+            >
+              About
+            </button>
+          </CraftTooltip>
         </div>
       </div>
 
