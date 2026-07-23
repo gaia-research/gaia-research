@@ -18,10 +18,16 @@ This file provides the canonical boilerplate templates for authoring a Gaia Rese
 
 [State the problem directly. Show, don't tell — why manual confirmation/vibe-checks fail.]
 
-> Watch the primary reference source talk:
-> [Talk Title on YouTube](https://youtu.be/0vphxNt4wyk).
+<!-- If a directly relevant YouTube talk exists, add a link and [[YOUTUBE_EMBED]] here.
+     Only include if the video is the actual source of the insight, not just topically related.
+     If no relevant video exists, use a terminal trace, benchmark output, or linked paper instead. -->
+
+<!--
+> Watch the source talk:
+> [Talk Title on YouTube](https://youtu.be/[YOUTUBE_ID]).
 
 [[YOUTUBE_EMBED]]
+-->
 
 ---
 
@@ -64,9 +70,9 @@ Do NOT use for backend API routes (`src/api/`).
 
 ---
 
-## 5. Work in Progress / Next Steps
+## 5. Closing Observation
 
-> **Work in progress.** State what is currently in progress vs. what is shipped.
+> [One concrete thing the reader can do differently tomorrow. Not a summary of what the post said — a specific next action or reframe.]
 ```
 
 ---

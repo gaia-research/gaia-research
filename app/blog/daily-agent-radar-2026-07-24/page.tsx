@@ -67,6 +67,25 @@ const articleStructuredData = {
   },
 };
 
+function YoutubeEmbed() {
+  return (
+    <figure className="blog-figure my-8 rounded-xl overflow-hidden border border-slate-800 shadow-lg">
+      <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+        <iframe
+          className="absolute inset-0 w-full h-full"
+          src="https://www.youtube-nocookie.com/embed/1bHanOCJOF0"
+          title="Zeroth Order Optimization — Fine-Tuning Language Models with Just Forward Passes (MeZO)"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+      <figcaption className="text-xs text-slate-500 px-4 py-2">
+        MeZO: Zeroth-Order optimization for frozen LLMs via forward passes only — the technique SkillOpt applies to agent skill files. (Princeton NLP, NeurIPS 2023)
+      </figcaption>
+    </figure>
+  );
+}
+
 function ParameterPerturbationFlowchart() {
   return (
     <figure className="blog-figure my-8 p-6 rounded-xl border border-slate-800 bg-slate-950/80 shadow-lg">
@@ -74,6 +93,11 @@ function ParameterPerturbationFlowchart() {
         Figure 1. Zeroth-Order Directive Perturbation & Loss Evaluation Loop
       </figcaption>
       <svg viewBox="0 0 640 180" role="img" aria-label="Zeroth-Order Perturbation Loop" className="w-full h-auto">
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#38bdf8" />
+          </marker>
+        </defs>
         <rect x="20" y="55" width="160" height="70" rx="6" fill="#0f172a" stroke="#ec4899" strokeWidth="1.5" />
         <text x="100" y="86" textAnchor="middle" fill="#f0f1f5" fontSize="12" fontWeight="bold" fontFamily="monospace">Candidate Spec</text>
         <text x="100" y="105" textAnchor="middle" fill="#ec4899" fontSize="11" fontFamily="monospace">θ ± βu</text>
@@ -197,6 +221,9 @@ export default function BlogPostPage() {
             components={{
               p: ({ children, ...props }) => {
                 const text = Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "";
+                if (text === "[[YOUTUBE_EMBED]]") {
+                  return <YoutubeEmbed />;
+                }
                 if (text === "[[PARAMETER_PERTURBATION_FLOWCHART]]") {
                   return <ParameterPerturbationFlowchart />;
                 }

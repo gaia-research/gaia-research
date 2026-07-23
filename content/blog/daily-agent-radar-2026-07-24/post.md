@@ -4,7 +4,7 @@
 
 ---
 
-> **The Hook.** Ever wondered why adding *"IMPORTANT: DO NOT DO THIS"* to your `SKILL.md` file often makes the model do it more frequently? You're not losing your mind—you're watching unmonitored prompt parameters drift in production. **SkillOpt** treats agent instruction blocks as discrete parameter vectors θ, optimizing them automatically using Zeroth-Order (ZO) gradient estimation against sandboxed evaluation harnesses.
+> **The Hook.** Ever wondered why adding *"IMPORTANT: DO NOT DO THIS"* to your `SKILL.md` file often makes the model do it more frequently? You're not losing your mind—you're watching unmonitored prompt parameters drift in production. **SkillOpt** (Microsoft Research, 2026) treats agent skill files as the trainable state of a frozen agent, optimizing them automatically using Zeroth-Order (ZO) gradient estimation against sandboxed evaluation harnesses—no backpropagation, no gradient access required.
 
 ---
 
@@ -21,6 +21,10 @@ This manual trial-and-error loop introduces three systemic failure modes:
 ---
 
 ## Zeroth-Order Optimization in Discrete Text Space
+
+> The core technique SkillOpt builds on — ZO optimization applied to frozen language models — is explained clearly in this walkthrough of the MeZO paper (Princeton NLP, 2023):
+
+[[YOUTUBE_EMBED]]
 
 Traditional neural network training relies on backpropagation, computing exact analytical gradients ∇_θ L through continuous weight space. Agent prompts present two fundamental obstacles:
 - Commercial model endpoints are black boxes that do not expose internal gradients.
@@ -135,3 +139,9 @@ The table below summarizes performance improvements observed during a 20-step op
 ## Analytical Takeaway
 
 Replacing developer intuition with empirical Zeroth-Order parameter tuning transforms agent instruction authoring. By defining explicit loss functions over precision, context tax, and trigger accuracy, instruction sets shrink in token footprint while improving execution accuracy.
+
+---
+
+**Source:** Yang et al., *SkillOpt: Executive Strategy for Self-Evolving Agent Skills*, Microsoft Research, 2026. [arXiv:2605.23904](https://arxiv.org/abs/2605.23904) · [GitHub](https://github.com/microsoft/SkillOpt) · [Microsoft Research Blog](https://www.microsoft.com/en-us/research/blog/skillopt-agent-skills-as-trainable-parameters/)
+
+The ZO optimization technique SkillOpt builds on is MeZO ([Malladi et al., Princeton NLP, NeurIPS 2023](https://arxiv.org/abs/2305.17333)) — fine-tuning language models using only forward passes, with no gradient access required.

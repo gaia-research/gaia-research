@@ -19,7 +19,7 @@ To keep posts high-signal, low-noise, and distinct:
 - ❌ **No Cookie-Cutter Section Headers**: Do NOT reuse rigid boilerplate headers ("1. Executive Summary", "2. Signals", "3. Bad vs Good", "5. Next Steps") across posts. Create natural, topic-specific section titles for each post.
 - ❌ **No Corporate Hype Buzzwords**: Ban fluff ("game-changing", "paradigm shift", "seamless integration", "unlocking the future"). State findings, code, and limitations plainly.
 - ✅ **Single-Topic Deep Dive**: Focus each post on **ONE single topic** in depth. Do not bundle multiple unrelated news items into a single post.
-- ✅ **Show-Don't-Tell Evidence**: Embed primary evidence (YouTube talks `[[YOUTUBE_EMBED]]`, video clips, terminal output traces).
+- ✅ **Show-Don't-Tell Evidence**: Embed at least one form of primary evidence. In order of preference: a real YouTube talk (`[[YOUTUBE_EMBED]]`) when a directly relevant source exists, terminal output traces showing actual agent behaviour, or a linked paper/issue. **Do not embed a YouTube video if no directly relevant talk exists** — a forced embed with a tangentially related video is worse than no embed. Conceptual posts with no external source must be clearly labelled as conceptual frameworks, not presented as measured results.
 - ✅ **SVG Graphs Over Walls of Text**: Prefer native React SVG graphs, visual flowcharts, or timeline diagrams over long paragraphs of explanatory text.
 
 ---
@@ -51,8 +51,8 @@ Every blog post **MUST** feature a 16:9 flat screenprint **Milim Editorial Thumb
 Boilerplate code and file structures are maintained in the separate `template.md` file inside this skill directory:
 
 - Read `./template.md` for:
-  1. **Markdown Source Template** (`content/blog/<slug>/post.md`) with video embed tokens (`[[YOUTUBE_EMBED]]`)
-  2. **Next.js Edge Page Template** (`app/blog/[slug]/page.tsx`) with Schema.org `BlogPosting` JSON-LD & video render component
+  1. **Markdown Source Template** (`content/blog/<slug>/post.md`) with optional video embed tokens (`[[YOUTUBE_EMBED]]` — only include if a real relevant video exists)
+  2. **Next.js Edge Page Template** (`app/blog/[slug]/page.tsx`) with Schema.org `BlogPosting` JSON-LD & optional video render component
   3. **Data Registry Boilerplate** (`data/blog.ts`)
 
 ---
@@ -60,7 +60,7 @@ Boilerplate code and file structures are maintained in the separate `template.md
 ## 5. Pre-Publishing Quality Checklist
 
 - [ ] **Anti-Slop Check**: Zero unratified roadmap claims, zero boilerplate headers, zero corporate hype buzzwords. Single-topic deep dive.
-- [ ] **Show-Don't-Tell Verification**: Primary evidence embedded (YouTube video / terminal trace) and SVG graphs used in place of long text paragraphs.
+- [ ] **Show-Don't-Tell Verification**: At least one form of primary evidence is embedded — a real YouTube talk (only if directly relevant), terminal output trace, or linked paper. If the post describes a conceptual framework with no external source, it is clearly labelled as such. SVG graphs used in place of long text paragraphs.
 - [ ] **Nova Persona Verified**: Followed `../marketing-tasks/.agents/skills/nova/SKILL.md` (low-ego, direct, zero hype) and referenced `content/authors/nova.json`.
 - [ ] **Editorial Thumbnail Built & Deployed**: Delegated thumbnail generation directly to `.agents/skills/milim-editorial-thumbnail/SKILL.md` (never using `omniflash`), exported WebP to `assets/generated/` AND `public/assets/`.
 - [ ] **Templates Followed**: Structured according to `./template.md`.
