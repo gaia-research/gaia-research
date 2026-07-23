@@ -38,6 +38,7 @@ import { pairKey } from '@/lib/craft/types';
 import type { FusionResult, FusionTier } from '@/lib/craft/types';
 import { findRecipe, skillTreeUrl } from '@/lib/craft/recipes';
 import { findStarterRecipe } from '@/lib/craft/starter-recipes';
+import { findDerivedRecipe } from '@/lib/craft/bridges';
 import { lookupNamedSkill, namedContributor } from '@/lib/craft/named-index';
 import { findTopCandidateSlugs } from '@/lib/craft/similarity-shim';
 import {
@@ -521,7 +522,7 @@ export async function POST(request: Request): Promise<Response> {
     // Cache read failure is non-fatal — fall through to compute a fresh result.
   }
 
-  // ── c. Resolve tier: canonical(recipe) → canonical(starter) → egg → emergent ─
+  // ── c. Resolve tier: canonical(recipe) → canonical(derived) → canonical(starter) → egg → emergent ─
   let result: FusionResult;
   // The verified {slug, contributor} behind a canonical link, when one exists.
   // Stored compactly so `skillTreeUrl` can be DERIVED on read (never stored).
@@ -551,11 +552,39 @@ export async function POST(request: Request): Promise<Response> {
       skillTreeUrl: skillTreeUrl(recipe.contributor, recipe.slug),
       experimental: false,
     };
+  } else if (findDerivedRecipe(na, nb)) {
+    // Derived canonical tier: a 2-prereq fusion edge from bridges.json whose
+    // prerequisites are exactly the two input skills. This tier is the result of
+    // the build-time AND-reachability closure over the registry graph (Plan B
+    // / Issue #86). It fires for any pair of registry basic/fusion skills that
+    // combine into a known fusion node — zero hand-authoring required; new
+    // registry skills become reachable automatically on the next sync.
+    const derivedResult = findDerivedRecipe(na, nb)!;
+    const named = lookupNamedSkill(derivedResult);
+    const contributor = namedContributor(derivedResult);
+    if (contributor) {
+      canonicalRef = { slug: derivedResult, contributor };
+    }
+    result = {
+      name: `/${derivedResult}`,
+      emoji: '✨',
+      blurb: named?.description
+        ? `Fuse /${na} + /${nb} to unlock /${derivedResult}.`
+        : `Fuse /${na} + /${nb} → /${derivedResult}.`,
+      description: named?.description,
+      skillTitle: named?.title,
+      tier: 'canonical',
+      isFirstDiscovery: true,
+      passesSkillCheck: true,
+      contributor,
+      skillTreeUrl: skillTreeUrl(contributor, derivedResult),
+      experimental: false,
+    };
   } else if (
-    // Starter tech tree: the seed primitives (/prompt /code /web /data) and their
-    // results are authored slash-prefixed, so feed slash-form names to match the
-    // pairKey the tree is keyed by. Inserted BEFORE easter eggs so curated seed
-    // combos deterministically land on recognisable skills.
+    // Starter tech tree (FLAVOR OVERLAY): the seed primitives (/prompt /code /web /data)
+    // and their results are authored slash-prefixed. Kept as a flavor/copy layer for
+    // recognisable curated skill names — reachability is now sourced from bridges.json,
+    // not from this file (Plan B / Issue #86 demotion).
     findStarterRecipe(`/${na}`, `/${nb}`)
   ) {
     const starter = findStarterRecipe(`/${na}`, `/${nb}`)!;
