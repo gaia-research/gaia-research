@@ -1,0 +1,1442 @@
+{
+  "report": {
+    "totalRegistrySkills": 243,
+    "reachableCount": 243,
+    "internalConnectivityPct": 100,
+    "unreachableCount": 0,
+    "gameSeedReachableCount": 0,
+    "gameSeedReachablePct": 0,
+    "reachablePct": 100,
+    "gameSeedSlugs": [
+      "code",
+      "data",
+      "prompt",
+      "web"
+    ],
+    "seedSlugs": [
+      "adaptive-pattern-learning",
+      "api-call",
+      "audience-model",
+      "autonomous-engineering-platform",
+      "bioinformatic-sequence-analysis",
+      "browser-control",
+      "chain-of-thought",
+      "chunk-document",
+      "ci-churn-analysis",
+      "cite-sources",
+      "classify",
+      "cli-modernization",
+      "clinical-data-retrieval",
+      "code",
+      "code-execution",
+      "code-explain",
+      "code-generation",
+      "computer-use",
+      "context-compression",
+      "core-platform-implementation",
+      "crm-data-cleanup",
+      "cultural-localization",
+      "data",
+      "data-visualize",
+      "diff-content",
+      "document-editing",
+      "domain-modeling",
+      "embed-text",
+      "error-interpretation",
+      "evaluate-output",
+      "event-attendance-metrics",
+      "event-attendee-management",
+      "event-support-triage",
+      "event-ticket-transfer",
+      "evidence-attestation",
+      "extract-entities",
+      "feed-monitoring",
+      "few-shot-learning",
+      "fine-tune",
+      "format-output",
+      "framework-upgrade",
+      "generate-sql",
+      "generate-test",
+      "generate-text",
+      "genomic-data-retrieval",
+      "git-diff-risk-analysis",
+      "grant-application-processing",
+      "headless-worker-collect",
+      "headless-worker-spawn",
+      "hybrid-workflow-coordination",
+      "hypothesis-generate",
+      "image-caption",
+      "image-generate",
+      "implement-with-discernment",
+      "issue-triage",
+      "literature-search",
+      "logical-inference",
+      "math-reason",
+      "mcp-integration",
+      "memory-pattern-design",
+      "molecular-databases",
+      "multi-repo-coordination",
+      "object-detection",
+      "optical-character-recognition",
+      "parallel-execution",
+      "parse-html",
+      "parse-json",
+      "parse-pdf",
+      "pathway-ontology-retrieval",
+      "performance-tuning",
+      "plan-decompose",
+      "probabilistic-programming",
+      "prompt",
+      "prompt-injection-defense",
+      "protein-structure-analysis",
+      "proteomic-data-retrieval",
+      "question-answer",
+      "rank",
+      "refactor-code",
+      "requirements-analysis",
+      "retrieve",
+      "reward-modeling",
+      "route-intent",
+      "schema-design",
+      "scientific-visualization",
+      "score-relevance",
+      "self-consistency",
+      "self-critique",
+      "semantic-cache",
+      "sentiment-analysis",
+      "sequential-agent-pipeline",
+      "skill-discovery",
+      "software-design",
+      "speech-to-text",
+      "statistical-analysis",
+      "structured-output",
+      "summarize",
+      "swarm-topology-management",
+      "synthetic-data-generation",
+      "system-integration",
+      "test-driven-development",
+      "text-to-speech",
+      "time-series-forecasting",
+      "token-observability",
+      "tokenize",
+      "tool-select",
+      "tool-use",
+      "transactional-email-resend",
+      "translate",
+      "ux-audit",
+      "vector-db-optimization",
+      "vector-search",
+      "vision-qa",
+      "web",
+      "web-search",
+      "worker-agent-dispatch",
+      "write-report"
+    ],
+    "generatedAt": "2026-07-23"
+  },
+  "reachable": [
+    "adaptive-pattern-learning",
+    "advanced-swarm-coordination",
+    "adversarial-robustness-testing",
+    "agent-environment-setup",
+    "agent-eval",
+    "agent-handoff",
+    "agent-memory-learning",
+    "agent-memory-platform",
+    "agentic-workflow-design",
+    "api-call",
+    "architecture-diagram",
+    "audience-model",
+    "automated-testing",
+    "autonomous-data-scientist",
+    "autonomous-debug",
+    "autonomous-engineering-platform",
+    "autonomous-web-research",
+    "bioinformatic-sequence-analysis",
+    "brainstorming",
+    "browser-automation",
+    "browser-control",
+    "career-operations",
+    "causal-inference",
+    "chain-of-thought",
+    "chunk-document",
+    "ci-churn-analysis",
+    "cite-sources",
+    "classify",
+    "cli-modernization",
+    "clinical-data-retrieval",
+    "cloud-platform-management",
+    "code-execution",
+    "code-explain",
+    "code-generation",
+    "code-review-pipeline",
+    "collaborative-diagramming",
+    "computational-biology-workflows",
+    "computer-use",
+    "content-moderation",
+    "context-compression",
+    "conversational-agent",
+    "core-platform-implementation",
+    "crm-data-cleanup",
+    "cultural-localization",
+    "data-analysis",
+    "data-visualize",
+    "deployment-automation",
+    "design-generation",
+    "design-review",
+    "design-system-extraction",
+    "detect-anomaly",
+    "diff-content",
+    "dispatching-parallel-agents",
+    "distributed-consensus-coordination",
+    "distributed-neural-training",
+    "distributed-vector-memory",
+    "document-analyst",
+    "document-editing",
+    "domain-modeling",
+    "dual-mode",
+    "e2e-testing",
+    "edge-optimization",
+    "embed-text",
+    "engineering-discipline",
+    "error-interpretation",
+    "evaluate-output",
+    "event-attendance-metrics",
+    "event-attendee-management",
+    "event-support-triage",
+    "event-ticket-transfer",
+    "evidence-attestation",
+    "executing-plans",
+    "explainability-audit",
+    "extract-entities",
+    "feed-monitoring",
+    "few-shot-learning",
+    "financial-modeling",
+    "fine-tune",
+    "finishing-a-development-branch",
+    "firecrawl",
+    "format-output",
+    "founder-mode-orchestration",
+    "framework-upgrade",
+    "full-stack-developer",
+    "function-calling",
+    "generate-sql",
+    "generate-test",
+    "generate-text",
+    "generative-media",
+    "genomic-data-retrieval",
+    "ghostwrite",
+    "git-diff-risk-analysis",
+    "git-integration",
+    "git-ship-done-pipeline",
+    "grant-application-processing",
+    "graph-driven-issue-triage",
+    "grill-me",
+    "grill-with-docs",
+    "grounding",
+    "guardrails",
+    "headless-worker-collect",
+    "headless-worker-spawn",
+    "humanize-prose",
+    "hybrid-workflow-coordination",
+    "hypothesis-generate",
+    "image-caption",
+    "image-generate",
+    "implement-with-discernment",
+    "issue-triage",
+    "knowledge-graph-build",
+    "knowledge-harvest",
+    "knowledge-management",
+    "literature-review",
+    "literature-search",
+    "logical-inference",
+    "math-reason",
+    "mathematical-animation",
+    "mcp-debugger-control",
+    "mcp-integration",
+    "mcp-server-creation",
+    "memory-manage",
+    "memory-pattern-design",
+    "ml-artifact-management",
+    "ml-pipeline",
+    "molecular-databases",
+    "multi-agent-debate",
+    "multi-agent-orchestration-v",
+    "multi-node-orchestration",
+    "multi-repo-coordination",
+    "multi-topology-orchestration",
+    "multimodal-reasoning",
+    "object-detection",
+    "ontology-alignment",
+    "optical-character-recognition",
+    "parallel-execution",
+    "parse-html",
+    "parse-json",
+    "parse-pdf",
+    "pathway-ontology-retrieval",
+    "performance-tuning",
+    "personal",
+    "personal-knowledge-management",
+    "plan-and-execute",
+    "plan-decompose",
+    "platform-modernization-sprint",
+    "prd-generation",
+    "prediction-market-analysis",
+    "probabilistic-programming",
+    "productivity",
+    "project-management",
+    "prompt-injection-defense",
+    "prompt-optimization",
+    "protein-structure-analysis",
+    "proteomic-data-retrieval",
+    "prototype",
+    "question-answer",
+    "rag-pipeline",
+    "rank",
+    "re-act-reasoning",
+    "real-time-voice-assistant",
+    "reasoning-pattern-bank",
+    "receiving-code-review",
+    "recursive-self-improvement",
+    "refactor-code",
+    "registry-curation",
+    "registry-entry-audit",
+    "registry-health-scan",
+    "regulatory-compliance-mapping",
+    "release-automation",
+    "requesting-code-review",
+    "requirements-analysis",
+    "research",
+    "retrieve",
+    "reward-modeling",
+    "route-intent",
+    "schema-design",
+    "scientific-discovery",
+    "scientific-visualization",
+    "scientific-writing",
+    "score-relevance",
+    "search-engine-optimization",
+    "security-audit",
+    "self-consistency",
+    "self-critique",
+    "semantic-cache",
+    "sentiment-analysis",
+    "sequential-agent-pipeline",
+    "skill-authoring",
+    "skill-discovery",
+    "skill-fusion",
+    "skill-mastery",
+    "skill-performance-benchmarking",
+    "skill-security-analysis",
+    "software-design",
+    "speech-to-text",
+    "statistical-analysis",
+    "stealth-browser-interaction",
+    "structured-output",
+    "subagent-driven-development",
+    "summarize",
+    "superpowers",
+    "supply-chain-optimization",
+    "swarm-topology-management",
+    "synthetic-data-generation",
+    "system-integration",
+    "systematic-debugging",
+    "test-driven-development",
+    "text-to-speech",
+    "text-to-sql-pipeline",
+    "threat-intelligence-synthesis",
+    "time-series-forecasting",
+    "token-observability",
+    "tokenize",
+    "tool-chaining",
+    "tool-creation",
+    "tool-select",
+    "tool-use",
+    "transactional-email-resend",
+    "translate",
+    "translation-pipeline",
+    "tree-of-thought",
+    "ubiquitous-language",
+    "using-git-worktrees",
+    "ux-audit",
+    "vector-db-optimization",
+    "vector-search",
+    "verification-before-completion",
+    "vertical-slice-planning",
+    "video-intelligence",
+    "vision-qa",
+    "voice-agent",
+    "web-accessibility",
+    "web-best-practices",
+    "web-quality-audit",
+    "web-scrape",
+    "web-search",
+    "wiki-search",
+    "worker-agent-dispatch",
+    "workflow-automation",
+    "workspace-automation",
+    "write-report",
+    "writing-plans",
+    "x-twitter-automation"
+  ],
+  "reachableEdges": [
+    {
+      "result": "advanced-swarm-coordination",
+      "prereqs": [
+        "multi-agent-debate",
+        "swarm-topology-management"
+      ]
+    },
+    {
+      "result": "adversarial-robustness-testing",
+      "prereqs": [
+        "agent-eval",
+        "guardrails",
+        "prompt-injection-defense"
+      ]
+    },
+    {
+      "result": "agent-environment-setup",
+      "prereqs": [
+        "document-editing",
+        "tool-use"
+      ]
+    },
+    {
+      "result": "agent-eval",
+      "prereqs": [
+        "evaluate-output",
+        "score-relevance"
+      ]
+    },
+    {
+      "result": "agent-handoff",
+      "prereqs": [
+        "context-compression",
+        "document-editing",
+        "summarize"
+      ]
+    },
+    {
+      "result": "agent-memory-learning",
+      "prereqs": [
+        "adaptive-pattern-learning",
+        "memory-manage"
+      ]
+    },
+    {
+      "result": "agent-memory-platform",
+      "prereqs": [
+        "agent-memory-learning",
+        "distributed-vector-memory",
+        "memory-pattern-design",
+        "vector-db-optimization",
+        "vector-search"
+      ]
+    },
+    {
+      "result": "agentic-workflow-design",
+      "prereqs": [
+        "plan-decompose",
+        "workflow-automation"
+      ]
+    },
+    {
+      "result": "architecture-diagram",
+      "prereqs": [
+        "data-visualize",
+        "format-output",
+        "write-report"
+      ]
+    },
+    {
+      "result": "automated-testing",
+      "prereqs": [
+        "code-execution",
+        "error-interpretation",
+        "generate-test"
+      ]
+    },
+    {
+      "result": "autonomous-data-scientist",
+      "prereqs": [
+        "data-analysis",
+        "math-reason",
+        "research"
+      ]
+    },
+    {
+      "result": "autonomous-debug",
+      "prereqs": [
+        "code-execution",
+        "code-generation",
+        "error-interpretation"
+      ]
+    },
+    {
+      "result": "autonomous-web-research",
+      "prereqs": [
+        "ghostwrite",
+        "knowledge-harvest",
+        "research",
+        "web-scrape",
+        "web-search"
+      ]
+    },
+    {
+      "result": "brainstorming",
+      "prereqs": [
+        "question-answer",
+        "requirements-analysis"
+      ]
+    },
+    {
+      "result": "browser-automation",
+      "prereqs": [
+        "computer-use",
+        "web-search"
+      ]
+    },
+    {
+      "result": "career-operations",
+      "prereqs": [
+        "autonomous-web-research",
+        "document-editing",
+        "summarize"
+      ]
+    },
+    {
+      "result": "causal-inference",
+      "prereqs": [
+        "hypothesis-generate",
+        "logical-inference",
+        "statistical-analysis"
+      ]
+    },
+    {
+      "result": "cloud-platform-management",
+      "prereqs": [
+        "api-call",
+        "tool-use"
+      ]
+    },
+    {
+      "result": "code-review-pipeline",
+      "prereqs": [
+        "code-generation",
+        "diff-content",
+        "evaluate-output"
+      ]
+    },
+    {
+      "result": "collaborative-diagramming",
+      "prereqs": [
+        "api-call",
+        "data-visualize"
+      ]
+    },
+    {
+      "result": "computational-biology-workflows",
+      "prereqs": [
+        "bioinformatic-sequence-analysis",
+        "genomic-data-retrieval",
+        "molecular-databases",
+        "protein-structure-analysis",
+        "proteomic-data-retrieval"
+      ]
+    },
+    {
+      "result": "content-moderation",
+      "prereqs": [
+        "classify",
+        "extract-entities",
+        "sentiment-analysis"
+      ]
+    },
+    {
+      "result": "conversational-agent",
+      "prereqs": [
+        "memory-manage",
+        "question-answer",
+        "route-intent"
+      ]
+    },
+    {
+      "result": "data-analysis",
+      "prereqs": [
+        "data-visualize",
+        "generate-sql",
+        "summarize"
+      ]
+    },
+    {
+      "result": "deployment-automation",
+      "prereqs": [
+        "code-execution",
+        "workflow-automation"
+      ]
+    },
+    {
+      "result": "design-generation",
+      "prereqs": [
+        "code-generation",
+        "vision-qa"
+      ]
+    },
+    {
+      "result": "design-review",
+      "prereqs": [
+        "evaluate-output",
+        "plan-decompose"
+      ]
+    },
+    {
+      "result": "design-system-extraction",
+      "prereqs": [
+        "browser-automation",
+        "parse-html"
+      ]
+    },
+    {
+      "result": "detect-anomaly",
+      "prereqs": [
+        "error-interpretation",
+        "evaluate-output"
+      ]
+    },
+    {
+      "result": "dispatching-parallel-agents",
+      "prereqs": [
+        "parallel-execution",
+        "plan-decompose"
+      ]
+    },
+    {
+      "result": "distributed-consensus-coordination",
+      "prereqs": [
+        "swarm-topology-management",
+        "worker-agent-dispatch"
+      ]
+    },
+    {
+      "result": "distributed-neural-training",
+      "prereqs": [
+        "embed-text",
+        "parallel-execution"
+      ]
+    },
+    {
+      "result": "distributed-vector-memory",
+      "prereqs": [
+        "memory-manage",
+        "vector-search"
+      ]
+    },
+    {
+      "result": "document-analyst",
+      "prereqs": [
+        "extract-entities",
+        "format-output",
+        "optical-character-recognition",
+        "parse-json",
+        "parse-pdf",
+        "summarize"
+      ]
+    },
+    {
+      "result": "dual-mode",
+      "prereqs": [
+        "headless-worker-collect",
+        "headless-worker-spawn",
+        "hybrid-workflow-coordination"
+      ]
+    },
+    {
+      "result": "e2e-testing",
+      "prereqs": [
+        "automated-testing",
+        "browser-automation"
+      ]
+    },
+    {
+      "result": "edge-optimization",
+      "prereqs": [
+        "evaluate-output",
+        "fine-tune",
+        "performance-tuning"
+      ]
+    },
+    {
+      "result": "engineering-discipline",
+      "prereqs": [
+        "agent-environment-setup",
+        "autonomous-debug",
+        "code-explain",
+        "grill-with-docs",
+        "issue-triage",
+        "prd-generation",
+        "prototype",
+        "refactor-code",
+        "ubiquitous-language",
+        "vertical-slice-planning"
+      ]
+    },
+    {
+      "result": "executing-plans",
+      "prereqs": [
+        "tool-use",
+        "writing-plans"
+      ]
+    },
+    {
+      "result": "explainability-audit",
+      "prereqs": [
+        "data-visualize",
+        "evaluate-output",
+        "statistical-analysis"
+      ]
+    },
+    {
+      "result": "financial-modeling",
+      "prereqs": [
+        "data-analysis",
+        "generate-sql",
+        "statistical-analysis"
+      ]
+    },
+    {
+      "result": "finishing-a-development-branch",
+      "prereqs": [
+        "code-review-pipeline",
+        "diff-content"
+      ]
+    },
+    {
+      "result": "firecrawl",
+      "prereqs": [
+        "agent-environment-setup",
+        "browser-control",
+        "literature-search",
+        "web-scrape",
+        "web-search"
+      ]
+    },
+    {
+      "result": "founder-mode-orchestration",
+      "prereqs": [
+        "automated-testing",
+        "browser-automation",
+        "browser-control",
+        "code-generation",
+        "code-review-pipeline",
+        "deployment-automation",
+        "design-review",
+        "design-system-extraction",
+        "detect-anomaly",
+        "document-editing",
+        "e2e-testing",
+        "evaluate-output",
+        "finishing-a-development-branch",
+        "format-output",
+        "guardrails",
+        "knowledge-management",
+        "mcp-integration",
+        "memory-manage",
+        "multi-agent-debate",
+        "project-management",
+        "prompt-optimization",
+        "question-answer",
+        "security-audit",
+        "skill-authoring",
+        "skill-performance-benchmarking",
+        "systematic-debugging",
+        "ux-audit",
+        "vertical-slice-planning",
+        "web-scrape",
+        "workspace-automation",
+        "write-report"
+      ]
+    },
+    {
+      "result": "full-stack-developer",
+      "prereqs": [
+        "automated-testing",
+        "code-review-pipeline",
+        "refactor-code"
+      ]
+    },
+    {
+      "result": "function-calling",
+      "prereqs": [
+        "api-call",
+        "structured-output",
+        "tool-select"
+      ]
+    },
+    {
+      "result": "generative-media",
+      "prereqs": [
+        "api-call",
+        "data-visualize"
+      ]
+    },
+    {
+      "result": "ghostwrite",
+      "prereqs": [
+        "audience-model",
+        "research",
+        "write-report"
+      ]
+    },
+    {
+      "result": "git-integration",
+      "prereqs": [
+        "code-review-pipeline",
+        "deployment-automation",
+        "multi-repo-coordination",
+        "project-management",
+        "workflow-automation"
+      ]
+    },
+    {
+      "result": "git-ship-done-pipeline",
+      "prereqs": [
+        "brainstorming",
+        "finishing-a-development-branch",
+        "subagent-driven-development",
+        "verification-before-completion",
+        "writing-plans"
+      ]
+    },
+    {
+      "result": "graph-driven-issue-triage",
+      "prereqs": [
+        "issue-triage",
+        "knowledge-graph-build"
+      ]
+    },
+    {
+      "result": "grill-me",
+      "prereqs": [
+        "design-review",
+        "self-critique"
+      ]
+    },
+    {
+      "result": "grill-with-docs",
+      "prereqs": [
+        "document-editing",
+        "grill-me",
+        "ubiquitous-language"
+      ]
+    },
+    {
+      "result": "grounding",
+      "prereqs": [
+        "cite-sources",
+        "evaluate-output",
+        "retrieve"
+      ]
+    },
+    {
+      "result": "guardrails",
+      "prereqs": [
+        "classify",
+        "evaluate-output",
+        "structured-output"
+      ]
+    },
+    {
+      "result": "humanize-prose",
+      "prereqs": [
+        "audience-model",
+        "document-editing",
+        "format-output"
+      ]
+    },
+    {
+      "result": "knowledge-graph-build",
+      "prereqs": [
+        "extract-entities",
+        "logical-inference"
+      ]
+    },
+    {
+      "result": "knowledge-harvest",
+      "prereqs": [
+        "embed-text",
+        "extract-entities",
+        "web-scrape"
+      ]
+    },
+    {
+      "result": "knowledge-management",
+      "prereqs": [
+        "api-call",
+        "retrieve"
+      ]
+    },
+    {
+      "result": "literature-review",
+      "prereqs": [
+        "cite-sources",
+        "literature-search",
+        "research",
+        "summarize"
+      ]
+    },
+    {
+      "result": "mathematical-animation",
+      "prereqs": [
+        "code-execution",
+        "data-visualize"
+      ]
+    },
+    {
+      "result": "mcp-debugger-control",
+      "prereqs": [
+        "mcp-integration",
+        "refactor-code"
+      ]
+    },
+    {
+      "result": "mcp-server-creation",
+      "prereqs": [
+        "api-call",
+        "mcp-integration",
+        "tool-creation"
+      ]
+    },
+    {
+      "result": "memory-manage",
+      "prereqs": [
+        "context-compression",
+        "retrieve"
+      ]
+    },
+    {
+      "result": "ml-artifact-management",
+      "prereqs": [
+        "api-call",
+        "classify"
+      ]
+    },
+    {
+      "result": "ml-pipeline",
+      "prereqs": [
+        "automated-testing",
+        "code-generation",
+        "data-analysis"
+      ]
+    },
+    {
+      "result": "multi-agent-debate",
+      "prereqs": [
+        "chain-of-thought",
+        "evaluate-output",
+        "self-critique"
+      ]
+    },
+    {
+      "result": "multi-agent-orchestration-v",
+      "prereqs": [
+        "plan-and-execute",
+        "route-intent",
+        "tool-select"
+      ]
+    },
+    {
+      "result": "multi-node-orchestration",
+      "prereqs": [
+        "cloud-platform-management",
+        "distributed-neural-training",
+        "multi-agent-orchestration-v"
+      ]
+    },
+    {
+      "result": "multi-topology-orchestration",
+      "prereqs": [
+        "agent-memory-platform",
+        "dual-mode",
+        "git-integration",
+        "multi-node-orchestration",
+        "platform-modernization-sprint",
+        "reasoning-pattern-bank"
+      ]
+    },
+    {
+      "result": "multimodal-reasoning",
+      "prereqs": [
+        "image-caption",
+        "logical-inference",
+        "question-answer"
+      ]
+    },
+    {
+      "result": "ontology-alignment",
+      "prereqs": [
+        "extract-entities",
+        "knowledge-graph-build",
+        "schema-design"
+      ]
+    },
+    {
+      "result": "personal",
+      "prereqs": [
+        "document-editing",
+        "personal-knowledge-management"
+      ]
+    },
+    {
+      "result": "personal-knowledge-management",
+      "prereqs": [
+        "context-compression",
+        "retrieve"
+      ]
+    },
+    {
+      "result": "plan-and-execute",
+      "prereqs": [
+        "plan-decompose",
+        "route-intent",
+        "tool-select"
+      ]
+    },
+    {
+      "result": "platform-modernization-sprint",
+      "prereqs": [
+        "advanced-swarm-coordination",
+        "cli-modernization",
+        "core-platform-implementation",
+        "performance-tuning",
+        "system-integration"
+      ]
+    },
+    {
+      "result": "prd-generation",
+      "prereqs": [
+        "plan-decompose",
+        "write-report"
+      ]
+    },
+    {
+      "result": "prediction-market-analysis",
+      "prereqs": [
+        "data-analysis",
+        "statistical-analysis",
+        "web-search"
+      ]
+    },
+    {
+      "result": "productivity",
+      "prereqs": [
+        "agent-handoff",
+        "context-compression",
+        "grill-me",
+        "tool-creation"
+      ]
+    },
+    {
+      "result": "project-management",
+      "prereqs": [
+        "api-call",
+        "issue-triage"
+      ]
+    },
+    {
+      "result": "prompt-optimization",
+      "prereqs": [
+        "evaluate-output",
+        "generate-text"
+      ]
+    },
+    {
+      "result": "prototype",
+      "prereqs": [
+        "code-execution",
+        "code-generation"
+      ]
+    },
+    {
+      "result": "rag-pipeline",
+      "prereqs": [
+        "chunk-document",
+        "embed-text",
+        "rank",
+        "retrieve",
+        "score-relevance",
+        "tokenize"
+      ]
+    },
+    {
+      "result": "re-act-reasoning",
+      "prereqs": [
+        "plan-decompose",
+        "tool-use"
+      ]
+    },
+    {
+      "result": "real-time-voice-assistant",
+      "prereqs": [
+        "memory-manage",
+        "plan-and-execute",
+        "voice-agent"
+      ]
+    },
+    {
+      "result": "reasoning-pattern-bank",
+      "prereqs": [
+        "adaptive-pattern-learning",
+        "agent-memory-learning"
+      ]
+    },
+    {
+      "result": "receiving-code-review",
+      "prereqs": [
+        "requesting-code-review",
+        "verification-before-completion"
+      ]
+    },
+    {
+      "result": "recursive-self-improvement",
+      "prereqs": [
+        "autonomous-debug",
+        "evaluate-output",
+        "plan-and-execute"
+      ]
+    },
+    {
+      "result": "registry-curation",
+      "prereqs": [
+        "code-execution",
+        "code-generation",
+        "research"
+      ]
+    },
+    {
+      "result": "registry-entry-audit",
+      "prereqs": [
+        "cite-sources",
+        "evaluate-output",
+        "retrieve"
+      ]
+    },
+    {
+      "result": "registry-health-scan",
+      "prereqs": [
+        "detect-anomaly",
+        "registry-curation",
+        "registry-entry-audit"
+      ]
+    },
+    {
+      "result": "regulatory-compliance-mapping",
+      "prereqs": [
+        "extract-entities",
+        "knowledge-graph-build",
+        "security-audit"
+      ]
+    },
+    {
+      "result": "release-automation",
+      "prereqs": [
+        "code-execution",
+        "generate-text",
+        "workflow-automation"
+      ]
+    },
+    {
+      "result": "requesting-code-review",
+      "prereqs": [
+        "code-review-pipeline",
+        "dispatching-parallel-agents"
+      ]
+    },
+    {
+      "result": "research",
+      "prereqs": [
+        "cite-sources",
+        "summarize",
+        "web-search"
+      ]
+    },
+    {
+      "result": "scientific-discovery",
+      "prereqs": [
+        "computational-biology-workflows",
+        "hypothesis-generate",
+        "math-reason",
+        "research"
+      ]
+    },
+    {
+      "result": "scientific-writing",
+      "prereqs": [
+        "cite-sources",
+        "scientific-visualization",
+        "write-report"
+      ]
+    },
+    {
+      "result": "search-engine-optimization",
+      "prereqs": [
+        "parse-html",
+        "parse-json"
+      ]
+    },
+    {
+      "result": "security-audit",
+      "prereqs": [
+        "code-review-pipeline",
+        "evaluate-output"
+      ]
+    },
+    {
+      "result": "skill-authoring",
+      "prereqs": [
+        "code-generation",
+        "generate-text",
+        "structured-output"
+      ]
+    },
+    {
+      "result": "skill-fusion",
+      "prereqs": [
+        "registry-curation",
+        "skill-authoring"
+      ]
+    },
+    {
+      "result": "skill-mastery",
+      "prereqs": [
+        "engineering-discipline",
+        "personal",
+        "productivity",
+        "tool-creation",
+        "ubiquitous-language"
+      ]
+    },
+    {
+      "result": "skill-performance-benchmarking",
+      "prereqs": [
+        "agent-eval",
+        "skill-discovery",
+        "statistical-analysis"
+      ]
+    },
+    {
+      "result": "skill-security-analysis",
+      "prereqs": [
+        "prompt-injection-defense",
+        "security-audit",
+        "skill-discovery"
+      ]
+    },
+    {
+      "result": "stealth-browser-interaction",
+      "prereqs": [
+        "browser-automation",
+        "computer-use"
+      ]
+    },
+    {
+      "result": "subagent-driven-development",
+      "prereqs": [
+        "code-review-pipeline",
+        "dispatching-parallel-agents",
+        "executing-plans"
+      ]
+    },
+    {
+      "result": "superpowers",
+      "prereqs": [
+        "brainstorming",
+        "dispatching-parallel-agents",
+        "executing-plans",
+        "finishing-a-development-branch",
+        "receiving-code-review",
+        "requesting-code-review",
+        "subagent-driven-development",
+        "systematic-debugging",
+        "using-git-worktrees",
+        "verification-before-completion",
+        "writing-plans"
+      ]
+    },
+    {
+      "result": "supply-chain-optimization",
+      "prereqs": [
+        "data-analysis",
+        "detect-anomaly",
+        "statistical-analysis"
+      ]
+    },
+    {
+      "result": "systematic-debugging",
+      "prereqs": [
+        "error-interpretation",
+        "hypothesis-generate"
+      ]
+    },
+    {
+      "result": "text-to-sql-pipeline",
+      "prereqs": [
+        "format-output",
+        "generate-sql",
+        "parse-json"
+      ]
+    },
+    {
+      "result": "threat-intelligence-synthesis",
+      "prereqs": [
+        "feed-monitoring",
+        "knowledge-graph-build",
+        "security-audit"
+      ]
+    },
+    {
+      "result": "tool-chaining",
+      "prereqs": [
+        "tool-select",
+        "tool-use"
+      ]
+    },
+    {
+      "result": "tool-creation",
+      "prereqs": [
+        "code-generation",
+        "tool-use"
+      ]
+    },
+    {
+      "result": "translation-pipeline",
+      "prereqs": [
+        "audience-model",
+        "sentiment-analysis",
+        "translate"
+      ]
+    },
+    {
+      "result": "tree-of-thought",
+      "prereqs": [
+        "chain-of-thought",
+        "plan-decompose"
+      ]
+    },
+    {
+      "result": "ubiquitous-language",
+      "prereqs": [
+        "extract-entities",
+        "requirements-analysis"
+      ]
+    },
+    {
+      "result": "using-git-worktrees",
+      "prereqs": [
+        "code-execution",
+        "tool-use"
+      ]
+    },
+    {
+      "result": "verification-before-completion",
+      "prereqs": [
+        "code-execution",
+        "self-critique"
+      ]
+    },
+    {
+      "result": "vertical-slice-planning",
+      "prereqs": [
+        "plan-decompose",
+        "route-intent"
+      ]
+    },
+    {
+      "result": "video-intelligence",
+      "prereqs": [
+        "multimodal-reasoning",
+        "speech-to-text"
+      ]
+    },
+    {
+      "result": "voice-agent",
+      "prereqs": [
+        "question-answer",
+        "speech-to-text",
+        "text-to-speech"
+      ]
+    },
+    {
+      "result": "web-accessibility",
+      "prereqs": [
+        "browser-control",
+        "ux-audit"
+      ]
+    },
+    {
+      "result": "web-best-practices",
+      "prereqs": [
+        "code-review-pipeline",
+        "performance-tuning"
+      ]
+    },
+    {
+      "result": "web-quality-audit",
+      "prereqs": [
+        "performance-tuning",
+        "registry-health-scan",
+        "search-engine-optimization",
+        "web-accessibility",
+        "web-best-practices"
+      ]
+    },
+    {
+      "result": "web-scrape",
+      "prereqs": [
+        "extract-entities",
+        "parse-html",
+        "web-search"
+      ]
+    },
+    {
+      "result": "wiki-search",
+      "prereqs": [
+        "embed-text",
+        "retrieve",
+        "summarize"
+      ]
+    },
+    {
+      "result": "workflow-automation",
+      "prereqs": [
+        "api-call",
+        "plan-decompose",
+        "tool-use"
+      ]
+    },
+    {
+      "result": "workspace-automation",
+      "prereqs": [
+        "api-call",
+        "document-editing"
+      ]
+    },
+    {
+      "result": "writing-plans",
+      "prereqs": [
+        "plan-decompose",
+        "requirements-analysis"
+      ]
+    },
+    {
+      "result": "x-twitter-automation",
+      "prereqs": [
+        "browser-automation",
+        "web-scrape",
+        "workflow-automation"
+      ]
+    }
+  ],
+  "unreachable": [],
+  "gameSeedReachable": []
+}

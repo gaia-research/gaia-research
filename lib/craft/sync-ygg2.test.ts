@@ -271,6 +271,35 @@ describe('sync-skill-tree: Yggdrasil II fixture — valid registry', () => {
     expect(basicWithPrereqs.length).toBe(0);
   });
 
+  it('bridges.json is written by the sync and contains a reachability report', () => {
+    // Reads from the isolated outDir — never touches real data/craft/
+    const { outDir } = runSyncViaTsx(validFixtureDir);
+    testOutDirs.push(outDir);
+    const bridgesPath = path.join(outDir, 'bridges.json');
+    expect(fs.existsSync(bridgesPath)).toBe(true);
+    const bridges = JSON.parse(fs.readFileSync(bridgesPath, 'utf8')) as {
+      report?: {
+        totalRegistrySkills?: number;
+        reachableCount?: number;
+        reachablePct?: number;
+        unreachableCount?: number;
+        internalConnectivityPct?: number;
+        gameSeedReachableCount?: number;
+      };
+      reachable?: unknown[];
+      unreachable?: unknown[];
+    };
+    expect(bridges.report).toBeDefined();
+    expect(typeof bridges.report!.totalRegistrySkills).toBe('number');
+    expect(typeof bridges.report!.reachableCount).toBe('number');
+    // The fixture has 113 basic + 130 fusion = 243 nodes; all reachable from basics
+    expect(bridges.report!.totalRegistrySkills).toBe(243);
+    expect(bridges.report!.reachableCount).toBe(243);
+    expect(Array.isArray(bridges.reachable)).toBe(true);
+    expect(Array.isArray(bridges.unreachable)).toBe(true);
+    expect(bridges.unreachable!.length).toBe(0);
+  });
+
   it('does NOT write to the real data/craft/ directory', () => {
     const skillsPath = path.join(REAL_DATA_CRAFT, 'skills.json');
     const mtimeBefore = fs.statSync(skillsPath).mtimeMs;

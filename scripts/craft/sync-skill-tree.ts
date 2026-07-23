@@ -71,6 +71,7 @@ import path from 'path';
 import yaml from 'js-yaml';
 import { pairKey } from '../../lib/craft/types';
 import type { Recipe } from '../../lib/craft/types';
+import { deriveReachability } from './derive-reachability';
 
 // ---------------------------------------------------------------------------
 // Config — path to sibling gaia-skill-tree checkout (READ-ONLY)
@@ -871,6 +872,29 @@ function main() {
     console.log(`   ${i + 1}. ${r.pairKey} → ${r.result} ${r.emoji}`);
     if (r.contributor) console.log(`      contributor: ${r.contributor}, slug: ${r.slug}`);
   });
+
+  // 7. Derive build-time reachability from seeds → emit bridges.json to same OUT_DIR
+  console.log('\n🔭 Deriving fusion reachability...');
+  try {
+    const reachResult = deriveReachability({ outDir: OUT_DIR });
+    console.log(
+      `   Reachability: ${reachResult.report.reachableCount}/${reachResult.report.totalRegistrySkills}` +
+        ` (${reachResult.report.internalConnectivityPct}% internal / ${reachResult.report.gameSeedReachablePct}% from game seeds)`,
+    );
+    if (reachResult.report.unreachableCount > 0) {
+      console.log(
+        `   ⚠ FOUNDER GATE: ${reachResult.report.unreachableCount} skills unreachable — see bridges.json unreachable list.`,
+      );
+      console.log(`      Decision needed: synthesize derived bridges (auto-path) OR accept emergent-only (#87)?`);
+    } else {
+      console.log('   All registry skills reachable from basic-node roots (internal connectivity = 100%).');
+    }
+  } catch (err) {
+    // Reachability derivation failure is non-fatal for the sync itself — the
+    // registry data (skills/recipes/named-index) has already been written.
+    // Log loudly so it's noticed but don't abort the sync.
+    console.error(`⚠ derive-reachability failed (bridges.json not updated): ${err}`);
+  }
 
   console.log('\n✨ Sync complete!');
 }
