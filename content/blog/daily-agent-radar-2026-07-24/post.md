@@ -4,69 +4,38 @@
 
 ---
 
-> **The Hook.** Ever wondered why adding *"IMPORTANT: DO NOT DO THIS"* to your `SKILL.md` file often makes the model do it more frequently? You're not losing your mind—you're watching unmonitored prompt parameters drift in production. **SkillOpt** (Microsoft Research, 2026) treats agent skill files as the trainable state of a frozen agent, optimizing them automatically using Zeroth-Order (ZO) gradient estimation against sandboxed evaluation harnesses—no backpropagation, no gradient access required.
-
----
-
-## Why Intuition Fails in Prompt Parameter Engineering
-
-When an agent misinterprets instructions or executes an unwanted tool call, our instinct as developers is to edit the prompt manually: adding capital letters, writing longer explanations, or adding polite phrasing.
-
-This manual trial-and-error loop introduces three systemic failure modes:
-
-1. **Context Token Tax**: Explanatory prose inflates global prompt size. Every redundant word imposes a token tax on every single interaction turn across the agent's lifetime.
-2. **Trigger Drift & Boundary Degradation**: Vague descriptions broaden the skill's activation surface, causing false-positive triggers on unrelated user queries.
-3. **Untracked Regressions**: Fixing an edge case in one scenario often degrades performance on core happy paths when there is no evaluation suite tracking precision.
-
----
-
-## Zeroth-Order Optimization in Discrete Text Space
-
-> The core technique SkillOpt builds on — ZO optimization applied to frozen language models — is explained clearly in this walkthrough of the MeZO paper (Princeton NLP, 2023):
+> **The Hook.** You edit your `SKILL.md`. The agent gets a little better. You edit it again. Maybe worse. You add a warning. Somehow it triggers more often now. This is not bad luck — it's unmonitored text-space drift. **SkillOpt** (Microsoft Research, 2026) turns that loop into a real optimization procedure: a frozen agent runs tasks, a separate optimizer model reads what went wrong, and only edits that clear a strict validation gate make it into the skill file.
 
 [[YOUTUBE_EMBED]]
 
-Traditional neural network training relies on backpropagation, computing exact analytical gradients ∇_θ L through continuous weight space. Agent prompts present two fundamental obstacles:
-- Commercial model endpoints are black boxes that do not expose internal gradients.
-- Instruction parameters θ exist in a discrete vocabulary space V* where fractional token steps are undefined.
+---
 
-Zeroth-Order (ZO) optimization overcomes these constraints by estimating gradient directions using scalar loss values L(θ) obtained from trial runs:
+## What SkillOpt Actually Does
 
-```
-ĝ_θ L ≈ (L(θ + βu) - L(θ - βu)) / (2β) · u
-```
+SkillOpt treats the skill file as the *trainable parameter* of a frozen agent. The agent model itself is never touched. Instead:
 
-Where u represents a directional perturbation vector in instruction candidate space and β controls the scalar perturbation step size.
+1. **Forward pass — collect rollouts.** The frozen agent runs a batch of tasks using the current skill file. Each trajectory is scored pass/fail.
+2. **Backward pass — minibatch reflection.** A high-capacity optimizer model (a separate LLM) reads the failure and success batches, consults a buffer of previously rejected edits, and proposes structured patches: additions, deletions, replacements.
+3. **Validation gate.** The candidate skill is evaluated on a held-out selection split. It only replaces the current skill if `score_candidate > score_current`. Most proposed edits are rejected here.
+4. **Rejected-edit buffer.** Failed edits feed back into the next optimizer prompt as negative constraints — the optimizer learns what not to try again within the epoch.
+5. **Slow/meta update.** At the end of each epoch, a longitudinal review inserts durable lessons into a protected region of the skill file and updates an optimizer-only meta-prompt that refines search direction across epochs.
 
 [[PARAMETER_PERTURBATION_FLOWCHART]]
 
-### The Skill Loss Function
-
-SkillOpt formalizes prompt optimization by evaluating candidates against a composite loss function:
-
-```
-L(θ) = w₁ · (1 - P_precision) + w₂ · T_overhead + w₃ · F_trigger
-```
-
-The weights balance three distinct system objectives:
-- **Precision (P_precision)**: The pass rate of automated assertions across N trial tasks in the evaluation suite.
-- **Context Token Tax (T_overhead)**: The normalized token length of the instruction block, penalizing word bloat.
-- **False Trigger Rate (F_trigger)**: The error rate when presenting negative test cases that should not activate the skill.
-
-[[ZO_OPTIMIZATION_LOOP_GRAPH]]
+There is no differentiable loss function. The validation split accuracy — a plain scalar score averaged over held-out tasks — is the only signal that gates updates. This is what makes it gradient-free: the optimizer model proposes edits using natural language reasoning over trajectories, not numerical gradients.
 
 ---
 
-## Comparing Unmanaged Prompts to ZO-Tuned Specs
+## What a SkillOpt Loop Looks Like in Practice
 
-Below is a stacked comparison showing how Zeroth-Order optimization transforms an unmanaged manual prompt into a high-density, bounded directive spec.
+The before/after contrast tells the story better than any diagram. A manually vibe-checked skill accumulates polite hedging. A SkillOpt-tuned skill compresses toward bounded directives.
 
-### Unmanaged Manual Prompt (Vibe-Checked)
+### Unmanaged Manual Skill (Vibe-Checked)
 
 ```markdown
 # Component Builder Skill
 
-Please use this skill whenever you need to build React components. 
+Please use this skill whenever you need to build React components.
 
 Instructions:
 - Make sure to carefully create clean, well-structured, maintainable TypeScript React code.
@@ -77,7 +46,7 @@ Instructions:
 - If you run into state issues, please refer to our internal state guidelines.
 ```
 
-### ZO-Tuned Bounded Directive Spec (Step 20 Optimized)
+### SkillOpt-Tuned Skill (After Optimization)
 
 ```markdown
 # react-component-builder
@@ -92,56 +61,35 @@ Do NOT trigger for API routes (`src/api/`), Tailwind configs, or unit tests.
 - Keep component files under 150 lines; split sub-views into `src/components/ui/`.
 ```
 
-The ZO-tuned spec cuts word count by 62%, eliminates conversational filler, and establishes explicit negative activation boundaries.
+The optimized version cuts word count, eliminates conversational filler, and adds explicit negative trigger boundaries — all patterns the optimizer model learns to prefer because they reduce false-trigger failures in rollouts.
 
 ---
 
-## Optimization Configuration Spec (`skillopt.yaml`)
+## The Numbers From the Paper
 
-Below is the SkillOpt configuration used to drive the optimization loop against a target skill harness:
+These are real benchmark results from the SkillOpt paper across six tasks, three harnesses:
 
-```yaml
-# SkillOpt Optimization Spec (skillopt.yaml)
-target_skill: content/skills/react-builder/SKILL.md
-eval_harness: tests/evals/component-suite.json
+[[ZO_OPTIMIZATION_LOOP_GRAPH]]
 
-optimization:
-  method: zeroth_order_gradient
-  iterations: 20
-  candidates_per_step: 4
-  perturbation_scale: 0.15
+| Task | Baseline | SkillOpt (GPT-5.5) | Lift |
+| :--- | :--- | :--- | :--- |
+| SpreadsheetBench | 41.8% | **80.7%** | +38.9 pts |
+| OfficeQA | 33.1% | **72.1%** | +39.0 pts |
+| LiveMath | 37.6% | **66.9%** | +29.3 pts |
+| ALFWorld | 83.6% | **95.5%** | +11.9 pts |
+| DocVQA | 78.8% | **91.2%** | +12.4 pts |
+| SearchQA | 77.7% | **87.3%** | +9.6 pts |
 
-loss_weights:
-  assertion_precision: 0.50
-  trigger_accuracy: 0.30
-  token_overhead: 0.20
+Average lift: **+23.5 points** across all tasks in direct-chat mode. Cross-harness transfer is the surprising result: a skill optimized under Codex transferred to Claude Code with a **+59.7 point** improvement on SpreadsheetBench (22.1% → 81.8%).
 
-constraints:
-  max_body_words: 200
-  require_negative_triggers: true
-```
+The optimization is strict. The median accepted-edit count is **2.5 edits per run** — the validation gate rejects the bulk of what the optimizer proposes. Final skill files land at roughly 380–2,000 tokens depending on task complexity.
 
 ---
 
-## Convergence Metrics Across Iterations
+## One Thing to Do Differently
 
-The table below summarizes performance improvements observed during a 20-step optimization run:
-
-| Optimization Stage | Assertion Precision | Avg. Word Count | Context Overhead | False Trigger Rate |
-| :--- | :--- | :--- | :--- | :--- |
-| **Base Model (No Skill)** | 42.1% | 0 words | 0 tokens | 0.0% |
-| **Unmanaged Manual Draft** | 68.4% | 780 words | ~1,120 tokens/turn | 24.5% |
-| **SkillOpt Step 5** | 84.2% | 420 words | ~600 tokens/turn | 11.0% |
-| **SkillOpt Final (Step 20)** | **94.8%** | **185 words** | **~260 tokens/turn** | **2.1%** |
-
----
-
-## Analytical Takeaway
-
-Replacing developer intuition with empirical Zeroth-Order parameter tuning transforms agent instruction authoring. By defining explicit loss functions over precision, context tax, and trigger accuracy, instruction sets shrink in token footprint while improving execution accuracy.
+Before you next edit a `SKILL.md` by intuition, write down one measurable assertion first: *"after this edit, the agent should pass X on task Y."* Run it. That single step — defining a validation criterion before editing — is the minimum viable version of what SkillOpt formalizes at scale.
 
 ---
 
 **Source:** Yang et al., *SkillOpt: Executive Strategy for Self-Evolving Agent Skills*, Microsoft Research, 2026. [arXiv:2605.23904](https://arxiv.org/abs/2605.23904) · [GitHub](https://github.com/microsoft/SkillOpt) · [Microsoft Research Blog](https://www.microsoft.com/en-us/research/blog/skillopt-agent-skills-as-trainable-parameters/)
-
-The ZO optimization technique SkillOpt builds on is MeZO ([Malladi et al., Princeton NLP, NeurIPS 2023](https://arxiv.org/abs/2305.17333)) — fine-tuning language models using only forward passes, with no gradient access required.
