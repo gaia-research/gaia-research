@@ -1,6 +1,6 @@
 # .mailmap — canonical author/committer identity remapping.
 #
-# Remaps the compromised corporate SAP address to the canonical personal
+# Remaps a compromised corporate address to the canonical personal
 # identity for all of git's identity-aware tooling (git log --use-mailmap,
 # git shortlog -sne, git blame, and GitHub's contributor/blame views).
 #
