@@ -1,5 +1,6 @@
 import type { StaticImageData } from "next/image";
 import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-editorial-thumbnail.webp";
+import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp";
 
 export type BlogPost = {
   href: string;
@@ -20,9 +21,25 @@ export const skillEvalsEditorialThumbnail = {
   alt: "Tiny pink-haired Milim studies a paper star at a round table in a moonlit observatory archive.",
 } as const;
 
+export const dailyAgentRadarThumbnail = {
+  src: dailyAgentRadarThumbnailSrc,
+  alt: "Tiny pink-haired Milim sits joyfully at a warm golden morning bakery counter watching steam rise from fresh bread.",
+} as const;
+
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/daily-agent-radar-2026-07-24",
+    category: "Agent Optimization",
+    date: "July 24, 2026",
+    readTime: "4 min read",
+    title: "SkillOpt: Zeroth-Order Optimization for Agent Skills",
+    description:
+      "A field note on Zeroth-Order optimization for SKILL.md parameters, replacing manual vibe-checks with evidence-backed evaluation loops.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: dailyAgentRadarThumbnail,
+  },
   {
     href: "/blog/skill-evals",
     category: "Agent Skills",
