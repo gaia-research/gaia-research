@@ -681,10 +681,31 @@ export async function POST(request: Request): Promise<Response> {
       let promotion = resolvePromotion(raw.name);
 
       // TIER 2 (Epic #89 / #87): the exact-match gate above missed — try a
-      // Vectorize fuzzy match on the model's name + blurb before giving up and
-      // staying emergent. Supplements, never replaces, the exact match above.
+      // Vectorize fuzzy match on the model's name + factual description before
+      // giving up and staying emergent. Supplements, never replaces, the exact
+      // match above.
+      //
+      // Uses `raw.description` (factual, "what the skill DOES" — see
+      // lib/craft/prompt.ts's RawFusionJson doc comment), NOT `raw.blurb` (the
+      // playful "boss" flavour line). The Vectorize corpus is embedded from
+      // named-skill title + factual description at sync time
+      // (sync-skill-tree.ts's embedAndUpsertNamedSkills), so the query text
+      // must match that register or cosine similarity is measuring style
+      // difference as much as semantic difference. Measured impact on the
+      // prompt's own `/scraper` few-shot: blurb text scored 0.716 against the
+      // matching named skill (below threshold, never promotes), description
+      // text scored 0.861 (promotes) — same fusion, same target, ~0.15 gap
+      // purely from which field was embedded.
       if (!promotion) {
-        const queryText = `${raw.name}. ${raw.blurb ?? ''}`.slice(0, 512);
+        // De-slug the fusion name before embedding: the model names fusions in
+        // kebab/slug style (e.g. `/pytest-patterns`), which the BGE tokenizer
+        // splits into subword fragments that don't map cleanly to the corpus's
+        // natural `Title. description` register. Stripping the leading `/` and
+        // turning `-` into spaces reads as natural English and lifts top-1
+        // cosine by ~0.013 on average (beat raw-slug composition on 7/9 probed
+        // targets, never lost by >0.002).
+        const naturalName = raw.name.replace(/^\//, '').replace(/-/g, ' ');
+        const queryText = `${naturalName}. ${raw.description ?? raw.blurb ?? ''}`.slice(0, 512);
         promotion = await resolveVectorizePromotion(queryText, bindings);
       }
 

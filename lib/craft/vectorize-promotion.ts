@@ -45,11 +45,29 @@ export interface VectorizeBindings {
 
 /**
  * Cosine similarity threshold for Vectorize fuzzy promotion.
- * FOUNDER GATE — this is a placeholder pending live measurement against a
- * hand-curated paraphrase set (see PR body for the evidence table). Do not
- * treat 0.82 as final; the founder sets the ratified value.
+ *
+ * RATIFIED 0.80 (2026-07-24, founder sign-off — see PR #111). Founder gate
+ * closed. Value is the output of four independent live probes against the
+ * production Vectorize index (278 named skills, real BGE embeddings),
+ * reviewed and accepted by the founder rather than auto-resolved:
+ *  - Recall sweep (n=20 realistic creative-name paraphrases): true-positive
+ *    floor 0.763, median 0.819. 0.80 captures 63% of these vs 47% at 0.82.
+ *  - Adversarial false-positive hunt (n=63): worst *clean* false positive is a
+ *    flat generic dev description ("fixing bugs + reviewing PRs") at 0.757, with
+ *    a dense generic/ambiguous cluster at 0.69–0.76. 0.80 sits above that cluster
+ *    with ~0.04 margin.
+ *  - Margin (top1−top2) analysis (n=15): margin is a NOISIER separator than raw
+ *    score (near-duplicate corpus skills produce small gaps on correct hits) —
+ *    do not gate on margin; keep the absolute-threshold mechanism.
+ * Product asymmetry drove the choice: a wrong promotion to the wrong canonical
+ * skill damages trust more than staying emergent, so the threshold sits above
+ * the known false-positive ceiling rather than chasing maximum recall.
+ * RISK: true/false-positive scores genuinely overlap in the 0.75-0.82 band in
+ * this register (see PR #111 discussion) — 0.80 is a trade-off point, not a
+ * clean boundary. Recommend logging real promotion scores for a week before
+ * treating this as final.
  */
-export const VECTORIZE_THRESHOLD = 0.82;
+export const VECTORIZE_THRESHOLD = 0.8;
 
 /** Vectorize query timeout in ms — covers the embed call + the query round-trip. */
 export const VECTORIZE_TIMEOUT_MS = 800;

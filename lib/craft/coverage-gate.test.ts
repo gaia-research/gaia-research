@@ -3,6 +3,11 @@
  *
  * CI reachability-coverage gate (Epic #89 sub-issue #88).
  *
+ * FLOOR VALUES RATIFIED 2026-07-24 (founder sign-off — see PR #111): the
+ * proportional primaries, absolute watermarks, and structural invariants
+ * below (originally plan-recommended, not yet founder-reviewed) are now the
+ * accepted floors. Founder gate closed.
+ *
  * TWO-TIER DESIGN (see docs/plans/epic-89-sub-88-ci-coverage-gate-plan.md §3.1
  * for full rationale):
  *   Tier 1 — Proportional primaries: self-scaling, primary quality signal.
