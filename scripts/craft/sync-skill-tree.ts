@@ -62,7 +62,9 @@
 //      checks out gaia-skill-tree at an arbitrary path, not a fixed sibling
 //      depth). FORCE_RESYNC=1 — bypass the delta-guard sanity assertion (see
 //      assertRegistryShape below); use only when a real, reviewed registry
-//      contraction is expected.
+//      contraction is expected. GAIA_CRAFT_OUT_DIR — override the output
+//      directory (default: data/craft relative to repo root). Used by tests to
+//      write into an isolated temp dir so they never touch the real data/craft/.
 
 import fs from 'fs';
 import path from 'path';
@@ -77,7 +79,9 @@ import type { Recipe } from '../../lib/craft/types';
 const REGISTRY_ROOT =
   process.env.GAIA_SKILL_TREE_REGISTRY ??
   path.resolve(__dirname, '../../../../../../gaia-skill-tree/registry');
-const OUT_DIR = path.resolve(__dirname, '../../data/craft');
+const OUT_DIR =
+  process.env.GAIA_CRAFT_OUT_DIR ??
+  path.resolve(__dirname, '../../data/craft');
 
 // ---------------------------------------------------------------------------
 // Types for generated outputs
