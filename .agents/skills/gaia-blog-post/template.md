@@ -2,6 +2,21 @@
 
 This file provides the canonical boilerplate templates for authoring a Gaia Research blog post (`/blog/*`).
 
+**Before filling any template:** Phase 0 of `SKILL.md` must be complete. The source ledger must be filled with verified information before a single word of post content is written.
+
+---
+
+## 0. Source Ledger (fill before writing)
+
+```
+Primary source: [paper title · authors · institution · year · arXiv/DOI URL]
+GitHub:         [URL or "none found"]
+Official video: [YouTube ID · title · verified via oEmbed — or "none found"]
+Real numbers:   [task names and exact figures copied from the paper]
+Mechanism:      [2-3 sentences from the methods section, not the abstract]
+Fabrication risks: [anything the post might invent — configs, paths, counts]
+```
+
 ---
 
 ## 1. Markdown Source Template (`content/blog/<slug>/post.md`)
@@ -9,70 +24,75 @@ This file provides the canonical boilerplate templates for authoring a Gaia Rese
 ```markdown
 # [Title of the Post]
 
-**By Nova — Head Researcher, Gaia Research**
-*Referencing [Source / Context if applicable]*
+*[Month DD, YYYY] · Field Note by Nova — Head Researcher, Gaia Research*
 
 ---
 
-## 1. Context & The Core Issue
+> [Hook — one relatable observation the reader has personally encountered.
+>  Not a summary of the post. Not "In this post, we will explore..."
+>  The first sentence should make the reader want the second one.]
 
-[State the problem directly. Show, don't tell — why manual confirmation/vibe-checks fail.]
-
-<!-- If a directly relevant YouTube talk exists, add a link and [[YOUTUBE_EMBED]] here.
-     Only include if the video is the actual source of the insight, not just topically related.
-     If no relevant video exists, use a terminal trace, benchmark output, or linked paper instead. -->
-
+<!-- YouTube embed: only if a real relevant video was verified in the source ledger.
+     Paste the verified ID below and uncomment. Never embed without oEmbed verification. -->
 <!--
-> Watch the source talk:
-> [Talk Title on YouTube](https://youtu.be/[YOUTUBE_ID]).
-
 [[YOUTUBE_EMBED]]
 -->
 
 ---
 
-## 2. Practical Framework / Disclosure Model
+## [Section title specific to this topic — not "Introduction" or "Background"]
 
-[Provide a structured breakdown. Use a native SVG diagram or compact disclosure model.]
+[State the mechanism directly. What does it actually do, step by step?
+ Use numbered steps for processes. Use plain English first, then technical terms.
+ Every jargon term gets a one-line anchor before it is used alone.]
 
-1. **Layer 1: Title & Description** — [Scope and trigger guidance]
-2. **Layer 2: Core Body Instructions** — [Direct, testable procedure]
-3. **Layer 3: Reference Files** — [Loaded on demand]
-
----
-
-## 3. Concrete Pattern: Broad Advice vs. Lean Directive
-
-Compare patterns directly using stacked code blocks without wall-of-text explanations:
-
-### Broad advice (Anti-Pattern)
-
-\`\`\`markdown
-# Anti-Pattern
-Please use this skill whenever working on web code. Write clean, high-quality code.
-\`\`\`
-
-### Lean directive (Clean Pattern)
-
-\`\`\`markdown
-# Clean Pattern
-Use this skill ONLY when creating React components in `src/components/`.
-Do NOT use for backend API routes (`src/api/`).
-\`\`\`
+[[SVG_FLOWCHART]]
 
 ---
 
-## 4. Visual Evidence & SVG Graphs
+## [Contrast section title — what the reader recognises vs. what this changes]
 
-[Prefer SVG graphs, timelines, or decision charts over long text explanations.]
+[Before/after code comparison. The "bad" example must be recognisably bad,
+ not just longer. The "good" example must be concisely better.
+ Let the code speak — do not narrate what the reader is already reading.]
 
-[[SVG_GRAPH_PLACEHOLDER]]
+### [Label for the anti-pattern]
+
+```[language]
+[anti-pattern code]
+```
+
+### [Label for the better pattern]
+
+```[language]
+[better pattern code]
+```
 
 ---
 
-## 5. Closing Observation
+## [Results or evidence section title]
 
-> [One concrete thing the reader can do differently tomorrow. Not a summary of what the post said — a specific next action or reframe.]
+[Real numbers from the source ledger. Cite the task name and baseline.
+ If any number is illustrative and not from the paper, say so explicitly.]
+
+[[BAR_CHART_OR_TABLE]]
+
+| [Column] | [Column] | [Column] |
+| :--- | :--- | :--- |
+| [value from paper] | [value from paper] | [value from paper] |
+
+---
+
+## [Closing section title — specific to this topic]
+
+[One concrete thing the reader can do differently today.
+ Not a restatement of what the post said.
+ Not "Time will tell." Not a hedging disclaimer.
+ A specific next action.]
+
+---
+
+**Source:** [Authors], *[Paper Title]*, [Institution], [Year]. [[arXiv:XXXXXXX](https://arxiv.org/abs/XXXXXXX)] · [[GitHub](URL)] · [[Official Blog](URL)]
 ```
 
 ---
@@ -95,16 +115,24 @@ const siteUrl = "https://research.gaiaskilltree.com";
 const articlePath = "/blog/[slug]";
 const articleUrl = `${siteUrl}${articlePath}`;
 const thumbnailUrl = `${siteUrl}${[slug]EditorialThumbnail.src.src}`;
-const articleDescription = "[1-2 sentence description]";
+// Description: open with the primary keyword. 1-2 sentences, no hedging.
+const articleDescription = "[Primary keyword] [what it does in one sentence]. [One sentence of most interesting result or implication].";
 
 export const metadata = {
-  title: "[Post Title]",
+  title: "[Primary keyword]: [Subtitle] — Gaia Research",
   description: articleDescription,
+  keywords: [
+    "[primary keyword]",
+    "[secondary keyword]",
+    "[technique name]",
+    "[author or institution if notable]",
+    "Gaia Research",
+  ],
   alternates: { canonical: articlePath },
   openGraph: {
     type: "article",
     url: articlePath,
-    title: "[Post Title]",
+    title: "[Primary keyword]: [Subtitle]",
     description: articleDescription,
     publishedTime: "[YYYY-MM-DD]T00:00:00+08:00",
     authors: [novaAuthor.display_name],
@@ -112,7 +140,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "[Post Title]",
+    title: "[Primary keyword]: [Subtitle]",
     description: articleDescription,
     images: [[slug]EditorialThumbnail.src.src],
   },
@@ -121,7 +149,7 @@ export const metadata = {
 const articleStructuredData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  headline: "[Post Title]",
+  headline: "[Primary keyword]: [Subtitle]",
   description: articleDescription,
   image: thumbnailUrl,
   url: articleUrl,
@@ -138,7 +166,30 @@ const articleStructuredData = {
   },
 };
 
+// Only include if a real relevant video was verified via oEmbed.
+// Delete this component entirely if no verified video exists.
+function YoutubeEmbed() {
+  return (
+    <figure className="blog-figure my-8 rounded-xl overflow-hidden border border-slate-800 shadow-lg">
+      <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+        <iframe
+          className="absolute inset-0 w-full h-full"
+          src="https://www.youtube-nocookie.com/embed/[YOUTUBE_ID]"
+          title="[Video Title — exact title from oEmbed verification]"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+      <figcaption className="text-xs text-slate-500 px-4 py-2">
+        [Who made the video and what it covers — one sentence.]
+      </figcaption>
+    </figure>
+  );
+}
+
 function loadPost() {
+  // Slices the h1 title line, blank line, byline, and blank line (indices 0–3)
+  // so the page <h1> renders from metadata, not duplicated from the markdown.
   return postMd.split("\n").slice(4).join("\n").trim();
 }
 
@@ -147,51 +198,48 @@ export default function BlogPostPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main" className="blog-post-page">
+      <main id="main" className="blog-post-page max-w-4xl mx-auto px-4 py-8">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData).replace(/</g, "\\u003c") }}
         />
-        <header className="blog-post-head">
-          <p className="blog-post-meta">
-            <time dateTime="[YYYY-MM-DD]">[Date String]</time> · {" "}
-            <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">
+        <header className="blog-post-head border-b border-slate-800/60 pb-8 mb-8">
+          <p className="blog-post-meta text-sm text-slate-400 mb-2">
+            <time dateTime="[YYYY-MM-DD]">[Month DD, YYYY]</time> · {" "}
+            <a href={novaAuthor.links.github} target="_blank" rel="noreferrer" className="text-sky-400 font-medium hover:underline">
               {novaAuthor.display_name}
             </a>
           </p>
-          <h1>[Post Title]</h1>
-          <p className="blog-post-summary">[Subtitle / Summary]</p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100 my-3">
+            [Primary keyword]: [Subtitle]
+          </h1>
+          <p className="blog-post-summary text-lg text-slate-400">
+            [One sentence — the most interesting thing, stated directly. Not a summary of sections.]
+          </p>
         </header>
 
-        {/* Milim Editorial Thumbnail */}
-        <figure className="blog-post-illustration">
+        <figure className="blog-post-illustration my-8 rounded-xl overflow-hidden border border-slate-800 shadow-xl">
           <img
             src={[slug]EditorialThumbnail.src.src}
             width={[slug]EditorialThumbnail.src.width}
             height={[slug]EditorialThumbnail.src.height}
             alt={[slug]EditorialThumbnail.alt}
+            className="w-full h-auto object-cover"
           />
         </figure>
 
-        <article className="blog-post-body report-body">
+        <article className="blog-post-body report-body prose prose-invert prose-slate max-w-3xl leading-relaxed">
           <Markdown
             remarkPlugins={[remarkGfm]}
             components={{
               p: ({ children, ...props }) => {
-                const text = Array.isArray(children) ? children.join("") : children;
+                const text = Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "";
+                // Add a case for each [[TOKEN]] used in the post.md
                 if (text === "[[YOUTUBE_EMBED]]") {
-                  return (
-                    <figure className="blog-video">
-                      <iframe
-                        src="https://www.youtube-nocookie.com/embed/[YOUTUBE_ID]"
-                        title="[Video Title]"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                      <figcaption>Source talk / evidence video.</figcaption>
-                    </figure>
-                  );
+                  return <YoutubeEmbed />;
                 }
+                // if (text === "[[SVG_FLOWCHART]]") { return <MyFlowchart />; }
+                // if (text === "[[BAR_CHART]]") { return <MyBarChart />; }
                 return <p {...props}>{children}</p>;
               },
             }}
@@ -200,8 +248,10 @@ export default function BlogPostPage() {
           </Markdown>
         </article>
 
-        <footer className="blog-post-foot">
-          <Link href="/blog">Back to Blog <span aria-hidden="true">→</span></Link>
+        <footer className="blog-post-foot mt-16 pt-8 border-t border-slate-800">
+          <Link href="/blog" className="text-sky-400 font-medium hover:underline flex items-center gap-2">
+            ← Back to Blog
+          </Link>
         </footer>
       </main>
       <SiteFooter />
@@ -212,7 +262,7 @@ export default function BlogPostPage() {
 
 ---
 
-## 3. Data Registry Boilerplate (`data/blog.ts`)
+## 3. Data Registry Entry (`data/blog.ts`)
 
 ```ts
 import type { StaticImageData } from "next/image";
@@ -220,19 +270,34 @@ import [slug]EditorialThumbnailSrc from "@/assets/generated/[slug]-editorial-thu
 
 export const [slug]EditorialThumbnail = {
   src: [slug]EditorialThumbnailSrc,
-  alt: "[Detailed alt text describing quiet Milim slice-of-life thumbnail scene]",
+  alt: "[Detailed alt text: describe the quiet Milim slice-of-life scene specifically — setting, Milim's position and emotion, dominant colours]",
 } as const;
 
-export const blogPosts: readonly BlogPost[] = [
-  {
-    href: "/blog/[slug]",
-    category: "[Category]",
-    date: "[Date String]",
-    readTime: "[X min read]",
-    title: "[Post Title]",
-    description: "[Short description]",
-    author: "Nova · Head Researcher, Gaia Research",
-    image: [slug]EditorialThumbnail,
-  },
-];
+// Add to the top of the blogPosts array (newest first):
+// {
+//   href: "/blog/[slug]",
+//   category: "[Category]",
+//   date: "[Month DD, YYYY]",
+//   readTime: "[X min read]",
+//   title: "[Primary keyword]: [Subtitle]",
+//   description: "[Same as articleDescription in page.tsx — opens with primary keyword]",
+//   author: "Nova · Head Researcher, Gaia Research",
+//   image: [slug]EditorialThumbnail,
+// },
+```
+
+---
+
+## 4. Sitemap & Redirect Entries
+
+```ts
+// app/sitemap.ts — add:
+{ url: `${siteUrl}/blog/[slug]`, lastModified: new Date("[YYYY-MM-DD]"), changeFrequency: "monthly", priority: 0.7 },
+
+// next.config.mjs redirects() — add if slug doesn't match the primary keyword:
+{
+  source: "/blog/[primary-keyword]",
+  destination: "/blog/[slug]",
+  permanent: true,
+},
 ```

@@ -1,6 +1,6 @@
 ---
 name: gaia-blog-post
-description: Standardized playbook for authoring high-signal, low-noise blog posts for Gaia Research. Enforces single-topic deep dives, anti-slop guardrails, no unratified roadmap claims, show-don't-tell evidence, SVG graphs over long text, Nova's writing persona, and Milim thumbnail generation via milim-editorial-thumbnail skill.
+description: Standardized playbook for authoring high-signal, real-evidence-backed blog posts for Gaia Research. Enforces a research-first pipeline with mandatory web search and source verification before writing, three adversarial reviewer passes (factual correctness, fabrication detection, readability), Nova voice style guide, anti-slop guardrails, SVG graphs over long text, and Milim thumbnail generation.
 ---
 
 # Gaia Blog Post Authoring & Production Skill
@@ -11,58 +11,223 @@ Use this skill whenever an agent is tasked with writing, illustrating, or publis
 
 ---
 
-## 1. Anti-Slop & Quality Directives
+## Phase 0 — Research First (Do This Before Writing One Word)
 
-To keep posts high-signal, low-noise, and distinct:
+**Never write content before completing this phase.** The SkillOpt post was originally wrong because writing started before the paper was read. Do not repeat that mistake.
 
-- ❌ **No Unratified Roadmap Claims**: NEVER invent fake roadmap promises or unratified claims (e.g. *"Work in progress... evaluating for GSB inclusion"*). State ONLY what is verified or backed by actual repo issues/docs.
-- ❌ **No Cookie-Cutter Section Headers**: Do NOT reuse rigid boilerplate headers ("1. Executive Summary", "2. Signals", "3. Bad vs Good", "5. Next Steps") across posts. Create natural, topic-specific section titles for each post.
-- ❌ **No Corporate Hype Buzzwords**: Ban fluff ("game-changing", "paradigm shift", "seamless integration", "unlocking the future"). State findings, code, and limitations plainly.
-- ✅ **Single-Topic Deep Dive**: Focus each post on **ONE single topic** in depth. Do not bundle multiple unrelated news items into a single post.
-- ✅ **Show-Don't-Tell Evidence**: Embed at least one form of primary evidence. In order of preference: a real YouTube talk (`[[YOUTUBE_EMBED]]`) when a directly relevant source exists, terminal output traces showing actual agent behaviour, or a linked paper/issue. **Do not embed a YouTube video if no directly relevant talk exists** — a forced embed with a tangentially related video is worse than no embed. Conceptual posts with no external source must be clearly labelled as conceptual frameworks, not presented as measured results.
-- ✅ **SVG Graphs Over Walls of Text**: Prefer native React SVG graphs, visual flowcharts, or timeline diagrams over long paragraphs of explanatory text.
+### 0.1 Web search and source acquisition
 
----
+For any post about a named technique, tool, paper, or product:
 
-## 2. External Persona & Identity Routing
+1. **Search for the primary source.** Find the real paper (arXiv ID), GitHub repo, or official documentation. Do not write from memory or prior training knowledge — search now.
+2. **Verify authorship and affiliation.** Who actually made this? Which institution? What year?
+3. **Read the abstract and methods.** What does it actually do mechanically? Not what the title implies — what the method section says.
+4. **Find the real benchmark numbers.** What tasks, what baselines, what exact results? Copy the numbers from the paper, do not invent them.
+5. **Find the official or co-author YouTube video first.** Search `"[topic] [authors] site:youtube.com"` and `"[paper title] presentation"`. A co-author talk is always preferred over an explainer channel.
+6. **Verify every YouTube video ID** via `https://www.youtube.com/oembed?url=https://youtu.be/[ID]&format=json` before embedding. A video that 404s or returns the wrong title must not be embedded.
 
-Do not duplicate or hardcode persona definitions in this skill file. Route to the canonical external sources:
+### 0.2 Source ledger (fill before writing)
 
-- **Nova Writing Style & Persona Skill**: Read `../marketing-tasks/.agents/skills/nova/SKILL.md` for Nova's low-ego, demure, peer-focused writing style, tone, and fact-first auditing rules.
-- **Nova Canonical Author Record**: Read `content/authors/nova.json` for structured author metadata (`display_name: "Nova"`, `role: "Head Researcher"`).
-- **Editorial Authority Contract**: Read `docs/authorship/nova-editorial-authority.md` for public AI disclosures and human review requirements by Marcus Tiongson (Founder).
-- **Milim Character Authority**: Read `../marketing-tasks/MILIM.md` before depicting Milim in any visual asset.
+Before writing, state explicitly:
 
----
+```
+Primary source: [paper title, authors, institution, year, arXiv/DOI URL]
+GitHub: [URL or "none found"]
+Official video: [YouTube ID and title, verified via oEmbed, or "none found"]
+Real benchmark numbers: [task names and exact figures from the paper]
+What the mechanism actually does: [2-3 sentences from the methods section, not the abstract]
+Fabrication risk items: [anything the post might be tempted to invent — configs, file paths, numbers]
+```
 
-## 3. Visual System: Milim Editorial Thumbnail Routing
-
-Every blog post **MUST** feature a 16:9 flat screenprint **Milim Editorial Thumbnail** illustration.
-
-- **Thumbnail Harness Link**: Delegate all thumbnail generation directly to `.agents/skills/milim-editorial-thumbnail/SKILL.md`.
-- **Tool Rule**: **NEVER use `omniflash`.** Use `.agents/skills/milim-editorial-thumbnail/SKILL.md` exclusively.
-- **Guardrails**: Tiny Milim (≤8% frame height, no twintails, lower-right) in quiet slice-of-life scenes (e.g. moonlit observatory archive). **NO text, UI, code, graphs, diagrams, or tree imagery.**
-- **Pipeline**: Workbench generation (`assets/workbench/generated/`) → responsive export (1600×900 WebP) → ledger sync (`scripts/assets/sync-asset-ledger.ts`) → copy to `public/assets/`.
+Do not proceed to Phase 1 until this ledger is filled with verified information.
 
 ---
 
-## 4. Template & Code Routing
+## Phase 1 — Draft
 
-Boilerplate code and file structures are maintained in the separate `template.md` file inside this skill directory:
+### 1.1 Anti-slop quality directives
 
-- Read `./template.md` for:
-  1. **Markdown Source Template** (`content/blog/<slug>/post.md`) with optional video embed tokens (`[[YOUTUBE_EMBED]]` — only include if a real relevant video exists)
-  2. **Next.js Edge Page Template** (`app/blog/[slug]/page.tsx`) with Schema.org `BlogPosting` JSON-LD & optional video render component
-  3. **Data Registry Boilerplate** (`data/blog.ts`)
+- ❌ **No fabricated specificity**: Never invent file paths, config keys, CLI commands, YAML schemas, or metrics that do not exist in the actual source. If the paper describes a concept, say it describes a concept — do not invent an implementation to make it feel more concrete.
+- ❌ **No unratified roadmap claims**: State ONLY what is verified or backed by actual repo issues/docs. Check `founder/RATIFICATION.md` for LOCKED status before making any product claim.
+- ❌ **No cookie-cutter section headers**: Do not reuse rigid boilerplate headers across posts ("Executive Summary", "Signals", "Bad vs Good", "Next Steps"). Create natural, topic-specific titles.
+- ❌ **No hype buzzwords**: Ban "game-changing", "paradigm shift", "seamless integration", "unlocking the future". State findings, code, and limitations plainly.
+- ❌ **No misattributed techniques**: If Post A cites Technique X as its method, verify Technique X is actually what Post A uses — not just an ancestor or inspiration. (The SkillOpt post originally described MeZO as SkillOpt's mechanism. They are different papers.)
+- ✅ **Single-topic deep dive**: One topic per post, treated with depth. No bundles.
+- ✅ **Real numbers only**: Every percentage, token count, and metric must come from the verified source ledger. If illustrative, label it explicitly as illustrative.
+- ✅ **Show-don't-tell evidence**: Embed the official or co-author YouTube video if one exists and was verified. If not, use terminal output traces or a linked paper section. Never embed a tangentially related video as a substitute.
+- ✅ **SVG graphs over walls of text**: Prefer native React SVG graphs, flowcharts, or bar charts using real numbers. The chart must reflect actual data, not invented convergence curves.
+
+### 1.2 Structure
+
+Every post needs:
+- **A hook that earns 10 more seconds**: One relatable observation the reader has personally encountered. Not a summary of the post.
+- **The mechanism clearly explained**: What the thing actually does, step by step, in plain English. No jargon without a one-line anchor.
+- **At least one before/after or contrast**: Code blocks, tables, or side-by-side examples are the most-read part.
+- **Real numbers with their source**: Benchmark results, cited to paper and task.
+- **One actionable closing**: Something the reader can do differently tomorrow. Not a restatement of the intro.
+- **Source block**: Full citation — authors, title, institution, year, arXiv/DOI, GitHub, official blog if applicable.
 
 ---
 
-## 5. Pre-Publishing Quality Checklist
+## Phase 2 — Adversarial Review (Three Passes, All Required)
 
-- [ ] **Anti-Slop Check**: Zero unratified roadmap claims, zero boilerplate headers, zero corporate hype buzzwords. Single-topic deep dive.
-- [ ] **Show-Don't-Tell Verification**: At least one form of primary evidence is embedded — a real YouTube talk (only if directly relevant), terminal output trace, or linked paper. If the post describes a conceptual framework with no external source, it is clearly labelled as such. SVG graphs used in place of long text paragraphs.
-- [ ] **Nova Persona Verified**: Followed `../marketing-tasks/.agents/skills/nova/SKILL.md` (low-ego, direct, zero hype) and referenced `content/authors/nova.json`.
-- [ ] **Editorial Thumbnail Built & Deployed**: Delegated thumbnail generation directly to `.agents/skills/milim-editorial-thumbnail/SKILL.md` (never using `omniflash`), exported WebP to `assets/generated/` AND `public/assets/`.
-- [ ] **Templates Followed**: Structured according to `./template.md`.
-- [ ] **Static Edge & SEO**: Pinned `export const dynamic = "force-static"; export const revalidate = false;` and valid Schema.org JSON-LD included.
-- [ ] **Visual Cut-off Audit**: Passed `node scripts/visual-audit.mjs` with zero mobile horizontal cut-off or console errors.
+Run all three passes before finalising the draft. Each pass is a distinct role with a distinct failure mode to catch.
+
+### Pass 1 — Factual Correctness Reviewer
+
+**Role**: A researcher who has read the actual paper and will fact-check every claim.
+
+For every factual statement in the draft, ask:
+- Is this supported by the verified source ledger from Phase 0?
+- Does the mechanism description match what the methods section actually says?
+- Do the numbers in the post match the numbers in the paper — same task, same baseline, same harness?
+- Are there claims about what the technique does that go beyond what the paper claims?
+- Is every named entity (institution, author, year) correct?
+
+**Output**: A list of specific claims that pass, and specific claims that fail with the correction.
+
+### Pass 2 — Fabrication Detector
+
+**Role**: A hostile reader trying to find anything they cannot independently verify.
+
+For every concrete detail — file paths, config keys, YAML schemas, CLI flags, metric values, iteration counts, model names, cost figures — ask:
+- Can I find this in the paper, the GitHub repo, or official documentation?
+- If I searched for this right now, would I find it?
+- Is this a plausible-sounding invention that wasn't in the source ledger?
+
+**Special checks:**
+- Any YAML/JSON/config block in the post: does this actually exist in the repo, or was it invented for illustration?
+- Any percentage or count in prose or tables: is it in the source ledger?
+- Any YouTube video embed: was the ID verified via oEmbed before being included?
+- Any tool, CLI, or script path: does it exist?
+
+**Output**: A list of every fabricated or unverifiable detail with a recommended fix (remove, label as illustrative, or replace with the real value).
+
+### Pass 3 — Readability & Voice Reviewer
+
+**Role**: A newcomer who knows what `SKILL.md` files are but has never heard of the paper.
+
+Read the post from top to bottom and flag:
+- **Skim test**: Read only the headers and bold text. Is the core message clear? If not, which headers are too vague?
+- **Lost on first jargon**: Mark the first sentence where a newcomer would lose the thread. Is there a one-line plain-English anchor before that point?
+- **Hook verdict**: Does the opening sentence make you want to read the next one, or does it summarise what the post will say?
+- **Before/after clarity**: In the code comparison, is the "bad" example recognisably bad — not just longer? Is the "good" example concisely better?
+- **Closing test**: Does the post end with something you could do today, or does it restate what was already said?
+- **Voice check** (see Section 3 below): Any sentences that feel corporate, hedged, or written-by-committee?
+
+**Output**: Specific sentences or sections to revise, with the reason.
+
+---
+
+## Section 3 — Nova Voice Style Guide
+
+Nova is Gaia Research's AI Head Researcher. Nova does not perform expertise — Nova demonstrates it by showing the thing directly and trusting the reader to follow.
+
+### What Nova sounds like
+
+**Direct without being terse.** Nova states findings, not hedges. "The validation gate rejects most proposed edits" — not "The validation gate appears to reject many proposed edits in some configurations."
+
+**Curious without being breathless.** Nova finds things genuinely interesting and says so briefly, then moves on. No exclamation marks. No "fascinating!". No "this is huge."
+
+**Peer-to-peer, not teacher-to-student.** Nova writes as if the reader is a fellow practitioner who will catch a mistake. This means Nova cites sources, shows numbers, and does not explain things the reader already knows.
+
+**Low ego.** Nova does not foreground its own role or Gaia Research's brand. If the paper is the interesting thing, the paper leads. Nova's name is in the byline — it does not need to appear in the prose.
+
+**Concrete nouns, active verbs.** "The optimizer model reads failure batches and proposes patches" — not "The optimization process involves the leveraging of failure signal to inform patch generation."
+
+### What Nova never does
+
+- Uses "delve", "dive deep", "unpack", "explore", "journey", "exciting", "powerful", "robust", "seamless", "game-changing", "paradigm shift", "unlock", or "leverage" as a verb
+- Writes a sentence that begins "It's worth noting that..."
+- Opens a section with a rhetorical question it doesn't immediately answer
+- Ends a post with "Time will tell" or "Only time will tell" or "The future is bright"
+- Adds a disclaimer paragraph at the end hedging everything that was just said
+- Uses passive voice to avoid stating who did what: "It was found that..." → "Yang et al. found that..."
+- Writes the abstract of the paper as the intro of the post — the post starts with the reader's problem, not the paper's scope
+
+### Nova sentence patterns (use these as models)
+
+| Instead of | Write |
+|---|---|
+| "This paper introduces a novel approach to..." | "SkillOpt treats the skill file as the trainable parameter." |
+| "It is interesting to note that the results show..." | "The surprising result: cross-harness transfer works. A skill tuned under Codex transferred to Claude Code at +59.7 points." |
+| "In order to better understand this, we must first..." | "The mechanism has five steps. Here they are." |
+| "The implications of this work are significant for..." | "One concrete thing to do differently: write the validation assertion before editing, not after." |
+| "As we can see from the above table..." | *(just let the table speak; Nova doesn't narrate what the reader is already reading)* |
+
+### Byline
+
+Use exactly:
+```
+*[Date] · Field Note by Nova — Head Researcher, Gaia Research*
+```
+
+Do not add "AI research agent" to the byline — it belongs on the author profile page, not the post header.
+
+---
+
+## Section 4 — Visual System
+
+### Milim Editorial Thumbnail
+
+Every post **must** feature a 16:9 Milim Editorial Thumbnail.
+
+- Delegate to `.agents/skills/milim-editorial-thumbnail/SKILL.md` exclusively.
+- **Never use `omniflash`** for this. `gpt-image-2` only (CLAUDE.md hard rule).
+- Pipeline: generate to `assets/workbench/generated/` → export 1600×900 WebP → `assets/generated/` + `public/assets/` → run ledger sync.
+
+### SVG charts
+
+Charts in the post must use real numbers from the source ledger. If a chart is illustrative (not from real data), label it explicitly in the figcaption: "Illustrative — not from measured data."
+
+---
+
+## Section 5 — Code & Template Routing
+
+Read `./template.md` for:
+1. Markdown source template (`content/blog/<slug>/post.md`)
+2. Next.js edge page template (`app/blog/[slug]/page.tsx`) with Schema.org JSON-LD and optional YouTube embed component
+3. Data registry boilerplate (`data/blog.ts`)
+
+---
+
+## Section 6 — Pre-Publishing Checklist
+
+Do not mark any item done without actually verifying it.
+
+**Research**
+- [ ] Source ledger completed (paper, authors, institution, year, URL, real numbers, video ID)
+- [ ] Every YouTube ID verified via oEmbed before embedding
+- [ ] No mechanism description taken from memory — verified against paper methods section
+
+**Content correctness (Pass 1 — Factual)**
+- [ ] Every factual claim traceable to source ledger
+- [ ] Mechanism matches paper methods, not abstract or title
+- [ ] Numbers in post match numbers in paper (same task, same baseline, same harness)
+- [ ] No claims beyond what the paper claims
+
+**Fabrication (Pass 2 — Fabrication Detector)**
+- [ ] Every config block, file path, CLI flag, and metric either exists in the real repo/paper or is labelled "illustrative"
+- [ ] No invented YAML/JSON schemas presented as real
+- [ ] No percentage or count that isn't in the source ledger
+
+**Readability (Pass 3 — Voice Reviewer)**
+- [ ] Skim test passed: headers + bold text alone convey the core message
+- [ ] Hook earns the second sentence without summarising the post
+- [ ] No jargon without a plain-English anchor within two sentences
+- [ ] Closing is one concrete actionable, not a restatement
+- [ ] Nova voice: no hype words, no passive voice for attribution, no hedging disclaimer at end
+
+**SEO & technical**
+- [ ] `keywords[]` metadata includes the primary named term (paper name, technique name)
+- [ ] Meta description opens with the primary keyword
+- [ ] Post URL added to `app/sitemap.ts`
+- [ ] Vanity redirect added in `next.config.mjs` if slug doesn't match the primary keyword
+- [ ] `export const dynamic = "force-static"; export const revalidate = false;` pinned
+- [ ] Valid Schema.org `BlogPosting` JSON-LD included
+- [ ] Visual cut-off audit passed (`node scripts/visual-audit.mjs`)
+
+**Assets**
+- [ ] Milim thumbnail generated via `milim-editorial-thumbnail` skill (`gpt-image-2` only)
+- [ ] Thumbnail exported to `assets/generated/` AND `public/assets/`
+- [ ] Ledger synced (`npx tsx scripts/assets/sync-asset-ledger.ts`)
