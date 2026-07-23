@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "assets/workbench/generated/skill-evals-observatory-screenprint-v01.png",
+    "sha256": "5b96e5a09958a353e63d67e6c0a2b466e42e0a7b886c04e256082d7d38d9f439",
+    "dimensions": {
+      "width": 1672,
+      "height": 941,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/skill-evals-editorial-thumbnail.webp",
+      "format": "webp",
+      "width": 1600,
+      "height": 900,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 90,
+      "sha256": "b3ff0ed4decf8c66fa603abfa6c88392daec781467def964b261da82794c9d0e",
+      "bytes": 292260
+    }
+  ],
+  "timestamp": "2026-07-22T12:58:02.314Z"
+}

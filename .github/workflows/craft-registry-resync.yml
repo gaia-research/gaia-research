@@ -1,0 +1,89 @@
+name: craft-registry-resync
+
+# Scheduled resync of data/craft/* from the live gaia-skill-tree registry.
+#
+# PR-not-commit: this workflow NEVER commits directly to a protected branch.
+# It regenerates data/craft/* against the live registry, runs the sanity gate
+# (scripts/craft/sync-skill-tree.ts's assertRegistryShape()) and the test
+# suite, then opens (or updates) a PR into `staging` via
+# peter-evans/create-pull-request — which no-ops if nothing drifted. A human
+# must review the data diff by hand before merge (see epic #89 / #85 and
+# docs/plans/epic-89-sub-85-registry-sync-repair-plan.md §9 — this is a
+# non-negotiable gate, not a suggestion).
+#
+# workflow_dispatch exists so the FIRST automated run is human-initiated and
+# human-reviewed before the daily cron is trusted.
+
+on:
+  schedule:
+    - cron: '17 6 * * *'      # daily 06:17 UTC (off the top of the hour)
+  workflow_dispatch: {}        # manual trigger for the first human-reviewed run
+
+permissions:
+  contents: write              # push the resync branch
+  pull-requests: write         # open the PR
+
+jobs:
+  resync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gaia-research (staging)
+        uses: actions/checkout@v4
+        with:
+          ref: staging          # base the diff on staging, not main
+
+      - name: Checkout gaia-skill-tree (read-only)
+        uses: actions/checkout@v4
+        with:
+          repository: gaia-research/gaia-skill-tree
+          ref: main
+          path: _skilltree
+          # Sibling is a separate repo — the default GITHUB_TOKEN can't read
+          # it. Needs a read-only PAT or GitHub App install stored as
+          # GAIA_SKILL_TREE_RO_TOKEN. Never push to the sibling (ecosystem
+          # boundary — see this repo's CLAUDE.md).
+          token: ${{ secrets.GAIA_SKILL_TREE_RO_TOKEN }}
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Regenerate craft data
+        env:
+          GAIA_SKILL_TREE_REGISTRY: ${{ github.workspace }}/_skilltree/registry
+        run: npx tsx scripts/craft/sync-skill-tree.ts   # sanity gate aborts the job on drift
+
+      - name: Type-check (tsc --noEmit)
+        run: npx tsc --noEmit
+
+      - name: Gate — tests must pass on regenerated data
+        run: npm run test
+
+      - name: Open PR if data drifted
+        uses: peter-evans/create-pull-request@v6
+        with:
+          # Use a PAT (not the default GITHUB_TOKEN) so craft-ci.yml actually
+          # runs on the resync PR — PRs opened by GITHUB_TOKEN don't trigger
+          # other workflows. Falls back to GAIA_SKILL_TREE_RO_TOKEN if a
+          # dedicated PAT secret isn't provisioned; the reviewer should
+          # re-run CI by hand if neither is set.
+          token: ${{ secrets.CRAFT_RESYNC_PR_TOKEN || secrets.GAIA_SKILL_TREE_RO_TOKEN }}
+          base: staging
+          branch: chore/registry-resync
+          add-paths: data/craft/**
+          commit-message: 'chore(craft): resync skill-tree registry snapshot'
+          title: 'chore(craft): registry resync (automated)'
+          body: |
+            Automated resync of data/craft/* from the live gaia-skill-tree registry.
+
+            ⚠️ HUMAN GATE: review the data diff by hand before merge — green CI
+            is necessary but **not** sufficient (see epic #89 / #85 and
+            docs/plans/epic-89-sub-85-registry-sync-repair-plan.md §9). Eyeball
+            the counts and a sample of named records against the live registry
+            before approving.
+          labels: automated, registry-sync

@@ -162,22 +162,6 @@ export function AboutModal({ open, onClose }: AboutModalProps) {
             </div>
 
             <div className="craft-credit-item" role="listitem">
-              <span className="craft-credit-icon" aria-hidden="true">⚡</span>
-              <p className="craft-credit-text">
-                <strong>Built with pi</strong>
-                Bootstrapped and iterated with the{" "}
-                <a
-                  href="https://github.com/earendil-works/pi"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  pi coding agent
-                </a>{" "}
-                harness, while Milim was busy being aggressively excited about skill combos.
-              </p>
-            </div>
-
-            <div className="craft-credit-item" role="listitem">
               <span className="craft-credit-icon" aria-hidden="true">🔬</span>
               <p className="craft-credit-text">
                 <strong>Gaia Research Team</strong>

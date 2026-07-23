@@ -1,0 +1,4 @@
+interface:
+  display_name: "Milim Editorial Thumbnail"
+  short_description: "Create quiet Milim editorial thumbnails"
+  default_prompt: "Use $milim-editorial-thumbnail to create a calm Gaia editorial thumbnail."

@@ -4,11 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Orient before you build (branch & merge state)
 
-**Always confirm which design line / branch you are actually on before building on top of it.** This repo has multiple parallel "North Star" directions that are easy to confuse, and a branch showing as "merged" on GitHub may have merged into *another open PR branch*, not `main`. Burned once (see the Context Diet re-shell) by assuming `main` was the intended surface.
+**Always confirm which line / branch you are actually on before building on top of it, and sync `main` first.** Two recurring traps in this repo:
 
-Before starting UI/design work, run this orientation check:
+1. **Stale local `main`.** Work here moves fast across many small PRs — a local `main` can be *dozens* of commits behind `origin/main`, so infrastructure the task assumes (CI workflows, gate scripts, ledger data) looks "missing" when it is really just un-pulled. **Always `git fetch` + fast-forward `main` before you start**, and branch off the fresh `main`.
+2. **A "merged" PR may have merged into another open PR branch, not `main`.** Verify the base before treating a merge as live.
+
+Orientation check before starting:
 
 ```bash
+git fetch origin main && git merge --ff-only origin/main    # never build on a stale main
 gh pr list --state all --limit 20 --json number,title,headRefName,state,baseRefName
 git log --oneline --first-parent origin/main -15
 # For any PR that claims to be "merged", verify it actually reached main:
@@ -16,7 +20,9 @@ gh pr view <n> --json baseRefName,mergeCommit -q '.baseRefName'
 git merge-base --is-ancestor <mergeCommitSha> origin/main && echo "on main" || echo "NOT on main"
 ```
 
-Known lineage (as of 2026-07): `feat/north-star-live-v2` (PR #22, "North Star Live", the intended **V2** direction — 2.5D Milim / clean-room / mixed-media) merged into the **still-open** `chore/add-preview-skill` (PR #21), **not** into `main`. `feat/north-star-fidelity-v1` (PR #23, static semantic **V1**) was **closed, never merged**. What is on `main` today is the PR #20 scaffold (`feat/next-app-router-impeccable-craft`). Do not treat the current `main` homepage as the approved V2 target — confirm the current direction with the user if in doubt.
+**Decisions are ratified, not inferred.** [`founder/RATIFICATION.md`](founder/RATIFICATION.md) is the single source of truth — where any other doc (including `VISION.md` or older plans) disagrees, that doc wins and the other is pending rewrite. Read the relevant LOCKED/LEANING/OPEN entries before designing on top of a question; do not invent an answer to an OPEN item — flag it.
+
+**Current active line (as of 2026-07):** the **Skill Heaven / Skill Hell** MVP. Research, benchmarks (census / ledger / capability matrix under `scripts/hell-heaven-bench/` + `content/reports/hh-benchmark/` + `docs/labs/harness-capability-matrix.md`), and the site live **here**; the shippable product — the shared engine + per-harness doors (`claude-heaven`, `pi-heaven`, …) — lives in the **separate `gaia-research/skill-heaven` monorepo**, which doubles as the Claude Code plugin marketplace (RATIFICATION N9). The homepage north-star question is settled: the Next.js site on `main` **is** the live site at `research.gaiaskilltree.com`. When in doubt about the current direction, confirm with the user.
 
 ## Repository Purpose
 
@@ -87,6 +93,18 @@ gaia-research  ──►  marketing-tasks  ──►  gaia-skill-tree
 - GSB accepts `version` values `"1.0"`, `"1"`, or `"v1"` only.
 
 If you change the schema JSON files, mirror the change in the validator (or vice versa) — they can silently drift.
+
+### Craft registry sync (`data/craft/*`) — current upstream schema assumptions
+
+`scripts/craft/sync-skill-tree.ts` regenerates `data/craft/{skills,recipes,named-index,contributors}.json` from a **READ-ONLY** sibling `gaia-skill-tree/registry` checkout (path resolved from `GAIA_SKILL_TREE_REGISTRY` env, or a fixed relative sibling path as fallback). `data/craft/emoji-map.json` is hand-maintained and never regenerated. Verified against `gaia-skill-tree @ dev/yggdrasil-ii-staging` (commit `b572c7dcc`) — **Yggdrasil II taxonomy**:
+
+- **Named skills** live at `registry/named/<contributor>/<slug>.md` (YAML frontmatter per file, contract in `registry/schema/namedSkill.schema.json`) — **not** the deleted `registry/named-skills.json`, and **not** `registry/real-skills.json` (a different, staler provenance catalog — do not use it as a source). Unchanged by Yggdrasil II (280 files, same schema).
+- **Generic skill nodes** live at `registry/nodes/{basic,fusion}/*.json` only. The Yggdrasil II taxonomy migration (#997, metaEpoch `yggdrasil-ii`) replaced the old `{basic,extra,unique,ultimate}` tiers with just `basic` (~113 files) and `fusion` (~130 files). `extra`, `unique`, and `ultimate` no longer exist on disk. Fusion nodes carry inline `prerequisites: string[]` (prerequisite skill IDs) — the authoritative fusion-edge source (more complete than `combinations.md`).
+- **Fusion recipes** live at `registry/combinations.md` (unchanged table shape). On ygg2 staging this table is intentionally empty — all fusion edges migrated to inline `prerequisites` on fusion nodes. The sync gate accepts either source.
+
+The sync script has a fail-loud `assertRegistryShape()` gate (floors, known-skill canaries, and a delta guard against the previously-committed snapshot) that **aborts before writing any output** if the registry shape looks broken — this is the mechanism meant to prevent ever silently regenerating near-empty data again (see `docs/plans/epic-89-sub-85-registry-sync-repair-plan.md` for the full incident writeup and mapping). If you touch this mapping, update the header comment in `sync-skill-tree.ts` and this note together — they document the same contract and can silently drift apart.
+
+Do **not** hand-edit `data/craft/*.json` — they must always come from running the sync script.
 
 ## Node / npm version contract (CI & local must match)
 

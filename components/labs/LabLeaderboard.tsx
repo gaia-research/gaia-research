@@ -7,8 +7,8 @@
 
 import { useEffect, useState } from "react";
 import { fetchLeaderboard } from "@/lib/submissions/client";
-import { isSupabaseConfigured } from "@/lib/supabase/client";
 import type { SubmissionKind, SubmissionRow } from "@/lib/submissions/types";
+import { InfoTip } from "./InfoTip";
 
 const num = (n: number) => n.toLocaleString("en-US");
 
@@ -29,14 +29,10 @@ export function LabLeaderboard({
   refreshKey?: number;
 }) {
   const [rows, setRows] = useState<SubmissionRow[]>([]);
-  const [loading, setLoading] = useState(isSupabaseConfigured);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let alive = true;
-    if (!isSupabaseConfigured) {
-      setLoading(false);
-      return;
-    }
     setLoading(true);
     fetchLeaderboard(kind, { orderBy: "reduction_pct", limit }).then((data) => {
       if (alive) {
@@ -51,14 +47,14 @@ export function LabLeaderboard({
 
   return (
     <section className="lab-leaderboard">
-      <span className="section-kicker">LEADERBOARD · BEAT LAB 001 ({beatThreshold}%)</span>
-      <p className="lb-disclaimer">
-        Community submissions · self-reported anonymized metrics from the local estimator, ranked
-        against Lab 001&apos;s {beatThreshold}% result. Early days — the board is still filling up.
-      </p>
-      {!isSupabaseConfigured ? (
-        <></>
-      ) : loading ? (
+      <div className="lb-heading">
+        <span className="section-kicker">COMMUNITY RESULTS</span>
+        <InfoTip label="About leaderboard results">
+          Server-calculated results from public GitHub before/after revisions, ranked against Lab
+          001&apos;s {beatThreshold}% result.
+        </InfoTip>
+      </div>
+      {loading ? (
         <p className="pending">Loading…</p>
       ) : rows.length === 0 ? (
         <p className="pending">No submissions yet. Be the first to beat {beatThreshold}%.</p>
@@ -89,7 +85,7 @@ export function LabLeaderboard({
                     <td>
                       {num(r.payload.tokensBefore)} → {num(r.payload.tokensAfter)}
                     </td>
-                    <td>{r.payload.strategyKey ?? "—"}</td>
+                    <td>{r.payload.verified ? "Verified public" : "Legacy"}</td>
                     <td>{fmtDate(r.created_at)}</td>
                   </tr>
                 );

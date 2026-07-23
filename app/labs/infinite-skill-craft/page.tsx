@@ -25,33 +25,27 @@ export default function InfiniteSkillCraftPage() {
             CraftFaq is below the canvas. Milim companion comes from
             the root layout (auto-detects craft context). */}
 
-        <section className="lab-hero craft-hero">
-          <div>
-            <p className="signal">
-              <span /> LAB 002 / INFINITE SKILL CRAFT
+        <header className="craft-title-bar">
+          <div className="craft-title-bar-inner">
+            <p className="craft-title-kicker">
+              <span className="signal"><span />LAB 002</span>
             </p>
-            <h1>
-              Fuse two skills.<br />
-              See what <em>hatches.</em>
+            <h1 className="craft-title-h1">
+              Infinite Skill Craft
             </h1>
-            <p>
-              Drop skills onto a free-floating canvas, drag two together, and the forge
-              runs the fusion. Canonical results unlock a real page in the Gaia Skill Tree —
-              everything else is a fresh experiment for you to judge, boss.
-            </p>
-            <p className="craft-homage">
-              A homage to{" "}
+            <p className="craft-title-sub">
+              Fuse two skills — see what <em>hatches</em>.{" "}
               <a
+                className="craft-title-homage"
                 href="https://neal.fun/infinite-craft/"
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                Infinite Craft
-              </a>{" "}
-              by Neal Agarwal — rebuilt from scratch for the skill tree.
+                A homage to Neal Agarwal ↗
+              </a>
             </p>
           </div>
-        </section>
+        </header>
 
         {/* Chrome bar: traffic counter + "What's a skill" + About buttons + modals */}
         <CraftChromeBar />

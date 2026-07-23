@@ -1,29 +1,17 @@
 {
-  "total": 37,
+  "total": 47,
   "contributors": {
-    "garrytan": {
-      "count": 47
-    },
     "0xdarkmatter": {
       "count": 1
     },
     "Manavarya09": {
       "count": 1
     },
+    "Taoidle": {
+      "count": 1
+    },
     "addy-osmani": {
       "count": 9
-    },
-    "gsd-build": {
-      "count": 6
-    },
-    "ruvnet": {
-      "count": 48
-    },
-    "mattpocock": {
-      "count": 34
-    },
-    "obra": {
-      "count": 12
     },
     "anthropic": {
       "count": 2
@@ -37,53 +25,68 @@
     "browserbase": {
       "count": 1
     },
-    "gooseworks": {
+    "caioribeiroclw-pixel": {
       "count": 1
     },
-    "caioribeiroclw-pixel": {
+    "changkun": {
       "count": 1
     },
     "devin-ai": {
       "count": 1
     },
+    "favorchurch": {
+      "count": 9
+    },
     "firecrawl": {
-      "count": 1
+      "count": 6
     },
     "gaia-research": {
       "count": 2
     },
-    "intelligentcode-ai": {
-      "count": 8
+    "gaiabot": {
+      "count": 2
     },
-    "pbakaus": {
-      "count": 1
+    "garrytan": {
+      "count": 47
     },
-    "martin-stepanoski": {
-      "count": 1
-    },
-    "mbtiongson1": {
-      "count": 12
-    },
-    "stanfordnlp": {
-      "count": 1
-    },
-    "spring-ai": {
+    "getagentseal": {
       "count": 1
     },
     "glincker": {
       "count": 1
     },
-    "getagentseal": {
+    "google-deepmind": {
+      "count": 37
+    },
+    "gooseworks": {
       "count": 1
+    },
+    "gsd-build": {
+      "count": 6
     },
     "huggingface": {
       "count": 7
     },
+    "intelligentcode-ai": {
+      "count": 8
+    },
     "karpathy": {
       "count": 1
     },
+    "langgenius": {
+      "count": 5
+    },
     "laravel": {
       "count": 1
+    },
+    "martin-stepanoski": {
+      "count": 1
+    },
+    "mattpocock": {
+      "count": 34
+    },
+    "mbtiongson1": {
+      "count": 12
     },
     "nexu-io": {
       "count": 1
@@ -91,16 +94,37 @@
     "nousresearch": {
       "count": 1
     },
+    "obra": {
+      "count": 12
+    },
     "openai": {
       "count": 2
     },
+    "pbakaus": {
+      "count": 1
+    },
+    "pexp13": {
+      "count": 1
+    },
     "rico-favor": {
       "count": 1
+    },
+    "ruvnet": {
+      "count": 48
     },
     "safishamsi": {
       "count": 1
     },
     "santifer": {
+      "count": 1
+    },
+    "sickn33": {
+      "count": 3
+    },
+    "spring-ai": {
+      "count": 1
+    },
+    "stanfordnlp": {
       "count": 1
     },
     "upsonic": {
@@ -109,7 +133,13 @@
     "vercel": {
       "count": 1
     },
+    "xquik-dev": {
+      "count": 1
+    },
     "yonatangross": {
+      "count": 1
+    },
+    "yundu-ai": {
       "count": 1
     }
   }
