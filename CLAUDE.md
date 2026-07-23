@@ -4,11 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Orient before you build (branch & merge state)
 
-**Always confirm which design line / branch you are actually on before building on top of it.** This repo has multiple parallel "North Star" directions that are easy to confuse, and a branch showing as "merged" on GitHub may have merged into *another open PR branch*, not `main`. Burned once (see the Context Diet re-shell) by assuming `main` was the intended surface.
+**Always confirm which line / branch you are actually on before building on top of it, and sync `main` first.** Two recurring traps in this repo:
 
-Before starting UI/design work, run this orientation check:
+1. **Stale local `main`.** Work here moves fast across many small PRs — a local `main` can be *dozens* of commits behind `origin/main`, so infrastructure the task assumes (CI workflows, gate scripts, ledger data) looks "missing" when it is really just un-pulled. **Always `git fetch` + fast-forward `main` before you start**, and branch off the fresh `main`.
+2. **A "merged" PR may have merged into another open PR branch, not `main`.** Verify the base before treating a merge as live.
+
+Orientation check before starting:
 
 ```bash
+git fetch origin main && git merge --ff-only origin/main    # never build on a stale main
 gh pr list --state all --limit 20 --json number,title,headRefName,state,baseRefName
 git log --oneline --first-parent origin/main -15
 # For any PR that claims to be "merged", verify it actually reached main:
@@ -16,7 +20,9 @@ gh pr view <n> --json baseRefName,mergeCommit -q '.baseRefName'
 git merge-base --is-ancestor <mergeCommitSha> origin/main && echo "on main" || echo "NOT on main"
 ```
 
-Known lineage (as of 2026-07): `feat/north-star-live-v2` (PR #22, "North Star Live", the intended **V2** direction — 2.5D Milim / clean-room / mixed-media) merged into the **still-open** `chore/add-preview-skill` (PR #21), **not** into `main`. `feat/north-star-fidelity-v1` (PR #23, static semantic **V1**) was **closed, never merged**. What is on `main` today is the PR #20 scaffold (`feat/next-app-router-impeccable-craft`). Do not treat the current `main` homepage as the approved V2 target — confirm the current direction with the user if in doubt.
+**Decisions are ratified, not inferred.** [`founder/RATIFICATION.md`](founder/RATIFICATION.md) is the single source of truth — where any other doc (including `VISION.md` or older plans) disagrees, that doc wins and the other is pending rewrite. Read the relevant LOCKED/LEANING/OPEN entries before designing on top of a question; do not invent an answer to an OPEN item — flag it.
+
+**Current active line (as of 2026-07):** the **Skill Heaven / Skill Hell** MVP. Research, benchmarks (census / ledger / capability matrix under `scripts/hell-heaven-bench/` + `content/reports/hh-benchmark/` + `docs/labs/harness-capability-matrix.md`), and the site live **here**; the shippable product — the shared engine + per-harness doors (`claude-heaven`, `pi-heaven`, …) — lives in the **separate `gaia-research/skill-heaven` monorepo**, which doubles as the Claude Code plugin marketplace (RATIFICATION N9). The homepage north-star question is settled: the Next.js site on `main` **is** the live site at `research.gaiaskilltree.com`. When in doubt about the current direction, confirm with the user.
 
 ## Repository Purpose
 

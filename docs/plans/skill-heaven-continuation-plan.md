@@ -125,7 +125,7 @@ copy it blocks changes rather than ships anyway.
 | **(a) in-session recomposition** | Can `--resume`/`--fork-session` with a new profile recompose *subtractively* at boot? | ✅ **RESOLVED NEGATIVE (2026-07-22, 2.1.216)** — subtractive is launcher-locked; user-scope survives every continued session. Matrix gate (a); **D12**. | (unblocked) `/skill-heaven` copy; WS4 step 2 |
 | **(b) statusline API** | Segment mechanism, input JSON, and **where the standing-dose number comes from** (census vs. live) | ✅ **RESOLVED (2026-07-22)** — census-derived; `context_window` counts are running-usage, not standing. Matrix gate (b). | WS4 step 1 statusline segment |
 | **(c) plugin self-dose (D4)** | Standing tokens the `/skill-heaven` + `/skill-hell` commands themselves add | ✅ ≈57 tok/session (matrix gate (c)) | WS4 steps 2–3 copy; README claims |
-| **(d) marketplace-from-monorepo** | Multi-plugin subdirectory + marketplace manifest layout; `claude-heaven` installable from the repo | ⏳ pending WS2 | WS2 marketplace claim; install docs |
+| **(d) marketplace-from-monorepo** | Multi-plugin subdirectory + marketplace manifest layout; `claude-heaven` installable from the repo | ✅ **RESOLVED POSITIVE (2026-07-23, 2.1.216)** — `marketplace add` + `install claude-heaven@skill-heaven` succeed from the monorepo; relative `source` resolves. Matrix gate (d); **N9/D10**. | (unblocked) WS4 slice 1; install docs |
 | **(e) behavioral restraint (D13)** | Does a heaven-native skill (`grill-me` class) reliably suppress *use* of in-context skills without a physical purge? | ❓ **UNVERIFIED — research track (gaia-skill-tree)**. Matrix gate (e). | the below-vanilla behavioral notch in WS4 slider copy |
 
 Gates (a)–(c) are **resolved** (matrix rows landed). Gate (a) came back

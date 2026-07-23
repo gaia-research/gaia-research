@@ -54,6 +54,7 @@ import {
   ContributorCollection,
   type UnlockedBuilder,
 } from "./ContributorCollection";
+import { CraftTooltip } from "./CraftTooltip";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -238,6 +239,8 @@ export function CraftCanvas() {
   buildersRef.current = builders;
   const [buildersOpen, setBuildersOpen] = useState(false);
   const [buildersFresh, setBuildersFresh] = useState(false);
+  const [resetArmed, setResetArmed] = useState(false);
+  const resetArmTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Dedupe found-count by the distinct canonical skill NAMES seen per builder,
   // so re-fusing the same skill never double-counts. Rebuilt on hydrate.
   const builderSkillsRef = useRef<Record<string, Set<string>>>({});
@@ -349,6 +352,7 @@ export function CraftCanvas() {
     return () => {
       if (toastTimer.current) clearTimeout(toastTimer.current);
       if (freshTimer.current) clearTimeout(freshTimer.current);
+      if (resetArmTimer.current) clearTimeout(resetArmTimer.current);
     };
   }, []);
 
@@ -1029,21 +1033,30 @@ export function CraftCanvas() {
   }, [flashToast, announce]);
 
   // ── Reset progress (back to seeds; clears discoveries + curses + canvas) ────
+  // Two-step: first click arms it (4 s window), second click fires. Auto-disarms.
   const resetProgress = useCallback(() => {
+    if (!resetArmed) {
+      setResetArmed(true);
+      if (resetArmTimer.current) clearTimeout(resetArmTimer.current);
+      resetArmTimer.current = setTimeout(() => setResetArmed(false), 4000);
+      return;
+    }
+    // Confirmed — fire.
+    if (resetArmTimer.current) clearTimeout(resetArmTimer.current);
+    setResetArmed(false);
     dispatch({ type: "reset" });
     setActiveCurses([]);
     setSelected([]);
     setNodes([]);
     setPopover(null);
     setQuery("");
-    // Reset progress also empties the Builders collection (Clear canvas does not).
     setBuilders({});
     setBuildersFresh(false);
     builderSkillsRef.current = {};
     spawnCount.current = 0;
-    flashToast("Progress reset — back to the four primitives, boss.");
+    flashToast("💀 Everything wiped — back to the four primitives, boss.");
     announce("Progress reset to the four seed skills.");
-  }, [flashToast, announce]);
+  }, [resetArmed, flashToast, announce]);
 
   const deleteInventoryCard = useCallback((id: string) => {
     if (SEED_IDS.has(id)) return;
@@ -1083,9 +1096,11 @@ export function CraftCanvas() {
           <header className="craft-sidebar-head">
             <div>
               <p className="craft-kicker">Inventory</p>
-              <p className="craft-count" aria-live="off">
-                <b>{discoveredCount}</b> discoveries
-              </p>
+              <CraftTooltip content="Total skills unlocked in your personal inventory. Fusing skills expands your tree!" align="left" as="div">
+                <p className="craft-count" aria-live="off">
+                  <b>{discoveredCount}</b> discoveries
+                </p>
+              </CraftTooltip>
               <button
                 type="button"
                 className={`craft-builders-pill${buildersFresh ? " is-fresh" : ""}`}
@@ -1102,16 +1117,17 @@ export function CraftCanvas() {
               </button>
             </div>
             <div className="craft-curse-controls">
-              <button
-                type="button"
-                className="craft-cleanse"
-                onClick={cleanse}
-                disabled={activeCurses.length === 0}
-                title={activeCurses.length === 0 ? CLEANSE_INACTIVE_LABEL : CLEANSE_LABEL}
-                aria-label={activeCurses.length === 0 ? CLEANSE_INACTIVE_LABEL : CLEANSE_LABEL}
-              >
-                {CLEANSE_LABEL}
-              </button>
+              <CraftTooltip content={activeCurses.length === 0 ? "No active curses to cleanse" : "Cleanse active curse gremlins from your canvas"}>
+                <button
+                  type="button"
+                  className="craft-cleanse"
+                  onClick={cleanse}
+                  disabled={activeCurses.length === 0}
+                  aria-label={activeCurses.length === 0 ? CLEANSE_INACTIVE_LABEL : CLEANSE_LABEL}
+                >
+                  {CLEANSE_LABEL}
+                </button>
+              </CraftTooltip>
             </div>
           </header>
 
@@ -1243,27 +1259,36 @@ export function CraftCanvas() {
               <b>tap</b> a result for its details. Curses are cosmetic and always cleansable.
             </p>
             <div className="craft-foot-controls">
-              <button
-                type="button"
-                className="craft-tidy"
-                onClick={tidyCanvas}
-                disabled={nodes.length === 0}
-                title="Sweep experimental and non-skill cards off the canvas"
-              >
-                Tidy canvas
-              </button>
-              <button
-                type="button"
-                className="craft-clear"
-                onClick={clearCanvas}
-                disabled={nodes.length === 0}
-                title="Remove everything from the canvas (keeps your discoveries)"
-              >
-                Clear canvas
-              </button>
-              <button type="button" className="craft-reset" onClick={resetProgress}>
-                Reset progress
-              </button>
+              <CraftTooltip content="Sweep experimental 🧪 and noise cards off the canvas. Canonical ✦ and seed skills stay.">
+                <button
+                  type="button"
+                  className="craft-tidy"
+                  onClick={tidyCanvas}
+                  disabled={nodes.length === 0}
+                >
+                  Tidy canvas
+                </button>
+              </CraftTooltip>
+              <CraftTooltip content="Clear all instances off the canvas. Your inventory and discovered skills stay safe.">
+                <button
+                  type="button"
+                  className="craft-clear"
+                  onClick={clearCanvas}
+                  disabled={nodes.length === 0}
+                >
+                  Clear canvas
+                </button>
+              </CraftTooltip>
+              <CraftTooltip content={resetArmed ? "You sure, boss? Click again to wipe everything." : "Nuke everything — inventory, builders, canvas, curses. Back to 4 seeds."}>
+                <button
+                  type="button"
+                  className={`craft-reset${resetArmed ? " is-armed" : ""}`}
+                  onClick={resetProgress}
+                  aria-label={resetArmed ? "Confirm reset — wipes all progress" : "Reset all progress"}
+                >
+                  {resetArmed ? "Sure? Confirm reset ☠" : "Reset progress"}
+                </button>
+              </CraftTooltip>
             </div>
           </footer>
         </div>

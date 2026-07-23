@@ -25,6 +25,17 @@ export interface ContextDietPayload extends BasePayload {
   strategyKey?: string;
   /** optional, opt-in, sanitized display handle. */
   handle?: string;
+  verified: true;
+  evidence: {
+    beforeUrl: string;
+    afterUrl: string;
+  };
+}
+
+export interface ContextDietEvidenceRequest {
+  beforeUrl: string;
+  afterUrl: string;
+  handle?: string;
 }
 
 // Reserved for future consumers — declared for the union but not yet built.
