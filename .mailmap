@@ -1,0 +1,19 @@
+# .mailmap — canonical author/committer identity remapping.
+#
+# Remaps the compromised corporate SAP address to the canonical personal
+# identity for all of git's identity-aware tooling (git log --use-mailmap,
+# git shortlog -sne, git blame, and GitHub's contributor/blame views).
+#
+# This is a DISPLAY remap, not a history rewrite: commit SHAs are unchanged and
+# the raw address still exists in the object database. Chosen deliberately over
+# a history rewrite because (a) the address is spread across 15 commits already
+# published on origin/main, (b) rewriting would break the live epic-89 PR stack
+# and every downstream clone, and (c) GitHub retains the old objects via merged
+# PR records regardless, so a rewrite would pay maximum cost for an incomplete
+# scrub. See epic-89 review thread for the full analysis.
+#
+# Format: Proper-Name <proper-email> <commit-email>
+#         Proper-Name <proper-email> Commit-Name <commit-email>
+
+mbtiongson1 <marco.tngsn@gmail.com> <marcus.rafael.tiongson@sap.com>
+mbtiongson1 <marco.tngsn@gmail.com> Tiongson <marcus.rafael.tiongson@sap.com>
