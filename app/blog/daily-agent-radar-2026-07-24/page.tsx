@@ -92,7 +92,7 @@ function ParameterPerturbationFlowchart() {
       <figcaption className="text-sm font-semibold text-slate-300 mb-4">
         Figure 1. SkillOpt Optimization Loop: Rollouts → Optimizer Model → Validation Gate
       </figcaption>
-      <svg viewBox="0 0 640 180" role="img" aria-label="Zeroth-Order Perturbation Loop" className="w-full h-auto">
+      <svg viewBox="0 0 640 180" role="img" aria-label="SkillOpt Optimization Loop" className="w-full h-auto">
         <defs>
           <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
             <path d="M0,0 L0,6 L8,3 z" fill="#38bdf8" />
@@ -117,7 +117,7 @@ function ParameterPerturbationFlowchart() {
         <path d="M 555,125 C 555,165 100,165 100,125" fill="none" stroke="#ec4899" strokeWidth="1.5" strokeDasharray="4 4" />
       </svg>
       <p className="text-xs text-slate-400 mt-3">
-        Frozen agent runs task rollouts. Optimizer model proposes structured edits. Only edits clearing the validation gate (scoreₜₙₑᵘ &gt; scoreₜᵘⁱʳʳʳʳʳ) are written to the skill file.
+        Frozen agent runs task rollouts. Optimizer model proposes structured edits. Only candidate edits that beat the validation baseline (<code className="text-sky-300">score_candidate &gt; score_current</code>) are written to the skill file.
       </p>
     </figure>
   );
@@ -126,10 +126,20 @@ function ParameterPerturbationFlowchart() {
 function LossVsPrecisionConvergenceCurve() {
   return (
     <figure className="blog-figure my-8 p-4 sm:p-6 rounded-xl border border-slate-800 bg-slate-950/80 shadow-lg overflow-hidden">
-      <figcaption className="text-sm font-semibold text-slate-300 mb-4">
+      <figcaption className="text-sm font-semibold text-slate-300 mb-2">
         Figure 2. SkillOpt Task Accuracy — Baseline vs. Optimized (GPT-5.5, Direct Chat)
       </figcaption>
-      <svg viewBox="0 0 640 220" role="img" aria-label="SkillOpt Benchmark Results" className="w-full h-auto">
+      
+      <div className="flex flex-wrap items-center gap-4 text-xs font-mono my-3 text-slate-300">
+        <span className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded bg-pink-500/70 inline-block border border-pink-400/80" /> Baseline (Direct Chat)
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded bg-sky-400 inline-block border border-sky-300" /> SkillOpt (GPT-5.5)
+        </span>
+      </div>
+
+      <svg viewBox="0 0 640 225" role="img" aria-label="SkillOpt Benchmark Results" className="w-full h-auto">
         {/* Grid lines */}
         <line x1="60" y1="30" x2="600" y2="30" stroke="#1e293b" strokeDasharray="4 4" />
         <line x1="60" y1="80" x2="600" y2="80" stroke="#1e293b" strokeDasharray="4 4" />
@@ -150,6 +160,14 @@ function LossVsPrecisionConvergenceCurve() {
         <rect x="435" y="111" width="22" height="69" fill="#ec4899" opacity="0.6" rx="2" />
         <rect x="525" y="118" width="22" height="62" fill="#ec4899" opacity="0.6" rx="2" />
 
+        {/* Baseline numeric labels */}
+        <text x="86"  y="150" textAnchor="middle" fill="#ec4899" fontSize="9.5" fontFamily="monospace">41.8%</text>
+        <text x="176" y="142" textAnchor="middle" fill="#ec4899" fontSize="9.5" fontFamily="monospace">33.1%</text>
+        <text x="266" y="148" textAnchor="middle" fill="#ec4899" fontSize="9.5" fontFamily="monospace">37.6%</text>
+        <text x="356" y="108" textAnchor="middle" fill="#ec4899" fontSize="9.5" fontFamily="monospace">83.6%</text>
+        <text x="446" y="106" textAnchor="middle" fill="#ec4899" fontSize="9.5" fontFamily="monospace">78.8%</text>
+        <text x="536" y="113" textAnchor="middle" fill="#ec4899" fontSize="9.5" fontFamily="monospace">77.7%</text>
+
         {/* SkillOpt bars (sky blue) */}
         <rect x="100" y="44"  width="22" height="136" fill="#38bdf8" opacity="0.85" rx="2" />
         <rect x="190" y="38"  width="22" height="142" fill="#38bdf8" opacity="0.85" rx="2" />
@@ -158,22 +176,21 @@ function LossVsPrecisionConvergenceCurve() {
         <rect x="460" y="34"  width="22" height="146" fill="#38bdf8" opacity="0.85" rx="2" />
         <rect x="550" y="42"  width="22" height="138" fill="#38bdf8" opacity="0.85" rx="2" />
 
-        {/* X-axis task labels */}
-        <text x="86"  y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">Spreadsheet</text>
-        <text x="176" y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">OfficeQA</text>
-        <text x="266" y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">LiveMath</text>
-        <text x="356" y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">ALFWorld</text>
-        <text x="446" y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">DocVQA</text>
-        <text x="536" y="198" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">SearchQA</text>
+        {/* SkillOpt numeric labels */}
+        <text x="111" y="39"  textAnchor="middle" fill="#38bdf8" fontSize="9.5" fontWeight="bold" fontFamily="monospace">80.7%</text>
+        <text x="201" y="33"  textAnchor="middle" fill="#38bdf8" fontSize="9.5" fontWeight="bold" fontFamily="monospace">72.1%</text>
+        <text x="291" y="42"  textAnchor="middle" fill="#38bdf8" fontSize="9.5" fontWeight="bold" fontFamily="monospace">66.9%</text>
+        <text x="381" y="31"  textAnchor="middle" fill="#38bdf8" fontSize="9.5" fontWeight="bold" fontFamily="monospace">95.5%</text>
+        <text x="471" y="29"  textAnchor="middle" fill="#38bdf8" fontSize="9.5" fontWeight="bold" fontFamily="monospace">91.2%</text>
+        <text x="561" y="37"  textAnchor="middle" fill="#38bdf8" fontSize="9.5" fontWeight="bold" fontFamily="monospace">87.3%</text>
 
-        {/* Legend */}
-        <g transform="translate(420, 35)">
-          <rect x="0" y="0" width="150" height="46" rx="4" fill="#0f172a" stroke="#1e293b" />
-          <rect x="12" y="11" width="16" height="10" fill="#ec4899" opacity="0.6" rx="1" />
-          <text x="36" y="20" fill="#e2e8f0" fontSize="10" fontFamily="monospace">Baseline</text>
-          <rect x="12" y="27" width="16" height="10" fill="#38bdf8" opacity="0.85" rx="1" />
-          <text x="36" y="36" fill="#e2e8f0" fontSize="10" fontFamily="monospace">SkillOpt</text>
-        </g>
+        {/* X-axis task labels (centered under bar pairs) */}
+        <text x="98"  y="202" textAnchor="middle" fill="#94a3b8" fontSize="10.5" fontFamily="monospace">Spreadsheet</text>
+        <text x="188" y="202" textAnchor="middle" fill="#94a3b8" fontSize="10.5" fontFamily="monospace">OfficeQA</text>
+        <text x="278" y="202" textAnchor="middle" fill="#94a3b8" fontSize="10.5" fontFamily="monospace">LiveMath</text>
+        <text x="368" y="202" textAnchor="middle" fill="#94a3b8" fontSize="10.5" fontFamily="monospace">ALFWorld</text>
+        <text x="458" y="202" textAnchor="middle" fill="#94a3b8" fontSize="10.5" fontFamily="monospace">DocVQA</text>
+        <text x="548" y="202" textAnchor="middle" fill="#94a3b8" fontSize="10.5" fontFamily="monospace">SearchQA</text>
       </svg>
       <p className="text-xs text-slate-400 mt-3">
         Real benchmark results from the SkillOpt paper (Yang et al., Microsoft Research, 2026). Average lift of +23.5 points across six tasks in direct-chat mode.
@@ -233,6 +250,24 @@ export default function BlogPostPage() {
                   </table>
                 </div>
               ),
+              pre: ({ children, ...props }) => (
+                <pre className="overflow-x-auto my-6 p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm font-mono text-slate-200" {...props}>
+                  {children}
+                </pre>
+              ),
+              blockquote: ({ children, ...props }) => (
+                <blockquote className="border-l-2 border-sky-400 bg-slate-900/50 px-4 py-3 rounded-r-lg my-6 text-slate-300 italic" {...props}>
+                  {children}
+                </blockquote>
+              ),
+              code: ({ children, ...props }) => {
+                const text = Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "";
+                // If inside a pre block, react-markdown renders pre > code. Let's pass through if raw code block:
+                if (text.includes("\n")) {
+                  return <code {...props}>{children}</code>;
+                }
+                return <code className="bg-slate-900 border border-slate-800 text-sky-300 rounded px-1.5 py-0.5 text-xs font-mono" {...props}>{children}</code>;
+              },
               p: ({ children, ...props }) => {
                 const text = Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "";
                 if (text === "[[YOUTUBE_EMBED]]") {
