@@ -1,6 +1,6 @@
 ---
 name: gaia-blog-post
-description: Standardized playbook for authoring high-signal, low-noise blog posts for Gaia Research. Enforces show-don't-tell evidence embedding, SVG graphs over long text, Nova's writing persona in marketing-tasks, Milim thumbnail generation via milim-editorial-thumbnail skill, and local template.md boilerplates.
+description: Standardized playbook for authoring high-signal, low-noise blog posts for Gaia Research. Enforces single-topic deep dives, anti-slop guardrails, no unratified roadmap claims, show-don't-tell evidence, SVG graphs over long text, Nova's writing persona, and Milim thumbnail generation via milim-editorial-thumbnail skill.
 ---
 
 # Gaia Blog Post Authoring & Production Skill
@@ -11,13 +11,16 @@ Use this skill whenever an agent is tasked with writing, illustrating, or publis
 
 ---
 
-## 1. Show-Don't-Tell & Visual Signal Standards
+## 1. Anti-Slop & Quality Directives
 
-Every Gaia blog post MUST follow the **Show-Don't-Tell** evidence principle:
+To keep posts high-signal, low-noise, and distinct:
 
-- **Embedded Primary Evidence**: Embed YouTube talks, video clips (`[[YOUTUBE_EMBED]]`), or interactive terminal output boxes instead of describing them in prose.
-- **SVG Graphs Over Long Text**: Prefer native React SVG graphs, visual flowcharts, or timeline diagrams over long walls of explanatory text. Communicate data, decision trees, and lifecycle stages visually.
-- **Stacked Code Comparisons**: Compare patterns directly using stacked **❌ Broad advice (Anti-Pattern)** vs **✅ Lean directive (Clean Pattern)** code blocks rather than abstract paragraphs.
+- ❌ **No Unratified Roadmap Claims**: NEVER invent fake roadmap promises or unratified claims (e.g. *"Work in progress... evaluating for GSB inclusion"*). State ONLY what is verified or backed by actual repo issues/docs.
+- ❌ **No Cookie-Cutter Section Headers**: Do NOT reuse rigid boilerplate headers ("1. Executive Summary", "2. Signals", "3. Bad vs Good", "5. Next Steps") across posts. Create natural, topic-specific section titles for each post.
+- ❌ **No Corporate Hype Buzzwords**: Ban fluff ("game-changing", "paradigm shift", "seamless integration", "unlocking the future"). State findings, code, and limitations plainly.
+- ✅ **Single-Topic Deep Dive**: Focus each post on **ONE single topic** in depth. Do not bundle multiple unrelated news items into a single post.
+- ✅ **Show-Don't-Tell Evidence**: Embed primary evidence (YouTube talks `[[YOUTUBE_EMBED]]`, video clips, terminal output traces).
+- ✅ **SVG Graphs Over Walls of Text**: Prefer native React SVG graphs, visual flowcharts, or timeline diagrams over long paragraphs of explanatory text.
 
 ---
 
@@ -39,7 +42,7 @@ Every blog post **MUST** feature a 16:9 flat screenprint **Milim Editorial Thumb
 - **Thumbnail Harness Link**: Delegate all thumbnail generation directly to `.agents/skills/milim-editorial-thumbnail/SKILL.md`.
 - **Tool Rule**: **NEVER use `omniflash`.** Use `.agents/skills/milim-editorial-thumbnail/SKILL.md` exclusively.
 - **Guardrails**: Tiny Milim (≤8% frame height, no twintails, lower-right) in quiet slice-of-life scenes (e.g. moonlit observatory archive). **NO text, UI, code, graphs, diagrams, or tree imagery.**
-- **Pipeline**: Workbench generation (`assets/workbench/generated/`) → responsive export (1600×900 WebP) → ledger sync (`scripts/assets/sync-asset-ledger.ts`).
+- **Pipeline**: Workbench generation (`assets/workbench/generated/`) → responsive export (1600×900 WebP) → ledger sync (`scripts/assets/sync-asset-ledger.ts`) → copy to `public/assets/`.
 
 ---
 
@@ -56,9 +59,10 @@ Boilerplate code and file structures are maintained in the separate `template.md
 
 ## 5. Pre-Publishing Quality Checklist
 
+- [ ] **Anti-Slop Check**: Zero unratified roadmap claims, zero boilerplate headers, zero corporate hype buzzwords. Single-topic deep dive.
 - [ ] **Show-Don't-Tell Verification**: Primary evidence embedded (YouTube video / terminal trace) and SVG graphs used in place of long text paragraphs.
 - [ ] **Nova Persona Verified**: Followed `../marketing-tasks/.agents/skills/nova/SKILL.md` (low-ego, direct, zero hype) and referenced `content/authors/nova.json`.
-- [ ] **Editorial Thumbnail Link**: Delegated thumbnail generation directly to `.agents/skills/milim-editorial-thumbnail/SKILL.md` (never using `omniflash`).
-- [ ] **Templates Followed**: Structured according to `./template.md` (Broad advice vs Lean directive comparison, explicit work-in-progress scope).
+- [ ] **Editorial Thumbnail Built & Deployed**: Delegated thumbnail generation directly to `.agents/skills/milim-editorial-thumbnail/SKILL.md` (never using `omniflash`), exported WebP to `assets/generated/` AND `public/assets/`.
+- [ ] **Templates Followed**: Structured according to `./template.md`.
 - [ ] **Static Edge & SEO**: Pinned `export const dynamic = "force-static"; export const revalidate = false;` and valid Schema.org JSON-LD included.
 - [ ] **Visual Cut-off Audit**: Passed `node scripts/visual-audit.mjs` with zero mobile horizontal cut-off or console errors.
