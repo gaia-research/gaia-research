@@ -1,11 +1,17 @@
 ---
 name: milim-editorial-thumbnail
-description: Create or refine calm, flat 16:9 Gaia Research editorial thumbnails featuring a tiny Milim within diverse everyday slice-of-life scenes. Supports flexible positioning (left, center, right), varied emotions (cozy, joyful, curious, sleepy), and dynamic color palettes. Use for blog cards and editorial illustrations.
+description: Create or refine calm, flat 16:9 Gaia Research editorial thumbnails featuring a tiny Milim within vast everyday slice-of-life scenes. Emphasizes dramatic scale (Milim 4-6% frame height), flexible positioning (left, center, right), expansive negative space (88-92%), varied emotions, and dynamic color palettes.
 ---
 
 # Milim Editorial Thumbnail
 
 Create an authentic everyday slice-of-life editorial moment, not a product illustration, explainer, diagram, or hero scene.
+
+## Scale & Composition (Dramatic Scale & Negative Space)
+
+- **Scale Ratio**: Milim MUST be **very small (about 4–6% of total image height)**. Her tiny size creates a dramatic sense of scale against the surrounding world.
+- **World Ownership**: The environment MUST occupy **88–92% of the frame**, offering expansive, calm negative space.
+- **Flexible Positioning**: Milim can be placed on the **left, center, or right side** depending on the focal point, framed by the surrounding atmosphere.
 
 ## Guardrails
 
@@ -15,12 +21,6 @@ Create an authentic everyday slice-of-life editorial moment, not a product illus
 - Use 16:9 landscape (1600×900 WebP) for blog cards and inline editorial images.
 - Do not use trees, roots, branches, canopies, forests, or tree-derived imagery as the primary subject.
 - Never add readable text, letters, numbers, labels, logos, watermarks, UI, code, dashboards, charts, graphs, diagrams, or report pages.
-
-## Flexible Positioning & Composition
-
-- **Placement**: Place Milim on the **left, center, or right side** depending on the scene's focal point.
-- **Negative Space**: Ensure at least **80–85% of the frame** is generous, calm environment with clean negative space.
-- **Scale**: Milim should be small (about 8–12% of image height) to emphasize the world around her.
 
 ## Varied Emotions & Expressions
 
@@ -35,10 +35,10 @@ Milim should express authentic, relatable everyday slice-of-life emotions:
 
 Vary the setting and color palette across every post. Do not default to the same night/starry scene:
 
-- **Morning Bakery Counter**: Warm golden morning sun, floating flour dust, freshly baked bread, warm amber and cream palette.
+- **Vast Morning Bakery Conservatory**: High sunlit glass arches, floating flour dust, towering bread racks, warm golden amber and cream palette.
 - **Rainy Bus Stop & Umbrella**: Rain-streaked glass, reflections on wet pavement, cozy teal and indigo palette with bright yellow umbrella.
 - **Sunlit Greenhouse Plant Bench**: Terracotta pots, green glass, morning mist, warm sage green and sunlit cream palette.
-- **Cozy Vinyl Record & Book Nook**: Shelves of colorful paper sleeves, warm lamp light, wooden floor, warm brown and pastel lavender palette.
+- **Cozy Vinyl Record & Book Nook**: Towering shelves of colorful paper sleeves, warm lamp light, wooden floor, warm brown and pastel lavender palette.
 - **Night Market Tea & Stationery Stall**: Paper lanterns, awnings, steam, rich indigo and amber palette.
 - **Harbor Dock & Morning Sea**: Portholes, wooden piers, calm water, crisp morning sky and seafoam blue palette.
 
@@ -47,9 +47,8 @@ Vary the setting and color palette across every post. Do not default to the same
 ```text
 Use case: illustration-story.
 Asset type: 16:9 Gaia Research blog thumbnail.
-Primary request: [Everyday slice-of-life setting, e.g. a cozy morning bakery counter with warm golden light]. A tiny 8-year-old chibi girl (Milim Nova) placed [left / center / right] [expressing a cozy / curious / joyful emotion] while [activity, e.g. watching steam rise from fresh bread]. Character details: very long, unbound bright pink hair (NO TWINTAILS), blue eyes, two yellow star hairpins, black oversized hoodie with cute white baby dragon print, thigh-high socks with pink stripes.
+Primary request: [Vast everyday slice-of-life setting with huge architecture/environment]. A microscopic, tiny 8-year-old chibi girl (Milim Nova) placed [left / center / right] [expressing emotion] while [activity]. Scale directive: Milim is extremely small, about 5% of total image height; the surrounding world occupies 90% of the frame with huge calm negative space. Character details: very long, unbound bright pink hair (NO TWINTAILS), blue eyes, two yellow star hairpins, black oversized hoodie with cute white baby dragon print, thigh-high socks with pink stripes.
 Style: flat editorial screenprint illustration; [Palette description: e.g. warm golden amber, cream, and single Milim-pink accent #ec4899]; broad flat shapes, subtle paper texture.
-Composition: world occupies 85% of frame; generous calm negative space; Milim is about 10% of image height.
 Constraints: no tree-derived imagery; no text, UI, code, charts, graphs, diagrams, logos, watermarks, or hyper-detailed rendering.
 ```
 
