@@ -35,8 +35,7 @@ export default function InfiniteSkillCraftPage() {
               See what <em>hatches.</em>
             </h1>
             <p>
-              Drop skills on the canvas and drag two together to fuse. Canonical results ✦ unlock
-              real Gaia Skill Tree specs, while experimental 🧪 combos push the capability frontier, boss.
+              Drop skills on the canvas, drag two together, and watch what hatches — canonical ✦ results unlock real Gaia Skill Tree specs, boss.
             </p>
             <p className="craft-homage">
               A homage to{" "}

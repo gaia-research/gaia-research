@@ -143,17 +143,18 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
 
         <div className="craft-modal-body">
           <p className="craft-modal-lead">
-            Combine AI agent skills on a free-floating canvas to discover what emerges, boss!
+            Drag AI agent skills together on the canvas — fuse any two to see what hatches, boss.
           </p>
 
           {/* Anti-confusion shield — what an agent skill actually IS */}
           <div className="craft-skill-callout" role="note">
             <p className="craft-skill-callout-text">
-              <strong>🔑 What is a skill?</strong> An agent skill is a packaged capability (<code>SKILL.md</code>){" "}
-              that gives an AI agent a named ability like <code>/prompt</code> or <code>/code</code>.
-              <CraftTooltip content="Skills are instruction-first building blocks that define actions an agent can perform, tools it wields, or context it understands — not random vibes, but usable abilities." ariaLabel="More details about agent skills">
-                <span className="craft-tooltip-badge">ⓘ Details</span>
-              </CraftTooltip>
+              <strong>
+                <CraftTooltip content="A SKILL.md instruction set that gives an AI agent a named ability — not random vibes, but a usable, verifiable capability." ariaLabel="What is an agent skill?">
+                  🔑 Agent skill
+                </CraftTooltip>
+              </strong>{" "}
+              = a packaged capability spec. <code>/prompt</code>, <code>/code</code>, <code>/web</code> are skills.
             </p>
           </div>
 
@@ -162,50 +163,21 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
             <div className="craft-onboard-step" role="listitem">
               <span className="craft-onboard-step-emoji" aria-hidden="true">🃏</span>
               <div className="craft-onboard-step-text">
-                <span className="craft-onboard-step-title">1 · Drop skills on canvas</span>
-                <p className="craft-onboard-step-desc">
-                  Click inventory skills to place them on the canvas. Start with <strong>/prompt</strong>, <strong>/code</strong>, <strong>/web</strong>, or <strong>/data</strong>.
-                </p>
+                <span className="craft-onboard-step-title">1 · Click a skill to drop it</span>
               </div>
             </div>
 
             <div className="craft-onboard-step" role="listitem">
               <span className="craft-onboard-step-emoji" aria-hidden="true">⚗️</span>
               <div className="craft-onboard-step-text">
-                <span className="craft-onboard-step-title">2 · Drag together to fuse</span>
-                <p className="craft-onboard-step-desc">
-                  Overlap two skills to fuse them into a new creation. Discover{" "}
-                  <strong>
-                    Canonical ✦
-                    <CraftTooltip content="Verified skills in the Gaia Skill Tree registry. Tap their result card to open their live spec page!" ariaLabel="Info about canonical results">
-                      <span className="craft-tooltip-icon">ⓘ</span>
-                    </CraftTooltip>
-                  </strong>{" "}
-                  or{" "}
-                  <strong>
-                    Experimental 🧪
-                    <CraftTooltip content="AI-invented combinations generated on the fly. Plausible capability ideas for you to judge, boss!" ariaLabel="Info about experimental results">
-                      <span className="craft-tooltip-icon">ⓘ</span>
-                    </CraftTooltip>
-                  </strong>{" "}
-                  results.
-                </p>
+                <span className="craft-onboard-step-title">2 · Drag two together to fuse</span>
               </div>
             </div>
 
             <div className="craft-onboard-step" role="listitem">
               <span className="craft-onboard-step-emoji" aria-hidden="true">🌳</span>
               <div className="craft-onboard-step-text">
-                <span className="craft-onboard-step-title">3 · Grow your skill tree</span>
-                <p className="craft-onboard-step-desc">
-                  Discoveries join your inventory for future fusions. Discover canonical skills to collect{" "}
-                  <strong>
-                    all {BUILDERS_TOTAL} builder cards
-                    <CraftTooltip content="Every real skill has an open-source contributor behind it. Discover canonical skills to collect their badges!" ariaLabel="Info about builder collection">
-                      <span className="craft-tooltip-icon">ⓘ</span>
-                    </CraftTooltip>
-                  </strong>.
-                </p>
+                <span className="craft-onboard-step-title">3 · Collect all {BUILDERS_TOTAL} builder cards ✦</span>
               </div>
             </div>
           </div>
