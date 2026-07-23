@@ -74,4 +74,11 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** Derived from DeepMind Staff Engineer Philipp Schmid's research ("Don't Ship Skills Without Evals"); establishes standardized JSON/YAML test harnesses, progressive disclosure budgeting (<500 words, no-op removal), capability vs. preference skill separation, and ablation testing for skill retirement.
 - **Doc:** [`skill-eval-harness-and-lifecycle.md`](./skill-eval-harness-and-lifecycle.md)
 
+## Rank 13 — SkillOpt Potential Index (PLN)
+- **Status:** PLN — unratified, in ideation
+- **Viability:** Medium-High
+- **Potential:** Very High
+- **Why now:** SkillOpt (Microsoft Research, 2026) shows that skill improvement under optimization is not uniform — some skills lift +39 pts, others +9. A static pre-flight index that scores a `SKILL.md` for optimization potential (trigger vagueness, filler density, missing negative boundaries, directive density ratio) would let practitioners know which skills are worth running through a full optimization loop before committing the token budget.
+- **Doc:** [`skillopt-potential-index.md`](./skillopt-potential-index.md)
+
 
