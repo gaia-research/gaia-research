@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21",
+  "generatedAt": "2026-07-23",
   "skills": {
     "pytest-patterns": {
       "c": "0xdarkmatter",
@@ -111,7 +111,7 @@
       "t": "The Dom Whispering",
       "d": "Self-healing harness for direct browser control via CDP, enabling agents to write custom helpers at runtime.",
       "g": "browser-control",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "stagehand": {
       "c": "browserbase",
@@ -622,14 +622,14 @@
       "t": "Alphafold-Database-Fetch-And-Analyze",
       "d": "Retrieve and analyze AlphaFold predicted structures for a protein. Use when the user provides a specific UniProt Accession ID and wants structural confidence metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if the user only has a p",
       "g": "computational-biology-workflows",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "alphagenome_single_variant_analysis": {
       "c": "google-deepmind",
       "t": "Alphagenome-Single-Variant-Analysis",
       "d": "Analyzes genetic variant effects on gene expression (RNA-seq), chromatin accessibility (DNASE), histone marks (ChIP), and transcription factors using the AlphaGenome API. Use when the user asks about non-coding variant effects, pathogenicity, clinical signific",
       "g": "computational-biology-workflows",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "chembl_database": {
       "c": "google-deepmind",
@@ -664,63 +664,63 @@
       "t": "Embl-Ebi-Ols",
       "d": "Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical ontology terms, definitions, and hierarchies across 250+ ontologies (e.g., GO, DOID, HP). Use when the user asks to search for terms, retrieve details, navigate hierarchies (parents, ch",
       "g": "pathway-ontology-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "encode_ccres_database": {
       "c": "google-deepmind",
       "t": "Encode-Ccres-Database",
       "d": "Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via the SCREEN GraphQL API, or make custom queries to the ENCODE Portal REST API for experiments and files (ChIP-seq peaks, etc.). Use when you want to query regulatory annotations or raw experimenta",
       "g": "genomic-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "ensembl_database": {
       "c": "google-deepmind",
       "t": "Ensembl-Database",
       "d": "Query the Ensembl database to resolve gene, transcript, and protein IDs, fetch genomic or protein sequences, retrieve gene structures (exons), and get variant consequence and effect predictions (VEP). Use this skill as a primary ID translator, genomic sequence",
       "g": "genomic-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "foldseek_structural_search": {
       "c": "google-deepmind",
       "t": "Foldseek-Structural-Search",
       "d": "Performs 3D structural searches of proteins against various databases (PDB, AlphaFold, CATH, MGnify, etc.) using the Foldseek API. Use ONLY when the user provides a physical 3D coordinate file (.cif, .mmcif, or .pdb) and wants to find structurally similar prot",
       "g": "protein-structure-analysis",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "gnomad_database": {
       "c": "google-deepmind",
       "t": "Gnomad-Database",
       "d": "Query the Genome Aggregation Database (gnomAD). Use when determining the rarity or allele frequency of specific genetic variants, retrieving gene constraint metrics (pLI, LOEUF) to assess loss-of-function intolerance, finding variants in a genomic region or ge",
       "g": "genomic-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "gtex_database": {
       "c": "google-deepmind",
       "t": "Gtex-Database",
       "d": "Use when you want to retrieve quantitative RNA expression data and variant eQTL information from the GTEx (Genotype-Tissue Expression) Project across 54 non-diseased tissue sites.",
       "g": "genomic-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "human_protein_atlas_database": {
       "c": "google-deepmind",
       "t": "Human-Protein-Atlas-Database",
       "d": "Use when you want to retrieve semi-quantitative protein expression and spatial localisation data from the Human Protein Atlas (HPA).",
       "g": "proteomic-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "interpro_database": {
       "c": "google-deepmind",
       "t": "Interpro-Database",
       "d": "Identify domains, families, and sites in proteins; find all proteins in a family or sharing a domain; explore species distribution for a domain; annotate genomes with protein families and GO terms. InterPro combines 14 databases (e.g., Pfam, CDD) into one sear",
       "g": "proteomic-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "jaspar_database": {
       "c": "google-deepmind",
       "t": "Jaspar-Database",
       "d": "Query the JASPAR database for Transcription Factor (TF) binding profiles. Use when retrieving Position Frequency Matrices (PFMs) or Position Weight Matrices (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting TF metadata. Supports",
       "g": "genomic-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "literature_search_arxiv": {
       "c": "google-deepmind",
@@ -741,7 +741,7 @@
       "t": "Literature-Search-Europepmc",
       "d": "Search Europe PMC for scientific literature and download open-access full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists and bibliography.",
       "g": "literature-search",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "literature_search_openalex": {
       "c": "google-deepmind",
@@ -755,21 +755,21 @@
       "t": "Ncbi-Sequence-Fetch",
       "d": "Retrieve protein and nucleotide sequences from NCBI databases using E-utilities. Supports direct accession lookup, CDS translation, gene+organism search, locus lookup, PubMed-linked sequences, patent protein extraction, and organism+length fallback search. Use",
       "g": "genomic-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "openfda_database": {
       "c": "google-deepmind",
       "t": "Openfda-Database",
       "d": "Query, search, and download data from the openFDA API for drugs, devices, foods, tobacco, cosmetics, animal and veterinary products, substances, and transparency data. Use for FDA adverse events, recalls, labeling, approvals, shortages, 510(k) clearances, NDC",
       "g": "clinical-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "opentargets_database": {
       "c": "google-deepmind",
       "t": "Opentargets-Database",
       "d": "Query Open Targets Platform for target-disease associations, drug target discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic target identification.",
       "g": "clinical-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "pdb_database": {
       "c": "google-deepmind",
@@ -790,14 +790,14 @@
       "t": "Protein-Sequence-Similarity-Search",
       "d": "Searches for homologous protein sequences using MMseqs2 (fast, default) or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein sequence or FASTA file and asks to find homologues, sequence matches, or wants to infer protein functi",
       "g": "bioinformatic-sequence-analysis",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "pubchem_database": {
       "c": "google-deepmind",
       "t": "Pubchem-Database",
       "d": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure searches, bioactivity, for cheminformatics. Use when a user asks about a specific chemical, drug, or molecule.",
       "g": "molecular-databases",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "pubmed_database": {
       "c": "google-deepmind",
@@ -811,28 +811,28 @@
       "t": "Pymol",
       "d": "Visualize, analyze, and render protein and molecular structures using PyMOL. Use when the user wants to create images of protein structures, perform structural alignments or superposition, measure distances or contacts, highlight binding sites or active site r",
       "g": "scientific-visualization",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "quickgo_database": {
       "c": "google-deepmind",
       "t": "Quickgo-Database",
       "d": "Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API. Use this when you need to map genes to biological processes, molecular functions, or cellular components, find genes associated with a specific pathway/GO term, or explore the Gene Ontology h",
       "g": "pathway-ontology-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "reactome_database": {
       "c": "google-deepmind",
       "t": "Reactome-Database",
       "d": "Query the Reactome database (Analysis and Content Services). Use when the user asks about pathway analysis, gene list enrichment, retrieving results by token, finding unmapped or not-found identifiers, mapping identifiers, reaction participants (inputs, output",
       "g": "pathway-ontology-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "science_skills_common": {
       "c": "google-deepmind",
       "t": "Science-Skills-Common",
       "d": "Shared Python package for Science Skills, currently containing http_client -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not a standalone agent skill. Do not invoke directly.",
       "g": "core-platform-implementation",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "string_database": {
       "c": "google-deepmind",
@@ -846,14 +846,14 @@
       "t": "Ucsc-Conservation-And-Tfbs",
       "d": "Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription Factor Binding Sites (TFBS) from the UCSC Genome Browser. Use when analyzing whether genomic variants or regions are evolutionarily conserved, functionally important, or bounded by TF",
       "g": "genomic-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "unibind_database": {
       "c": "google-deepmind",
       "t": "Unibind-Database",
       "d": "Queries the UniBind database for experimentally validated transcription factor (TF) binding sites. Use when retrieving direct TF-DNA interaction datasets, downloading binding site coordinates (BED/FASTA) for local analysis, or listing available datasets by spe",
       "g": "genomic-data-retrieval",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "uniprot_database": {
       "c": "google-deepmind",
@@ -867,14 +867,14 @@
       "t": "Uv",
       "d": "Checks whether the uv Python package manager is installed and installs it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.",
       "g": "core-platform-implementation",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "workflow_skill_creator": {
       "c": "google-deepmind",
       "t": "Workflow-Skill-Creator",
       "d": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"packag",
       "g": "skill-authoring",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "notte-browser": {
       "c": "gooseworks",
@@ -902,7 +902,7 @@
       "t": "Get Shit Done",
       "d": "Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify, and ship as a repeatable agentic software delivery loop.",
       "g": "git-ship-done-pipeline",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "plan-phase": {
       "c": "gsd-build",
@@ -1504,7 +1504,7 @@
       "t": "The Majority Consensus",
       "d": "Samples multiple reasoning paths and selects the most consistent answer by majority vote.",
       "g": "self-consistency",
-      "lvl": "4★"
+      "lvl": "3★"
     },
     "impeccable": {
       "c": "pbakaus",
