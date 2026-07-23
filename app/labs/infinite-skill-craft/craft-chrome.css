@@ -1289,6 +1289,28 @@
   animation: craft-tooltip-fade 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.craft-tooltip-left {
+  left: 0;
+  transform: translateY(4px);
+}
+
+.craft-tooltip-left::after {
+  left: 16px;
+  transform: none;
+}
+
+.craft-tooltip-right {
+  left: auto;
+  right: 0;
+  transform: translateY(4px);
+}
+
+.craft-tooltip-right::after {
+  left: auto;
+  right: 16px;
+  transform: none;
+}
+
 .craft-tooltip::after {
   content: "";
   position: absolute;
@@ -1372,6 +1394,10 @@
   .craft-builders-pill.is-fresh {
     animation: none !important;
   }
+
+  .craft-tooltip {
+    animation: none !important;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -1389,13 +1415,7 @@
   }
 
   .craft-tooltip {
-    max-width: 230px;
-    left: -20px;
-    transform: translateY(4px);
-  }
-
-  .craft-tooltip::after {
-    left: 30px;
+    max-width: min(240px, 80vw);
   }
 
   .craft-modal-terms > div {

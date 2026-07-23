@@ -33,7 +33,7 @@ export function CraftFaq() {
               <p>
                 An <strong>agent skill</strong> is a <strong>packaged capability</strong> — a{" "}
                 <code>SKILL.md</code> instruction set that gives an AI agent a specific, named ability (e.g. <code>/prompt</code>, <code>/code</code>).
-                <CraftTooltip content="Skills use progressive disclosure: the SKILL.md file is the entry point, linking deeper reference docs as needed. They are verbs dressed as nouns — actions agents perform.">
+                <CraftTooltip content="Skills use progressive disclosure: the SKILL.md file is the entry point, linking deeper reference docs as needed. They are verbs dressed as nouns — actions agents perform." ariaLabel="Deeper specification details">
                   <span className="craft-tooltip-badge">ⓘ Deeper spec</span>
                 </CraftTooltip>
               </p>
@@ -51,7 +51,7 @@ export function CraftFaq() {
               <p>
                 <strong>Skill</strong> = the capability spec (<code>SKILL.md</code> instructions).<br />
                 <strong>Plugin</strong> = the code package extending a runtime.
-                <CraftTooltip content="A plugin may deliver one or more skills, but the skill itself is the verifiable behavioural spec that agents understand.">
+                <CraftTooltip content="A plugin may deliver one or more skills, but the skill itself is the verifiable behavioural spec that agents understand." ariaLabel="Details on skills versus plugins">
                   <span className="craft-tooltip-badge">ⓘ Details</span>
                 </CraftTooltip>
               </p>

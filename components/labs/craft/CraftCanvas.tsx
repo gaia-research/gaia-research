@@ -1084,7 +1084,7 @@ export function CraftCanvas() {
           <header className="craft-sidebar-head">
             <div>
               <p className="craft-kicker">Inventory</p>
-              <CraftTooltip content="Total skills unlocked in your personal inventory. Fusing skills expands your tree!" align="left">
+              <CraftTooltip content="Total skills unlocked in your personal inventory. Fusing skills expands your tree!" align="left" as="div">
                 <p className="craft-count" aria-live="off">
                   <b>{discoveredCount}</b> discoveries
                 </p>

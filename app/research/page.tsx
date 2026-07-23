@@ -9,6 +9,15 @@ export const metadata = {
 
 const reports = [
   {
+    href: "/research/skill-evals",
+    type: "Education & Benchmark",
+    status: "VRF verified",
+    title: "Don't Ship Skills Without Evals",
+    description:
+      "Referencing Google DeepMind Staff Engineer Philipp Schmid's talk on skill progressive disclosure, purging AI-generated no-ops, and continuous ablation benchmarking.",
+    action: "Read the article",
+  },
+  {
     href: "/research/ci-churn",
     type: "Postmortem",
     status: "VRF verified",

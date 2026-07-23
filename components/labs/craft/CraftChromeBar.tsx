@@ -26,7 +26,7 @@ export function CraftChromeBar() {
     <>
       {/* The toolbar — sits between hero and canvas */}
       <div className="craft-chrome-bar" role="toolbar" aria-label="Lab controls">
-        <CraftTooltip content="Live count of skill fusions run by crafters across the network!" align="left">
+        <CraftTooltip content="Live count of skill fusions run by crafters across the network!" align="left" as="div">
           <TrafficCounter />
         </CraftTooltip>
 

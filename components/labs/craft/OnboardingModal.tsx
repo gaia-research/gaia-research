@@ -151,7 +151,7 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
             <p className="craft-skill-callout-text">
               <strong>🔑 What is a skill?</strong> An agent skill is a packaged capability (<code>SKILL.md</code>){" "}
               that gives an AI agent a named ability like <code>/prompt</code> or <code>/code</code>.
-              <CraftTooltip content="Skills are instruction-first building blocks that define actions an agent can perform, tools it wields, or context it understands — not random vibes, but usable abilities.">
+              <CraftTooltip content="Skills are instruction-first building blocks that define actions an agent can perform, tools it wields, or context it understands — not random vibes, but usable abilities." ariaLabel="More details about agent skills">
                 <span className="craft-tooltip-badge">ⓘ Details</span>
               </CraftTooltip>
             </p>
@@ -177,14 +177,14 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
                   Overlap two skills to fuse them into a new creation. Discover{" "}
                   <strong>
                     Canonical ✦
-                    <CraftTooltip content="Verified skills in the Gaia Skill Tree registry. Tap their result card to open their live spec page!">
+                    <CraftTooltip content="Verified skills in the Gaia Skill Tree registry. Tap their result card to open their live spec page!" ariaLabel="Info about canonical results">
                       <span className="craft-tooltip-icon">ⓘ</span>
                     </CraftTooltip>
                   </strong>{" "}
                   or{" "}
                   <strong>
                     Experimental 🧪
-                    <CraftTooltip content="AI-invented combinations generated on the fly. Plausible capability ideas for you to judge, boss!">
+                    <CraftTooltip content="AI-invented combinations generated on the fly. Plausible capability ideas for you to judge, boss!" ariaLabel="Info about experimental results">
                       <span className="craft-tooltip-icon">ⓘ</span>
                     </CraftTooltip>
                   </strong>{" "}
@@ -201,7 +201,7 @@ export function OnboardingModal({ open: externalOpen, onClose }: OnboardingModal
                   Discoveries join your inventory for future fusions. Discover canonical skills to collect{" "}
                   <strong>
                     all {BUILDERS_TOTAL} builder cards
-                    <CraftTooltip content="Every real skill has an open-source contributor behind it. Discover canonical skills to collect their badges!">
+                    <CraftTooltip content="Every real skill has an open-source contributor behind it. Discover canonical skills to collect their badges!" ariaLabel="Info about builder collection">
                       <span className="craft-tooltip-icon">ⓘ</span>
                     </CraftTooltip>
                   </strong>.
