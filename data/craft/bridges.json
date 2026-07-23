@@ -4,9 +4,19 @@
     "reachableCount": 243,
     "internalConnectivityPct": 100,
     "unreachableCount": 0,
-    "gameSeedReachableCount": 0,
-    "gameSeedReachablePct": 0,
+    "gameSeedReachableCount": 160,
+    "gameSeedReachablePct": 65.8,
     "reachablePct": 100,
+    "namedBackedFusionCount": 84,
+    "deterministicFusionReachCount": 89,
+    "genericIntermediateFusions": [
+      "agent-eval",
+      "ghostwrite",
+      "knowledge-harvest",
+      "plan-and-execute",
+      "research"
+    ],
+    "reachableNamedSkillCount": 153,
     "gameSeedSlugs": [
       "code",
       "data",
@@ -1438,5 +1448,665 @@
     }
   ],
   "unreachable": [],
-  "gameSeedReachable": []
+  "gameSeedReachable": [
+    "adaptive-pattern-learning",
+    "advanced-swarm-coordination",
+    "agent-environment-setup",
+    "agent-eval",
+    "agent-handoff",
+    "agent-memory-learning",
+    "agent-memory-platform",
+    "agentic-workflow-design",
+    "api-call",
+    "audience-model",
+    "automated-testing",
+    "autonomous-debug",
+    "autonomous-web-research",
+    "bioinformatic-sequence-analysis",
+    "brainstorming",
+    "browser-automation",
+    "browser-control",
+    "career-operations",
+    "chain-of-thought",
+    "chunk-document",
+    "cite-sources",
+    "classify",
+    "cli-modernization",
+    "cloud-platform-management",
+    "code-execution",
+    "code-explain",
+    "code-generation",
+    "code-review-pipeline",
+    "computational-biology-workflows",
+    "computer-use",
+    "context-compression",
+    "core-platform-implementation",
+    "data-analysis",
+    "data-visualize",
+    "deployment-automation",
+    "design-generation",
+    "design-review",
+    "design-system-extraction",
+    "detect-anomaly",
+    "diff-content",
+    "dispatching-parallel-agents",
+    "distributed-consensus-coordination",
+    "distributed-neural-training",
+    "distributed-vector-memory",
+    "document-editing",
+    "dual-mode",
+    "e2e-testing",
+    "embed-text",
+    "engineering-discipline",
+    "error-interpretation",
+    "evaluate-output",
+    "executing-plans",
+    "extract-entities",
+    "finishing-a-development-branch",
+    "firecrawl",
+    "format-output",
+    "founder-mode-orchestration",
+    "generate-sql",
+    "generate-test",
+    "generate-text",
+    "genomic-data-retrieval",
+    "ghostwrite",
+    "git-integration",
+    "git-ship-done-pipeline",
+    "graph-driven-issue-triage",
+    "grill-me",
+    "grill-with-docs",
+    "guardrails",
+    "headless-worker-collect",
+    "headless-worker-spawn",
+    "humanize-prose",
+    "hybrid-workflow-coordination",
+    "hypothesis-generate",
+    "image-caption",
+    "issue-triage",
+    "knowledge-graph-build",
+    "knowledge-harvest",
+    "knowledge-management",
+    "literature-review",
+    "literature-search",
+    "logical-inference",
+    "mcp-integration",
+    "mcp-server-creation",
+    "memory-manage",
+    "memory-pattern-design",
+    "molecular-databases",
+    "multi-agent-debate",
+    "multi-agent-orchestration-v",
+    "multi-node-orchestration",
+    "multi-repo-coordination",
+    "multi-topology-orchestration",
+    "multimodal-reasoning",
+    "parallel-execution",
+    "parse-html",
+    "performance-tuning",
+    "personal",
+    "personal-knowledge-management",
+    "plan-and-execute",
+    "plan-decompose",
+    "platform-modernization-sprint",
+    "prd-generation",
+    "productivity",
+    "project-management",
+    "prompt-optimization",
+    "protein-structure-analysis",
+    "proteomic-data-retrieval",
+    "prototype",
+    "question-answer",
+    "rag-pipeline",
+    "rank",
+    "reasoning-pattern-bank",
+    "receiving-code-review",
+    "refactor-code",
+    "registry-curation",
+    "registry-entry-audit",
+    "registry-health-scan",
+    "release-automation",
+    "requesting-code-review",
+    "requirements-analysis",
+    "research",
+    "retrieve",
+    "route-intent",
+    "score-relevance",
+    "security-audit",
+    "self-critique",
+    "skill-authoring",
+    "skill-discovery",
+    "skill-fusion",
+    "skill-mastery",
+    "skill-performance-benchmarking",
+    "speech-to-text",
+    "statistical-analysis",
+    "structured-output",
+    "subagent-driven-development",
+    "summarize",
+    "superpowers",
+    "swarm-topology-management",
+    "system-integration",
+    "systematic-debugging",
+    "tokenize",
+    "tool-creation",
+    "tool-select",
+    "tool-use",
+    "ubiquitous-language",
+    "using-git-worktrees",
+    "ux-audit",
+    "vector-db-optimization",
+    "vector-search",
+    "verification-before-completion",
+    "vertical-slice-planning",
+    "video-intelligence",
+    "vision-qa",
+    "web-scrape",
+    "web-search",
+    "worker-agent-dispatch",
+    "workflow-automation",
+    "workspace-automation",
+    "write-report",
+    "writing-plans",
+    "x-twitter-automation"
+  ],
+  "seedBridges": [
+    {
+      "result": "adaptive-pattern-learning",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "api-call",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "audience-model",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "bioinformatic-sequence-analysis",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "browser-control",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "chain-of-thought",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "chunk-document",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "cite-sources",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "classify",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "cli-modernization",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "code-execution",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "code-explain",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "code-generation",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "computer-use",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "context-compression",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "core-platform-implementation",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "data-visualize",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "diff-content",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "document-editing",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "embed-text",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "error-interpretation",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "evaluate-output",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "extract-entities",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "format-output",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "generate-sql",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "generate-test",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "generate-text",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "genomic-data-retrieval",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "headless-worker-collect",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "headless-worker-spawn",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "hybrid-workflow-coordination",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "hypothesis-generate",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "image-caption",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "issue-triage",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "literature-search",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "logical-inference",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "mcp-integration",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "memory-pattern-design",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "molecular-databases",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "multi-repo-coordination",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "parallel-execution",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "parse-html",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "performance-tuning",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "plan-decompose",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "protein-structure-analysis",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "proteomic-data-retrieval",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "question-answer",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "rank",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "refactor-code",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "requirements-analysis",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "retrieve",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "route-intent",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "score-relevance",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "self-critique",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "skill-discovery",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "speech-to-text",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "statistical-analysis",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "structured-output",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "summarize",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "swarm-topology-management",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "system-integration",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "tokenize",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "tool-select",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "tool-use",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "ux-audit",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "vector-db-optimization",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "vector-search",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "vision-qa",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "web-search",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "worker-agent-dispatch",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "write-report",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    }
+  ]
 }
