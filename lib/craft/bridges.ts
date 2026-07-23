@@ -95,6 +95,12 @@ export interface BridgesData {
    * 71 edges on ygg2 staging.
    */
   seedBridges: SeedBridgeEdge[];
+  /**
+   * Fusion ids (only) reachable from game seeds via A′ bridges — the 89 =
+   * 84 named-backed + 5 unavoidable generic intermediates. Distinct from
+   * gameSeedReachable (160), which also includes the 71 root basics.
+   */
+  namedBackedFusions: string[];
 }
 
 // ---------------------------------------------------------------------------
@@ -188,19 +194,18 @@ function getDerivedPairMap(): Map<string, string> {
 }
 
 // ---------------------------------------------------------------------------
-// Named-backed targets set (fast O(1) membership test)
+// Named-backed fusion set (fast O(1) membership test) — the 89 fusion-only reach
+// (84 named-backed + 5 unavoidable generic intermediates), NOT the 160 that also
+// includes root basics.
 // ---------------------------------------------------------------------------
 
 let _namedBackedSet: Set<string> | null = null;
 
 function getNamedBackedSet(): Set<string> {
   if (_namedBackedSet) return _namedBackedSet;
-  // The gameSeedReachable list contains all nodes reachable from game seeds + bridges.
-  // Named-backed fusions = gameSeedReachable ∩ fusions — but we don't have the
-  // fusion type here. We use the count from the report as a cross-check only;
-  // the actual set is derived from gameSeedReachable minus basics (approximation).
-  // For the accessor, we expose the full gameSeedReachable set.
-  _namedBackedSet = new Set(bridges.gameSeedReachable);
+  // bridges.namedBackedFusions is the explicit fusion-only Metric B reach set
+  // emitted by derive-reachability.ts (gameSeedReachable ∩ fusions).
+  _namedBackedSet = new Set(bridges.namedBackedFusions);
   return _namedBackedSet;
 }
 

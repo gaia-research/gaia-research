@@ -246,6 +246,14 @@ export interface BridgesOutput {
    * Sorted by result id.
    */
   seedBridges: SeedBridgeEdge[];
+  /**
+   * Fusion ids (only) reachable from game seeds via A′ bridges (Metric B).
+   * This is exactly the 84 named-backed fusions + the 5 unavoidable generic
+   * intermediates = 89 on ygg2 staging. Distinct from `gameSeedReachable`
+   * (160), which also includes the 71 root basics. Sorted. Provided so callers
+   * and reviewers get the honest fusion-only reach set without re-deriving type.
+   */
+  namedBackedFusions: string[];
 }
 
 // ---------------------------------------------------------------------------
@@ -652,6 +660,13 @@ export function deriveReachability(options?: {
   // Sort seedBridges by result id for reviewable diffs
   const sortedSeedBridges = [...seedBridges].sort((a, b) => a.result.localeCompare(b.result));
 
+  // Explicit fusion-only reach list (the 89 = 84 named-backed + 5 intermediates)
+  // for reviewer transparency and honest accessors — distinct from gameSeedReachable
+  // (160), which also includes the 71 root basics.
+  const namedBackedFusions = gameSeedReachableIds
+    .filter((id) => fusionIdsSet.has(id))
+    .sort();
+
   const output: BridgesOutput = {
     report,
     reachable: reachableIds,
@@ -659,6 +674,7 @@ export function deriveReachability(options?: {
     unreachable: unreachableIds,
     gameSeedReachable: gameSeedReachableIds,
     seedBridges: sortedSeedBridges,
+    namedBackedFusions,
   };
 
   if (write) {
