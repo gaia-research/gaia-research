@@ -239,6 +239,8 @@ export function CraftCanvas() {
   buildersRef.current = builders;
   const [buildersOpen, setBuildersOpen] = useState(false);
   const [buildersFresh, setBuildersFresh] = useState(false);
+  const [resetArmed, setResetArmed] = useState(false);
+  const resetArmTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Dedupe found-count by the distinct canonical skill NAMES seen per builder,
   // so re-fusing the same skill never double-counts. Rebuilt on hydrate.
   const builderSkillsRef = useRef<Record<string, Set<string>>>({});
@@ -350,6 +352,7 @@ export function CraftCanvas() {
     return () => {
       if (toastTimer.current) clearTimeout(toastTimer.current);
       if (freshTimer.current) clearTimeout(freshTimer.current);
+      if (resetArmTimer.current) clearTimeout(resetArmTimer.current);
     };
   }, []);
 
@@ -1030,21 +1033,30 @@ export function CraftCanvas() {
   }, [flashToast, announce]);
 
   // ── Reset progress (back to seeds; clears discoveries + curses + canvas) ────
+  // Two-step: first click arms it (4 s window), second click fires. Auto-disarms.
   const resetProgress = useCallback(() => {
+    if (!resetArmed) {
+      setResetArmed(true);
+      if (resetArmTimer.current) clearTimeout(resetArmTimer.current);
+      resetArmTimer.current = setTimeout(() => setResetArmed(false), 4000);
+      return;
+    }
+    // Confirmed — fire.
+    if (resetArmTimer.current) clearTimeout(resetArmTimer.current);
+    setResetArmed(false);
     dispatch({ type: "reset" });
     setActiveCurses([]);
     setSelected([]);
     setNodes([]);
     setPopover(null);
     setQuery("");
-    // Reset progress also empties the Builders collection (Clear canvas does not).
     setBuilders({});
     setBuildersFresh(false);
     builderSkillsRef.current = {};
     spawnCount.current = 0;
-    flashToast("Progress reset — back to the four primitives, boss.");
+    flashToast("💀 Everything wiped — back to the four primitives, boss.");
     announce("Progress reset to the four seed skills.");
-  }, [flashToast, announce]);
+  }, [resetArmed, flashToast, announce]);
 
   const deleteInventoryCard = useCallback((id: string) => {
     if (SEED_IDS.has(id)) return;
@@ -1247,7 +1259,7 @@ export function CraftCanvas() {
               <b>tap</b> a result for its details. Curses are cosmetic and always cleansable.
             </p>
             <div className="craft-foot-controls">
-              <CraftTooltip content="Sweep non-skill and experimental noise cards off your canvas">
+              <CraftTooltip content="Sweep experimental 🧪 and noise cards off the canvas. Canonical ✦ and seed skills stay.">
                 <button
                   type="button"
                   className="craft-tidy"
@@ -1257,7 +1269,7 @@ export function CraftCanvas() {
                   Tidy canvas
                 </button>
               </CraftTooltip>
-              <CraftTooltip content="Remove all instances from canvas. Your inventory discoveries remain safe!">
+              <CraftTooltip content="Clear all instances off the canvas. Your inventory and discovered skills stay safe.">
                 <button
                   type="button"
                   className="craft-clear"
@@ -1267,9 +1279,14 @@ export function CraftCanvas() {
                   Clear canvas
                 </button>
               </CraftTooltip>
-              <CraftTooltip content="Reset inventory and canvas back to the 4 starter element skills">
-                <button type="button" className="craft-reset" onClick={resetProgress}>
-                  Reset progress
+              <CraftTooltip content={resetArmed ? "You sure, boss? Click again to wipe everything." : "Nuke everything — inventory, builders, canvas, curses. Back to 4 seeds."}>
+                <button
+                  type="button"
+                  className={`craft-reset${resetArmed ? " is-armed" : ""}`}
+                  onClick={resetProgress}
+                  aria-label={resetArmed ? "Confirm reset — wipes all progress" : "Reset all progress"}
+                >
+                  {resetArmed ? "Sure? Confirm reset ☠" : "Reset progress"}
                 </button>
               </CraftTooltip>
             </div>
