@@ -45,8 +45,8 @@ These are trust/product calls, not implementation decisions. Present with eviden
 | Gate | What to show | Where to surface |
 |------|-------------|-----------------|
 | **Similarity threshold** | Example matched pairs at the chosen value; example near-miss pairs that correctly do NOT promote; measured false-positive rate on a hand-curated set. `VECTORIZE_THRESHOLD = 0.82` is a placeholder pending live measurement — the founder sets the final value after reviewing the paraphrase evidence table in the PR body. | PR body + comment on #87 |
-| **p95 latency budget** | Measured p95 added latency (warm + cold) for Vectorize query path vs. exact-match baseline | PR body |
-| **Fallback behaviour** | Evidence the fallback path (similarity-shim) is exercised correctly on Vectorize failure/timeout | Test output |
+| **p95 latency budget** | Measured p95 added latency (warm + cold) for Vectorize query path vs. exact-match baseline. The 800ms timeout (`VECTORIZE_TIMEOUT_MS`) is kept as-is — confirmed decision. Any Vectorize failure or timeout falls back to exact-match + emergent with zero impact on fuse response. | PR body |
+| **Fallback behaviour** | Evidence the fallback path (similarity-shim) is exercised correctly on Vectorize failure/timeout — confirmed: `similarity-shim.ts` stays unchanged and handles AI prompt candidate targeting regardless of Vectorize state. | Test output |
 
 ---
 
