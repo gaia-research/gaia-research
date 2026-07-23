@@ -3,6 +3,21 @@ import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    return [
+      // Keyword-friendly vanity URLs → canonical slugs
+      {
+        source: "/blog/skillopt",
+        destination: "/blog/daily-agent-radar-2026-07-24",
+        permanent: true,
+      },
+      {
+        source: "/blog/skill-opt",
+        destination: "/blog/daily-agent-radar-2026-07-24",
+        permanent: true,
+      },
+    ];
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.md$/,

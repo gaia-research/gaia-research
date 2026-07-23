@@ -137,3 +137,31 @@ Generated experiments and intermediate variants should go in `assets/workbench/`
 ## GitHub Pages (Deprecated)
 
 The site used to be served by Jekyll. It is now a Next.js App deployed to Cloudflare at `research.gaiaskilltree.com`.
+
+## Blog Post Reviews
+
+When reviewing a PR that adds or modifies a blog post (`/blog/*`), skill files (`SKILL.md`, `template.md`), or thumbnail assets, check **all three** of the following dimensions — not just code correctness:
+
+### 1. Content nuance — does the post earn the reader's trust?
+
+- **Fabricated specificity**: Does the post describe tools, configs, file paths, CLI commands, or metrics that don't exist in the repo? (e.g. a `skillopt.yaml` file, `tests/evals/` paths, loss convergence numbers). Flag it — a reader who tries to use it will feel misled. Conceptual frameworks must be clearly labelled as such.
+- **Unratified claims**: Check `founder/RATIFICATION.md`. Any roadmap promise or product claim that isn't LOCKED there must be explicitly hedged in the post.
+- **Evidence gap**: Does the post cite results (precision %, token counts, convergence curves) without stating how they were measured or noting they are illustrative? Fabricated numbers presented as real data undermine reader trust.
+- **Internal consistency**: Do the numbers in tables, graphs, and prose agree with each other? (e.g. a table row for Step 20 at 94.8% precision must match the graph caption and body text.)
+
+### 2. Skill file integrity — will a dev following this get the right output?
+
+- **Skill ↔ template contradictions**: If `SKILL.md` bans a pattern (e.g. cookie-cutter section headers like "Work in Progress / Next Steps"), `template.md` must not use that exact pattern. Both files travel together — a dev reads both.
+- **Cross-file policy drift**: If this PR modifies `gaia-image-production/SKILL.md` or `milim-editorial-thumbnail/SKILL.md`, verify the changes don't silently contradict `CLAUDE.md` hard rules (e.g. model selection policy). The skill file is not the source of truth — `CLAUDE.md` is.
+- **Broken references**: Skill files that point to `../marketing-tasks/...` paths assume a sibling repo checkout exists. Flag any reference that will silently 404 in CI or a fresh clone.
+- **Omissions from rewrites**: If a skill file is partially rewritten, check what was deleted. Operational procedures (cutout workflow, upscale hook, output standards table) should not disappear without an explicit replacement or stated reason.
+
+### 3. Readability — will a real reader skim past it or stop and read?
+
+This is the most important dimension and the easiest to overlook in a code review. Ask:
+
+- **Does the opening hook earn 10 more seconds?** The first two sentences decide whether a newcomer keeps reading. A hook that answers a question the reader already has ("why does adding IMPORTANT make it worse?") works. A hook that summarizes what the post will cover does not.
+- **Is there a skimmable backbone?** A reader who skims should still get the core idea from headers + bold text + code block labels alone. If every header is a vague noun phrase ("Optimization", "Results", "Takeaway"), skimmers get nothing.
+- **Do code comparisons show contrast clearly?** Side-by-side before/after blocks are the most-read part of any technical post. The "bad" example must be recognizably bad — not just longer — and the "good" must be concisely better.
+- **Does the post end with something actionable or memorable?** A "Takeaway" section that restates the intro in different words gives the reader no reason to share or return. A post should leave the reader with one thing they can do differently tomorrow.
+- **Is the reading level right?** Posts are read by practitioners (devs who write `SKILL.md` files) and curious newcomers alike. Assume the newcomer: if a term (ZO gradient, θ vector, perturbation scale) appears without a one-line plain-English anchor, that reader is lost before the second section.
