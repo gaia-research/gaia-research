@@ -8,9 +8,18 @@
  * pointing at a fresh mkdtemp() dir. The sync script writes there, never to
  * the real data/craft/. No snapshot/restore needed — no shared mutable state.
  * Safe under vitest's parallel workers.
+ *
+ * Timeout: each test spawns `npx tsx <sync>` synchronously, which cold-starts
+ * in ~7-8s and blows vitest's default 5000ms per-test timeout under parallel
+ * load. The subprocess-level `timeout: 60_000` in runSyncViaTsx() does NOT
+ * cover this — vitest kills the test first. Raise the per-test timeout
+ * file-wide so these subprocess-driven tests are reliable in `vitest run`.
  */
 
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
+
+// Subprocess-spawning tests need well above the 5s default (see header note).
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 import { execSync } from 'child_process';
 import fs from 'fs';
 import os from 'os';
