@@ -25,25 +25,26 @@ to make a decision.
 
 | Term | State | Oracle | Definition |
 |---|---|---|---|
-| `posture` | ✅ canonical | P1 | A named position on the resident-context ladder. P1 ratifies four: floor, curated, native, hell lane. |
+| `ladder` | ✅ canonical | N1, N5, P5 | The rung axis (`off…max`) that sets how much may be summoned per task and how much of the choosing is automated. One of two dials, with mode as the other. |
+| `posture` | ✅ canonical | P1 | A named position in the mode dial (P1's four). Distinct from a ladder rung, which is how much enters. |
 | `native` | ✅ canonical | P1 | The user's own setup, untouched — no eviction, no summoning. The default posture. |
 | `curated` | ✅ canonical | P1 | A hand-gated few skills, source-agnostic (the user's own custom skills first). The allowlist as human-selected fixed state, chosen at launch. |
 | `floor` | ✅ canonical | P1 | Evict all skills, bare prompt profile, zero server — the benchmark's placebo-of-record, at level `off`. Whether the PRODUCT floor and the BENCHMARK floor are the same posture is an open shaping question (the `--disable-slash-commands` finding). Do not assume one term covers both until that closes. |
-| `hell lane` | ✅ canonical | P1 | Evidenced flood — the whole evidenced pool, firebreak on, honesty-gated. Sits above native. Its mapping onto levels is OPEN. |
+| `hell lane` | ✅ canonical | P1 | The evidenced pool, honesty-gated, above native — how much of it enters is the ladder's rung. |
 | `clean-room` | 🅿️ parked | D12 | The fully-subtractive composition: bundled skills, user/global skills, MCP and non-project settings all evicted. Reachable only at boot, via the launcher. Names a composition the evidence supports (matrix gate (a)) but which has not shipped or been independently demonstrated. Demoted from canonical 2026-07-24. |
 | `scalpel` | 🅿️ parked | D12, N8 | The in-session control. Upward-only from the launched floor; carries conversation history; cannot descend below its launch posture. Names the in-session control from D12's former product design; that framing was cut back to physics 2026-07-24. Parked until the control exists. |
 | `lean` | 🅿️ parked | — | Coined in matrix gate (a) as a slider stop for `--setting-sources project`. Not one of P1's four postures — this is the naming collision the PR #4 review flagged. Proposed: `project-only` (unratified). UNRATIFIED both ways. Scoped narrowly on purpose: `lean` appears in 111 files, nearly all innocent (`clean`, `lean bundle`). Only flagged in user-facing copy and code. |
 | `project-only` | 🅿️ parked | — | Proposed name for the `--setting-sources project` stop: sheds project/settings weight, does NOT remove the user's personal skills. Unratified. |
 | `add-ons` | 🅿️ parked | — | Coined in matrix gate (a) as a slider stop. Proposal on the table: this is an ACTION available at any posture (route G shows `--plugin-dir` stacks even at the floor), not a position on the ladder. Unratified. |
-| `notch` | 🅿️ parked | — | One of three unchosen synonyms for a selectable position — notch / rung / stop. Pick one before any of them reaches user-facing copy. |
-| `rung` | 🅿️ parked | — | Synonym cluster with notch / stop. Unchosen. |
-| `slider` | 🅿️ parked | — | Contested. N1 (LOCKED) says 'Modes, not a slider' and supersedes the slider framing; D12/D13 (LOCKED, later) mandate 'the posture slider'. Neither acknowledges the other. CONFLICT — recorded, not resolved. This is the vocabulary drift PR #4's review identified. Resolution belongs in the oracle rewrite, not here. |
+| `notch` | ⛔ banned | N1, N5 | Retired 2026-07-24 in favour of `rung`. **Use `rung`.** |
+| `rung` | ✅ canonical | N1, N5 | One selectable position on the ladder (`off…max`). The chosen word of the notch/rung/stop cluster — a ladder has rungs. Promoted 2026-07-24 for consistency with the oracle, which uses `rung` throughout after the ladder ruling. Correct freely if `notch` or `stop` reads better. |
+| `slider` | ⛔ banned | N1 | Retired 2026-07-24. The control is a ladder with discrete rungs, not a continuous fader. **Use `ladder`.** This was the longest-running vocabulary conflict on the line — N1 superseded the slider framing while later entries mandated a slider, and neither acknowledged the other. Closed by choosing the ladder. |
 | `picker` | 🅿️ parked | — | Candidate replacement for the contested `slider` — a discrete chooser with locked entries, which is what the product actually renders. Unratified. |
 | `mode` | ✅ canonical | N1, N2 | Discrete mode switching — the interaction model. Same mode, same semantics, any door. N2 leans 'Skill Heaven mode' / 'Skill Hell mode'. |
 | `level` | ✅ canonical | N3 | Agentic-coding level terms: off · low · med · high · xhigh · max. No celestial level names. |
 | `Heaven-0` | ⛔ banned | N3 | Retired as a level name. Historical shorthand in archived docs only. **Use `level`.** |
 | `Heaven-1` | ⛔ banned | N3 | Retired as a level name. Historical shorthand in archived docs only. **Use `level`.** |
-| `ultra` | 🅿️ parked | N4 (OPEN) | Whether the term survives, and where it sits, is an OPEN oracle item. Do not invent a placement. |
+| `ultra` | ✅ canonical | N4 | The arm above Hell — a mode, not a rung. The ladder's top rung is `max`. |
 
 ## mechanism
 
@@ -51,12 +52,12 @@ to make a decision.
 |---|---|---|---|
 | `purge` | 🅿️ parked | — | Physical subtractive removal of context. Launcher-locked — gate (a) proved it cannot happen in-session. Names a real mechanism split — gate (a) proved purge cannot happen in-session — but the product framing that named it (D13) was deleted 2026-07-24. Parked until a surface using it ships. |
 | `restraint` | 🅿️ parked | — | Behavioral suppression of skill USE while the skills remain physically in context. UNVERIFIED — research track, behind matrix gate (e), no load-bearing copy until it passes. Behind matrix gate (e), which has never run. Its backing entry (D13) was deleted 2026-07-24. It was canonical on that entry's authority while the entry itself said UNVERIFIED — it should never have been canonical. |
-| `resident` | 🅿️ parked | — | Proposed set model (PR #4 comment): a skill is resident (in context), summonable (indexed, free until invoked), or absent. Heaven shrinks resident; Hell grows summonable. Unratified. |
-| `summonable` | 🅿️ parked | — | Part of the proposed resident/summonable/absent set model. Unratified. |
+| `resident` | 🅿️ parked | — | Proposed name for a skill currently in context. Not the founder's word for it; kept parked rather than promoted alongside `summonable`. |
+| `summonable` | ✅ canonical | P5 | A skill that is indexed and reachable but costs nothing until summoned. Hell grows this set; a summon brings a proxy into context for this session only. |
 | `eviction` | ✅ canonical | D2 | Removal of a skill from context. Always harness-side, never an MCP operation — MCP is additive-only in every target harness. |
-| `summon` | ✅ canonical | D4 | One of gaia-mcp's two tools (with `search_skills`). Additive-only. The server keeps a ≤2-tool surface and its own footprint is priced in every claim. |
+| `summon` | ✅ canonical | D4 | One of gaia-mcp's two tools (with `search_skills`). Additive-only. A summon brings a skill into context once, for this session only — it does not survive a compact or a new session, and installs nothing. |
 | `router` | ✅ canonical | D5 | Deterministic nearest-neighbour over a build-time frozen embedding index. No model call ever decides a loadout. |
-| `firebreak` | 🅿️ parked | — | Appears in P1's hell-lane definition AND in the archived RFC-68 ACI research with a different sense. Meaning not pinned; do not build on it. |
+| `firebreak` | ⛔ banned | N1, P5 | Retired 2026-07-24. It named a token ceiling on the summon flood — the thing the ladder now sets and the meter now shows. **Use `ladder`.** Two senses ran side by side: the live 'token-ceiling firebreak' and the archived RFC-68 sense (an architectural boundary against tool-exposure degradation). Neither survives: a cap with a control and a readout does not need a third name. |
 
 ## measurement
 
@@ -67,8 +68,8 @@ to make a decision.
 | `harness dose` | ✅ canonical | B1 | `tokens.system` — the harness's own prompt weight. Priced in the ledger and reports only, never in the Ygg II schema. |
 | `dose` | ✅ canonical | B1 | Always qualified — standing, invocation, or harness. B1 forbids collapsing them into one number in any public claim. |
 | `gauge` | 🅿️ parked | — | COLLISION — currently used both for per-skill HH Index stamps and for session spend meters. Two different things wearing one word; flagged in the PR #4 review. Unresolved. |
-| `meter` | 🅿️ parked | — | Candidate name for the ambient statusline readout of standing dose. Unratified. |
-| `budget` | 🅿️ parked | — | Proposed unifying primitive: a resident-token cap that Heaven lowers and Hell fills. Shaping-stage only — no oracle entry, no code. |
+| `meter` | ✅ canonical | P5 | The readout of what a session has spent. A gauge on the context the ladder governs — it displays, it does not cap. |
+| `budget` | ⛔ banned | P5 | Retired 2026-07-24. There is no separate budget to model — the context window already is one. What ships is a meter. **Use `meter`.** Reverses a proposal made during this consolidation, which had budget as the unifying primitive across Heaven and Hell. The ladder is the control; the meter is the readout. For unrelated engineering caps (latency, description size, CI spend) write **ceiling** — one word, one meaning, and the gate stays quiet. |
 | `heat` | 🅿️ parked | — | Proposed name for Hell's budget dimension. Shaping-stage only. |
 | `HH Index` | ✅ canonical | N6 | The Hell Heaven Index. Schema key `hellHeaven`. |
 | `stamp` | ✅ canonical | G2 | Discrete set-membership: `heaven-native` / `auto@tier` / `hell-safe@tier`. Routing is lookup, no arithmetic. |

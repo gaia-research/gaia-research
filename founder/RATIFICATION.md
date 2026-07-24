@@ -42,11 +42,11 @@
 
 | # | Status | Decision |
 |---|---|---|
-| N1 | **CURRENT** | **Modes, not a slider** — the product is discrete mode switching, and the entry mechanism never changes what a mode means. ⚠️ Conflicts with D12, which describes a posture ladder; see OPEN 1. |
+| N1 | **CURRENT** | **Modes plus a ladder.** The product is discrete **mode switching**, and within a mode a **ladder** sets how much enters context. The entry mechanism never changes what a mode means. The control is a ladder with discrete rungs — never a continuous fader. |
 | N2 | **CURRENT** | Mode names are **"Skill Heaven mode"** and **"Skill Hell mode"** — the skill terms lead even where a mode also touches context or prompt. |
 | N3 | **CURRENT** | Levels use agentic-coding terms: `off · low · med · high · xhigh · max`. No celestial level names. |
-| N4 | **OPEN** | Whether **`ultra`** survives as a term, and where it sits. |
-| N5 | **OPEN** | **One scale or two** — a single mode×level scale, or two independent dials. |
+| N4 | **CURRENT** | **`ultra` survives**, as the arm above Hell — a **mode**, not a rung (the ladder's top rung is `max`). This is also what the ledger's frozen arm key already assumes, so nothing migrates. ⚠️ The mode-not-rung placement is inferred from P5, not ruled outright; correct freely. |
+| N5 | **CURRENT** | **Two dials, not one scale**: mode (Heaven · Hell · Ultra) × ladder rung (`off…max`). ⚠️ Inferred from P5 rather than ruled on directly; correct freely. |
 | N6 | **CURRENT** | The index is the **Hell Heaven (HH) Index**; schema key `hellHeaven`. Becomes INVARIANT once the canon ask lands upstream. |
 | N7 | **INVARIANT** | **Milim is the Hell-mode persona.** The Heaven persona's name is reserved and undecided — **nothing may hard-code one**. Credit Matt Pocock for naming Skill Hell; the frame is "Stop installing. Start summoning." |
 | N8 | **CURRENT — INCOMPLETE** | **Positioning: scalpel, not door.** The user lives in a bare harness and reaches for this when it hurts. Pain vocabulary is **context bloat**; the name carries the brand, the tagline carries the symptom. Mental model is **harness-first** — never a `sudo`-style wrapper identity. ⚠️ **Covers the moment of reach only.** It says nothing about what the user does once inside, how they learn where they are, or what an honest refusal feels like — scenarios that surfaced in skill-heaven#4. See OPEN 12. |
@@ -59,6 +59,7 @@
 | P1 | **CURRENT** | Four postures: **floor** (evict everything, zero server — the benchmark's placebo-of-record), **curated** (a hand-gated few, source-agnostic, the user's own skills first), **native** (untouched; the default), and the **hell lane** above native. ⚠️ The shipped set diverges from this; see OPEN 2. |
 | P2 | **INVARIANT** | **Heaven ships first** — pure subtraction, no registry, no gate. **Hell and ultra are gated** behind benchmark stamps, a trust-coverage threshold, and owner ratification that Hell is safe to enable. |
 | P3 | **INVARIANT** | **Modes are per-session, never a config mutation.** Compiled per invocation; project defaults with session overrides; nothing writes to shared config; exiting a mode is switching modes, never a restore. |
+| P5 | **CURRENT** | **Hell is summonable skills, per session only.** A summoned skill is a **proxy that enters context on demand, once** — it does **not** survive a compact or a new session, and **nothing is installed**, so the user's default configuration is never touched. The **ladder** sets how much may be summoned per task and how much of the choosing is automated; the **router** picks which (D5), and the user may summon their own favourites directly. At the top rung the largest suites enter and **cannot be removed for the rest of the session** — a one-way door inside the session, never outside it (P3). The aim is outstanding per-session skill intake for the hardest tasks, which is why it demands a capable agent to navigate. ⚠️ "Does not survive a compact" is a behaviour claim with no probe behind it yet; see OPEN 3. |
 | P4 | **CURRENT** | **Heaven's deliverable is context authorship** — the empowerment lane. Subtraction is Heaven's floor, not its ceiling. |
 
 ## 3. Delivery & mechanism
@@ -95,21 +96,21 @@
 
 ## 6. Open items — do not improvise these
 
-1. **Modes or a ladder?** N1 says discrete modes and supersedes the slider
-   framing. The entries that had mandated a slider are gone — D13 deleted, D12
-   cut back to physics — but skill-heaven#4 *shipped* a slider, so the product
-   and N1 still disagree. Recorded in the lexicon as a parked term until the
-   product picks one.
-2. **Posture-set collision.** The shipped set does not match P1's four. Proposal on the table: two of the shipped stops are not rungs but **axes** — stacking add-ons is an action available at *any* posture, and behavioral restraint is behavioral, not positional.
-3. **N5** — one scale or two. **N4** — whether `ultra` survives, and where.
-4. **Hell-lane level mapping** — which upper levels the hell lane occupies. Encoding a provisional mapping in a constant is a decision made by omission; do not.
-5. **Product floor vs. benchmark floor.** Suppressing slash commands at the deepest floor leaves it with no controls at all. Proposal: keep the doorless floor as the benchmark's placebo-of-record and ship a *doorful* product floor, priced as a separate arm.
-6. **Heaven's definition** — deliberately reopened.
-7. **Heaven-native dose budgets** · **necessity-map lane taxonomy** · **Heaven persona name** · **shaping-doc deltas** — each awaiting ratify/reject.
-8. **D5's boundary.** Does a model-issued `summon` after a deterministic search breach "no model decides a loadout"? Candidate reframe: make the budget deterministic, so the enforceable rule becomes *no model decides how much*.
-9. **`gauge` collision** — one word doing duty for both per-skill stamps and session spend meters.
-10. **Eager vs. on-demand** — likely a toggle orthogonal to the ladder, not a rung on it.
-11. **Completing N8.** The positioning covers the moment of reach and nothing
+1. **Posture-set collision.** The shipped set does not match P1's four. Proposal on the table: two of the shipped stops are not rungs but **axes** — stacking add-ons is an action available at *any* posture, and behavioral restraint is behavioral, not positional.
+2. **Compaction survival (needs a probe).** P5 asserts a summoned skill does
+   not survive a compact or a new session. That is the honesty claim the whole
+   per-session promise rests on, and nothing has measured it. Needs its own
+   matrix gate before any load-bearing copy.
+3. **Hell-lane rung mapping** — which rungs the hell lane occupies, now that
+   N5 fixes the axes. Encoding a provisional mapping in a constant is a
+   decision made by omission; do not.
+4. **Product floor vs. benchmark floor.** Suppressing slash commands at the deepest floor leaves it with no controls at all. Proposal: keep the doorless floor as the benchmark's placebo-of-record and ship a *doorful* product floor, priced as a separate arm.
+5. **Heaven's definition** — deliberately reopened.
+6. **Heaven-native dose budgets** · **necessity-map lane taxonomy** · **Heaven persona name** · **shaping-doc deltas** — each awaiting ratify/reject.
+7. **D5's boundary.** Does a model-issued `summon` after a deterministic search breach "no model decides a loadout"? P5 narrows it usefully — the **ladder** is deterministic and sets *how much*, the router sets *which*, so the enforceable rule may simply be **no model decides how much**. Not yet ruled.
+8. **`gauge` collision** — one word doing duty for both per-skill stamps and the session meter.
+9. **Eager vs. on-demand** — likely a toggle orthogonal to the ladder, not a rung on it.
+10. **Completing N8.** The positioning covers the moment of reach and nothing
     after it. Four scenarios surfaced in skill-heaven#4 that it does not
     address: **posture adjustment** (moving between postures mid-work),
     **capability discovery** (learning where this session sits and what moves
@@ -117,7 +118,9 @@
     upsell), and **refusal transparency** (an explicit, honest refusal at gated
     levels rather than a false sense of access). N8 is not wrong; it is
     unfinished.
-12. **`ultra` in a frozen ledger key.** N4 is OPEN, but the key is frozen by D6; renaming it would invalidate committed records.
+(Closed 2026-07-24: modes-or-a-ladder → N1 · `ultra` survives → N4 · one scale
+or two → N5 · `ultra` in the frozen ledger key — no longer a conflict, N4 keeps
+the arm name the ledger already uses.)
 
 ## 7. Pointer map
 

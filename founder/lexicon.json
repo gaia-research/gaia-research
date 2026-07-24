@@ -4,7 +4,7 @@
   "extends": null,
   "updated": "2026-07-24",
   "about": "Vocabulary of record for the Skill Heaven / Skill Hell line. A term is defined in exactly one lexicon file, ever; extensions (marketing-tasks/founder/lexicon.brand.json) ADD terms in their own namespace and may never redefine a core term. States: canonical (use this), banned (the oracle retired it — CI fails), parked (coined but unchosen — docs only, never user-facing copy or code), frozen (meant something specific once — archived docs only). A term is `banned` ONLY when founder/RATIFICATION.md already retired it; a term this repo is still arguing about is `parked`, never banned. Writing a linter is not a way to make a decision. AND: `canonical` is not inherited from an oracle citation. A word describing a surface that has not been built or demonstrated stays `parked` however firmly its backing entry is written -- otherwise the lexicon launders provisional decisions into enforced vocabulary, which is the drift it exists to stop, one level up.",
-  "scope_note": "THE LEXICON IS LINE-SCOPED, NOT REPO-SCOPED. It governs the Skill Heaven / Skill Hell line only. This repo also hosts the craft lab, the context-diet lab, the Milim pet and unrelated reports, where `seed` is a PRNG seed and `budget` is a CI budget — different projects, different vocabularies, none of this gate's business. Widening these globs to `app/**` or `content/**` produced 60+ findings against code that has nothing to do with postures; that was the gate over-reaching, not drift.",
+  "scope_note": "THE LEXICON IS LINE-SCOPED, NOT REPO-SCOPED. It governs the Skill Heaven / Skill Hell line only. This repo also hosts the craft lab, the context-diet lab, the Milim pet and unrelated reports, where `seed` is a PRNG seed and `budget` is a CI budget — different projects, different vocabularies, none of this gate's business. `docs/plans/` also holds Milim-pet, Live2D and asset plans, which are excluded by name for the same reason. Widening these globs to `app/**` or `content/**` produced 60+ findings against code that has nothing to do with postures; that was the gate over-reaching, not drift.",
   "scopes": {
     "decisive": {
       "about": "Docs that read as current guidance for the line: the oracle, live plans, the evidence matrix.",
@@ -44,15 +44,26 @@
     "**/__fixtures__/**",
     "founder/lexicon.json",
     "founder/LEXICON.md",
-    "scripts/lexicon/**"
+    "scripts/lexicon/**",
+    "docs/plans/milim-*.md",
+    "docs/plans/asset-helper-scripts-plan.md",
+    "docs/plans/gaia-research-nextjs-north-star.md",
+    "docs/plans/north-star-decisions-and-asset-commission.md"
   ],
   "terms": [
+    {
+      "term": "ladder",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "N1, N5, P5",
+      "definition": "The rung axis (`off…max`) that sets how much may be summoned per task and how much of the choosing is automated. One of two dials, with mode as the other."
+    },
     {
       "term": "posture",
       "state": "canonical",
       "group": "posture",
       "oracle": "P1",
-      "definition": "A named position on the resident-context ladder. P1 ratifies four: floor, curated, native, hell lane."
+      "definition": "A named position in the mode dial (P1's four). Distinct from a ladder rung, which is how much enters."
     },
     {
       "term": "native",
@@ -81,7 +92,7 @@
       "state": "canonical",
       "group": "posture",
       "oracle": "P1",
-      "definition": "Evidenced flood — the whole evidenced pool, firebreak on, honesty-gated. Sits above native. Its mapping onto levels is OPEN."
+      "definition": "The evidenced pool, honesty-gated, above native — how much of it enters is the ladder's rung."
     },
     {
       "term": "clean-room",
@@ -135,22 +146,28 @@
     },
     {
       "term": "notch",
-      "state": "parked",
+      "state": "banned",
       "group": "posture",
-      "definition": "One of three unchosen synonyms for a selectable position — notch / rung / stop. Pick one before any of them reaches user-facing copy."
+      "definition": "Retired 2026-07-24 in favour of `rung`.",
+      "replacement": "rung",
+      "oracle": "N1, N5"
     },
     {
       "term": "rung",
-      "state": "parked",
+      "state": "canonical",
       "group": "posture",
-      "definition": "Synonym cluster with notch / stop. Unchosen."
+      "definition": "One selectable position on the ladder (`off…max`). The chosen word of the notch/rung/stop cluster — a ladder has rungs.",
+      "oracle": "N1, N5",
+      "note": "Promoted 2026-07-24 for consistency with the oracle, which uses `rung` throughout after the ladder ruling. Correct freely if `notch` or `stop` reads better."
     },
     {
       "term": "slider",
-      "state": "parked",
+      "state": "banned",
       "group": "posture",
-      "definition": "Contested. N1 (LOCKED) says 'Modes, not a slider' and supersedes the slider framing; D12/D13 (LOCKED, later) mandate 'the posture slider'. Neither acknowledges the other.",
-      "note": "CONFLICT — recorded, not resolved. This is the vocabulary drift PR #4's review identified. Resolution belongs in the oracle rewrite, not here."
+      "definition": "Retired 2026-07-24. The control is a ladder with discrete rungs, not a continuous fader.",
+      "note": "This was the longest-running vocabulary conflict on the line — N1 superseded the slider framing while later entries mandated a slider, and neither acknowledged the other. Closed by choosing the ladder.",
+      "replacement": "ladder",
+      "oracle": "N1"
     },
     {
       "term": "picker",
@@ -190,10 +207,10 @@
     },
     {
       "term": "ultra",
-      "state": "parked",
+      "state": "canonical",
       "group": "posture",
-      "oracle": "N4 (OPEN)",
-      "definition": "Whether the term survives, and where it sits, is an OPEN oracle item. Do not invent a placement."
+      "oracle": "N4",
+      "definition": "The arm above Hell — a mode, not a rung. The ladder's top rung is `max`."
     },
     {
       "term": "standing dose",
@@ -231,15 +248,19 @@
     },
     {
       "term": "meter",
-      "state": "parked",
+      "state": "canonical",
       "group": "measurement",
-      "definition": "Candidate name for the ambient statusline readout of standing dose. Unratified."
+      "definition": "The readout of what a session has spent. A gauge on the context the ladder governs — it displays, it does not cap.",
+      "oracle": "P5"
     },
     {
       "term": "budget",
-      "state": "parked",
+      "state": "banned",
       "group": "measurement",
-      "definition": "Proposed unifying primitive: a resident-token cap that Heaven lowers and Hell fills. Shaping-stage only — no oracle entry, no code."
+      "definition": "Retired 2026-07-24. There is no separate budget to model — the context window already is one. What ships is a meter.",
+      "replacement": "meter",
+      "oracle": "P5",
+      "note": "Reverses a proposal made during this consolidation, which had budget as the unifying primitive across Heaven and Hell. The ladder is the control; the meter is the readout. For unrelated engineering caps (latency, description size, CI spend) write **ceiling** — one word, one meaning, and the gate stays quiet."
     },
     {
       "term": "heat",
@@ -297,13 +318,14 @@
       "term": "resident",
       "state": "parked",
       "group": "mechanism",
-      "definition": "Proposed set model (PR #4 comment): a skill is resident (in context), summonable (indexed, free until invoked), or absent. Heaven shrinks resident; Hell grows summonable. Unratified."
+      "definition": "Proposed name for a skill currently in context. Not the founder's word for it; kept parked rather than promoted alongside `summonable`."
     },
     {
       "term": "summonable",
-      "state": "parked",
+      "state": "canonical",
       "group": "mechanism",
-      "definition": "Part of the proposed resident/summonable/absent set model. Unratified."
+      "definition": "A skill that is indexed and reachable but costs nothing until summoned. Hell grows this set; a summon brings a proxy into context for this session only.",
+      "oracle": "P5"
     },
     {
       "term": "eviction",
@@ -317,7 +339,7 @@
       "state": "canonical",
       "group": "mechanism",
       "oracle": "D4",
-      "definition": "One of gaia-mcp's two tools (with `search_skills`). Additive-only. The server keeps a ≤2-tool surface and its own footprint is priced in every claim."
+      "definition": "One of gaia-mcp's two tools (with `search_skills`). Additive-only. A summon brings a skill into context once, for this session only — it does not survive a compact or a new session, and installs nothing."
     },
     {
       "term": "router",
@@ -328,9 +350,12 @@
     },
     {
       "term": "firebreak",
-      "state": "parked",
+      "state": "banned",
       "group": "mechanism",
-      "definition": "Appears in P1's hell-lane definition AND in the archived RFC-68 ACI research with a different sense. Meaning not pinned; do not build on it."
+      "definition": "Retired 2026-07-24. It named a token ceiling on the summon flood — the thing the ladder now sets and the meter now shows.",
+      "replacement": "ladder",
+      "oracle": "N1, P5",
+      "note": "Two senses ran side by side: the live 'token-ceiling firebreak' and the archived RFC-68 sense (an architectural boundary against tool-exposure degradation). Neither survives: a cap with a control and a readout does not need a third name."
     },
     {
       "term": "launcher",

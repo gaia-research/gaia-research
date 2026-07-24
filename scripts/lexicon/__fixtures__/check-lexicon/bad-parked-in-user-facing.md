@@ -1,4 +1,4 @@
 <!-- as: content/reports/skill-heaven/x.md -->
 # Report
 
-Drag the slider to pick a notch. The lowest one is locked.
+Reach the clean-room posture with the scalpel, then stack add-ons.

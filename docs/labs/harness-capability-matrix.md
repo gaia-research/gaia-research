@@ -186,7 +186,7 @@ installed as both `agent` and `cursor-agent`; column re-probe pending, WS6 of
 > pointers: nothing below is authority for a decision, and a retired id is never
 > reused.
 
-## WS3 verification gates — gate (a): in-session profile recomposition (the posture slider)
+## WS3 verification gates — gate (a): in-session profile recomposition (the posture ladder)
 
 **Milestone:** WS3 of
 [`docs/plans/archived/2026-07-24-skill-heaven-continuation-plan.md`](../plans/archived/2026-07-24-skill-heaven-continuation-plan.md)
@@ -231,12 +231,12 @@ it does **not** recompose. History carries forward on both (codeword recalled).
 reachable **only at boot** (fresh session, T9 route) → **`claude-heaven` launcher
 is the only path to the floor** (launcher-locked). The in-session `/skill-heaven`
 scalpel can move **upward** (additive) and shed some non-skill weight, but cannot
-descend below its launch floor. This is the **posture slider** the product ships.
+descend below its launch floor. This is the **posture ladder** the product ships.
 
 **Poles (this run):** native fresh **≈25.2k tok (firecrawl YES)** · clean-room
 fresh T9 **≈17.0k tok (firecrawl NO)**.
 
-**The slider (continued-session sweep — each flag applied on resume, both
+**The ladder (continued-session sweep — each flag applied on resume, both
 `--resume` and `--resume --fork-session`; tokens + firecrawl):**
 
 | Route | On a continued session | Tokens | firecrawl | Read |
@@ -260,7 +260,7 @@ fresh T9 **≈17.0k tok (firecrawl NO)**.
 > behavior are **undocumented and version-pinned** → **re-run this sweep on every
 > Claude Code upgrade**; always record the exact `claude --version`.
 
-**Slider map (authoritative):**
+**Ladder map (authoritative):**
 - **Launcher-only floor** ≈17.0k, firecrawl NO — evicts bundled *and* user/global
   skills + MCP + non-project settings. Reachable **only** via `claude-heaven` at boot.
 - **Scalpel floor (in-session)** ≈19.2–19.6k, firecrawl **YES** — can shed the top
@@ -350,7 +350,7 @@ interactive `claude`, read the file.
 `scripts/hell-heaven-bench/census.ts`, the same proxy every R0 number uses.
 `/skill-heaven` and `/skill-hell` have no committed command definitions yet
 (WS4), so **representative draft descriptions** are priced; final WS4 copy
-re-prices with the same method and must stay under the budget this sets.
+re-prices with the same method and must stay under the ceiling this sets.
 
 **Gate question (plan):** the standing tokens the `/skill-heaven` + `/skill-hell`
 commands themselves add to every session (the tool must not be its own bloat).
@@ -371,7 +371,7 @@ WS4 re-prices; if the listed id carries a plugin-name prefix
 (D4/B1):** this self-dose is disclosed and subtracted in every claim — it is the
 only standing cost `claude-heaven`'s doors add (Heaven's purest form uses no
 server). **Blocks:** WS4 steps 2–3 copy + README claims; the final command
-descriptions must price at or below this budget.
+descriptions must price at or below this ceiling.
 
 ## WS3 verification gates — gate (d): marketplace-from-monorepo (D10)
 
@@ -432,10 +432,10 @@ copy must not rely on this cell until it passes. Recorded here per D13 so the
 claim is disclosed as unverified rather than assumed (M0 discipline; D8's
 "will-not-work ledger is first-class").
 
-**What D13 needs verified.** The physical posture slider (gate (a)) is
+**What D13 needs verified.** The physical posture ladder (gate (a)) is
 launcher-gated below the launch floor. D13 posits a **second, ungated downward
 track**: a *heaven-native skill* (the `grilling` / "grill-me" class) that reaches
-a posture **a notch below vanilla behaviorally** by **restraining the model's
+a posture **a rung below vanilla behaviorally** by **restraining the model's
 *use* of skills that remain physically in context** — an intentional shift, not a
 context purge. This is a **behavioral / prompt-adherence claim**, not a
 context-composition one, so tokens won't measure it.
@@ -450,8 +450,8 @@ suppression rate, false-restraint rate); repeat ×runs, report CIs (no
 determinism). **Depends on:** gaia-skill-tree producing the heaven-native skill
 set first (repo boundary: authored upstream, flows through marketing-tasks).
 **Blocks:** any WS4 copy that promises "below-vanilla in-session" behavior; the
-behavioral notch in the `/skill-heaven` slider UI. Until green, the MVP slider
-ships **physical-only** (gate (a)); the behavioral notch renders as
+behavioral rung in the `/skill-heaven` ladder UI. Until green, the MVP ladder
+ships **physical-only** (gate (a)); the behavioral rung renders as
 "coming — research" and never as a working stop.
 
 ## Sources

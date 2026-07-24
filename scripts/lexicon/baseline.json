@@ -3,16 +3,13 @@
   "generated": "2026-07-24",
   "findings": {
     "MISSION.md": {
-      "ultra": 5,
       "firebreak": 3
     },
     "VISION.md": {
       "slider": 8,
       "resident": 1,
       "firebreak": 2,
-      "budget": 2,
-      "ultra": 3,
-      "summonable": 1
+      "budget": 2
     },
     "app/page.tsx": {
       "slider": 2,
@@ -21,7 +18,6 @@
     "content/reports/hh-benchmark/methodology.md": {
       "firebreak": 1,
       "budget": 1,
-      "ultra": 1,
       "slider": 1
     }
   }
