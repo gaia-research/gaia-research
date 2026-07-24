@@ -91,6 +91,14 @@ export type Term = {
   scope?: string[];
   /** "exact-case" for ALL-CAPS labels whose lowercase form is ordinary English. */
   match?: "exact-case";
+  /**
+   * Regexes that exempt a match. A one-word ban is too blunt when the word has
+   * more than one sense: `seed` is retired in the determinism sense (B3) but a
+   * "seed set" of skills to hand-label is a different thing entirely. Without
+   * this the gate flags the wrong sense and gets silenced with markers, which
+   * is how a linter dies.
+   */
+  except?: string[];
 };
 
 export type Lexicon = {
@@ -184,6 +192,8 @@ export function validateLexicon(lex: Lexicon, oracleIds?: Set<string>): string[]
     if (!t.definition?.trim()) errors.push(`${t.term}: missing definition`);
     for (const s of t.scope ?? [])
       if (!lex.scopes[s]) errors.push(`${t.term}: unknown scope "${s}"`);
+    for (const p of t.except ?? [])
+      try { new RegExp(p); } catch { errors.push(`${t.term}: invalid except pattern "${p}"`); }
     if (oracleIds && t.oracle) {
       for (const id of t.oracle.match(/[A-Z]\d+/g) ?? [])
         if (!oracleIds.has(id))
@@ -237,6 +247,7 @@ export function scanText(text: string, path: string, lex: Lexicon): Finding[] {
       if (i > 0 && lines[i - 1].includes("lexicon-allow")) return;
       re.lastIndex = 0;
       if (!re.test(line)) return;
+      if (t.except?.some((p) => new RegExp(p, "i").test(line))) return;
       findings.push({
         file: path,
         line: i + 1,

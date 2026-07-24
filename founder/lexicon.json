@@ -278,7 +278,13 @@
       "definition": "Determinism does not exist in any target harness. The ledger validator rejects a `seed` field; seed-framing in benchmark copy is a retired claim.",
       "scope": [
         "user-facing"
-      ]
+      ],
+      "except": [
+        "seed[- ](set|labels?|rubric|corpus)",
+        "labell?ed seed",
+        "the seed across"
+      ],
+      "note": "Retired in the DETERMINISM sense only (B3). A `seed set` of skills to hand-label, and the seed rubric that grades it, are a different thing and are exempted by pattern — the third case in this lexicon where a one-word ban hit the wrong sense (see also `lean`, `tier`)."
     },
     {
       "term": "own-placebo",

@@ -86,6 +86,15 @@ check(
   !lex.terms.some((t) => t.state === "canonical" && /clean-room|scalpel|purge|restraint/.test(t.term)),
 );
 
+check(
+  "an `except` pattern exempts the other sense of a word",
+  scanText("hand-label a ~20-skill seed set as ground truth", "MISSION.md", lex).length === 0,
+);
+check(
+  "…but the banned sense still fires on the same term",
+  scanText("both arms ran on the same seed", "MISSION.md", lex).some((f) => f.term === "seed"),
+);
+
 console.log("\nglob matching");
 check("**/*.md matches a root-level file", globToRegExp("**/*.md").test("VISION.md"));
 check("**/*.md matches a nested file", globToRegExp("**/*.md").test("docs/plans/a.md"));

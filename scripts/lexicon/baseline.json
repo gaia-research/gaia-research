@@ -4,8 +4,7 @@
   "findings": {
     "MISSION.md": {
       "ultra": 5,
-      "firebreak": 3,
-      "seed": 2
+      "firebreak": 3
     },
     "VISION.md": {
       "slider": 8,
@@ -20,7 +19,6 @@
       "firebreak": 1
     },
     "content/reports/hh-benchmark/methodology.md": {
-      "seed": 7,
       "firebreak": 1,
       "budget": 1,
       "ultra": 1,

@@ -8,9 +8,9 @@
 > pending rewrite: **§2's "borrowed baseline"** — superseded by **B2
 > (own-placebo anchoring)**: the placebo arm is our *own same-harness no-skill
 > run; published benchmark scores are calibration only. And every mention of
-> **"same seed" / a ledger `seed` field** (§1, §6) — superseded by **B3**:
+> **"same seed" / a ledger `seed` field** (§1, §6) — superseded by **B3**: <!-- lexicon-allow: banner states what B3 retired -->
 > determinism does not exist in any target harness; the design is N repeats +
-> confidence intervals, and the run-ledger validator rejects `seed`.
+> confidence intervals, and the run-ledger validator rejects `seed`. <!-- lexicon-allow: banner states what B3 retired -->
 
 **How do you benchmark a *skill*?** Not a model — a skill. The thing you bolt onto an
 agent to make it better at something. Everyone can feel when a skill helps. Almost nobody
@@ -26,7 +26,7 @@ has written down how to *prove* it. This is our attempt, in the open, before we'
 
 A skill has no score in a vacuum. Its value is always **marginal** — *what did adding it to
 the loadout do, versus not adding it, in this exact context?* So we never measure a skill
-alone. We measure a **pair**: the same task, same model, same seed, run **with** the skill and
+alone. We measure a **pair**: the same task, same model, **N repeats reported with confidence intervals**, run **with** the skill and
 **without** it. The skill's worth is the *delta*.
 
 ### The analogy: a drug trial, not an exam
@@ -143,7 +143,7 @@ R3 paired trial → R4 validate labels → R5 stamps.
 ## 6. Data we gather, per run
 
 Every run appends to a ledger (`scripts/hell-heaven-bench/`): benchmark id, task, arm
-(placebo / heaven / hell / ultra), skill(s) loaded, model, seed, tokens in/out by category
+(placebo / heaven / hell / ultra), skill(s) loaded, model, `repeatIndex`, tokens in/out by category
 (system, skill-load, per-turn), wall-clock, the **objective endpoint result**, and — for Tier 3
 — the blind-judge verdict. The skill's marginal effect is `mean(outcome | present) −
 mean(outcome | absent)`, with CIs, over the population.
