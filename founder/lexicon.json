@@ -15,6 +15,7 @@
       "include": [
         "VISION.md",
         "MISSION.md",
+        "app/page.tsx",
         "content/reports/hh-benchmark/**/*.md",
         "content/reports/skill-heaven/**/*.md",
         "app/research/hh-benchmark/**/*.{ts,tsx,md,mdx}"
@@ -365,7 +366,8 @@
       "replacement": "skill-heaven",
       "group": "names",
       "oracle": "N9",
-      "definition": "Retired fallback repo name."
+      "definition": "Retired fallback repo name.",
+      "note": "Retired as a NAME for the repo/installable. The hyphenated string is also the natural URL slug of the line's own name, 'Skill Heaven / Skill Hell', which is fully canonical (this oracle's title uses it) — see the homepage anchor `#skill-heaven-hell`. A slug of the line name is not an instance of the retired name; mark such lines `lexicon-allow` rather than renaming public URL fragments."
     },
     {
       "term": "Milim",

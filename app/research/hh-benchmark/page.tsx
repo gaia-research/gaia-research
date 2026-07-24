@@ -55,6 +55,7 @@ export default function HhBenchmarkPage() {
 
         <footer className="report-foot">
           <p>This method is a draft, published before execution. If you benchmark models or skills, come build it with us.</p>
+          {/* lexicon-allow: anchor slug of the line name, not N9's retired repo name */}
           <Link className="button secondary" href="/#skill-heaven-hell">Back to Skill Heaven/Hell <span>→</span></Link>
         </footer>
       </main>

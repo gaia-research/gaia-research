@@ -48,7 +48,7 @@ export default function Home() {
      <div className="play-card-body">
       <span className="play-tag">Beta · Tool</span>
       <h3>Context Diet</h3>
-      <p>Feed it a bloated context file and watch it shrink to a lean, mean skill sliver. Weigh-in stays in your browser.</p>
+      {/* lexicon-allow: "lean" here is ordinary English, not the posture */}<p>Feed it a bloated context file and watch it shrink to a lean, mean skill sliver. Weigh-in stays in your browser.</p>
       <span className="play-go">Trim a prompt <span aria-hidden="true">→</span></span>
      </div>
     </Link>
@@ -69,6 +69,7 @@ export default function Home() {
    </div>
   </section>
 
+  {/* lexicon-allow: slug of the line name "Skill Heaven / Skill Hell" (canonical), not N9's retired repo name */}
   <section id="skill-heaven-hell" className="hh section-shell" aria-labelledby="hh-title">
    <header className="hh-intro">
     <p className="signal"><span /> WORK IN PROGRESS · HELL HEAVEN INDEX</p>

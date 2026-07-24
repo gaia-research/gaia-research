@@ -213,7 +213,12 @@ export function scanText(text: string, path: string, lex: Lexicon): Finding[] {
 
     const re = termPattern(t);
     lines.forEach((line, i) => {
+      // Same-line marker, or the preceding line (the eslint-disable-next-line
+      // convention). The preceding-line form exists because a JSX opening tag
+      // cannot host a `{/* */}` comment among its attributes, and the homepage's
+      // `<section id="skill-heaven-hell">` is exactly that case.
       if (line.includes("lexicon-allow")) return;
+      if (i > 0 && lines[i - 1].includes("lexicon-allow")) return;
       re.lastIndex = 0;
       if (!re.test(line)) return;
       findings.push({

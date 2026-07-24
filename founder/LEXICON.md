@@ -86,7 +86,7 @@ to make a decision.
 | `claude-heaven` | ✅ canonical | N9, D11 | The flagship door. Claude Code is the reference harness and marketing weight sits here. |
 | `pi-heaven` | ✅ canonical | N9, D11 | The R&D vanguard door — interaction design is proven on pi first, then ported down to Claude Code's more restrictive plugin surface. |
 | `hh-launcher` | ⛔ banned | N9 | Retired working name for the launcher repo. **Use `skill-heaven`.** |
-| `skill-heaven-hell` | ⛔ banned | N9 | Retired fallback repo name. **Use `skill-heaven`.** |
+| `skill-heaven-hell` | ⛔ banned | N9 | Retired fallback repo name. **Use `skill-heaven`.** Retired as a NAME for the repo/installable. The hyphenated string is also the natural URL slug of the line's own name, 'Skill Heaven / Skill Hell', which is fully canonical (this oracle's title uses it) — see the homepage anchor `#skill-heaven-hell`. A slug of the line name is not an instance of the retired name; mark such lines `lexicon-allow` rather than renaming public URL fragments. |
 | `Milim` | ✅ canonical | N7 | The Hell-mode persona. The Heaven persona's name is RESERVED and undecided — nothing may hard-code one; it lives in the marketing-tasks brand extension when it closes. |
 
 ## status

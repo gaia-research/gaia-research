@@ -15,8 +15,9 @@
       "ultra": 3,
       "summonable": 1
     },
-    "app/research/hh-benchmark/page.tsx": {
-      "skill-heaven-hell": 1
+    "app/page.tsx": {
+      "slider": 2,
+      "firebreak": 1
     },
     "content/reports/hh-benchmark/methodology.md": {
       "seed": 7,
