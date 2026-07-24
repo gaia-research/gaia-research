@@ -5,6 +5,7 @@ import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-20
 export type BlogPost = {
   href: string;
   category: string;
+  tags?: readonly string[];
   date: string;
   readTime: string;
   title: string;
@@ -31,7 +32,8 @@ export const dailyAgentRadarThumbnail = {
 export const blogPosts: readonly BlogPost[] = [
   {
     href: "/blog/daily-agent-radar-2026-07-24",
-    category: "Agent Optimization",
+    category: "Agent Skills",
+    tags: ["Agent Skills", "Token Cost"],
     date: "July 24, 2026",
     readTime: "4 min read",
     title: "SkillOpt: Zeroth-Order Optimization for Agent Skills",
