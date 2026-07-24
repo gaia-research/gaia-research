@@ -18,12 +18,11 @@
     "user-facing": {
       "about": "Line copy a reader outside the project sees: the public story docs, the benchmark reports, the research pages.",
       "include": [
-        "VISION.md",
-        "MISSION.md",
         "app/page.tsx",
         "content/reports/hh-benchmark/**/*.md",
         "content/reports/skill-heaven/**/*.md",
-        "app/research/hh-benchmark/**/*.{ts,tsx,md,mdx}"
+        "app/research/hh-benchmark/**/*.{ts,tsx,md,mdx}",
+        "docs/skill-heaven/**/*.md"
       ]
     },
     "code": {
@@ -318,7 +317,12 @@
       "term": "resident",
       "state": "parked",
       "group": "mechanism",
-      "definition": "Proposed name for a skill currently in context. Not the founder's word for it; kept parked rather than promoted alongside `summonable`."
+      "definition": "Proposed name for a skill currently in context. Not the founder's word for it; kept parked rather than promoted alongside `summonable`.",
+      "except": [
+        "permanent resident",
+        "resident of"
+      ],
+      "note": "Proposed name for a skill currently in context; not the founder's word for it, so it stays parked beside the canonical `summonable`. The ordinary-English sense (\"a permanent resident of your config\") is exempted by pattern — the fifth time a one-word rule met a second meaning."
     },
     {
       "term": "summonable",

@@ -88,11 +88,11 @@ check(
 
 check(
   "an `except` pattern exempts the other sense of a word",
-  scanText("hand-label a ~20-skill seed set as ground truth", "MISSION.md", lex).length === 0,
+  scanText("hand-label a ~20-skill seed set as ground truth", "docs/skill-heaven/MISSION.md", lex).length === 0,
 );
 check(
   "…but the banned sense still fires on the same term",
-  scanText("both arms ran on the same seed", "MISSION.md", lex).some((f) => f.term === "seed"),
+  scanText("both arms ran on the same seed", "docs/skill-heaven/MISSION.md", lex).some((f) => f.term === "seed"),
 );
 
 console.log("\nglob matching");
@@ -103,7 +103,7 @@ check("brace alternation works", globToRegExp("app/**/*.{ts,tsx}").test("app/x/y
 check("**/archived/** matches a nested archive", globToRegExp("**/archived/**").test("docs/plans/archived/old.md"));
 
 console.log("\nscope resolution");
-check("VISION.md is user-facing", scopesFor("VISION.md", lex).includes("user-facing"));
+check("docs/skill-heaven is user-facing", scopesFor("docs/skill-heaven/VISION.md", lex).includes("user-facing"));
 check("founder/RATIFICATION.md is decisive", scopesFor("founder/RATIFICATION.md", lex).includes("decisive"));
 check(
   "docs/plans is decisive but not user-facing",
@@ -121,22 +121,22 @@ const f = (file: string, term: string, line: number): Finding => ({
   state: "parked",
   message: "x",
 });
-const base: Baseline = { findings: { "VISION.md": { slider: 2 } } };
+const base: Baseline = { findings: { "docs/skill-heaven/VISION.md": { slider: 2 } } };
 
 check(
   "a baselined finding is carried, not reported",
-  aboveBaseline([f("VISION.md", "slider", 9)], base).length === 0,
+  aboveBaseline([f("docs/skill-heaven/VISION.md", "slider", 9)], base).length === 0,
 );
 check(
   "an extra occurrence beyond the baselined count IS reported",
   aboveBaseline(
-    [f("VISION.md", "slider", 9), f("VISION.md", "slider", 41), f("VISION.md", "slider", 77)],
+    [f("docs/skill-heaven/VISION.md", "slider", 9), f("docs/skill-heaven/VISION.md", "slider", 41), f("docs/skill-heaven/VISION.md", "slider", 77)],
     base,
   ).length === 1,
 );
 check(
   "a new term in a baselined file IS reported",
-  aboveBaseline([f("VISION.md", "budget", 90)], base).length === 1,
+  aboveBaseline([f("docs/skill-heaven/VISION.md", "budget", 90)], base).length === 1,
 );
 check(
   "a baselined term in a different file IS reported",

@@ -1,24 +1,5 @@
 {
-  "about": "Known vocabulary debt at the time the gate landed. Every entry is drift the gate WOULD flag, parked here so new drift can be blocked immediately instead of waiting for the rewrites. Shrink this file; never grow it. An entry disappears when the doc that owns it is rewritten.",
+  "about": "CLEARED 2026-07-24 — zero known debt. This file stays as the mechanism: if a future ruling retires a word that is already in shipped copy, record the debt here so new drift is still blocked while the rewrite is scheduled. It started at 39 findings and reached zero when the ladder/ultra/two-dials rulings gave the retired words replacements. Shrink this file; never grow it without a scheduled rewrite behind it.",
   "generated": "2026-07-24",
-  "findings": {
-    "MISSION.md": {
-      "firebreak": 3
-    },
-    "VISION.md": {
-      "slider": 8,
-      "resident": 1,
-      "firebreak": 2,
-      "budget": 2
-    },
-    "app/page.tsx": {
-      "slider": 2,
-      "firebreak": 1
-    },
-    "content/reports/hh-benchmark/methodology.md": {
-      "firebreak": 1,
-      "budget": 1,
-      "slider": 1
-    }
-  }
+  "findings": {}
 }

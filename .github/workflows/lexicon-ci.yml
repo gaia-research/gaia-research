@@ -18,8 +18,8 @@ on:
       - 'scripts/lexicon/**'
       - 'scripts/hell-heaven-bench/**'
       - 'CLAUDE.md'
-      - 'VISION.md'
-      - 'MISSION.md'
+      - 'docs/skill-heaven/**'
+
       - '.github/workflows/lexicon-ci.yml'
   push:
     branches:
@@ -34,8 +34,7 @@ on:
       - 'scripts/lexicon/**'
       - 'scripts/hell-heaven-bench/**'
       - 'CLAUDE.md'
-      - 'VISION.md'
-      - 'MISSION.md'
+      - 'docs/skill-heaven/**'
 
 jobs:
   lexicon:

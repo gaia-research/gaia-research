@@ -34,7 +34,7 @@
    `docs/`, `content/`, and `scripts/` — they explain and propose; they never
    decide. The oracle records decisions and points at the evidence.
 3. **Owner ratifies.** Changes to `RATIFICATION.md` land only with founder
-   approval (the 5% lane per `MISSION.md` §2 — humans decide *whether*, never
+   approval (the 5% lane per `docs/skill-heaven/MISSION.md` §2 — humans decide *whether*, never
    *how*).
 4. **Enterprise decisions live elsewhere.** Private/enterprise decisions are in
    `marketing-tasks/founder/ENTERPRISE.md` (same system, private repo). This

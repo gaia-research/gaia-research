@@ -53,7 +53,7 @@ The frame also tells us Heaven and Hell are **two different trial designs**:
   patient's own default regimen** (vanilla)? This is where "Heaven is one step below vanilla"
   gets tested.
 - **Hell** = a *polypharmacy / population* trial. Flood the patient with the whole formulary,
-  cap the max dose with a firebreak, and ask: across a *population* of tasks, does aggressive
+  cap the max dose at a rung, and ask: across a *population* of tasks, does aggressive
   dosing net better outcomes at acceptable total cost than placebo *or* naive everything-at-once?
 
 ---
@@ -115,7 +115,7 @@ We are deliberately staging the ambition.
   of v1. It is enough to earn a first round of stamps.
 - **v2 — Isolation & competition.** Once v1 is solid, we test **skills of the same calibre
   against each other.** When two skills claim the same capability, which wins the roster slot?
-  This needs a *fixed context budget* so adding one skill forces dropping another — that's when
+  This needs a *fixed context ceiling* so adding one skill forces dropping another — that's when
   we can measure **displacement** (what a skill crowds out) and run head-to-head **competitions**
   within a capability class. Bleeding edge, and it waits until v1 proves the method.
 
@@ -158,7 +158,7 @@ mean(outcome | absent)`, with CIs, over the population.
   corpus (cleaner controls)? Pharma's "real patients vs. model organisms" trade-off.
 - **Judge reliability:** how many blind judges + human spot-checks before a Tier-3 preference is
   trustworthy?
-- **Does the 0–100 slider survive?** Or do the discrete stamps make a continuous score redundant?
+- **Does the 0–100 score survive?** Or do the discrete stamps make a continuous score redundant?
 
 ---
 

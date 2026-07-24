@@ -20,7 +20,7 @@ gh pr view <n> --json baseRefName,mergeCommit -q '.baseRefName'
 git merge-base --is-ancestor <mergeCommitSha> origin/main && echo "on main" || echo "NOT on main"
 ```
 
-**Decisions are ratified, not inferred.** [`founder/RATIFICATION.md`](founder/RATIFICATION.md) is the single source of truth — where any other doc (including `VISION.md` or older plans) disagrees, that doc wins and the other is pending rewrite. Read the relevant LOCKED/LEANING/OPEN entries before designing on top of a question; do not invent an answer to an OPEN item — flag it.
+**Decisions are ratified, not inferred.** [`founder/RATIFICATION.md`](founder/RATIFICATION.md) is the single source of truth — where any other doc (including `docs/skill-heaven/VISION.md` or older plans) disagrees, that doc wins and the other is pending rewrite. Read the relevant LOCKED/LEANING/OPEN entries before designing on top of a question; do not invent an answer to an OPEN item — flag it.
 
 **Current active line (as of 2026-07):** the **Skill Heaven / Skill Hell** MVP. Research, benchmarks (census / ledger / capability matrix under `scripts/hell-heaven-bench/` + `content/reports/hh-benchmark/` + `docs/labs/harness-capability-matrix.md`), and the site live **here**; the shippable product — the shared engine + per-harness doors (`claude-heaven`, `pi-heaven`, …) — lives in the **separate `gaia-research/skill-heaven` monorepo**, which doubles as the Claude Code plugin marketplace (RATIFICATION N9). The homepage north-star question is settled: the Next.js site on `main` **is** the live site at `research.gaiaskilltree.com`. When in doubt about the current direction, confirm with the user.
 

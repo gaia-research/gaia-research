@@ -2,7 +2,7 @@
 
 > Companion to the ratified findings in
 > [`../idea-bank/archived/2026-07-24-skill-heaven-hell-mvp.md`](../idea-bank/archived/2026-07-24-skill-heaven-hell-mvp.md).
-> Scope: the R0–R3 slice of `MISSION.md` §3, Heaven first, Hell staged behind it.
+> Scope: the R0–R3 slice of `../skill-heaven/MISSION.md` §3, Heaven first, Hell staged behind it.
 > Baseline harnesses: **Claude Code, Codex CLI, Cursor, pi.**
 > **Decision authority:** [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)
 > — this plan implements; the founder doc decides.
@@ -161,5 +161,5 @@ Stamps land after the benchmark and after the epic. Until then `gaia-research`:
 | M5 | Summon surface + ladder cap | M4, Ygg II stamps | R4 |
 
 Benchmark milestones R1 (rubric + seed labels) and R2 (paired trial) run alongside
-per `MISSION.md`; M3 is their data plumbing. The plan's placebo arm is always the
+per `../skill-heaven/MISSION.md`; M3 is their data plumbing. The plan's placebo arm is always the
 **same-harness no-skill run**; published benchmark scores are calibration only.
