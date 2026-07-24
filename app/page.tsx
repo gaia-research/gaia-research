@@ -48,7 +48,7 @@ export default function Home() {
      <div className="play-card-body">
       <span className="play-tag">Beta · Tool</span>
       <h3>Context Diet</h3>
-      <p>Feed it a bloated context file and watch it shrink to a lean, mean skill sliver. Weigh-in stays in your browser.</p>
+      {/* lexicon-allow: "lean" here is ordinary English, not the posture */}<p>Feed it a bloated context file and watch it shrink to a lean, mean skill sliver. Weigh-in stays in your browser.</p>
       <span className="play-go">Trim a prompt <span aria-hidden="true">→</span></span>
      </div>
     </Link>
@@ -69,11 +69,12 @@ export default function Home() {
    </div>
   </section>
 
+  {/* lexicon-allow: slug of the line name "Skill Heaven / Skill Hell" (canonical), not N9's retired repo name */}
   <section id="skill-heaven-hell" className="hh section-shell" aria-labelledby="hh-title">
    <header className="hh-intro">
     <p className="signal"><span /> WORK IN PROGRESS · HELL HEAVEN INDEX</p>
     <h2 id="hh-title">Stop <em>installing</em> skills.<br />Start <em>summoning</em> them.</h2>
-    <p className="hh-lede">Marketplaces make you install skills forever &mdash; bloat you never asked for, pinned to every repo. We&rsquo;re building the exit inside <Link href="/mcp">Gaia MCP</Link>: a per-session summon over the evidenced Skill Tree, dialed by one slider from <b>Heaven</b> to <b>Hell</b> &mdash; the same <code>low → max</code> effort axis your agent already speaks.</p>
+    <p className="hh-lede">Marketplaces make you install skills forever &mdash; bloat you never asked for, pinned to every repo. We&rsquo;re building the exit inside <Link href="/mcp">Gaia MCP</Link>: a per-session summon over the evidenced Skill Tree, sized by one <b>ladder</b> &mdash; <code>off → max</code> &mdash; with <b>Heaven</b> and <b>Hell</b> as the two directions you can take it.</p>
    </header>
    <div className="hh-poles">
     <article className="hh-pole hh-heaven">
@@ -84,10 +85,10 @@ export default function Home() {
     <article className="hh-pole hh-hell">
      <span className="chip wip">🔥 HELL · GATED</span>
      <h3>Full gas, autopilot.</h3>
-     <p>Summon every good skill in the evidenced world for autonomous fleets and long loops &mdash; under a token-ceiling firebreak. Unlocks only when the registry&rsquo;s trust-coverage clears a measured gate. Ludicrous mode ships with a seatbelt.</p>
+     <p>Summon every good skill in the evidenced world for autonomous fleets and long loops &mdash; bounded by the rung you picked. Unlocks only when the registry&rsquo;s trust-coverage clears a measured gate. Ludicrous mode ships with a seatbelt.</p>
     </article>
    </div>
-   <p className="hh-foot">The <b>Hell Heaven (HH) Index</b> &mdash; a per-skill <code>hellHeaven</code> stamp, benchmarked, not guessed &mdash; is the research that keeps the slider honest. Read the <Link href="/research/hh-benchmark">benchmark method →</Link> (WIP, help wanted) &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>.</p>
+   <p className="hh-foot">The <b>Hell Heaven (HH) Index</b> &mdash; a per-skill <code>hellHeaven</code> stamp, benchmarked, not guessed &mdash; is the research that keeps the ladder honest. Read the <Link href="/research/hh-benchmark">benchmark method →</Link> (WIP, help wanted) &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>.</p>
    <style>{`
     .hh{padding:var(--space-dense) var(--gutter)}
     .hh-intro{max-width:64ch;margin:0 0 var(--space-tight)}

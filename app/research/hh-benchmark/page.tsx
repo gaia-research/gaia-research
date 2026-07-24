@@ -43,8 +43,8 @@ export default function HhBenchmarkPage() {
             <div><dt>Status</dt><dd><span className="chip wip">WIP · NOT YET EXECUTED</span></dd></div>
           </dl>
           <div className="report-links">
-            <a href="https://github.com/gaia-research/gaia-research/blob/main/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a>
-            <a href="https://github.com/gaia-research/gaia-research/blob/main/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>
+            <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a>
+            <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>
             <a href="https://github.com/gaia-research/gaia-research/issues/62" target="_blank" rel="noreferrer">Help wanted ↗</a>
           </div>
         </header>
@@ -55,6 +55,7 @@ export default function HhBenchmarkPage() {
 
         <footer className="report-foot">
           <p>This method is a draft, published before execution. If you benchmark models or skills, come build it with us.</p>
+          {/* lexicon-allow: anchor slug of the line name, not N9's retired repo name */}
           <Link className="button secondary" href="/#skill-heaven-hell">Back to Skill Heaven/Hell <span>→</span></Link>
         </footer>
       </main>

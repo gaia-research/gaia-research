@@ -20,7 +20,7 @@
 | Codex CLI | current docs (July 2026); **0.144.6 local** (2026-07-19, quota-limited) | [developers.openai.com/codex/skills](https://developers.openai.com/codex/skills) + local probes |
 | Cursor (cursor-agent CLI) | current docs (July 2026, CLI stable); **binary not installed locally** (2026-07-19) | [cursor.com/docs/cli](https://cursor.com/docs/cli/using) |
 | pi (badlogic/pi-mono coding agent) | current docs (July 2026); **0.80.10 local, empirical** (2026-07-19) | [pi coding-agent skills docs](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/skills.md) + live runs |
-| grok (Grok Build TUI, per D7) | **0.2.103 local, empirical** (2026-07-19) | `grok --help`, `grok inspect`, env probes — see grok column notes |
+| grok (Grok Build TUI, in harness scope) | **0.2.103 local, empirical** (2026-07-19) | `grok --help`, `grok inspect`, env probes — see grok column notes |
 
 ## The checked matrix
 
@@ -81,7 +81,7 @@ content* leak, not a skills-listing leak (prompt eviction is M2b, unratified).
 | G2 | `grok inspect` (clean project) + `GROK_CONFIG_DIR=<bogus> grok inspect` | 90 skills listed (bundled + user from `~/.claude/skills`), identical under the env var | grok skill discovery ✅ empirical; `GROK_CONFIG_DIR` is not a scoping mechanism; no suppression flag exists in `--help` |
 | G4 | `which cursor cursor-agent` | not found | every Cursor cell ❓-deferred locally: install `cursor-agent`, then rerun the T-series probes |
 | G5 | `which agent && agent --version` (owner ruling said Cursor "runs as `agent`") | `/Users/…/.local/bin/agent` → **`grok 0.2.103 (Grok Build TUI)`** | **NEGATIVE**: `agent` is grok's binary, not Cursor's — **owner confirmed** (PR #67): the tool believed to be Cursor here is grok; no Cursor CLI is installed, G4 stands |
-| G6 | `which agent cursor-agent && agent --version && cursor-agent --version` (2026-07-20) | `agent` → symlink to `~/.local/share/cursor-agent/versions/2026.07.16-899851b/cursor-agent`; both report **`2026.07.16-899851b`** (Cursor CLI); `grok` is its own binary at **0.2.103** | **Supersedes G4/G5** (owner reinstalled Cursor CLI 2026-07-19 evening): `agent` == `cursor-agent` == Cursor CLI now. Cursor column probes unblocked; **audit any prior cursor-column evidence sourced via `agent` for grok contamination** before trusting it — see `docs/plans/skill-heaven-continuation-plan.md` WS6 |
+| G6 | `which agent cursor-agent && agent --version && cursor-agent --version` (2026-07-20) | `agent` → symlink to `~/.local/share/cursor-agent/versions/2026.07.16-899851b/cursor-agent`; both report **`2026.07.16-899851b`** (Cursor CLI); `grok` is its own binary at **0.2.103** | **Supersedes G4/G5** (owner reinstalled Cursor CLI 2026-07-19 evening): `agent` == `cursor-agent` == Cursor CLI now. Cursor column probes unblocked; **audit any prior cursor-column evidence sourced via `agent` for grok contamination** before trusting it — see `docs/plans/archived/2026-07-24-skill-heaven-continuation-plan.md` WS6 |
 
 Also load-bearing from `claude --help` (2.1.211): `--effort <low|medium|high|xhigh|max>` — the
 effort axis the postures map onto (`Heaven · Auto · Ultra · Hell`) already exists as a
@@ -177,12 +177,19 @@ open: the two ❓ Codex cells (quota-deferred to 2026-07-25, repro in G1) and ev
 cell (no local binary at probe time — and `agent` on this workstation was grok,
 not Cursor; G4/G5. **Superseded 2026-07-20 by G6**: Cursor CLI 2026.07.16 is now
 installed as both `agent` and `cursor-agent`; column re-probe pending, WS6 of
-`docs/plans/skill-heaven-continuation-plan.md`).
+`docs/plans/archived/2026-07-24-skill-heaven-continuation-plan.md`).
 
-## WS3 verification gates — gate (a): in-session profile recomposition (the posture slider)
+> **Note on retired ids (2026-07-24).** Gate headings and sub-questions below
+> cite **D7 · D10 · D11 · D13**, which were deleted from the oracle after review.
+> Those labels are kept as the historical record of *why a probe was run* —
+> evidence is not rewritten when a decision is withdrawn. They are not live
+> pointers: nothing below is authority for a decision, and a retired id is never
+> reused.
+
+## WS3 verification gates — gate (a): in-session profile recomposition (the posture ladder)
 
 **Milestone:** WS3 of
-[`docs/plans/skill-heaven-continuation-plan.md`](../plans/skill-heaven-continuation-plan.md)
+[`docs/plans/archived/2026-07-24-skill-heaven-continuation-plan.md`](../plans/archived/2026-07-24-skill-heaven-continuation-plan.md)
 (gate table). **Date:** 2026-07-22 (corrected). **Version:** Claude Code
 **2.1.216** (macOS, this workstation). Model: haiku for every run. Clean throwaway
 project (no project skills).
@@ -224,12 +231,12 @@ it does **not** recompose. History carries forward on both (codeword recalled).
 reachable **only at boot** (fresh session, T9 route) → **`claude-heaven` launcher
 is the only path to the floor** (launcher-locked). The in-session `/skill-heaven`
 scalpel can move **upward** (additive) and shed some non-skill weight, but cannot
-descend below its launch floor. This is the **posture slider** the product ships.
+descend below its launch floor. This is the **posture ladder** the product ships.
 
 **Poles (this run):** native fresh **≈25.2k tok (firecrawl YES)** · clean-room
 fresh T9 **≈17.0k tok (firecrawl NO)**.
 
-**The slider (continued-session sweep — each flag applied on resume, both
+**The ladder (continued-session sweep — each flag applied on resume, both
 `--resume` and `--resume --fork-session`; tokens + firecrawl):**
 
 | Route | On a continued session | Tokens | firecrawl | Read |
@@ -253,7 +260,7 @@ fresh T9 **≈17.0k tok (firecrawl NO)**.
 > behavior are **undocumented and version-pinned** → **re-run this sweep on every
 > Claude Code upgrade**; always record the exact `claude --version`.
 
-**Slider map (authoritative):**
+**Ladder map (authoritative):**
 - **Launcher-only floor** ≈17.0k, firecrawl NO — evicts bundled *and* user/global
   skills + MCP + non-project settings. Reachable **only** via `claude-heaven` at boot.
 - **Scalpel floor (in-session)** ≈19.2–19.6k, firecrawl **YES** — can shed the top
@@ -273,31 +280,27 @@ keep context" path** — but it is a *new* session with flattened text, suited t
 handoff-notes continuity, **not** exact tool/turn-state resume. Net cost is cheap
 (+68…+1,745 tok). **KEEP** as a clearly-labeled escape hatch, not as "resume."
 
-**Recommended `/skill-heaven` slider stops (feeds WS4):**
-1. **Native (default)** — no flags.
-2. **Lean** — `--setting-sources project` (or `--safe-mode`): same-session ~25% cut;
-   label honestly *"trims project/settings weight; does not remove your personal skills."*
-3. **Add-ons** — `--plugin-dir` stacks, cheap, reliable in either direction.
-4. **Clean-room = LAUNCHER-LOCKED** — labeled explicitly out of scalpel reach:
-   *"True clean-room (evicts personal skills, MCP, bundled skills) requires
-   restarting via `claude-heaven`; it cannot be reached mid-session."* Optional
-   escape hatch: the transcript re-inject path, labeled *"new session, notes
-   carried over."*
+> **Which stops the product exposes, and what they are called, is a decision —
+> it lives in [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md) (P1,
+> D12) with its naming governed by
+> [`founder/lexicon.json`](../../founder/lexicon.json).** A recommended-stops
+> list used to sit here and it is what let `lean` and `add-ons` enter the
+> product without passing P1 — evidence proposing product names is exactly the
+> side door the consolidation closed. The route table above is the evidence:
+> which flags produce which composition, on a continued session, measured.
+> **Whether a given route becomes a user-facing stop is not this doc's call.**
 
 **Zero-mutation check:** `~/.claude/skills` = 67 entries, names diffed clean
 before/after; `~/.claude/settings.json` SHA-256 unchanged; no
 `settings.local.json` in either snapshot; only expected session-transcript files
 written under `~/.claude/projects/`.
 
-**Ruling — D12, CORRECTED & RATIFIED 2026-07-22 (supersedes the falsified
-2026-07-21 lock; amends D10; rides this PR per D9).** Skill Heaven ships **both
-surfaces in the MVP**: (1) **`claude-heaven` clean-room launcher** owns the
-launcher-locked subtractive floor — the *only* path to the deepest Heaven, and
-that scarcity is the enticement (clean-room-first); (2) **`/skill-heaven` upward
-scalpel** moves posture in-session from the launched floor **upward**, carrying
-history, and **must present the lowest heaven-mode as visibly locked to launcher
-mode** (lock affordance in the picker/statusline). Every fork that changes the
-session id discloses it. Full decision text in RATIFICATION.md D12.
+**What this gate ruled → [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)
+D12** (corrected 2026-07-22, superseding the falsified 2026-07-21 lock; the
+entry it amended, D10, was retired 2026-07-24). The decision text is not duplicated here: a full copy of a ruling inside
+its own evidence is how the oracle came to carry token counts and version pins,
+and why it had to be rewritten every time a re-probe moved a number. **This
+section is the evidence D12 cites; D12 is the decision.**
 
 ## WS3 verification gates — gate (b): statusline API
 
@@ -347,7 +350,7 @@ interactive `claude`, read the file.
 `scripts/hell-heaven-bench/census.ts`, the same proxy every R0 number uses.
 `/skill-heaven` and `/skill-hell` have no committed command definitions yet
 (WS4), so **representative draft descriptions** are priced; final WS4 copy
-re-prices with the same method and must stay under the budget this sets.
+re-prices with the same method and must stay under the ceiling this sets.
 
 **Gate question (plan):** the standing tokens the `/skill-heaven` + `/skill-hell`
 commands themselves add to every session (the tool must not be its own bloat).
@@ -368,7 +371,7 @@ WS4 re-prices; if the listed id carries a plugin-name prefix
 (D4/B1):** this self-dose is disclosed and subtracted in every claim — it is the
 only standing cost `claude-heaven`'s doors add (Heaven's purest form uses no
 server). **Blocks:** WS4 steps 2–3 copy + README claims; the final command
-descriptions must price at or below this budget.
+descriptions must price at or below this ceiling.
 
 ## WS3 verification gates — gate (d): marketplace-from-monorepo (D10)
 
@@ -429,10 +432,10 @@ copy must not rely on this cell until it passes. Recorded here per D13 so the
 claim is disclosed as unverified rather than assumed (M0 discipline; D8's
 "will-not-work ledger is first-class").
 
-**What D13 needs verified.** The physical posture slider (gate (a)) is
+**What D13 needs verified.** The physical posture ladder (gate (a)) is
 launcher-gated below the launch floor. D13 posits a **second, ungated downward
 track**: a *heaven-native skill* (the `grilling` / "grill-me" class) that reaches
-a posture **a notch below vanilla behaviorally** by **restraining the model's
+a posture **a rung below vanilla behaviorally** by **restraining the model's
 *use* of skills that remain physically in context** — an intentional shift, not a
 context purge. This is a **behavioral / prompt-adherence claim**, not a
 context-composition one, so tokens won't measure it.
@@ -447,8 +450,8 @@ suppression rate, false-restraint rate); repeat ×runs, report CIs (no
 determinism). **Depends on:** gaia-skill-tree producing the heaven-native skill
 set first (repo boundary: authored upstream, flows through marketing-tasks).
 **Blocks:** any WS4 copy that promises "below-vanilla in-session" behavior; the
-behavioral notch in the `/skill-heaven` slider UI. Until green, the MVP slider
-ships **physical-only** (gate (a)); the behavioral notch renders as
+behavioral rung in the `/skill-heaven` ladder UI. Until green, the MVP ladder
+ships **physical-only** (gate (a)); the behavioral rung renders as
 "coming — research" and never as a working stop.
 
 ## Sources

@@ -33,7 +33,7 @@ import { fileURLToPath } from "node:url";
 
 export const LEDGER_SCHEMA = "hh-ledger/v1" as const;
 
-export const ARMS = ["placebo", "heaven", "hell", "ultra"] as const;
+export const ARMS = ["placebo", "heaven", "hell", "ultra"] as const; // lexicon-allow: "ultra" is OPEN (N4) but ARMS is a frozen ledger key (D6) — renaming it would invalidate committed records. Real debt, tracked in the PR, not silently clean.
 export type Arm = (typeof ARMS)[number];
 
 export interface SkillRef {

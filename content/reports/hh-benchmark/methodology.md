@@ -8,9 +8,9 @@
 > pending rewrite: **§2's "borrowed baseline"** — superseded by **B2
 > (own-placebo anchoring)**: the placebo arm is our *own same-harness no-skill
 > run; published benchmark scores are calibration only. And every mention of
-> **"same seed" / a ledger `seed` field** (§1, §6) — superseded by **B3**:
+> **"same seed" / a ledger `seed` field** (§1, §6) — superseded by **B3**: <!-- lexicon-allow: banner states what B3 retired -->
 > determinism does not exist in any target harness; the design is N repeats +
-> confidence intervals, and the run-ledger validator rejects `seed`.
+> confidence intervals, and the run-ledger validator rejects `seed`. <!-- lexicon-allow: banner states what B3 retired -->
 
 **How do you benchmark a *skill*?** Not a model — a skill. The thing you bolt onto an
 agent to make it better at something. Everyone can feel when a skill helps. Almost nobody
@@ -26,7 +26,7 @@ has written down how to *prove* it. This is our attempt, in the open, before we'
 
 A skill has no score in a vacuum. Its value is always **marginal** — *what did adding it to
 the loadout do, versus not adding it, in this exact context?* So we never measure a skill
-alone. We measure a **pair**: the same task, same model, same seed, run **with** the skill and
+alone. We measure a **pair**: the same task, same model, **N repeats reported with confidence intervals**, run **with** the skill and
 **without** it. The skill's worth is the *delta*.
 
 ### The analogy: a drug trial, not an exam
@@ -53,7 +53,7 @@ The frame also tells us Heaven and Hell are **two different trial designs**:
   patient's own default regimen** (vanilla)? This is where "Heaven is one step below vanilla"
   gets tested.
 - **Hell** = a *polypharmacy / population* trial. Flood the patient with the whole formulary,
-  cap the max dose with a firebreak, and ask: across a *population* of tasks, does aggressive
+  cap the max dose at a rung, and ask: across a *population* of tasks, does aggressive
   dosing net better outcomes at acceptable total cost than placebo *or* naive everything-at-once?
 
 ---
@@ -115,7 +115,7 @@ We are deliberately staging the ambition.
   of v1. It is enough to earn a first round of stamps.
 - **v2 — Isolation & competition.** Once v1 is solid, we test **skills of the same calibre
   against each other.** When two skills claim the same capability, which wins the roster slot?
-  This needs a *fixed context budget* so adding one skill forces dropping another — that's when
+  This needs a *fixed context ceiling* so adding one skill forces dropping another — that's when
   we can measure **displacement** (what a skill crowds out) and run head-to-head **competitions**
   within a capability class. Bleeding edge, and it waits until v1 proves the method.
 
@@ -143,7 +143,7 @@ R3 paired trial → R4 validate labels → R5 stamps.
 ## 6. Data we gather, per run
 
 Every run appends to a ledger (`scripts/hell-heaven-bench/`): benchmark id, task, arm
-(placebo / heaven / hell / ultra), skill(s) loaded, model, seed, tokens in/out by category
+(placebo / heaven / hell / ultra), skill(s) loaded, model, `repeatIndex`, tokens in/out by category
 (system, skill-load, per-turn), wall-clock, the **objective endpoint result**, and — for Tier 3
 — the blind-judge verdict. The skill's marginal effect is `mean(outcome | present) −
 mean(outcome | absent)`, with CIs, over the population.
@@ -158,7 +158,7 @@ mean(outcome | absent)`, with CIs, over the population.
   corpus (cleaner controls)? Pharma's "real patients vs. model organisms" trade-off.
 - **Judge reliability:** how many blind judges + human spot-checks before a Tier-3 preference is
   trustworthy?
-- **Does the 0–100 slider survive?** Or do the discrete stamps make a continuous score redundant?
+- **Does the 0–100 score survive?** Or do the discrete stamps make a continuous score redundant?
 
 ---
 
