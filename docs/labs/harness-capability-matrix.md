@@ -273,31 +273,27 @@ keep context" path** — but it is a *new* session with flattened text, suited t
 handoff-notes continuity, **not** exact tool/turn-state resume. Net cost is cheap
 (+68…+1,745 tok). **KEEP** as a clearly-labeled escape hatch, not as "resume."
 
-**Recommended `/skill-heaven` slider stops (feeds WS4):**
-1. **Native (default)** — no flags.
-2. **Lean** — `--setting-sources project` (or `--safe-mode`): same-session ~25% cut;
-   label honestly *"trims project/settings weight; does not remove your personal skills."*
-3. **Add-ons** — `--plugin-dir` stacks, cheap, reliable in either direction.
-4. **Clean-room = LAUNCHER-LOCKED** — labeled explicitly out of scalpel reach:
-   *"True clean-room (evicts personal skills, MCP, bundled skills) requires
-   restarting via `claude-heaven`; it cannot be reached mid-session."* Optional
-   escape hatch: the transcript re-inject path, labeled *"new session, notes
-   carried over."*
+> **Which stops the product exposes, and what they are called, is a decision —
+> it lives in [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md) (P1,
+> D12, D13) with its naming governed by
+> [`founder/lexicon.json`](../../founder/lexicon.json).** A recommended-stops
+> list used to sit here and it is what let `lean` and `add-ons` enter the
+> product without passing P1 — evidence proposing product names is exactly the
+> side door the consolidation closed. The route table above is the evidence:
+> which flags produce which composition, on a continued session, measured.
+> **Whether a given route becomes a user-facing stop is not this doc's call.**
 
 **Zero-mutation check:** `~/.claude/skills` = 67 entries, names diffed clean
 before/after; `~/.claude/settings.json` SHA-256 unchanged; no
 `settings.local.json` in either snapshot; only expected session-transcript files
 written under `~/.claude/projects/`.
 
-**Ruling — D12, CORRECTED & RATIFIED 2026-07-22 (supersedes the falsified
-2026-07-21 lock; amends D10; rides this PR per D9).** Skill Heaven ships **both
-surfaces in the MVP**: (1) **`claude-heaven` clean-room launcher** owns the
-launcher-locked subtractive floor — the *only* path to the deepest Heaven, and
-that scarcity is the enticement (clean-room-first); (2) **`/skill-heaven` upward
-scalpel** moves posture in-session from the launched floor **upward**, carrying
-history, and **must present the lowest heaven-mode as visibly locked to launcher
-mode** (lock affordance in the picker/statusline). Every fork that changes the
-session id discloses it. Full decision text in RATIFICATION.md D12.
+**What this gate ruled → [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)
+D12** (corrected 2026-07-22, superseding the falsified 2026-07-21 lock; amends
+D10). The decision text is not duplicated here: a full copy of a ruling inside
+its own evidence is how the oracle came to carry token counts and version pins,
+and why it had to be rewritten every time a re-probe moved a number. **This
+section is the evidence D12 cites; D12 is the decision.**
 
 ## WS3 verification gates — gate (b): statusline API
 
