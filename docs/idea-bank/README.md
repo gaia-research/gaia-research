@@ -6,7 +6,7 @@ Ranked by combined **viability** and **potential**.
 - **Viability:** High (Heaven), Medium-High (Hell)
 - **Potential:** Very High
 - **Why now:** The current North Star (VISION/MISSION); Heaven is pure subtraction and shippable without registry or gate, and the engineering findings + owner decisions are ratified and ready to implement.
-- **Doc:** [`skill-heaven-hell-mvp.md`](./skill-heaven-hell-mvp.md) · Plan: [`../plans/skill-heaven-hell-mvp-plan.md`](../plans/skill-heaven-hell-mvp-plan.md) · **Decisions: [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)**
+- **Doc:** [`skill-heaven-hell-mvp.md`](./archived/2026-07-24-skill-heaven-hell-mvp.md) · Plan: [`../plans/skill-heaven-hell-mvp-plan.md`](../plans/skill-heaven-hell-mvp-plan.md) · **Decisions: [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)**
 
 ## Rank 2 — Per-Model × Per-Harness Token-Savings Matrix
 - **Viability:** Medium (depends on an unratified frozen-skill-set snapshot mechanism, and on N4/N5 closing)

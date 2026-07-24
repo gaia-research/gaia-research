@@ -16,13 +16,13 @@
 |---|---|---|
 | N1 | **LOCKED** | **Modes, not a slider.** The product is discrete **mode switching**. The entry mechanism (launcher or in-harness) never changes what a mode means — same mode, same semantics, any door. Supersedes the "slider" framing in `VISION.md` §3, IDEAS-2026-020, and the HH Index RFC §1 (all pending rewrite). |
 | N2 | **LEANING** | Mode names: **"Skill Heaven mode"** and **"Skill Hell mode."** Gaia is about skills — the skill terms lead even where a mode also touches context/prompt. |
-| N3 | **LOCKED** | **Levels use agentic-coding terms:** `off · low · med · high · xhigh · max`. No celestial level names — "Heaven-0 / Heaven-1" are retired as level names (historical shorthand in older docs only). |
+| N3 | **LOCKED** | **Levels use agentic-coding terms:** `off · low · med · high · xhigh · max`. No celestial level names — "Heaven-0 / Heaven-1" are retired as level names (historical shorthand in older docs only). | <!-- lexicon-allow: N3 states which names are retired -->
 | N4 | **OPEN** | **`ultra`** — whether the term survives, and where it sits. |
 | N5 | **OPEN** | **One scale or two** — a single mode×level scale spanning heaven→hell, or two dials (mode + level). |
 | N6 | **LOCKED** | The index is the **Hell Heaven (HH) Index**; schema key `hellHeaven` (reconciled 2026-07-18). |
 | N7 | **LOCKED** | **Milim is the Hell-mode persona.** The Heaven persona's name is reserved and undecided (marketing-tasks #119/#120/#121); nothing may hard-code one. Credit Matt Pocock for naming Skill Hell; the frame is "Stop installing. Start summoning." |
 | N8 | **LOCKED** | **Product positioning: scalpel, not door** (ratified 2026-07-20, RFC #68). The user lives in bare `claude`/`pi` and reaches for this when it hurts — *"this task needs a clean room."* The pain vocabulary is **context bloat**; the name carries the **brand**, the tagline carries the **symptom** ("Strip your agent's context bloat — run clean"). Mental model is **harness-first**: users think "claude" first, then heaven — the product lives where the harness name lives, never as a `sudo`-style wrapper identity. |
-| N9 | **LOCKED** | **Names ratified; open item 8 closed** (2026-07-20, RFC #68). Repo: **`gaia-research/skill-heaven`** — a **monorepo** (shared engine + per-harness packages) that doubles as the Claude Code plugin marketplace. User-facing installables are **per-harness**: `claude-heaven`, `pi-heaven`, `codex-heaven`, …; the core **`skill-heaven` bin survives as the research driver** (`--print`/`--record`, benchmark-arm orchestration). In-session commands: `/skill-heaven` and `/skill-hell`. The `skill-heaven-hell` fallback name is retired. **LEANING inversion ratified**: extensions are the user-facing product; the core is the engine + research instrument — the "flagship agentic tool" title belongs to the family of harness doors, not the core bin. **N4/N5 are explicitly decoupled from naming** (they govern flag/level vocabulary, not repo/installable names) and stay OPEN; the persona lane (#119–#121) governs marketing copy only. |
+| N9 | **LOCKED** | **Names ratified; open item 8 closed** (2026-07-20, RFC #68). Repo: **`gaia-research/skill-heaven`** — a **monorepo** (shared engine + per-harness packages) that doubles as the Claude Code plugin marketplace. User-facing installables are **per-harness**: `claude-heaven`, `pi-heaven`, `codex-heaven`, …; the core **`skill-heaven` bin survives as the research driver** (`--print`/`--record`, benchmark-arm orchestration). In-session commands: `/skill-heaven` and `/skill-hell`. The `skill-heaven-hell` fallback name is retired. **LEANING inversion ratified**: extensions are the user-facing product; the core is the engine + research instrument — the "flagship agentic tool" title belongs to the family of harness doors, not the core bin. **N4/N5 are explicitly decoupled from naming** (they govern flag/level vocabulary, not repo/installable names) and stay OPEN; the persona lane (#119–#121) governs marketing copy only. | <!-- lexicon-allow: N9 states which names are retired -->
 
 ## 2. Posture semantics (what the modes mean)
 
@@ -31,7 +31,7 @@
 | P1 | **LOCKED** | Four postures, substance ratified 2026-07-19: **floor** (evict all skills, bare prompt profile, zero server — the benchmark's placebo-of-record) at level `off`; **curated loadout** (a hand-gated few; source-agnostic — user's own custom skills first, heaven-native canon via the librarian optional) at level `low`; **native** (user-custom setup, untouched — no eviction, no summoning) as the default; the **hell lane** (evidenced flood → whole evidenced pool, firebreak on, honesty-gated) above native. Mapping of the hell lane onto upper levels: **OPEN** (pends N4/N5). |
 | P2 | **LOCKED** | **Heaven ships first** (pure subtraction, no registry, no gate). **Hell/Ultra are gated**: benchmark stamps + trust-coverage threshold + owner ratification ("Hell is safe to enable"). |
 | P3 | **LOCKED** | **Modes are per-session, never a config mutation.** Compiled per invocation; project defaults with session overrides; nothing writes to shared config; exiting a mode = switching modes, never a restore operation. |
-| P4 | **LOCKED** | **Heaven's deliverable is context authorship** — the empowerment lane (PRDs, context docs, decision logs; the context-pack direction). Heaven is more than subtraction; subtraction is its floor. Spec WIP in `docs/plans/skill-heaven-native-shaping.md`. |
+| P4 | **LOCKED** | **Heaven's deliverable is context authorship** — the empowerment lane (PRDs, context docs, decision logs; the context-pack direction). Heaven is more than subtraction; subtraction is its floor. Spec WIP in `docs/plans/archived/2026-07-24-skill-heaven-native-shaping.md`. |
 
 ## 3. Delivery & mechanism
 
@@ -88,11 +88,11 @@
 |---|---|
 | `founder/RATIFICATION.md` | **Decisions (this doc).** |
 | `VISION.md` / `MISSION.md` | Public story + mission/roadmap (R0–R4). Slider language in VISION §3 pending rewrite per N1. |
-| `docs/idea-bank/skill-heaven-hell-mvp.md` | Engineering findings record (eviction, doses, placebo, summoning). Its decision log is historical. |
+| `docs/idea-bank/archived/2026-07-24-skill-heaven-hell-mvp.md` | Engineering findings record (eviction, doses, placebo, summoning). Its decision log is historical. |
 | `docs/plans/skill-heaven-hell-mvp-plan.md` | M0–M5 implementation plan. |
-| `docs/plans/m2-heaven-launcher-plan.md` | M2 handover plan (launcher profile compiler; implements D1/D6/D7). Closed 2026-07-20; historical record. |
-| `docs/plans/skill-heaven-continuation-plan.md` | Post-naming continuation plan of record (consolidation sweep, monorepo restructure, D10 verification gates, claude-heaven slice 1, pi-heaven vanguard, session debts). |
-| `docs/plans/skill-heaven-native-shaping.md` | WIP proposals for the next slice (third dose, necessity map, context pack). Proposals only. |
+| `docs/plans/archived/2026-07-24-m2-heaven-launcher-plan.md` | M2 handover plan (launcher profile compiler; implements D1/D6/D7). Closed 2026-07-20; historical record. |
+| `docs/plans/archived/2026-07-24-skill-heaven-continuation-plan.md` | Post-naming continuation plan of record (consolidation sweep, monorepo restructure, D10 verification gates, claude-heaven slice 1, pi-heaven vanguard, session debts). |
+| `docs/plans/archived/2026-07-24-skill-heaven-native-shaping.md` | WIP proposals for the next slice (third dose, necessity map, context pack). Proposals only. |
 | `docs/labs/harness-capability-matrix.md` | M0 evidence: verified harness cells + GO verdict. |
 | `content/reports/hh-benchmark/` | Methodology, R0 two-dose census, data. |
 | `scripts/hell-heaven-bench/` | Benchmark code of record (`census.ts`, `ledger.ts`) + append-only run ledger. |
@@ -114,11 +114,11 @@
 
 Shared engine + per-harness installables (`claude-heaven`, `pi-heaven`, …) +
 plugin marketplace; core `skill-heaven` bin is the research driver. Seeded from
-the `hh-launcher` working checkout (working name retired). The M2 handover plan
-(`docs/plans/m2-heaven-launcher-plan.md`) specifies what lands there vs. what
+the `hh-launcher` working checkout (working name retired). The M2 handover plan <!-- lexicon-allow: supersession audit trail -->
+(`docs/plans/archived/2026-07-24-m2-heaven-launcher-plan.md`) specifies what lands there vs. what
 stays in `gaia-research`; naming RFC:
 [gaia-research#68](https://github.com/gaia-research/gaia-research/issues/68)
-(draft archived at `docs/plans/skill-heaven-naming-rfc-issue-draft.md`).
+(draft archived at `docs/plans/archived/2026-07-24-skill-heaven-naming-rfc-issue-draft.md`).
 
 ### Canon
 
@@ -156,7 +156,7 @@ target.
   context-bloat pain vocabulary, brand-name + symptom-tagline, harness-first
   mental model), **N9** (names: `gaia-research/skill-heaven` monorepo-as-
   marketplace; per-harness installables `claude-heaven`/`pi-heaven`/…; core bin
-  = research driver; `/skill-heaven` + `/skill-hell`; `skill-heaven-hell`
+  = research driver; `/skill-heaven` + `/skill-hell`; `skill-heaven-hell` <!-- lexicon-allow: supersession audit trail -->
   fallback retired), **D10** (awareness-first surface: native default +
   statusline dose readout; honest switch via relaunch-with-`--resume`; hell as
   locked door) and **D11** (pi-heaven vanguard / claude-heaven flagship)
@@ -183,9 +183,9 @@ target.
   in its own repo; research/benchmarks/site stay in `gaia-research`) and **D7**
   (grok joins the harness scope) ratified by the owner. Open item 8 (launcher
   repo/binary name) added. M2 handover plan recorded at
-  `docs/plans/m2-heaven-launcher-plan.md`.
+  `docs/plans/archived/2026-07-24-m2-heaven-launcher-plan.md`.
 - **2026-07-19** — Doc established. Consolidates and supersedes the decision
-  logs in `docs/idea-bank/skill-heaven-hell-mvp.md` (owner decisions A/B/C),
-  `docs/plans/skill-heaven-native-shaping.md` §1 (D1–D3), and the slider
+  logs in `docs/idea-bank/archived/2026-07-24-skill-heaven-hell-mvp.md` (owner decisions A/B/C),
+  `docs/plans/archived/2026-07-24-skill-heaven-native-shaping.md` §1 (D1–D3), and the slider
   framing everywhere (N1). No prior ratification doc exists; `archived/` starts
   empty.

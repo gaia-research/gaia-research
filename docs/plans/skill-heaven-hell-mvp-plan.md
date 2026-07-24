@@ -1,7 +1,7 @@
 # Skill Heaven / Skill Hell — MVP Implementation Plan
 
 > Companion to the ratified findings in
-> [`../idea-bank/skill-heaven-hell-mvp.md`](../idea-bank/skill-heaven-hell-mvp.md).
+> [`../idea-bank/archived/2026-07-24-skill-heaven-hell-mvp.md`](../idea-bank/archived/2026-07-24-skill-heaven-hell-mvp.md).
 > Scope: the R0–R3 slice of `MISSION.md` §3, Heaven first, Hell staged behind it.
 > Baseline harnesses: **Claude Code, Codex CLI, Cursor, pi.**
 > **Decision authority:** [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)
@@ -47,12 +47,12 @@ from).
 
 > **Status 2026-07-20: implemented; naming closed.** The launcher-shaped
 > profile compiler lives in **`gaia-research/skill-heaven`** (monorepo + Claude
-> plugin marketplace, per N8/N9 — the `hh-launcher` working name is retired;
+> plugin marketplace, per N8/N9 — the `hh-launcher` working name is retired; <!-- lexicon-allow: states that the name is retired -->
 > per-harness installables `claude-heaven`/`pi-heaven`/… are the user-facing
 > product, the core `skill-heaven` bin is the research driver). Continuation:
-> [`skill-heaven-continuation-plan.md`](./skill-heaven-continuation-plan.md).
+> [`skill-heaven-continuation-plan.md`](./archived/2026-07-24-skill-heaven-continuation-plan.md).
 > First pass per
-> [`m2-heaven-launcher-plan.md`](./m2-heaven-launcher-plan.md) and D6/D7.
+> [`m2-heaven-launcher-plan.md`](./archived/2026-07-24-m2-heaven-launcher-plan.md) and D6/D7.
 > 30 unit tests + census parity fixture green; live demos a–d ran on Claude Code
 > 2.1.215 and pi 0.80.10; two `hh-m2-smoke` records appended to the ledger of
 > record (validator-clean). T6 resolved **negative** — curated re-admission

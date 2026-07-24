@@ -1,0 +1,29 @@
+{
+  "about": "Known vocabulary debt at the time the gate landed. Every entry is drift the gate WOULD flag, parked here so new drift can be blocked immediately instead of waiting for the rewrites. Shrink this file; never grow it. An entry disappears when the doc that owns it is rewritten.",
+  "generated": "2026-07-24",
+  "findings": {
+    "MISSION.md": {
+      "ultra": 5,
+      "firebreak": 3,
+      "seed": 2
+    },
+    "VISION.md": {
+      "slider": 8,
+      "resident": 1,
+      "firebreak": 2,
+      "budget": 2,
+      "ultra": 3,
+      "summonable": 1
+    },
+    "app/research/hh-benchmark/page.tsx": {
+      "skill-heaven-hell": 1
+    },
+    "content/reports/hh-benchmark/methodology.md": {
+      "seed": 7,
+      "firebreak": 1,
+      "budget": 1,
+      "ultra": 1,
+      "slider": 1
+    }
+  }
+}

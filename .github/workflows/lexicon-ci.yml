@@ -1,0 +1,62 @@
+name: lexicon
+
+# Vocabulary-drift gate for the Skill Heaven / Skill Hell line. The PR #4 review
+# found the shipped posture set diverging from the ratified one and named the
+# cause: "oracle governance lacks vocabulary-drift detection." This is that
+# detection. It runs on the line's docs and code only — the craft lab, the
+# context-diet lab and the Milim pet live in this repo too and have their own
+# vocabularies, which are none of this gate's business.
+on:
+  pull_request:
+    paths:
+      - 'founder/**'
+      - 'docs/plans/**'
+      - 'docs/labs/**'
+      - 'content/reports/hh-benchmark/**'
+      - 'content/reports/skill-heaven/**'
+      - 'app/research/hh-benchmark/**'
+      - 'scripts/lexicon/**'
+      - 'scripts/hell-heaven-bench/**'
+      - 'CLAUDE.md'
+      - 'VISION.md'
+      - 'MISSION.md'
+      - '.github/workflows/lexicon-ci.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'founder/**'
+      - 'docs/plans/**'
+      - 'docs/labs/**'
+      - 'content/reports/hh-benchmark/**'
+      - 'content/reports/skill-heaven/**'
+      - 'app/research/hh-benchmark/**'
+      - 'scripts/lexicon/**'
+      - 'scripts/hell-heaven-bench/**'
+      - 'CLAUDE.md'
+      - 'VISION.md'
+      - 'MISSION.md'
+
+jobs:
+  lexicon:
+    name: Vocabulary gate + self-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Node 22 per the repo's version contract (CLAUDE.md — do NOT downgrade
+      # below 22, wrangler needs it). The gate imports only Node built-ins and
+      # local files, so no `npm ci` is required; tsx is fetched on demand.
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Self-tests first: a broken gate that reports "clean" is worse than no
+      # gate. These also assert the lexicon's own shape (no duplicate terms,
+      # every banned term citing the oracle entry that retired it).
+      - name: Gate self-tests (19 assertions + 8 fixtures)
+        run: npx --yes tsx scripts/lexicon/check-lexicon.test.ts
+
+      - name: Vocabulary gate (banned terms + parked terms in shipped copy)
+        run: npx --yes tsx scripts/lexicon/check-lexicon.ts
