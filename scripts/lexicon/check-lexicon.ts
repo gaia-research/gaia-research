@@ -154,8 +154,19 @@ export function matchesAny(path: string, globs: string[]): boolean {
   return globs.some((g) => globToRegExp(g).test(path));
 }
 
-/** Validate the lexicon's own shape. A malformed lexicon is a hard failure. */
-export function validateLexicon(lex: Lexicon): string[] {
+/** Decision ids the oracle actually defines, e.g. {"D12","P1",…}. */
+export function oracleEntryIds(oracleText: string): Set<string> {
+  return new Set([...oracleText.matchAll(/^\|\s*([A-Z]\d+)\s*\|/gm)].map((m) => m[1]));
+}
+
+/**
+ * Validate the lexicon's own shape. A malformed lexicon is a hard failure.
+ *
+ * When `oracleIds` is supplied, every `oracle` citation must resolve to a real
+ * entry. A term citing an entry that no longer exists is worse than an
+ * uncited one: it carries borrowed authority from something deleted.
+ */
+export function validateLexicon(lex: Lexicon, oracleIds?: Set<string>): string[] {
   const errors: string[] = [];
   if (lex.lexicon !== "1") errors.push(`unknown lexicon schema version: ${lex.lexicon}`);
 
@@ -173,6 +184,11 @@ export function validateLexicon(lex: Lexicon): string[] {
     if (!t.definition?.trim()) errors.push(`${t.term}: missing definition`);
     for (const s of t.scope ?? [])
       if (!lex.scopes[s]) errors.push(`${t.term}: unknown scope "${s}"`);
+    if (oracleIds && t.oracle) {
+      for (const id of t.oracle.match(/[A-Z]\d+/g) ?? [])
+        if (!oracleIds.has(id))
+          errors.push(`${t.term}: cites oracle entry "${id}", which RATIFICATION.md does not define`);
+    }
   }
   for (const [term, n] of seen) if (n > 1) errors.push(`duplicate term: "${term}" (${n}x)`);
   return errors;
@@ -350,7 +366,11 @@ function main(argv: string[]): number {
   }
   const lex: Lexicon = JSON.parse(readFileSync(lexPath, "utf8"));
 
-  const schemaErrors = validateLexicon(lex);
+  const oraclePath = join(ROOT, "founder", "RATIFICATION.md");
+  const oracleIds = existsSync(oraclePath)
+    ? oracleEntryIds(readFileSync(oraclePath, "utf8"))
+    : undefined;
+  const schemaErrors = validateLexicon(lex, oracleIds);
   if (schemaErrors.length) {
     console.error("✗ founder/lexicon.json is malformed:");
     for (const e of schemaErrors) console.error(`    ${e}`);

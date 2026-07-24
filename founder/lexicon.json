@@ -3,12 +3,17 @@
   "namespace": "core",
   "extends": null,
   "updated": "2026-07-24",
-  "about": "Vocabulary of record for the Skill Heaven / Skill Hell line. A term is defined in exactly one lexicon file, ever; extensions (marketing-tasks/founder/lexicon.brand.json) ADD terms in their own namespace and may never redefine a core term. States: canonical (use this), banned (the oracle retired it — CI fails), parked (coined but unchosen — docs only, never user-facing copy or code), frozen (meant something specific once — archived docs only). A term is `banned` ONLY when founder/RATIFICATION.md already retired it; a term this repo is still arguing about is `parked`, never banned. Writing a linter is not a way to make a decision.",
+  "about": "Vocabulary of record for the Skill Heaven / Skill Hell line. A term is defined in exactly one lexicon file, ever; extensions (marketing-tasks/founder/lexicon.brand.json) ADD terms in their own namespace and may never redefine a core term. States: canonical (use this), banned (the oracle retired it — CI fails), parked (coined but unchosen — docs only, never user-facing copy or code), frozen (meant something specific once — archived docs only). A term is `banned` ONLY when founder/RATIFICATION.md already retired it; a term this repo is still arguing about is `parked`, never banned. Writing a linter is not a way to make a decision. AND: `canonical` is not inherited from an oracle citation. A word describing a surface that has not been built or demonstrated stays `parked` however firmly its backing entry is written -- otherwise the lexicon launders provisional decisions into enforced vocabulary, which is the drift it exists to stop, one level up.",
   "scope_note": "THE LEXICON IS LINE-SCOPED, NOT REPO-SCOPED. It governs the Skill Heaven / Skill Hell line only. This repo also hosts the craft lab, the context-diet lab, the Milim pet and unrelated reports, where `seed` is a PRNG seed and `budget` is a CI budget — different projects, different vocabularies, none of this gate's business. Widening these globs to `app/**` or `content/**` produced 60+ findings against code that has nothing to do with postures; that was the gate over-reaching, not drift.",
   "scopes": {
     "decisive": {
       "about": "Docs that read as current guidance for the line: the oracle, live plans, the evidence matrix.",
-      "include": ["founder/**/*.md", "docs/plans/**/*.md", "docs/labs/**/*.md", "CLAUDE.md"]
+      "include": [
+        "founder/**/*.md",
+        "docs/plans/**/*.md",
+        "docs/labs/**/*.md",
+        "CLAUDE.md"
+      ]
     },
     "user-facing": {
       "about": "Line copy a reader outside the project sees: the public story docs, the benchmark reports, the research pages.",
@@ -80,31 +85,35 @@
     },
     {
       "term": "clean-room",
-      "state": "canonical",
+      "state": "parked",
       "group": "posture",
       "oracle": "D12",
-      "definition": "The fully-subtractive composition: bundled skills, user/global skills, MCP and non-project settings all evicted. Reachable only at boot, via the launcher."
+      "definition": "The fully-subtractive composition: bundled skills, user/global skills, MCP and non-project settings all evicted. Reachable only at boot, via the launcher.",
+      "note": "Describes a surface that has not shipped or been independently validated. Parked until the composition it names is built and demonstrated. Demoted 2026-07-24: it was canonical on D12/D13's authority alone."
     },
     {
       "term": "scalpel",
-      "state": "canonical",
+      "state": "parked",
       "group": "posture",
       "oracle": "D12, N8",
-      "definition": "The in-session control. Upward-only from the launched floor; carries conversation history; cannot descend below its launch posture."
+      "definition": "The in-session control. Upward-only from the launched floor; carries conversation history; cannot descend below its launch posture.",
+      "note": "Names the in-session control from D12's product design. Parked until that control exists. Demoted 2026-07-24: it was canonical on D12/D13's authority alone."
     },
     {
       "term": "purge",
-      "state": "canonical",
+      "state": "parked",
       "group": "mechanism",
       "oracle": "D13",
-      "definition": "Physical subtractive removal of context. Launcher-locked — gate (a) proved it cannot happen in-session."
+      "definition": "Physical subtractive removal of context. Launcher-locked — gate (a) proved it cannot happen in-session.",
+      "note": "Names a mechanism split that is real in the evidence (gate (a)) but whose product framing is unbuilt. Parked until the surface ships. Demoted 2026-07-24: it was canonical on D12/D13's authority alone."
     },
     {
       "term": "restraint",
-      "state": "canonical",
+      "state": "parked",
       "group": "mechanism",
       "oracle": "D13",
-      "definition": "Behavioral suppression of skill USE while the skills remain physically in context. UNVERIFIED — research track, behind matrix gate (e), no load-bearing copy until it passes."
+      "definition": "Behavioral suppression of skill USE while the skills remain physically in context. UNVERIFIED — research track, behind matrix gate (e), no load-bearing copy until it passes.",
+      "note": "Explicitly UNVERIFIED in its own oracle entry, behind matrix gate (e). It should never have been canonical. Demoted 2026-07-24: it was canonical on D12/D13's authority alone."
     },
     {
       "term": "lean",
@@ -269,7 +278,9 @@
       "group": "measurement",
       "oracle": "B3",
       "definition": "Determinism does not exist in any target harness. The ledger validator rejects a `seed` field; seed-framing in benchmark copy is a retired claim.",
-      "scope": ["user-facing"]
+      "scope": [
+        "user-facing"
+      ]
     },
     {
       "term": "own-placebo",

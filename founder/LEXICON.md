@@ -30,8 +30,8 @@ to make a decision.
 | `curated` | ✅ canonical | P1 | A hand-gated few skills, source-agnostic (the user's own custom skills first). The allowlist as human-selected fixed state, chosen at launch. |
 | `floor` | ✅ canonical | P1 | Evict all skills, bare prompt profile, zero server — the benchmark's placebo-of-record, at level `off`. Whether the PRODUCT floor and the BENCHMARK floor are the same posture is an open shaping question (the `--disable-slash-commands` finding). Do not assume one term covers both until that closes. |
 | `hell lane` | ✅ canonical | P1 | Evidenced flood — the whole evidenced pool, firebreak on, honesty-gated. Sits above native. Its mapping onto levels is OPEN. |
-| `clean-room` | ✅ canonical | D12 | The fully-subtractive composition: bundled skills, user/global skills, MCP and non-project settings all evicted. Reachable only at boot, via the launcher. |
-| `scalpel` | ✅ canonical | D12, N8 | The in-session control. Upward-only from the launched floor; carries conversation history; cannot descend below its launch posture. |
+| `clean-room` | 🅿️ parked | D12 | The fully-subtractive composition: bundled skills, user/global skills, MCP and non-project settings all evicted. Reachable only at boot, via the launcher. Describes a surface that has not shipped or been independently validated. Parked until the composition it names is built and demonstrated. Demoted 2026-07-24: it was canonical on D12/D13's authority alone. |
+| `scalpel` | 🅿️ parked | D12, N8 | The in-session control. Upward-only from the launched floor; carries conversation history; cannot descend below its launch posture. Names the in-session control from D12's product design. Parked until that control exists. Demoted 2026-07-24: it was canonical on D12/D13's authority alone. |
 | `lean` | 🅿️ parked | — | Coined in matrix gate (a) as a slider stop for `--setting-sources project`. Not one of P1's four postures — this is the naming collision the PR #4 review flagged. Proposed: `project-only` (unratified). UNRATIFIED both ways. Scoped narrowly on purpose: `lean` appears in 111 files, nearly all innocent (`clean`, `lean bundle`). Only flagged in user-facing copy and code. |
 | `project-only` | 🅿️ parked | — | Proposed name for the `--setting-sources project` stop: sheds project/settings weight, does NOT remove the user's personal skills. Unratified. |
 | `add-ons` | 🅿️ parked | — | Coined in matrix gate (a) as a slider stop. Proposal on the table: this is an ACTION available at any posture (route G shows `--plugin-dir` stacks even at the floor), not a position on the ladder. Unratified. |
@@ -49,8 +49,8 @@ to make a decision.
 
 | Term | State | Oracle | Definition |
 |---|---|---|---|
-| `purge` | ✅ canonical | D13 | Physical subtractive removal of context. Launcher-locked — gate (a) proved it cannot happen in-session. |
-| `restraint` | ✅ canonical | D13 | Behavioral suppression of skill USE while the skills remain physically in context. UNVERIFIED — research track, behind matrix gate (e), no load-bearing copy until it passes. |
+| `purge` | 🅿️ parked | D13 | Physical subtractive removal of context. Launcher-locked — gate (a) proved it cannot happen in-session. Names a mechanism split that is real in the evidence (gate (a)) but whose product framing is unbuilt. Parked until the surface ships. Demoted 2026-07-24: it was canonical on D12/D13's authority alone. |
+| `restraint` | 🅿️ parked | D13 | Behavioral suppression of skill USE while the skills remain physically in context. UNVERIFIED — research track, behind matrix gate (e), no load-bearing copy until it passes. Explicitly UNVERIFIED in its own oracle entry, behind matrix gate (e). It should never have been canonical. Demoted 2026-07-24: it was canonical on D12/D13's authority alone. |
 | `resident` | 🅿️ parked | — | Proposed set model (PR #4 comment): a skill is resident (in context), summonable (indexed, free until invoked), or absent. Heaven shrinks resident; Hell grows summonable. Unratified. |
 | `summonable` | 🅿️ parked | — | Part of the proposed resident/summonable/absent set model. Unratified. |
 | `eviction` | ✅ canonical | D2 | Removal of a skill from context. Always harness-side, never an MCP operation — MCP is additive-only in every target harness. |

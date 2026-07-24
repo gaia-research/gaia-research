@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 import {
   aboveBaseline,
   globToRegExp,
+  oracleEntryIds,
   scanText,
   scopesFor,
   tally,
@@ -53,7 +54,8 @@ function check(name: string, ok: boolean, detail = "") {
 }
 
 console.log("lexicon schema");
-const schemaErrors = validateLexicon(lex);
+const oracleIds = oracleEntryIds(readFileSync(join(ROOT, "founder", "RATIFICATION.md"), "utf8"));
+const schemaErrors = validateLexicon(lex, oracleIds);
 check("founder/lexicon.json is well-formed", schemaErrors.length === 0, schemaErrors.join("; "));
 check(
   "every banned term cites the oracle entry that retired it",
@@ -62,6 +64,19 @@ check(
 check(
   "no term is both parked and given a hard replacement",
   lex.terms.every((t) => !(t.state === "parked" && t.replacement)),
+);
+
+check("oracle ids parse out of RATIFICATION.md", oracleIds.has("D12") && oracleIds.has("P1") && oracleIds.size === 34);
+check(
+  "a citation to a non-existent oracle entry is an error",
+  validateLexicon(
+    { ...lex, terms: [{ term: "zz", state: "canonical", definition: "d", oracle: "D99" }] },
+    oracleIds,
+  ).some((e) => e.includes("D99")),
+);
+check(
+  "no canonical term names an unbuilt surface",
+  !lex.terms.some((t) => t.state === "canonical" && /clean-room|scalpel|purge|restraint/.test(t.term)),
 );
 
 console.log("\nglob matching");

@@ -1,6 +1,6 @@
 <!-- as: content/reports/skill-heaven/x.md -->
 # Report
 
-The clean-room posture is launcher-locked: `claude-heaven` composes it at
-boot. The standing dose is priced separately from the invocation dose, and
-eviction is always harness-side.
+The standing dose is priced separately from the invocation dose, and the
+harness dose is priced on its own again. Eviction is always harness-side; the
+launcher composes at boot, and each door is a per-harness installable.
