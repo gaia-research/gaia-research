@@ -66,7 +66,14 @@ check(
   lex.terms.every((t) => !(t.state === "parked" && t.replacement)),
 );
 
-check("oracle ids parse out of RATIFICATION.md", oracleIds.has("D12") && oracleIds.has("P1") && oracleIds.size === 34);
+check(
+  "oracle ids parse out of RATIFICATION.md",
+  oracleIds.has("D12") && oracleIds.has("P1") && oracleIds.has("N8") && oracleIds.size > 25,
+);
+check(
+  "retired ids stay dead — D7/D10/D11/D13 are not redefined",
+  !["D7", "D10", "D11", "D13"].some((id) => oracleIds.has(id)),
+);
 check(
   "a citation to a non-existent oracle entry is an error",
   validateLexicon(

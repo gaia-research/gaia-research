@@ -14,30 +14,42 @@
 > product is.
 >
 > **Statuses.** **INVARIANT** — breaking it costs credibility, money, or another
-> repo; violating one is a bug, not a decision. **CURRENT** — the working answer,
-> held until the build says otherwise; **a failing test or a bad demo is
-> sufficient to change it**, edited in the PR that discovered it, no session
-> required. **OPEN** — undecided; do not invent an answer, flag it.
+> repo; violating one is a bug, not a decision. **CURRENT** — **decided on
+> tradeoffs, with or without evidence.** Deciding early is the point: a CURRENT
+> entry does not wait for proof, it commits so the work can proceed, and it is
+> revised when evidence is *strongly* against it — in the PR that found the
+> evidence, no session required. **OPEN** — undecided; do not invent an answer,
+> flag it.
 >
-> ⚠️ **The status column is proposed, not ratified** (2026-07-24 rewrite). Every
-> decision's *substance* below is preserved unchanged from the 2026-07-20
-> revision — this was a compression, not a re-litigation. What is new is the
-> INVARIANT/CURRENT split, which changes how easily an entry may be revised.
-> **Owner ratifies the status column.** Until then, treat CURRENT as the prior
-> LOCKED.
+> **Entries that did not survive contact are deleted outright**, not annotated
+> into permanent hedging. Re-deciding later is cheap and expected; a long
+> qualification is what makes a doc unreadable. **Ids are never reused** — a
+> deleted id stays dead so old references resolve to nothing rather than to
+> something new.
+>
+> ⚠️ **The status column is proposed, not ratified** (2026-07-24). **Owner
+> ratifies it.** Until then, treat CURRENT as the prior LOCKED.
+>
+> **Retired ids — never reused:** **D7** (grok in harness scope — coverage, not
+> a decision; the matrix owns it) · **D10** (awareness-first surface — its
+> relaunch mechanism was falsified by D12) · **D11** (pi-vanguard sequencing —
+> a preference with no reversal cost) · **D13** (one-ladder-two-controls — half
+> of it sat behind a gate that has never run). Deleted 2026-07-24 after review;
+> the reasoning is in git and in the archived plans. Any of them may be
+> re-decided at any time, and would take a new id.
 
 ## 1. Naming & interaction model
 
 | # | Status | Decision |
 |---|---|---|
-| N1 | **CURRENT** | **Modes, not a slider** — the product is discrete mode switching, and the entry mechanism never changes what a mode means. ⚠️ Conflicts with D12/D13, which mandate a posture slider; see OPEN 1. |
+| N1 | **CURRENT** | **Modes, not a slider** — the product is discrete mode switching, and the entry mechanism never changes what a mode means. ⚠️ Conflicts with D12, which describes a posture ladder; see OPEN 1. |
 | N2 | **CURRENT** | Mode names are **"Skill Heaven mode"** and **"Skill Hell mode"** — the skill terms lead even where a mode also touches context or prompt. |
 | N3 | **CURRENT** | Levels use agentic-coding terms: `off · low · med · high · xhigh · max`. No celestial level names. |
 | N4 | **OPEN** | Whether **`ultra`** survives as a term, and where it sits. |
 | N5 | **OPEN** | **One scale or two** — a single mode×level scale, or two independent dials. |
 | N6 | **CURRENT** | The index is the **Hell Heaven (HH) Index**; schema key `hellHeaven`. Becomes INVARIANT once the canon ask lands upstream. |
 | N7 | **INVARIANT** | **Milim is the Hell-mode persona.** The Heaven persona's name is reserved and undecided — **nothing may hard-code one**. Credit Matt Pocock for naming Skill Hell; the frame is "Stop installing. Start summoning." |
-| N8 | **CURRENT** | **Positioning: scalpel, not door.** The user lives in a bare harness and reaches for this when it hurts. Pain vocabulary is **context bloat**; the name carries the brand, the tagline carries the symptom. Mental model is **harness-first** — never a `sudo`-style wrapper identity. |
+| N8 | **CURRENT — INCOMPLETE** | **Positioning: scalpel, not door.** The user lives in a bare harness and reaches for this when it hurts. Pain vocabulary is **context bloat**; the name carries the brand, the tagline carries the symptom. Mental model is **harness-first** — never a `sudo`-style wrapper identity. ⚠️ **Covers the moment of reach only.** It says nothing about what the user does once inside, how they learn where they are, or what an honest refusal feels like — scenarios that surfaced in skill-heaven#4. See OPEN 12. |
 | N9 | **INVARIANT** | **Names are settled**: the `skill-heaven` monorepo doubles as the plugin marketplace; user-facing installables are the **per-harness doors**; the core bin survives as the research driver. In-session commands `/skill-heaven` and `/skill-hell`. The extensions are the product and the core is the engine — not the inverse. Invariant because the repo exists and reversing it now costs more than it buys. |
 
 ## 2. Posture semantics
@@ -59,13 +71,9 @@
 | D4 | **CURRENT** | `gaia-mcp` keeps a **≤2-tool surface** (`search_skills`, `summon`); its own schema footprint is measured and subtracted in every claim. Heaven's purest form uses no server at all. |
 | D5 | **INVARIANT** | **Routing is deterministic and performance-first** — nearest-neighbour over a build-time frozen, versioned index with a version handshake; ranked and origin skills sort first; **no model call ever decides a loadout**. ⚠️ Its boundary is contested; see OPEN 8. |
 | D6 | **INVARIANT** | **The ledger-of-record and its validator never move.** Research, benchmarks, the capability matrix and the site stay in `gaia-research`; the product repo consumes the record shapes and the pricing discipline. Cross-repo contract. |
-| D7 | **CURRENT** | **Grok is in the harness scope**, joining Claude Code, pi, Codex and Cursor. Every harness earns an empirical capability-matrix column on a pinned version; no cell is load-bearing until verified. |
-| D8 | **CURRENT** | **Implementation differs per harness; the outcome must be the same.** Preference goes to in-harness plugins unless proven not to work. Corollary (rides B4): **a "will not work" ledger is as first-class as a "will work" one** — verified negative findings are recorded with the same rigor. |
+| D8 | **CURRENT** | **Implementation differs per harness; the outcome must be the same.** |
 | D9 | **INVARIANT** | **Ratification and implementation land in the same PR** — decisions are made as the work proceeds, so the decision record and the code embodying it travel together. This is the mechanism that keeps the two from drifting apart. |
-| D10 | **CURRENT** | **Awareness-first surface, honest switch.** The flagship door boots at native posture and carries an ambient posture/dose readout — the readout is what creates the pain moment. `/skill-hell` is the **locked door**: status, ledger link, and "opens when Hell is proven safe." **No magic respawn** — the flagship interaction never rides an unverified capability. |
-| D11 | **CURRENT** | **pi-heaven is the R&D vanguard; claude-heaven stays the flagship.** Interaction design is proven on pi's richer extension API first, then ported down to Claude Code's more restrictive plugin surface. Marketing weight stays on the flagship. |
-| D12 | **CURRENT** | **Two doses, two mechanisms.** The **clean-room launcher** composes the fully-subtractive floor at boot and is the *only* path to it — that scarcity is the enticement. The **in-session scalpel** moves posture **upward only**, carrying conversation history, and cannot descend below its launch floor. **Binding UX honesty:** the lowest heaven-mode is presented **visibly locked to launcher mode**, and every fork that changes the session id discloses it. Evidence: matrix gate (a). **Re-verify on every harness upgrade** — the mechanism is undocumented and version-pinned. |
-| D13 | **CURRENT** | **One ladder, two controls.** `/skill-heaven` is the active downward control, summonable anytime; `/skill-hell` stays the **locked door, shown in all modes**. Two downward mechanisms, kept architecturally separate: **physical purge is launcher-locked** (gate (a) proved it cannot happen in-session), while **behavioral restraint** suppresses skill *use* without purging — in-session, ungated, works even on a vanilla harness, but **UNVERIFIED**, behind matrix gate (e), with no load-bearing copy until it passes. On a vanilla harness the lower notches render **visibly locked** with an explicit route to the launcher. |
+| D12 | **CURRENT** | **The subtractive floor is reachable only at boot.** An in-session control can move posture upward (additive) and carry conversation history, but cannot descend below its launch composition — subtractive recomposition and history survival are mutually exclusive. Evidence: matrix gate (a). **Re-verify on every harness upgrade** — the mechanism is undocumented and version-pinned. |
 
 ## 4. Measurement & claims
 
@@ -74,7 +82,7 @@
 | B1 | **INVARIANT** | **Doses are priced separately, never one number** — standing, invocation and harness dose each stated on its own. The harness dose is priced in the ledger and reports only, never in the canon schema. |
 | B2 | **INVARIANT** | **Own-placebo anchoring.** The baseline is our own same-harness no-skill run; published benchmark scores are calibration only, never the baseline. |
 | B3 | **INVARIANT** | **Determinism does not exist** in any target harness: N repeats plus confidence intervals. The ledger validator rejects a fixed-run field. |
-| B4 | **INVARIANT** | **The ledger is always on**, the claim-discipline table binds all public copy, and **no claim ships ahead of its benchmark**. If Hell does not net-save, Heaven becomes the hero. |
+| B4 | **INVARIANT** | **The ledger is always on**, the claim-discipline table binds all public copy, and **no claim ships ahead of its benchmark**. A **"will not work" ledger is as first-class as a "will work" one** — verified negative findings are recorded with the same rigor. If Hell does not net-save, Heaven becomes the hero. |
 | B5 | **INVARIANT** | **Benchmark arms run on clean sandboxed harness installs.** A user-configured local install is native-posture evidence at best; workstation runs are smoke evidence and must say so. |
 
 ## 5. Governance & structure
@@ -87,7 +95,11 @@
 
 ## 6. Open items — do not improvise these
 
-1. **Vocabulary conflict: N1 vs. D12/D13.** N1 supersedes the slider framing; D12/D13 mandate a posture slider. Neither acknowledges the other. Recorded in the lexicon as a parked term.
+1. **Modes or a ladder?** N1 says discrete modes and supersedes the slider
+   framing. The entries that had mandated a slider are gone — D13 deleted, D12
+   cut back to physics — but skill-heaven#4 *shipped* a slider, so the product
+   and N1 still disagree. Recorded in the lexicon as a parked term until the
+   product picks one.
 2. **Posture-set collision.** The shipped set does not match P1's four. Proposal on the table: two of the shipped stops are not rungs but **axes** — stacking add-ons is an action available at *any* posture, and behavioral restraint is behavioral, not positional.
 3. **N5** — one scale or two. **N4** — whether `ultra` survives, and where.
 4. **Hell-lane level mapping** — which upper levels the hell lane occupies. Encoding a provisional mapping in a constant is a decision made by omission; do not.
@@ -97,7 +109,15 @@
 8. **D5's boundary.** Does a model-issued `summon` after a deterministic search breach "no model decides a loadout"? Candidate reframe: make the budget deterministic, so the enforceable rule becomes *no model decides how much*.
 9. **`gauge` collision** — one word doing duty for both per-skill stamps and session spend meters.
 10. **Eager vs. on-demand** — likely a toggle orthogonal to the ladder, not a rung on it.
-11. **`ultra` in a frozen ledger key.** N4 is OPEN, but the key is frozen by D6; renaming it would invalidate committed records.
+11. **Completing N8.** The positioning covers the moment of reach and nothing
+    after it. Four scenarios surfaced in skill-heaven#4 that it does not
+    address: **posture adjustment** (moving between postures mid-work),
+    **capability discovery** (learning where this session sits and what moves
+    it), **clean-room access** (launcher-unlocked vs. the vanilla locked
+    upsell), and **refusal transparency** (an explicit, honest refusal at gated
+    levels rather than a false sense of access). N8 is not wrong; it is
+    unfinished.
+12. **`ultra` in a frozen ledger key.** N4 is OPEN, but the key is frozen by D6; renaming it would invalidate committed records.
 
 ## 7. Pointer map
 

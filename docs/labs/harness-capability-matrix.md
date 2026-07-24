@@ -20,7 +20,7 @@
 | Codex CLI | current docs (July 2026); **0.144.6 local** (2026-07-19, quota-limited) | [developers.openai.com/codex/skills](https://developers.openai.com/codex/skills) + local probes |
 | Cursor (cursor-agent CLI) | current docs (July 2026, CLI stable); **binary not installed locally** (2026-07-19) | [cursor.com/docs/cli](https://cursor.com/docs/cli/using) |
 | pi (badlogic/pi-mono coding agent) | current docs (July 2026); **0.80.10 local, empirical** (2026-07-19) | [pi coding-agent skills docs](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/skills.md) + live runs |
-| grok (Grok Build TUI, per D7) | **0.2.103 local, empirical** (2026-07-19) | `grok --help`, `grok inspect`, env probes — see grok column notes |
+| grok (Grok Build TUI, in harness scope) | **0.2.103 local, empirical** (2026-07-19) | `grok --help`, `grok inspect`, env probes — see grok column notes |
 
 ## The checked matrix
 
@@ -179,6 +179,13 @@ not Cursor; G4/G5. **Superseded 2026-07-20 by G6**: Cursor CLI 2026.07.16 is now
 installed as both `agent` and `cursor-agent`; column re-probe pending, WS6 of
 `docs/plans/archived/2026-07-24-skill-heaven-continuation-plan.md`).
 
+> **Note on retired ids (2026-07-24).** Gate headings and sub-questions below
+> cite **D7 · D10 · D11 · D13**, which were deleted from the oracle after review.
+> Those labels are kept as the historical record of *why a probe was run* —
+> evidence is not rewritten when a decision is withdrawn. They are not live
+> pointers: nothing below is authority for a decision, and a retired id is never
+> reused.
+
 ## WS3 verification gates — gate (a): in-session profile recomposition (the posture slider)
 
 **Milestone:** WS3 of
@@ -275,7 +282,7 @@ handoff-notes continuity, **not** exact tool/turn-state resume. Net cost is chea
 
 > **Which stops the product exposes, and what they are called, is a decision —
 > it lives in [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md) (P1,
-> D12, D13) with its naming governed by
+> D12) with its naming governed by
 > [`founder/lexicon.json`](../../founder/lexicon.json).** A recommended-stops
 > list used to sit here and it is what let `lean` and `add-ons` enter the
 > product without passing P1 — evidence proposing product names is exactly the
@@ -289,8 +296,8 @@ before/after; `~/.claude/settings.json` SHA-256 unchanged; no
 written under `~/.claude/projects/`.
 
 **What this gate ruled → [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)
-D12** (corrected 2026-07-22, superseding the falsified 2026-07-21 lock; amends
-D10). The decision text is not duplicated here: a full copy of a ruling inside
+D12** (corrected 2026-07-22, superseding the falsified 2026-07-21 lock; the
+entry it amended, D10, was retired 2026-07-24). The decision text is not duplicated here: a full copy of a ruling inside
 its own evidence is how the oracle came to carry token counts and version pins,
 and why it had to be rewritten every time a re-probe moved a number. **This
 section is the evidence D12 cites; D12 is the decision.**

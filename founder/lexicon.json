@@ -89,7 +89,7 @@
       "group": "posture",
       "oracle": "D12",
       "definition": "The fully-subtractive composition: bundled skills, user/global skills, MCP and non-project settings all evicted. Reachable only at boot, via the launcher.",
-      "note": "Describes a surface that has not shipped or been independently validated. Parked until the composition it names is built and demonstrated. Demoted 2026-07-24: it was canonical on D12/D13's authority alone."
+      "note": "Names a composition the evidence supports (matrix gate (a)) but which has not shipped or been independently demonstrated. Demoted from canonical 2026-07-24."
     },
     {
       "term": "scalpel",
@@ -97,23 +97,21 @@
       "group": "posture",
       "oracle": "D12, N8",
       "definition": "The in-session control. Upward-only from the launched floor; carries conversation history; cannot descend below its launch posture.",
-      "note": "Names the in-session control from D12's product design. Parked until that control exists. Demoted 2026-07-24: it was canonical on D12/D13's authority alone."
+      "note": "Names the in-session control from D12's former product design; that framing was cut back to physics 2026-07-24. Parked until the control exists."
     },
     {
       "term": "purge",
       "state": "parked",
       "group": "mechanism",
-      "oracle": "D13",
       "definition": "Physical subtractive removal of context. Launcher-locked — gate (a) proved it cannot happen in-session.",
-      "note": "Names a mechanism split that is real in the evidence (gate (a)) but whose product framing is unbuilt. Parked until the surface ships. Demoted 2026-07-24: it was canonical on D12/D13's authority alone."
+      "note": "Names a real mechanism split — gate (a) proved purge cannot happen in-session — but the product framing that named it (D13) was deleted 2026-07-24. Parked until a surface using it ships."
     },
     {
       "term": "restraint",
       "state": "parked",
       "group": "mechanism",
-      "oracle": "D13",
       "definition": "Behavioral suppression of skill USE while the skills remain physically in context. UNVERIFIED — research track, behind matrix gate (e), no load-bearing copy until it passes.",
-      "note": "Explicitly UNVERIFIED in its own oracle entry, behind matrix gate (e). It should never have been canonical. Demoted 2026-07-24: it was canonical on D12/D13's authority alone."
+      "note": "Behind matrix gate (e), which has never run. Its backing entry (D13) was deleted 2026-07-24. It was canonical on that entry's authority while the entry itself said UNVERIFIED — it should never have been canonical."
     },
     {
       "term": "lean",
@@ -353,14 +351,14 @@
       "term": "claude-heaven",
       "state": "canonical",
       "group": "names",
-      "oracle": "N9, D11",
+      "oracle": "N9",
       "definition": "The flagship door. Claude Code is the reference harness and marketing weight sits here."
     },
     {
       "term": "pi-heaven",
       "state": "canonical",
       "group": "names",
-      "oracle": "N9, D11",
+      "oracle": "N9",
       "definition": "The R&D vanguard door — interaction design is proven on pi first, then ported down to Claude Code's more restrictive plugin surface."
     },
     {
