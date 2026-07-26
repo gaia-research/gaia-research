@@ -18,6 +18,15 @@ const articleDescription =
 export const metadata = {
   title: articleTitle,
   description: articleDescription,
+  keywords: [
+    "Claude 5",
+    "system prompt",
+    "Claude Code",
+    "Opus 5",
+    "Fable 5",
+    "capability overhang",
+    "context engineering",
+  ],
   alternates: { canonical: articlePath },
   openGraph: {
     type: "article",
