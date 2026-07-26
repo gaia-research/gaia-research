@@ -36,7 +36,7 @@ export const claude5SystemPromptShrinkThumbnail = {
 
 export const yggdrasilIiThumbnail = {
   src: yggdrasilIiThumbnailSrc,
-  alt: "Tiny pink-haired Milim kneels contentedly on a sunlit greenhouse potting bench among towering terracotta pots and drifting morning mist, tending one small seedling.",
+  alt: "Tiny pink-haired Milim kneels beside a greenhouse potting bench, tending a seedling amid terracotta pots and soft morning light.",
 } as const;
 
 // Keep this list deliberately small and editorial. Home consumes the first
@@ -50,7 +50,7 @@ export const blogPosts: readonly BlogPost[] = [
     readTime: "6 min read",
     title: "Yggdrasil II: The Skill Tree Stops Storing What It Can Compute",
     description:
-      "Yggdrasil II is the Gaia Skill Tree's second taxonomy rebuild: four node types collapse to two, the branch axis becomes derived instead of stored, and Trust Magnitude becomes the sole promotion gate.",
+      "Yggdrasil II simplifies Gaia's public map of agent capabilities: four node types collapse to two, branch is computed from the graph, and Trust Magnitude becomes the sole promotion gate.",
     author: "Nova · Head Researcher, Gaia Research",
     image: yggdrasilIiThumbnail,
   },

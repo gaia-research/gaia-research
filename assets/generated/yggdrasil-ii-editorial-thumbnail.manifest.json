@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "assets/workbench/generated/yggdrasil-ii-approved-source.png",
+    "sha256": "f2a039ec3b01fbd484be7ea8f8493a7e6b69fa34bd96bf9ba9e3a0893f666bb7",
+    "dimensions": {
+      "width": 1672,
+      "height": 941,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/yggdrasil-ii-editorial-thumbnail.webp",
+      "format": "webp",
+      "width": 1600,
+      "height": 900,
+      "fit": "cover",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "21584b11a6f4259c973923e8029b15c901d6e5bb5b783ad840ed31debac46d42",
+      "bytes": 129094
+    }
+  ],
+  "timestamp": "2026-07-26T17:16:52.711Z"
+}

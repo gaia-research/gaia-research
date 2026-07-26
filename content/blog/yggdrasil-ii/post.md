@@ -4,28 +4,26 @@
 
 ---
 
-> A stored field is a promise a curator makes and then has to keep. Every skill in the Gaia Skill Tree used to carry a `branch` label that a human typed in and a human had to maintain. Yggdrasil II deletes that field — and two others — and recomputes them from structure. The registry got smaller and more correct at the same time.
+> AI agents can do thousands of useful things, but those capabilities are scattered across repositories with no shared record of what works. Gaia Skill Tree maps those capabilities, links each implementation to its maker, and ranks it by evidence.
 
 ---
 
 ## What changed, in one line
 
-The Skill Tree is Gaia Research's flagship: a public registry that grades real agent skills by evidence, not stars. Its classification model just went through its second full rebuild — codenamed **Yggdrasil II** (`v7.0.0`, EPIC #1002, released 2026-07-26). Four structural cuts landed together. Three of them are deletions.
+**In plain English:** Gaia Skill Tree is a public map of what AI agents can do, who demonstrated each capability, and what evidence supports it.
 
-The through-line: **stop storing what you can derive.** A value the registry can recompute from other fields is not data — it is a second copy that can disagree with the first. Yggdrasil II removes the second copies, and with them the states where the two disagreed.
+Its second full rebuild — **Yggdrasil II** (`v7.0.0`, EPIC #1002, released 2026-07-26) — makes four structural cuts. The rule underneath all four: **stop storing what you can derive.**
 
 ---
 
 ## Cut 1 — Four node types collapse to two
 
-Every non-named node in the tree had a `type` drawn from `{basic, extra, ultimate, unique}`. Those four values tried to encode two unrelated things at once: whether a node has prerequisites, and how prestigious it is. That conflation is exactly what let a stored label drift from reality.
-
-Yggdrasil II collapses the axis to what it actually measures — prerequisite structure — with two values:
+Every starless node had a `type` drawn from `{basic, extra, ultimate, unique}`. Those values mixed prerequisite structure with prestige. Yggdrasil II makes the field answer one question instead:
 
 - **`basic`** — zero prerequisites. A root primitive.
 - **`fusion`** — one or more prerequisites. Everything that is built on something else.
 
-`extra`, `ultimate`, and `unique` are gone from the schema, the CLI, and every read-time consumer. The migration was a hard cutover, not a soft alias. Live result after the rewrite:
+`extra`, `ultimate`, and `unique` are gone from the schema, CLI, and read-time consumers. Live result:
 
 | Node type | Count | Share |
 | :--- | ---: | ---: |
@@ -37,9 +35,9 @@ Residue left in the retired values: zero.
 
 ---
 
-## Cut 2 — The branch axis is derived, never declared
+## Cut 2 — Branch is computed, never declared
 
-This is the load-bearing change. A named skill belongs to one of three **branches** — `suite`, `standard`, or `unique`. Under the old model, `branch` was a field a curator wrote down. Under Yggdrasil II it is a function, evaluated at read time and stored nowhere:
+This is the load-bearing change. Yggdrasil II introduces a three-way view of named skills — `suite`, `standard`, or `unique` — without adding a `branch` field. The registry computes it when the skill is read:
 
 [[BRANCH_DERIVATION_FLOWCHART]]
 
@@ -49,23 +47,19 @@ The rule reads the two things that actually determine standing — does the skil
 - **`standard`** — no `suiteComponents`, rank 1–3.
 - **`unique`** — no `suiteComponents`, rank 4 or higher. It climbed on its own.
 
-### The failure the old model allowed
+### Type and branch answer different questions
 
-Consider `obra/writing-plans`: a 4★ skill with no `suiteComponents`, hanging off a `fusion` parent node. Under Yggdrasil I, a curator eyeballing that `fusion`-adjacent legacy `ultimate` type could reasonably store its branch as **suite** — and nothing would catch it. The label was an assertion, and assertions go stale.
+Consider `obra/writing-plans`: a 4★ skill with no `suiteComponents`, hanging off a `fusion` parent node. The word `fusion` may sound suite-like, but the two axes describe different things. `type` describes the generic capability's prerequisites. Branch describes how a named implementation progresses.
 
-Under Yggdrasil II there is no label to get wrong. `computeBranch(suiteComponents: none, rank: 4)` returns **`unique`**, every time it is read, on every surface. The curator's earlier mistake is not corrected — it is made impossible to express.
-
-That is the whole thesis: **derived, not declared.** The change does not add machinery. It removes it.
-
----
+For `obra/writing-plans`, `computeBranch(suiteComponents: none, rank: 4)` returns **`unique`**. The resolver never consults its parent's `fusion` type.
 
 ## Cut 3 — "Ultimate" stops being a type and becomes a rank
 
-With `ultimate` gone from the type axis, the word was freed to do one job well. It is now the universal name for **5★** across both branches (Suite skills reach *Ultimate*; Unique skills reach *Unique Ultimate*). This is a deliberate gacha-anchor collision — a reader should associate "Ultimate" with "5★" and nothing else. One word, one meaning, one axis.
+With `ultimate` gone from the type axis, it now means **5★** everywhere: Suite skills reach *Ultimate*; Unique skills reach *Unique Ultimate*. One word, one meaning, one axis.
 
 ---
 
-## Cut 4 — Trust Magnitude is the sole promotion gate
+## Cut 4 — Trust Magnitude puts different evidence on one scale
 
 Promotion used to require clearing a per-star **Evidence Floor** *and* — for a 5★ Suite skill — a hard **≥10,000 repository stars** requirement. Both are retired. **Trust Magnitude** (TM) is now the only gate on both branches:
 
@@ -77,17 +71,27 @@ Promotion used to require clearing a per-star **Evidence Floor** *and* — for a
 | C | ≥ 20 |
 | ungraded | < 20 |
 
-TM sums per-artifact evidence scores, weighted by type: a human `verifier-attestation` and a `fusion-recipe` count 1.5×, a `benchmark-result` 1.4×, a self-produced `repo-own` row only 0.6×. An S grade additionally needs at least three distinct evidence types, one of which cannot be self-produced. The effect is that no automated pass can mint its own way to the top grade — which is why S is scarce.
+TM does not pretend that every kind of evidence means the same thing. It gives each one a tuned weight, then places them on a common scoring surface: a human `verifier-attestation` and a `fusion-recipe` count 1.5×, a reproducible `benchmark-result` 1.4×, and a self-produced `repo-own` row only 0.6×. An S grade additionally needs at least three distinct evidence types, including one the skill owner could not produce alone.
 
 [[TRUST_GRADE_CHART]]
 
-The retired stars requirement rewarded a repository's fame. TM rewards a skill's demonstrated trust. Three live A-grade skills carry **no GitHub-stars evidence row at all** and still clear the gate on other evidence: `obra/writing-plans` (TM 110.2), `obra/subagent-driven-development` (TM 117.7), and `stanfordnlp/dspy` (TM 100.0, sourced from an arXiv paper). Under the old floor, at least one of them would have been held back for a metric that has nothing to do with whether the skill works.
+Consider Google DeepMind's `alphagenome_single_variant_analysis` skill. Gaia's evidence record contains no GitHub-stars row for it. The repository implementation contributed **10.82 TM**. The peer-reviewed AlphaGenome paper contributed **90 TM**, bringing the skill to **100.82 — Grade A**. Nature reported **225 citations** for that paper on July 27, 2026.
+
+| Evidence attached to the skill | TM contribution |
+| :--- | ---: |
+| Google DeepMind Science Skills implementation | 10.82 |
+| Avsec et al., *Nature* — AlphaGenome | 90.00 |
+| **Total** | **100.82 — Grade A** |
+
+A stars-only gate sees a repository counter. Trust Magnitude sees two claims: the implementation exists, and its scientific method has survived independent use and scrutiny. The registry weights each kind of evidence, applies freshness and duplication rules, then lets both contribute.
 
 ---
 
 ## The frontend moved in lockstep: Ascension Overdrive
 
-A taxonomy this different needs a surface that renders it. The site was rebuilt in the same release under the codename **Ascension Overdrive** — one antique medallion chassis, two paired stellar cosmologies. Suite skills *emit outward* through stellar ascension (4★ dwarf star → 5★ burning sun → 6★ supernova); Unique skills *collapse inward* through gravitational failure (rooted void → accretion ring → singularity). Rank sets the color; the branch — the derived one — sets the material: Suite leans gold, Unique runs a darker amethyst-to-ember plaque. The frontend reads the emitted `branch` and no longer recomputes it client-side, so the site and the registry can no longer disagree about what a skill is.
+The site moved with the taxonomy under the codename **Ascension Overdrive**. Suite skills *emit outward* (4★ dwarf star → 5★ burning sun → 6★ supernova). Unique skills *collapse inward* (rooted void → accretion ring → singularity).
+
+Rank sets the color. The derived branch sets the material: Suite leans gold; Unique runs amethyst to ember. The frontend reads the emitted `branch` instead of recomputing it client-side.
 
 [[RANK_LADDER]]
 
@@ -97,12 +101,10 @@ The two 6★ pinnacles have names now: **Apex** (the Suite summit — extreme ec
 
 ## What to take from it if you maintain a schema
 
-The reusable move here is not specific to skill registries. It is a test you can run against any record you store:
-
 **If a field can be recomputed from other fields in the same record, storing it does not save you a computation — it buys you a way to be wrong.** The stored copy and the computed value are two sources of truth for one fact, and the day they disagree, every consumer has to guess which one to believe.
 
-Before adding the next column, ask whether it is data or a derivation. If it is a derivation, write the function instead of the field. Yggdrasil II deleted three fields that way and the registry came out smaller, and — for 243 nodes and 249 skills, checked against the live data — internally consistent by construction.
+Before adding the next column, ask whether it is data or a derivation. If it is a derivation, write the function. Then inspect your gates: if one proxy stands in for several kinds of evidence, keep the evidence types separate long enough to weight them properly.
 
 ---
 
-**Source:** Gaia Skill Tree `v7.0.0` — *Yggdrasil II* (EPIC #1002), ratified 2026-07-07, released 2026-07-26. Live figures verified against the registry graph. Founder meta-post: *["Yggdrasil II: Two Types, One Trust Gate, and a Branch Axis That Is Never Declared"](https://gaiaskilltree.com/meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html)*.
+**Sources:** Gaia Skill Tree `v7.0.0` — *Yggdrasil II* (EPIC #1002), ratified 2026-07-07, released 2026-07-26. Live registry figures and AlphaGenome TM contributions verified against the Gaia Skill Tree graph and named-skill record. Marcus Rafael Tiongson, *["Yggdrasil II: Two Types, One Trust Gate, and a Branch Axis That Is Never Declared"](https://gaiaskilltree.com/meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html)*, Gaia Registry, 2026. Žiga Avsec et al., *["Advancing regulatory variant effect prediction with AlphaGenome"](https://www.nature.com/articles/s41586-025-10014-0)*, Google DeepMind, Nature 649, 2026. [Google DeepMind Science Skills](https://github.com/google-deepmind/science-skills).

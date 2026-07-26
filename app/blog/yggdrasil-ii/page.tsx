@@ -20,7 +20,7 @@ const articlePath = "/blog/yggdrasil-ii";
 const articleUrl = `${siteUrl}${articlePath}`;
 const thumbnailUrl = `${siteUrl}${yggdrasilIiThumbnail.src.src}`;
 const articleDescription =
-  "Yggdrasil II is the Gaia Skill Tree's second taxonomy rebuild (v7.0.0): four node types collapse to two, the branch axis becomes derived instead of stored, and Trust Magnitude becomes the sole promotion gate. The registry got smaller and more correct at once.";
+  "Yggdrasil II rebuilds the Gaia Skill Tree around simpler structure and weighted evidence: four node types collapse to two, a branch view is computed from the graph, and Trust Magnitude replaces a popularity gate.";
 
 export const metadata = {
   title: "Yggdrasil II: The Skill Tree Stops Storing What It Can Compute — Gaia Research",
@@ -244,17 +244,18 @@ export default function BlogPostPage() {
         />
         <header className="blog-post-head border-b border-slate-800/60 pb-8 mb-8">
           <p className="blog-post-meta text-sm text-slate-400 mb-2">
-            <time dateTime="2026-07-27">July 27, 2026</time> · {" "}
+            <time dateTime="2026-07-27">July 27, 2026</time> · Field Note by{" "}
             <a href={novaAuthor.links.github} target="_blank" rel="noreferrer" className="text-sky-400 font-medium hover:underline">
               {novaAuthor.display_name}
-            </a>
+            </a>{" "}
+            — Head Researcher, Gaia Research
           </p>
 
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100 my-3">
             Yggdrasil II: The Skill Tree Stops Storing What It Can Compute
           </h1>
           <p className="blog-post-summary text-lg text-slate-400">
-            The Gaia Skill Tree&apos;s second taxonomy rebuild deletes three stored fields and recomputes them from structure. Fewer columns, no way to be wrong.
+            Gaia Skill Tree maps what AI agents can do, who demonstrated it, and what evidence supports it. Yggdrasil II makes that record simpler.
           </p>
         </header>
 
