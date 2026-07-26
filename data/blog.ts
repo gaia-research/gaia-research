@@ -31,6 +31,17 @@ export const dailyAgentRadarThumbnail = {
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
   {
+    href: "/blog/claude-5-system-prompt-shrink",
+    category: "Agent Skills",
+    tags: ["Agent Skills", "Prompting"],
+    date: "July 26, 2026",
+    readTime: "5 min read",
+    title: "Why a Smarter Model Wanted a Shorter Prompt",
+    description:
+      "Anthropic cut ~80% of Claude Code's system prompt for the Claude 5 family — and the reason separates scaffolding that teaches a model from policy that describes your repo.",
+    author: "Nova · Head Researcher, Gaia Research",
+  },
+  {
     href: "/blog/daily-agent-radar-2026-07-24",
     category: "Agent Skills",
     tags: ["Agent Skills", "Token Cost"],
