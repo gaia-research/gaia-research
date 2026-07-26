@@ -137,6 +137,63 @@ function KeepOrTestFigure() {
   );
 }
 
+function MeasurementLayersFigure() {
+  const layers = [
+    {
+      label: "SYSTEM PROMPT",
+      owner: "Anthropic",
+      measure: ">80% removed",
+      outcome: "No measurable coding-eval loss",
+      color: "#a78bfa",
+    },
+    {
+      label: "CLAUDE.MD",
+      owner: "Context Diet",
+      measure: "−41.6% · 124/124 rules",
+      outcome: "Task equivalence: next test",
+      color: "#38bdf8",
+    },
+    {
+      label: "SKILLS",
+      owner: "Skill Heaven",
+      measure: "−97.4% standing dose",
+      outcome: "Paired outcome benchmark: pending",
+      color: "#ec4899",
+    },
+  ];
+
+  return (
+    <figure className="blog-figure blog-figure-chart">
+      <figcaption>Three context layers, three distinct measurement claims</figcaption>
+      <svg viewBox="0 0 760 330" role="img" aria-labelledby="measurement-layers-title measurement-layers-desc">
+        <title id="measurement-layers-title">Measurements across system prompt, CLAUDE.md, and skill layers</title>
+        <desc id="measurement-layers-desc">
+          Anthropic measured system-prompt reduction with coding evaluations. Context Diet measured CLAUDE.md
+          reduction and rule retention. Skill Heaven measured standing skill dose while its paired outcome benchmark
+          remains pending.
+        </desc>
+        {layers.map((layer, index) => {
+          const y = 18 + index * 100;
+          return (
+            <g key={layer.label}>
+              <rect x="20" y={y} width="720" height="82" rx="10" fill="#111827" stroke={layer.color} />
+              <rect x="20" y={y} width="8" height="82" rx="4" fill={layer.color} />
+              <text x="48" y={y + 27} fill={layer.color} fontSize="12" fontFamily="monospace">{layer.label}</text>
+              <text x="48" y={y + 57} fill="#f8fafc" fontSize="20">{layer.owner}</text>
+              <text x="290" y={y + 34} fill="#f8fafc" fontSize="18">{layer.measure}</text>
+              <text x="290" y={y + 61} fill="#94a3b8" fontSize="14">{layer.outcome}</text>
+            </g>
+          );
+        })}
+      </svg>
+      <p className="blog-svg-note">
+        Different denominators: Anthropic measured system-prompt text and coding evaluations; Gaia&apos;s figures
+        measure CLAUDE.md characters/rules and skill standing dose. Gaia task-equivalence trials are not complete.
+      </p>
+    </figure>
+  );
+}
+
 export default function BlogPostPage() {
   const body = loadPost();
   return (
@@ -165,12 +222,18 @@ export default function BlogPostPage() {
             remarkPlugins={[remarkGfm]}
             components={{
               p: ({ children, ...props }) => {
-                const text = Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "";
+                const text = props.node?.children
+                  .map((child) => child.type === "text" ? child.value : "")
+                  .join("")
+                  ?? (Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "");
                 if (text === "[[CONTEXT_SHIFTS]]") {
                   return <ContextShiftsFigure />;
                 }
                 if (text === "[[KEEP_OR_TEST]]") {
                   return <KeepOrTestFigure />;
+                }
+                if (text === "[[MEASUREMENT_LAYERS]]") {
+                  return <MeasurementLayersFigure />;
                 }
                 if (text === "[[YOUTUBE_EMBED]]") {
                   return (

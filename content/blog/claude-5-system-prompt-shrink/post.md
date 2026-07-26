@@ -93,14 +93,40 @@ Anthropic has also placed these checks in Claude Code's `/doctor` command for
 rightsizing skills and `CLAUDE.md` files. Automation can find bulk and
 duplication; the project owner still has to decide which facts are non-obvious.
 
-This distinction connects directly to Gaia's
-[Context Diet](/labs/context-diet), which audits standing context, and
-[Skill Heaven](/#skill-heaven-hell), which investigates loading only the skills
-a task reaches. The current
-[Skill Heaven benchmark](/research/hh-benchmark) and
-[product repository](https://github.com/gaia-research/skill-heaven) document
-what Gaia has actually built and measured. Neither claims Gaia reproduced
-Anthropic's 80% result.
+## Gaia is testing the next two context layers
+
+Anthropic put a number on the **system-prompt layer**: over 80% removed, with
+no measurable loss on its coding evaluations. Gaia is asking the same kind of
+question one and two layers closer to the repository:
+
+[[MEASUREMENT_LAYERS]]
+
+[Context Diet](/labs/context-diet) tests the **`CLAUDE.md` layer**. Lab 001
+reduced one file from 49,687 to 29,040 characters—**41.6% smaller, about 5,161
+tokens**—while an adversarial inventory recovered **124 of 124 rules with zero
+load-bearing losses**. That establishes instruction faithfulness, not task
+performance equivalence. The next test is whether agents complete the same
+tasks at the same rate with the compacted file.
+
+[Skill Heaven](/#skill-heaven-hell) tests the **skill layer**. Its census found
+8,919 standing tokens across 65 unique skill listings, versus 88,416 tokens in
+their full bodies when invoked. An earlier top-five loadout cut the standing
+dose from 9,453 to 249 tokens—**97.4%**—but net task equivalence remains
+unproven. A committed smoke pair measured the floor at 30,661 per-turn tokens
+and one curated skill at 31,624: **+963 tokens to re-admit exactly one skill**.
+
+The [Skill Heaven benchmark](/research/hh-benchmark) is designed to finish the
+sentence “no measurable difference” correctly: compare each reduced-context
+arm with Gaia's own same-harness placebo, repeat the tasks, and report outcome
+deltas with confidence intervals. Fewer tokens is only half the claim. The
+other half is success held.
+
+The committed
+[Context Diet report](https://github.com/gaia-research/gaia-research/tree/main/content/reports/context-diet-lab-001),
+[Skill Heaven evidence](https://github.com/gaia-research/gaia-research/tree/main/content/reports/hh-benchmark),
+and [product repository](https://github.com/gaia-research/skill-heaven) keep
+those scopes separate. Gaia has measured compression at the `CLAUDE.md` and
+skill layers; it has not claimed to reproduce Anthropic's system-prompt result.
 
 ## Watch the source talk
 
@@ -124,4 +150,7 @@ Do not target 80%. Target the first block that no longer earns its tokens.
 July 24, 2026 ·
 [*Field Guide to Fable*](https://www.youtube.com/watch?v=9fubhllmsBU),
 AI Engineer World's Fair · Anthropic,
-[*Effective context engineering for AI agents*](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents).
+[*Effective context engineering for AI agents*](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) ·
+Gaia Research,
+[*Context Diet — Lab 001*](https://github.com/gaia-research/gaia-research/tree/main/content/reports/context-diet-lab-001) ·
+[*Hell Heaven Benchmark evidence*](https://github.com/gaia-research/gaia-research/tree/main/content/reports/hh-benchmark).
