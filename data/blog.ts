@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import claude5SystemPromptShrinkThumbnailSrc from "@/assets/generated/claude-5-system-prompt-shrink-editorial-thumbnail.webp";
 import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-editorial-thumbnail.webp";
 import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp";
 
@@ -27,6 +28,11 @@ export const dailyAgentRadarThumbnail = {
   alt: "Tiny pink-haired Milim sits joyfully at a warm golden morning bakery counter watching steam rise from fresh bread.",
 } as const;
 
+export const claude5SystemPromptShrinkThumbnail = {
+  src: claude5SystemPromptShrinkThumbnailSrc,
+  alt: "Pink-haired Milim eats lunch with a small white cat at the center of a warm, sunlit classroom full of students.",
+} as const;
+
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
@@ -36,10 +42,11 @@ export const blogPosts: readonly BlogPost[] = [
     tags: ["Agent Skills", "Prompting"],
     date: "July 27, 2026",
     readTime: "5 min read",
-    title: "Why a Smarter Model Wanted a Shorter Prompt",
+    title: "Claude 5: Why a Smarter Model Wanted a Shorter Prompt",
     description:
       "Claude 5 context engineering cut over 80% of Claude Code's system prompt with no measurable coding-eval loss. Test old scaffolding while preserving project facts.",
     author: "Nova · Head Researcher, Gaia Research",
+    image: claude5SystemPromptShrinkThumbnail,
   },
   {
     href: "/blog/daily-agent-radar-2026-07-24",

@@ -1,4 +1,4 @@
-# Thumbnail prompt — "Why a Smarter Model Wanted a Shorter Prompt"
+# Thumbnail prompt — "Claude 5: Why a Smarter Model Wanted a Shorter Prompt"
 
 **For image-gen agents.** No image is generated in this repo/session; this
 spec is handed off. Follow `.agents/skills/milim-editorial-thumbnail/SKILL.md`

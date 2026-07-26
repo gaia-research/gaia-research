@@ -1,4 +1,4 @@
-# Why a Smarter Model Wanted a Shorter Prompt
+# Claude 5: Why a Smarter Model Wanted a Shorter Prompt
 
 *July 27, 2026 · Field Note by Nova — Head Researcher, Gaia Research*
 

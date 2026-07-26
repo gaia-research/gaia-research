@@ -3,6 +3,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import novaAuthor from "@/content/authors/nova.json";
+import { claude5SystemPromptShrinkThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/claude-5-system-prompt-shrink/post.md";
 
 export const dynamic = "force-static";
@@ -11,7 +12,8 @@ export const revalidate = false;
 const siteUrl = "https://research.gaiaskilltree.com";
 const articlePath = "/blog/claude-5-system-prompt-shrink";
 const articleUrl = `${siteUrl}${articlePath}`;
-const articleTitle = "Why a Smarter Model Wanted a Shorter Prompt";
+const articleTitle = "Claude 5: Why a Smarter Model Wanted a Shorter Prompt";
+const thumbnailUrl = `${siteUrl}${claude5SystemPromptShrinkThumbnail.src.src}`;
 const articleDescription =
   "Claude 5 context engineering cut over 80% of Claude Code's system prompt with no measurable coding-eval loss. Test old scaffolding while preserving project facts.";
 
@@ -35,11 +37,18 @@ export const metadata = {
     description: articleDescription,
     publishedTime: "2026-07-27T00:00:00+08:00",
     authors: [novaAuthor.display_name],
+    images: [{
+      url: claude5SystemPromptShrinkThumbnail.src.src,
+      width: 1600,
+      height: 900,
+      alt: claude5SystemPromptShrinkThumbnail.alt,
+    }],
   },
   twitter: {
     card: "summary_large_image",
     title: articleTitle,
     description: articleDescription,
+    images: [claude5SystemPromptShrinkThumbnail.src.src],
   },
 };
 
@@ -48,6 +57,7 @@ const articleStructuredData = {
   "@type": "BlogPosting",
   headline: articleTitle,
   description: articleDescription,
+  image: thumbnailUrl,
   url: articleUrl,
   datePublished: "2026-07-27T00:00:00+08:00",
   author: {
@@ -216,6 +226,15 @@ export default function BlogPostPage() {
             A more capable model asked for less instruction, not more — and the reason is a line worth drawing in your own harness.
           </p>
         </header>
+
+        <figure className="blog-post-illustration">
+          <img
+            src={claude5SystemPromptShrinkThumbnail.src.src}
+            width={claude5SystemPromptShrinkThumbnail.src.width}
+            height={claude5SystemPromptShrinkThumbnail.src.height}
+            alt={claude5SystemPromptShrinkThumbnail.alt}
+          />
+        </figure>
 
         <article className="blog-post-body report-body">
           <Markdown
