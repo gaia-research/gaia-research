@@ -5,6 +5,12 @@ import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import novaAuthor from "@/content/authors/nova.json";
 import { yggdrasilIiThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/yggdrasil-ii/post.md";
+import rankSuite4 from "@/assets/generated/yggdrasil-ii-ranks/rank-suite-4-extra.webp";
+import rankSuite5 from "@/assets/generated/yggdrasil-ii-ranks/rank-suite-5-ultimate.webp";
+import rankSuite6 from "@/assets/generated/yggdrasil-ii-ranks/rank-suite-6-apex.webp";
+import rankUnique4 from "@/assets/generated/yggdrasil-ii-ranks/rank-unique-4.webp";
+import rankUnique5 from "@/assets/generated/yggdrasil-ii-ranks/rank-unique-5-ultimate.webp";
+import rankUnique6 from "@/assets/generated/yggdrasil-ii-ranks/rank-unique-6-impossible.webp";
 
 export const dynamic = "force-static";
 export const revalidate = false;
@@ -35,7 +41,7 @@ export const metadata = {
     url: articlePath,
     title: "Yggdrasil II: The Skill Tree Stops Storing What It Can Compute",
     description: articleDescription,
-    publishedTime: "2026-07-26T00:00:00+08:00",
+    publishedTime: "2026-07-27T00:00:00+08:00",
     authors: [novaAuthor.display_name],
     images: [{ url: yggdrasilIiThumbnail.src.src, width: 1600, height: 900, alt: yggdrasilIiThumbnail.alt }],
   },
@@ -54,7 +60,7 @@ const articleStructuredData = {
   description: articleDescription,
   image: thumbnailUrl,
   url: articleUrl,
-  datePublished: "2026-07-26T00:00:00+08:00",
+  datePublished: "2026-07-27T00:00:00+08:00",
   author: {
     "@type": "Person",
     name: novaAuthor.display_name,
@@ -167,6 +173,59 @@ function TrustGradeChart() {
   );
 }
 
+function RankLadderFigure() {
+  const suite = [
+    { src: rankSuite4, rank: "4★", name: "Extra", note: "dwarf star" },
+    { src: rankSuite5, rank: "5★", name: "Ultimate", note: "burning sun" },
+    { src: rankSuite6, rank: "6★", name: "Apex", note: "supernova" },
+  ];
+  const unique = [
+    { src: rankUnique4, rank: "4★", name: "Unique", note: "rooted void" },
+    { src: rankUnique5, rank: "5★", name: "Unique Ultimate", note: "accretion ring" },
+    { src: rankUnique6, rank: "6★", name: "Unique Impossible", note: "singularity" },
+  ];
+
+  const Row = ({
+    label,
+    accent,
+    tiers,
+  }: {
+    label: string;
+    accent: string;
+    tiers: { src: { src: string }; rank: string; name: string; note: string }[];
+  }) => (
+    <div className="rank-ladder-row">
+      <p className="rank-ladder-branch" style={{ color: accent }}>{label}</p>
+      <div className="rank-ladder-tiers">
+        {tiers.map((t) => (
+          <figure key={t.name} className="rank-ladder-tier">
+            <img src={t.src.src} alt={`${label} branch, ${t.rank} ${t.name} medallion`} loading="lazy" />
+            <figcaption>
+              <span className="rank-ladder-rank" style={{ color: accent }}>{t.rank} {t.name}</span>
+              <span className="rank-ladder-note">{t.note}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <figure className="blog-figure blog-figure-ranks">
+      <figcaption>
+        Figure 3. The 4★ fork, rendered. Suite emits outward (gold); Unique collapses inward (amethyst→ember). Medallion art from the Gaia Skill Tree Ascension Overdrive family.
+      </figcaption>
+      <div className="rank-ladder">
+        <Row label="Suite" accent="#fbbf24" tiers={suite} />
+        <Row label="Unique" accent="#e0894a" tiers={unique} />
+      </div>
+      <p className="blog-svg-note">
+        Both branches share one antique medallion chassis. Rank sets the color; the derived branch sets the cosmology — the same fact the registry now computes instead of stores.
+      </p>
+    </figure>
+  );
+}
+
 function loadPost() {
   // Slices the h1 title line, blank line, byline, and blank line (indices 0–3)
   // so the page <h1> renders from metadata, not duplicated from the markdown.
@@ -185,7 +244,7 @@ export default function BlogPostPage() {
         />
         <header className="blog-post-head border-b border-slate-800/60 pb-8 mb-8">
           <p className="blog-post-meta text-sm text-slate-400 mb-2">
-            <time dateTime="2026-07-26">July 26, 2026</time> · {" "}
+            <time dateTime="2026-07-27">July 27, 2026</time> · {" "}
             <a href={novaAuthor.links.github} target="_blank" rel="noreferrer" className="text-sky-400 font-medium hover:underline">
               {novaAuthor.display_name}
             </a>
@@ -244,6 +303,9 @@ export default function BlogPostPage() {
                 }
                 if (text === "[[TRUST_GRADE_CHART]]") {
                   return <TrustGradeChart />;
+                }
+                if (text === "[[RANK_LADDER]]") {
+                  return <RankLadderFigure />;
                 }
                 return <p {...props}>{children}</p>;
               },

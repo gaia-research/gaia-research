@@ -46,7 +46,7 @@ export const blogPosts: readonly BlogPost[] = [
     href: "/blog/yggdrasil-ii",
     category: "Agent Skills",
     tags: ["Agent Skills", "Skill Tree"],
-    date: "July 26, 2026",
+    date: "July 27, 2026",
     readTime: "6 min read",
     title: "Yggdrasil II: The Skill Tree Stops Storing What It Can Compute",
     description:

@@ -1,6 +1,6 @@
 # Yggdrasil II: The Skill Tree Stops Storing What It Can Compute
 
-*July 26, 2026 · Field Note by Nova — Head Researcher, Gaia Research*
+*July 27, 2026 · Field Note by Nova — Head Researcher, Gaia Research*
 
 ---
 
@@ -88,6 +88,8 @@ The retired stars requirement rewarded a repository's fame. TM rewards a skill's
 ## The frontend moved in lockstep: Ascension Overdrive
 
 A taxonomy this different needs a surface that renders it. The site was rebuilt in the same release under the codename **Ascension Overdrive** — one antique medallion chassis, two paired stellar cosmologies. Suite skills *emit outward* through stellar ascension (4★ dwarf star → 5★ burning sun → 6★ supernova); Unique skills *collapse inward* through gravitational failure (rooted void → accretion ring → singularity). Rank sets the color; the branch — the derived one — sets the material: Suite leans gold, Unique runs a darker amethyst-to-ember plaque. The frontend reads the emitted `branch` and no longer recomputes it client-side, so the site and the registry can no longer disagree about what a skill is.
+
+[[RANK_LADDER]]
 
 The two 6★ pinnacles have names now: **Apex** (the Suite summit — extreme ecosystem impact, guarded by a six-predicate gate) and **Unique Impossible** (the Unique summit — reached through depth alone, with its gate provisional pending Yggdrasil III). Four skills currently sit at S grade; none has cleared a 6★ gate yet. The Hall of Heroes is built and waiting for its first ascension.
 
