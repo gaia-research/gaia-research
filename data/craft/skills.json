@@ -114,6 +114,12 @@
     "type": "basic"
   },
   {
+    "id": "crm-data-cleanup",
+    "name": "/crm-data-cleanup",
+    "displayName": "CRM Data Cleanup",
+    "type": "basic"
+  },
+  {
     "id": "cultural-localization",
     "name": "/cultural-localization",
     "displayName": "Cultural Localization",
@@ -159,6 +165,30 @@
     "id": "evaluate-output",
     "name": "/evaluate-output",
     "displayName": "Evaluate Output",
+    "type": "basic"
+  },
+  {
+    "id": "event-attendance-metrics",
+    "name": "/event-attendance-metrics",
+    "displayName": "Event Attendance Metrics",
+    "type": "basic"
+  },
+  {
+    "id": "event-attendee-management",
+    "name": "/event-attendee-management",
+    "displayName": "Event Attendee Management",
+    "type": "basic"
+  },
+  {
+    "id": "event-support-triage",
+    "name": "/event-support-triage",
+    "displayName": "Event Support Triage",
+    "type": "basic"
+  },
+  {
+    "id": "event-ticket-transfer",
+    "name": "/event-ticket-transfer",
+    "displayName": "Event Ticket Transfer",
     "type": "basic"
   },
   {
@@ -231,6 +261,12 @@
     "id": "git-diff-risk-analysis",
     "name": "/git-diff-risk-analysis",
     "displayName": "Git Diff Risk Analysis",
+    "type": "basic"
+  },
+  {
+    "id": "grant-application-processing",
+    "name": "/grant-application-processing",
+    "displayName": "Grant Application Processing",
     "type": "basic"
   },
   {
@@ -588,6 +624,12 @@
     "type": "basic"
   },
   {
+    "id": "transactional-email-resend",
+    "name": "/transactional-email-resend",
+    "displayName": "Transactional Email Resend",
+    "type": "basic"
+  },
+  {
     "id": "translate",
     "name": "/translate",
     "displayName": "Translate",
@@ -639,774 +681,1446 @@
     "id": "advanced-swarm-coordination",
     "name": "/advanced-swarm-coordination",
     "displayName": "Advanced Swarm Coordination",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "swarm-topology-management",
+      "multi-agent-debate"
+    ]
   },
   {
     "id": "adversarial-robustness-testing",
     "name": "/adversarial-robustness-testing",
     "displayName": "Adversarial Robustness Testing",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "agent-eval",
+      "guardrails",
+      "prompt-injection-defense"
+    ]
   },
   {
     "id": "agent-environment-setup",
     "name": "/agent-environment-setup",
     "displayName": "agent-environment-setup",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "document-editing",
+      "tool-use"
+    ]
   },
   {
     "id": "agent-eval",
     "name": "/agent-eval",
     "displayName": "Agent Evaluation",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "evaluate-output",
+      "score-relevance"
+    ]
   },
   {
     "id": "agent-handoff",
     "name": "/agent-handoff",
     "displayName": "agent-handoff",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "summarize",
+      "document-editing",
+      "context-compression"
+    ]
   },
   {
     "id": "agent-memory-learning",
     "name": "/agent-memory-learning",
     "displayName": "Agent Memory Learning",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "adaptive-pattern-learning",
+      "memory-manage"
+    ]
   },
   {
     "id": "agent-memory-platform",
     "name": "/agent-memory-platform",
     "displayName": "Agent Memory Platform",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "distributed-vector-memory",
+      "agent-memory-learning",
+      "memory-pattern-design",
+      "vector-db-optimization",
+      "vector-search"
+    ]
   },
   {
     "id": "agentic-workflow-design",
     "name": "/agentic-workflow-design",
     "displayName": "Agentic Workflow Design",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "workflow-automation",
+      "plan-decompose"
+    ]
   },
   {
     "id": "architecture-diagram",
     "name": "/architecture-diagram",
     "displayName": "Architecture Diagram",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "data-visualize",
+      "format-output",
+      "write-report"
+    ]
   },
   {
     "id": "automated-testing",
     "name": "/automated-testing",
     "displayName": "Automated Testing",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "generate-test",
+      "code-execution",
+      "error-interpretation"
+    ]
   },
   {
     "id": "autonomous-data-scientist",
     "name": "/autonomous-data-scientist",
     "displayName": "Autonomous Data Scientist",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "data-analysis",
+      "math-reason",
+      "research"
+    ]
   },
   {
     "id": "autonomous-debug",
     "name": "/autonomous-debug",
     "displayName": "Autonomous Debug",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "code-generation",
+      "code-execution",
+      "error-interpretation"
+    ]
   },
   {
     "id": "autonomous-web-research",
     "name": "/autonomous-web-research",
     "displayName": "Autonomous Web Research",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "ghostwrite",
+      "knowledge-harvest",
+      "research",
+      "web-scrape",
+      "web-search"
+    ]
   },
   {
     "id": "brainstorming",
     "name": "/brainstorming",
     "displayName": "Brainstorming",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "requirements-analysis",
+      "question-answer"
+    ]
   },
   {
     "id": "browser-automation",
     "name": "/browser-automation",
     "displayName": "Browser Automation",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "web-search",
+      "computer-use"
+    ]
   },
   {
     "id": "career-operations",
     "name": "/career-operations",
     "displayName": "Career Operations",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "autonomous-web-research",
+      "summarize",
+      "document-editing"
+    ]
   },
   {
     "id": "causal-inference",
     "name": "/causal-inference",
     "displayName": "Causal Inference",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "hypothesis-generate",
+      "logical-inference",
+      "statistical-analysis"
+    ]
   },
   {
     "id": "cloud-platform-management",
     "name": "/cloud-platform-management",
     "displayName": "Cloud Platform Management",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "api-call",
+      "tool-use"
+    ]
   },
   {
     "id": "code-review-pipeline",
     "name": "/code-review-pipeline",
     "displayName": "Code Review Pipeline",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "code-generation",
+      "diff-content",
+      "evaluate-output"
+    ]
   },
   {
     "id": "collaborative-diagramming",
     "name": "/collaborative-diagramming",
     "displayName": "Collaborative Diagramming",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "api-call",
+      "data-visualize"
+    ]
   },
   {
     "id": "computational-biology-workflows",
     "name": "/computational-biology-workflows",
     "displayName": "Computational Biology Workflows",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "bioinformatic-sequence-analysis",
+      "genomic-data-retrieval",
+      "molecular-databases",
+      "protein-structure-analysis",
+      "proteomic-data-retrieval"
+    ]
   },
   {
     "id": "content-moderation",
     "name": "/content-moderation",
     "displayName": "Content Moderation",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "classify",
+      "sentiment-analysis",
+      "extract-entities"
+    ]
   },
   {
     "id": "conversational-agent",
     "name": "/conversational-agent",
     "displayName": "Conversational Agent",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "question-answer",
+      "memory-manage",
+      "route-intent"
+    ]
   },
   {
     "id": "data-analysis",
     "name": "/data-analysis",
     "displayName": "Data Analysis",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "generate-sql",
+      "data-visualize",
+      "summarize"
+    ]
   },
   {
     "id": "deployment-automation",
     "name": "/deployment-automation",
     "displayName": "Deployment Automation",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "workflow-automation",
+      "code-execution"
+    ]
   },
   {
     "id": "design-generation",
     "name": "/design-generation",
     "displayName": "Design Generation",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "code-generation",
+      "vision-qa"
+    ]
   },
   {
     "id": "design-review",
     "name": "/design-review",
     "displayName": "Design Review",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "evaluate-output",
+      "plan-decompose"
+    ]
   },
   {
     "id": "design-system-extraction",
     "name": "/design-system-extraction",
     "displayName": "Design System Extraction",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "browser-automation",
+      "parse-html"
+    ]
   },
   {
     "id": "detect-anomaly",
     "name": "/detect-anomaly",
     "displayName": "Detect Anomaly",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "evaluate-output",
+      "error-interpretation"
+    ]
   },
   {
     "id": "dispatching-parallel-agents",
     "name": "/dispatching-parallel-agents",
     "displayName": "Dispatching Parallel Agents",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "plan-decompose",
+      "parallel-execution"
+    ]
   },
   {
     "id": "distributed-consensus-coordination",
     "name": "/distributed-consensus-coordination",
     "displayName": "Hive Mind Coordination",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "swarm-topology-management",
+      "worker-agent-dispatch"
+    ]
   },
   {
     "id": "distributed-neural-training",
     "name": "/distributed-neural-training",
     "displayName": "Distributed Neural Training",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "parallel-execution",
+      "embed-text"
+    ]
   },
   {
     "id": "distributed-vector-memory",
     "name": "/distributed-vector-memory",
     "displayName": "Distributed Vector Memory",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "vector-search",
+      "memory-manage"
+    ]
   },
   {
     "id": "document-analyst",
     "name": "/document-analyst",
     "displayName": "Document Analyst",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "extract-entities",
+      "format-output",
+      "optical-character-recognition",
+      "parse-json",
+      "parse-pdf",
+      "summarize"
+    ]
   },
   {
     "id": "dual-mode",
     "name": "/dual-mode",
     "displayName": "Dual Mode",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "headless-worker-spawn",
+      "headless-worker-collect",
+      "hybrid-workflow-coordination"
+    ]
   },
   {
     "id": "e2e-testing",
     "name": "/e2e-testing",
     "displayName": "End-to-End Testing",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "browser-automation",
+      "automated-testing"
+    ]
   },
   {
     "id": "edge-optimization",
     "name": "/edge-optimization",
     "displayName": "Edge Optimization",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "evaluate-output",
+      "fine-tune",
+      "performance-tuning"
+    ]
   },
   {
     "id": "engineering-discipline",
     "name": "/engineering-discipline",
     "displayName": "mattpocock-engineering",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "autonomous-debug",
+      "refactor-code",
+      "vertical-slice-planning",
+      "prd-generation",
+      "issue-triage",
+      "ubiquitous-language",
+      "code-explain",
+      "grill-with-docs",
+      "prototype",
+      "agent-environment-setup"
+    ]
   },
   {
     "id": "executing-plans",
     "name": "/executing-plans",
     "displayName": "Executing Plans",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "writing-plans",
+      "tool-use"
+    ]
   },
   {
     "id": "explainability-audit",
     "name": "/explainability-audit",
     "displayName": "Explainability Audit",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "data-visualize",
+      "evaluate-output",
+      "statistical-analysis"
+    ]
   },
   {
     "id": "financial-modeling",
     "name": "/financial-modeling",
     "displayName": "Financial Modeling",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "data-analysis",
+      "generate-sql",
+      "statistical-analysis"
+    ]
   },
   {
     "id": "finishing-a-development-branch",
     "name": "/finishing-a-development-branch",
     "displayName": "Finishing a Development Branch",
-    "type": "extra"
-  },
-  {
-    "id": "full-stack-developer",
-    "name": "/full-stack-developer",
-    "displayName": "Full-Stack Developer",
-    "type": "extra"
-  },
-  {
-    "id": "function-calling",
-    "name": "/function-calling",
-    "displayName": "Function Calling",
-    "type": "extra"
-  },
-  {
-    "id": "generative-media",
-    "name": "/generative-media",
-    "displayName": "Generative Media",
-    "type": "extra"
-  },
-  {
-    "id": "ghostwrite",
-    "name": "/ghostwrite",
-    "displayName": "Ghostwrite",
-    "type": "extra"
-  },
-  {
-    "id": "git-integration",
-    "name": "/git-integration",
-    "displayName": "GitHub Platform Mastery",
-    "type": "extra"
-  },
-  {
-    "id": "graph-driven-issue-triage",
-    "name": "/graph-driven-issue-triage",
-    "displayName": "Graph-Driven Issue Triage",
-    "type": "extra"
-  },
-  {
-    "id": "grill-me",
-    "name": "/grill-me",
-    "displayName": "Grill Me",
-    "type": "extra"
-  },
-  {
-    "id": "grill-with-docs",
-    "name": "/grill-with-docs",
-    "displayName": "Grill With Docs",
-    "type": "extra"
-  },
-  {
-    "id": "grounding",
-    "name": "/grounding",
-    "displayName": "Grounding",
-    "type": "extra"
-  },
-  {
-    "id": "guardrails",
-    "name": "/guardrails",
-    "displayName": "Guardrails",
-    "type": "extra"
-  },
-  {
-    "id": "humanize-prose",
-    "name": "/humanize-prose",
-    "displayName": "Humanize Prose",
-    "type": "extra"
-  },
-  {
-    "id": "knowledge-graph-build",
-    "name": "/knowledge-graph-build",
-    "displayName": "Knowledge Graph Construction",
-    "type": "extra"
-  },
-  {
-    "id": "knowledge-harvest",
-    "name": "/knowledge-harvest",
-    "displayName": "Knowledge Harvest",
-    "type": "extra"
-  },
-  {
-    "id": "knowledge-management",
-    "name": "/knowledge-management",
-    "displayName": "Knowledge Management",
-    "type": "extra"
-  },
-  {
-    "id": "literature-review",
-    "name": "/literature-review",
-    "displayName": "Literature Review",
-    "type": "extra"
-  },
-  {
-    "id": "mathematical-animation",
-    "name": "/mathematical-animation",
-    "displayName": "Mathematical Animation",
-    "type": "extra"
-  },
-  {
-    "id": "mcp-debugger-control",
-    "name": "/mcp-debugger-control",
-    "displayName": "MCP Debugger Control",
-    "type": "extra"
-  },
-  {
-    "id": "mcp-server-creation",
-    "name": "/mcp-server-creation",
-    "displayName": "MCP Server Creation",
-    "type": "extra"
-  },
-  {
-    "id": "memory-manage",
-    "name": "/memory-manage",
-    "displayName": "Memory Manage",
-    "type": "extra"
-  },
-  {
-    "id": "ml-artifact-management",
-    "name": "/ml-artifact-management",
-    "displayName": "ML Artifact Management",
-    "type": "extra"
-  },
-  {
-    "id": "ml-pipeline",
-    "name": "/ml-pipeline",
-    "displayName": "ML Pipeline",
-    "type": "extra"
-  },
-  {
-    "id": "multi-agent-debate",
-    "name": "/multi-agent-debate",
-    "displayName": "Multi-Agent Debate",
-    "type": "extra"
-  },
-  {
-    "id": "multi-agent-orchestration-v",
-    "name": "/multi-agent-orchestration-v",
-    "displayName": "Multi-Agent Orchestration",
-    "type": "extra"
-  },
-  {
-    "id": "multi-node-orchestration",
-    "name": "/multi-node-orchestration",
-    "displayName": "Flow Nexus Orchestration",
-    "type": "extra"
-  },
-  {
-    "id": "multimodal-reasoning",
-    "name": "/multimodal-reasoning",
-    "displayName": "Multimodal Reasoning",
-    "type": "extra"
-  },
-  {
-    "id": "ontology-alignment",
-    "name": "/ontology-alignment",
-    "displayName": "Ontology Alignment",
-    "type": "extra"
-  },
-  {
-    "id": "personal-knowledge-management",
-    "name": "/personal-knowledge-management",
-    "displayName": "personal-knowledge-management",
-    "type": "extra"
-  },
-  {
-    "id": "personal",
-    "name": "/personal",
-    "displayName": "mattpocock-personal",
-    "type": "extra"
-  },
-  {
-    "id": "plan-and-execute",
-    "name": "/plan-and-execute",
-    "displayName": "Plan and Execute",
-    "type": "extra"
-  },
-  {
-    "id": "platform-modernization-sprint",
-    "name": "/platform-modernization-sprint",
-    "displayName": "Platform Modernization Sprint",
-    "type": "extra"
-  },
-  {
-    "id": "prd-generation",
-    "name": "/prd-generation",
-    "displayName": "PRD Generation",
-    "type": "extra"
-  },
-  {
-    "id": "prediction-market-analysis",
-    "name": "/prediction-market-analysis",
-    "displayName": "Prediction Market Analysis",
-    "type": "extra"
-  },
-  {
-    "id": "productivity",
-    "name": "/productivity",
-    "displayName": "mattpocock-productivity",
-    "type": "extra"
-  },
-  {
-    "id": "project-management",
-    "name": "/project-management",
-    "displayName": "Project Management",
-    "type": "extra"
-  },
-  {
-    "id": "prompt-optimization",
-    "name": "/prompt-optimization",
-    "displayName": "Prompt Optimization",
-    "type": "extra"
-  },
-  {
-    "id": "prototype",
-    "name": "/prototype",
-    "displayName": "prototype",
-    "type": "extra"
-  },
-  {
-    "id": "rag-pipeline",
-    "name": "/rag-pipeline",
-    "displayName": "RAG Pipeline",
-    "type": "extra"
-  },
-  {
-    "id": "re-act-reasoning",
-    "name": "/re-act-reasoning",
-    "displayName": "ReAct Reasoning",
-    "type": "extra"
-  },
-  {
-    "id": "real-time-voice-assistant",
-    "name": "/real-time-voice-assistant",
-    "displayName": "Real-Time Voice Assistant",
-    "type": "extra"
-  },
-  {
-    "id": "reasoning-pattern-bank",
-    "name": "/reasoning-pattern-bank",
-    "displayName": "Reasoning Pattern Bank",
-    "type": "extra"
-  },
-  {
-    "id": "receiving-code-review",
-    "name": "/receiving-code-review",
-    "displayName": "Receiving Code Review",
-    "type": "extra"
-  },
-  {
-    "id": "recursive-self-improvement",
-    "name": "/recursive-self-improvement",
-    "displayName": "Recursive Self-Improvement",
-    "type": "extra"
-  },
-  {
-    "id": "registry-curation",
-    "name": "/registry-curation",
-    "displayName": "Registry Curation",
-    "type": "extra"
-  },
-  {
-    "id": "registry-entry-audit",
-    "name": "/registry-entry-audit",
-    "displayName": "Gaia Audit",
-    "type": "extra"
-  },
-  {
-    "id": "registry-health-scan",
-    "name": "/registry-health-scan",
-    "displayName": "Gaia Meta Audit",
-    "type": "extra"
-  },
-  {
-    "id": "regulatory-compliance-mapping",
-    "name": "/regulatory-compliance-mapping",
-    "displayName": "Regulatory Compliance Mapping",
-    "type": "extra"
-  },
-  {
-    "id": "release-automation",
-    "name": "/release-automation",
-    "displayName": "Release Automation",
-    "type": "extra"
-  },
-  {
-    "id": "requesting-code-review",
-    "name": "/requesting-code-review",
-    "displayName": "Requesting Code Review",
-    "type": "extra"
-  },
-  {
-    "id": "research",
-    "name": "/research",
-    "displayName": "Research",
-    "type": "extra"
-  },
-  {
-    "id": "scientific-discovery",
-    "name": "/scientific-discovery",
-    "displayName": "Autonomous Scientific Discovery",
-    "type": "extra"
-  },
-  {
-    "id": "scientific-writing",
-    "name": "/scientific-writing",
-    "displayName": "Scientific Writing",
-    "type": "extra"
-  },
-  {
-    "id": "search-engine-optimization",
-    "name": "/search-engine-optimization",
-    "displayName": "search-engine-optimization",
-    "type": "extra"
-  },
-  {
-    "id": "security-audit",
-    "name": "/security-audit",
-    "displayName": "Security Audit",
-    "type": "extra"
-  },
-  {
-    "id": "skill-authoring",
-    "name": "/skill-authoring",
-    "displayName": "Skill Authoring",
-    "type": "extra"
-  },
-  {
-    "id": "skill-fusion",
-    "name": "/skill-fusion",
-    "displayName": "Skill Fusion",
-    "type": "extra"
-  },
-  {
-    "id": "skill-performance-benchmarking",
-    "name": "/skill-performance-benchmarking",
-    "displayName": "Skill Performance Benchmarking",
-    "type": "extra"
-  },
-  {
-    "id": "skill-security-analysis",
-    "name": "/skill-security-analysis",
-    "displayName": "Skill Security Analysis",
-    "type": "extra"
-  },
-  {
-    "id": "stealth-browser-interaction",
-    "name": "/stealth-browser-interaction",
-    "displayName": "Stealth Browser Interaction",
-    "type": "extra"
-  },
-  {
-    "id": "subagent-driven-development",
-    "name": "/subagent-driven-development",
-    "displayName": "Subagent-Driven Development",
-    "type": "extra"
-  },
-  {
-    "id": "supply-chain-optimization",
-    "name": "/supply-chain-optimization",
-    "displayName": "Supply Chain Optimization",
-    "type": "extra"
-  },
-  {
-    "id": "systematic-debugging",
-    "name": "/systematic-debugging",
-    "displayName": "Systematic Debugging",
-    "type": "extra"
-  },
-  {
-    "id": "text-to-sql-pipeline",
-    "name": "/text-to-sql-pipeline",
-    "displayName": "Text-to-SQL Pipeline",
-    "type": "extra"
-  },
-  {
-    "id": "threat-intelligence-synthesis",
-    "name": "/threat-intelligence-synthesis",
-    "displayName": "Threat Intelligence Synthesis",
-    "type": "extra"
-  },
-  {
-    "id": "tool-chaining",
-    "name": "/tool-chaining",
-    "displayName": "Tool Chaining",
-    "type": "extra"
-  },
-  {
-    "id": "tool-creation",
-    "name": "/tool-creation",
-    "displayName": "Tool Creation",
-    "type": "extra"
-  },
-  {
-    "id": "translation-pipeline",
-    "name": "/translation-pipeline",
-    "displayName": "Translation Pipeline",
-    "type": "extra"
-  },
-  {
-    "id": "tree-of-thought",
-    "name": "/tree-of-thought",
-    "displayName": "Tree of Thought",
-    "type": "extra"
-  },
-  {
-    "id": "ubiquitous-language",
-    "name": "/ubiquitous-language",
-    "displayName": "Ubiquitous Language",
-    "type": "extra"
-  },
-  {
-    "id": "using-git-worktrees",
-    "name": "/using-git-worktrees",
-    "displayName": "Using Git Worktrees",
-    "type": "extra"
-  },
-  {
-    "id": "verification-before-completion",
-    "name": "/verification-before-completion",
-    "displayName": "Verification Before Completion",
-    "type": "extra"
-  },
-  {
-    "id": "vertical-slice-planning",
-    "name": "/vertical-slice-planning",
-    "displayName": "Vertical Slice Planning",
-    "type": "extra"
-  },
-  {
-    "id": "video-intelligence",
-    "name": "/video-intelligence",
-    "displayName": "Video Intelligence",
-    "type": "extra"
-  },
-  {
-    "id": "voice-agent",
-    "name": "/voice-agent",
-    "displayName": "Voice Agent",
-    "type": "extra"
-  },
-  {
-    "id": "web-accessibility",
-    "name": "/web-accessibility",
-    "displayName": "web-accessibility",
-    "type": "extra"
-  },
-  {
-    "id": "web-best-practices",
-    "name": "/web-best-practices",
-    "displayName": "web-best-practices",
-    "type": "extra"
-  },
-  {
-    "id": "web-quality-audit",
-    "name": "/web-quality-audit",
-    "displayName": "web-quality-audit",
-    "type": "extra"
-  },
-  {
-    "id": "web-scrape",
-    "name": "/web-scrape",
-    "displayName": "Web Scrape",
-    "type": "extra"
-  },
-  {
-    "id": "wiki-search",
-    "name": "/wiki-search",
-    "displayName": "Wiki Search",
-    "type": "extra"
-  },
-  {
-    "id": "workflow-automation",
-    "name": "/workflow-automation",
-    "displayName": "Workflow Automation",
-    "type": "extra"
-  },
-  {
-    "id": "workspace-automation",
-    "name": "/workspace-automation",
-    "displayName": "Workspace Automation",
-    "type": "extra"
-  },
-  {
-    "id": "writing-plans",
-    "name": "/writing-plans",
-    "displayName": "Writing Plans",
-    "type": "extra"
-  },
-  {
-    "id": "x-twitter-automation",
-    "name": "/x-twitter-automation",
-    "displayName": "X/Twitter Automation",
-    "type": "extra"
+    "type": "fusion",
+    "prerequisites": [
+      "code-review-pipeline",
+      "diff-content"
+    ]
+  },
+  {
+    "id": "firecrawl",
+    "name": "/firecrawl",
+    "displayName": "Firecrawl",
+    "type": "fusion",
+    "prerequisites": [
+      "web-scrape",
+      "web-search",
+      "browser-control",
+      "agent-environment-setup",
+      "literature-search"
+    ]
   },
   {
     "id": "founder-mode-orchestration",
     "name": "/founder-mode-orchestration",
     "displayName": "Founder Mode",
-    "type": "ultimate"
+    "type": "fusion",
+    "prerequisites": [
+      "question-answer",
+      "evaluate-output",
+      "code-review-pipeline",
+      "ux-audit",
+      "vertical-slice-planning",
+      "design-system-extraction",
+      "design-review",
+      "code-generation",
+      "systematic-debugging",
+      "e2e-testing",
+      "finishing-a-development-branch",
+      "deployment-automation",
+      "detect-anomaly",
+      "document-editing",
+      "browser-automation",
+      "security-audit",
+      "browser-control",
+      "web-scrape",
+      "skill-authoring",
+      "write-report",
+      "multi-agent-debate",
+      "skill-performance-benchmarking",
+      "automated-testing",
+      "mcp-integration",
+      "memory-manage",
+      "guardrails",
+      "knowledge-management",
+      "format-output",
+      "workspace-automation",
+      "project-management",
+      "prompt-optimization"
+    ]
+  },
+  {
+    "id": "full-stack-developer",
+    "name": "/full-stack-developer",
+    "displayName": "Full-Stack Developer",
+    "type": "fusion",
+    "prerequisites": [
+      "code-review-pipeline",
+      "automated-testing",
+      "refactor-code"
+    ]
+  },
+  {
+    "id": "function-calling",
+    "name": "/function-calling",
+    "displayName": "Function Calling",
+    "type": "fusion",
+    "prerequisites": [
+      "structured-output",
+      "api-call",
+      "tool-select"
+    ]
+  },
+  {
+    "id": "generative-media",
+    "name": "/generative-media",
+    "displayName": "Generative Media",
+    "type": "fusion",
+    "prerequisites": [
+      "api-call",
+      "data-visualize"
+    ]
+  },
+  {
+    "id": "ghostwrite",
+    "name": "/ghostwrite",
+    "displayName": "Ghostwrite",
+    "type": "fusion",
+    "prerequisites": [
+      "research",
+      "write-report",
+      "audience-model"
+    ]
+  },
+  {
+    "id": "git-integration",
+    "name": "/git-integration",
+    "displayName": "GitHub Platform Mastery",
+    "type": "fusion",
+    "prerequisites": [
+      "code-review-pipeline",
+      "multi-repo-coordination",
+      "deployment-automation",
+      "project-management",
+      "workflow-automation"
+    ]
   },
   {
     "id": "git-ship-done-pipeline",
     "name": "/git-ship-done-pipeline",
     "displayName": "Git Ship Done Pipeline",
-    "type": "ultimate"
+    "type": "fusion",
+    "prerequisites": [
+      "brainstorming",
+      "writing-plans",
+      "subagent-driven-development",
+      "verification-before-completion",
+      "finishing-a-development-branch"
+    ]
+  },
+  {
+    "id": "graph-driven-issue-triage",
+    "name": "/graph-driven-issue-triage",
+    "displayName": "Graph-Driven Issue Triage",
+    "type": "fusion",
+    "prerequisites": [
+      "issue-triage",
+      "knowledge-graph-build"
+    ]
+  },
+  {
+    "id": "grill-me",
+    "name": "/grill-me",
+    "displayName": "Grill Me",
+    "type": "fusion",
+    "prerequisites": [
+      "design-review",
+      "self-critique"
+    ]
+  },
+  {
+    "id": "grill-with-docs",
+    "name": "/grill-with-docs",
+    "displayName": "Grill With Docs",
+    "type": "fusion",
+    "prerequisites": [
+      "grill-me",
+      "ubiquitous-language",
+      "document-editing"
+    ]
+  },
+  {
+    "id": "grounding",
+    "name": "/grounding",
+    "displayName": "Grounding",
+    "type": "fusion",
+    "prerequisites": [
+      "retrieve",
+      "cite-sources",
+      "evaluate-output"
+    ]
+  },
+  {
+    "id": "guardrails",
+    "name": "/guardrails",
+    "displayName": "Guardrails",
+    "type": "fusion",
+    "prerequisites": [
+      "evaluate-output",
+      "classify",
+      "structured-output"
+    ]
+  },
+  {
+    "id": "humanize-prose",
+    "name": "/humanize-prose",
+    "displayName": "Humanize Prose",
+    "type": "fusion",
+    "prerequisites": [
+      "document-editing",
+      "audience-model",
+      "format-output"
+    ]
+  },
+  {
+    "id": "knowledge-graph-build",
+    "name": "/knowledge-graph-build",
+    "displayName": "Knowledge Graph Construction",
+    "type": "fusion",
+    "prerequisites": [
+      "extract-entities",
+      "logical-inference"
+    ]
+  },
+  {
+    "id": "knowledge-harvest",
+    "name": "/knowledge-harvest",
+    "displayName": "Knowledge Harvest",
+    "type": "fusion",
+    "prerequisites": [
+      "web-scrape",
+      "extract-entities",
+      "embed-text"
+    ]
+  },
+  {
+    "id": "knowledge-management",
+    "name": "/knowledge-management",
+    "displayName": "Knowledge Management",
+    "type": "fusion",
+    "prerequisites": [
+      "api-call",
+      "retrieve"
+    ]
+  },
+  {
+    "id": "literature-review",
+    "name": "/literature-review",
+    "displayName": "Literature Review",
+    "type": "fusion",
+    "prerequisites": [
+      "cite-sources",
+      "literature-search",
+      "research",
+      "summarize"
+    ]
+  },
+  {
+    "id": "mathematical-animation",
+    "name": "/mathematical-animation",
+    "displayName": "Mathematical Animation",
+    "type": "fusion",
+    "prerequisites": [
+      "code-execution",
+      "data-visualize"
+    ]
+  },
+  {
+    "id": "mcp-debugger-control",
+    "name": "/mcp-debugger-control",
+    "displayName": "MCP Debugger Control",
+    "type": "fusion",
+    "prerequisites": [
+      "mcp-integration",
+      "refactor-code"
+    ]
+  },
+  {
+    "id": "mcp-server-creation",
+    "name": "/mcp-server-creation",
+    "displayName": "MCP Server Creation",
+    "type": "fusion",
+    "prerequisites": [
+      "mcp-integration",
+      "tool-creation",
+      "api-call"
+    ]
+  },
+  {
+    "id": "memory-manage",
+    "name": "/memory-manage",
+    "displayName": "Memory Manage",
+    "type": "fusion",
+    "prerequisites": [
+      "context-compression",
+      "retrieve"
+    ]
+  },
+  {
+    "id": "ml-artifact-management",
+    "name": "/ml-artifact-management",
+    "displayName": "ML Artifact Management",
+    "type": "fusion",
+    "prerequisites": [
+      "api-call",
+      "classify"
+    ]
+  },
+  {
+    "id": "ml-pipeline",
+    "name": "/ml-pipeline",
+    "displayName": "ML Pipeline",
+    "type": "fusion",
+    "prerequisites": [
+      "data-analysis",
+      "automated-testing",
+      "code-generation"
+    ]
+  },
+  {
+    "id": "multi-agent-debate",
+    "name": "/multi-agent-debate",
+    "displayName": "Multi-Agent Debate",
+    "type": "fusion",
+    "prerequisites": [
+      "self-critique",
+      "evaluate-output",
+      "chain-of-thought"
+    ]
+  },
+  {
+    "id": "multi-agent-orchestration-v",
+    "name": "/multi-agent-orchestration-v",
+    "displayName": "Multi-Agent Orchestration",
+    "type": "fusion",
+    "prerequisites": [
+      "plan-and-execute",
+      "route-intent",
+      "tool-select"
+    ]
+  },
+  {
+    "id": "multi-node-orchestration",
+    "name": "/multi-node-orchestration",
+    "displayName": "Flow Nexus Orchestration",
+    "type": "fusion",
+    "prerequisites": [
+      "multi-agent-orchestration-v",
+      "cloud-platform-management",
+      "distributed-neural-training"
+    ]
   },
   {
     "id": "multi-topology-orchestration",
     "name": "/multi-topology-orchestration",
     "displayName": "Ruflo",
-    "type": "ultimate"
+    "type": "fusion",
+    "prerequisites": [
+      "multi-node-orchestration",
+      "agent-memory-platform",
+      "git-integration",
+      "reasoning-pattern-bank",
+      "platform-modernization-sprint",
+      "dual-mode"
+    ]
+  },
+  {
+    "id": "multimodal-reasoning",
+    "name": "/multimodal-reasoning",
+    "displayName": "Multimodal Reasoning",
+    "type": "fusion",
+    "prerequisites": [
+      "image-caption",
+      "question-answer",
+      "logical-inference"
+    ]
+  },
+  {
+    "id": "ontology-alignment",
+    "name": "/ontology-alignment",
+    "displayName": "Ontology Alignment",
+    "type": "fusion",
+    "prerequisites": [
+      "extract-entities",
+      "knowledge-graph-build",
+      "schema-design"
+    ]
+  },
+  {
+    "id": "personal-knowledge-management",
+    "name": "/personal-knowledge-management",
+    "displayName": "personal-knowledge-management",
+    "type": "fusion",
+    "prerequisites": [
+      "retrieve",
+      "context-compression"
+    ]
+  },
+  {
+    "id": "personal",
+    "name": "/personal",
+    "displayName": "mattpocock-personal",
+    "type": "fusion",
+    "prerequisites": [
+      "document-editing",
+      "personal-knowledge-management"
+    ]
+  },
+  {
+    "id": "plan-and-execute",
+    "name": "/plan-and-execute",
+    "displayName": "Plan and Execute",
+    "type": "fusion",
+    "prerequisites": [
+      "route-intent",
+      "plan-decompose",
+      "tool-select"
+    ]
+  },
+  {
+    "id": "platform-modernization-sprint",
+    "name": "/platform-modernization-sprint",
+    "displayName": "Platform Modernization Sprint",
+    "type": "fusion",
+    "prerequisites": [
+      "cli-modernization",
+      "core-platform-implementation",
+      "system-integration",
+      "performance-tuning",
+      "advanced-swarm-coordination"
+    ]
+  },
+  {
+    "id": "prd-generation",
+    "name": "/prd-generation",
+    "displayName": "PRD Generation",
+    "type": "fusion",
+    "prerequisites": [
+      "write-report",
+      "plan-decompose"
+    ]
+  },
+  {
+    "id": "prediction-market-analysis",
+    "name": "/prediction-market-analysis",
+    "displayName": "Prediction Market Analysis",
+    "type": "fusion",
+    "prerequisites": [
+      "data-analysis",
+      "web-search",
+      "statistical-analysis"
+    ]
+  },
+  {
+    "id": "productivity",
+    "name": "/productivity",
+    "displayName": "mattpocock-productivity",
+    "type": "fusion",
+    "prerequisites": [
+      "agent-handoff",
+      "context-compression",
+      "grill-me",
+      "tool-creation"
+    ]
+  },
+  {
+    "id": "project-management",
+    "name": "/project-management",
+    "displayName": "Project Management",
+    "type": "fusion",
+    "prerequisites": [
+      "api-call",
+      "issue-triage"
+    ]
+  },
+  {
+    "id": "prompt-optimization",
+    "name": "/prompt-optimization",
+    "displayName": "Prompt Optimization",
+    "type": "fusion",
+    "prerequisites": [
+      "evaluate-output",
+      "generate-text"
+    ]
+  },
+  {
+    "id": "prototype",
+    "name": "/prototype",
+    "displayName": "prototype",
+    "type": "fusion",
+    "prerequisites": [
+      "code-generation",
+      "code-execution"
+    ]
+  },
+  {
+    "id": "rag-pipeline",
+    "name": "/rag-pipeline",
+    "displayName": "RAG Pipeline",
+    "type": "fusion",
+    "prerequisites": [
+      "retrieve",
+      "chunk-document",
+      "embed-text",
+      "score-relevance",
+      "tokenize",
+      "rank"
+    ]
+  },
+  {
+    "id": "re-act-reasoning",
+    "name": "/re-act-reasoning",
+    "displayName": "ReAct Reasoning",
+    "type": "fusion",
+    "prerequisites": [
+      "plan-decompose",
+      "tool-use"
+    ]
+  },
+  {
+    "id": "real-time-voice-assistant",
+    "name": "/real-time-voice-assistant",
+    "displayName": "Real-Time Voice Assistant",
+    "type": "fusion",
+    "prerequisites": [
+      "voice-agent",
+      "memory-manage",
+      "plan-and-execute"
+    ]
+  },
+  {
+    "id": "reasoning-pattern-bank",
+    "name": "/reasoning-pattern-bank",
+    "displayName": "Reasoning Pattern Bank",
+    "type": "fusion",
+    "prerequisites": [
+      "adaptive-pattern-learning",
+      "agent-memory-learning"
+    ]
+  },
+  {
+    "id": "receiving-code-review",
+    "name": "/receiving-code-review",
+    "displayName": "Receiving Code Review",
+    "type": "fusion",
+    "prerequisites": [
+      "requesting-code-review",
+      "verification-before-completion"
+    ]
+  },
+  {
+    "id": "recursive-self-improvement",
+    "name": "/recursive-self-improvement",
+    "displayName": "Recursive Self-Improvement",
+    "type": "fusion",
+    "prerequisites": [
+      "autonomous-debug",
+      "evaluate-output",
+      "plan-and-execute"
+    ]
+  },
+  {
+    "id": "registry-curation",
+    "name": "/registry-curation",
+    "displayName": "Registry Curation",
+    "type": "fusion",
+    "prerequisites": [
+      "research",
+      "code-generation",
+      "code-execution"
+    ]
+  },
+  {
+    "id": "registry-entry-audit",
+    "name": "/registry-entry-audit",
+    "displayName": "Gaia Audit",
+    "type": "fusion",
+    "prerequisites": [
+      "retrieve",
+      "cite-sources",
+      "evaluate-output"
+    ]
+  },
+  {
+    "id": "registry-health-scan",
+    "name": "/registry-health-scan",
+    "displayName": "Gaia Meta Audit",
+    "type": "fusion",
+    "prerequisites": [
+      "registry-entry-audit",
+      "registry-curation",
+      "detect-anomaly"
+    ]
+  },
+  {
+    "id": "regulatory-compliance-mapping",
+    "name": "/regulatory-compliance-mapping",
+    "displayName": "Regulatory Compliance Mapping",
+    "type": "fusion",
+    "prerequisites": [
+      "extract-entities",
+      "knowledge-graph-build",
+      "security-audit"
+    ]
+  },
+  {
+    "id": "release-automation",
+    "name": "/release-automation",
+    "displayName": "Release Automation",
+    "type": "fusion",
+    "prerequisites": [
+      "workflow-automation",
+      "code-execution",
+      "generate-text"
+    ]
+  },
+  {
+    "id": "requesting-code-review",
+    "name": "/requesting-code-review",
+    "displayName": "Requesting Code Review",
+    "type": "fusion",
+    "prerequisites": [
+      "code-review-pipeline",
+      "dispatching-parallel-agents"
+    ]
+  },
+  {
+    "id": "research",
+    "name": "/research",
+    "displayName": "Research",
+    "type": "fusion",
+    "prerequisites": [
+      "web-search",
+      "summarize",
+      "cite-sources"
+    ]
+  },
+  {
+    "id": "scientific-discovery",
+    "name": "/scientific-discovery",
+    "displayName": "Autonomous Scientific Discovery",
+    "type": "fusion",
+    "prerequisites": [
+      "computational-biology-workflows",
+      "hypothesis-generate",
+      "math-reason",
+      "research"
+    ]
+  },
+  {
+    "id": "scientific-writing",
+    "name": "/scientific-writing",
+    "displayName": "Scientific Writing",
+    "type": "fusion",
+    "prerequisites": [
+      "write-report",
+      "cite-sources",
+      "scientific-visualization"
+    ]
+  },
+  {
+    "id": "search-engine-optimization",
+    "name": "/search-engine-optimization",
+    "displayName": "search-engine-optimization",
+    "type": "fusion",
+    "prerequisites": [
+      "parse-html",
+      "parse-json"
+    ]
+  },
+  {
+    "id": "security-audit",
+    "name": "/security-audit",
+    "displayName": "Security Audit",
+    "type": "fusion",
+    "prerequisites": [
+      "code-review-pipeline",
+      "evaluate-output"
+    ]
+  },
+  {
+    "id": "skill-authoring",
+    "name": "/skill-authoring",
+    "displayName": "Skill Authoring",
+    "type": "fusion",
+    "prerequisites": [
+      "generate-text",
+      "structured-output",
+      "code-generation"
+    ]
+  },
+  {
+    "id": "skill-fusion",
+    "name": "/skill-fusion",
+    "displayName": "Skill Fusion",
+    "type": "fusion",
+    "prerequisites": [
+      "registry-curation",
+      "skill-authoring"
+    ]
   },
   {
     "id": "skill-mastery",
     "name": "/skill-mastery",
     "displayName": "mattpocock-skills",
-    "type": "ultimate"
+    "type": "fusion",
+    "prerequisites": [
+      "engineering-discipline",
+      "productivity",
+      "personal",
+      "tool-creation",
+      "ubiquitous-language"
+    ]
+  },
+  {
+    "id": "skill-performance-benchmarking",
+    "name": "/skill-performance-benchmarking",
+    "displayName": "Skill Performance Benchmarking",
+    "type": "fusion",
+    "prerequisites": [
+      "agent-eval",
+      "skill-discovery",
+      "statistical-analysis"
+    ]
+  },
+  {
+    "id": "skill-security-analysis",
+    "name": "/skill-security-analysis",
+    "displayName": "Skill Security Analysis",
+    "type": "fusion",
+    "prerequisites": [
+      "security-audit",
+      "prompt-injection-defense",
+      "skill-discovery"
+    ]
+  },
+  {
+    "id": "stealth-browser-interaction",
+    "name": "/stealth-browser-interaction",
+    "displayName": "Stealth Browser Interaction",
+    "type": "fusion",
+    "prerequisites": [
+      "browser-automation",
+      "computer-use"
+    ]
+  },
+  {
+    "id": "subagent-driven-development",
+    "name": "/subagent-driven-development",
+    "displayName": "Subagent-Driven Development",
+    "type": "fusion",
+    "prerequisites": [
+      "executing-plans",
+      "dispatching-parallel-agents",
+      "code-review-pipeline"
+    ]
   },
   {
     "id": "superpowers",
     "name": "/superpowers",
     "displayName": "Superpowers",
-    "type": "ultimate"
+    "type": "fusion",
+    "prerequisites": [
+      "brainstorming",
+      "dispatching-parallel-agents",
+      "executing-plans",
+      "finishing-a-development-branch",
+      "receiving-code-review",
+      "requesting-code-review",
+      "subagent-driven-development",
+      "systematic-debugging",
+      "using-git-worktrees",
+      "verification-before-completion",
+      "writing-plans"
+    ]
+  },
+  {
+    "id": "supply-chain-optimization",
+    "name": "/supply-chain-optimization",
+    "displayName": "Supply Chain Optimization",
+    "type": "fusion",
+    "prerequisites": [
+      "data-analysis",
+      "detect-anomaly",
+      "statistical-analysis"
+    ]
+  },
+  {
+    "id": "systematic-debugging",
+    "name": "/systematic-debugging",
+    "displayName": "Systematic Debugging",
+    "type": "fusion",
+    "prerequisites": [
+      "hypothesis-generate",
+      "error-interpretation"
+    ]
+  },
+  {
+    "id": "text-to-sql-pipeline",
+    "name": "/text-to-sql-pipeline",
+    "displayName": "Text-to-SQL Pipeline",
+    "type": "fusion",
+    "prerequisites": [
+      "generate-sql",
+      "parse-json",
+      "format-output"
+    ]
+  },
+  {
+    "id": "threat-intelligence-synthesis",
+    "name": "/threat-intelligence-synthesis",
+    "displayName": "Threat Intelligence Synthesis",
+    "type": "fusion",
+    "prerequisites": [
+      "feed-monitoring",
+      "knowledge-graph-build",
+      "security-audit"
+    ]
+  },
+  {
+    "id": "tool-chaining",
+    "name": "/tool-chaining",
+    "displayName": "Tool Chaining",
+    "type": "fusion",
+    "prerequisites": [
+      "tool-use",
+      "tool-select"
+    ]
+  },
+  {
+    "id": "tool-creation",
+    "name": "/tool-creation",
+    "displayName": "Tool Creation",
+    "type": "fusion",
+    "prerequisites": [
+      "code-generation",
+      "tool-use"
+    ]
+  },
+  {
+    "id": "translation-pipeline",
+    "name": "/translation-pipeline",
+    "displayName": "Translation Pipeline",
+    "type": "fusion",
+    "prerequisites": [
+      "translate",
+      "sentiment-analysis",
+      "audience-model"
+    ]
+  },
+  {
+    "id": "tree-of-thought",
+    "name": "/tree-of-thought",
+    "displayName": "Tree of Thought",
+    "type": "fusion",
+    "prerequisites": [
+      "chain-of-thought",
+      "plan-decompose"
+    ]
+  },
+  {
+    "id": "ubiquitous-language",
+    "name": "/ubiquitous-language",
+    "displayName": "Ubiquitous Language",
+    "type": "fusion",
+    "prerequisites": [
+      "extract-entities",
+      "requirements-analysis"
+    ]
+  },
+  {
+    "id": "using-git-worktrees",
+    "name": "/using-git-worktrees",
+    "displayName": "Using Git Worktrees",
+    "type": "fusion",
+    "prerequisites": [
+      "code-execution",
+      "tool-use"
+    ]
+  },
+  {
+    "id": "verification-before-completion",
+    "name": "/verification-before-completion",
+    "displayName": "Verification Before Completion",
+    "type": "fusion",
+    "prerequisites": [
+      "code-execution",
+      "self-critique"
+    ]
+  },
+  {
+    "id": "vertical-slice-planning",
+    "name": "/vertical-slice-planning",
+    "displayName": "Vertical Slice Planning",
+    "type": "fusion",
+    "prerequisites": [
+      "plan-decompose",
+      "route-intent"
+    ]
+  },
+  {
+    "id": "video-intelligence",
+    "name": "/video-intelligence",
+    "displayName": "Video Intelligence",
+    "type": "fusion",
+    "prerequisites": [
+      "multimodal-reasoning",
+      "speech-to-text"
+    ]
+  },
+  {
+    "id": "voice-agent",
+    "name": "/voice-agent",
+    "displayName": "Voice Agent",
+    "type": "fusion",
+    "prerequisites": [
+      "speech-to-text",
+      "question-answer",
+      "text-to-speech"
+    ]
+  },
+  {
+    "id": "web-accessibility",
+    "name": "/web-accessibility",
+    "displayName": "web-accessibility",
+    "type": "fusion",
+    "prerequisites": [
+      "browser-control",
+      "ux-audit"
+    ]
+  },
+  {
+    "id": "web-best-practices",
+    "name": "/web-best-practices",
+    "displayName": "web-best-practices",
+    "type": "fusion",
+    "prerequisites": [
+      "code-review-pipeline",
+      "performance-tuning"
+    ]
+  },
+  {
+    "id": "web-quality-audit",
+    "name": "/web-quality-audit",
+    "displayName": "web-quality-audit",
+    "type": "fusion",
+    "prerequisites": [
+      "registry-health-scan",
+      "performance-tuning",
+      "search-engine-optimization",
+      "web-accessibility",
+      "web-best-practices"
+    ]
+  },
+  {
+    "id": "web-scrape",
+    "name": "/web-scrape",
+    "displayName": "Web Scrape",
+    "type": "fusion",
+    "prerequisites": [
+      "web-search",
+      "parse-html",
+      "extract-entities"
+    ]
+  },
+  {
+    "id": "wiki-search",
+    "name": "/wiki-search",
+    "displayName": "Wiki Search",
+    "type": "fusion",
+    "prerequisites": [
+      "retrieve",
+      "embed-text",
+      "summarize"
+    ]
+  },
+  {
+    "id": "workflow-automation",
+    "name": "/workflow-automation",
+    "displayName": "Workflow Automation",
+    "type": "fusion",
+    "prerequisites": [
+      "plan-decompose",
+      "tool-use",
+      "api-call"
+    ]
+  },
+  {
+    "id": "workspace-automation",
+    "name": "/workspace-automation",
+    "displayName": "Workspace Automation",
+    "type": "fusion",
+    "prerequisites": [
+      "api-call",
+      "document-editing"
+    ]
+  },
+  {
+    "id": "writing-plans",
+    "name": "/writing-plans",
+    "displayName": "Writing Plans",
+    "type": "fusion",
+    "prerequisites": [
+      "plan-decompose",
+      "requirements-analysis"
+    ]
+  },
+  {
+    "id": "x-twitter-automation",
+    "name": "/x-twitter-automation",
+    "displayName": "X/Twitter Automation",
+    "type": "fusion",
+    "prerequisites": [
+      "browser-automation",
+      "web-scrape",
+      "workflow-automation"
+    ]
   }
 ]

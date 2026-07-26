@@ -29,6 +29,17 @@
       "preview_id": "1dc66bd557b1464f9d46cb5a072696c6"
     }
   ],
+  // Epic #89 / #87: Vectorize fuzzy promotion for Infinite Skill Craft.
+  // Index must be provisioned once via:
+  //   npx wrangler vectorize create gaia-craft-skills --dimensions=768 --metric=cosine
+  // dimensions=768 matches the @cf/baai/bge-base-en-v1.5 embedding model used at
+  // both sync time (scripts/craft/sync-skill-tree.ts) and query time (fuse/route.ts).
+  "vectorize": [
+    {
+      "binding": "VECTORIZE",
+      "index_name": "gaia-craft-skills"
+    }
+  ],
   "observability": {
     "enabled": true
   }
