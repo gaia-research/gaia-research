@@ -115,6 +115,34 @@ second kind never does. Knowing which is which is the whole skill.
 
 ---
 
+## 6. Why this gets *more* important as models get smarter
+
+It's tempting to read "smarter models need less scaffolding" as "context stops
+mattering." The opposite is closer to true. A more capable model —
+Opus 5, Fable 5 — is exactly the one that reads every line of context as
+signal and lets it shape the output. That's the whole reason a stale example
+*constrains* it: the model takes the instruction seriously. So the more capable
+the model, the higher the cost of feeding it bloat, and the more a lean,
+deliberate context earns its place.
+
+That's the thread connecting this talk to two things we work on directly:
+
+- **[Context Diet](/labs/context-diet)** — a lab that audits an agent's
+  context and flags what isn't earning its tokens. The descaffolding question
+  in this post ("teaching the model vs. describing my repo?") is exactly the
+  judgment call a context audit has to make, one block at a time. This is
+  actively researched, not a finished verdict.
+- **Skill Heaven** — a work-in-progress direction for keeping only the skills a
+  task actually reaches, instead of paying standing context for every skill a
+  harness *could* load. Same instinct as the prompt shrink, applied to skills
+  rather than prose. (It ships from a separate repo; treat it as WIP, not a
+  released product.)
+
+Neither is a claim that we've measured the same 80% on our own surfaces — we
+haven't. They're the surfaces where we'd find out.
+
+---
+
 *This post explains a talk and proposes an audit; it does not report a Gaia
 Research result. The 80% figure and the three-era framing are Anthropic's,
 about Anthropic's harness, from Thariq Shihipar's "Field Guide to Fable" at
