@@ -2,6 +2,7 @@ import type { StaticImageData } from "next/image";
 import claude5SystemPromptShrinkThumbnailSrc from "@/assets/generated/claude-5-system-prompt-shrink-editorial-thumbnail.webp";
 import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-editorial-thumbnail.webp";
 import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp";
+import yggdrasilIiThumbnailSrc from "@/assets/generated/yggdrasil-ii-editorial-thumbnail.webp";
 
 export type BlogPost = {
   href: string;
@@ -33,9 +34,26 @@ export const claude5SystemPromptShrinkThumbnail = {
   alt: "Pink-haired Milim eats lunch with a small white cat at the center of a warm, sunlit classroom full of students.",
 } as const;
 
+export const yggdrasilIiThumbnail = {
+  src: yggdrasilIiThumbnailSrc,
+  alt: "Tiny pink-haired Milim kneels contentedly on a sunlit greenhouse potting bench among towering terracotta pots and drifting morning mist, tending one small seedling.",
+} as const;
+
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/yggdrasil-ii",
+    category: "Agent Skills",
+    tags: ["Agent Skills", "Skill Tree"],
+    date: "July 26, 2026",
+    readTime: "6 min read",
+    title: "Yggdrasil II: The Skill Tree Stops Storing What It Can Compute",
+    description:
+      "Yggdrasil II is the Gaia Skill Tree's second taxonomy rebuild: four node types collapse to two, the branch axis becomes derived instead of stored, and Trust Magnitude becomes the sole promotion gate.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: yggdrasilIiThumbnail,
+  },
   {
     href: "/blog/claude-5-system-prompt-shrink",
     category: "Agent Skills",
