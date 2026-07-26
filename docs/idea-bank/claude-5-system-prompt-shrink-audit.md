@@ -7,10 +7,9 @@
 
 ## The observation this starts from
 
-At AI Engineer World's Fair (early July 2026), Anthropic's Thariq Shihipar
-described removing roughly **80% of Claude Code's system prompt** for the
-**Claude 5** class of models — the family that ships as **Opus 5, Sonnet 5,
-and Fable 5** (referred to internally as the "Mythos" class). The stated
+Anthropic's Thariq Shihipar described removing **over 80% of Claude Code's
+system prompt** for advanced Claude 5-generation models such as **Opus 5 and
+Fable 5**, with no measurable loss on Anthropic's coding evaluations. The stated
 rationale: worked examples and "do not" rules that helped an earlier
 generation *constrain* a more capable one — the examples become a ceiling the
 model reads as the intended range, not a floor. The steering that survives is
@@ -28,7 +27,7 @@ on our own scaffolding and measure what actually happens."
    needed to be shown.
 2. **Mid-generation Opus era** — the system prompt grew large. More rules,
    more guardrails, more "do not."
-3. **Opus 4.8 / Claude 5 era** — the prompt shrinks again. The claim is that a
+3. **Opus 5 / Claude 5-generation era** — the prompt shrinks again. The claim is that a
    more capable model is *hobbled* by the scaffolding built for a weaker one —
    the "capability overhang" / "unhobbling" framing: capability was already
    there; the scaffolding was hiding it.
@@ -97,11 +96,15 @@ so we can delete rules" is only true for the first pile.
 
 ## Sources
 
-- **Primary:** Thariq Shihipar (Anthropic), *"Field Guide to Fable,"* AI
+- **Primary:** Thariq Shihipar (Anthropic), *"The new rules of context
+  engineering for Claude 5 generation models"* (2026-07-24) —
+  https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models.
+  States the over-80% system-prompt cut, the no-measurable-loss coding-evaluation
+  result, and the operational changes to rules, examples, and context loading.
+- **Primary talk:** Thariq Shihipar (Anthropic), *"Field Guide to Fable,"* AI
   Engineer World's Fair (talk video, July 2026) —
-  https://www.youtube.com/watch?v=9fubhllmsBU. States the ~80% system-prompt
-  cut and the "capability overhang" / "examples constrain a more imaginative
-  model" framing directly.
+  https://www.youtube.com/watch?v=9fubhllmsBU. Supplies the "capability
+  overhang" and examples-as-constraints framing.
 - Simon Willison, *"A Fireside Chat with Cat and Thariq from the Claude Code
   team"* (2026-07-21) — corroborates the 80% reduction and the code-owner
   review process for the system prompt.
@@ -110,5 +113,5 @@ so we can delete rules" is only true for the first pile.
   / "Mythos" class and quotes the "want a smaller system prompt" line.
 - `platform.claude.com` Opus 5 model documentation (model-family context).
 
-The 80% figure and the three-era framing are Anthropic's, verified against the
-primary talk video above and two independent write-ups.
+The over-80% figure and evaluation result are Anthropic's, verified against
+Shihipar's official article. The three-era framing comes from his primary talk.

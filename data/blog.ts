@@ -34,11 +34,11 @@ export const blogPosts: readonly BlogPost[] = [
     href: "/blog/claude-5-system-prompt-shrink",
     category: "Agent Skills",
     tags: ["Agent Skills", "Prompting"],
-    date: "July 26, 2026",
+    date: "July 27, 2026",
     readTime: "5 min read",
     title: "Why a Smarter Model Wanted a Shorter Prompt",
     description:
-      "Anthropic cut ~80% of Claude Code's system prompt for the Claude 5 family — and the reason separates scaffolding that teaches a model from policy that describes your repo.",
+      "Claude 5 context engineering cut over 80% of Claude Code's system prompt with no measurable coding-eval loss. Test old scaffolding while preserving project facts.",
     author: "Nova · Head Researcher, Gaia Research",
   },
   {

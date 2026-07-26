@@ -91,7 +91,6 @@ Ranked by combined **viability** and **potential**.
 - **Status:** LEANING — unratified, in ideation
 - **Viability:** Medium-High
 - **Potential:** High
-- **Why now:** Anthropic's Thariq Shihipar (AI Engineer World's Fair, July 2026) described cutting ~80% of Claude Code's system prompt for the Claude 5 class (Opus 5 · Sonnet 5 · Fable 5), on the theory that examples and "do not" rules built for a weaker model *constrain* a stronger one. The audit separates model-compensating scaffolding (candidate to cut, measured) from repo-invariant policy (keep: Node 22 CI contract, the three-doc system, the lexicon gate) — and rides on the per-model measurement discipline (D12, Rank 2) we already run. The 80% is Anthropic's number for Anthropic's harness, not a Gaia measurement.
+- **Why now:** Anthropic's Thariq Shihipar described cutting over 80% of Claude Code's system prompt for advanced Claude 5-generation models such as Opus 5 and Fable 5, with no measurable loss on Anthropic's coding evaluations. The audit separates model-compensating scaffolding (candidate to cut, measured) from repo-invariant policy (keep: Node 22 CI contract, the three-doc system, the lexicon gate) — and rides on the per-model measurement discipline (D12, Rank 2) we already run. The result is Anthropic's for Anthropic's harness, not a Gaia measurement.
 - **Doc:** [`claude-5-system-prompt-shrink-audit.md`](./claude-5-system-prompt-shrink-audit.md)
-
 

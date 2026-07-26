@@ -1,150 +1,127 @@
 # Why a Smarter Model Wanted a Shorter Prompt
 
-**By Nova — Head Researcher, Gaia Research**
-*Referencing Thariq Shihipar (Anthropic) at AI Engineer World's Fair, July 2026*
+*July 27, 2026 · Field Note by Nova — Head Researcher, Gaia Research*
 
 ---
 
-## 1. The number that sounds backwards
+You add one rule after every bad agent run. Six months later, the agent is
+negotiating with a fossil record of failures that its current model may no
+longer have.
 
-When a model gets more capable, the instinct is to ask it to do more — add
-the edge cases you now trust it to handle, the examples that used to trip it,
-the guardrails you were nervous to remove. So the surprising part of Anthropic's
-talk at AI Engineer World's Fair was the direction of the change: for the
-**Claude 5** class of models, they *removed* about **80% of Claude Code's
-system prompt.**
+Anthropic tested the reverse move. For advanced Claude 5-generation models
+such as **Opus 5 and Fable 5**, the Claude Code team removed **over 80% of the
+system prompt with no measurable loss on its coding evaluations**. That is
+Anthropic's result on Anthropic's harness—not a universal target—but its
+[account of what changed](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models)
+gives us a better question than “How short should my prompt be?”
 
-That 80% is Anthropic's figure, for Anthropic's own harness — not a Gaia
-measurement, and not a number that transfers to your repo by assumption. But
-the reasoning behind it is worth sitting with, because it inverts a habit most
-of us have: the belief that a better model deserves a bigger instruction sheet.
+**Which instructions still earn their place?**
 
-> Watch the talk: [Field Guide to Fable — Thariq Shihipar, Anthropic
-> (AI Engineer)](https://www.youtube.com/watch?v=9fubhllmsBU).
+---
+
+## Four old rules stopped paying rent
+
+Anthropic did not merely compress the same instructions. It changed how Claude
+Code supplies context:
+
+[[CONTEXT_SHIFTS]]
+
+The examples point to one mechanism: **old scaffolding can overconstrain a new
+model**. A blanket rule forces the model to obey a past tradeoff even when the
+current task calls for judgment. A worked example can narrow the model's search
+to the demonstrated path. Repeated instructions can conflict across the system
+prompt, skills, `CLAUDE.md`, and the user's request.
+
+Anthropic calls the result “unhobbling”: the capability already exists, but the
+harness keeps steering around it. Its reported evidence is precise and narrow:
+**over 80% less system-prompt text, with no measurable loss on its coding
+evaluations**. It does not establish that every agent can delete the same
+fraction.
+
+## The prompt is only one layer
+
+The official post makes a broader point than the original talk alone: a user's
+message is only one part of the model's context. Claude Code also assembles
+system instructions, skills, `CLAUDE.md`, memory, tool definitions, and
+references. Anthropic calls the work of shaping that full input
+[context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents).
+
+This changes the optimization target. The goal is not the shortest
+`CLAUDE.md`. The goal is to put each instruction where it is useful:
+
+- Keep the system prompt focused on the product and operating environment.
+- Keep `CLAUDE.md` lightweight, with repository-specific gotchas the model
+  cannot infer from the tree.
+- Move conditional procedures into skills that load only when needed.
+- Put tool-specific behavior beside the tool instead of repeating it globally.
+
+That is [progressive disclosure](https://claude.com/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code):
+the agent can reach detailed guidance without paying for every detail on every
+turn.
+
+## The boundary Anthropic cannot draw for your repository
+
+“The model is smarter, so delete the rules” fails because two different things
+often share the same file:
+
+[[KEEP_OR_TEST]]
+
+A capable model may already know how to review code. It cannot infer that this
+repository pins Node 22 in CI, keeps three documents as separate sources of
+truth, or applies a vocabulary rule only to selected directories. Those are
+facts about the project, not gaps in model capability.
+
+Project facts can still move. A prose rule may become an executable check, a
+discoverable config value, or an obsolete convention. Until then, removing it
+does not unhobble the model; it removes information.
+
+## A three-step descaffolding test
+
+Take one instruction file you own—a `SKILL.md`, a section of `CLAUDE.md`, or a
+system prompt—and review one block at a time:
+
+1. **Classify it.** Does this compensate for an older model, or does it encode
+   project information the model cannot reliably discover?
+2. **Relocate before deleting.** If the rule only matters during verification,
+   move it into a verification skill. If it describes one tool, put it with
+   that tool.
+3. **Measure the candidate cut.** Run the same task with and without the block.
+   Keep it if removal makes the result worse. Report the answer per model and
+   harness.
+
+Anthropic has also placed these checks in Claude Code's `/doctor` command for
+rightsizing skills and `CLAUDE.md` files. Automation can find bulk and
+duplication; the project owner still has to decide which facts are non-obvious.
+
+This distinction connects directly to Gaia's
+[Context Diet](/labs/context-diet), which audits standing context, and
+[Skill Heaven](/#skill-heaven-hell), which investigates loading only the skills
+a task reaches. The current
+[Skill Heaven benchmark](/research/hh-benchmark) and
+[product repository](https://github.com/gaia-research/skill-heaven) document
+what Gaia has actually built and measured. Neither claims Gaia reproduced
+Anthropic's 80% result.
+
+## Watch the source talk
 
 [[YOUTUBE_EMBED]]
 
-First, one piece of naming, because it trips people up. **"Claude 5" is a
-family, not a model** — it's **Opus 5, Sonnet 5, and Fable 5** together (the
-class Anthropic refers to as "Mythos"). When the talk says the prompt shrank
-for "Claude 5," it means the whole tier, not a single release.
+The talk supplies the original “examples become a ceiling” framing. Anthropic's
+later article supplies the operational details and evaluation claim used here.
+
+## One thing to do today
+
+Find the oldest worked example in your standing context. Ask what fact it
+contains that the model cannot discover elsewhere. Preserve that fact, then
+test the task without the example.
+
+Do not target 80%. Target the first block that no longer earns its tokens.
 
 ---
 
-## 2. Examples are a ceiling, not a floor
-
-Here's the mechanism, in plain terms. A worked example in a system prompt is
-supposed to say *"here's the kind of thing to do."* A capable model often
-reads it as *"here's the range of things I'm allowed to do."* The example that
-was meant as a floor becomes a ceiling.
-
-The same trap sits inside long "do not" lists. Each rule was added because
-some earlier model made that mistake. But a rule written to fence in a weaker
-model spends the newer model's attention re-litigating a mistake it was never
-going to make — and worse, it narrows the space the model explores. The talk's
-framing is that the scaffolding built for a weaker generation actively
-*constrains* a stronger one.
-
-There's a term for this: **capability overhang** — the idea that a model can
-already do more than the harness lets it show, so removing scaffolding
-*unhobbles* capability that was there all along. You don't add the ability by
-deleting the rule; you stop hiding it.
-
----
-
-## 3. The three-era arc
-
-The talk sketched the swing as three eras. Read this as the speaker's framing
-of how the harness evolved, not as a measured curve we're reproducing:
-
-| Era | System prompt | Why |
-|---|---|---|
-| **Sonnet 3.5** | Small, many worked examples | The model needed to be *shown* the task. |
-| **Mid-generation Opus** | Large | More rules, more guardrails, more "do not." |
-| **Opus 4.8 / Claude 5** | Small again | A stronger model is *hobbled* by scaffolding built for a weaker one. |
-
-The shape is a U: scaffolding grows as we discover a model's failure modes,
-then collapses when the next model stops having them. The interesting question
-isn't whether the arc is real for Anthropic — they measured it. It's whether
-*your* prompts are sitting near the top of that U without you noticing.
-
----
-
-## 4. The part that doesn't transfer
-
-Here's where a reader could get burned, so let's be exact. "The model is
-smarter, so delete the rules" is only true for *some* of the rules. There are
-two very different things living in a system prompt, and only one of them is
-safe to cut:
-
-- **Model-compensating scaffolding** — text that exists because an earlier
-  model needed it: worked examples of "the one right way," long defensive
-  "do not" lists, restatements of things a capable model already infers. This
-  is the pile the 80% came from.
-- **Repo-invariant policy** — text that encodes a fact about *your* project
-  that no amount of raw capability can infer. A smarter model does not know
-  that your CI pins Node 22, that your docs have three separate
-  sources of truth, or that one directory bans a word another directory
-  allows. That isn't a capability gap. It's a fact about your world.
-
-Deleting the first pile can unhobble the model. Deleting the second pile just
-removes information the model had no other way to get — and a more capable
-model will confidently do the wrong repo-specific thing faster. The audit is
-worthless if you conflate them.
-
----
-
-## 5. What to actually do with this
-
-You don't need Anthropic's infrastructure to run the same *kind* of audit on
-your own scaffolding. The move is small and it's a review pass, not a rewrite:
-
-1. **Take one scaffold you own** — a `SKILL.md`, a section of a `CLAUDE.md`,
-   a system prompt.
-2. **Sort each block into the two piles** — is this compensating for a model
-   weakness, or encoding a fact about my repo?
-3. **Cut a compensating block and measure, don't guess.** Run the task with
-   and without it, the same way each time, and keep the block only if removing
-   it actually made things worse. A shrink that helps Opus 5 may do nothing
-   for a smaller model — so the answer is per-model, not universal.
-
-The takeaway isn't "cut 80% of your prompt." It's the question underneath the
-80%: **how much of what you wrote was teaching the model, and how much was
-just describing your repo?** The first kind ages out as models improve. The
-second kind never does. Knowing which is which is the whole skill.
-
----
-
-## 6. Why this gets *more* important as models get smarter
-
-It's tempting to read "smarter models need less scaffolding" as "context stops
-mattering." The opposite is closer to true. A more capable model —
-Opus 5, Fable 5 — is exactly the one that reads every line of context as
-signal and lets it shape the output. That's the whole reason a stale example
-*constrains* it: the model takes the instruction seriously. So the more capable
-the model, the higher the cost of feeding it bloat, and the more a lean,
-deliberate context earns its place.
-
-That's the thread connecting this talk to two things we work on directly:
-
-- **[Context Diet](/labs/context-diet)** — a lab that audits an agent's
-  context and flags what isn't earning its tokens. The descaffolding question
-  in this post ("teaching the model vs. describing my repo?") is exactly the
-  judgment call a context audit has to make, one block at a time. This is
-  actively researched, not a finished verdict.
-- **Skill Heaven** — a work-in-progress direction for keeping only the skills a
-  task actually reaches, instead of paying standing context for every skill a
-  harness *could* load. Same instinct as the prompt shrink, applied to skills
-  rather than prose. (It ships from a separate repo; treat it as WIP, not a
-  released product.)
-
-Neither is a claim that we've measured the same 80% on our own surfaces — we
-haven't. They're the surfaces where we'd find out.
-
----
-
-*This post explains a talk and proposes an audit; it does not report a Gaia
-Research result. The 80% figure and the three-era framing are Anthropic's,
-about Anthropic's harness, from Thariq Shihipar's "Field Guide to Fable" at
-the AI Engineer World's Fair. The descaffolding audit is an unratified idea in
-our idea bank, not shipped Gaia method.*
+**Sources:** Thariq Shihipar, Anthropic,
+[*The new rules of context engineering for Claude 5 generation models*](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models),
+July 24, 2026 ·
+[*Field Guide to Fable*](https://www.youtube.com/watch?v=9fubhllmsBU),
+AI Engineer World's Fair · Anthropic,
+[*Effective context engineering for AI agents*](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents).

@@ -13,7 +13,7 @@ const articlePath = "/blog/claude-5-system-prompt-shrink";
 const articleUrl = `${siteUrl}${articlePath}`;
 const articleTitle = "Why a Smarter Model Wanted a Shorter Prompt";
 const articleDescription =
-  "Anthropic cut ~80% of Claude Code's system prompt for the Claude 5 family. The lesson: separate scaffolding that teaches the model from policy that describes your repo.";
+  "Claude 5 context engineering cut over 80% of Claude Code's system prompt with no measurable coding-eval loss. Test old scaffolding while preserving project facts.";
 
 export const metadata = {
   title: articleTitle,
@@ -33,7 +33,7 @@ export const metadata = {
     url: articlePath,
     title: articleTitle,
     description: articleDescription,
-    publishedTime: "2026-07-26T00:00:00+08:00",
+    publishedTime: "2026-07-27T00:00:00+08:00",
     authors: [novaAuthor.display_name],
   },
   twitter: {
@@ -49,7 +49,7 @@ const articleStructuredData = {
   headline: articleTitle,
   description: articleDescription,
   url: articleUrl,
-  datePublished: "2026-07-26T00:00:00+08:00",
+  datePublished: "2026-07-27T00:00:00+08:00",
   author: {
     "@type": "Person",
     name: novaAuthor.display_name,
@@ -67,6 +67,76 @@ function loadPost() {
   return postMd.split("\n").slice(4).join("\n").trim();
 }
 
+function ContextShiftsFigure() {
+  const shifts = [
+    ["Rules", "Judgment"],
+    ["Worked examples", "Expressive interfaces"],
+    ["Everything upfront", "Progressive disclosure"],
+    ["Repeated instructions", "Local tool guidance"],
+  ];
+
+  return (
+    <figure className="blog-figure blog-figure-chart">
+      <figcaption>How Anthropic changed context engineering for advanced Claude 5-generation models</figcaption>
+      <svg viewBox="0 0 760 336" role="img" aria-labelledby="context-shifts-title context-shifts-desc">
+        <title id="context-shifts-title">Four context-engineering shifts</title>
+        <desc id="context-shifts-desc">
+          Rules became judgment, worked examples became expressive interfaces, upfront context became progressive
+          disclosure, and repeated instructions became local tool guidance.
+        </desc>
+        <text x="28" y="34" fill="#94a3b8" fontSize="13" fontFamily="monospace">THEN</text>
+        <text x="450" y="34" fill="#94a3b8" fontSize="13" fontFamily="monospace">NOW</text>
+        {shifts.map(([before, after], index) => {
+          const y = 58 + index * 68;
+          return (
+            <g key={before}>
+              <rect x="24" y={y} width="270" height="48" rx="8" fill="#111827" stroke="#334155" />
+              <text x="42" y={y + 30} fill="#cbd5e1" fontSize="16">{before}</text>
+              <path d={`M 318 ${y + 24} H 410`} stroke="#38bdf8" strokeWidth="2" />
+              <path d={`M 400 ${y + 17} L 410 ${y + 24} L 400 ${y + 31}`} fill="none" stroke="#38bdf8" strokeWidth="2" />
+              <rect x="438" y={y} width="298" height="48" rx="8" fill="#111827" stroke="#ec4899" />
+              <text x="456" y={y + 30} fill="#f8fafc" fontSize="16">{after}</text>
+            </g>
+          );
+        })}
+      </svg>
+      <p className="blog-svg-note">Conceptual summary of Anthropic&apos;s published “Then and now” guidance; no invented measurements.</p>
+    </figure>
+  );
+}
+
+function KeepOrTestFigure() {
+  return (
+    <figure className="blog-figure blog-figure-chart">
+      <figcaption>The descaffolding decision: test inherited behavior rules; preserve non-discoverable project facts</figcaption>
+      <svg viewBox="0 0 760 350" role="img" aria-labelledby="keep-test-title keep-test-desc">
+        <title id="keep-test-title">What should be tested and what should be kept</title>
+        <desc id="keep-test-desc">
+          Model-compensating scaffolding should be relocated or tested for removal. Project-specific context should be
+          kept until it is discoverable or enforced elsewhere.
+        </desc>
+        <rect x="24" y="22" width="344" height="282" rx="12" fill="#111827" stroke="#38bdf8" />
+        <rect x="392" y="22" width="344" height="282" rx="12" fill="#111827" stroke="#ec4899" />
+        <text x="48" y="58" fill="#38bdf8" fontSize="13" fontFamily="monospace">MODEL-COMPENSATING</text>
+        <text x="416" y="58" fill="#ec4899" fontSize="13" fontFamily="monospace">PROJECT-SPECIFIC</text>
+        <text x="48" y="92" fill="#f8fafc" fontSize="22">Relocate or test</text>
+        <text x="416" y="92" fill="#f8fafc" fontSize="22">Keep until discoverable</text>
+        {["Blanket “never” rules", "Worked tool examples", "Repeated reminders"].map((label, index) => (
+          <text key={label} x="52" y={142 + index * 42} fill="#cbd5e1" fontSize="15">• {label}</text>
+        ))}
+        {["CI and runtime contracts", "Repository governance", "Scoped vocabulary rules"].map((label, index) => (
+          <text key={label} x="420" y={142 + index * 42} fill="#cbd5e1" fontSize="15">• {label}</text>
+        ))}
+        <text x="48" y="282" fill="#94a3b8" fontSize="13">Compare the same task with and without it.</text>
+        <text x="416" y="282" fill="#94a3b8" fontSize="13">Move only when another source carries the fact.</text>
+        <path d="M 380 320 V 338" stroke="#64748b" />
+        <text x="172" y="338" fill="#94a3b8" fontSize="13">Same question: can the agent reliably get this elsewhere?</text>
+      </svg>
+      <p className="blog-svg-note">Illustrative decision framework—not a measured Anthropic result.</p>
+    </figure>
+  );
+}
+
 export default function BlogPostPage() {
   const body = loadPost();
   return (
@@ -79,7 +149,7 @@ export default function BlogPostPage() {
         />
         <header className="blog-post-head">
           <p className="blog-post-meta">
-            <time dateTime="2026-07-26">July 26, 2026</time> · {" "}
+            <time dateTime="2026-07-27">July 27, 2026</time> · {" "}
             <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">
               {novaAuthor.display_name}
             </a>
@@ -95,7 +165,13 @@ export default function BlogPostPage() {
             remarkPlugins={[remarkGfm]}
             components={{
               p: ({ children, ...props }) => {
-                const text = Array.isArray(children) ? children.join("") : children;
+                const text = Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "";
+                if (text === "[[CONTEXT_SHIFTS]]") {
+                  return <ContextShiftsFigure />;
+                }
+                if (text === "[[KEEP_OR_TEST]]") {
+                  return <KeepOrTestFigure />;
+                }
                 if (text === "[[YOUTUBE_EMBED]]") {
                   return (
                     <figure className="blog-video">
@@ -105,7 +181,9 @@ export default function BlogPostPage() {
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                       />
-                      <figcaption>Source talk by Thariq Shihipar, Anthropic — AI Engineer World&apos;s Fair.</figcaption>
+                      <figcaption>
+                        Thariq Shihipar of Anthropic presents “Field Guide to Fable” at AI Engineer World&apos;s Fair.
+                      </figcaption>
                     </figure>
                   );
                 }
