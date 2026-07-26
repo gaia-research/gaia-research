@@ -1593,6 +1593,24 @@
       ]
     },
     {
+      "id": "claude-5-system-prompt-shrink-editorial-thumbnail",
+      "path": "assets/generated/claude-5-system-prompt-shrink-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "approved",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research · gpt-image-2 editorial commission",
+      "alt": "Pink-haired Milim eats lunch with a small white cat at the center of a warm, sunlit classroom full of students.",
+      "sha256": "698210eff7fe22c9caaf8abb6f4eca97a5333b09e7ee29f53c55f15894031986",
+      "bytes": 363016,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": [],
+      "notes": "User-approved source from Codex generated image set 019f9f27-cf9d-7413-938d-caa634b99703; center-cropped and exported as a 1600x900 WebP at quality 90."
+    },
+    {
       "id": "context-diet-empty-state",
       "path": "assets/generated/context-diet-empty-state.webp",
       "kind": "illustration",

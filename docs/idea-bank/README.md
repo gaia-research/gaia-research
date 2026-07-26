@@ -87,4 +87,10 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** SkillOpt (Microsoft Research, 2026) shows that skill improvement under optimization is not uniform — some skills lift +39 pts, others +9. A static pre-flight index that scores a `SKILL.md` for optimization potential (trigger vagueness, filler density, missing negative boundaries, directive density ratio) would let practitioners know which skills are worth running through a full optimization loop before committing the token budget.
 - **Doc:** [`skillopt-potential-index.md`](./skillopt-potential-index.md)
 
+## Rank 14 — Claude 5 System-Prompt Shrink (Harness Descaffolding Audit)
+- **Status:** LEANING — unratified, in ideation
+- **Viability:** Medium-High
+- **Potential:** High
+- **Why now:** Anthropic's Thariq Shihipar described cutting over 80% of Claude Code's system prompt for advanced Claude 5-generation models such as Opus 5 and Fable 5, with no measurable loss on Anthropic's coding evaluations. The audit separates model-compensating scaffolding (candidate to cut, measured) from repo-invariant policy (keep: Node 22 CI contract, the three-doc system, the lexicon gate) — and rides on the per-model measurement discipline (D12, Rank 2) we already run. The result is Anthropic's for Anthropic's harness, not a Gaia measurement.
+- **Doc:** [`claude-5-system-prompt-shrink-audit.md`](./claude-5-system-prompt-shrink-audit.md)
 
