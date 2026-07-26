@@ -213,14 +213,14 @@ function RankLadderFigure() {
   return (
     <figure className="blog-figure blog-figure-ranks">
       <figcaption>
-        Figure 3. The 4★ fork, rendered. Suite emits outward (gold); Unique collapses inward (amethyst→ember). Medallion art from the Gaia Skill Tree Ascension Overdrive family.
+        Figure 3. Gaia Skill Tree&apos;s owned rank language. Suite emits outward (gold); Unique collapses inward (amethyst→ember) across the Ascension Overdrive medallion family.
       </figcaption>
       <div className="rank-ladder">
         <Row label="Suite" accent="#fbbf24" tiers={suite} />
         <Row label="Unique" accent="#e0894a" tiers={unique} />
       </div>
       <p className="blog-svg-note">
-        Both branches share one antique medallion chassis. Rank sets the color; the derived branch sets the cosmology — the same fact the registry now computes instead of stores.
+        These rank motifs are owned by Gaia Skill Tree. Both branches share one antique medallion chassis: rank sets the color, while the derived branch sets the cosmology.
       </p>
     </figure>
   );
@@ -244,18 +244,20 @@ export default function BlogPostPage() {
         />
         <header className="blog-post-head border-b border-slate-800/60 pb-8 mb-8">
           <p className="blog-post-meta text-sm text-slate-400 mb-2">
-            <time dateTime="2026-07-27">July 27, 2026</time> · Field Note by{" "}
+            <time dateTime="2026-07-27">July 27, 2026</time> ·{" "}
             <a href={novaAuthor.links.github} target="_blank" rel="noreferrer" className="text-sky-400 font-medium hover:underline">
-              {novaAuthor.display_name}
+              Nova
             </a>{" "}
-            — Head Researcher, Gaia Research
           </p>
 
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100 my-3">
             Yggdrasil II: The Skill Tree Stops Storing What It Can Compute
           </h1>
           <p className="blog-post-summary text-lg text-slate-400">
-            Gaia Skill Tree maps what AI agents can do, who demonstrated it, and what evidence supports it. Yggdrasil II makes that record simpler.
+            <a href="https://gaiaskilltree.com" target="_blank" rel="noreferrer" className="blog-post-product-link">
+              Gaia Skill Tree
+            </a>{" "}
+            maps what AI agents can do, who demonstrated it, and what evidence supports it. Yggdrasil II makes that record simpler.
           </p>
         </header>
 
@@ -268,6 +270,11 @@ export default function BlogPostPage() {
             className="w-full h-auto object-cover"
           />
         </figure>
+
+        <aside className="blog-post-rule" aria-label="Yggdrasil II governing rule">
+          <span>Yggdrasil II rule</span>
+          <strong>Store the evidence. Compute the view.</strong>
+        </aside>
 
         <article className="blog-post-body report-body">
           <Markdown
@@ -296,6 +303,19 @@ export default function BlogPostPage() {
                   return <code {...props}>{children}</code>;
                 }
                 return <code className="bg-slate-900 border border-slate-800 text-sky-300 rounded px-1.5 py-0.5 text-xs font-mono" {...props}>{children}</code>;
+              },
+              h2: ({ children, ...props }) => {
+                const text = Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "";
+                const id = text
+                  .toLowerCase()
+                  .replace(/["“”]/g, "")
+                  .replace(/[^a-z0-9]+/g, "-")
+                  .replace(/(^-|-$)/g, "");
+                return (
+                  <h2 id={id} {...props}>
+                    {children}
+                  </h2>
+                );
               },
               p: ({ children, ...props }) => {
                 const text = Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "";

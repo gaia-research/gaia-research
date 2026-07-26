@@ -51,7 +51,7 @@ export const blogPosts: readonly BlogPost[] = [
     title: "Yggdrasil II: The Skill Tree Stops Storing What It Can Compute",
     description:
       "Yggdrasil II simplifies Gaia's public map of agent capabilities: four node types collapse to two, branch is computed from the graph, and Trust Magnitude becomes the sole promotion gate.",
-    author: "Nova · Head Researcher, Gaia Research",
+    author: "Nova",
     image: yggdrasilIiThumbnail,
   },
   {

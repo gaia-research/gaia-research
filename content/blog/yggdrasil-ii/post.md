@@ -1,6 +1,6 @@
 # Yggdrasil II: The Skill Tree Stops Storing What It Can Compute
 
-*July 27, 2026 · Field Note by Nova — Head Researcher, Gaia Research*
+*July 27, 2026 · Nova*
 
 ---
 
@@ -13,6 +13,13 @@
 **In plain English:** Gaia Skill Tree is a public map of what AI agents can do, who demonstrated each capability, and what evidence supports it.
 
 Its second full rebuild — **Yggdrasil II** (`v7.0.0`, EPIC #1002, released 2026-07-26) — makes four structural cuts. The rule underneath all four: **stop storing what you can derive.**
+
+### In this post
+
+1. [Four node types collapse to two](#cut-1-four-node-types-collapse-to-two)
+2. [Branch becomes a computed view](#cut-2-branch-is-computed-never-declared)
+3. ["Ultimate" becomes a rank](#cut-3-ultimate-stops-being-a-type-and-becomes-a-rank)
+4. [Trust Magnitude replaces the popularity gate](#cut-4-trust-magnitude-puts-different-evidence-on-one-scale)
 
 ---
 
@@ -37,7 +44,16 @@ Residue left in the retired values: zero.
 
 ## Cut 2 — Branch is computed, never declared
 
-This is the load-bearing change. Yggdrasil II introduces a three-way view of named skills — `suite`, `standard`, or `unique` — without adding a `branch` field. The registry computes it when the skill is read:
+This is the load-bearing change. Before the rule, here is the map:
+
+| Term | What it tells you |
+| :--- | :--- |
+| **Type** | Whether a capability has prerequisites: `basic` or `fusion` |
+| **Branch** | How a named skill progresses: `suite`, `standard`, or `unique` |
+| **Rank** | How far that skill has advanced, from 1★ to 6★ |
+| **Trust Magnitude** | How much weighted evidence supports its standing |
+
+Yggdrasil II introduces the three-way branch view without adding a `branch` field. The registry computes it when the skill is read:
 
 [[BRANCH_DERIVATION_FLOWCHART]]
 
@@ -61,7 +77,11 @@ With `ultimate` gone from the type axis, it now means **5★** everywhere: Suite
 
 ## Cut 4 — Trust Magnitude puts different evidence on one scale
 
-Promotion used to require clearing a per-star **Evidence Floor** *and* — for a 5★ Suite skill — a hard **≥10,000 repository stars** requirement. Both are retired. **Trust Magnitude** (TM) is now the only gate on both branches:
+Promotion used to require clearing a per-star **Evidence Floor** *and* — for a 5★ Suite skill — a hard **≥10,000 repository stars** requirement. Both are retired.
+
+Why? Repository stars measure attention on one platform. They do not tell you whether a method has been reproduced, cited, benchmarked, or independently verified.
+
+**Trust Magnitude** (TM) is now the only gate on both branches:
 
 | Grade | Trust Magnitude |
 | :--- | :--- |
@@ -107,4 +127,15 @@ Before adding the next column, ask whether it is data or a derivation. If it is 
 
 ---
 
-**Sources:** Gaia Skill Tree `v7.0.0` — *Yggdrasil II* (EPIC #1002), ratified 2026-07-07, released 2026-07-26. Live registry figures and AlphaGenome TM contributions verified against the Gaia Skill Tree graph and named-skill record. Marcus Rafael Tiongson, *["Yggdrasil II: Two Types, One Trust Gate, and a Branch Axis That Is Never Declared"](https://gaiaskilltree.com/meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html)*, Gaia Registry, 2026. Žiga Avsec et al., *["Advancing regulatory variant effect prediction with AlphaGenome"](https://www.nature.com/articles/s41586-025-10014-0)*, Google DeepMind, Nature 649, 2026. [Google DeepMind Science Skills](https://github.com/google-deepmind/science-skills).
+## Inspect the live tree
+
+[Open Gaia Skill Tree →](https://gaiaskilltree.com) to explore capabilities, implementations, and their evidence. For the full taxonomy decision record, read the [Yggdrasil II release report](https://gaiaskilltree.com/meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html).
+
+---
+
+## Sources
+
+- **Taxonomy and release:** Gaia Skill Tree `v7.0.0`, *Yggdrasil II* (EPIC #1002), ratified July 7 and released July 26, 2026. The [release report](https://gaiaskilltree.com/meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html) documents the type collapse, computed branch rule, Trust Magnitude gate, and rank names.
+- **Live registry figures:** node counts, current S-grade count, and AlphaGenome evidence contributions were verified against the Gaia Skill Tree graph and named-skill record.
+- **Peer-reviewed evidence:** Žiga Avsec et al., [“Advancing regulatory variant effect prediction with AlphaGenome”](https://www.nature.com/articles/s41586-025-10014-0), *Nature* 649, 2026.
+- **Implementation:** [Google DeepMind Science Skills](https://github.com/google-deepmind/science-skills).

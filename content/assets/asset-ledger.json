@@ -566,23 +566,6 @@
       "derivatives": []
     },
     {
-      "id": "logo-gaia-slime-logo",
-      "path": "assets/brand/logo/gaia-slime-logo.png",
-      "kind": "logo",
-      "status": "candidate",
-      "sourceType": "brand",
-      "license": "internal-review-required",
-      "credit": "Gaia Research asset workflow",
-      "alt": "",
-      "sha256": "ecd9b308b9327d0e5d5fb7df35882129871d8d27340ef51d2b7c9eebc0b7b915",
-      "bytes": 79655,
-      "dimensions": {
-        "width": 295,
-        "height": 295
-      },
-      "derivatives": []
-    },
-    {
       "id": "logo-logo-black",
       "path": "assets/brand/logo/logo-black.svg",
       "kind": "logo",
@@ -596,23 +579,6 @@
       "dimensions": {
         "width": 64,
         "height": 64
-      },
-      "derivatives": []
-    },
-    {
-      "id": "logo-logo-mark-png",
-      "path": "assets/brand/logo/logo-mark.png",
-      "kind": "logo",
-      "status": "candidate",
-      "sourceType": "brand",
-      "license": "internal-review-required",
-      "credit": "Gaia Research asset workflow",
-      "alt": "",
-      "sha256": "ecd9b308b9327d0e5d5fb7df35882129871d8d27340ef51d2b7c9eebc0b7b915",
-      "bytes": 79655,
-      "dimensions": {
-        "width": 295,
-        "height": 295
       },
       "derivatives": []
     },
@@ -1693,6 +1659,7 @@
         "width": 1600,
         "height": 900
       },
+      "notes": "Approved from assets/workbench/generated/context-diet-hero-chicken-diner-b.png; exported as compact 1600x900 WebP at quality 82.",
       "derivatives": [
         "assets/generated/exports/context-diet/context-diet-og.png",
         "assets/generated/exports/context-diet/context-diet-og.webp",
@@ -1702,8 +1669,7 @@
         "assets/generated/exports/context-diet/context-diet-hero-4-3.webp",
         "assets/generated/exports/context-diet/context-diet-hero-3-4.avif",
         "assets/generated/exports/context-diet/context-diet-hero-3-4.webp"
-      ],
-      "notes": "Approved from assets/workbench/generated/context-diet-hero-chicken-diner-b.png; exported as compact 1600x900 WebP at quality 82."
+      ]
     },
     {
       "id": "context-diet-loading-state",
@@ -1771,24 +1737,7 @@
         "width": 1600,
         "height": 900
       },
-      "derivatives": [],
-      "notes": "Approved from assets/workbench/generated/context-diet-method-mall-mirror-approved.png; exported as compact 1600x900 WebP at quality 82."
-    },
-    {
-      "id": "daily-agent-radar-2026-07-24-editorial-thumbnail",
-      "path": "assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp",
-      "kind": "illustration",
-      "status": "candidate",
-      "sourceType": "generated",
-      "license": "internal-review-required",
-      "credit": "Gaia Research asset workflow",
-      "alt": "",
-      "sha256": "a62ab77479938eb0eb872ad3a6d2f51a28ffd41e8a61c40c850d02bdf4d5de11",
-      "bytes": 141572,
-      "dimensions": {
-        "width": 1600,
-        "height": 900
-      },
+      "notes": "Approved from assets/workbench/generated/context-diet-method-mall-mirror-approved.png; exported as compact 1600x900 WebP at quality 82.",
       "derivatives": []
     },
     {
