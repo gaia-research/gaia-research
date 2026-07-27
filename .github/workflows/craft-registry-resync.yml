@@ -5,7 +5,7 @@ name: craft-registry-resync
 # PR-not-commit: this workflow NEVER commits directly to a protected branch.
 # It regenerates data/craft/* against the live registry, runs the sanity gate
 # (scripts/craft/sync-skill-tree.ts's assertRegistryShape()) and the test
-# suite, then opens (or updates) a PR into `staging` via
+# suite, then opens (or updates) a PR into `main` via
 # peter-evans/create-pull-request — which no-ops if nothing drifted. A human
 # must review the data diff by hand before merge (see epic #89 / #85 and
 # docs/plans/epic-89-sub-85-registry-sync-repair-plan.md §9 — this is a
@@ -27,10 +27,10 @@ jobs:
   resync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout gaia-research (staging)
+      - name: Checkout gaia-research (main)
         uses: actions/checkout@v4
         with:
-          ref: staging          # base the diff on staging, not main
+          ref: main
 
       - name: Checkout gaia-skill-tree (read-only)
         uses: actions/checkout@v4
@@ -73,7 +73,7 @@ jobs:
           # dedicated PAT secret isn't provisioned; the reviewer should
           # re-run CI by hand if neither is set.
           token: ${{ secrets.CRAFT_RESYNC_PR_TOKEN || secrets.GAIA_SKILL_TREE_RO_TOKEN }}
-          base: staging
+          base: main
           branch: chore/registry-resync
           add-paths: data/craft/**
           commit-message: 'chore(craft): resync skill-tree registry snapshot'
