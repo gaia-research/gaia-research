@@ -83,6 +83,14 @@ export type Term = {
   term: string;
   state: State;
   group?: string;
+  /**
+   * Owning namespace, when it is not the file's own. Transitional: the flat
+   * `core` file is being split into the six ratified namespaces, and until that
+   * lands a term can name its owner here so a ruling can be enforced without
+   * waiting for the split. One term, one owner — this annotates ownership, it
+   * never grants a second definition.
+   */
+  namespace?: string;
   oracle?: string;
   definition: string;
   replacement?: string;
@@ -355,6 +363,7 @@ export function renderMarkdown(lex: Lexicon): string {
     out.push("| Term | State | Oracle | Definition |", "|---|---|---|---|");
     for (const t of lex.terms.filter((x) => (x.group ?? "other") === g)) {
       const extra = [
+        t.namespace ? `Namespace \`${t.namespace}\`.` : "",
         t.replacement ? `**Use \`${t.replacement}\`.**` : "",
         t.proposed_replacement ? `Proposed: \`${t.proposed_replacement}\` (unratified).` : "",
         t.note ? t.note : "",
