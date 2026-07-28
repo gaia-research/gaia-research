@@ -1,0 +1,16 @@
+{
+  "lexicon": "2",
+  "namespace": "gaia.brand",
+  "extends": "core",
+  "updated": "2026-07-28",
+  "about": "Brand and character vocabulary — the names that carry voice rather than mechanism.",
+  "terms": [
+    {
+      "term": "Milim",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N7",
+      "definition": "The Hell-mode persona. The Heaven persona's name is RESERVED and undecided — nothing may hard-code one; it lives in the marketing-tasks brand extension when it closes."
+    }
+  ]
+}

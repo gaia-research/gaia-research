@@ -4,11 +4,41 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `1` · namespace `core` · updated **2026-07-28**.
+> Schema `2` · HQ `gaia-research` · 54 terms across 5 namespace(s) · updated **2026-07-28**.
 >
-> A term is defined in **exactly one** lexicon file, ever. Extensions (e.g.
-> `marketing-tasks/founder/lexicon.brand.json`) **add** terms in their own
-> namespace and may never redefine a core term.
+> **One term, one owner.** A term is defined in **exactly one** file, ever. A
+> namespace file **adds** terms in its own namespace and may never redefine a
+> term another namespace owns — inside this HQ the merge rejects it, across HQs
+> the name-only foreign mirror does.
+
+| Namespace | Owned by | File | Terms |
+|---|---|---|---|
+| `core` | `gaia-research` | `founder/lexicon.json` | 2 |
+| `gaia.research` | `gaia-research` | `founder/lexicon.gaia.research.json` | 13 |
+| `gaia.brand` | `gaia-research` | `founder/lexicon.gaia.brand.json` | 1 |
+| `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 35 |
+| `gaia.mcp` | `gaia-research` | `founder/lexicon.gaia.mcp.json` | 3 |
+
+Terms owned by **gaia-research/gaia-skill-tree** are listed name-only in `founder/lexicon.foreign.json` and are
+defined there, never here:
+
+- `Atomic skill` → `gaia.skills`
+- `Evidence Class` → `gaia.trust`
+- `Evidence Floor` → `gaia.trust`
+- `Evidence Grade` → `gaia.trust`
+- `Extra skill` → `gaia.skills`
+- `Fusion` → `gaia.skills`
+- `Gaia Registry` → `gaia.skills`
+- `Gaia Skill Tree` → `gaia.skills`
+- `generic skill` → `gaia.skills`
+- `mythic` → `gaia.skills`
+- `named skill` → `gaia.skills`
+- `rank up` → `gaia.trust`
+- `slot` → `gaia.skills`
+- `star bar` → `gaia.trust`
+- `TM Index` → `gaia.trust`
+- `top-tier skill` → `gaia.skills`
+- `Trust Magnitude` → `gaia.trust`
 
 | State | Meaning | Where allowed |
 |---|---|---|
@@ -21,7 +51,46 @@
 this project is still arguing about is `parked`. Writing a linter is not a way
 to make a decision.
 
-## posture
+## `core`
+
+### status
+
+| Term | State | Oracle | Definition |
+|---|---|---|---|
+| `INVARIANT` | 🅿️ parked | — | Proposed oracle status: breaking it costs credibility, money, or another repo. Violating one is a bug, not a decision. Unratified — pends the oracle rewrite. |
+| `CURRENT` | 🅿️ parked | — | Proposed oracle status: the working answer, held until the build says otherwise. A failing test is sufficient to change it. Unratified — pends the oracle rewrite. Matched case-sensitively: the lowercase word is ordinary English and matched 184 innocent lines before this was scoped. |
+
+## `gaia.research`
+
+### measurement
+
+| Term | State | Oracle | Definition |
+|---|---|---|---|
+| `standing dose` | ✅ canonical | B1 | The per-skill listing-line cost — what a skill costs just by existing in context. |
+| `invocation dose` | ✅ canonical | B1 | The per-skill full-body cost — what a skill costs when actually invoked. |
+| `harness dose` | ✅ canonical | B1 | `tokens.system` — the harness's own prompt weight. Priced in the ledger and reports only, never in the Ygg II schema. |
+| `dose` | ✅ canonical | B1 | Always qualified — standing, invocation, or harness. B1 forbids collapsing them into one number in any public claim. |
+| `gauge` | 🅿️ parked | — | COLLISION — currently used both for per-skill HH Index stamps and for session spend meters. Two different things wearing one word; flagged in the PR #4 review. Unresolved. |
+| `meter` | ✅ canonical | P5 | The readout of what a session has spent. A gauge on the context the ladder governs — it displays, it does not cap. |
+| `budget` | ⛔ banned | P5 | Retired 2026-07-24. There is no separate budget to model — the context window already is one. What ships is a meter. **Use `meter`.** Reverses a proposal made during this consolidation, which had budget as the unifying primitive across Heaven and Hell. The ladder is the control; the meter is the readout. For unrelated engineering caps (latency, description size, CI spend) write **ceiling** — one word, one meaning, and the gate stays quiet. |
+| `heat` | 🅿️ parked | — | Proposed name for Hell's budget dimension. Shaping-stage only. |
+| `HH Index` | ✅ canonical | N6 | The Hell Heaven Index. Schema key `hellHeaven`. |
+| `stamp` | ✅ canonical | G2 | Discrete set-membership: `heaven-native` / `auto@tier` / `hell-safe@tier`. Routing is lookup, no arithmetic. |
+| `tier` | ✅ canonical | G2 | The effort tier inside a stamp — `auto@tier`, `hell-safe@tier`. Routing is lookup over discrete set-membership, no arithmetic. The archived RFC-68 '5-Tier ACI' sense is a DIFFERENT meaning and is not ratified vocabulary. It survives only in `**/archived/**`, which the gate excludes, so no enforcement is needed — but do not import that sense back into live docs. |
+| `seed` | ⛔ banned | B3 | Determinism does not exist in any target harness. The ledger validator rejects a `seed` field; seed-framing in benchmark copy is a retired claim. **Use `N repeats + confidence intervals`.** Retired in the DETERMINISM sense only (B3). A `seed set` of skills to hand-label, and the seed rubric that grades it, are a different thing and are exempted by pattern — the third case in this lexicon where a one-word ban hit the wrong sense (see also `lean`, `tier`). |
+| `own-placebo` | ✅ canonical | B2 | The baseline is our own same-harness no-skill run. Published benchmark scores are calibration only, never the baseline. |
+
+## `gaia.brand`
+
+### names
+
+| Term | State | Oracle | Definition |
+|---|---|---|---|
+| `Milim` | ✅ canonical | N7 | The Hell-mode persona. The Heaven persona's name is RESERVED and undecided — nothing may hard-code one; it lives in the marketing-tasks brand extension when it closes. |
+
+## `gaia.heaven`
+
+### posture
 
 | Term | State | Oracle | Definition |
 |---|---|---|---|
@@ -46,7 +115,7 @@ to make a decision.
 | `Heaven-1` | ⛔ banned | N3 | Retired as a level name. Historical shorthand in archived docs only. **Use `level`.** |
 | `ultra` | ✅ canonical | N4 | The arm above Hell — a mode, not a rung. The ladder's top rung is `max`. |
 
-## mechanism
+### mechanism
 
 | Term | State | Oracle | Definition |
 |---|---|---|---|
@@ -59,25 +128,7 @@ to make a decision.
 | `router` | ✅ canonical | D5 | Deterministic nearest-neighbour over a build-time frozen embedding index. No model call ever decides a loadout. |
 | `firebreak` | ⛔ banned | N1, P5 | Retired 2026-07-24. It named a token ceiling on the summon flood — the thing the ladder now sets and the meter now shows. **Use `ladder`.** Two senses ran side by side: the live 'token-ceiling firebreak' and the archived RFC-68 sense (an architectural boundary against tool-exposure degradation). Neither survives: a cap with a control and a readout does not need a third name. |
 
-## measurement
-
-| Term | State | Oracle | Definition |
-|---|---|---|---|
-| `standing dose` | ✅ canonical | B1 | The per-skill listing-line cost — what a skill costs just by existing in context. |
-| `invocation dose` | ✅ canonical | B1 | The per-skill full-body cost — what a skill costs when actually invoked. |
-| `harness dose` | ✅ canonical | B1 | `tokens.system` — the harness's own prompt weight. Priced in the ledger and reports only, never in the Ygg II schema. |
-| `dose` | ✅ canonical | B1 | Always qualified — standing, invocation, or harness. B1 forbids collapsing them into one number in any public claim. |
-| `gauge` | 🅿️ parked | — | COLLISION — currently used both for per-skill HH Index stamps and for session spend meters. Two different things wearing one word; flagged in the PR #4 review. Unresolved. |
-| `meter` | ✅ canonical | P5 | The readout of what a session has spent. A gauge on the context the ladder governs — it displays, it does not cap. |
-| `budget` | ⛔ banned | P5 | Retired 2026-07-24. There is no separate budget to model — the context window already is one. What ships is a meter. **Use `meter`.** Reverses a proposal made during this consolidation, which had budget as the unifying primitive across Heaven and Hell. The ladder is the control; the meter is the readout. For unrelated engineering caps (latency, description size, CI spend) write **ceiling** — one word, one meaning, and the gate stays quiet. |
-| `heat` | 🅿️ parked | — | Proposed name for Hell's budget dimension. Shaping-stage only. |
-| `HH Index` | ✅ canonical | N6 | The Hell Heaven Index. Schema key `hellHeaven`. |
-| `stamp` | ✅ canonical | G2 | Discrete set-membership: `heaven-native` / `auto@tier` / `hell-safe@tier`. Routing is lookup, no arithmetic. |
-| `tier` | ✅ canonical | G2 | The effort tier inside a stamp — `auto@tier`, `hell-safe@tier`. Routing is lookup over discrete set-membership, no arithmetic. The archived RFC-68 '5-Tier ACI' sense is a DIFFERENT meaning and is not ratified vocabulary. It survives only in `**/archived/**`, which the gate excludes, so no enforcement is needed — but do not import that sense back into live docs. |
-| `seed` | ⛔ banned | B3 | Determinism does not exist in any target harness. The ledger validator rejects a `seed` field; seed-framing in benchmark copy is a retired claim. **Use `N repeats + confidence intervals`.** Retired in the DETERMINISM sense only (B3). A `seed set` of skills to hand-label, and the seed rubric that grades it, are a different thing and are exempted by pattern — the third case in this lexicon where a one-word ban hit the wrong sense (see also `lean`, `tier`). |
-| `own-placebo` | ✅ canonical | B2 | The baseline is our own same-harness no-skill run. Published benchmark scores are calibration only, never the baseline. |
-
-## names
+### names
 
 | Term | State | Oracle | Definition |
 |---|---|---|---|
@@ -88,15 +139,14 @@ to make a decision.
 | `pi-heaven` | ✅ canonical | N9 | The R&D vanguard door — interaction design is proven on pi first, then ported down to Claude Code's more restrictive plugin surface. |
 | `hh-launcher` | ⛔ banned | N9 | Retired working name for the launcher repo. **Use `skill-heaven`.** |
 | `skill-heaven-hell` | ⛔ banned | N9 | Retired fallback repo name. **Use `skill-heaven`.** Retired as a NAME for the repo/installable. The hyphenated string is also the natural URL slug of the line's own name, 'Skill Heaven / Skill Hell', which is fully canonical (this oracle's title uses it) — see the homepage anchor `#skill-heaven-hell`. A slug of the line name is not an instance of the retired name; mark such lines `lexicon-allow` rather than renaming public URL fragments. |
-| `Milim` | ✅ canonical | N7 | The Hell-mode persona. The Heaven persona's name is RESERVED and undecided — nothing may hard-code one; it lives in the marketing-tasks brand extension when it closes. |
-| `gaia_search` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 fixes gaia-mcp's surface at two tools named `search_skills` and `summon`, and `summon`'s own entry already names `search_skills` as its partner. Nothing is published yet, so the prototype spelling never becomes a compatibility obligation. Namespace `gaia.mcp`. **Use `search_skills`.** Banned before Program 4 writes its first tool definition — the ordering is available exactly once. The prototype server's own copy (`data/mcp.ts`, the Milim pet tooltips) is outside every lexicon scope and is not what this ban is aimed at; it is aimed at the tool definition Program 4 has not written yet. |
-| `gaia_inspect` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a third read verb has no ratified home — evidence retrieval belongs to `search_skills`. Namespace `gaia.mcp`. **Use `search_skills`.** |
-| `gaia_status` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a freshness verb has no ratified home — data freshness is reported by `search_skills`, not by a tool of its own. Namespace `gaia.mcp`. **Use `search_skills`.** |
 
-## status
+## `gaia.mcp`
+
+### names
 
 | Term | State | Oracle | Definition |
 |---|---|---|---|
-| `INVARIANT` | 🅿️ parked | — | Proposed oracle status: breaking it costs credibility, money, or another repo. Violating one is a bug, not a decision. Unratified — pends the oracle rewrite. |
-| `CURRENT` | 🅿️ parked | — | Proposed oracle status: the working answer, held until the build says otherwise. A failing test is sufficient to change it. Unratified — pends the oracle rewrite. Matched case-sensitively: the lowercase word is ordinary English and matched 184 innocent lines before this was scoped. |
+| `gaia_search` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 fixes gaia-mcp's surface at two tools named `search_skills` and `summon`, and `summon`'s own entry already names `search_skills` as its partner. Nothing is published yet, so the prototype spelling never becomes a compatibility obligation. **Use `search_skills`.** Banned before Program 4 writes its first tool definition — the ordering is available exactly once. The prototype server's own copy (`data/mcp.ts`, the Milim pet tooltips) is outside every lexicon scope and is not what this ban is aimed at; it is aimed at the tool definition Program 4 has not written yet. |
+| `gaia_inspect` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a third read verb has no ratified home — evidence retrieval belongs to `search_skills`. **Use `search_skills`.** |
+| `gaia_status` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a freshness verb has no ratified home — data freshness is reported by `search_skills`, not by a tool of its own. **Use `search_skills`.** |
 

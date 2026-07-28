@@ -1,0 +1,25 @@
+{
+  "contract": "lexicon-foreign/1",
+  "source": "gaia-research/gaia-skill-tree",
+  "updated": "2026-07-28",
+  "about": "NAME-ONLY mirror of the terms the other HQ owns. Definitions are deliberately absent and must never be added here: one term, one owner, one definition, one file. This file exists so the gate can reject a redefinition of a foreign term without importing another repo's source (Federation Invariant 1 — vendor small pure pieces, never import). To extend one of these terms, edit it in gaia-skill-tree's scripts/lexicon/lexicon.<namespace>.json and update this mirror in the same PR cycle.",
+  "terms": {
+    "Gaia Skill Tree": "gaia.skills",
+    "Gaia Registry": "gaia.skills",
+    "named skill": "gaia.skills",
+    "generic skill": "gaia.skills",
+    "slot": "gaia.skills",
+    "Fusion": "gaia.skills",
+    "Atomic skill": "gaia.skills",
+    "Extra skill": "gaia.skills",
+    "mythic": "gaia.skills",
+    "top-tier skill": "gaia.skills",
+    "Trust Magnitude": "gaia.trust",
+    "TM Index": "gaia.trust",
+    "Evidence Grade": "gaia.trust",
+    "Evidence Class": "gaia.trust",
+    "Evidence Floor": "gaia.trust",
+    "star bar": "gaia.trust",
+    "rank up": "gaia.trust"
+  }
+}

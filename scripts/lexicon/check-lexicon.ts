@@ -10,7 +10,33 @@
 // by human review, inconsistently, one doc at a time. This makes it a build
 // failure instead.
 //
-// WHAT IT CHECKS, over founder/lexicon.json:
+// FEDERATED LAYOUT (v5 Program 2, ratified V5-8). The lexicon is no longer one
+// flat `core` file. It is a root manifest plus one file per owned namespace,
+// split across two HQs:
+//
+//   gaia-research     core · gaia.research · gaia.brand · gaia.heaven · gaia.mcp
+//   gaia-skill-tree   gaia.skills · gaia.trust
+//
+// `skill-heaven` and `gaia-mcp` own NO namespace — they consume. `gaia.registry`
+// is rejected; the namespace is `gaia.skills`.
+//
+// The root manifest (`founder/lexicon.json`, or `scripts/lexicon/lexicon.json`
+// where branch scope demands it) holds the repo-wide config — scopes, exclusions,
+// the oracle path, the generated-doc path — and its own namespace's terms. Every
+// other owned namespace is a sibling `lexicon.<namespace>.json` holding terms and
+// nothing else. `loadHq` merges them into one flat term list and records which
+// file owned each term.
+//
+// ONE TERM, ONE OWNER. A term is defined in exactly one file, ever. Inside an HQ
+// the merge rejects a second definition and names both files. Across HQs the
+// name-only mirror (`lexicon.foreign.json`) does the same without importing the
+// other repo's source — definitions never travel, only names.
+//
+// This script is vendored byte-identical into the second HQ. Everything
+// repo-specific is read from the manifest; if you find yourself adding a path
+// literal here, put it on the manifest instead.
+//
+// WHAT IT CHECKS, over the merged lexicon:
 //   1. The lexicon is internally well-formed — no duplicate terms, every
 //      `banned` term carries a `replacement`, every state is one of the four.
 //   2. No `banned` term appears in any scanned file. Banned means the oracle
@@ -83,14 +109,6 @@ export type Term = {
   term: string;
   state: State;
   group?: string;
-  /**
-   * Owning namespace, when it is not the file's own. Transitional: the flat
-   * `core` file is being split into the six ratified namespaces, and until that
-   * lands a term can name its owner here so a ruling can be enforced without
-   * waiting for the split. One term, one owner — this annotates ownership, it
-   * never grants a second definition.
-   */
-  namespace?: string;
   oracle?: string;
   definition: string;
   replacement?: string;
@@ -109,15 +127,62 @@ export type Term = {
   except?: string[];
 };
 
-export type Lexicon = {
+/**
+ * A namespace file: `founder/lexicon.<namespace>.json`. It carries terms and
+ * nothing else — scopes, exclusions and paths are repo-wide and live on the
+ * root manifest, so a namespace can never quietly widen where it is enforced.
+ */
+export type NamespaceFile = {
   lexicon: string;
   namespace: string;
   extends: string | null;
+  updated?: string;
+  about?: string;
+  terms: Term[];
+};
+
+/**
+ * Name-only mirror of the terms the OTHER HQ owns. Definitions are deliberately
+ * absent: one term, one owner, one definition, one file. This exists so the gate
+ * can reject a redefinition of a foreign term without importing another repo's
+ * source (Federation Invariant 1 — vendor small pure pieces, never import).
+ */
+export type Foreign = {
+  contract: string;
+  source: string;
+  updated?: string;
+  about?: string;
+  /** term → owning namespace */
+  terms: Record<string, string>;
+};
+
+/**
+ * The merged, in-memory view an HQ's gate runs against: the root manifest's
+ * config plus every owned namespace's terms flattened into one list.
+ * `owners` records which file defined each term, so a collision can name both.
+ */
+export type Lexicon = {
+  lexicon: string;
+  /** The HQ repo that owns this lexicon, e.g. "gaia-research". */
+  hq?: string;
+  /** The root file's own namespace. */
+  namespace: string;
+  extends: string | null;
+  /** Every namespace this HQ owns. Each needs a file; an unrealised one fails. */
+  owns?: string[];
   updated: string;
   about?: string;
+  /** Repo-relative path of the generated markdown. Config, not convention. */
+  generated_doc?: string;
+  /** Repo-relative path of the ratification log, or null when the HQ has none. */
+  oracle?: string | null;
+  /** Repo-relative path of the foreign name-only mirror, or null. */
+  foreign?: string | null;
   scopes: Record<string, { about?: string; include: string[] }>;
   exclude: string[];
   terms: Term[];
+  /** term (lowercased) → {namespace, file}. Populated by loadHq. */
+  owners?: Record<string, { namespace: string; file: string }>;
 };
 
 export type Finding = {
@@ -127,6 +192,108 @@ export type Finding = {
   state: State;
   message: string;
 };
+
+/**
+ * Where a root manifest may live, in order. Two entries, because the two HQs
+ * have different branch-scope rules: `gaia-research` keeps its lexicon under
+ * `founder/`, while `gaia-skill-tree`'s CI only lets an `infra/*` branch touch
+ * `.github/`, `scripts/`, `*.md` and `docs/*.html` — so its JSON lives under
+ * `scripts/lexicon/`. Everything else the gate needs is read from the manifest,
+ * which is what lets the SCRIPT ITSELF stay byte-identical in both repos. That
+ * is the vendoring contract: copy this file, change nothing, prove it by fixture.
+ */
+export const ROOT_CANDIDATES = ["founder/lexicon.json", "scripts/lexicon/lexicon.json"];
+
+export function findRoot(root = ROOT): string | null {
+  for (const c of ROOT_CANDIDATES) if (existsSync(join(root, c))) return join(root, c);
+  return null;
+}
+
+/**
+ * Load one HQ's lexicon: the root manifest plus every `owns` namespace's file.
+ *
+ * THE MERGE RULE, in full:
+ *   1. The root manifest is the only source of scopes, exclusions and paths.
+ *      A namespace file that tried to carry them would be widening its own
+ *      enforcement, so they are ignored — and `owns` is the only list that
+ *      decides which files are loaded at all.
+ *   2. The root's own namespace lives in the root file; every OTHER owned
+ *      namespace must have a sibling `lexicon.<namespace>.json` next to it.
+ *      A namespace in `owns` with no file is a hard failure — that is how
+ *      "the six namespaces exist" stays a checked fact rather than a claim.
+ *   3. Terms are a flat union. Ownership is recorded per term, so redefinition
+ *      fails with BOTH file names rather than a bare "duplicate".
+ *
+ * Extension, never redefinition: a namespace file may ADD terms and may cite a
+ * term another namespace owns, but it may never define one twice.
+ */
+export function loadHq(rootPath: string): Lexicon {
+  const dir = dirname(rootPath);
+  const root = JSON.parse(readFileSync(rootPath, "utf8")) as Lexicon;
+  const owners: Record<string, { namespace: string; file: string }> = {};
+  const terms: Term[] = [];
+  const errors: string[] = [];
+
+  const take = (ns: string, file: string, list: Term[]) => {
+    for (const t of list ?? []) {
+      const key = t.term.toLowerCase();
+      const prior = owners[key];
+      if (prior) {
+        errors.push(
+          `"${t.term}" is defined twice: ${prior.file} (${prior.namespace}) and ${file} (${ns}). ` +
+            `One term, one owner — extend, never redefine.`,
+        );
+        continue;
+      }
+      owners[key] = { namespace: ns, file };
+      terms.push(t);
+    }
+  };
+
+  take(root.namespace, relative(ROOT, rootPath).split(sep).join("/"), root.terms);
+
+  for (const ns of root.owns ?? []) {
+    if (ns === root.namespace) continue;
+    const abs = join(dir, `lexicon.${ns}.json`);
+    const rel = relative(ROOT, abs).split(sep).join("/");
+    if (!existsSync(abs)) {
+      errors.push(`namespace "${ns}" is declared in "owns" but ${rel} does not exist`);
+      continue;
+    }
+    const f = JSON.parse(readFileSync(abs, "utf8")) as NamespaceFile;
+    if (f.namespace !== ns)
+      errors.push(`${rel} declares namespace "${f.namespace}" but is loaded as "${ns}"`);
+    if (f.extends !== root.namespace)
+      errors.push(`${rel} must declare extends "${root.namespace}", not "${f.extends}"`);
+    if (f.lexicon !== root.lexicon)
+      errors.push(`${rel} is schema "${f.lexicon}", root is "${root.lexicon}"`);
+    take(ns, rel, f.terms);
+  }
+
+  if (errors.length) {
+    const e = new Error(`lexicon merge failed:\n    ${errors.join("\n    ")}`);
+    (e as Error & { errors: string[] }).errors = errors;
+    throw e;
+  }
+  return { ...root, terms, owners };
+}
+
+/**
+ * Terms this HQ defines that another HQ already owns. Cross-HQ redefinition is
+ * the failure the foreign mirror exists to catch: within one repo the merge
+ * catches it, across repos nothing would.
+ */
+export function foreignCollisions(lex: Lexicon, foreign: Foreign | null): string[] {
+  if (!foreign) return [];
+  const owned = new Map(Object.entries(foreign.terms).map(([t, ns]) => [t.toLowerCase(), ns]));
+  return lex.terms
+    .filter((t) => owned.has(t.term.toLowerCase()))
+    .map(
+      (t) =>
+        `"${t.term}" is owned by ${owned.get(t.term.toLowerCase())} in ${foreign.source} — ` +
+        `extend it there, never redefine it here`,
+    );
+}
 
 /** Convert a glob to a RegExp. Supports **, *, ? and {a,b} alternation. */
 export function globToRegExp(glob: string): RegExp {
@@ -182,9 +349,19 @@ export function oracleEntryIds(oracleText: string): Set<string> {
  * entry. A term citing an entry that no longer exists is worse than an
  * uncited one: it carries borrowed authority from something deleted.
  */
-export function validateLexicon(lex: Lexicon, oracleIds?: Set<string>): string[] {
+export function validateLexicon(
+  lex: Lexicon,
+  oracleIds?: Set<string>,
+  foreign?: Foreign | null,
+): string[] {
   const errors: string[] = [];
-  if (lex.lexicon !== "1") errors.push(`unknown lexicon schema version: ${lex.lexicon}`);
+  if (lex.lexicon !== "2") errors.push(`unknown lexicon schema version: ${lex.lexicon}`);
+  errors.push(...foreignCollisions(lex, foreign ?? null));
+  for (const t of lex.terms) {
+    const ns = lex.owners?.[t.term.toLowerCase()]?.namespace;
+    if (ns && lex.owns && !lex.owns.includes(ns))
+      errors.push(`${t.term}: owned by "${ns}", which this HQ does not declare in "owns"`);
+  }
 
   const seen = new Map<string, number>();
   for (const t of lex.terms) {
@@ -324,8 +501,9 @@ export function aboveBaseline(findings: Finding[], base: Baseline | null): Findi
   return out;
 }
 
-export function renderMarkdown(lex: Lexicon): string {
-  const groups = [...new Set(lex.terms.map((t) => t.group ?? "other"))];
+export function renderMarkdown(lex: Lexicon, foreign?: Foreign | null): string {
+  const nsOf = (t: Term) => lex.owners?.[t.term.toLowerCase()]?.namespace ?? lex.namespace;
+  const namespaces = lex.owns?.length ? lex.owns : [lex.namespace];
   const badge: Record<State, string> = {
     canonical: "✅ canonical",
     banned: "⛔ banned",
@@ -339,12 +517,33 @@ export function renderMarkdown(lex: Lexicon): string {
     "<!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->",
     "<!-- lexicon-allow -->",
     "",
-    `> Schema \`${lex.lexicon}\` · namespace \`${lex.namespace}\` · updated **${lex.updated}**.`,
+    `> Schema \`${lex.lexicon}\` · HQ \`${lex.hq ?? "—"}\` · ${lex.terms.length} terms across ${namespaces.length} namespace(s) · updated **${lex.updated}**.`,
     ">",
-    "> A term is defined in **exactly one** lexicon file, ever. Extensions (e.g.",
-    "> `marketing-tasks/founder/lexicon.brand.json`) **add** terms in their own",
-    "> namespace and may never redefine a core term.",
+    "> **One term, one owner.** A term is defined in **exactly one** file, ever. A",
+    "> namespace file **adds** terms in its own namespace and may never redefine a",
+    "> term another namespace owns — inside this HQ the merge rejects it, across HQs",
+    "> the name-only foreign mirror does.",
     "",
+    "| Namespace | Owned by | File | Terms |",
+    "|---|---|---|---|",
+    ...namespaces.map((ns) => {
+      const n = lex.terms.filter((t) => nsOf(t) === ns).length;
+      const file =
+        lex.owners?.[lex.terms.find((t) => nsOf(t) === ns)?.term.toLowerCase() ?? ""]?.file ?? "—";
+      return `| \`${ns}\` | \`${lex.hq ?? "—"}\` | \`${file}\` | ${n} |`;
+    }),
+    "",
+    ...(foreign
+      ? [
+          `Terms owned by **${foreign.source}** are listed name-only in \`${lex.foreign}\` and are`,
+          "defined there, never here:",
+          "",
+          ...Object.entries(foreign.terms)
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([t, ns]) => `- \`${t}\` → \`${ns}\``),
+          "",
+        ]
+      : []),
     "| State | Meaning | Where allowed |",
     "|---|---|---|",
     "| ✅ `canonical` | The word. Use this. | everywhere |",
@@ -358,12 +557,15 @@ export function renderMarkdown(lex: Lexicon): string {
     "",
   ];
 
-  for (const g of groups) {
-    out.push(`## ${g}`, "");
+  for (const ns of namespaces) {
+    const inNs = lex.terms.filter((t) => nsOf(t) === ns);
+    if (!inNs.length) continue;
+    out.push(`## \`${ns}\``, "");
+    for (const g of [...new Set(inNs.map((t) => t.group ?? "other"))]) {
+    out.push(`### ${g}`, "");
     out.push("| Term | State | Oracle | Definition |", "|---|---|---|---|");
-    for (const t of lex.terms.filter((x) => (x.group ?? "other") === g)) {
+    for (const t of inNs.filter((x) => (x.group ?? "other") === g)) {
       const extra = [
-        t.namespace ? `Namespace \`${t.namespace}\`.` : "",
         t.replacement ? `**Use \`${t.replacement}\`.**` : "",
         t.proposed_replacement ? `Proposed: \`${t.proposed_replacement}\` (unratified).` : "",
         t.note ? t.note : "",
@@ -374,34 +576,51 @@ export function renderMarkdown(lex: Lexicon): string {
       out.push(`| \`${t.term}\` | ${badge[t.state]} | ${t.oracle ?? "—"} | ${def} |`);
     }
     out.push("");
+    }
   }
   return out.join("\n");
 }
 
 function main(argv: string[]): number {
-  const lexPath = join(ROOT, "founder", "lexicon.json");
-  if (!existsSync(lexPath)) {
-    console.error(`✗ lexicon not found: ${relative(ROOT, lexPath)}`);
+  const lexPath = findRoot();
+  if (!lexPath) {
+    console.error(`✗ no lexicon root found (looked for ${ROOT_CANDIDATES.join(", ")})`);
     return 1;
   }
-  const lex: Lexicon = JSON.parse(readFileSync(lexPath, "utf8"));
+  const rootRel = relative(ROOT, lexPath).split(sep).join("/");
 
-  const oraclePath = join(ROOT, "founder", "RATIFICATION.md");
-  const oracleIds = existsSync(oraclePath)
-    ? oracleEntryIds(readFileSync(oraclePath, "utf8"))
-    : undefined;
-  const schemaErrors = validateLexicon(lex, oracleIds);
+  let lex: Lexicon;
+  try {
+    lex = loadHq(lexPath);
+  } catch (e) {
+    console.error(`✗ ${(e as Error).message}`);
+    return 1;
+  }
+
+  const oraclePath = lex.oracle ? join(ROOT, lex.oracle) : null;
+  const oracleIds =
+    oraclePath && existsSync(oraclePath)
+      ? oracleEntryIds(readFileSync(oraclePath, "utf8"))
+      : undefined;
+  const foreignPath = lex.foreign ? join(ROOT, lex.foreign) : null;
+  const foreign: Foreign | null =
+    foreignPath && existsSync(foreignPath)
+      ? (JSON.parse(readFileSync(foreignPath, "utf8")) as Foreign)
+      : null;
+
+  const schemaErrors = validateLexicon(lex, oracleIds, foreign);
   if (schemaErrors.length) {
-    console.error("✗ founder/lexicon.json is malformed:");
+    console.error(`✗ the ${lex.hq ?? "local"} lexicon is malformed (root: ${rootRel}):`);
     for (const e of schemaErrors) console.error(`    ${e}`);
     return 1;
   }
 
-  const mdPath = join(ROOT, "founder", "LEXICON.md");
-  const rendered = renderMarkdown(lex);
+  const docRel = lex.generated_doc ?? "LEXICON.md";
+  const mdPath = join(ROOT, docRel);
+  const rendered = renderMarkdown(lex, foreign);
   if (argv.includes("--emit")) {
     writeFileSync(mdPath, `${rendered}\n`);
-    console.log(`✓ wrote founder/LEXICON.md (${lex.terms.length} terms)`);
+    console.log(`✓ wrote ${docRel} (${lex.terms.length} terms, ${(lex.owns ?? []).length} namespaces)`);
     return 0;
   }
 
@@ -444,7 +663,7 @@ function main(argv: string[]): number {
   // LEXICON.md is generated; drift between it and the JSON is a failure too.
   const staleDoc = !existsSync(mdPath) || readFileSync(mdPath, "utf8").trim() !== rendered.trim();
   if (staleDoc && !explicit.length) {
-    console.error("✗ founder/LEXICON.md is out of sync with founder/lexicon.json");
+    console.error(`✗ ${docRel} is out of sync with ${rootRel} and its namespace files`);
     console.error("    fix: npx tsx scripts/lexicon/check-lexicon.ts --emit");
   }
 
