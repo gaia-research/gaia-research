@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `1` · namespace `core` · updated **2026-07-24**.
+> Schema `1` · namespace `core` · updated **2026-07-28**.
 >
 > A term is defined in **exactly one** lexicon file, ever. Extensions (e.g.
 > `marketing-tasks/founder/lexicon.brand.json`) **add** terms in their own
@@ -89,6 +89,9 @@ to make a decision.
 | `hh-launcher` | ⛔ banned | N9 | Retired working name for the launcher repo. **Use `skill-heaven`.** |
 | `skill-heaven-hell` | ⛔ banned | N9 | Retired fallback repo name. **Use `skill-heaven`.** Retired as a NAME for the repo/installable. The hyphenated string is also the natural URL slug of the line's own name, 'Skill Heaven / Skill Hell', which is fully canonical (this oracle's title uses it) — see the homepage anchor `#skill-heaven-hell`. A slug of the line name is not an instance of the retired name; mark such lines `lexicon-allow` rather than renaming public URL fragments. |
 | `Milim` | ✅ canonical | N7 | The Hell-mode persona. The Heaven persona's name is RESERVED and undecided — nothing may hard-code one; it lives in the marketing-tasks brand extension when it closes. |
+| `gaia_search` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 fixes gaia-mcp's surface at two tools named `search_skills` and `summon`, and `summon`'s own entry already names `search_skills` as its partner. Nothing is published yet, so the prototype spelling never becomes a compatibility obligation. Namespace `gaia.mcp`. **Use `search_skills`.** Banned before Program 4 writes its first tool definition — the ordering is available exactly once. The prototype server's own copy (`data/mcp.ts`, the Milim pet tooltips) is outside every lexicon scope and is not what this ban is aimed at; it is aimed at the tool definition Program 4 has not written yet. |
+| `gaia_inspect` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a third read verb has no ratified home — evidence retrieval belongs to `search_skills`. Namespace `gaia.mcp`. **Use `search_skills`.** |
+| `gaia_status` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a freshness verb has no ratified home — data freshness is reported by `search_skills`, not by a tool of its own. Namespace `gaia.mcp`. **Use `search_skills`.** |
 
 ## status
 

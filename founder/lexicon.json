@@ -2,7 +2,7 @@
   "lexicon": "1",
   "namespace": "core",
   "extends": null,
-  "updated": "2026-07-24",
+  "updated": "2026-07-28",
   "about": "Vocabulary of record for the Skill Heaven / Skill Hell line. A term is defined in exactly one lexicon file, ever; extensions (marketing-tasks/founder/lexicon.brand.json) ADD terms in their own namespace and may never redefine a core term. States: canonical (use this), banned (the oracle retired it — CI fails), parked (coined but unchosen — docs only, never user-facing copy or code), frozen (meant something specific once — archived docs only). A term is `banned` ONLY when founder/RATIFICATION.md already retired it; a term this repo is still arguing about is `parked`, never banned. Writing a linter is not a way to make a decision. AND: `canonical` is not inherited from an oracle citation. A word describing a surface that has not been built or demonstrated stays `parked` however firmly its backing entry is written -- otherwise the lexicon launders provisional decisions into enforced vocabulary, which is the drift it exists to stop, one level up.",
   "scope_note": "THE LEXICON IS LINE-SCOPED, NOT REPO-SCOPED. It governs the Skill Heaven / Skill Hell line only. This repo also hosts the craft lab, the context-diet lab, the Milim pet and unrelated reports, where `seed` is a PRNG seed and `budget` is a CI budget — different projects, different vocabularies, none of this gate's business. `docs/plans/` also holds Milim-pet, Live2D and asset plans, which are excluded by name for the same reason. Widening these globs to `app/**` or `content/**` produced 60+ findings against code that has nothing to do with postures; that was the gate over-reaching, not drift.",
   "scopes": {
@@ -434,6 +434,34 @@
       "match": "exact-case",
       "definition": "Proposed oracle status: the working answer, held until the build says otherwise. A failing test is sufficient to change it. Unratified — pends the oracle rewrite.",
       "note": "Matched case-sensitively: the lowercase word is ordinary English and matched 184 innocent lines before this was scoped."
+    },
+    {
+      "term": "gaia_search",
+      "state": "banned",
+      "namespace": "gaia.mcp",
+      "group": "names",
+      "replacement": "search_skills",
+      "oracle": "D4",
+      "definition": "Prototype MCP tool name. Retired 2026-07-28: D4 fixes gaia-mcp's surface at two tools named `search_skills` and `summon`, and `summon`'s own entry already names `search_skills` as its partner. Nothing is published yet, so the prototype spelling never becomes a compatibility obligation.",
+      "note": "Banned before Program 4 writes its first tool definition — the ordering is available exactly once. The prototype server's own copy (`data/mcp.ts`, the Milim pet tooltips) is outside every lexicon scope and is not what this ban is aimed at; it is aimed at the tool definition Program 4 has not written yet."
+    },
+    {
+      "term": "gaia_inspect",
+      "state": "banned",
+      "namespace": "gaia.mcp",
+      "group": "names",
+      "replacement": "search_skills",
+      "oracle": "D4",
+      "definition": "Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a third read verb has no ratified home — evidence retrieval belongs to `search_skills`."
+    },
+    {
+      "term": "gaia_status",
+      "state": "banned",
+      "namespace": "gaia.mcp",
+      "group": "names",
+      "replacement": "search_skills",
+      "oracle": "D4",
+      "definition": "Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a freshness verb has no ratified home — data freshness is reported by `search_skills`, not by a tool of its own."
     }
   ]
 }
