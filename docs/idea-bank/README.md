@@ -94,3 +94,10 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** Anthropic's Thariq Shihipar described cutting over 80% of Claude Code's system prompt for advanced Claude 5-generation models such as Opus 5 and Fable 5, with no measurable loss on Anthropic's coding evaluations. The audit separates model-compensating scaffolding (candidate to cut, measured) from repo-invariant policy (keep: Node 22 CI contract, the three-doc system, the lexicon gate) — and rides on the per-model measurement discipline (D12, Rank 2) we already run. The result is Anthropic's for Anthropic's harness, not a Gaia measurement.
 - **Doc:** [`claude-5-system-prompt-shrink-audit.md`](./claude-5-system-prompt-shrink-audit.md)
 
+## Rank 15 — Random Forest + SHAP/LIME Trust-Appraisal Explainability Model
+- **Status:** RFC / research — unratified, decoupled v-next study
+- **Viability:** Medium-High
+- **Potential:** High
+- **Why now:** The `gaia-skill-tree` registry's Trust Magnitude signals (`src/gaia_cli/trustMagnitude.py`) form a genuine feature vector; the curated registry's (skill → assigned star rank) pairs are an implicit labeled corpus. A Random Forest wrapped in SHAP/LIME could predict and *explain* a skill's star rank — surfacing mis-calibrated skills and explaining assignments to contributors — while TM stays the sole transparent promotion gate per `META.md`. Explicitly a trust-appraisal study, NOT the gaia-curate v2 mapping classifier (that ships first, independently).
+- **Doc:** [`rf-shap-trust-appraisal.md`](./rf-shap-trust-appraisal.md)
+
