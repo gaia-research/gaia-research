@@ -263,8 +263,14 @@ export function loadHq(rootPath: string): Lexicon {
     const f = JSON.parse(readFileSync(abs, "utf8")) as NamespaceFile;
     if (f.namespace !== ns)
       errors.push(`${rel} declares namespace "${f.namespace}" but is loaded as "${ns}"`);
-    if (f.extends !== root.namespace)
-      errors.push(`${rel} must declare extends "${root.namespace}", not "${f.extends}"`);
+    // A namespace file inherits from the HQ's inheritance root: either the root
+    // file's own namespace, or whatever the root itself extends. The second form
+    // is what lets the gaia-skill-tree HQ — whose root namespace is `gaia.skills`
+    // and which extends the upstream `core` — hold `gaia.trust` as a peer rather
+    // than pretending trust vocabulary descends from skills vocabulary.
+    const inherits = [root.namespace, root.extends].filter(Boolean) as string[];
+    if (!inherits.includes(f.extends ?? ""))
+      errors.push(`${rel} must declare extends ${inherits.map((i) => `"${i}"`).join(" or ")}, not "${f.extends}"`);
     if (f.lexicon !== root.lexicon)
       errors.push(`${rel} is schema "${f.lexicon}", root is "${root.lexicon}"`);
     take(ns, rel, f.terms);

@@ -228,7 +228,7 @@ check(
   ),
 );
 check(
-  "a namespace file must extend the root namespace",
+  "a namespace file must extend the HQ's inheritance root",
   throws(
     () =>
       writeHq(baseRoot, {
@@ -236,6 +236,18 @@ check(
       }) && loadHq(join(TMP, "lexicon.json")),
     "must declare extends",
   ),
+);
+check(
+  "a peer namespace may extend what the ROOT extends (second-HQ shape)",
+  (() => {
+    const r = { ...baseRoot, namespace: "gaia.skills", extends: "core", owns: ["gaia.skills", "gaia.trust"] };
+    const m = loadHq(
+      writeHq(r, {
+        "gaia.trust": { ...nsFile("gaia.trust", [{ term: "beta", state: "canonical", definition: "d" }]), extends: "core" },
+      }),
+    );
+    return m.owners?.["beta"].namespace === "gaia.trust";
+  })(),
 );
 check(
   "a clean two-file HQ merges into one flat term list",
