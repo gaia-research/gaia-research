@@ -49,7 +49,7 @@
 | N5 | **CURRENT** | **Two dials, not one scale**: mode (Heaven · Hell · Ultra) × ladder rung (`off…max`). ⚠️ Inferred from P5 rather than ruled on directly; correct freely. |
 | N6 | **CURRENT** | The index is the **Hell Heaven (HH) Index**; schema key `hellHeaven`. Becomes INVARIANT once the canon ask lands upstream. |
 | N7 | **INVARIANT** | **Milim is the Hell-mode persona.** The Heaven persona's name is reserved and undecided — **nothing may hard-code one**. Credit Matt Pocock for naming Skill Hell; the frame is "Stop installing. Start summoning." |
-| N8 | **CURRENT — INCOMPLETE** | **Positioning: scalpel, not door.** The user lives in a bare harness and reaches for this when it hurts. Pain vocabulary is **context bloat**; the name carries the brand, the tagline carries the symptom. Mental model is **harness-first** — never a `sudo`-style wrapper identity. ⚠️ **Covers the moment of reach only.** It says nothing about what the user does once inside, how they learn where they are, or what an honest refusal feels like — scenarios that surfaced in skill-heaven#4. See OPEN 10. |
+| N8 | **CURRENT** | **Positioning: scalpel, not door.** The user lives in a bare harness and reaches for this when it hurts. Pain vocabulary is **context bloat**; the name carries the brand, the tagline carries the symptom. Mental model is **harness-first** — never a `sudo`-style wrapper identity. **After the reach, the in-session surface is a truthful map, bound by one rule: never claim a transition the harness cannot perform.** Four readings of that rule: **capability discovery** — the surface states where the session sits and what it costs, claimed from the launch record and never guessed; a session with no record gets no readout. **Posture adjustment** — the surface explains the moves and offers only those the harness can perform, upward in-session, downward only at boot (D12); every command it prints must be one the tool accepts. **Clean-room access** — unlocked only for a session that launched there; everywhere else a visibly locked upsell that states its reason and never a command the tool then refuses (which mechanism opens it is OPEN 11). **Refusal transparency** — a gated target gets an explicit, honest refusal that names the gate (P2), and a real posture name is never rendered as an unknown word. |
 | N9 | **INVARIANT** | **Names are settled**: the `skill-heaven` monorepo doubles as the plugin marketplace; user-facing installables are the **per-harness doors**; the core bin survives as the research driver. In-session commands `/skill-heaven` and `/skill-hell`. The extensions are the product and the core is the engine — not the inverse. Invariant because the repo exists and reversing it now costs more than it buys. |
 
 ## 2. Posture semantics
@@ -110,14 +110,18 @@
 7. **D5's boundary.** Does a model-issued `summon` after a deterministic search breach "no model decides a loadout"? P5 narrows it usefully — the **ladder** is deterministic and sets *how much*, the router sets *which*, so the enforceable rule may simply be **no model decides how much**. Not yet ruled.
 8. **`gauge` collision** — one word doing duty for both per-skill stamps and the session meter.
 9. **Eager vs. on-demand** — likely a toggle orthogonal to the ladder, not a rung on it.
-10. **Completing N8.** The positioning covers the moment of reach and nothing
-    after it. Four scenarios surfaced in skill-heaven#4 that it does not
-    address: **posture adjustment** (moving between postures mid-work),
-    **capability discovery** (learning where this session sits and what moves
-    it), **clean-room access** (launcher-unlocked vs. the vanilla locked
-    upsell), and **refusal transparency** (an explicit, honest refusal at gated
-    levels rather than a false sense of access). N8 is not wrong; it is
-    unfinished.
+10. **Completing N8 — closed 2026-07-29.** The four post-reach scenarios
+    surfaced in skill-heaven#4 (posture adjustment, capability discovery,
+    clean-room access, refusal transparency) are ruled into N8's cell. The one
+    fork this item surfaced that remains undecided is item 11. Closed inline,
+    keeping its number: renumbering this list is what left N8 pointing at a
+    phantom "OPEN 12" — item numbers are never reused or shifted from here on.
+11. **Clean-room access mechanism.** The clean room is positioned as a locked
+    upsell that states its reason and carries no command — nothing composes it
+    yet. Two honest resolutions surfaced in the implementation: **stop offering
+    the notch**, or **widen what the launcher accepts** so a door exists.
+    Widening is a product decision, not a copy edit; until ruled, no surface
+    may print a relaunch to it (N8's binding rule).
 (Closed 2026-07-24: modes-or-a-ladder → N1 · `ultra` survives → N4 · one scale
 or two → N5 · `ultra` in the frozen ledger key — no longer a conflict, N4 keeps
 the arm name the ledger already uses.)
