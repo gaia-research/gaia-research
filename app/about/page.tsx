@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import { statusText } from "@/data/research";
 
 // The canonical ecosystem explainer. It owns exactly one thing: the four names
 // and how they relate. Every other doc keeps its own thesis and is linked from
@@ -11,23 +12,31 @@ import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 //   1. No repository name and no package name appears in this copy. How the
 //      four names are packaged is an open question, and it must be free to
 //      move without anyone rewriting this page.
-//   2. Every state label is the true one — shipped, prototype, locked. A path
-//      that advertises something you cannot actually do costs more trust than
-//      a path that is honestly missing.
+//   2. Every state label is the true one. State words are NOT invented here —
+//      they come from `statusText` in @/data/research, the same map the
+//      homepage skills grid and the research ledger render from, so a chip
+//      reads "ACT ACTIVE" / "WIP EXPERIMENTAL" exactly as it does there. Skill
+//      Hell is the one exception and deliberately so: it reuses the homepage's
+//      bespoke "🔥 HELL · GATED" treatment rather than any status key, because
+//      gated is not a lifecycle state.
 
 export const metadata: Metadata = {
   title: "About Gaia — one system, four names",
   description:
-    "Gaia is an open capability control system for AI agents, built as four named parts: the Skill Tree, Gaia Research, Skill Heaven, and Skill Hell. What each one is, how they relate, and which one you want right now.",
+    "Gaia is an open capability control system for AI agents, built as four named parts: the Skill Tree, Research, Skill Heaven, and Skill Hell. What each one is, how they relate, and which one you want right now.",
   openGraph: {
     title: "About Gaia — one system, four names",
     description:
-      "The Skill Tree, Gaia Research, Skill Heaven, and Skill Hell — what each name is, how they relate, and which one you want right now.",
+      "The Skill Tree, Research, Skill Heaven, and Skill Hell — what each name is, how they relate, and which one you want right now.",
     type: "website",
   },
 };
 
 const TREE = "https://gaiaskilltree.com";
+
+// The homepage renders Hell as `chip wip` + "🔥 HELL · GATED" (app/page.tsx).
+// Reused verbatim so the two surfaces cannot drift apart.
+const HELL_CHIP = "🔥 HELL · GATED";
 
 export default function AboutPage() {
   return (
@@ -92,9 +101,9 @@ export default function AboutPage() {
           <article className="about-card" aria-labelledby="name-tree">
             <div className="about-card-head">
               <span className="about-role">THE RECORD</span>
-              <span className="chip act">SHIPPED</span>
+              <span className="chip act">ACT {statusText.ACT}</span>
             </div>
-            <h3 id="name-tree">Gaia Skill Tree</h3>
+            <h3 id="name-tree">Skill Tree</h3>
             <p>
               The permanent public record of what agent capabilities exist, who demonstrated
               each one first, and what evidence stands behind it. A skill is not an entry in
@@ -113,9 +122,9 @@ export default function AboutPage() {
           <article className="about-card" aria-labelledby="name-research">
             <div className="about-card-head">
               <span className="about-role">THE LABORATORY</span>
-              <span className="chip act">SHIPPED</span>
+              <span className="chip act">ACT {statusText.ACT}</span>
             </div>
-            <h3 id="name-research">Gaia Research</h3>
+            <h3 id="name-research">Research</h3>
             <p>
               The open laboratory that measures what capabilities really cost and whether
               they help — what a skill costs while merely listed, what it costs when invoked,
@@ -139,7 +148,7 @@ export default function AboutPage() {
           <article className="about-card about-card-heaven" aria-labelledby="name-heaven">
             <div className="about-card-head">
               <span className="about-role">THE RUNTIME</span>
-              <span className="chip wip">PROTOTYPE</span>
+              <span className="chip wip">WIP {statusText.WIP}</span>
             </div>
             <h3 id="name-heaven">Skill Heaven</h3>
             <p>
@@ -154,7 +163,7 @@ export default function AboutPage() {
               is not using on this task, and you want that priced instead of assumed.
             </p>
             <p className="about-state">
-              <b>Prototype.</b> The measurement is public before the product is. There is
+              <b>Experimental.</b> The measurement is public before the product is. There is
               nothing to install from this page yet — when there is, it will say so here.
             </p>
             <Link className="about-go" href="/research/hh-benchmark">
@@ -174,7 +183,7 @@ export default function AboutPage() {
                   </span>{" "}
                   A GATED TIER OF SKILL HEAVEN
                 </span>
-                <span className="chip rev">LOCKED</span>
+                <span className="chip wip">{HELL_CHIP}</span>
               </div>
               <h3 id="name-hell">Skill Hell</h3>
               <p>
@@ -184,9 +193,9 @@ export default function AboutPage() {
                 a separate part of Gaia.
               </p>
               <p className="about-state">
-                <b>Locked, and staying locked</b> until measured trust coverage clears its
-                gate. There is nothing to install, nothing to join, and no waiting list. When
-                it opens, this is where it will say so.
+                <b>Gated, and staying gated</b> until measured trust coverage clears the gate.
+                There is nothing to install, nothing to join, and no waiting list. When it
+                opens, this is where it will say so.
               </p>
             </div>
           </article>
@@ -206,7 +215,7 @@ export default function AboutPage() {
                 01
               </span>
               <span>
-                <b>Gaia Research</b> measures cost, quality, failure, and harness behaviour.
+                <b>Research</b> measures cost, quality, failure, and harness behaviour.
               </span>
             </li>
             <li>
@@ -269,9 +278,9 @@ export default function AboutPage() {
               <tbody>
                 <tr>
                   <th scope="row">Find a capability, or check if one is trustworthy</th>
-                  <td>Gaia Skill Tree</td>
+                  <td>Skill Tree</td>
                   <td>
-                    <span className="chip act">SHIPPED</span>
+                    <span className="chip act">ACT {statusText.ACT}</span>
                   </td>
                   <td>
                     <a href={TREE} target="_blank" rel="noreferrer">
@@ -281,9 +290,9 @@ export default function AboutPage() {
                 </tr>
                 <tr>
                   <th scope="row">Put your own skill on the public record</th>
-                  <td>Gaia Skill Tree</td>
+                  <td>Skill Tree</td>
                   <td>
-                    <span className="chip act">SHIPPED</span>
+                    <span className="chip act">ACT {statusText.ACT}</span>
                   </td>
                   <td>
                     <a href={`${TREE}/en/getting-started.html`} target="_blank" rel="noreferrer">
@@ -293,9 +302,9 @@ export default function AboutPage() {
                 </tr>
                 <tr>
                   <th scope="row">See the numbers behind a claim, or reproduce one</th>
-                  <td>Gaia Research</td>
+                  <td>Research</td>
                   <td>
-                    <span className="chip act">SHIPPED</span>
+                    <span className="chip act">ACT {statusText.ACT}</span>
                   </td>
                   <td>
                     <Link href="/research">Open the research ledger →</Link>
@@ -305,7 +314,7 @@ export default function AboutPage() {
                   <th scope="row">Understand what a crowded context costs you</th>
                   <td>Skill Heaven</td>
                   <td>
-                    <span className="chip wip">PROTOTYPE</span>
+                    <span className="chip wip">WIP {statusText.WIP}</span>
                   </td>
                   <td>
                     <Link href="/research/hh-benchmark">Read the benchmark method →</Link>
@@ -315,7 +324,7 @@ export default function AboutPage() {
                   <th scope="row">Run fully autonomous, everything admitted</th>
                   <td>Skill Hell</td>
                   <td>
-                    <span className="chip rev">LOCKED</span>
+                    <span className="chip wip">{HELL_CHIP}</span>
                   </td>
                   <td>Nothing yet — it is gated on evidence, not on demand.</td>
                 </tr>
@@ -346,10 +355,10 @@ export default function AboutPage() {
               The four names <span className="about-date">2026-07-28</span>
             </h3>
             <p>
-              Gaia is now told publicly as four names — the Skill Tree, Gaia Research, Skill
+              Gaia is now told publicly as four names — the Skill Tree, Research, Skill
               Heaven, and Skill Hell. Nothing you already use changed; what changed is the
-              map. Skill Heaven is named as the runtime layer and is a prototype. Skill Hell
-              is named and locked.
+              map. Skill Heaven is named as the runtime layer and is experimental. Skill Hell
+              is named and gated.
             </p>
           </article>
 
