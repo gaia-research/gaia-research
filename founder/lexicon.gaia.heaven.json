@@ -2,7 +2,7 @@
   "lexicon": "2",
   "namespace": "gaia.heaven",
   "extends": "core",
-  "updated": "2026-07-28",
+  "updated": "2026-07-29",
   "about": "The Skill Heaven / Skill Hell product line: the two dials (ladder and mode), the postures they name, the mechanisms that move skills in and out of a session, and the launcher/door names. skill-heaven consumes this namespace; it does not own it.",
   "terms": [
     {
@@ -37,9 +37,20 @@
       "term": "floor",
       "state": "canonical",
       "group": "posture",
-      "oracle": "P1",
-      "definition": "Evict all skills, bare prompt profile, zero server — the benchmark's placebo-of-record, at level `off`.",
-      "note": "Whether the PRODUCT floor and the BENCHMARK floor are the same posture is an open shaping question (the `--disable-slash-commands` finding). Do not assume one term covers both until that closes."
+      "oracle": "P1, B1, B2",
+      "definition": "The DOORLESS BENCHMARK floor: evict all skills, bare prompt profile, zero server, slash commands off — the benchmark's placebo-of-record, at level `off`. Composed by core for measurement runs; it keeps no door, so it is never offered on the in-session surface.",
+      "note": "The product/benchmark question this entry used to park is CLOSED — V5-5 split the floors and skill-heaven PR #14 landed it: the doorful launchable posture is `product-floor` (synonym: `clean-room`), priced as its own arm, never pooled with this one (B1)."
+    },
+    {
+      "term": "product-floor",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "D12, B1",
+      "synonyms": [
+        "clean-room"
+      ],
+      "definition": "The DOORFUL clean floor — the cleanest launchable posture: bundled skills, user/global skills, MCP and non-project settings evicted; the door (slash commands) kept. Composed only at boot, via a launcher (D12); priced as its own arm, never pooled with the benchmark `floor` (B1). Synonym: `clean-room` — two names for one posture; neither retires the other.",
+      "note": "Ratified by V5-5 and landed in core's posture set (skill-heaven PR #14). Fully clean is not possible because the bare minimum stays — the door is the bare minimum."
     },
     {
       "term": "hell lane",
@@ -50,11 +61,14 @@
     },
     {
       "term": "clean-room",
-      "state": "parked",
+      "state": "canonical",
       "group": "posture",
       "oracle": "D12",
-      "definition": "The fully-subtractive composition: bundled skills, user/global skills, MCP and non-project settings all evicted. Reachable only at boot, via the launcher.",
-      "note": "Names a composition the evidence supports (matrix gate (a)) but which has not shipped or been independently demonstrated. Demoted from canonical 2026-07-24."
+      "definition": "The cleanest launchable posture: bundled skills, user/global skills, MCP and non-project settings all evicted; the door stays. Reachable only at boot, via the launcher. Synonym of `product-floor` — two names for one posture; neither retires the other.",
+      "note": "PROPOSED promotion 2026-07-29 (awaits founder ratification; demoted from canonical 2026-07-24 as unshipped): the posture has now shipped as `product-floor` in core (V5-5, skill-heaven PR #14). The earlier \"fully-subtractive\" adjective overreached — the enumerated list never included slash commands; fully clean is not possible because the bare minimum stays.",
+      "synonyms": [
+        "product-floor"
+      ]
     },
     {
       "term": "scalpel",
@@ -119,7 +133,7 @@
       "state": "banned",
       "group": "posture",
       "definition": "Retired 2026-07-24. The control is a ladder with discrete rungs, not a continuous fader.",
-      "note": "This was the longest-running vocabulary conflict on the line — N1 superseded the slider framing while later entries mandated a slider, and neither acknowledged the other. Closed by choosing the ladder.",
+      "note": "This was the longest-running vocabulary conflict on the line — N1 superseded the slider framing while later entries mandated a slider, and neither acknowledged the other. Closed by choosing the ladder. The in-session posture surface ships with NO noun for the control (2026-07-29): `ladder`/`rung` name the off…max ladder — a different control — and the mode-control name is open. Do not substitute `ladder` into copy about the posture surface, and do not coin a replacement.",
       "replacement": "ladder",
       "oracle": "N1"
     },
@@ -127,7 +141,8 @@
       "term": "picker",
       "state": "parked",
       "group": "posture",
-      "definition": "Candidate replacement for the contested `slider` — a discrete chooser with locked entries, which is what the product actually renders. Unratified."
+      "definition": "Candidate replacement for the contested `slider` — a discrete chooser with locked entries, which is what the product actually renders. Unratified.",
+      "note": "WITHDRAWN as a candidate 2026-07-29 (founder): the control name remains open and the method is locked — the method is already implied by Skill Heaven / Skill Hell. Do not ratify; do not propose a noun for the control surface."
     },
     {
       "term": "mode",

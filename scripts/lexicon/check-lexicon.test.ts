@@ -93,7 +93,9 @@ check(
 );
 check(
   "no canonical term names an unbuilt surface",
-  !lex.terms.some((t) => t.state === "canonical" && /clean-room|scalpel|purge|restraint/.test(t.term)),
+  // `clean-room` left this list 2026-07-29: the posture shipped as core's
+  // `product-floor` (V5-5, skill-heaven PR #14), so it is no longer unbuilt.
+  !lex.terms.some((t) => t.state === "canonical" && /scalpel|purge|restraint/.test(t.term)),
 );
 
 check(
