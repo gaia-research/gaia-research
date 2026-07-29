@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-research` · 54 terms across 5 namespace(s) · updated **2026-07-28**.
+> Schema `2` · HQ `gaia-research` · 55 terms across 5 namespace(s) · updated **2026-07-28**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
@@ -16,7 +16,7 @@
 | `core` | `gaia-research` | `founder/lexicon.json` | 2 |
 | `gaia.research` | `gaia-research` | `founder/lexicon.gaia.research.json` | 13 |
 | `gaia.brand` | `gaia-research` | `founder/lexicon.gaia.brand.json` | 1 |
-| `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 35 |
+| `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 36 |
 | `gaia.mcp` | `gaia-research` | `founder/lexicon.gaia.mcp.json` | 3 |
 
 Terms owned by **gaia-research/gaia-skill-tree** are listed name-only in `founder/lexicon.foreign.json` and are
@@ -98,17 +98,18 @@ to make a decision.
 | `posture` | ✅ canonical | P1 | A named position in the mode dial (P1's four). Distinct from a ladder rung, which is how much enters. |
 | `native` | ✅ canonical | P1 | The user's own setup, untouched — no eviction, no summoning. The default posture. |
 | `curated` | ✅ canonical | P1 | A hand-gated few skills, source-agnostic (the user's own custom skills first). The allowlist as human-selected fixed state, chosen at launch. |
-| `floor` | ✅ canonical | P1 | Evict all skills, bare prompt profile, zero server — the benchmark's placebo-of-record, at level `off`. Whether the PRODUCT floor and the BENCHMARK floor are the same posture is an open shaping question (the `--disable-slash-commands` finding). Do not assume one term covers both until that closes. |
+| `floor` | ✅ canonical | P1, B1, B2 | The DOORLESS BENCHMARK floor: evict all skills, bare prompt profile, zero server, slash commands off — the benchmark's placebo-of-record, at level `off`. Composed by core for measurement runs; it keeps no door, so it is never offered on the in-session surface. The product/benchmark question this entry used to park is CLOSED — V5-5 split the floors and skill-heaven PR #14 landed it: the doorful launchable posture is `product-floor` (synonym: `clean-room`), priced as its own arm, never pooled with this one (B1). |
+| `product-floor` | ✅ canonical | D12, B1 | The DOORFUL clean floor — the cleanest launchable posture: bundled skills, user/global skills, MCP and non-project settings evicted; the door (slash commands) kept. Composed only at boot, via a launcher (D12); priced as its own arm, never pooled with the benchmark `floor` (B1). Synonym: `clean-room` — two names for one posture; neither retires the other. Ratified by V5-5 and landed in core's posture set (skill-heaven PR #14). Fully clean is not possible because the bare minimum stays — the door is the bare minimum. |
 | `hell lane` | ✅ canonical | P1 | The evidenced pool, honesty-gated, above native — how much of it enters is the ladder's rung. |
-| `clean-room` | 🅿️ parked | D12 | The fully-subtractive composition: bundled skills, user/global skills, MCP and non-project settings all evicted. Reachable only at boot, via the launcher. Names a composition the evidence supports (matrix gate (a)) but which has not shipped or been independently demonstrated. Demoted from canonical 2026-07-24. |
+| `clean-room` | ✅ canonical | D12 | The cleanest launchable posture: bundled skills, user/global skills, MCP and non-project settings all evicted; the door stays. Reachable only at boot, via the launcher. Synonym of `product-floor` — two names for one posture; neither retires the other. PROPOSED promotion 2026-07-29 (awaits founder ratification; demoted from canonical 2026-07-24 as unshipped): the posture has now shipped as `product-floor` in core (V5-5, skill-heaven PR #14). The earlier "fully-subtractive" adjective overreached — the enumerated list never included slash commands; fully clean is not possible because the bare minimum stays. |
 | `scalpel` | 🅿️ parked | D12, N8 | The in-session control. Upward-only from the launched floor; carries conversation history; cannot descend below its launch posture. Names the in-session control from D12's former product design; that framing was cut back to physics 2026-07-24. Parked until the control exists. |
 | `lean` | 🅿️ parked | — | Coined in matrix gate (a) as a slider stop for `--setting-sources project`. Not one of P1's four postures — this is the naming collision the PR #4 review flagged. Proposed: `project-only` (unratified). UNRATIFIED both ways. Scoped narrowly on purpose: `lean` appears in 111 files, nearly all innocent (`clean`, `lean bundle`). Only flagged in user-facing copy and code. |
 | `project-only` | 🅿️ parked | — | Proposed name for the `--setting-sources project` stop: sheds project/settings weight, does NOT remove the user's personal skills. Unratified. |
 | `add-ons` | 🅿️ parked | — | Coined in matrix gate (a) as a slider stop. Proposal on the table: this is an ACTION available at any posture (route G shows `--plugin-dir` stacks even at the floor), not a position on the ladder. Unratified. |
 | `notch` | ⛔ banned | N1, N5 | Retired 2026-07-24 in favour of `rung`. **Use `rung`.** |
 | `rung` | ✅ canonical | N1, N5 | One selectable position on the ladder (`off…max`). The chosen word of the notch/rung/stop cluster — a ladder has rungs. Promoted 2026-07-24 for consistency with the oracle, which uses `rung` throughout after the ladder ruling. Correct freely if `notch` or `stop` reads better. |
-| `slider` | ⛔ banned | N1 | Retired 2026-07-24. The control is a ladder with discrete rungs, not a continuous fader. **Use `ladder`.** This was the longest-running vocabulary conflict on the line — N1 superseded the slider framing while later entries mandated a slider, and neither acknowledged the other. Closed by choosing the ladder. |
-| `picker` | 🅿️ parked | — | Candidate replacement for the contested `slider` — a discrete chooser with locked entries, which is what the product actually renders. Unratified. |
+| `slider` | ⛔ banned | N1 | Retired 2026-07-24. The control is a ladder with discrete rungs, not a continuous fader. **Use `ladder`.** This was the longest-running vocabulary conflict on the line — N1 superseded the slider framing while later entries mandated a slider, and neither acknowledged the other. Closed by choosing the ladder. The in-session posture surface ships with NO noun for the control (2026-07-29): `ladder`/`rung` name the off…max ladder — a different control — and the mode-control name is open. Do not substitute `ladder` into copy about the posture surface, and do not coin a replacement. |
+| `picker` | 🅿️ parked | — | Candidate replacement for the contested `slider` — a discrete chooser with locked entries, which is what the product actually renders. Unratified. WITHDRAWN as a candidate 2026-07-29 (founder): the control name remains open and the method is locked — the method is already implied by Skill Heaven / Skill Hell. Do not ratify; do not propose a noun for the control surface. |
 | `mode` | ✅ canonical | N1, N2 | Discrete mode switching — the interaction model. Same mode, same semantics, any door. N2 leans 'Skill Heaven mode' / 'Skill Hell mode'. |
 | `level` | ✅ canonical | N3 | Agentic-coding level terms: off · low · med · high · xhigh · max. No celestial level names. |
 | `Heaven-0` | ⛔ banned | N3 | Retired as a level name. Historical shorthand in archived docs only. **Use `level`.** |
