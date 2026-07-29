@@ -309,7 +309,7 @@ handoff-notes continuity, **not** exact tool/turn-state resume. Net cost is chea
 > it lives in [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md) (P1,
 > D12) with its naming governed by
 > [`founder/lexicon.json`](../../founder/lexicon.json).** A recommended-stops
-> list used to sit here and it is what let `lean` and `add-ons` enter the
+> list used to sit here and it is what let `lean` and `add-ons` <!-- lexicon-allow --> enter the
 > product without passing P1 — evidence proposing product names is exactly the
 > side door the consolidation closed. The route table above is the evidence:
 > which flags produce which composition, on a continued session, measured.

@@ -94,11 +94,13 @@
     },
     {
       "term": "lean",
-      "state": "parked",
+      "state": "banned",
       "group": "posture",
-      "definition": "Coined in matrix gate (a) as a slider stop for `--setting-sources project`. Not one of P1's four postures — this is the naming collision the PR #4 review flagged.",
-      "proposed_replacement": "project-only",
-      "note": "UNRATIFIED both ways. Scoped narrowly on purpose: `lean` appears in 111 files, nearly all innocent (`clean`, `lean bundle`). Only flagged in user-facing copy and code."
+      "definition": "Coined in matrix gate (a) as a rung for `--setting-sources project`. Not one of P1's four postures — this is the naming collision the PR #4 review flagged.",
+      "oracle": "N10",
+      "naming": "open",
+      "scope": ["user-facing", "code"],
+      "note": "Retired as a WORD 2026-07-29 (N10); the `--setting-sources project` composition it named is untouched and stays available. No successor: `project-only` was the standing proposal and was NOT adopted, so nothing replaces this — rephrase instead of substituting. Scope is load-bearing, not a softening: `lean` appears in 111 files, nearly all innocent (`clean`, `lean bundle`), and `banned` is not auto-narrowed the way `parked` was."
     },
     {
       "term": "project-only",
@@ -108,9 +110,12 @@
     },
     {
       "term": "add-ons",
-      "state": "parked",
+      "state": "banned",
       "group": "posture",
-      "definition": "Coined in matrix gate (a) as a slider stop. Proposal on the table: this is an ACTION available at any posture (route G shows `--plugin-dir` stacks even at the floor), not a position on the ladder. Unratified."
+      "definition": "Coined in matrix gate (a) as a rung. It never was one: this is an ACTION available at any posture (route G shows `--plugin-dir` stacks even at the floor), not a position on the ladder.",
+      "oracle": "N10",
+      "naming": "open",
+      "note": "Retired as a WORD 2026-07-29 (N10). The stacking it named is real and stays available at every posture — only the name is withdrawn, and no successor is chosen. Unscoped on purpose: unlike `lean` it has no innocent sense in this line's docs, so the ban is enforced everywhere and the two historical mentions that must survive carry `lexicon-allow`."
     },
     {
       "term": "notch",

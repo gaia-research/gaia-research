@@ -38,7 +38,8 @@
 //
 // WHAT IT CHECKS, over the merged lexicon:
 //   1. The lexicon is internally well-formed — no duplicate terms, every
-//      `banned` term carries a `replacement`, every state is one of the four.
+//      `banned` term carries a `replacement` OR an explicit `"naming": "open"`,
+//      every state is one of the four.
 //   2. No `banned` term appears in any scanned file. Banned means the oracle
 //      already retired it (N3's Heaven-0/Heaven-1, N9's hh-launcher, B3's seed).
 //   3. No `parked` term appears in user-facing copy or shipped code. Parked
@@ -49,18 +50,26 @@
 //      hand-written). --emit regenerates it.
 //
 // WHAT IT DELIBERATELY DOES NOT DO. It does not ban a term this project is
-// still arguing about. `lean`, `slider`, `notch` and `budget` are all `parked`,
-// not `banned`, because banning them here would settle a live question by
-// writing a linter — which is the same failure mode as deciding something in a
-// plan doc. Only founder/RATIFICATION.md retires a word; this gate enforces
-// what the oracle already ruled.
+// still arguing about. Only founder/RATIFICATION.md retires a word; this gate
+// enforces what the oracle already ruled, and never settles a live question by
+// writing a linter — the same failure mode as deciding something in a plan doc.
+//
+// A BAN RETIRES A WORD, NOT THE METHOD IT NAMED (N10). Banning `lean` and
+// `add-ons` withdrew two names, not the mechanisms they described — those stay
+// available and unnamed. Such a term carries `"naming": "open"` in place of a
+// `replacement`, because no successor has been chosen and inventing one here
+// would be the linter deciding again. The field is required rather than merely
+// permitted so that a missing `replacement` can never pass as an oversight.
 //
 // SCOPES. A term may carry `"scope": ["user-facing"]` to narrow where it is
-// enforced. Two terms need this: `lean` (111 files, nearly all `clean` /
-// `lean bundle`) and `tier` (42 files, mostly the ratified `auth@tier` stamp
-// sense). A blanket rule on those two would cry wolf on day one and get the
-// gate switched off by week two, so they are checked only where the word is
-// load-bearing.
+// enforced — for any state, `banned` included. Two terms need this: `lean`
+// (111 files, nearly all `clean` / `lean bundle`) and `tier` (42 files, mostly
+// the ratified `auth@tier` stamp sense). A blanket rule on those two would cry
+// wolf on day one and get the gate switched off by week two, so they are
+// checked only where the word is load-bearing. `lean`'s scope became
+// load-bearing the moment N10 banned it: `parked` is auto-narrowed to
+// reader-facing surfaces, `banned` is not, so the explicit list is now the only
+// thing standing between the ban and 111 innocent lines.
 //
 // ESCAPE HATCH. A line carrying `<!-- lexicon-allow -->` is skipped. This is
 // required, not a loophole: the oracle's supersession log has to be able to say
@@ -113,6 +122,13 @@ export type Term = {
   definition: string;
   replacement?: string;
   proposed_replacement?: string;
+  /**
+   * Set on a `banned` term that has no successor: the word is retired, the
+   * method it named is not, and no replacement has been chosen (N10). Explicit
+   * rather than inferred from a missing `replacement`, so an omission stays an
+   * error instead of quietly becoming a third meaning of `banned`.
+   */
+  naming?: "open";
   note?: string;
   scope?: string[];
   /** "exact-case" for ALL-CAPS labels whose lowercase form is ordinary English. */
@@ -374,8 +390,13 @@ export function validateLexicon(
     const key = t.term.toLowerCase();
     seen.set(key, (seen.get(key) ?? 0) + 1);
     if (!STATES.includes(t.state)) errors.push(`${t.term}: invalid state "${t.state}"`);
-    if (t.state === "banned" && !t.replacement)
-      errors.push(`${t.term}: state "banned" requires a "replacement"`);
+    // A ban retires a word, not the method it named (N10), so a banned term may
+    // have no successor — but it has to say so out loud. Exactly one of the two
+    // must be present: a silent omission is an oversight, not a ruling.
+    if (t.state === "banned" && !t.replacement !== (t.naming === "open"))
+      errors.push(
+        `${t.term}: state "banned" requires either a "replacement" or "naming": "open" (N10) — exactly one, never both and never neither`,
+      );
     if (t.state === "banned" && !t.oracle)
       errors.push(
         `${t.term}: state "banned" requires an "oracle" citation — only RATIFICATION.md retires a word`,
@@ -446,7 +467,9 @@ export function scanText(text: string, path: string, lex: Lexicon): Finding[] {
         state: t.state,
         message:
           t.state === "banned"
-            ? `retired by ${t.oracle} — use "${t.replacement}"`
+            ? t.replacement
+              ? `retired by ${t.oracle} — use "${t.replacement}"`
+              : `retired by ${t.oracle} — the method stands, the name does not; no successor is chosen yet (N10), so rephrase rather than substitute`
             : `parked vocabulary in ${inScopes.includes("code") ? "shipped code" : "user-facing copy"} — unchosen, must not ship`,
       });
     });
