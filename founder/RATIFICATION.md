@@ -119,7 +119,8 @@
 11. **Clean-room access mechanism.** The clean room is positioned as a locked
     upsell that states its reason and carries no command — nothing composes it
     yet. Two honest resolutions surfaced in the implementation: **stop offering
-    the notch**, or **widen what the launcher accepts** so a door exists.
+    it on the control surface**, or **widen what the launcher accepts** so a
+    door exists.
     Widening is a product decision, not a copy edit; until ruled, no surface
     may print a relaunch to it (N8's binding rule).
 (Closed 2026-07-24: modes-or-a-ladder → N1 · `ultra` survives → N4 · one scale
