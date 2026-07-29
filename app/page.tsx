@@ -7,10 +7,8 @@ import CopyCommand from "@/components/CopyCommand";
 import LabThumb from "@/components/labs/LabThumb";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { BlogPostCard } from "@/components/BlogPostCard";
-import { displayName, installCmd, ledger, repoUrl, skills, treeUrl } from "@/data/research";
+import { displayName, installCmd, ledger, repoUrl, skills, statusText, treeUrl } from "@/data/research";
 import { blogPosts } from "@/data/blog";
-
-const statusText = { ACT: "ACTIVE", PRP: "PROPOSED", VRF: "VERIFIED", REV: "IN REVIEW", WIP: "EXPERIMENTAL", PLN: "PLANNED" } as const;
 
 const isExternal = (href: string) => href.startsWith("http");
 const linkProps = (href: string) => (isExternal(href) ? { href, target: "_blank", rel: "noreferrer" } : { href });
@@ -75,6 +73,7 @@ export default function Home() {
     <p className="signal"><span /> WORK IN PROGRESS · HELL HEAVEN INDEX</p>
     <h2 id="hh-title">Stop <em>installing</em> skills.<br />Start <em>summoning</em> them.</h2>
     <p className="hh-lede">Marketplaces make you install skills forever &mdash; bloat you never asked for, pinned to every repo. We&rsquo;re building the exit inside <Link href="/mcp">Gaia MCP</Link>: a per-session summon over the evidenced Skill Tree, sized by one <b>ladder</b> &mdash; <code>off → max</code> &mdash; with <b>Heaven</b> and <b>Hell</b> as the two directions you can take it.</p>
+    <p className="hh-new-here">New to Gaia? Start with <Link href="/about">the four names</Link> &mdash; what the Skill Tree, Research, Skill Heaven and Skill Hell each are, and which one you want right now.</p>
    </header>
    <div className="hh-poles">
     <article className="hh-pole hh-heaven">
@@ -95,6 +94,8 @@ export default function Home() {
     .hh-intro h2{font-size:var(--type-display-3);margin:.4rem 0 1rem}
     .hh-intro h2 em{font-style:normal;color:var(--pink)}
     .hh-lede{color:var(--muted);font-size:1.0625rem;line-height:1.7}
+    .hh-new-here{margin:.9rem 0 0;color:var(--dim);font-size:.9375rem;line-height:1.7}
+    .hh-new-here a{color:var(--blue);border-bottom:1px solid var(--blue)}
     .hh-lede a{color:var(--blue);border-bottom:1px solid var(--blue)}
     .hh-lede code{font-family:var(--mono);font-size:.9em;color:var(--ink)}
     .hh-poles{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:var(--space-tight) 0}
