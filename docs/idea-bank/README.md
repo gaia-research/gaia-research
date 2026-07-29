@@ -101,3 +101,11 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** The `gaia-skill-tree` registry's Trust Magnitude signals (`src/gaia_cli/trustMagnitude.py`) form a genuine feature vector; the curated registry's (skill → assigned star rank) pairs are an implicit labeled corpus. A Random Forest wrapped in SHAP/LIME could predict and *explain* a skill's star rank — surfacing mis-calibrated skills and explaining assignments to contributors — while TM stays the sole transparent promotion gate per `META.md`. Explicitly a trust-appraisal study, NOT the gaia-curate v2 mapping classifier (that ships first, independently).
 - **Doc:** [`rf-shap-trust-appraisal.md`](./rf-shap-trust-appraisal.md)
 
+## Rank 16 — Pattern Overfitting in AI Coding Agents Caused by Codebase Noise
+- **Status:** Idea / LEANING — unratified, in ideation
+- **Viability:** High
+- **Potential:** Very High
+- **Why now:** LLM agents frequently overfit to stale template placeholders, outdated example comments, and obsolete schema structures in neighboring code files (e.g. `level: "2★"` placeholders in issue templates), causing agents to hallucinate superseded fields, bypass CLI validation adapters (`intakeAdapter.py`), and hand-craft malformed raw YAML. Systematically auditing and scrubbing codebase noise directly improves agent execution accuracy across ecosystem repos (`gaia-skill-tree`, `gaia-research`).
+- **Doc:** [`pattern-overfitting-codebase-noise.md`](./pattern-overfitting-codebase-noise.md)
+
+
