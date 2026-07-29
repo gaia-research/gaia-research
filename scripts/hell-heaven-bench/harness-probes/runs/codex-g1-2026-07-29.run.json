@@ -1,0 +1,83 @@
+{
+  "schema": "harness-probe/v1",
+  "probe": "G1",
+  "harness": "codex",
+  "harnessVersion": "codex-cli 0.145.0",
+  "date": "2026-07-29",
+  "purpose": [
+    "Re-check the G1 repro from docs/labs/harness-capability-matrix.md now that the 2026-07-25 quota window has passed.",
+    "Resolve the two ❓-deferred cells: (1) do per-session `-c` overrides reach `skills.config`, and (2) is a completed-turn `usage` (token) object observed."
+  ],
+  "reproHarnessDoc": "docs/labs/harness-capability-matrix.md, G1 row: `CODEX_HOME=<fresh + auth.json> codex exec --json --skip-git-repo-check \"$Q\"`",
+  "listingProbePromptVerbatim": "Look at the list of available skills/slash-commands in your context. Reply with ONLY a comma-separated list of their names, or NONE if no skills are listed.",
+  "fixtureSkill": {
+    "id": "test-echo-skill",
+    "sourceFile": "scripts/hell-heaven-bench/harness-probes/fixtures/test-echo-skill/SKILL.md",
+    "contentSha256": "642e2199f31a6b53aae0f394c0a133243cafd5a532c2e63bfacb561318866154",
+    "hashMethod": "sha256 hex digest of the full SKILL.md file content, identical to census.ts scanContracts() (createHash(\"sha256\").update(src).digest(\"hex\"))",
+    "placedAt": "<sandbox project dir>/.agents/skills/test-echo-skill/SKILL.md, cwd-scanned discovery path"
+  },
+  "sandboxSetup": {
+    "note": "Fresh throwaway CODEX_HOME + throwaway project dir per run; real ~/.codex was only ever READ from (auth.json copied out), never written to. Verified after the fact: no config.toml was created inside the fresh CODEX_HOME by the -c overrides (session-scoped, not persisted).",
+    "codexHome": "$(mktemp -d)/codex_home, seeded with a copy of the real ~/.codex/auth.json (chmod 600) and nothing else — no config.toml",
+    "projectDir": "$(mktemp -d)/project, containing exactly one skill at .agents/skills/test-echo-skill/SKILL.md",
+    "realConfigSnapshotArtifact": "scripts/hell-heaven-bench/harness-probes/runs/codex-real-discovery.snapshot.json (read-only paths+hashes of the real ~/.codex/config.toml, ~/.agents/skills, ~/.codex/skills at probe time)"
+  },
+  "modelNote": "No -m flag was passed on any of these three runs; the fresh CODEX_HOME had no config.toml so the CLI fell back to its built-in default model. Session rollout logs confirm the model actually used was gpt-5.6-sol (priority-1 in this account's models_cache.json — the flagship tier, NOT the cheapest). This is a deviation from the 'cheapest model available' instruction, caused by omitting -m; flagged honestly rather than silently reported as cheap. gpt-5.4-mini (priority 23) is the cheapest model in this account's model list and should be used explicitly (-m gpt-5.4-mini) for any follow-on codex runs.",
+  "modelActuallyUsed": "gpt-5.6-sol",
+  "runs": [
+    {
+      "runId": "baseline",
+      "argv": [
+        "codex", "exec", "--json", "--skip-git-repo-check", "-C", "<project dir>", "<prompt>"
+      ],
+      "envOverrides": { "CODEX_HOME": "<fresh codex_home>" },
+      "rawOutputFile": "codex-g1-2026-07-29-baseline.jsonl",
+      "observedListing": "test-echo-skill listed, alongside bundled system skills (imagegen, openai-docs, plugin-creator, skill-creator, skill-installer) and every skill under the real ~/.agents/skills user dir (67 skills total incl. test-echo-skill)",
+      "usage": { "input_tokens": 18986, "cached_input_tokens": 0, "cache_write_input_tokens": 0, "output_tokens": 360, "reasoning_output_tokens": 0 },
+      "purpose": "Confirm G1's already-verified auth-propagation cell still holds, and establish the un-suppressed baseline listing."
+    },
+    {
+      "runId": "suppress-override-rep1",
+      "argv": [
+        "codex", "exec", "--json", "--skip-git-repo-check", "-C", "<project dir>",
+        "-c", "skills.config=[{path=\"<abs path to test-echo-skill/SKILL.md>\",enabled=false}]",
+        "<prompt>"
+      ],
+      "envOverrides": { "CODEX_HOME": "<fresh codex_home>" },
+      "rawOutputFile": "codex-g1-2026-07-29-suppress-override-rep1.jsonl",
+      "observedListing": "test-echo-skill ABSENT; every other skill from the baseline listing still present, unchanged",
+      "usage": { "input_tokens": 18925, "cached_input_tokens": 0, "cache_write_input_tokens": 0, "output_tokens": 354, "reasoning_output_tokens": 0 },
+      "tokenDeltaVsBaseline": -61,
+      "purpose": "Test whether a per-invocation -c skills.config override suppresses a specific skill's listing without touching config.toml on disk."
+    },
+    {
+      "runId": "suppress-override-rep2",
+      "argv": "identical to suppress-override-rep1",
+      "envOverrides": { "CODEX_HOME": "<fresh codex_home>" },
+      "rawOutputFile": "codex-g1-2026-07-29-suppress-override-rep2.jsonl",
+      "observedListing": "test-echo-skill ABSENT (reproduced)",
+      "usage": { "input_tokens": 18925, "cached_input_tokens": 0, "cache_write_input_tokens": 0, "output_tokens": 354, "reasoning_output_tokens": 0 },
+      "purpose": "Repeat to confirm determinism of the suppression result (2/2, byte-identical input_tokens both times)."
+    }
+  ],
+  "findings": {
+    "cliOverridesReachSkillsConfigPerSession": {
+      "verdict": "YES",
+      "evidence": "2/2 runs: `-c 'skills.config=[{path=\"...\",enabled=false}]'` removed exactly the targeted skill (test-echo-skill) from the listing while leaving all 66 other skills present; the fresh CODEX_HOME never gained a config.toml (verified by listing the dir after both runs), so the override is genuinely session-scoped and non-persisting.",
+      "classificationImpact": "This is the finding that can move compileCodex's execSupport away from 'recipe' — codex has a real, verified per-session suppression route via -c skills.config, no launcher/recipe file-juggling required. (Classification change itself is out of scope here — skill-heaven is being edited by another agent — this is the evidence, not the edit.)"
+    },
+    "tokenIntrospectionOnCompletedTurn": {
+      "verdict": "YES — resolved, no longer deferred",
+      "evidence": "All three runs produced a `turn.completed` event carrying a full usage object: input_tokens, cached_input_tokens, cache_write_input_tokens, output_tokens, reasoning_output_tokens. This directly answers the previously-quota-blocked cell: `codex exec --json` DOES emit per-run token counts on a completed turn."
+    },
+    "authPropagationStillHolds": {
+      "verdict": "YES — unchanged from the original G1 result",
+      "evidence": "All three runs authenticated successfully via the auth.json copy into a fresh $CODEX_HOME; no 'not logged in' or usage-limit error was observed this time (2026-07-25 quota window has passed, as the founder indicated)."
+    }
+  },
+  "zeroMutationCheck": {
+    "realCodexHomeTouched": false,
+    "note": "Only ~/.codex/auth.json and ~/.codex/config.toml were ever opened, and only for reading (auth.json copied out via `cp`; config.toml inspected via `grep`/`sed` for structural reference, never modified). Snapshot artifact scripts/hell-heaven-bench/harness-probes/runs/codex-real-discovery.snapshot.json records what was there (paths+hashes) at probe time. All writes happened inside a $(mktemp -d) sandbox under the session scratchpad, discarded after copying the artifacts committed here."
+  }
+}
