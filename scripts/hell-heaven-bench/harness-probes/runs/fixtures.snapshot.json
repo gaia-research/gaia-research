@@ -1,0 +1,15 @@
+{
+  "label": "fixture-skills",
+  "capturedAtUtc": "2026-07-29T07:45:07.353Z",
+  "requestedPaths": [
+    "scripts/hell-heaven-bench/harness-probes/fixtures"
+  ],
+  "files": [
+    {
+      "path": "/Users/marcotiongson/Documents/gaia-research/scripts/hell-heaven-bench/harness-probes/fixtures/test-echo-skill/SKILL.md",
+      "sizeBytes": 565,
+      "sha256": "642e2199f31a6b53aae0f394c0a133243cafd5a532c2e63bfacb561318866154"
+    }
+  ],
+  "note": "Read-only capture: paths + sizes + sha256 content hashes only, no file contents. Real harness config dirs (~/.codex, ~/.pi, ~/.claude, ~/.grok) were never written to by this script or by any probe in this directory."
+}

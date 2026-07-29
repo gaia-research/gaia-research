@@ -1,0 +1,65 @@
+{
+  "schema": "harness-probe/v1",
+  "probes": ["P1-race-requantify", "argv-order-landmine-recheck"],
+  "harness": "pi",
+  "harnessVersion": "0.82.1",
+  "harnessVersionAtOriginalDocRecord": "0.80.10",
+  "date": "2026-07-29",
+  "modelDirective": {
+    "note": "Founder directive received mid-task (overrides the default 'cheapest model' instruction from the brief, for pi only): use provider google-antigravity, model gemini-3.6-flash, thinking level low, for every pi run. Sanity-checked first with a trivial prompt before committing to the full run set; the model/provider pair was accepted without error.",
+    "provider": "google-antigravity",
+    "model": "gemini-3.6-flash",
+    "thinking": "low",
+    "confirmedInEveryRun": "each run's transcript/response carries \"provider\":\"google-antigravity\",\"model\":\"gemini-3.6-flash\" (verified on the sanity-check json-mode run; --mode text runs omit the field but used identical flags)"
+  },
+  "listingProbePromptVerbatim": "Look at the list of available skills/slash-commands in your context. Reply with ONLY a comma-separated list of their names, or NONE if no skills are listed.",
+  "fixtureSkill": {
+    "id": "test-echo-skill",
+    "sourceFile": "scripts/hell-heaven-bench/harness-probes/fixtures/test-echo-skill/SKILL.md",
+    "contentSha256": "642e2199f31a6b53aae0f394c0a133243cafd5a532c2e63bfacb561318866154",
+    "placedAt": "<sandbox project dir>/.agents/skills/test-echo-skill/SKILL.md (cwd-relative discovery path)",
+    "note": "Real ~/.pi/agent/skills and ~/.agents/skills also contribute to what a leak would show (real, not-modified user-level skill dirs) — snapshot at scripts/hell-heaven-bench/harness-probes/runs/pi-real-discovery.snapshot.json. --no-skills is expected to suppress discovery from ALL of these paths, not just the fixture."
+  },
+  "sandboxSetup": {
+    "projectDir": "$(mktemp -d)/pi-sandbox/project, containing exactly one skill at .agents/skills/test-echo-skill/SKILL.md",
+    "note": "pi has no --cd/-C flag; cwd was set per-invocation via `cd <dir> && pi ...` (the Bash tool resets cwd between calls, so this was repeated on every invocation). Real ~/.pi was only ever read for version/help/list-models probing, never written to by these runs beyond pi's own normal session-history bookkeeping (default session store, not a config mutation)."
+  },
+  "partA_argvOrderLandmine": {
+    "docClaim": "docs/labs/harness-capability-matrix.md: '--no-skills immediately followed by -p silently loses suppression on 0.80.10 — vanilla listing returns, no error. Any other ordering yields NONE.'",
+    "orderA_documented_broken": {
+      "argvShape": "pi --no-skills -p --provider google-antigravity --model gemini-3.6-flash --thinking low \"$Q\"",
+      "runs": [
+        { "runId": "orderA-run1", "observed": "NONE", "note": "mode json (sanity/first run); NOT saved to disk (ran without output redirection, printed directly) — usage.input_tokens=2420, usage.output_tokens=509, both fields confirm provider/model as directed. Text answer captured: 'NONE'." },
+        { "runId": "orderA-run2", "observed": "NONE", "rawOutputFile": "pi-argv-order-A-run2.txt" },
+        { "runId": "orderA-run3", "observed": "NONE", "rawOutputFile": "pi-argv-order-A-run3.txt" }
+      ],
+      "leaksObserved": "0/3"
+    },
+    "orderB_documented_safe": {
+      "argvShape": "pi -p --provider google-antigravity --model gemini-3.6-flash --thinking low \"$Q\" --no-skills",
+      "runs": [
+        { "runId": "orderB-run1", "observed": "NONE" },
+        { "runId": "orderB-run2", "observed": "NONE" },
+        { "runId": "orderB-run3", "observed": "NONE" }
+      ],
+      "leaksObserved": "0/3",
+      "rawOutputFiles": "included in pi-race-N15-safe-order-outputs.txt (orderB-run1..3 are the first 3 entries)"
+    },
+    "verdict": "NOT REPRODUCED on 0.82.1. Both the documented-broken order (--no-skills immediately before -p) and the documented-safe order suppressed correctly in every run (6/6 total, 0 leaks). Caveat: small n (3 each) and a model/version double-change vs the original record (harness 0.80.10→0.82.1 AND model — the original argv-order finding did not pin a model). Read as 'did not trigger it in 6 tries under the new conditions', not a certified fix. compilePi's 'emit tail args first' mitigation was NOT tested for removability here (that edit belongs to the other agent working skill-heaven); this result is evidence for that decision, not the decision itself."
+  },
+  "partB_discoveryRaceRequantified": {
+    "docClaim": "docs/labs/harness-capability-matrix.md P1: '--no-skills verified live but intermittent: 2 of ~9 floor runs still listed all skills' (~22%, harness 0.80.10, no model pinned in the record).",
+    "method": "Held argv order FIXED at the documented-safe shape (order B above) across all N runs, so any NONE-vs-listing variance is attributable to the discovery race alone, not the argv-order landmine. N chosen per the brief's instruction to pick a defensible bounded count, not chase a publication-grade estimate.",
+    "n": 15,
+    "runsIncluded": "orderB-run1..3 + race-run04..15 (12 more), all identical argv shape",
+    "leaksObserved": "0/15",
+    "rawOutputFile": "pi-race-N15-safe-order-outputs.txt",
+    "confidenceInterval": {
+      "method": "Clopper-Pearson-style upper bound for 0 successes in n trials: 1 - (alpha/2)^(1/n), alpha=0.05 (two-sided 95%); cross-checked against the rule-of-three approximation (3/n)",
+      "n": 15,
+      "observedRate": "0%",
+      "upperBound95pct": "21.8% (rule-of-three approx: 20.0%)"
+    },
+    "honestReading": "0/15 is NOT strong evidence the race is fixed: the 95% upper confidence bound (~22%) sits right on top of the previously-recorded ~22% (2/9) rate, so this result is statistically consistent with either 'still races at ~22%' or 'race is now much rarer/fixed' — 15 runs cannot distinguish those. Per B3 (no determinism), this is reported as an interval, not a point estimate. A genuine confound: the model changed (google-antigravity/gemini-3.6-flash vs whatever the original P1 record used), and if the race's window is sensitive to response/scan timing, a different model's latency profile could shift the observed rate independent of any harness fix between 0.80.10 and 0.82.1. Mitigation recommendation (per the brief, not implemented here — another agent owns skill-heaven): floor runs should still assert the listing probe returns NONE and discard/retry leaked runs; this data does not license removing that guard."
+  }
+}
