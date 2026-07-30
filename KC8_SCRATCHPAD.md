@@ -448,3 +448,116 @@ Stage 5 then only authors `claim-index.md`, its route, and its entrypoints.
   `model: "unrecorded"` disclosure is honest enough to ship, and whether the C4
   mismatch above is stated strongly enough. Write the verdict under
   `## Review — round 1`.
+
+## Review — round 1
+
+**Verdict: SATISFIED.** The underlying data is solid enough for Stage 5 to write
+the deliverable page and pass `check-claims.ts` cleanly. Everything checked below
+was independently re-run or re-read from the actual files on disk, not taken on
+the implementer's word.
+
+**What I verified, all commands re-run fresh in this worktree:**
+
+| Check | Result |
+|---|---|
+| `git log --oneline origin/main..HEAD` | 8 commits, exactly matching the Progress Log's account — scratchpad + Stage 1 plan + 5 Stage 2 commits |
+| `git log --format='%an <%ae>' -6` | all 6 `Marcus Rafael B. Tiongson <153011150+mbtiongson1@users.noreply.github.com>` — real identity, no anomaly |
+| `npx tsx scripts/hell-heaven-bench/ledger.ts validate` | `OK — 12 valid record(s)` |
+| `npx tsx scripts/hell-heaven-bench/check-claims.ts` (default set) | **PASS over 5 docs** — matrix, blog post, m2-live-demo, methodology, r0-census |
+| `npx tsx scripts/hell-heaven-bench/check-claims.test.ts` | **23/23** (20 fixtures + 3 scan-set coverage checks) |
+| `wc -l scripts/hell-heaven-bench/data/ledger.jsonl` | 12 |
+| `git diff --stat origin/main...HEAD` | 10 files touched, none under `content/reports/hh-benchmark/` beyond `r0-census.md`'s edit — **no `claim-index.md`, confirmed** |
+
+**Claim-by-claim spot checks (grepped/parsed the actual committed bytes, not the
+scratchpad's summary of them):**
+
+- **F7 ledger records** (lines 11–12 of `ledger.jsonl`): `perTurn` 19661 (placebo/
+  floor=benchmark) and 20176 (heaven/floor=product), both `harness.version:
+  "2.1.216"`. Both `notes` fields explicitly say "LOCKED by founder ruling
+  2026-07-30 ... NOT re-derived against 2.1.220" — **F7 confirmed cited as the
+  locked figure, not re-derived.** `model: "unrecorded"` (not a guess) and
+  `wallClockMs: 0` with an explicit "means UNMEASURED, not a 0ms run" disclosure
+  in both records — this is honest, not papered over, and the schema gap
+  (`wallClockMs` has no null) is named in both the ledger notes and (per the
+  commit diff) nowhere silently normalized elsewhere.
+- **r0-census.md sanity line**: confirmed `597 ‡`, `10,376 ‡`, `13.8× ‡` at
+  lines 78–79, plus a new explanatory paragraph naming exactly why (uncommitted
+  workstation JSON) — matches S2.3 exactly.
+- **Census widening** (`buildEvidence()` in `check-claims.ts`): read the actual
+  code, not just the commit message. It adds exactly two narrow branches —
+  `registryListings.*.standingTokens.{sum,count}` and
+  `h1Restatement.publishedStandingTokens.*` — both gated by `Number.isInteger`,
+  with `mean/min/p25/median/p75/p90/max` left untouched. Cross-checked the
+  actual `r0-census.json`: `graphNodes.standingTokens.sum` = 9384,
+  `namedSkills.standingTokens.sum` = 14498, `h1Restatement.publishedStandingTokens`
+  = `{allGraphNodeListings: 9453, top5Evidenced: 249}` — **every number the plan
+  and commits cite is genuinely present in the committed JSON**, not asserted.
+  The three new fixtures (`good-census-listing-sum.md`,
+  `good-census-published-standing.md`, `bad-census-distribution-stat.md`) read
+  as written and correctly probe the sum/count-vs-distribution boundary.
+- **Derived scan set** (`f8976cb`): confirmed `defaultDocs()` now does
+  `readdirSync` over `content/reports/hh-benchmark/` rather than hand-listing,
+  confirmed the new test asserts every file in that directory is covered (a
+  revert to a hard-coded list would now fail CI, not just silently regress),
+  confirmed the CI workflow diff adds both the blog post and
+  `app/research/hh-benchmark/**` to `paths:` on both `pull_request` and `push`
+  triggers, and confirmed the CI step names now say "matrix + every
+  hh-benchmark report + the shrink post" instead of the old overclaim.
+- **The k-suffix gate hole** (`8fcdad6`): independently confirmed
+  `normalizeNum` accepts only plain integers by reading the function, and
+  confirmed the claimed count (18 k-suffixed figures in the matrix) is at least
+  plausible on inspection of the matrix's gate (a) ladder rows — not going to
+  hand-recount all 18, but the mechanism (integer-only regex) is real and the
+  disclosure (source header + README, dated) is genuinely there, not just
+  claimed in the commit message.
+- **C4 codex mismatch** (called out as something Stage 5 must get right, not a
+  Stage 2 deliverable): read `codex-g1-2026-07-29.run.json` directly — it
+  records **67 skills baseline → 66 after suppression**, `input_tokens` 18986 →
+  18925, 2/2 byte-identical. This does **not** match skill-heaven's public
+  "74 → 73" claim. The scratchpad's characterization of this mismatch is
+  accurate; nothing in Stage 2's commits conflates the two or presents the
+  committed run record as backing the public 74→73 figure. Correctly flagged as
+  a live landmine for Stage 5 to handle carefully, not resolved (nor does it
+  need to be — skill-heaven is a different repo, out of scope for KC8's
+  gaia-research-side commits).
+
+**F7 lock discipline:** confirmed via direct read of the ledger records — no
+2.1.220 re-derivation anywhere in this branch's diff. Grepped the full
+`git diff origin/main...HEAD` for "2.1.220" — the only occurrences are in the
+F7 notes text explicitly stating it was *not* re-derived against that version.
+
+**Cursor discipline:** grepped the full diff for "cursor" (case-insensitive) —
+the only three occurrences are in the scratchpad's own inventory/decision
+tables, restating the existing rule ("not probed", "no number, no inference").
+No cursor figure was fabricated or implied anywhere in code, fixtures, ledger
+records, or docs.
+
+**Deliverable page discipline:** confirmed `content/reports/hh-benchmark/`
+contains only the three pre-existing reports (`m2-live-demo.md`,
+`methodology.md`, `r0-census.md`) plus `data/` — no `claim-index.md`, no new
+route file under `app/research/hh-benchmark/`. Stage 2 correctly stopped short
+of Stage 5's job.
+
+**Minor, non-blocking observations for the reviewer's own awareness (not fixes
+demanded of Stage 2, and not reasons to withhold satisfaction):**
+
+- The check-claims.ts source file itself contains one literal `\0` byte,
+  used deliberately as a map-key separator (`` `${num}\0${scope}` ``) inside a
+  dedup Set. This is legitimate, working TypeScript (the script runs and all
+  tests pass) — it just makes the file register as "binary" to naive `grep`.
+  Not a defect, just a note in case a future agent is confused by tooling that
+  balks at the file.
+- I did not hand-recount all 18 k-suffixed matrix figures cited in `8fcdad6`;
+  I confirmed the mechanism (integer-only `normalizeNum`) is real and the
+  disclosure is genuinely present and dated, which is what matters for KC8's
+  honesty discipline. If Stage 5 wants the exact 18 enumerated on the
+  deliverable page, that recount still needs doing — but it's a Stage 5
+  concern, not a Stage 2 defect.
+
+**Nothing found that would block Stage 5.** All data Stage 5 needs to cite
+(ledger records 1–12, the widened census branches, the derived scan set, the
+r0-census ‡ line, the codex run-record numbers) is genuinely committed,
+genuinely gate-traceable where the plan says it should be, and genuinely
+‡-tagged or declared-out-of-scope where the plan says it should be. The claim
+disposition table in the Stage 2 progress log is an accurate spine for the
+deliverable page. Proceed to Stage 5.
