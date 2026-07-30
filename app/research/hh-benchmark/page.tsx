@@ -43,6 +43,7 @@ export default function HhBenchmarkPage() {
             <div><dt>Status</dt><dd><span className="chip wip">WIP · NOT YET EXECUTED</span></dd></div>
           </dl>
           <div className="report-links">
+            <Link href="/research/hh-benchmark/demo">The three-minute demo →</Link>
             <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a>
             <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>
             <a href="https://github.com/gaia-research/gaia-research/issues/62" target="_blank" rel="noreferrer">Help wanted ↗</a>

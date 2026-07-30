@@ -10,18 +10,18 @@
 > **The load-bearing figures are committed `hh-ledger/v1` records:** the floor
 > **placebo** (30,601) and curated **heaven** (55,924, `skillStanding` 227)
 > pair this run appended to
-> [`data/ledger.jsonl`](../../../scripts/hell-heaven-bench/data/ledger.jsonl)
+> [`data/ledger.jsonl`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/data/ledger.jsonl)
 > under benchmark id `hh-kc9-demo`, task `side-stripe-review`. The **native**
 > pole and every figure derived from it are **not committed** — they are marked
 > **‡ = uncommitted workstation context** at each use below, exactly as in
-> [`m2-live-demo.md`](./m2-live-demo.md).
+> [`m2-live-demo.md`](https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/m2-live-demo.md).
 >
 > **Reproduce:**
-> [`scripts/hell-heaven-bench/demo-kc9-live.sh`](../../../scripts/hell-heaven-bench/demo-kc9-live.sh).
-> **Replay:** [`data/kc9-demo-replay.html`](./data/kc9-demo-replay.html) — one
+> [`scripts/hell-heaven-bench/demo-kc9-live.sh`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/demo-kc9-live.sh).
+> **Replay:** [`/reports/hh-benchmark/kc9-demo-replay.html`](/reports/hh-benchmark/kc9-demo-replay.html) — one
 > self-contained offline HTML file, rendered from
-> [`data/kc9-demo-transcript.jsonl`](./data/kc9-demo-transcript.jsonl) by
-> [`render-kc9-replay.mjs`](../../../scripts/hell-heaven-bench/render-kc9-replay.mjs).
+> [`kc9-demo-transcript.jsonl`](https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl) by
+> [`render-kc9-replay.mjs`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/render-kc9-replay.mjs).
 
 ## The design: one task, three loadouts, one endpoint
 
@@ -50,7 +50,7 @@ The endpoint, applied to the final reply of each arm:
 
 **Why that term is the right endpoint.** "Side-stripe borders" is a **coinage**
 of exactly one contract — this repo's
-[`.agents/skills/impeccable`](../../../.agents/skills/impeccable/SKILL.md),
+[`.agents/skills/impeccable`](https://github.com/gaia-research/gaia-research/blob/main/.agents/skills/impeccable/SKILL.md),
 the first entry under its *Absolute bans*. It is not a phrase a model produces
 by chance for a `border-left` accent (the ordinary vocabulary is "accent
 border", "left border", "colored bar"), and it is **deliberately absent from the
@@ -189,7 +189,7 @@ ledger.
 ## Cross-check against M2
 
 The floor route was last measured live for
-[M2](./m2-live-demo.md) on Claude Code 2.1.216; this run is on 2.1.220. The two
+[M2](https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/m2-live-demo.md) on Claude Code 2.1.216; this run is on 2.1.220. The two
 floor records — same repo, same posture, different CLI versions eight patches
 apart — are **30,661** (M2) and **30,601** (KC9): the doorless floor did not
 move materially across the version bump. That is a useful independent signal
@@ -210,11 +210,11 @@ in this report.
 
 | Artifact | Path | What it is |
 |---|---|---|
-| Demo runner | [`scripts/hell-heaven-bench/demo-kc9-live.sh`](../../../scripts/hell-heaven-bench/demo-kc9-live.sh) | Runs the three arms; prints the ledger-append commands, never mutates the ledger |
-| Transcript | [`data/kc9-demo-transcript.jsonl`](./data/kc9-demo-transcript.jsonl) | `kc9-demo-transcript/v1`, one line per beat: composed command, env, loadout, reply, endpoint, doses, wall-clock |
-| Replay page | [`data/kc9-demo-replay.html`](./data/kc9-demo-replay.html) | One self-contained offline HTML file — no CDN, no build step, no server. Step through the run beat by beat, then see all three arms side by side |
-| Renderer | [`scripts/hell-heaven-bench/render-kc9-replay.mjs`](../../../scripts/hell-heaven-bench/render-kc9-replay.mjs) | Transcript → replay page. Every figure on the page is read from the transcript at render time; none is typed in |
-| Ledger | [`scripts/hell-heaven-bench/data/ledger.jsonl`](../../../scripts/hell-heaven-bench/data/ledger.jsonl) | The two committed records (`hh-kc9-demo` / `side-stripe-review`) |
+| Demo runner | [`scripts/hell-heaven-bench/demo-kc9-live.sh`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/demo-kc9-live.sh) | Runs the three arms; prints the ledger-append commands, never mutates the ledger |
+| Transcript | [`content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl`](https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl) | `kc9-demo-transcript/v1`, one line per beat: composed command, env, loadout, reply, endpoint, doses, wall-clock |
+| Replay page | [`/reports/hh-benchmark/kc9-demo-replay.html`](/reports/hh-benchmark/kc9-demo-replay.html) | One self-contained offline HTML file, served live and openable straight off disk — no CDN, no build step, no server. Step through the run beat by beat, then see all three arms side by side |
+| Renderer | [`scripts/hell-heaven-bench/render-kc9-replay.mjs`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/render-kc9-replay.mjs) | Transcript → replay page. Every figure on the page is read from the transcript at render time; none is typed in |
+| Ledger | [`scripts/hell-heaven-bench/data/ledger.jsonl`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/data/ledger.jsonl) | The two committed records (`hh-kc9-demo` / `side-stripe-review`) |
 
 **Why a replay page and not a terminal recording.** This run is three *headless*
 `claude --output-format json` calls: one prompt in, one JSON blob out, no

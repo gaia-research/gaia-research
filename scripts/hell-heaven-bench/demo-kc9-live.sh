@@ -215,7 +215,7 @@ echo
 echo "Transcript (kc9-demo-transcript/v1, $(wc -l < "$TRANSCRIPT" | tr -d ' ') beats): $TRANSCRIPT"
 echo "Render the shareable replay page:"
 echo "  node scripts/hell-heaven-bench/render-kc9-replay.mjs $TRANSCRIPT \\"
-echo "       content/reports/hh-benchmark/data/kc9-demo-replay.html"
+echo "       public/reports/hh-benchmark/kc9-demo-replay.html"
 echo
 echo "Records written (validator-clean by construction — record.ts calls validateRecord):"
 ls -1 "$OUT"/rec-*.json
