@@ -62,9 +62,17 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(HERE, "..", "..");
 const DEFAULT_LEDGER = join(HERE, "data", "ledger.jsonl");
 const DEFAULT_CENSUS = join(REPO_ROOT, "content", "reports", "hh-benchmark", "data", "r0-census.json");
+// NOTE (KC9, 2026-07-30): this list is hand-maintained on `main`. KC8 (PR #139,
+// open) replaces it with a DERIVED listing of content/reports/hh-benchmark/*.md,
+// at which point every entry below that lives in that directory becomes
+// redundant and should be dropped in favour of the listing — do not keep both.
+// Until #139 lands, a new report is only gated if it is named here, so it is
+// named here: an ungated report in the gated directory is the exact seam this
+// file exists to close.
 const DEFAULT_DOCS = [
   join(REPO_ROOT, "docs", "labs", "harness-capability-matrix.md"),
   join(REPO_ROOT, "content", "reports", "hh-benchmark", "m2-live-demo.md"),
+  join(REPO_ROOT, "content", "reports", "hh-benchmark", "kc9-three-minute-demo.md"),
 ];
 
 export const SIGIL = "‡";
