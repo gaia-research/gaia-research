@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import agentskillsIoStandardThumbnailSrc from "@/assets/generated/agentskills-io-standard-editorial-thumbnail.webp";
 import claude5SystemPromptShrinkThumbnailSrc from "@/assets/generated/claude-5-system-prompt-shrink-editorial-thumbnail.webp";
 import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-editorial-thumbnail.webp";
 import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp";
@@ -24,6 +25,11 @@ export const skillEvalsEditorialThumbnail = {
   alt: "Tiny pink-haired Milim studies a paper star at a round table in a moonlit observatory archive.",
 } as const;
 
+export const agentskillsIoStandardThumbnail = {
+  src: agentskillsIoStandardThumbnailSrc,
+  alt: "Placeholder thumbnail for the agentskills.io standard post featuring tiny Milim.",
+} as const;
+
 export const dailyAgentRadarThumbnail = {
   src: dailyAgentRadarThumbnailSrc,
   alt: "Tiny pink-haired Milim sits joyfully at a warm golden morning bakery counter watching steam rise from fresh bread.",
@@ -42,6 +48,18 @@ export const yggdrasilIiThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/agentskills-io-standard",
+    category: "Agent Skills",
+    tags: ["Agent Skills", "Open Standard"],
+    date: "July 30, 2026",
+    readTime: "5 min read",
+    title: "The agentskills.io Standard and Its Story",
+    description:
+      "How an open, file-system-native specification unified skill discovery across 40+ AI agent platforms and established 3-level progressive disclosure.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: agentskillsIoStandardThumbnail,
+  },
   {
     href: "/blog/yggdrasil-ii",
     category: "Agent Skills",
