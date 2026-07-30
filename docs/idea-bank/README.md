@@ -101,3 +101,25 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** The `gaia-skill-tree` registry's Trust Magnitude signals (`src/gaia_cli/trustMagnitude.py`) form a genuine feature vector; the curated registry's (skill → assigned star rank) pairs are an implicit labeled corpus. A Random Forest wrapped in SHAP/LIME could predict and *explain* a skill's star rank — surfacing mis-calibrated skills and explaining assignments to contributors — while TM stays the sole transparent promotion gate per `META.md`. Explicitly a trust-appraisal study, NOT the gaia-curate v2 mapping classifier (that ships first, independently).
 - **Doc:** [`rf-shap-trust-appraisal.md`](./rf-shap-trust-appraisal.md)
 
+## Rank 16 — Blog Idea: The agentskills.io Standard and Its Story
+- **Status:** In Ideation
+- **Viability:** Very High
+- **Potential:** High
+- **Why now:** The `agentskills.io` standard has quietly become the open specification adopted across 40+ AI agent platforms; documenting its origin, anatomy, 3-level progressive disclosure model, and ecosystem momentum positions Gaia Research at the center of skill standardisation.
+- **Doc:** [`blog-idea-agentskills-io-standard-and-story.md`](./blog-idea-agentskills-io-standard-and-story.md)
+
+## Rank 17 — Blog Idea: How Hermes Skills Autonomously Improve Themselves
+- **Status:** In Ideation
+- **Viability:** High
+- **Potential:** Exceptional
+- **Why now:** Autonomous skill self-evolution is widely touted but rarely explained at an architectural level. Unpacking Hermes Agent's `/learn` trajectory capture, 3-tier progressive disclosure, and isolated background Curator process (`curator.py`) delivers rare, high-signal technical content genuinely not easily available elsewhere.
+- **Doc:** [`blog-idea-hermes-skills-autonomous-self-improvement.md`](./blog-idea-hermes-skills-autonomous-self-improvement.md)
+
+## Rank 18 — Blog Subscriber Email Pipeline & Mailing MCP Integration
+- **Status:** Proposed Issue / RFC Plan
+- **Viability:** Very High
+- **Potential:** High
+- **Why now:** Establishes an automated subscriber growth loop by pairing a sleek dark-themed Subscribe UI on the Next.js site with a Mailing MCP Server (Resend/Loops) connected directly to the `gaia-blog-post` skill for zero-friction post-publish broadcasts.
+- **Doc:** [`../plans/issue-blog-subscriber-email-pipeline.md`](../plans/issue-blog-subscriber-email-pipeline.md)
+
+

@@ -12,6 +12,9 @@
 | 8 | Next.js Registry Sync Build Pipeline | High | Medium | Short-Medium | Yes | No | Web platform maintainers | Good infrastructure leverage, but narrower external appeal. |
 | 9 | Gaia Production Team & Native Asset Pipelines | High | Very High | Medium | No | Yes | Creative tech & media leads | End-to-end media home for Milim Player, 2.5D animation, and native image gen skills. |
 | 10 | Automated Change Management Team | High | Very High | Medium | No | Yes | DevOps & documentation maintainers | Hermes Agent cron-scheduled engine for changelogs, epic merges, docs/en updates, and marketing triggers. |
+| 11 | Blog: agentskills.io Standard & Story | Very High | High | Short | No | Yes | Agent architects & devs | Evolution of open SKILL.md spec, progressive disclosure, and 40+ client convergence story. |
+| 12 | Blog: How Hermes Skills Autonomously Self-Improve | High | Exceptional | Short | No | Yes | Systems & AI research devs | Rare deep dive into Hermes Agent's closed learning loop, /learn command, 3-level progressive disclosure, and isolated background Curator process. |
+| 13 | Blog Subscriber Email Pipeline & Mailing MCP | Very High | High | Short-Medium | No | Yes | Readers & site maintainers | Subscribe UI on Next.js blog + Mailing MCP integration triggered automatically by gaia-blog-post skill upon publish. |
 
 ## Suggested sort views
 
