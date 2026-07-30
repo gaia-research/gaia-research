@@ -561,3 +561,46 @@ genuinely gate-traceable where the plan says it should be, and genuinely
 ‡-tagged or declared-out-of-scope where the plan says it should be. The claim
 disposition table in the Stage 2 progress log is an accurate spine for the
 deliverable page. Proceed to Stage 5.
+
+---
+
+## Stage 5 — deliverable (completed by orchestrator recovery, 2026-07-31)
+
+Stage 5's agent hit the account session limit right at the finish line —
+`bbeb3f9` (route + entrypoints) was its last pushed commit. Everything through
+step 4 of the deliverable prompt was done and pushed; steps 5–6 (open PR,
+final log entry) were not. Orchestrator picked up from there rather than
+re-running the stage from scratch — nothing was uncommitted or lost.
+
+Verified independently before closing out:
+- `content/reports/hh-benchmark/claim-index.md` (102 lines) + its route at
+  `app/research/hh-benchmark/claims/page.tsx`, linked from the method page —
+  all present, all committed.
+- `npx tsx scripts/hell-heaven-bench/check-claims.ts` — **exit 0**, all 6 docs
+  (matrix, blog post, claim-index, m2-live-demo, methodology, r0-census) trace
+  clean.
+- `npx tsx scripts/hell-heaven-bench/check-claims.test.ts` — **24/24** (was
+  17/17 before this branch).
+- `npx tsx scripts/hell-heaven-bench/ledger.ts validate` — **OK, 12 records**.
+- F7 lock and cursor deferral disciplines: re-confirmed on the page itself,
+  matches the ruling.
+- The 5 decision points in §6 above were resolved conservatively without
+  needing to interrupt Marco mid-pipeline: D1 backfilled, D2 left ‡, D3
+  **not** fixed in this PR (app/page.tsx untouched — the overclaim is
+  disclosed on the claim-index page as "SOFTENED — copy fix owed" instead,
+  correctly deferred since it's a visitor-visible homepage edit needing its
+  own human-gated pass), D4 disclosed rather than fixed, D5 shipped as
+  "script-reproducible, output not committed" (no unauthorized probe re-run).
+
+**Two live findings worth Marco's attention, surfaced by this page, not yet
+acted on:**
+1. **A2** — the homepage (`app/page.tsx`) claims curated "evicts every
+   installed skill" and readmits only "grilling-native" ones. The committed
+   KC4 probe shows the actual listing is `["heaven-set:kc4-curated-marker","doctor"]`,
+   not empty, and P8 rules `doctor` irreducible while the door is open. Real
+   public overclaim, needs a homepage copy fix (human-gated).
+2. **C6** — the public "codex 74 → 73 entries" claim does not match the
+   committed run record (`codex-g1-2026-07-29.run.json`: 67 → 66). The public
+   figure traces to a different, uncommitted probe.
+
+PR opened by orchestrator: see below.
