@@ -1,7 +1,9 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import ClaimIndexFigures from "@/components/ClaimIndexFigures";
 // loaded as raw text by webpack asset/source
 import claimIndexMd from "@/content/reports/hh-benchmark/claim-index.md";
 
@@ -25,6 +27,70 @@ function loadClaimIndex() {
     .join("\n")
     .trim();
 }
+
+// The inventory tables are the page. Two cell roles get tagged so the status
+// column reads as a column rather than as more prose — presentation only, driven
+// by what the Markdown already says, never by a lookup table that could drift
+// from it.
+const STATUS_FAMILY: [RegExp, "is-bound" | "is-gap" | "is-outside"][] = [
+  [/^RECORD\b/, "is-bound"],
+  [/^RUN RECORD\b/, "is-bound"],
+  [/^‡/, "is-gap"],
+  [/^NOT COMMITTED\b/, "is-gap"],
+  [/^NOT PROBED\b/, "is-gap"],
+  [/^SOFTENED\b/, "is-gap"],
+  [/^OUT OF SCOPE\b/, "is-outside"],
+  [/^clean\b/, "is-outside"],
+];
+
+type HastNode = { type?: string; tagName?: string; value?: string; children?: HastNode[] };
+
+function countCells(node: HastNode | undefined): number {
+  if (!node) return 0;
+  if (node.tagName === "th" || node.tagName === "td") return 1;
+  return (node.children ?? []).reduce((n, c) => n + countCells(c), 0);
+}
+
+function textOf(node: HastNode | undefined): string {
+  if (!node) return "";
+  if (node.type === "text") return node.value ?? "";
+  return (node.children ?? []).map(textOf).join("");
+}
+
+function cellClass(node: HastNode | undefined): string | undefined {
+  const text = textOf(node).trim();
+  if (/^[ABC]\d+$/.test(text)) return "claim-id";
+  // Status cells are terse; every other cell in these tables is a sentence.
+  if (text.length > 90) return undefined;
+  const hit = STATUS_FAMILY.find(([re]) => re.test(text));
+  return hit ? `claim-status ${hit[1]}` : undefined;
+}
+
+const markdownComponents = {
+  // Dense five-column tables scroll inside their own container; the page body
+  // never scrolls sideways.
+  table: ({ children, node }: { children?: ReactNode; node?: HastNode }) => {
+    // Column count drives the width ladder: left to itself, `auto` starves the
+    // "Where" column of path text while the "Record" column runs long.
+    const head = node?.children?.find((c) => (c as { tagName?: string }).tagName === "thead");
+    const cols = countCells(head);
+    return (
+      <div className={`claim-table-wrap cols-${cols}`}>
+        <table>{children}</table>
+      </div>
+    );
+  },
+  td: ({ children, node }: { children?: ReactNode; node?: HastNode }) => (
+    <td className={cellClass(node)}>{children}</td>
+  ),
+  // Every record link leaves for GitHub; open it without losing the index.
+  a: ({ children, href }: { children?: ReactNode; href?: string }) =>
+    href?.startsWith("http") ? (
+      <a href={href} target="_blank" rel="noreferrer">{children}</a>
+    ) : (
+      <a href={href}>{children}</a>
+    ),
+};
 
 export default function HhBenchmarkClaimsPage() {
   const body = loadClaimIndex();
@@ -51,8 +117,10 @@ export default function HhBenchmarkClaimsPage() {
           </div>
         </header>
 
-        <article className="report-body">
-          <Markdown remarkPlugins={[remarkGfm]}>{body}</Markdown>
+        <ClaimIndexFigures />
+
+        <article className="report-body claim-body">
+          <Markdown remarkPlugins={[remarkGfm]} components={markdownComponents}>{body}</Markdown>
         </article>
 
         <footer className="report-foot">
