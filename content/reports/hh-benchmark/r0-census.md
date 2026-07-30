@@ -75,5 +75,14 @@ npx tsx scripts/hell-heaven-bench/census.ts --canon ../gaia-skill-tree \
 npx tsx scripts/hell-heaven-bench/census.ts --repo /path/to/repo
 ```
 
-Sanity check, this repo: 6 contracts, standing 597 vs invocation 10,376 tokens
-(overstatement mean 13.8×) — the two-dose split holds at small n too.
+Sanity check, this repo: 6 contracts, standing 597 ‡ vs invocation 10,376 ‡ tokens
+(overstatement mean 13.8× ‡) — the two-dose split holds at small n too.
+
+‡ = declared uncommitted workstation context. That sanity run was taken over *this*
+repo's own skill dirs via the `--repo` mode above and its JSON was **never committed**,
+unlike the canon R0 artifact. The command reproduces it; the numbers trace to no
+committed record until that JSON lands. Every other figure on this page traces to the
+committed `data/r0-census.json`.
+
+Every figure on this page is listed, with the record behind it, in the
+[claim index](claim-index.md).
