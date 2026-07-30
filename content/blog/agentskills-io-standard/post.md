@@ -17,6 +17,8 @@ The shift began when Anthropic and the open-source community introduced the `age
 
 Zhang and Murag's core insight—that agents should dynamically discover capabilities rather than load static tool schemas—formalized what is now standard in the specification: the **3-Level Progressive Disclosure Protocol**.
 
+To understand why folder fragmentation is so frustrating today, we must first look at how progressive disclosure solved the original token tax.
+
 ---
 
 ## Anatomy & The 3-Level Progressive Disclosure Protocol
@@ -82,7 +84,7 @@ Illustrative token budget impact across a 40-skill workload comparing progressiv
 
 ## From Vibes to Bounded Execution Directives
 
-Beyond context efficiency, the standard transformed prompt engineering by shifting instructions from advisory prose to bounded execution directives. 
+Beyond context efficiency, progressive disclosure required a new prompt engineering discipline: shifting instructions from advisory prose to bounded execution directives. It is this bounded structure that makes a skill file content-portable across different LLM backends.
 
 An unconstrained skill instruction accumulates polite hedging. An engineered skill compresses toward bounded execution steps:
 
@@ -153,7 +155,13 @@ An agent harness shouldn't care whether Claude Code, Pi, Codex, or Hermes wrote 
 
 ## One Thing to Do Today
 
-Stop maintaining duplicate skill folders across `.claude/`, `.codex/`, and `.pi/`. Create a root `~/.skills/` folder, move your `SKILL.md` packages there, and symlink your harness dotfiles to it until platforms standardize.
+Stop maintaining duplicate skill folders across `.claude/`, `.codex/`, and `.pi/`. Create a root `~/.skills/` folder, move your `SKILL.md` packages there, and symlink your harness dotfiles to it until platforms standardize:
+
+```bash
+mkdir -p ~/.skills
+ln -sf ~/.skills ~/.claude/skills
+ln -sf ~/.skills ~/.pi/agent/skills
+```
 
 Let's unite directory paths the same way we united the file format.
 
