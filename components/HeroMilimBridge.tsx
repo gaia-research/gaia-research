@@ -53,6 +53,18 @@ export function HeroMilimBridge() {
     const reducedMotion = () =>
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    // On mobile the hero stacks (copy above, character below), so the
+    // character alone can be mostly offscreen while the reader is still
+    // partway through the headline/lede/buttons. Watching just `.live-stage`
+    // there fires the pet hand-off before the reader has even seen the hero.
+    // Watch the whole `.hero` section instead so the pet only comes in once
+    // the reader has actually scrolled past all of it.
+    const isMobile = window.matchMedia("(max-width:700px)").matches;
+    const observedEl = isMobile
+      ? document.querySelector<HTMLElement>(".hero") ?? stage
+      : stage;
+    const ioThreshold = isMobile ? 0 : IO_THRESHOLD;
+
     // ── Transient "leaving Milim" line, written straight to the live bubble ─
     const sayLeaving = (direction: MilimDirection) => {
       const pool = direction === "to-pet" ? TRANSITION_TO_PET : TRANSITION_TO_HERO;
@@ -160,9 +172,9 @@ export function HeroMilimBridge() {
           runTransition(want === "pet" ? "to-pet" : "to-hero");
         }, DEBOUNCE_MS);
       },
-      { threshold: IO_THRESHOLD },
+      { threshold: ioThreshold },
     );
-    io.observe(stage);
+    io.observe(observedEl);
 
     // ── Async pet-mount handshake ────────────────────────────────────────────
     // The pet mounts lazily; if it boots after our initial emit it would miss

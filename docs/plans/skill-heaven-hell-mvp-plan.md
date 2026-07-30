@@ -1,8 +1,8 @@
 # Skill Heaven / Skill Hell — MVP Implementation Plan
 
 > Companion to the ratified findings in
-> [`../idea-bank/skill-heaven-hell-mvp.md`](../idea-bank/skill-heaven-hell-mvp.md).
-> Scope: the R0–R3 slice of `MISSION.md` §3, Heaven first, Hell staged behind it.
+> [`../idea-bank/archived/2026-07-24-skill-heaven-hell-mvp.md`](../idea-bank/archived/2026-07-24-skill-heaven-hell-mvp.md).
+> Scope: the R0–R3 slice of `../skill-heaven/MISSION.md` §3, Heaven first, Hell staged behind it.
 > Baseline harnesses: **Claude Code, Codex CLI, Cursor, pi.**
 > **Decision authority:** [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)
 > — this plan implements; the founder doc decides.
@@ -12,7 +12,7 @@
 - **Heaven ships first** — it is pure subtraction, needs no registry, no gate, and
   (in its purest form) no MCP server.
 - **Hell follows** — it needs the Ygg II stamps (epic 1002, still being finalized),
-  the benchmark to earn them, and the firebreak. We build its routing spike early
+  the benchmark to earn them, and the ladder cap. We build its routing spike early
   because performance is its top priority, but nothing ships until the gate clears.
 - **Claude Code is the reference harness** (best automation + telemetry + skills
   semantics); pi is the second dir-based target; Codex/Cursor are ports with
@@ -47,12 +47,12 @@ from).
 
 > **Status 2026-07-20: implemented; naming closed.** The launcher-shaped
 > profile compiler lives in **`gaia-research/skill-heaven`** (monorepo + Claude
-> plugin marketplace, per N8/N9 — the `hh-launcher` working name is retired;
+> plugin marketplace, per N8/N9 — the `hh-launcher` working name is retired; <!-- lexicon-allow: states that the name is retired -->
 > per-harness installables `claude-heaven`/`pi-heaven`/… are the user-facing
 > product, the core `skill-heaven` bin is the research driver). Continuation:
-> [`skill-heaven-continuation-plan.md`](./skill-heaven-continuation-plan.md).
+> [`skill-heaven-continuation-plan.md`](./archived/2026-07-24-skill-heaven-continuation-plan.md).
 > First pass per
-> [`m2-heaven-launcher-plan.md`](./m2-heaven-launcher-plan.md) and D6/D7.
+> [`m2-heaven-launcher-plan.md`](./archived/2026-07-24-m2-heaven-launcher-plan.md) and D6/D7.
 > 30 unit tests + census parity fixture green; live demos a–d ran on Claude Code
 > 2.1.215 and pi 0.80.10; two `hh-m2-smoke` records appended to the ledger of
 > record (validator-clean). T6 resolved **negative** — curated re-admission
@@ -111,11 +111,11 @@ not exist in any harness).
   the remainder.
 - **Stress harness:** synthetic corpus generator fabricates **hundreds of
   hell-max-compatible skills** (realistic distribution: only a handful genuinely
-  qualify, the rest are plausible noise). Measure: retrieval latency (budget:
+  qualify, the rest are plausible noise). Measure: retrieval latency (ceiling:
   single-digit ms lookup), catalog standing dose vs. pool size, precision@k against
-  a hand-labeled relevance set, firebreak behavior at scale.
+  a hand-labeled relevance set, ladder cap behavior at scale.
 
-### M5 — Summon surface + firebreak
+### M5 — Summon surface + ladder cap
 
 - `gaia-mcp` exposes **two tools max**: `search_skills` (over the frozen index) and
   `summon(skill_id)` (returns the hash-pinned skill body). Server's own schema
@@ -123,7 +123,7 @@ not exist in any harness).
 - Fleet lane: launch-time **loadout compiler** writes the summoned set into the
   session-scoped skills dir for native semantics; mid-loop additions go through
   `summon`.
-- Firebreak = per-session token ledger, admission control only (context cannot be
+- Ladder cap = per-session token ledger, admission control only (context cannot be
   un-spent). Ranked drop policy: stamp tier × retrieval rank. `summon` is
   idempotent and cheap to re-issue; re-summons of an already-charged skill do not
   double-charge the ceiling (compaction recovery).
@@ -158,8 +158,8 @@ Stamps land after the benchmark and after the epic. Until then `gaia-research`:
 | M2 | Heaven in-harness (Claude Code, then pi) | M0 | R3 (Heaven mechanism) |
 | M3 | Ledger appender | M1 | R2 plumbing |
 | M4 | Hell routing spike + stress harness | M1 | pre-R4 |
-| M5 | Summon surface + firebreak | M4, Ygg II stamps | R4 |
+| M5 | Summon surface + ladder cap | M4, Ygg II stamps | R4 |
 
 Benchmark milestones R1 (rubric + seed labels) and R2 (paired trial) run alongside
-per `MISSION.md`; M3 is their data plumbing. The plan's placebo arm is always the
+per `../skill-heaven/MISSION.md`; M3 is their data plumbing. The plan's placebo arm is always the
 **same-harness no-skill run**; published benchmark scores are calibration only.

@@ -16,6 +16,11 @@ const nextConfig = {
         destination: "/blog/daily-agent-radar-2026-07-24",
         permanent: true,
       },
+      {
+        source: "/blog/yggdrasil-2",
+        destination: "/blog/yggdrasil-ii",
+        permanent: true,
+      },
     ];
   },
   webpack: (config) => {

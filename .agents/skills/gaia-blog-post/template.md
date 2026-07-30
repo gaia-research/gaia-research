@@ -198,7 +198,7 @@ export default function BlogPostPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main" className="blog-post-page max-w-4xl mx-auto px-4 py-8">
+      <main id="main" className="blog-post-page">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData).replace(/</g, "\\u003c") }}
@@ -228,7 +228,7 @@ export default function BlogPostPage() {
           />
         </figure>
 
-        <article className="blog-post-body report-body prose prose-invert prose-slate max-w-3xl leading-relaxed">
+        <article className="blog-post-body report-body">
           <Markdown
             remarkPlugins={[remarkGfm]}
             components={{

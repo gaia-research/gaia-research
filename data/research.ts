@@ -66,10 +66,78 @@ export { allSkills as skills };
 // ── Research ledger: published evidence, not installable tools ──────────────
 // href "" renders as plain text (no destination yet). External URLs open in a
 // new tab; internal routes and #anchors navigate in place.
-export const ledger = [
-  ["Context Diet", "LAB", "WIP", "Local token-budget estimator; comparative benchmark results pending review", "/labs/context-diet"],
-  ["The Compounding Cost of CI Failures", "POSTMORTEM", "VRF", "Postmortem of Epic #780 introducing CI Churn as a first-class cost metric", "/research/ci-churn"],
-  ["Agent Cost Reporting", "RESEARCH PLAN", "PRP", "Proposed study of the gap between agent estimates, rate-card totals, and invoices", "/research/cost"],
-  ["Gaia MCP", "PRODUCT", "ACT", "Model Context Protocol server exposing the Gaia Skill Tree to Claude Code, Codex, and Cursor", "/mcp"],
-  ["The Hell Heaven Benchmark", "METHOD", "WIP", "Drug-trial method for scoring skills by marginal efficacy against established model baselines; drafted in public, not yet executed", "/research/hh-benchmark"],
+
+export type LedgerStatus = "ACT" | "PRP" | "VRF" | "REV" | "WIP" | "PLN";
+
+export const statusText: Record<LedgerStatus, string> = {
+  ACT: "ACTIVE",
+  PRP: "PROPOSED",
+  VRF: "VERIFIED",
+  REV: "IN REVIEW",
+  WIP: "EXPERIMENTAL",
+  PLN: "PLANNED",
+} as const;
+
+export type ResearchEntry = {
+  title: string;
+  shortName?: string;
+  type: string;
+  status: LedgerStatus;
+  description: string;
+  href: string;
+  action: string;
+};
+
+export const researchEntries: readonly ResearchEntry[] = [
+  {
+    title: "Context Diet",
+    shortName: "Context Diet",
+    type: "LAB",
+    status: "WIP",
+    description: "Local token-budget estimator; comparative benchmark results pending review.",
+    href: "/labs/context-diet",
+    action: "Play Context Diet",
+  },
+  {
+    title: "The Compounding Cost of CI Failures",
+    type: "POSTMORTEM",
+    status: "VRF",
+    description: "Postmortem of Epic #780 introducing CI Churn as a first-class cost metric.",
+    href: "/research/ci-churn",
+    action: "Read the postmortem",
+  },
+  {
+    title: "When Agents Report Their Own Cost",
+    shortName: "Agent Cost Reporting",
+    type: "RESEARCH PLAN",
+    status: "PRP",
+    description: "Proposed study of the gap between agent estimates, rate-card totals, and invoices.",
+    href: "/research/cost",
+    action: "Read the plan",
+  },
+  {
+    title: "Gaia MCP",
+    type: "PRODUCT",
+    status: "ACT",
+    description: "Model Context Protocol server exposing the Gaia Skill Tree to Claude Code, Codex, and Cursor.",
+    href: "/mcp",
+    action: "Learn more",
+  },
+  {
+    title: "The Hell Heaven Benchmark",
+    type: "METHOD",
+    status: "WIP",
+    description: "Drug-trial method for scoring skills by marginal efficacy against established model baselines; drafted in public, not yet executed.",
+    href: "/research/hh-benchmark",
+    action: "Read the method",
+  },
 ] as const;
+
+export const ledger = researchEntries.map((e) => [
+  e.shortName ?? e.title,
+  e.type,
+  e.status,
+  e.description,
+  e.href,
+]) as readonly (readonly [string, string, LedgerStatus, string, string])[];
+

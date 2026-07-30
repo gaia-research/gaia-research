@@ -17,7 +17,10 @@
  * EMERGENT→CANONICAL PROMOTION: after the LLM names a fusion, we normalise the
  * name to a slug and look it up in `data/craft/named-index.json`. If it matches a
  * real Gaia Skill Tree skill we PROMOTE the result to `canonical`, keep the model's
- * description, and attach the derived deep-link — the aha + funnel payoff.
+ * description, and attach the derived deep-link — the aha + funnel payoff. When the
+ * exact-slug match misses, a Vectorize fuzzy tier (Epic #89 / #87) gets one more
+ * shot at the same promotion for paraphrased names ("Scraping the Web" → web-scraper)
+ * before the result is finally left as plain emergent.
  *
  * Results are cached forever in Cloudflare KV keyed by an order-independent
  * `pairKey(a, b)`, so the first discoverer's answer becomes canon for that pair.
@@ -29,7 +32,7 @@
  *  • FULLY PLAYABLE ON LOCALHOST with zero Cloudflare credentials. `next dev`
  *    has no bindings, so every binding access is guarded: KV degrades to an
  *    in-memory Map shim and AI degrades to a deterministic local mock fusion.
- * Bindings (wrangler.jsonc): AI (Workers AI) · CRAFT_KV (KV)
+ * Bindings (wrangler.jsonc): AI (Workers AI) · CRAFT_KV (KV) · VECTORIZE (Vectorize, #87)
  */
 
 import { NextResponse } from 'next/server';
@@ -38,8 +41,11 @@ import { pairKey } from '@/lib/craft/types';
 import type { FusionResult, FusionTier } from '@/lib/craft/types';
 import { findRecipe, skillTreeUrl } from '@/lib/craft/recipes';
 import { findStarterRecipe } from '@/lib/craft/starter-recipes';
+import { findDerivedRecipe } from '@/lib/craft/bridges';
 import { lookupNamedSkill, namedContributor } from '@/lib/craft/named-index';
 import { findTopCandidateSlugs } from '@/lib/craft/similarity-shim';
+import { resolveVectorizePromotion } from '@/lib/craft/vectorize-promotion';
+import type { VectorizeLike } from '@/lib/craft/vectorize-promotion';
 import {
   buildFusionPrompt,
   FUSION_MODEL,
@@ -72,13 +78,14 @@ interface KvLike {
 interface AiLike {
   run(
     model: string,
-    input: { messages: unknown; temperature?: number }
+    input: { messages: unknown; temperature?: number } | { text: string[] }
   ): Promise<unknown>;
 }
 
 interface CraftBindings {
   CRAFT_KV?: KvLike;
   AI?: AiLike;
+  VECTORIZE?: VectorizeLike;
 }
 
 // ---------------------------------------------------------------------------
@@ -157,6 +164,7 @@ async function resolveBindings(): Promise<CraftBindings> {
     return {
       CRAFT_KV: env.CRAFT_KV,
       AI: env.AI,
+      VECTORIZE: env.VECTORIZE,
     };
   } catch {
     // No Cloudflare context (localhost `next dev`, tests, etc.) — return empty.
@@ -521,7 +529,7 @@ export async function POST(request: Request): Promise<Response> {
     // Cache read failure is non-fatal — fall through to compute a fresh result.
   }
 
-  // ── c. Resolve tier: canonical(recipe) → canonical(starter) → egg → emergent ─
+  // ── c. Resolve tier: canonical(recipe) → canonical(derived) → canonical(starter) → egg → emergent ─
   let result: FusionResult;
   // The verified {slug, contributor} behind a canonical link, when one exists.
   // Stored compactly so `skillTreeUrl` can be DERIVED on read (never stored).
@@ -551,11 +559,47 @@ export async function POST(request: Request): Promise<Response> {
       skillTreeUrl: skillTreeUrl(recipe.contributor, recipe.slug),
       experimental: false,
     };
+  } else if (findDerivedRecipe(na, nb)) {
+    // Derived canonical tier: covers two sub-cases resolved by findDerivedRecipe:
+    //
+    //   a) Registry-derived (Metric A): a 2-prereq fusion edge from bridges.json
+    //      whose prerequisites are exactly the two input skills. This tier is the
+    //      result of the build-time AND-reachability closure over the registry graph
+    //      (Plan B / Issue #86). New registry skills become reachable automatically
+    //      on the next sync — zero hand-authoring required.
+    //
+    //   b) Seed-bridge (A′ / Metric B): one of the pair is a game seed slug
+    //      (prompt/code/web/data) and the other is a root basic with a seed bridge.
+    //      findDerivedRecipe returns the basic's own id (bridges make the basic
+    //      reachable; the result IS the basic). The player "unlocks" the basic from
+    //      their seed card, gaining an entry point into the registry graph.
+    //      Deep-linking targets the named skill via that basic when one exists.
+    const derivedResult = findDerivedRecipe(na, nb)!;
+    const named = lookupNamedSkill(derivedResult);
+    const contributor = namedContributor(derivedResult);
+    if (contributor) {
+      canonicalRef = { slug: derivedResult, contributor };
+    }
+    result = {
+      name: `/${derivedResult}`,
+      emoji: '✨',
+      blurb: named?.description
+        ? `Fuse /${na} + /${nb} to unlock /${derivedResult}.`
+        : `Fuse /${na} + /${nb} → /${derivedResult}.`,
+      description: named?.description,
+      skillTitle: named?.title,
+      tier: 'canonical',
+      isFirstDiscovery: true,
+      passesSkillCheck: true,
+      contributor,
+      skillTreeUrl: skillTreeUrl(contributor, derivedResult),
+      experimental: false,
+    };
   } else if (
-    // Starter tech tree: the seed primitives (/prompt /code /web /data) and their
-    // results are authored slash-prefixed, so feed slash-form names to match the
-    // pairKey the tree is keyed by. Inserted BEFORE easter eggs so curated seed
-    // combos deterministically land on recognisable skills.
+    // Starter tech tree (FLAVOR OVERLAY): the seed primitives (/prompt /code /web /data)
+    // and their results are authored slash-prefixed. Kept as a flavor/copy layer for
+    // recognisable curated skill names — reachability is now sourced from bridges.json,
+    // not from this file (Plan B / Issue #86 demotion).
     findStarterRecipe(`/${na}`, `/${nb}`)
   ) {
     const starter = findStarterRecipe(`/${na}`, `/${nb}`)!;
@@ -634,7 +678,37 @@ export async function POST(request: Request): Promise<Response> {
       // EMERGENT → CANONICAL PROMOTION: if the model's name matches a real named
       // skill, promote to canonical + attach the derived deep-link, keeping the
       // model's own description. This is the aha + funnel payoff for organic combos.
-      const promotion = resolvePromotion(raw.name);
+      let promotion = resolvePromotion(raw.name);
+
+      // TIER 2 (Epic #89 / #87): the exact-match gate above missed — try a
+      // Vectorize fuzzy match on the model's name + factual description before
+      // giving up and staying emergent. Supplements, never replaces, the exact
+      // match above.
+      //
+      // Uses `raw.description` (factual, "what the skill DOES" — see
+      // lib/craft/prompt.ts's RawFusionJson doc comment), NOT `raw.blurb` (the
+      // playful "boss" flavour line). The Vectorize corpus is embedded from
+      // named-skill title + factual description at sync time
+      // (sync-skill-tree.ts's embedAndUpsertNamedSkills), so the query text
+      // must match that register or cosine similarity is measuring style
+      // difference as much as semantic difference. Measured impact on the
+      // prompt's own `/scraper` few-shot: blurb text scored 0.716 against the
+      // matching named skill (below threshold, never promotes), description
+      // text scored 0.861 (promotes) — same fusion, same target, ~0.15 gap
+      // purely from which field was embedded.
+      if (!promotion) {
+        // De-slug the fusion name before embedding: the model names fusions in
+        // kebab/slug style (e.g. `/pytest-patterns`), which the BGE tokenizer
+        // splits into subword fragments that don't map cleanly to the corpus's
+        // natural `Title. description` register. Stripping the leading `/` and
+        // turning `-` into spaces reads as natural English and lifts top-1
+        // cosine by ~0.013 on average (beat raw-slug composition on 7/9 probed
+        // targets, never lost by >0.002).
+        const naturalName = raw.name.replace(/^\//, '').replace(/-/g, ' ');
+        const queryText = `${naturalName}. ${raw.description ?? raw.blurb ?? ''}`.slice(0, 512);
+        promotion = await resolveVectorizePromotion(queryText, bindings);
+      }
+
       const description =
         raw.description ??
         `A fresh fusion of ${na} and ${nb} an agent can invoke as a single skill.`;

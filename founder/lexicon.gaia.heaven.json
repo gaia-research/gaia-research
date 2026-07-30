@@ -1,0 +1,285 @@
+{
+  "lexicon": "2",
+  "namespace": "gaia.heaven",
+  "extends": "core",
+  "updated": "2026-07-29",
+  "about": "The Skill Heaven / Skill Hell product line: the two dials (ladder and mode), the postures they name, the mechanisms that move skills in and out of a session, and the launcher/door names. skill-heaven consumes this namespace; it does not own it.",
+  "terms": [
+    {
+      "term": "ladder",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "N1, N5, P5",
+      "definition": "The rung axis (`off…max`) that sets how much may be summoned per task and how much of the choosing is automated. One of two dials, with mode as the other."
+    },
+    {
+      "term": "posture",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "P1",
+      "definition": "A named position in the mode dial (P1's four). Distinct from a ladder rung, which is how much enters."
+    },
+    {
+      "term": "native",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "P1",
+      "definition": "The user's own setup, untouched — no eviction, no summoning. The default posture."
+    },
+    {
+      "term": "curated",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "P1",
+      "definition": "A hand-gated few skills, source-agnostic (the user's own custom skills first). The allowlist as human-selected fixed state, chosen at launch."
+    },
+    {
+      "term": "floor",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "P1, B1, B2",
+      "definition": "The DOORLESS BENCHMARK floor: evict all skills, bare prompt profile, zero server, slash commands off — the benchmark's placebo-of-record, at level `off`. Composed by core for measurement runs; it keeps no door, so it is never offered on the in-session surface.",
+      "note": "The product/benchmark question this entry used to park is CLOSED — V5-5 split the floors and skill-heaven PR #14 landed it: the doorful launchable posture is `product-floor` (synonym: `clean-room`), priced as its own arm, never pooled with this one (B1)."
+    },
+    {
+      "term": "product-floor",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "D12, B1",
+      "synonyms": [
+        "clean-room"
+      ],
+      "definition": "The DOORFUL clean floor — the cleanest launchable posture: bundled skills, user/global skills, MCP and non-project settings evicted; the door (slash commands) kept. Composed only at boot, via a launcher (D12); priced as its own arm, never pooled with the benchmark `floor` (B1). Synonym: `clean-room` — two names for one posture; neither retires the other.",
+      "note": "Ratified by V5-5 and landed in core's posture set (skill-heaven PR #14). Fully clean is not possible because the bare minimum stays — the door is the bare minimum."
+    },
+    {
+      "term": "hell lane",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "P1",
+      "definition": "The evidenced pool, honesty-gated, above native — how much of it enters is the ladder's rung."
+    },
+    {
+      "term": "clean-room",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "D12",
+      "definition": "The cleanest launchable posture: bundled skills, user/global skills, MCP and non-project settings all evicted; the door stays. Reachable only at boot, via the launcher. Synonym of `product-floor` — two names for one posture; neither retires the other.",
+      "note": "PROPOSED promotion 2026-07-29 (awaits founder ratification; demoted from canonical 2026-07-24 as unshipped): the posture has now shipped as `product-floor` in core (V5-5, skill-heaven PR #14). The earlier \"fully-subtractive\" adjective overreached — the enumerated list never included slash commands; fully clean is not possible because the bare minimum stays.",
+      "synonyms": [
+        "product-floor"
+      ]
+    },
+    {
+      "term": "scalpel",
+      "state": "parked",
+      "group": "posture",
+      "oracle": "D12, N8",
+      "definition": "The in-session control. Upward-only from the launched floor; carries conversation history; cannot descend below its launch posture.",
+      "note": "Names the in-session control from D12's former product design; that framing was cut back to physics 2026-07-24. Parked until the control exists."
+    },
+    {
+      "term": "purge",
+      "state": "parked",
+      "group": "mechanism",
+      "definition": "Physical subtractive removal of context. Launcher-locked — gate (a) proved it cannot happen in-session.",
+      "note": "Names a real mechanism split — gate (a) proved purge cannot happen in-session — but the product framing that named it (D13) was deleted 2026-07-24. Parked until a surface using it ships."
+    },
+    {
+      "term": "restraint",
+      "state": "parked",
+      "group": "mechanism",
+      "definition": "Behavioral suppression of skill USE while the skills remain physically in context. UNVERIFIED — research track, behind matrix gate (e), no load-bearing copy until it passes.",
+      "note": "Behind matrix gate (e), which has never run. Its backing entry (D13) was deleted 2026-07-24. It was canonical on that entry's authority while the entry itself said UNVERIFIED — it should never have been canonical."
+    },
+    {
+      "term": "lean",
+      "state": "parked",
+      "group": "posture",
+      "definition": "Coined in matrix gate (a) as a slider stop for `--setting-sources project`. Not one of P1's four postures — this is the naming collision the PR #4 review flagged.",
+      "proposed_replacement": "project-only",
+      "note": "UNRATIFIED both ways. Scoped narrowly on purpose: `lean` appears in 111 files, nearly all innocent (`clean`, `lean bundle`). Only flagged in user-facing copy and code."
+    },
+    {
+      "term": "project-only",
+      "state": "parked",
+      "group": "posture",
+      "definition": "Proposed name for the `--setting-sources project` stop: sheds project/settings weight, does NOT remove the user's personal skills. Unratified."
+    },
+    {
+      "term": "add-ons",
+      "state": "parked",
+      "group": "posture",
+      "definition": "Coined in matrix gate (a) as a slider stop. Proposal on the table: this is an ACTION available at any posture (route G shows `--plugin-dir` stacks even at the floor), not a position on the ladder. Unratified."
+    },
+    {
+      "term": "notch",
+      "state": "banned",
+      "group": "posture",
+      "definition": "Retired 2026-07-24 in favour of `rung`.",
+      "replacement": "rung",
+      "oracle": "N1, N5"
+    },
+    {
+      "term": "rung",
+      "state": "canonical",
+      "group": "posture",
+      "definition": "One selectable position on the ladder (`off…max`). The chosen word of the notch/rung/stop cluster — a ladder has rungs.",
+      "oracle": "N1, N5",
+      "note": "Promoted 2026-07-24 for consistency with the oracle, which uses `rung` throughout after the ladder ruling. Correct freely if `notch` or `stop` reads better."
+    },
+    {
+      "term": "slider",
+      "state": "banned",
+      "group": "posture",
+      "definition": "Retired 2026-07-24. The control is a ladder with discrete rungs, not a continuous fader.",
+      "note": "This was the longest-running vocabulary conflict on the line — N1 superseded the slider framing while later entries mandated a slider, and neither acknowledged the other. Closed by choosing the ladder. The in-session posture surface ships with NO noun for the control (2026-07-29): `ladder`/`rung` name the off…max ladder — a different control — and the mode-control name is open. Do not substitute `ladder` into copy about the posture surface, and do not coin a replacement.",
+      "replacement": "ladder",
+      "oracle": "N1"
+    },
+    {
+      "term": "picker",
+      "state": "parked",
+      "group": "posture",
+      "definition": "Candidate replacement for the contested `slider` — a discrete chooser with locked entries, which is what the product actually renders. Unratified.",
+      "note": "WITHDRAWN as a candidate 2026-07-29 (founder): the control name remains open and the method is locked — the method is already implied by Skill Heaven / Skill Hell. Do not ratify; do not propose a noun for the control surface."
+    },
+    {
+      "term": "mode",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "N1, N2",
+      "definition": "Discrete mode switching — the interaction model. Same mode, same semantics, any door. N2 leans 'Skill Heaven mode' / 'Skill Hell mode'."
+    },
+    {
+      "term": "level",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "N3",
+      "definition": "Agentic-coding level terms: off · low · med · high · xhigh · max. No celestial level names."
+    },
+    {
+      "term": "Heaven-0",
+      "state": "banned",
+      "replacement": "level",
+      "group": "posture",
+      "oracle": "N3",
+      "definition": "Retired as a level name. Historical shorthand in archived docs only."
+    },
+    {
+      "term": "Heaven-1",
+      "state": "banned",
+      "replacement": "level",
+      "group": "posture",
+      "oracle": "N3",
+      "definition": "Retired as a level name. Historical shorthand in archived docs only."
+    },
+    {
+      "term": "ultra",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "N4",
+      "definition": "The arm above Hell — a mode, not a rung. The ladder's top rung is `max`."
+    },
+    {
+      "term": "resident",
+      "state": "parked",
+      "group": "mechanism",
+      "definition": "Proposed name for a skill currently in context. Not the founder's word for it; kept parked rather than promoted alongside `summonable`.",
+      "except": [
+        "permanent resident",
+        "resident of"
+      ],
+      "note": "Proposed name for a skill currently in context; not the founder's word for it, so it stays parked beside the canonical `summonable`. The ordinary-English sense (\"a permanent resident of your config\") is exempted by pattern — the fifth time a one-word rule met a second meaning."
+    },
+    {
+      "term": "summonable",
+      "state": "canonical",
+      "group": "mechanism",
+      "definition": "A skill that is indexed and reachable but costs nothing until summoned. Hell grows this set; a summon brings a proxy into context for this session only.",
+      "oracle": "P5"
+    },
+    {
+      "term": "eviction",
+      "state": "canonical",
+      "group": "mechanism",
+      "oracle": "D2",
+      "definition": "Removal of a skill from context. Always harness-side, never an MCP operation — MCP is additive-only in every target harness."
+    },
+    {
+      "term": "summon",
+      "state": "canonical",
+      "group": "mechanism",
+      "oracle": "D4",
+      "definition": "One of gaia-mcp's two tools (with `search_skills`). Additive-only. A summon brings a skill into context once, for this session only — it does not survive a compact or a new session, and installs nothing."
+    },
+    {
+      "term": "router",
+      "state": "canonical",
+      "group": "mechanism",
+      "oracle": "D5",
+      "definition": "Deterministic nearest-neighbour over a build-time frozen embedding index. No model call ever decides a loadout."
+    },
+    {
+      "term": "firebreak",
+      "state": "banned",
+      "group": "mechanism",
+      "definition": "Retired 2026-07-24. It named a token ceiling on the summon flood — the thing the ladder now sets and the meter now shows.",
+      "replacement": "ladder",
+      "oracle": "N1, P5",
+      "note": "Two senses ran side by side: the live 'token-ceiling firebreak' and the archived RFC-68 sense (an architectural boundary against tool-exposure degradation). Neither survives: a cap with a control and a readout does not need a third name."
+    },
+    {
+      "term": "launcher",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "D6, D12",
+      "definition": "The boot-time composer. Owns the launcher-locked subtractive floor — the only path to the deepest Heaven."
+    },
+    {
+      "term": "door",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N9",
+      "definition": "A per-harness installable — `claude-heaven`, `pi-heaven`, `codex-heaven`. The doors are the user-facing product."
+    },
+    {
+      "term": "skill-heaven",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N9",
+      "definition": "The product monorepo (`gaia-research/skill-heaven`), which doubles as the Claude Code plugin marketplace. Its core bin is the research driver, not the user-facing install."
+    },
+    {
+      "term": "claude-heaven",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N9",
+      "definition": "The flagship door. Claude Code is the reference harness and marketing weight sits here."
+    },
+    {
+      "term": "pi-heaven",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N9",
+      "definition": "The R&D vanguard door — interaction design is proven on pi first, then ported down to Claude Code's more restrictive plugin surface."
+    },
+    {
+      "term": "hh-launcher",
+      "state": "banned",
+      "replacement": "skill-heaven",
+      "group": "names",
+      "oracle": "N9",
+      "definition": "Retired working name for the launcher repo."
+    },
+    {
+      "term": "skill-heaven-hell",
+      "state": "banned",
+      "replacement": "skill-heaven",
+      "group": "names",
+      "oracle": "N9",
+      "definition": "Retired fallback repo name.",
+      "note": "Retired as a NAME for the repo/installable. The hyphenated string is also the natural URL slug of the line's own name, 'Skill Heaven / Skill Hell', which is fully canonical (this oracle's title uses it) — see the homepage anchor `#skill-heaven-hell`. A slug of the line name is not an instance of the retired name; mark such lines `lexicon-allow` rather than renaming public URL fragments."
+    }
+  ]
+}

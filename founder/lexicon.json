@@ -1,0 +1,82 @@
+{
+  "lexicon": "2",
+  "hq": "gaia-research",
+  "namespace": "core",
+  "extends": null,
+  "owns": [
+    "core",
+    "gaia.research",
+    "gaia.brand",
+    "gaia.heaven",
+    "gaia.mcp"
+  ],
+  "updated": "2026-07-28",
+  "generated_doc": "founder/LEXICON.md",
+  "oracle": "founder/RATIFICATION.md",
+  "foreign": "founder/lexicon.foreign.json",
+  "about": "Vocabulary of record for the Skill Heaven / Skill Hell line. A term is defined in exactly one lexicon file, ever; extensions (marketing-tasks/founder/lexicon.brand.json) ADD terms in their own namespace and may never redefine a core term. States: canonical (use this), banned (the oracle retired it — CI fails), parked (coined but unchosen — docs only, never user-facing copy or code), frozen (meant something specific once — archived docs only). A term is `banned` ONLY when founder/RATIFICATION.md already retired it; a term this repo is still arguing about is `parked`, never banned. Writing a linter is not a way to make a decision. AND: `canonical` is not inherited from an oracle citation. A word describing a surface that has not been built or demonstrated stays `parked` however firmly its backing entry is written -- otherwise the lexicon launders provisional decisions into enforced vocabulary, which is the drift it exists to stop, one level up.",
+  "namespace_note": "THE LEXICON IS FEDERATED ACROSS TWO HQs. This repo owns core, gaia.research, gaia.brand, gaia.heaven and gaia.mcp; gaia-research/gaia-skill-tree owns gaia.skills and gaia.trust. skill-heaven and gaia-mcp own NO namespace — they consume. `gaia.registry` is rejected: the namespace is `gaia.skills` (same ruling as gaia-skill-tree#1258, \"Gaia Registry\" is not the product name). ONE TERM, ONE OWNER: a term is defined in exactly one file, ever. This root file carries the repo-wide config (scopes, exclusions, oracle path) AND the `core` namespace's own terms; every other owned namespace lives in a sibling founder/lexicon.<namespace>.json. Terms owned by the other HQ are mirrored NAME-ONLY into founder/lexicon.foreign.json so the gate can reject a redefinition without importing another repo's source.",
+  "scope_note": "THE LEXICON IS LINE-SCOPED, NOT REPO-SCOPED. It governs the Skill Heaven / Skill Hell line only. This repo also hosts the craft lab, the context-diet lab, the Milim pet and unrelated reports, where `seed` is a PRNG seed and `budget` is a CI budget — different projects, different vocabularies, none of this gate's business. `docs/plans/` also holds Milim-pet, Live2D and asset plans, which are excluded by name for the same reason. Widening these globs to `app/**` or `content/**` produced 60+ findings against code that has nothing to do with postures; that was the gate over-reaching, not drift.",
+  "scopes": {
+    "decisive": {
+      "about": "Docs that read as current guidance for the line: the oracle, live plans, the evidence matrix.",
+      "include": [
+        "founder/**/*.md",
+        "docs/plans/**/*.md",
+        "docs/labs/**/*.md",
+        "CLAUDE.md"
+      ]
+    },
+    "user-facing": {
+      "about": "Line copy a reader outside the project sees: the public story docs, the benchmark reports, the research pages.",
+      "include": [
+        "app/page.tsx",
+        "app/about/**/*.{ts,tsx}",
+        "content/reports/hh-benchmark/**/*.md",
+        "content/reports/skill-heaven/**/*.md",
+        "app/research/hh-benchmark/**/*.{ts,tsx,md,mdx}",
+        "docs/skill-heaven/**/*.md"
+      ]
+    },
+    "code": {
+      "about": "Shipped source for the line. Parked vocabulary must never become an identifier.",
+      "include": [
+        "scripts/hell-heaven-bench/**/*.ts",
+        "app/research/hh-benchmark/**/*.{ts,tsx}"
+      ]
+    }
+  },
+  "exclude": [
+    "**/archived/**",
+    "node_modules/**",
+    ".git/**",
+    ".next/**",
+    ".agents/**",
+    ".pi/**",
+    "**/__fixtures__/**",
+    "founder/lexicon*.json",
+    "founder/LEXICON.md",
+    "scripts/lexicon/**",
+    "docs/plans/milim-*.md",
+    "docs/plans/asset-helper-scripts-plan.md",
+    "docs/plans/gaia-research-nextjs-north-star.md",
+    "docs/plans/north-star-decisions-and-asset-commission.md"
+  ],
+  "terms": [
+    {
+      "term": "INVARIANT",
+      "state": "parked",
+      "group": "status",
+      "match": "exact-case",
+      "definition": "Proposed oracle status: breaking it costs credibility, money, or another repo. Violating one is a bug, not a decision. Unratified — pends the oracle rewrite."
+    },
+    {
+      "term": "CURRENT",
+      "state": "parked",
+      "group": "status",
+      "match": "exact-case",
+      "definition": "Proposed oracle status: the working answer, held until the build says otherwise. A failing test is sufficient to change it. Unratified — pends the oracle rewrite.",
+      "note": "Matched case-sensitively: the lowercase word is ordinary English and matched 184 innocent lines before this was scoped."
+    }
+  ]
+}

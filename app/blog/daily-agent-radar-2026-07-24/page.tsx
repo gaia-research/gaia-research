@@ -69,17 +69,16 @@ const articleStructuredData = {
 
 function YoutubeEmbed() {
   return (
-    <figure className="blog-figure my-8 rounded-xl overflow-hidden border border-slate-800 shadow-lg">
-      <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+    <figure className="blog-figure">
+      <div className="blog-video-frame">
         <iframe
-          className="absolute inset-0 w-full h-full"
           src="https://www.youtube-nocookie.com/embed/JUBMDTCiM0M"
           title="SkillOpt — Controllable Text-Space Optimization for Agent Skills"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
       </div>
-      <figcaption className="text-xs text-slate-500 px-4 py-2">
+      <figcaption>
         Official presentation by Zisu Huang (co-author) — SkillOpt: Controllable Text-Space Optimization for Agent Skills. Microsoft Research, 2026.
       </figcaption>
     </figure>
@@ -88,11 +87,11 @@ function YoutubeEmbed() {
 
 function ParameterPerturbationFlowchart() {
   return (
-    <figure className="blog-figure my-8 p-4 sm:p-6 rounded-xl border border-slate-800 bg-slate-950/80 shadow-lg overflow-hidden">
-      <figcaption className="text-sm font-semibold text-slate-300 mb-4">
+    <figure className="blog-figure blog-figure-chart">
+      <figcaption>
         Figure 1. SkillOpt Optimization Loop: Rollouts → Optimizer Model → Validation Gate
       </figcaption>
-      <svg viewBox="0 0 640 180" role="img" aria-label="SkillOpt Optimization Loop" className="w-full h-auto">
+      <svg viewBox="0 0 640 180" role="img" aria-label="SkillOpt Optimization Loop" style={{ width: "100%", height: "auto" }}>
         <defs>
           <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
             <path d="M0,0 L0,6 L8,3 z" fill="#38bdf8" />
@@ -116,8 +115,8 @@ function ParameterPerturbationFlowchart() {
 
         <path d="M 555,125 C 555,165 100,165 100,125" fill="none" stroke="#ec4899" strokeWidth="1.5" strokeDasharray="4 4" />
       </svg>
-      <p className="text-xs text-slate-400 mt-3">
-        Frozen agent runs task rollouts. Optimizer model proposes structured edits. Only candidate edits that beat the validation baseline (<code className="text-sky-300">score_candidate &gt; score_current</code>) are written to the skill file.
+      <p className="blog-svg-note">
+        Frozen agent runs task rollouts. Optimizer model proposes structured edits. Only candidate edits that beat the validation baseline (<code>score_candidate &gt; score_current</code>) are written to the skill file.
       </p>
     </figure>
   );
@@ -125,21 +124,17 @@ function ParameterPerturbationFlowchart() {
 
 function LossVsPrecisionConvergenceCurve() {
   return (
-    <figure className="blog-figure my-8 p-4 sm:p-6 rounded-xl border border-slate-800 bg-slate-950/80 shadow-lg overflow-hidden">
-      <figcaption className="text-sm font-semibold text-slate-300 mb-2">
+    <figure className="blog-figure blog-figure-chart">
+      <figcaption>
         Figure 2. SkillOpt Task Accuracy — Baseline vs. Optimized (GPT-5.5, Direct Chat)
       </figcaption>
-      
-      <div className="flex flex-wrap items-center gap-4 text-xs font-mono my-3 text-slate-300">
-        <span className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded bg-pink-500/70 inline-block border border-pink-400/80" /> Baseline (Direct Chat)
-        </span>
-        <span className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded bg-sky-400 inline-block border border-sky-300" /> SkillOpt (GPT-5.5)
-        </span>
+
+      <div className="blog-chart-legend">
+        <span><span className="blog-chart-swatch" style={{ background: "#ec4899" }} /> Baseline (Direct Chat)</span>
+        <span><span className="blog-chart-swatch" style={{ background: "#38bdf8" }} /> SkillOpt (GPT-5.5)</span>
       </div>
 
-      <svg viewBox="0 0 640 225" role="img" aria-label="SkillOpt Benchmark Results" className="w-full h-auto">
+      <svg viewBox="0 0 640 225" role="img" aria-label="SkillOpt Benchmark Results" style={{ width: "100%", height: "auto" }}>
         {/* Grid lines */}
         <line x1="60" y1="30" x2="600" y2="30" stroke="#1e293b" strokeDasharray="4 4" />
         <line x1="60" y1="80" x2="600" y2="80" stroke="#1e293b" strokeDasharray="4 4" />
@@ -208,7 +203,7 @@ export default function BlogPostPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main" className="blog-post-page max-w-4xl mx-auto px-4 py-8">
+      <main id="main" className="blog-post-page">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData).replace(/</g, "\\u003c") }}
@@ -239,7 +234,7 @@ export default function BlogPostPage() {
           />
         </figure>
 
-        <article className="blog-post-body report-body prose prose-invert prose-slate max-w-3xl leading-relaxed">
+        <article className="blog-post-body report-body">
           <Markdown
             remarkPlugins={[remarkGfm]}
             components={{

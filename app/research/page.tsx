@@ -1,41 +1,12 @@
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import { researchEntries, statusText } from "@/data/research";
 
 export const metadata = {
   title: "Research",
   description:
     "Gaia Research publications, postmortems, and open research plans for evidence-first agent work.",
 };
-
-const reports = [
-  {
-    href: "/research/ci-churn",
-    type: "Postmortem",
-    status: "VRF verified",
-    title: "The Compounding Cost of CI Failures",
-    description:
-      "A traced account of Epic #780 and the feedback-loop tax autonomous agents pay when CI discovers what local validation missed.",
-    action: "Read the postmortem",
-  },
-  {
-    href: "/research/cost",
-    type: "Research plan",
-    status: "PRP proposed",
-    title: "When Agents Report Their Own Cost",
-    description:
-      "A proposed study of the gap between an agent's self-estimate, complete rate-card pricing, and the matching invoice.",
-    action: "Read the plan",
-  },
-  {
-    href: "/mcp",
-    type: "Product",
-    status: "PLN planned",
-    title: "Gaia MCP",
-    description:
-      "A Model Context Protocol server that exposes the Gaia Skill Tree to Claude Code, OpenAI Codex CLI, and Cursor — install, list, compose, and benchmark skills without leaving your editor.",
-    action: "Learn more",
-  },
-] as const;
 
 export default function ResearchIndexPage() {
   return (
@@ -54,15 +25,19 @@ export default function ResearchIndexPage() {
         <section aria-labelledby="research-list-title">
           <h2 id="research-list-title" className="sr-only">Research publications</h2>
           <div className="research-list">
-            {reports.map((report) => (
+            {researchEntries.map((report) => (
               <article className="research-entry" key={report.href}>
                 <div className="research-entry-meta">
                   <span>{report.type}</span>
-                  <span className={`research-status ${report.status.startsWith("VRF") ? "vrf" : report.status.startsWith("PLN") ? "pln" : "prp"}`}>{report.status}</span>
+                  <span className={`research-status ${report.status.toLowerCase()}`}>
+                    {report.status} {statusText[report.status]}
+                  </span>
                 </div>
                 <h2>{report.title}</h2>
                 <p>{report.description}</p>
-                <Link href={report.href} className="research-entry-link">{report.action} <span aria-hidden="true">→</span></Link>
+                <Link href={report.href} className="research-entry-link">
+                  {report.action} <span aria-hidden="true">→</span>
+                </Link>
               </article>
             ))}
           </div>
@@ -72,3 +47,4 @@ export default function ResearchIndexPage() {
     </>
   );
 }
+

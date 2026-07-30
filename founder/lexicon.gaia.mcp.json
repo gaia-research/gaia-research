@@ -1,0 +1,34 @@
+{
+  "lexicon": "2",
+  "namespace": "gaia.mcp",
+  "extends": "core",
+  "updated": "2026-07-28",
+  "about": "Tool-surface vocabulary for the Gaia MCP server. NOTE: the three banned entries record VOCABULARY INTENT only. @gaia-research/mcp v0.1.0 is published and its README documents those tool names; renaming a live public interface is a breaking change and is NOT authorised by a lexicon entry. Roadmap V5-19 rules the final tool names open and schedules the rename for Arc III.",
+  "terms": [
+    {
+      "term": "gaia_search",
+      "state": "banned",
+      "group": "names",
+      "replacement": "search_skills",
+      "oracle": "D4",
+      "definition": "Prototype MCP tool name. Retired 2026-07-28: D4 fixes gaia-mcp's surface at two tools named `search_skills` and `summon`, and `summon`'s own entry already names `search_skills` as its partner. Nothing is published yet, so the prototype spelling never becomes a compatibility obligation.",
+      "note": "Banned before Program 4 writes its first tool definition — the ordering is available exactly once. The prototype server's own copy (`data/mcp.ts`, the Milim pet tooltips) is outside every lexicon scope and is not what this ban is aimed at; it is aimed at the tool definition Program 4 has not written yet."
+    },
+    {
+      "term": "gaia_inspect",
+      "state": "banned",
+      "group": "names",
+      "replacement": "search_skills",
+      "oracle": "D4",
+      "definition": "Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a third read verb has no ratified home — evidence retrieval belongs to `search_skills`."
+    },
+    {
+      "term": "gaia_status",
+      "state": "banned",
+      "group": "names",
+      "replacement": "search_skills",
+      "oracle": "D4",
+      "definition": "Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a freshness verb has no ratified home — data freshness is reported by `search_skills`, not by a tool of its own."
+    }
+  ]
+}

@@ -22,7 +22,9 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
         <div className="blog-card-copy">
           <div className="blog-card-meta">
             <span>{post.date}</span>
-            <span>{post.category}</span>
+            {(post.tags ?? [post.category]).map((tag) => (
+              <span key={tag}>{tag}</span>
+            ))}
           </div>
           <h3>{post.title}</h3>
           <p>{post.description}</p>

@@ -1593,6 +1593,24 @@
       ]
     },
     {
+      "id": "claude-5-system-prompt-shrink-editorial-thumbnail",
+      "path": "assets/generated/claude-5-system-prompt-shrink-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "approved",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research · gpt-image-2 editorial commission",
+      "alt": "Pink-haired Milim eats lunch with a small white cat at the center of a warm, sunlit classroom full of students.",
+      "sha256": "698210eff7fe22c9caaf8abb6f4eca97a5333b09e7ee29f53c55f15894031986",
+      "bytes": 363016,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": [],
+      "notes": "User-approved source from Codex generated image set 019f9f27-cf9d-7413-938d-caa634b99703; center-cropped and exported as a 1600x900 WebP at quality 90."
+    },
+    {
       "id": "context-diet-empty-state",
       "path": "assets/generated/context-diet-empty-state.webp",
       "kind": "illustration",
@@ -2425,6 +2443,125 @@
       },
       "derivatives": [],
       "notes": "Approved for PR #99 as the blog thumbnail and inline editorial image. Promoted from assets/workbench/generated/skill-evals-observatory-screenprint-v01.png."
+    },
+    {
+      "id": "yggdrasil-ii-editorial-thumbnail",
+      "path": "assets/generated/yggdrasil-ii-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "21584b11a6f4259c973923e8029b15c901d6e5bb5b783ad840ed31debac46d42",
+      "bytes": 129094,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
+    },
+    {
+      "id": "rank-suite-4-extra",
+      "path": "assets/generated/yggdrasil-ii-ranks/rank-suite-4-extra.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "e805a362a428ad1c736f7bba2023d8be851238cc866ef4455a8296163b92d0c4",
+      "bytes": 157024,
+      "dimensions": {
+        "width": 800,
+        "height": 800
+      },
+      "derivatives": []
+    },
+    {
+      "id": "rank-suite-5-ultimate",
+      "path": "assets/generated/yggdrasil-ii-ranks/rank-suite-5-ultimate.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "118dd5e57f148f67b1d4b0964661b806107d18bb9d8c3070cf5812c331c548a0",
+      "bytes": 172670,
+      "dimensions": {
+        "width": 800,
+        "height": 800
+      },
+      "derivatives": []
+    },
+    {
+      "id": "rank-suite-6-apex",
+      "path": "assets/generated/yggdrasil-ii-ranks/rank-suite-6-apex.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "2b8a067d1925860a88754e7f961fe0e6a5c4d6744c5ab6d52970e3824597c98b",
+      "bytes": 170350,
+      "dimensions": {
+        "width": 800,
+        "height": 800
+      },
+      "derivatives": []
+    },
+    {
+      "id": "rank-unique-4",
+      "path": "assets/generated/yggdrasil-ii-ranks/rank-unique-4.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "8976eee48cfc27c59673cdfdf2e2db77b37bfbe8c3ecb48522d94658c3918106",
+      "bytes": 176912,
+      "dimensions": {
+        "width": 800,
+        "height": 800
+      },
+      "derivatives": []
+    },
+    {
+      "id": "rank-unique-5-ultimate",
+      "path": "assets/generated/yggdrasil-ii-ranks/rank-unique-5-ultimate.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "f9f121513e38a4262a00e34bac3eeb714ccc7bc5baab52b8b1b9cbb942c4752d",
+      "bytes": 127916,
+      "dimensions": {
+        "width": 800,
+        "height": 800
+      },
+      "derivatives": []
+    },
+    {
+      "id": "rank-unique-6-impossible",
+      "path": "assets/generated/yggdrasil-ii-ranks/rank-unique-6-impossible.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "735ea252264655f319a689da7255d6bedae0176bd9eaf50a86987c67f59d30c0",
+      "bytes": 356752,
+      "dimensions": {
+        "width": 800,
+        "height": 800
+      },
+      "derivatives": []
     },
     {
       "id": "hexagon-spark",

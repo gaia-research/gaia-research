@@ -29,10 +29,12 @@
     "sharp": "^0.35.3"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.15.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "esbuild": "^0.28.1",
+    "js-yaml": "^5.2.1",
     "typescript": "^5.8.0",
     "vitest": "^4.1.10",
     "wrangler": "^4.110.0"

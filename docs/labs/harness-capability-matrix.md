@@ -17,10 +17,10 @@
 | Harness | Version checked | How |
 |---|---|---|
 | Claude Code | **2.1.211** (`claude --version`); M2 re-check on **2.1.215** (macOS, 2026-07-19); **WS3 gate (a) on 2.1.216** (macOS, 2026-07-21, corrected 2026-07-22); **M2 floor/curated (T9/T9b) re-verified on 2.1.216** (sonnet·low, macOS, 2026-07-22); **WS3 gate (d) marketplace-from-monorepo on 2.1.216** (macOS, 2026-07-23) | empirical, headless `-p` runs in a throwaway project |
-| Codex CLI | current docs (July 2026); **0.144.6 local** (2026-07-19, quota-limited) | [developers.openai.com/codex/skills](https://developers.openai.com/codex/skills) + local probes |
+| Codex CLI | current docs (July 2026); **0.144.6 local** (2026-07-19, quota-limited); **0.145.0 local, quota-clear re-check** (2026-07-29, G1-rerun) | [developers.openai.com/codex/skills](https://developers.openai.com/codex/skills) + local probes |
 | Cursor (cursor-agent CLI) | current docs (July 2026, CLI stable); **binary not installed locally** (2026-07-19) | [cursor.com/docs/cli](https://cursor.com/docs/cli/using) |
-| pi (badlogic/pi-mono coding agent) | current docs (July 2026); **0.80.10 local, empirical** (2026-07-19) | [pi coding-agent skills docs](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/skills.md) + live runs |
-| grok (Grok Build TUI, per D7) | **0.2.103 local, empirical** (2026-07-19) | `grok --help`, `grok inspect`, env probes — see grok column notes |
+| pi (badlogic/pi-mono coding agent) | current docs (July 2026); **0.80.10 local, empirical** (2026-07-19); **0.82.1 local, re-check** (2026-07-29, P1-requantify + argv-order recheck) | [pi coding-agent skills docs](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/skills.md) + live runs |
+| grok (Grok Build TUI, in harness scope) | **0.2.103 local, empirical** (2026-07-19) | `grok --help`, `grok inspect`, env probes — see grok column notes |
 
 ## The checked matrix
 
@@ -29,11 +29,11 @@
 | Skill discovery | ✅ `~/.claude/skills` (user), `.claude/skills` (project), plugins, bundled CLI skills | ✏️📄 **native skills now**: `.agents/skills` (repo, scanned cwd→root), `~/.agents/skills` (user), `/etc/codex/skills`, bundled system skills — no longer `AGENTS.md`-only | ✏️📄 `.cursor/rules/` + `AGENTS.md`; docs now also list **Skills** alongside rules/MCP in the CLI surface | ✅ (0.80.10 live) `~/.pi/agent/skills/`, `~/.agents/skills/`, `.pi/skills/`, `.agents/skills/`, `package.json` `pi.skills`, plus arbitrary dirs via settings `skills` array | ✅ (0.2.103) **yes — Claude-compat**: `grok inspect` lists 90 skills (bundled + user), user set read from `~/.claude/skills`; also loads `~/.claude/CLAUDE.md` + `~/.claude/settings.json` |
 | Discovery time | ✅ session start | 📄 session start (auto-detects changes; restart to force) | 📄 session start | 📄 session start (startup scan → names+descriptions into system prompt) | ✅ session start (`grok inspect` resolves per-cwd without a model call) |
 | Session-scoped config | ✅ `CLAUDE_CONFIG_DIR` env + `--settings <file-or-json>` + `--setting-sources user,project,local` — **macOS caveat (2.1.215): fresh `CLAUDE_CONFIG_DIR` = "Not logged in"; credentials are Keychain-held, `.claude.json` copy is not enough (G3)** | ✏️📄 `$CODEX_HOME` env (default `~/.codex`) + per-invocation `-c key=value` overrides; ✅ auth propagates via `auth.json` copy into a fresh `$CODEX_HOME` (G1) | ✏️📄 **`CURSOR_CONFIG_DIR` env** (default `~/.cursor/cli-config.json`) — plan said "none known" | ✅(in-the-wild)+📄 dir-based: `.pi/settings.json` paths resolve relative to `.pi`; per-session `--skill <path>` additive flags | ❓ none found: `GROK_CONFIG_DIR` env probe had no effect (G2); config is `~/.grok/config.toml`; no scoping flag in `--help` |
-| Skills listing suppressible per-session? | ✏️✅ `--disable-slash-commands` suppresses all skills **including `--plugin-dir` ones — T6 NEGATIVE, see below**; curated route is `--setting-sources project` + `--plugin-dir` + `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1` (T9, zero residual; supersedes T8) | 📄 per-skill `[[skills.config]] path/enabled` in `config.toml` (restart required); ❓-deferred whether `-c` overrides reach `skills.config` per-session — **quota until 2026-07-25, repro in G1** | ❓ no documented per-session rules/skills kill-switch; config-dir scoping via `CURSOR_CONFIG_DIR` is the workaround; **binary not installed locally — ❓-deferred (G4)** | ✏️✅ `--no-skills` verified live **but intermittent**: 2 of ~9 floor runs still listed all skills (discovery race, P1 below); curated `--no-skills --skill <dir>` was clean in every run | ❓ **no suppression flag found** (`--help`, `inspect`); `--tools`/`--disallowed-tools` govern tools, not the skills listing |
+| Skills listing suppressible per-session? | ✏️✅ `--disable-slash-commands` suppresses all skills **including `--plugin-dir` ones — T6 NEGATIVE, see below**; curated route is `--setting-sources project` + `--plugin-dir` + `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1` (T9, zero residual; supersedes T8) | ✅ **YES — per-skill `-c 'skills.config=[{path="…",enabled=false}]'` reaches per-session, no restart, nothing written to `config.toml`** (2/2 reproduced, 0.145.0, 2026-07-29, repro in G1-rerun below); this is a real per-session suppression route, not just the documented restart-required `config.toml` route | ❓ no documented per-session rules/skills kill-switch; config-dir scoping via `CURSOR_CONFIG_DIR` is the workaround; **binary not installed locally — ❓-deferred (G4)** | ✏️✅ `--no-skills` verified live **but intermittent**: 2 of ~9 floor runs still listed all skills (discovery race, P1 below); curated `--no-skills --skill <dir>` was clean in every run. **Re-quantified 2026-07-29 (0.82.1, argv order held fixed): 0/15 leaks — 95% CI upper bound ≈22%, statistically indistinguishable from the original ~22%; not certified fixed, see P1-requantify below** | ❓ **no suppression flag found** (`--help`, `inspect`); `--tools`/`--disallowed-tools` govern tools, not the skills listing |
 | Eviction dirties git? | ✅ **no** via flags/env route (nothing on disk is touched; verified: suppression runs left the fixture repo byte-identical) | 📄 no for config-route (config.toml is user-level); yes if you delete tracked `.agents/skills` — so use the config route | 📄 **yes** for `.cursor/rules` (tracked); config-dir scoping avoids mutating them but cannot suppress them | 📄 no via `--no-skills`; yes only if deleting tracked `.pi/skills`/`.agents/skills` | ✅ no for any flags-only route; ❓ no eviction mechanism exists yet to evaluate |
 | MCP support | ✅ full (`--mcp-config`, `--strict-mcp-config`) | 📄 tools | 📄 tools | 📄 yes | 📄 `grok mcp` subcommand (management CLI present; semantics unprobed) |
 | Headless automation | ✅ `-p` / `--output-format json` / SDK — **note (2.1.215): `--output-format json` now emits an event array; final `type:"result"` event carries `result` + `usage`** | 📄 `codex exec`; ✅ `--json` emits JSONL events (`thread.started`/`turn.started`/… observed live, G1) | ✏️📄 `agent -p` headless mode is now stable (plan said "weakest") | ✅ `-p`/`--print` + `--mode json` live; **argv-order/race caveat P1** | ✅ flags exist: `-p/--single`, `--output-format plain\|json\|streaming-json`, `--json-schema` (existence-probed only; no model run) |
-| Context/token introspection | ✅ `/context` (interactive); `--output-format json` returns full `usage` (input/output/cache tokens, cost) per run; OTEL `claude_code.token.usage` metric verified with console exporter | 📄 limited (`codex exec` JSON events carry token counts) — ❓-deferred: no completed turn observed (quota, G1) | ✏️📄 `/usage` + per-agent context meter in CLI (plan said "~none") — no documented machine-readable per-run usage; ❓ | 📄 limited; SDK exposes usage — ❓ verify locally | ❓ `--output-format json` may carry usage — unverified (no model run spent) |
+| Context/token introspection | ✅ `/context` (interactive); `--output-format json` returns full `usage` (input/output/cache tokens, cost) per run; OTEL `claude_code.token.usage` metric verified with console exporter | ✅ **resolved 2026-07-29** — `codex exec --json` emits a `turn.completed` event carrying a full `usage` object (`input_tokens`, `cached_input_tokens`, `cache_write_input_tokens`, `output_tokens`, `reasoning_output_tokens`) on every completed turn (3/3 runs, G1-rerun below) | ✏️📄 `/usage` + per-agent context meter in CLI (plan said "~none") — no documented machine-readable per-run usage; ❓ | 📄 limited; SDK exposes usage — ❓ verify locally | ❓ `--output-format json` may carry usage — unverified (no model run spent) |
 | SessionStart-hook semantics | ✅ fires in `-p` mode, runs commands, injects `additionalContext`, loadable from a session-only `--settings` file (no shared state touched) | 📄 `.codex/hooks.json` exists in the wild (PostToolUse observed in `gaia-skill-tree@f07a057`); SessionStart equivalent ❓ | 📄 hooks for session start/end shipped in CLI ([changelog Jan 2026](https://cursor.com/changelog/cli-jan-16-2026)); config shape ❓ | ❓ no hook docs found; `--skill`/`--no-skills` flags make hooks unnecessary for Heaven | ❓ no hook surface found in `--help` |
 | M2a prep: prompt-control flags (existence only — **no eviction claims, M2b unratified**) | ✅ `--system-prompt`, `--append-system-prompt`, `--system-prompt-file`, `--exclude-dynamic-system-prompt-sections` exist (2.1.215 `--help`) | ❓-deferred (quota) | ❓-deferred (no binary) | ✅ `--system-prompt`, `--append-system-prompt` exist (0.80.10 `--help`) | ✅ `--system-prompt-override` (alias `--system-prompt`), `--rules` exist (0.2.103 `--help`) |
 
@@ -81,7 +81,29 @@ content* leak, not a skills-listing leak (prompt eviction is M2b, unratified).
 | G2 | `grok inspect` (clean project) + `GROK_CONFIG_DIR=<bogus> grok inspect` | 90 skills listed (bundled + user from `~/.claude/skills`), identical under the env var | grok skill discovery ✅ empirical; `GROK_CONFIG_DIR` is not a scoping mechanism; no suppression flag exists in `--help` |
 | G4 | `which cursor cursor-agent` | not found | every Cursor cell ❓-deferred locally: install `cursor-agent`, then rerun the T-series probes |
 | G5 | `which agent && agent --version` (owner ruling said Cursor "runs as `agent`") | `/Users/…/.local/bin/agent` → **`grok 0.2.103 (Grok Build TUI)`** | **NEGATIVE**: `agent` is grok's binary, not Cursor's — **owner confirmed** (PR #67): the tool believed to be Cursor here is grok; no Cursor CLI is installed, G4 stands |
-| G6 | `which agent cursor-agent && agent --version && cursor-agent --version` (2026-07-20) | `agent` → symlink to `~/.local/share/cursor-agent/versions/2026.07.16-899851b/cursor-agent`; both report **`2026.07.16-899851b`** (Cursor CLI); `grok` is its own binary at **0.2.103** | **Supersedes G4/G5** (owner reinstalled Cursor CLI 2026-07-19 evening): `agent` == `cursor-agent` == Cursor CLI now. Cursor column probes unblocked; **audit any prior cursor-column evidence sourced via `agent` for grok contamination** before trusting it — see `docs/plans/skill-heaven-continuation-plan.md` WS6 |
+| G6 | `which agent cursor-agent && agent --version && cursor-agent --version` (2026-07-20) | `agent` → symlink to `~/.local/share/cursor-agent/versions/2026.07.16-899851b/cursor-agent`; both report **`2026.07.16-899851b`** (Cursor CLI); `grok` is its own binary at **0.2.103** | **Supersedes G4/G5** (owner reinstalled Cursor CLI 2026-07-19 evening): `agent` == `cursor-agent` == Cursor CLI now. Cursor column probes unblocked; **audit any prior cursor-column evidence sourced via `agent` for grok contamination** before trusting it — see `docs/plans/archived/2026-07-24-skill-heaven-continuation-plan.md` WS6 |
+
+### 2026-07-29 — G1 rerun (codex, quota clear) + pi P1 requantify / argv-order recheck
+
+Quota window from G1 (2026-07-25) has passed; codex 0.145.0 and pi 0.82.1 local. Same
+listing-probe prompt `$Q` as above. Full argv/env/output detail, sandbox setup, and
+zero-mutation checks are in the committed run records:
+[`scripts/hell-heaven-bench/harness-probes/runs/codex-g1-2026-07-29.run.json`](../../scripts/hell-heaven-bench/harness-probes/runs/codex-g1-2026-07-29.run.json)
+and
+[`.../pi-race-and-argv-order-2026-07-29.run.json`](../../scripts/hell-heaven-bench/harness-probes/runs/pi-race-and-argv-order-2026-07-29.run.json).
+pi runs used the founder-directed model **`google-antigravity`/`gemini-3.6-flash`, thinking
+`low`** (a mid-task override of the default "cheapest model" instruction, pi-only); codex runs
+used whichever model the CLI defaults to absent a `config.toml` in the fresh `$CODEX_HOME`
+(no `-m` was passed — confirmed from the session rollout logs to be **`gpt-5.6-sol`**, this
+account's priority-1/flagship model, **not** the cheapest available (`gpt-5.4-mini`); flagged
+here as a cost deviation from the brief rather than silently reported as cheap).
+
+| # | Command | Observed | Cell verified |
+|---|---|---|---|
+| G1-rerun | `CODEX_HOME=<fresh + auth.json> codex exec --json --skip-git-repo-check -C <proj w/ one fixture skill> "$Q"` | `turn.completed` with a full `usage` object (`input_tokens:18986, output_tokens:360, …`); fixture skill listed alongside 66 others | **auth propagation still holds** (no quota/login error now the window has passed); **token introspection resolved**: completed-turn `usage` object confirmed live, no longer deferred |
+| G1-skills-config-override | same sandbox + `-c 'skills.config=[{path="<abs SKILL.md>",enabled=false}]'` | targeted fixture skill **absent** from the listing, all 66 others unchanged; `input_tokens:18925` both reps (2/2 reproduced, byte-identical); fresh `$CODEX_HOME` never grew a `config.toml` | **`-c` overrides DO reach `skills.config` per-session** — a real, non-persisting, per-invocation suppression route. This is the finding that can move `compileCodex`'s `execSupport` off `"recipe"` (classification change itself belongs to `skill-heaven`, out of scope here) |
+| P1-requantify | `pi -p --provider google-antigravity --model gemini-3.6-flash --thinking low "$Q" --no-skills` (argv order held fixed at the documented-safe shape), **N=15** | **0/15 leaks** (all `NONE`) | Re-quantifying P1's ~22% (2/9) rate on 0.82.1: 95% CI upper bound for 0/15 ≈ **21.8%** (Clopper-Pearson-style; rule-of-three ≈20%) — **statistically indistinguishable** from the original ~22%, so this is **not** evidence the race is fixed, only that it didn't trigger in 15 bounded runs. Model changed too (confound disclosed, not controlled for) |
+| argv-order-recheck | order A (documented-broken): `pi --no-skills -p … "$Q"` ×3; order B (documented-safe): `pi -p … "$Q" --no-skills` ×3 | **0/6 leaks** — both orderings returned `NONE` every time | The 0.80.10 argv-ordering landmine (`--no-skills` immediately before `-p` silently loses suppression) **did not reproduce** on 0.82.1 in 6 tries. Small n and a harness+model double-change vs. the original record — read as "not triggered", not "certified fixed"; `compilePi`'s tail-args-first mitigation was not touched (owned by `skill-heaven`, being edited elsewhere) but this is evidence toward its removability |
 
 Also load-bearing from `claude --help` (2.1.211): `--effort <low|medium|high|xhigh|max>` — the
 effort axis the postures map onto (`Heaven · Auto · Ultra · Hell`) already exists as a
@@ -173,16 +195,26 @@ arm (T10 negative — `CLAUDE_CODE_DISABLE_POLICY_SKILLS` does not remove them);
 across arms but intermittently fail a strict `^NONE$` floor endpoint. `DEFAULT_CLAUDE_MECHANISM`
 is frozen to `plugin-dir` *meaning the T9 composition*; `--mechanism config-dir` stays
 available so the T7 route remains reproducible where file-based credentials exist. Still
-open: the two ❓ Codex cells (quota-deferred to 2026-07-25, repro in G1) and every Cursor
+open: every Cursor
 cell (no local binary at probe time — and `agent` on this workstation was grok,
 not Cursor; G4/G5. **Superseded 2026-07-20 by G6**: Cursor CLI 2026.07.16 is now
 installed as both `agent` and `cursor-agent`; column re-probe pending, WS6 of
-`docs/plans/skill-heaven-continuation-plan.md`).
+`docs/plans/archived/2026-07-24-skill-heaven-continuation-plan.md`).
+**Superseded 2026-07-29:** the two ❓ Codex cells (quota-deferred to 2026-07-25, repro in
+G1) are resolved — see the G1-rerun / G1-skills-config-override rows above — the quota
+window passed and both cells are now ✅ in the matrix table.
 
-## WS3 verification gates — gate (a): in-session profile recomposition (the posture slider)
+> **Note on retired ids (2026-07-24).** Gate headings and sub-questions below
+> cite **D7 · D10 · D11 · D13**, which were deleted from the oracle after review.
+> Those labels are kept as the historical record of *why a probe was run* —
+> evidence is not rewritten when a decision is withdrawn. They are not live
+> pointers: nothing below is authority for a decision, and a retired id is never
+> reused.
+
+## WS3 verification gates — gate (a): in-session profile recomposition (the posture ladder)
 
 **Milestone:** WS3 of
-[`docs/plans/skill-heaven-continuation-plan.md`](../plans/skill-heaven-continuation-plan.md)
+[`docs/plans/archived/2026-07-24-skill-heaven-continuation-plan.md`](../plans/archived/2026-07-24-skill-heaven-continuation-plan.md)
 (gate table). **Date:** 2026-07-22 (corrected). **Version:** Claude Code
 **2.1.216** (macOS, this workstation). Model: haiku for every run. Clean throwaway
 project (no project skills).
@@ -224,12 +256,12 @@ it does **not** recompose. History carries forward on both (codeword recalled).
 reachable **only at boot** (fresh session, T9 route) → **`claude-heaven` launcher
 is the only path to the floor** (launcher-locked). The in-session `/skill-heaven`
 scalpel can move **upward** (additive) and shed some non-skill weight, but cannot
-descend below its launch floor. This is the **posture slider** the product ships.
+descend below its launch floor. This is the **posture ladder** the product ships.
 
 **Poles (this run):** native fresh **≈25.2k tok (firecrawl YES)** · clean-room
 fresh T9 **≈17.0k tok (firecrawl NO)**.
 
-**The slider (continued-session sweep — each flag applied on resume, both
+**The ladder (continued-session sweep — each flag applied on resume, both
 `--resume` and `--resume --fork-session`; tokens + firecrawl):**
 
 | Route | On a continued session | Tokens | firecrawl | Read |
@@ -253,7 +285,7 @@ fresh T9 **≈17.0k tok (firecrawl NO)**.
 > behavior are **undocumented and version-pinned** → **re-run this sweep on every
 > Claude Code upgrade**; always record the exact `claude --version`.
 
-**Slider map (authoritative):**
+**Ladder map (authoritative):**
 - **Launcher-only floor** ≈17.0k, firecrawl NO — evicts bundled *and* user/global
   skills + MCP + non-project settings. Reachable **only** via `claude-heaven` at boot.
 - **Scalpel floor (in-session)** ≈19.2–19.6k, firecrawl **YES** — can shed the top
@@ -273,31 +305,27 @@ keep context" path** — but it is a *new* session with flattened text, suited t
 handoff-notes continuity, **not** exact tool/turn-state resume. Net cost is cheap
 (+68…+1,745 tok). **KEEP** as a clearly-labeled escape hatch, not as "resume."
 
-**Recommended `/skill-heaven` slider stops (feeds WS4):**
-1. **Native (default)** — no flags.
-2. **Lean** — `--setting-sources project` (or `--safe-mode`): same-session ~25% cut;
-   label honestly *"trims project/settings weight; does not remove your personal skills."*
-3. **Add-ons** — `--plugin-dir` stacks, cheap, reliable in either direction.
-4. **Clean-room = LAUNCHER-LOCKED** — labeled explicitly out of scalpel reach:
-   *"True clean-room (evicts personal skills, MCP, bundled skills) requires
-   restarting via `claude-heaven`; it cannot be reached mid-session."* Optional
-   escape hatch: the transcript re-inject path, labeled *"new session, notes
-   carried over."*
+> **Which stops the product exposes, and what they are called, is a decision —
+> it lives in [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md) (P1,
+> D12) with its naming governed by
+> [`founder/lexicon.json`](../../founder/lexicon.json).** A recommended-stops
+> list used to sit here and it is what let `lean` and `add-ons` enter the
+> product without passing P1 — evidence proposing product names is exactly the
+> side door the consolidation closed. The route table above is the evidence:
+> which flags produce which composition, on a continued session, measured.
+> **Whether a given route becomes a user-facing stop is not this doc's call.**
 
 **Zero-mutation check:** `~/.claude/skills` = 67 entries, names diffed clean
 before/after; `~/.claude/settings.json` SHA-256 unchanged; no
 `settings.local.json` in either snapshot; only expected session-transcript files
 written under `~/.claude/projects/`.
 
-**Ruling — D12, CORRECTED & RATIFIED 2026-07-22 (supersedes the falsified
-2026-07-21 lock; amends D10; rides this PR per D9).** Skill Heaven ships **both
-surfaces in the MVP**: (1) **`claude-heaven` clean-room launcher** owns the
-launcher-locked subtractive floor — the *only* path to the deepest Heaven, and
-that scarcity is the enticement (clean-room-first); (2) **`/skill-heaven` upward
-scalpel** moves posture in-session from the launched floor **upward**, carrying
-history, and **must present the lowest heaven-mode as visibly locked to launcher
-mode** (lock affordance in the picker/statusline). Every fork that changes the
-session id discloses it. Full decision text in RATIFICATION.md D12.
+**What this gate ruled → [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)
+D12** (corrected 2026-07-22, superseding the falsified 2026-07-21 lock; the
+entry it amended, D10, was retired 2026-07-24). The decision text is not duplicated here: a full copy of a ruling inside
+its own evidence is how the oracle came to carry token counts and version pins,
+and why it had to be rewritten every time a re-probe moved a number. **This
+section is the evidence D12 cites; D12 is the decision.**
 
 ## WS3 verification gates — gate (b): statusline API
 
@@ -347,7 +375,7 @@ interactive `claude`, read the file.
 `scripts/hell-heaven-bench/census.ts`, the same proxy every R0 number uses.
 `/skill-heaven` and `/skill-hell` have no committed command definitions yet
 (WS4), so **representative draft descriptions** are priced; final WS4 copy
-re-prices with the same method and must stay under the budget this sets.
+re-prices with the same method and must stay under the ceiling this sets.
 
 **Gate question (plan):** the standing tokens the `/skill-heaven` + `/skill-hell`
 commands themselves add to every session (the tool must not be its own bloat).
@@ -368,7 +396,7 @@ WS4 re-prices; if the listed id carries a plugin-name prefix
 (D4/B1):** this self-dose is disclosed and subtracted in every claim — it is the
 only standing cost `claude-heaven`'s doors add (Heaven's purest form uses no
 server). **Blocks:** WS4 steps 2–3 copy + README claims; the final command
-descriptions must price at or below this budget.
+descriptions must price at or below this ceiling.
 
 ## WS3 verification gates — gate (d): marketplace-from-monorepo (D10)
 
@@ -429,10 +457,10 @@ copy must not rely on this cell until it passes. Recorded here per D13 so the
 claim is disclosed as unverified rather than assumed (M0 discipline; D8's
 "will-not-work ledger is first-class").
 
-**What D13 needs verified.** The physical posture slider (gate (a)) is
+**What D13 needs verified.** The physical posture ladder (gate (a)) is
 launcher-gated below the launch floor. D13 posits a **second, ungated downward
 track**: a *heaven-native skill* (the `grilling` / "grill-me" class) that reaches
-a posture **a notch below vanilla behaviorally** by **restraining the model's
+a posture **a rung below vanilla behaviorally** by **restraining the model's
 *use* of skills that remain physically in context** — an intentional shift, not a
 context purge. This is a **behavioral / prompt-adherence claim**, not a
 context-composition one, so tokens won't measure it.
@@ -447,8 +475,8 @@ suppression rate, false-restraint rate); repeat ×runs, report CIs (no
 determinism). **Depends on:** gaia-skill-tree producing the heaven-native skill
 set first (repo boundary: authored upstream, flows through marketing-tasks).
 **Blocks:** any WS4 copy that promises "below-vanilla in-session" behavior; the
-behavioral notch in the `/skill-heaven` slider UI. Until green, the MVP slider
-ships **physical-only** (gate (a)); the behavioral notch renders as
+behavioral rung in the `/skill-heaven` ladder UI. Until green, the MVP ladder
+ships **physical-only** (gate (a)); the behavioral rung renders as
 "coming — research" and never as a working stop.
 
 ## Sources

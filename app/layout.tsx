@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "../components/MilimPet/milim-pet.css";
 import { MilimPet } from "@/components/MilimPet";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 
 export const metadata: Metadata = {
   title: { default: "Gaia Research — Cyber-Slime Laboratory", template: "%s | Gaia Research" },
@@ -22,5 +23,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}<MilimPet /></body></html>;
+  return <html lang="en"><body>{children}<MilimPet /><GoogleAnalytics /></body></html>;
 }
