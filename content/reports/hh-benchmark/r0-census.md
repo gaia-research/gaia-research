@@ -83,3 +83,6 @@ repo's own skill dirs via the `--repo` mode above and its JSON was **never commi
 unlike the canon R0 artifact. The command reproduces it; the numbers trace to no
 committed record until that JSON lands. Every other figure on this page traces to the
 committed `data/r0-census.json`.
+
+Every figure on this page is listed, with the record behind it, in the
+[claim index](claim-index.md).

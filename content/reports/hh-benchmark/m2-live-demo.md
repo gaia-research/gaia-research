@@ -131,3 +131,6 @@ follow-up work, tracked separately.)
   runs (the eviction/re-admission **deltas** are the load-bearing claims, not the
   absolute levels); they are not a clean-install census. No claim here ships
   ahead of its benchmark (**B4**).
+
+Every figure on this page is listed, with the record behind it, in the
+[claim index](claim-index.md).
