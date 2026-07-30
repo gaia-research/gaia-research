@@ -53,6 +53,15 @@
 //     about. A real committed magnitude reused in an unrelated context passes.
 //   * The sha false-match check is per physical line (a match split across two
 //     lines evades it); ASCII digits only (fullwidth digits are not recognized).
+//   * INTEGERS ONLY — a k-suffixed or decimal magnitude ("≈17.0k tok", "~6k
+//     tok") is INVISIBLE to the gate: normalizeNum rejects anything that is not
+//     a plain integer, so the number is skipped rather than checked. The
+//     capability matrix carries 18 such figures (gate (a)/(c) rows), none of
+//     them gated. Measured 2026-07-30 (KC8) and stated here rather than left as
+//     a silent hole; closing it means teaching normalizeNum the k suffix and
+//     then ‡-tagging or backing every one of those 18. That is a scope call for
+//     the owner, not a quiet edit — the numbers are real workstation smoke, so
+//     the sigil (not deletion) is the fix.
 // These are the gate's edges, not silent gaps; revisit if the doc set changes.
 //
 // CLI:

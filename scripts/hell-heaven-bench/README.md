@@ -57,7 +57,11 @@ change, and none can be forgotten.
 header — not silent gaps): only fenced regions are gated (put every ledger-backed
 claim *inside* the fence); markdown pipe tables only (no HTML `<table>`);
 magnitude-existence, not record-binding (a real committed number reused in an
-unrelated sentence passes); per-line sha match; ASCII digits only.
+unrelated sentence passes); per-line sha match; ASCII digits only; **integers
+only** — a k-suffixed or decimal magnitude (`≈17.0k tok`, `~6k tok`) is skipped,
+not checked, and the capability matrix carries 18 of them (measured 2026-07-30).
+Closing that one means teaching the parser the `k` suffix and then `‡`-tagging or
+backing all 18; it is an owner scope call, not a quiet edit.
 
 **M2 (launcher):** the launcher-shaped profile compiler lives in
 **[`gaia-research/skill-heaven`](https://github.com/gaia-research/skill-heaven)**
