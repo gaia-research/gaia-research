@@ -81,4 +81,61 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** SkillOpt (Microsoft Research, 2026) shows that skill improvement under optimization is not uniform — some skills lift +39 pts, others +9. A static pre-flight index that scores a `SKILL.md` for optimization potential (trigger vagueness, filler density, missing negative boundaries, directive density ratio) would let practitioners know which skills are worth running through a full optimization loop before committing the token budget.
 - **Doc:** [`skillopt-potential-index.md`](./skillopt-potential-index.md)
 
+## Rank 14 — Claude 5 System-Prompt Shrink (Harness Descaffolding Audit)
+- **Status:** LEANING — unratified, in ideation
+- **Viability:** Medium-High
+- **Potential:** High
+- **Why now:** Anthropic's Thariq Shihipar described cutting over 80% of Claude Code's system prompt for advanced Claude 5-generation models such as Opus 5 and Fable 5, with no measurable loss on Anthropic's coding evaluations. The audit separates model-compensating scaffolding (candidate to cut, measured) from repo-invariant policy (keep: Node 22 CI contract, the three-doc system, the lexicon gate) — and rides on the per-model measurement discipline (D12, Rank 2) we already run. The result is Anthropic's for Anthropic's harness, not a Gaia measurement.
+- **Doc:** [`claude-5-system-prompt-shrink-audit.md`](./claude-5-system-prompt-shrink-audit.md)
+
+## Rank 15 — Random Forest + SHAP/LIME Trust-Appraisal Explainability Model
+- **Status:** RFC / research — unratified, decoupled v-next study
+- **Viability:** Medium-High
+- **Potential:** High
+- **Why now:** The `gaia-skill-tree` registry's Trust Magnitude signals form a genuine feature vector; the curated registry's (skill → assigned star rank) pairs are an implicit labeled corpus. A Random Forest wrapped in SHAP/LIME could predict and *explain* a skill's star rank — surfacing mis-calibrated skills and explaining assignments to contributors — while TM stays the sole transparent promotion gate. Explicitly a trust-appraisal study, NOT the gaia-curate v2 mapping classifier.
+- **Doc:** [`rf-shap-trust-appraisal.md`](./rf-shap-trust-appraisal.md)
+
+## Rank 16 — Blog Idea: The agentskills.io Standard and Its Story
+- **Status:** In Ideation
+- **Viability:** Very High
+- **Potential:** High
+- **Why now:** The `agentskills.io` standard has quietly become the open specification adopted across 40+ AI agent platforms; documenting its origin, anatomy, 3-level progressive disclosure model, and ecosystem momentum positions Gaia Research at the center of skill standardisation.
+- **Doc:** [`blog-idea-agentskills-io-standard-and-story.md`](./blog-idea-agentskills-io-standard-and-story.md)
+
+## Rank 17 — Blog Idea: How Hermes Skills Autonomously Improve Themselves
+- **Status:** In Ideation
+- **Viability:** High
+- **Potential:** Exceptional
+- **Why now:** Autonomous skill self-evolution is widely touted but rarely explained at an architectural level. Unpacking Hermes Agent's `/learn` trajectory capture, 3-tier progressive disclosure, and isolated background Curator process (`curator.py`) delivers rare, high-signal technical content genuinely not easily available elsewhere.
+- **Doc:** [`blog-idea-hermes-skills-autonomous-self-improvement.md`](./blog-idea-hermes-skills-autonomous-self-improvement.md)
+
+## Rank 18 — Blog Subscriber Email Pipeline & Mailing MCP Integration
+- **Status:** Proposed Issue / RFC Plan
+- **Viability:** Very High
+- **Potential:** High
+- **Why now:** Establishes an automated subscriber growth loop by pairing a sleek dark-themed Subscribe UI on the Next.js site with a Mailing MCP Server (Resend/Loops) connected directly to the `gaia-blog-post` skill for zero-friction post-publish broadcasts.
+- **Doc:** [`../plans/issue-blog-subscriber-email-pipeline.md`](../plans/issue-blog-subscriber-email-pipeline.md)
+
+
+## Rank 16 — Blog Idea: The agentskills.io Standard and Its Story
+- **Status:** In Ideation
+- **Viability:** Very High
+- **Potential:** High
+- **Why now:** The `agentskills.io` standard has quietly become the open specification adopted across 40+ AI agent platforms; documenting its origin, anatomy, 3-level progressive disclosure model, and ecosystem momentum positions Gaia Research at the center of skill standardisation.
+- **Doc:** [`blog-idea-agentskills-io-standard-and-story.md`](./blog-idea-agentskills-io-standard-and-story.md)
+
+## Rank 17 — Blog Idea: How Hermes Skills Autonomously Improve Themselves
+- **Status:** In Ideation
+- **Viability:** High
+- **Potential:** Exceptional
+- **Why now:** Autonomous skill self-evolution is widely touted but rarely explained at an architectural level. Unpacking Hermes Agent's `/learn` trajectory capture, 3-tier progressive disclosure, and isolated background Curator process (`curator.py`) delivers rare, high-signal technical content genuinely not easily available elsewhere.
+- **Doc:** [`blog-idea-hermes-skills-autonomous-self-improvement.md`](./blog-idea-hermes-skills-autonomous-self-improvement.md)
+
+## Rank 18 — Blog Subscriber Email Pipeline & Mailing MCP Integration
+- **Status:** Proposed Issue / RFC Plan
+- **Viability:** Very High
+- **Potential:** High
+- **Why now:** Establishes an automated subscriber growth loop by pairing a sleek dark-themed Subscribe UI on the Next.js site with a Mailing MCP Server (Resend/Loops) connected directly to the `gaia-blog-post` skill for zero-friction post-publish broadcasts.
+- **Doc:** [`../plans/issue-blog-subscriber-email-pipeline.md`](../plans/issue-blog-subscriber-email-pipeline.md)
+
 
