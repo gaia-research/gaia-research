@@ -23,7 +23,7 @@ review**, so the review *was* the missing linter. `check-claims.ts` is that
 linter, so a machine catches it first:
 
 ```bash
-# gate the ledger-backed docs (matrix M2 rows + the hh-benchmark reports):
+# gate the ledger-backed docs (see the scan set below):
 npx tsx scripts/hell-heaven-bench/check-claims.ts
 # self-tests (fixtures in __fixtures__/check-claims/):
 npx tsx scripts/hell-heaven-bench/check-claims.test.ts
@@ -35,7 +35,23 @@ that are genuinely uncommitted must be tagged `‡`. The demo runner
 (`demo-m2-floor-live.sh`) tags its own native/delta output with `‡` so writeups
 inherit the marker. Exits non-zero on any untraceable claim — wire it into CI /
 pre-PR alongside `ledger.ts validate`. Two red-team passes hardened it; the
-`__fixtures__/check-claims/` suite (17 cases) pins each class it catches.
+`__fixtures__/check-claims/` suite pins each class it catches, and the test file
+additionally asserts the scan set below actually covers every report.
+
+**Scan set** (`defaultDocs()` in `check-claims.ts`) — **derived, not hand-listed**:
+
+| Doc | How it gets in |
+|---|---|
+| `content/reports/hh-benchmark/*.md` | **every** `.md` in that directory, read at run time |
+| `docs/labs/harness-capability-matrix.md` | named explicitly |
+| `content/blog/claude-5-system-prompt-shrink/post.md` | named explicitly — it ships the published standing-dose claim on the live site |
+
+Deriving the report list is deliberate. The list used to be hard-coded and held
+**one** of the three reports while this README, the source header and the CI step
+all said "the hh-benchmark reports" — a provenance gate whose own scope statement
+overclaimed its coverage, which is the defect class it exists to catch. Now a new
+report is gated the moment it lands in the directory; adding one requires no gate
+change, and none can be forgotten.
 
 **Declared scope limits** (the gate's honest edges, enumerated in the source
 header — not silent gaps): only fenced regions are gated (put every ledger-backed

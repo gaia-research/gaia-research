@@ -10,6 +10,10 @@ on:
       - 'scripts/hell-heaven-bench/**'
       - 'docs/labs/harness-capability-matrix.md'
       - 'content/reports/hh-benchmark/**'
+      # The blog post is in the gate's scan set (it ships the published
+      # standing-dose claim), so an edit to it must trigger the gate.
+      - 'content/blog/claude-5-system-prompt-shrink/**'
+      - 'app/research/hh-benchmark/**'
   push:
     branches:
       - main
@@ -17,6 +21,8 @@ on:
       - 'scripts/hell-heaven-bench/**'
       - 'docs/labs/harness-capability-matrix.md'
       - 'content/reports/hh-benchmark/**'
+      - 'content/blog/claude-5-system-prompt-shrink/**'
+      - 'app/research/hh-benchmark/**'
 
 jobs:
   claims:
@@ -36,8 +42,8 @@ jobs:
       - name: Validate the ledger schema (every record hh-ledger/v1-valid)
         run: npx --yes tsx scripts/hell-heaven-bench/ledger.ts validate
 
-      - name: Claims-provenance gate (matrix M2 rows + hh-benchmark reports)
+      - name: Claims-provenance gate (matrix + every hh-benchmark report + the shrink post)
         run: npx --yes tsx scripts/hell-heaven-bench/check-claims.ts
 
-      - name: Claims-gate self-tests (17 fixtures)
+      - name: Claims-gate self-tests (fixtures + scan-set coverage)
         run: npx --yes tsx scripts/hell-heaven-bench/check-claims.test.ts

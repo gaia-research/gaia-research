@@ -12,8 +12,13 @@
 // same error each deliverable. This binds prose numbers/shas to committed
 // evidence so a machine catches it before a human has to.
 //
-// WHAT IT CHECKS (over docs/labs/harness-capability-matrix.md +
-// content/reports/hh-benchmark/*.md by default):
+// WHAT IT CHECKS. Default scan set (see `defaultDocs()` — DERIVED, so a new
+// report is gated the moment it lands in the directory):
+//   * docs/labs/harness-capability-matrix.md
+//   * content/reports/hh-benchmark/*.md — EVERY .md in that directory
+//   * content/blog/claude-5-system-prompt-shrink/post.md — the live post
+//     carrying the published standing-dose claim
+// In each of those:
 //   1. Every token-context NUMBER (a markdown column headed perTurn/tokens/
 //      standing/dose, or a prose/cell number adjacent to tok/perTurn/standing/
 //      invocation/delta) must either (a) carry the ‡ sigil = "declared
@@ -54,7 +59,7 @@
 //   npx tsx scripts/hell-heaven-bench/check-claims.ts [--file <md> ...]
 //   npx tsx scripts/hell-heaven-bench/check-claims.ts --ledger <jsonl> --census <json> <md> ...
 // Exit code: 0 = all claims trace (or are ‡-tagged); 1 = at least one overclaim.
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -62,10 +67,31 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(HERE, "..", "..");
 const DEFAULT_LEDGER = join(HERE, "data", "ledger.jsonl");
 const DEFAULT_CENSUS = join(REPO_ROOT, "content", "reports", "hh-benchmark", "data", "r0-census.json");
-const DEFAULT_DOCS = [
+// The scan set is DERIVED, not hand-listed. It used to name m2-live-demo.md
+// alone while the header, the README and the CI step all said "the hh-benchmark
+// reports" (plural) — a provenance gate whose own scope statement overclaimed
+// its coverage, which is the exact defect class it was built to catch. Reading
+// the directory means the next report dropped into content/reports/hh-benchmark/
+// is gated automatically: "written once and then forgotten" stops being possible.
+const HH_REPORTS_DIR = join(REPO_ROOT, "content", "reports", "hh-benchmark");
+// Explicitly-listed docs OUTSIDE that directory. The blog post ships the live
+// site's loudest measured Arc I claim (standing dose 9,453 -> 249), so it is
+// gated like a report. It is deliberately left FENCE-FREE: a fence-free doc is
+// scanned whole, which is stricter than fencing one paragraph.
+const EXTRA_DOCS = [
   join(REPO_ROOT, "docs", "labs", "harness-capability-matrix.md"),
-  join(REPO_ROOT, "content", "reports", "hh-benchmark", "m2-live-demo.md"),
+  join(REPO_ROOT, "content", "blog", "claude-5-system-prompt-shrink", "post.md"),
 ];
+
+export function defaultDocs(): string[] {
+  const reports = existsSync(HH_REPORTS_DIR)
+    ? readdirSync(HH_REPORTS_DIR)
+        .filter((f) => f.endsWith(".md"))
+        .sort()
+        .map((f) => join(HH_REPORTS_DIR, f))
+    : [];
+  return [...EXTRA_DOCS, ...reports];
+}
 
 export const SIGIL = "‡";
 // Fences must be a STANDALONE html comment line, so prose mentioning the marker
@@ -333,7 +359,7 @@ function parseArgs(argv: string[]): { docs: string[]; ledger: string; census: st
     else if (argv[i] === "--file") docs.push(argv[++i]);
     else docs.push(argv[i]);
   }
-  return { docs: docs.length ? docs : DEFAULT_DOCS, ledger, census };
+  return { docs: docs.length ? docs : defaultDocs(), ledger, census };
 }
 
 const isMain = process.argv[1]?.endsWith("check-claims.ts");
