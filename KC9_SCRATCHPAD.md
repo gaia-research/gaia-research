@@ -492,3 +492,32 @@ inline patch here). No merge — PR only, same human gate as KC8.
   3. Optional follow-up, deliberately NOT done here: N repeats + confidence
      intervals. This is one repeat of one task on one workstation (B3/B5) and the
      report says so.
+- 2026-07-31 — Stage 2 addendum (same Opus 5 session): **KC8 landed on `main`
+  mid-build.** `origin/main` moved `f904049 → eb28d12` (PRs #139 → #140 → #141)
+  while the demo was being run. Branch merged with the new `main`
+  (`dba73ff`), three conflicts resolved deliberately, none auto-taken:
+  * **`check-claims.ts`** — took KC8's DERIVED directory listing and **deleted**
+    KC9's hand-listed `DEFAULT_DOCS` entry entirely (it only ever existed because
+    the list was hand-maintained; keeping both is the duplication its own comment
+    warned against). The report is now gated by *where it sits*.
+  * **`ledger.jsonl`** — both branches appended 2 records to a 10-record file.
+    Resolved append-only in timestamp order: KC8's F7 backfill stays at **11–12**
+    (its deep-links did NOT move), KC9's land at **13–14**. 14 valid records.
+  * **`app/research/hh-benchmark/page.tsx`** — kept BOTH links (KC8's "Claim
+    index", then "The three-minute demo"), not one.
+  Then `claim-index.md` gained **section D** (six rows, D1–D6) rather than the
+  report describing rows it was "owed" — the plan's §4 sequencing question
+  resolved itself. D6 explicitly states F7 and cursor are unchanged by KC9, so
+  their absence reads as a decision.
+
+  **Final state: PR #142 open, CI green on the merged head** — Vocabulary gate
+  PASS, Ledger validate + claims-provenance gate PASS, Build & Edge Compatibility
+  Check PASS. (Cloudflare "Workers Builds" was still pending at hand-off; it is
+  the deploy preview, not a gate this branch controls.) Final SHA `3c3c5d5`.
+  Working tree clean. Nothing merged.
+
+  **Truly remaining — one item, human only:** Marco reviews and merges PR #142.
+  It is frontend-gated (new `/research/hh-benchmark/demo` page + a link added to
+  `/research/hh-benchmark`). Do not merge on green CI. Everything else the plan
+  listed is done, including the rendered route, which the brief had marked
+  optional.
