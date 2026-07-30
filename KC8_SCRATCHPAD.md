@@ -358,3 +358,93 @@ Stage 5 then only authors `claim-index.md`, its route, and its entrypoints.
   **Get Marco's calls on D1–D5 (§6) before S2.2 (ledger append) and S2.5
   (matrix fence extension)** — those two are the ones with founder-decision
   surface. S2.1 / S2.3 / S2.4 / S2.6 are safe to proceed on.
+
+- 2026-07-30 — **Stage 2 round 1 (implement) DONE.** Five commits, each pushed
+  to `origin/docs/kc8-benchmark-ledger` as its own logical unit. **No deliverable
+  page written** — `content/reports/hh-benchmark/claim-index.md` does not exist
+  and was deliberately not created (Stage 5's job).
+
+  | Commit | Unit |
+  |---|---|
+  | `17320b1` | S2.1 — widen `buildEvidence` to census per-surface standing doses; fixtures 17→20 |
+  | `5f37a60` | S2.2 — append the F7 floor pair; ledger 10→12 records |
+  | `3574ae5` | S2.3 — `‡` the r0-census sanity line (597 / 10,376 / 13.8×) |
+  | `f8976cb` | S2.6 — derive the scan set, fix the gate's overclaimed coverage, widen CI `paths:` |
+  | `8fcdad6` | S2.5 replacement — declare two measured gate holes (see below) |
+
+  **Final verification, all re-run at `8fcdad6`:**
+  `ledger.ts validate` → `OK — 12 valid record(s)` (exit 0, re-run after **each**
+  append); `check-claims.ts` → **PASS over 5 docs** (was 2) — matrix, blog post,
+  m2-live-demo, methodology, r0-census; `check-claims.test.ts` → **23/23**
+  (20 fixtures + 3 scan-set coverage checks); `check-lexicon.ts` → clean.
+
+  **D1 taken as recommended (backfill).** Two `hh-ledger/v1` records appended for
+  F7, both via `ledger.ts append`, validated to exit 0 after each:
+  `hh-f7-floor-split/door-cost-probe`, `placebo`/`floor=benchmark`
+  **perTurn 19,661** with `objectiveEndpoint.pass: false` (F6's verified negative
+  — `/skill-heaven` answers `Unknown command` at the doorless floor), and
+  `heaven`/`floor=product` **perTurn 20,176** with `pass: true`. **+515 needs no
+  record** — confirmed it is blessed automatically as a signed delta between the
+  two committed perTurns. F7 cited as-is on **claude 2.1.216**, NOT re-derived
+  against 2.1.220, per the founder ruling; both records say so in `notes`.
+  **D2 taken as recommended:** native **28,379 stays uncommitted** (no `native`
+  arm in `hh-ledger/v1`) — verified it traces to nothing, so it and the derived
+  −28.9% carry `‡` on the page.
+
+  **Two deviations from the plan, both deliberate, both verified:**
+
+  1. **S2.4 dropped as a coverage regression.** After S2.1 the blog post passes
+     **whole-doc** (0 findings). Adding a fence would have scanned one paragraph
+     instead of the file — strictly *less* coverage. It is in the scan set
+     **fence-free** instead.
+  2. **S2.5 (matrix fence extension) not done; something better found.** Scanning
+     the matrix with fences stripped yields **2** findings, not the ~7 estimated:
+     `~1,400-word` (a WORD count misread as tokens) and `≈1 tok, negligible`. The
+     reason it is that clean is the real defect — **`normalizeNum` accepts
+     integers only, so every k-suffixed/decimal magnitude is skipped, not
+     checked.** Verified directly: a file asserting `~17.0k tok` / `~25.2k tok`
+     passes with zero findings while `99999 tok` in the same file fails. The
+     matrix carries **18** such figures (counted) — the whole gate (a) ladder.
+     **Fencing them would gate none of them.** Recorded as a declared KNOWN
+     LIMITATION in the source header + README with the count and date, and left
+     unfixed on purpose: closing it forces a `‡` or a record for all 18, which is
+     D4 plus a new decision. **This supersedes D4 as written** — the question is
+     no longer "fence or not" but "teach the parser `k`, then tag 18 figures?".
+
+  **Claim-by-claim data status for Stage 5 (this is the deliverable's spine):**
+
+  | Claim | Status now |
+  |---|---|
+  | A1 9,453 → 249 / −97.4% | **RECORD** — census `h1Restatement.publishedStandingTokens`, now gate-traceable; blog post PASSES |
+  | A3 "one step below vanilla" | **RECORD** for the floors (ledger 11/12); the native comparison is `‡` |
+  | A5 methodology.md | **RECORD** — now actually in the scan set, PASSES |
+  | A6 /about card | clean, no numbers |
+  | B1/B2 floor 30,661 · curated 31,624 · +963 · 227 · sha `14c4642…` | **RECORD** — ledger 9/10 |
+  | B3 native 46,849 · −16,188 · 5,917 | **`‡`** — already correct, cite as the reference use |
+  | B4 gate (a) ladder (≈25.2k, ≈17.0k, …) | **`‡` REQUIRED, and structurally ungated** — 18 k-suffixed figures the gate cannot see |
+  | B5 gate (c) ≈57 tok / 24 tok | **`‡` REQUIRED** — chars4 over draft copy, never committed. NB 57 coincidentally exists as a committed magnitude, so the gate would wave it through — a live instance of the declared magnitude-existence-not-record-binding limit |
+  | B6 census 8,919 · 88,416 · 9,384 · 14,498 | **RECORD** — r0-census.md PASSES |
+  | B7 597 / 10,376 / 13.8× | **`‡` DONE** this stage |
+  | C1 F7 +515 (20,176 vs 19,661) | **RECORD** — ledger 11/12, appended this stage |
+  | C2 KC4 `["doctor"]`, 2/2 byte-identical | **NOT COMMITTED.** Verified: `runs/` holds no KC4 record; only skill-heaven's `probe-kc4-listing-residual.sh` exists. **D5 still open**, not fabricated. Page must say "script-reproducible, output not committed" |
+  | C3 `~64` / `~68`-entry listings | approximations, `‡`, must stay approximate |
+  | C4 codex "74→73" | **DOES NOT MATCH THE COMMITTED RECORD.** `codex-g1-2026-07-29.run.json` reports **67 skills total → 66**, `input_tokens` **18,986 → 18,925**, 2/2 byte-identical. skill-heaven's public 74→73 is a *different, uncommitted* probe. Do NOT present the committed record as backing it |
+  | C5 pi "0/15", 95% upper bound 21.8% | **RUN RECORD** — `pi-race-and-argv-order-2026-07-29.run.json` (`n:15`, `leaksObserved:"0/15"`, `upperBound95pct:"21.8%"`). The gate cannot read `harness-probe/v1`, so cite the file path |
+  | C6 cursor | **NOT PROBED.** No number, no inference. Explicit "not probed" row |
+  | C7 −28.9% off native 28,379 | **`‡`** — verified 28,379 traces to nothing |
+  | A4 Context Diet · B8 oracle | **OUT OF SCOPE**, stated as such |
+
+  **Still open, NOT invented:** D3 (A2's homepage copy is wrong on two counts —
+  needs a founder call + a visitor-visible `app/page.tsx` edit), D4-as-superseded
+  (teach the parser `k` and tag 18 matrix figures?), D5 (authorize a KC4
+  `harness-probe/v1` re-run, or ship "output not committed"?). C2 and the C4
+  mismatch are the two places the page must be most careful.
+
+  **Next (Stage 3, review):** re-verify — do not trust — with
+  `npx tsx scripts/hell-heaven-bench/ledger.ts validate` (expect 12),
+  `npx tsx scripts/hell-heaven-bench/check-claims.ts` (expect PASS, 5 docs),
+  `npx tsx scripts/hell-heaven-bench/check-claims.test.ts` (expect 23/23), then
+  read the two new ledger records and judge whether the `wallClockMs: 0` /
+  `model: "unrecorded"` disclosure is honest enough to ship, and whether the C4
+  mismatch above is stated strongly enough. Write the verdict under
+  `## Review — round 1`.
