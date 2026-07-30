@@ -124,6 +124,15 @@ export const researchEntries: readonly ResearchEntry[] = [
     action: "Learn more",
   },
   {
+    title: "Claim Index — Arc I",
+    shortName: "Claim Index",
+    type: "LEDGER",
+    status: "VRF",
+    description: "Every public Skill Heaven/Hell number bound to the committed record behind it — or explicitly marked as tracing to none.",
+    href: "/research/hh-benchmark/claims",
+    action: "Read the claim index",
+  },
+  {
     title: "The Hell Heaven Benchmark",
     type: "METHOD",
     status: "WIP",

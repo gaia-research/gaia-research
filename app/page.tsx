@@ -79,7 +79,7 @@ export default function Home() {
     <article className="hh-pole hh-heaven">
      <span className="chip wip">☁ HEAVEN · SHIPS FIRST</span>
      <h3>One step below vanilla.</h3>
-     <p>Invoking Heaven <b>evicts every installed skill from context</b> and admits back only the grilling-native ones. Cleaner than vanilla. For architecting, brainstorming, office hours &mdash; where a quiet context <em>is</em> the feature.</p>
+     <p>Invoking Heaven <b>clears the ambient clutter</b> and hands you back a clean, hand-picked set of your own skills &mdash; not the full installed pile, and not a blank slate. Cleaner than vanilla. For architecting, brainstorming, office hours &mdash; where a quiet context <em>is</em> the feature.</p>
     </article>
     <article className="hh-pole hh-hell">
      <span className="chip wip">🔥 HELL · GATED</span>
