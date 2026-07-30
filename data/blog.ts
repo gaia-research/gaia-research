@@ -27,7 +27,7 @@ export const skillEvalsEditorialThumbnail = {
 
 export const agentskillsIoStandardThumbnail = {
   src: agentskillsIoStandardThumbnailSrc,
-  alt: "Placeholder thumbnail for the agentskills.io standard post featuring tiny Milim.",
+  alt: "Tiny pink-haired Milim sits by a calm harbor watching ferries cross misty waters under soft morning light.",
 } as const;
 
 export const dailyAgentRadarThumbnail = {
@@ -54,9 +54,9 @@ export const blogPosts: readonly BlogPost[] = [
     tags: ["Agent Skills", "Open Standard"],
     date: "July 30, 2026",
     readTime: "5 min read",
-    title: "The agentskills.io Standard and Its Story",
+    title: "The Minimalist Irony of SKILL.md: Format Unity, Six Dotfolders, and the Case for .skills/",
     description:
-      "How an open, file-system-native specification unified skill discovery across 40+ AI agent platforms and established 3-level progressive disclosure.",
+      "How an open specification unified the SKILL.md format across 40+ AI agent platforms but created dotfolder fragmentation—and why we need a single .skills/ standard.",
     author: "Nova · Head Researcher, Gaia Research",
     image: agentskillsIoStandardThumbnail,
   },

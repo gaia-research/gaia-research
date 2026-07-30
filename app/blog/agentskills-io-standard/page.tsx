@@ -12,22 +12,26 @@ export const revalidate = false;
 const siteUrl = "https://research.gaiaskilltree.com";
 const articlePath = "/blog/agentskills-io-standard";
 const articleUrl = `${siteUrl}${articlePath}`;
-const articleTitle = "The agentskills.io Standard and Its Story";
+const articleTitle = "The Minimalist Irony of SKILL.md: Format Unity, Six Dotfolders, and the Case for .skills/";
 const thumbnailUrl = `${siteUrl}${agentskillsIoStandardThumbnail.src.src}`;
 const articleDescription =
-  "How an open, file-system-native specification unified skill discovery across 40+ AI agent platforms and established 3-level progressive disclosure.";
+  "How an open specification unified the SKILL.md format across 40+ AI agent platforms but created dotfolder fragmentation—and why we need a single .skills/ standard.";
 
 export const metadata = {
   title: articleTitle,
   description: articleDescription,
   keywords: [
     "agentskills.io",
-    "Agent Skills",
     "SKILL.md",
+    "Agent Skills",
     "progressive disclosure",
+    "Model Context Protocol",
+    "MCP vs Agent Skills",
     "Anthropic",
     "Claude Code",
-    "open standard",
+    "Pi Coding Agent",
+    "OpenAI Codex CLI",
+    "open agent standard",
   ],
   alternates: { canonical: articlePath },
   openGraph: {
@@ -55,11 +59,16 @@ export const metadata = {
 const articleStructuredData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": articleUrl,
+  },
   headline: articleTitle,
   description: articleDescription,
   image: thumbnailUrl,
   url: articleUrl,
   datePublished: "2026-07-30T00:00:00+08:00",
+  dateModified: "2026-07-30T00:00:00+08:00",
   author: {
     "@type": "Person",
     name: novaAuthor.display_name,
@@ -69,11 +78,15 @@ const articleStructuredData = {
     "@type": "Organization",
     name: "Gaia Research",
     url: siteUrl,
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/assets/brand/gaia-slime-logo-transparent.png`,
+    },
   },
 };
 
 function loadPost() {
-  return postMd.split("\n").slice(4).join("\n").trim();
+  return postMd.split("\n").slice(6).join("\n").trim();
 }
 
 export default function BlogPostPage() {
@@ -112,8 +125,41 @@ export default function BlogPostPage() {
           <Markdown
             remarkPlugins={[remarkGfm]}
             components={{
-              p: ({ children, ...props }) => {
-                const text = props.node?.children
+              img: ({ src, alt, ...props }) => (
+                <figure className="blog-post-figure" style={{ margin: "2rem 0", maxWidth: "100%", width: "100%" }}>
+                  <img
+                    src={src}
+                    alt={alt}
+                    style={{
+                      width: "100%",
+                      maxWidth: "100%",
+                      height: "auto",
+                      maxHeight: "550px",
+                      objectFit: "contain",
+                      borderRadius: "8px",
+                      border: "1px solid rgba(255, 255, 255, 0.12)",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.4)",
+                      display: "block",
+                      margin: "0 auto",
+                    }}
+                    {...props}
+                  />
+                  {alt && (
+                    <figcaption style={{
+                      marginTop: "0.75rem",
+                      fontSize: "0.875rem",
+                      color: "rgba(255, 255, 255, 0.7)",
+                      textAlign: "center",
+                      fontStyle: "italic",
+                      lineHeight: "1.4"
+                    }}>
+                      {alt}
+                    </figcaption>
+                  )}
+                </figure>
+              ),
+              p: ({ children, node, ...props }) => {
+                const text = node?.children
                   ?.map((child) => (child.type === "text" ? child.value : ""))
                   .join("")
                   ?? (Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "");
@@ -131,6 +177,10 @@ export default function BlogPostPage() {
                       </figcaption>
                     </figure>
                   );
+                }
+                const hasImage = node?.children?.some((child) => child.type === "element" && child.tagName === "img");
+                if (hasImage) {
+                  return <div className="blog-paragraph-media-wrap">{children}</div>;
                 }
                 return <p {...props}>{children}</p>;
               },
