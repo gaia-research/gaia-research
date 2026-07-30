@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import agentskillsIoStandardThumbnailSrc from "@/assets/generated/agentskills-io-standard-editorial-thumbnail.webp";
 import claude5SystemPromptShrinkThumbnailSrc from "@/assets/generated/claude-5-system-prompt-shrink-editorial-thumbnail.webp";
 import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-editorial-thumbnail.webp";
 import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp";
@@ -24,6 +25,11 @@ export const skillEvalsEditorialThumbnail = {
   alt: "Tiny pink-haired Milim studies a paper star at a round table in a moonlit observatory archive.",
 } as const;
 
+export const agentskillsIoStandardThumbnail = {
+  src: agentskillsIoStandardThumbnailSrc,
+  alt: "Tiny pink-haired Milim sits by a calm harbor watching ferries cross misty waters under soft morning light.",
+} as const;
+
 export const dailyAgentRadarThumbnail = {
   src: dailyAgentRadarThumbnailSrc,
   alt: "Tiny pink-haired Milim sits joyfully at a warm golden morning bakery counter watching steam rise from fresh bread.",
@@ -42,6 +48,18 @@ export const yggdrasilIiThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/agentskills-io-standard",
+    category: "Agent Skills",
+    tags: ["Agent Skills", "Open Standard"],
+    date: "July 30, 2026",
+    readTime: "5 min read",
+    title: "The Minimalist Irony of SKILL.md: Format Unity, Six Dotfolders, and the Case for .skills/",
+    description:
+      "How an open specification unified the SKILL.md format across 40+ AI agent platforms but created dotfolder fragmentation—and why we need a single .skills/ standard.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: agentskillsIoStandardThumbnail,
+  },
   {
     href: "/blog/yggdrasil-ii",
     category: "Agent Skills",
