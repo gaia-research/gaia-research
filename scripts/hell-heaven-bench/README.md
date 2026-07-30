@@ -10,6 +10,8 @@ registry-proxy prototype — leave it alone.
 | `census.ts` | **M1 / R0** | Two-part-dose census: standing (listing line) vs invocation (full `SKILL.md`) — never one number. Artifact: `content/reports/hh-benchmark/r0-census.md` + `data/r0-census.json`. |
 | `ledger.ts` | **M3 / R2 plumbing** | JSONL run ledger (methodology §6 + two-dose token categories). Always on: every run, manual or fleet, appends here. |
 | `check-claims.ts` | **provenance gate** | Binds prose to committed evidence: every token number / sha in the gated docs must trace to a committed `ledger.jsonl` / `r0-census.json` record, or carry the `‡` sigil (= declared uncommitted context). Run before any docs PR. |
+| `demo-kc9-live.sh` | **KC9** | The three-minute demo: one task asked three ways (native / floor / curated) with a byte-identical prompt and a single shared objective endpoint. Emits `kc9-demo-transcript/v1` beats beside the `hh-ledger/v1` records; prints the append commands, never mutates the ledger. |
+| `render-kc9-replay.mjs` | **KC9** | Transcript -> one self-contained offline HTML replay page (no CDN, no build step). Output: `public/reports/hh-benchmark/kc9-demo-replay.html`. |
 | `data/ledger.jsonl` | — | The ledger. Checked in; append-only. Includes the `hh-m2-smoke` launcher smoke records (B4 — flagged for easy owner veto). |
 
 ### Claims-provenance gate (why it exists)
@@ -107,3 +109,33 @@ Repro recipe: project dir with exactly one skill under `.claude/skills/` vs an e
 --allowedTools "Skill,Read"`; doses computed with `census.ts` helpers
 (`makeListingLine`/`tokenize`), skill invocation confirmed by `"name":"Skill"` tool-use
 events in the stream.
+
+## KC9 — the three-minute demo
+
+```bash
+SKILL_HEAVEN_DIR=/path/to/skill-heaven bash scripts/hell-heaven-bench/demo-kc9-live.sh
+node scripts/hell-heaven-bench/render-kc9-replay.mjs \
+     scripts/.hh-demo/kc9-transcript.jsonl \
+     public/reports/hh-benchmark/kc9-demo-replay.html
+```
+
+One task, three loadouts, **one** objective endpoint — the loadout is the only
+variable, so "curated succeeds" is a result rather than a definition. Writeup:
+[`content/reports/hh-benchmark/kc9-three-minute-demo.md`](../../content/reports/hh-benchmark/kc9-three-minute-demo.md),
+rendered at `/research/hh-benchmark/demo`.
+
+**Two things to know before reading its numbers.**
+
+1. **`perTurn` is a whole-run total, not a standing dose.** It sums usage across
+   every turn, so an arm that takes more turns accumulates cache-read on each
+   one. The first KC9 run left tools open, the floor went hunting for skills it
+   did not have, and the floor came back *more expensive than native* — the
+   native−floor difference had silently started pricing turn count. Every arm is
+   now gated identically to `--allowedTools Skill`. This is the same shape as the
+   M3 paired-run wrinkle recorded below (the with-skill run costing more total
+   tokens than placebo): whenever you difference two `perTurn` values, check the
+   two runs took a comparable number of turns first.
+2. **The demo does not touch F7 or cursor.** F7 (+515 tok, the product floor's
+   door cost) is locked by founder ruling and is never re-derived here; cursor is
+   deferred for lack of availability, so there is no cursor arm and no cursor
+   figure anywhere in the KC9 artifacts.

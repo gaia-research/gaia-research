@@ -180,8 +180,14 @@ count**, not standing dose, and it can invert.
 
 The fix was to gate every arm identically to the single tool the task
 legitimately needs (`--allowedTools Skill`, which curated still requires to read
-its one contract). Both figures above are ‡ and are reported rather than
-discarded: a demo that quietly re-runs until the number comes out the right way
+its one contract) — the same gate the project's **M3 first paired run** already
+used (`--allowedTools "Skill,Read"`, 2026-07-18). That run recorded the matching
+wrinkle from the other direction: its with-skill arm cost *more* total tokens
+than its placebo, because of multi-turn plus invocation dose. So this is not a
+new caveat, it is the same one arriving again — whenever two `perTurn` values are
+differenced, check first that the two runs took a comparable number of turns.
+
+Both figures above are ‡ and are reported rather than discarded: a demo that quietly re-runs until the number comes out the right way
 is not a measurement, and the failure mode — *a difference of totals silently
 pricing turn count* — applies to anyone else reading `perTurn` deltas in this
 ledger.
