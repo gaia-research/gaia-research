@@ -69,7 +69,18 @@ const schemaErrors = validateLexicon(lex, oracleIds, foreign);
 check("the merged lexicon is well-formed", schemaErrors.length === 0, schemaErrors.join("; "));
 check(
   "every banned term cites the oracle entry that retired it",
-  lex.terms.filter((t) => t.state === "banned").every((t) => !!t.oracle && !!t.replacement),
+  lex.terms.filter((t) => t.state === "banned").every((t) => !!t.oracle),
+);
+// A ban retires a word, not the method it named (N10) — so a banned term may
+// legitimately have no successor. It must then SAY so: `naming: "open"` is
+// required, never inferred from a missing `replacement`, or the day someone
+// forgets to write one the gate reports a silent third state as if it were a
+// ruling.
+check(
+  "every banned term either names its replacement or declares naming open",
+  lex.terms
+    .filter((t) => t.state === "banned")
+    .every((t) => !!t.replacement !== (t.naming === "open")),
 );
 check(
   "no term is both parked and given a hard replacement",

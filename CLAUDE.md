@@ -39,6 +39,8 @@ Everything else — plans, reports, the vision and mission docs — is downstrea
 
 - **Only the oracle retires a word.** If a question is still live, the term is `parked`, never `banned`. Writing a linter is not a way to make a decision.
 - **`canonical` is not inherited from an oracle citation.** A word naming a surface that has not been built stays `parked` however firmly its backing entry reads.
+- **The lexicon serves the work; the work does not serve the lexicon.** (Founder ruling, 2026-07-29.) It is a **guide you consult**, not an artifact you maintain. Read it to pick the right word, then get on with the task. **You touch it only when a decision or ratification has actually been made** — a founder ruling lands, an oracle entry changes state. You do not "tidy" it, audit it for consistency, reopen settled entries, or let a naming question stall a build. If the gate fires on something genuinely unsettled, say so in one line and keep moving; do not convene a vocabulary review.
+- **A ban retires a word, not the method it named (N10).** Such a term carries `"naming": "open"` instead of a `replacement` — rephrase around it rather than substituting a successor nobody ratified.
 
 ```bash
 npx tsx scripts/lexicon/check-lexicon.ts           # exit 1 on new drift
