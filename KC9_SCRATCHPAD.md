@@ -418,3 +418,77 @@ inline patch here). No merge — PR only, same human gate as KC8.
   plan only, per the brief. **Next: Stage 2 (Opus, extra-high/max effort)**
   starts at Plan §6 step 1 — pilot the native-arm prompt for real before
   writing `demo-kc9-live.sh`.
+- 2026-07-30/31 — Stage 2 (executor), model **Opus 5, extra-high effort**.
+  **KC9 is BUILT, RUN FOR REAL, AND OPENED AS A PR: <https://github.com/gaia-research/gaia-research/pull/142>
+  (open, human-gated, NOT merged).** Six commits, each pushed individually to
+  `origin/feat/kc9-three-minute-demo`; final SHA `4e13aeb`. All identity checks
+  passed (`Marcus Rafael B. Tiongson <153011150+mbtiongson1@users.noreply.github.com>`).
+
+  **Plan deviation, deliberate and load-bearing — read this before reusing the plan.**
+  Stage 1's prompt forbade all tool use. That is unsatisfiable for the curated
+  arm: curated only puts the skill's *listing line* in context (M2's +963 proves
+  it), so the body must be pulled with the Skill tool to answer the question at
+  all. The pilot (native, no-tools) confirmed it: native replied `NONE` in one
+  turn at 46,498 tok ‡. Prompt was reworked to permit skill consultation, and —
+  more importantly — the per-arm endpoint table was collapsed into **ONE endpoint
+  for all three arms** (`^FLAGGED:.*[Ss]ide-[Ss]tripe`). The answer term is not in
+  the prompt. Rationale: with a per-arm endpoint, "curated succeeds" is a
+  definition; with one shared endpoint it is a result. Stage 1's `^NONE$`-for-floor
+  idea would have scored the floor as *passing* for correctly reporting it had
+  nothing, which reads as success in a table and is not.
+
+  **Real measured run (claude 2.1.220, sonnet/low, 2026-07-30):** native
+  46,490 ‡ / `NONE` / endpoint FAIL; floor 30,601 (committed placebo) / verbose
+  refusal / FAIL; curated 55,924 (committed heaven, standing 227) /
+  `FLAGGED: Side-stripe borders` / **PASS**. Measured bloat native−floor =
+  **15,889 ‡**. Harness time 13,940 ms total — the "three minutes" is narration,
+  the compute is ~14 s.
+
+  **The first live run inverted and is reported, not discarded.** Tools left open
+  → floor 64,658 ‡ vs native 46,463 ‡, i.e. the floor costing MORE than vanilla.
+  Cause: `perTurn` sums usage across the whole headless run, so an arm burning
+  extra turns hunting for absent skills accumulates cache-read every turn and the
+  delta silently prices *turn count*. Fix: `-- --allowedTools Skill` applied
+  IDENTICALLY to all three arms. Same trap the M3 paired run already hit from the
+  other direction (2026-07-18, with-skill arm costing more than placebo, already
+  using `--allowedTools "Skill,Read"`) — cited in the report so it reads as a
+  known trap re-encountered.
+
+  **Recording decision: Stage 1's recommendation was followed** — structured
+  `kc9-demo-transcript/v1` JSONL + a self-contained no-CDN HTML replay page, over
+  asciinema. Rendered from the real run, verified headless (Playwright, zero page
+  errors, all three beats + side-by-side table + step controls live).
+
+  **Rendered version: ACHIEVED, not just markdown.** `/research/hh-benchmark/demo`
+  built from the existing method page's exact pattern; replay page served at
+  `/reports/hh-benchmark/kc9-demo-replay.html`. `npm ci` + `tsc --noEmit` + `next
+  build` all clean, both routes prerendered, all three URLs 200 on a served build.
+
+  **Verification (all green):** `ledger.ts validate` → OK, 12 records (10→12);
+  `check-claims.ts` → 3/3 docs OK **including the new report**, plus a negative
+  test (strip one ‡ → fails at the exact line, so it is genuinely bound);
+  `check-claims.test.ts` 17/17; lexicon clean (55 terms, 29 files) + 51/51 lexicon
+  assertions; `check-fs-usage.mjs` clean.
+
+  **KC8 sequencing handled per Plan §4:** `claim-index.md` was NOT forked. The
+  report carries the five rows KC9 owes it (D1–D5) and cites the ledger by
+  `benchmarkId`/`task` rather than line number, so the citation survives both
+  branches landing. `check-claims.ts`'s `DEFAULT_DOCS` gained the new report with
+  a comment saying to drop the redundant entries once #139's derived listing
+  lands — do NOT keep both.
+
+  **Disciplines held:** F7 untouched and never re-derived (the demo never launches
+  the product floor); no cursor arm and no cursor figure anywhere; the
+  `skill-heaven` checkout was not modified (every flag used already existed in its
+  CLI); nothing merged.
+
+  **What is left (all human, none blocking):**
+  1. Marco reviews PR #142 — it is frontend-gated (new `/research/hh-benchmark/demo`
+     page + a link added to `/research/hh-benchmark`). Do not merge on green CI.
+  2. After **#139** merges: delete the two now-redundant
+     `content/reports/hh-benchmark/*.md` entries from `DEFAULT_DOCS` in favour of
+     its derived listing, and add rows **D1–D5** (already written, verbatim, in the
+     report's "Rows owed to the KC8 claim index" section) to `claim-index.md`.
+  3. Optional follow-up, deliberately NOT done here: N repeats + confidence
+     intervals. This is one repeat of one task on one workstation (B3/B5) and the
+     report says so.
