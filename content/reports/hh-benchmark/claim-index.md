@@ -86,6 +86,24 @@ machine-bound** — this page cites its file path so a reader can open the bytes
 | C7 | pi: "0/15" leaks observed, 95% upper bound ≈21.8% | [`pi-race-and-argv-order-2026-07-29.run.json`][pi-run] (`n: 15`, `leaksObserved: "0/15"`, `upperBound95pct: "21.8%"`, pi 0.82.1) | **RUN RECORD** |
 | C8 | **cursor** | **the binary probes are DEFERRED — no availability to run them.** No measurement exists, so no figure appears here, and none is inferred from a doc-verified cell. A doc-verified capability cell is not a measurement and is never borrowed as one. | **NOT PROBED** |
 
+
+## D — the KC9 three-minute demo
+
+Live run, claude **2.1.220**, `sonnet` at `--effort low`, 2026-07-30. One task
+asked three ways with a byte-identical prompt and a **single shared** objective
+endpoint — the loadout is the only variable, so "curated succeeds" is a result
+rather than a definition. Writeup: [`kc9-three-minute-demo.md`][kc9], in this
+directory and therefore in the derived scan set.
+
+| # | Claim | Where | Record | Status |
+|---|---|---|---|---|
+| D1 | floor **30,601** · curated **55,924** · standing **227** | [`kc9-three-minute-demo.md`][kc9] | ledger records [**13** and **14**][ledger-13-14] (`hh-kc9-demo` / `side-stripe-review`). The floor→curated **+25,323** is blessed as a signed delta between two committed perTurn values and needs no record of its own. | **RECORD** |
+| D2 | only the curated arm solves the task; both other arms fail the same endpoint | [`kc9-three-minute-demo.md`][kc9] | the same two records carry `objectiveEndpoint.pass` `false` / `true` against the identical regex. The floor's `false` is a **verified negative**, recorded with the same rigor as a positive, per B4. | **RECORD (negative + positive)** |
+| D3 | native **46,490 ‡** and the derived native−floor **15,889 ‡** | [`kc9-three-minute-demo.md`][kc9-poles] | emitted to gitignored `scripts/.hh-demo/` and never appended — `hh-ledger/v1` still has no `native` arm (**C3**'s disclosed schema gap), and `arm: heaven` with an empty loadout would misrepresent the vanilla pole. | **‡ UNCOMMITTED** |
+| D4 | the demo's **first** run inverted: floor **64,658 ‡** against native **46,463 ‡** | [`kc9-three-minute-demo.md`][kc9-poles] | never committed, and reported as a **method finding** rather than as evidence for anything: `perTurn` sums usage across a whole headless run, so differencing two of them prices *turn count* unless both runs took a comparable number of turns. Same trap the M3 paired run hit from the other direction. | **‡ UNCOMMITTED — method caveat** |
+| D5 | the replay page and the `kc9-demo-transcript/v1` beats | [`kc9-demo-replay.html`][kc9-replay], [`kc9-demo-transcript.jsonl`][kc9-transcript] | committed and reproducible. The page carries no figure that is not read out of the transcript at render time, and it is not a markdown doc with numbers in prose, so the gate is structurally blind to it — same treatment as **C1**/**C4**'s run-record citations. | **cited by path** |
+| D6 | **F7** and **cursor** in the KC9 artifacts | — | neither appears. F7 stays as **C1** states it, locked and not re-derived — the demo never launches the product floor. Cursor stays as **C8** states it, deferred with no figure anywhere. | **unchanged by KC9** |
+
 <!-- ledger-claims:end -->
 
 ## What this index does and does not settle
@@ -105,6 +123,11 @@ machine-bound** — this page cites its file path so a reader can open the bytes
 [ledger-9-10]: https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/data/ledger.jsonl#L9-L10
 [ledger-11-12]: https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/data/ledger.jsonl#L11-L12
 [ledger-11]: https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/data/ledger.jsonl#L11
+[ledger-13-14]: https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/data/ledger.jsonl#L13-L14
+[kc9]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/kc9-three-minute-demo.md
+[kc9-poles]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/kc9-three-minute-demo.md#what-the-first-run-got-wrong-and-why-it-is-in-this-report
+[kc9-replay]: https://github.com/gaia-research/gaia-research/blob/main/public/reports/hh-benchmark/kc9-demo-replay.html
+[kc9-transcript]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl
 [census]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/r0-census.json
 [census-listings]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/r0-census.json#L589
 [census-published]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/r0-census.json#L620

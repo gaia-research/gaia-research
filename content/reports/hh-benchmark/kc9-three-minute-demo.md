@@ -232,26 +232,29 @@ data plus a renderer for it, and the page inherits the same honesty discipline a
 the prose: every number on it comes out of the transcript, and uncommitted ones
 carry ‡.
 
-## Rows owed to the KC8 claim index
+## Where these claims are indexed
 
-[`claim-index.md`](https://github.com/gaia-research/gaia-research/blob/docs/kc8-benchmark-ledger/content/reports/hh-benchmark/claim-index.md)
-does not exist on `main` yet — it ships with **KC8, PR #139**, still open and
-awaiting human review. This report deliberately does **not** fork a second copy
-of that page. When #139 lands, KC9 owes it one section, in the page's own status
-vocabulary:
+**KC8 (PR #139) landed on `main` while this demo was being built**, so the
+sequencing question resolved itself: `claim-index.md` exists, and KC9's figures
+are indexed there rather than described as owed to it. This report did **not**
+fork a second copy of that page — it extends it with one section, **D**, in the
+page's own status vocabulary:
 
-| # | Claim | Record | Status |
-|---|---|---|---|
-| D1 | floor **30,601** · curated **55,924** · standing **227** · endpoint pass/fail per arm | the two `hh-kc9-demo` / `side-stripe-review` ledger records | **RECORD** |
-| D2 | the floor's endpoint `false` | the same placebo record — a verified negative, first-class per B4 | **RECORD (negative)** |
-| D3 | native **46,490 ‡** and the derived **15,889 ‡** difference | emitted to gitignored `scripts/.hh-demo/`; `hh-ledger/v1` still has no `native` arm (the C3 gap) | **‡ UNCOMMITTED** |
-| D4 | the inverted first run, **64,658 ‡** / **46,463 ‡** | never committed; reported above as a method finding, not as evidence for anything | **‡ UNCOMMITTED** |
-| D5 | the replay page | committed and reproducible; not a markdown doc with numbers in prose, so the gate does not bind it — same treatment as C1/C4's run-record citations | **cited by path** |
+| # | Claim | Status on the index |
+|---|---|---|
+| D1 | the two committed per-turn figures, the curated standing figure, and the signed floor→curated delta | **RECORD** |
+| D2 | only the curated arm solves the shared endpoint | **RECORD (negative + positive)** |
+| D3 | the native pole and the difference derived from it | **‡ UNCOMMITTED** |
+| D4 | the inverted first run | **‡ UNCOMMITTED — method caveat** |
+| D5 | the replay page and the transcript | **cited by path** |
+| D6 | F7 and cursor | **unchanged by KC9** — neither appears in these artifacts |
 
-Because that file is on an unmerged branch, the ledger line numbers KC8's
-deep-links use will shift when both branches land. This report links the ledger
-**file** and identifies its records by `benchmarkId`/`task` instead of by line —
-a citation that survives the merge.
+Two consequences of that merge are worth stating rather than leaving implicit.
+KC8 also replaced the claims gate's hand-maintained document list with a
+**derived listing** of this directory, so this report is gated automatically by
+sitting where it sits — nothing had to be registered. And KC8's own ledger
+deep-links point at records **11–12**; KC9's records were appended *after* them,
+at **13–14**, so no existing citation on that page moved.
 
 ## What this does and does not prove
 
