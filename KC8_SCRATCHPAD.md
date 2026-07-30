@@ -604,3 +604,50 @@ acted on:**
    figure traces to a different, uncommitted probe.
 
 PR opened by orchestrator: see below.
+
+---
+
+## Craft pass — links + figures (2026-07-31)
+
+Visual / navigation layer only. **No claim, disposition, citation, or number
+changed**; `check-claims.ts` logic untouched. Two commits, both pushed to
+`origin/docs/kc8-benchmark-ledger` (extends PR #139).
+
+**`6ed559b` — deep-link every row to the record behind it.**
+The three links the page shipped with were *relative* (`../../../scripts/...`),
+which resolve against the rendered route, not the repo — on the live site all
+three 404'd. Replaced with absolute GitHub blob URLs carried as Markdown
+reference definitions at the foot of the file (tables stay readable), and added
+a link to every row that cites a real committed file: ledger lines
+(`#L9-L10`, `#L11-L12`, `#L11`), census fields (`#L589`, `#L620`), the blog
+post `#L53`, `app/page.tsx#L81-L82`, `app/about/page.tsx#L153`, both matrix gate
+regions (`#L261-L291`, `#L382-L390`), `gate-a-resume-recomposition.sh`, both
+`r0-census.md` citations, `RATIFICATION.md`, and the four `skill-heaven` F7
+sources. Every external link now opens in a new tab.
+
+**Verified before linking, worth knowing:** on `skill-heaven` `main`, the KC4
+probe script (`packages/claude-heaven/scripts/probe-kc4-listing-residual.sh`)
+and the public "74 → 73" codex line **do not exist** — both live only on the
+Arc I lane branches (`dev/kc4-*`, `integration/arc-i-lane-a`). So C4 carries no
+link *on purpose* and now says why; C6 keeps its link to the committed run
+record only. C1/C3's four skill-heaven links were each checked against
+`origin/main` before use.
+
+**`4d25d4b` — two SVG figures + a scannable status column.**
+`components/ClaimIndexFigures.tsx`, following the `components/ReportCharts.tsx`
+convention (server-rendered, no client JS, every value printed on its mark):
+*What the door costs* replots the F7 pair from zero — the honest reading is that
+the two floors are almost the same bar, with the door as the pink sliver and
+`+515` called out — and *Where the evidence sits* tallies the index's own rows
+by status, grouped into three evidence families by fill + hatch + legend, never
+by hue alone. **Every numeric label lives in the `.tsx`, never the scanned
+markdown**, so the gate cannot mistake an axis label for a claim.
+Page craft: tables get their own 96ch measure (prose stays 74ch), a per-column
+width ladder keyed off column count, their own scroll container, a row hover,
+and a status column with a family marker + family color derived from what the
+Markdown already says.
+
+**Gates re-run at `4d25d4b`:** `check-claims.ts` exit 0 over 6 docs;
+`check-claims.test.ts` **24/24**; `ledger.ts validate` **OK — 12 records**;
+`check-lexicon.ts` clean; `tsc --noEmit` clean; rendered at 1440px and 390px
+with zero horizontal overflow.
