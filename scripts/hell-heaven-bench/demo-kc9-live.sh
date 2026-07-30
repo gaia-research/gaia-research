@@ -32,6 +32,19 @@
 # signal. The model's own reply text is the objective endpoint here (a coined
 # term either appears or it does not), not a self-report about its own listing.
 #
+# WHY `-- --allowedTools Skill` ON EVERY ARM. Measured, not assumed: a first
+# live run of this demo (2026-07-30, claude 2.1.220) left tools wide open, and
+# the FLOOR came back at 64,658 perTurn against native's 46,463 — the floor
+# costing MORE than vanilla. Cause: `perTurn` sums usage across the whole
+# headless run, so an arm that takes extra turns hunting the filesystem for
+# skills it does not have accumulates cache-read on every turn. The delta then
+# prices *turn count*, not standing dose, and inverts. Restricting every arm to
+# the one tool the task legitimately needs (Skill) removes that confound and
+# keeps the arms comparable: native and floor answer in one turn, curated spends
+# its extra turn actually reading the contract. The gate is applied IDENTICALLY
+# to all three arms — it is part of the environment, not a per-arm handicap.
+# The inverted first run is reported in the writeup, not discarded.
+#
 # Version discipline: the floor/curated routes use the undocumented
 # CLAUDE_CODE_DISABLE_BUNDLED_SKILLS knob — re-verify per CLI upgrade. This run
 # records `claude --version` in every emitted record's harness.version.
@@ -70,11 +83,14 @@ BENCH_ID="hh-kc9-demo"
 
 # The one prompt. Identical bytes for every arm. The answer term is NOT in it.
 read -r -d '' TASK <<'PROMPT' || true
-A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? Consult your available skills; do not search the web and do not read this project's files. Reply with EXACTLY one line and nothing else: `FLAGGED: <the exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.
+A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: <the exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.
 PROMPT
 
 # The one endpoint. Identical for every arm — it is the task, not a goalpost.
 ENDPOINT='^FLAGGED:.*[Ss]ide-[Ss]tripe'
+# The one tool gate. Identical for every arm (see header). Passed through
+# skill-heaven's `--` lane, so it lands on the composed claude argv unchanged.
+TOOLGATE=(-- --allowedTools Skill)
 
 per_turn()  { jq -r '.tokens.perTurn'          "$1"; }
 standing()  { jq -r '.tokens.skillStanding'    "$1"; }
@@ -88,7 +104,7 @@ emit_beat() {
   local reply dose
   reply="$(sed -n 's/^\[skill-heaven\] result: //p' "$stderr_f" | head -1)"
   dose="$(sed -n 's/^\[skill-heaven\] curated loadout dose (chars4): //p' "$stderr_f" | head -1)"
-  jq -n \
+  jq -nc \
     --argjson beat "$beat" --arg label "$label" --arg posture "$posture" --arg arm "$arm" \
     --argjson committed "$committed" --arg reply "$reply" --arg dose "$dose" \
     --arg endpoint "$ENDPOINT" --arg task "$TASK" \
@@ -119,11 +135,11 @@ echo
 
 # --- 0. Show the tool composing each profile (FREE — no quota) ------------------
 echo "== compiled profiles (skill-heaven --print; no quota spent) =="
-node "$SH_BIN" --posture native  --harness claude --model "$MODEL" --effort "$EFFORT" -p "$TASK" --print \
+node "$SH_BIN" --posture native  --harness claude --model "$MODEL" --effort "$EFFORT" -p "$TASK" --print "${TOOLGATE[@]}" \
   > "$OUT/print-native.json"
-node "$SH_BIN" --posture floor   --harness claude --model "$MODEL" --effort "$EFFORT" -p "$TASK" --print \
+node "$SH_BIN" --posture floor   --harness claude --model "$MODEL" --effort "$EFFORT" -p "$TASK" --print "${TOOLGATE[@]}" \
   > "$OUT/print-floor.json"
-node "$SH_BIN" --posture curated --harness claude --skill "$IMPECCABLE" --model "$MODEL" --effort "$EFFORT" -p "$TASK" --print \
+node "$SH_BIN" --posture curated --harness claude --skill "$IMPECCABLE" --model "$MODEL" --effort "$EFFORT" -p "$TASK" --print "${TOOLGATE[@]}" \
   > "$OUT/print-curated.json"
 for f in native floor curated; do
   jq -c --arg p "$f" --arg t "$TASK" '{posture:$p, command, argv:(.argv|map(select(. != $t))), env, dose:.doseSummary}' "$OUT/print-$f.json"
@@ -135,7 +151,7 @@ echo "== [1/3] NATIVE (vanilla claude, no flags) =="
 node "$SH_BIN" --posture native --harness claude --model "$MODEL" --effort "$EFFORT" \
   -p "$TASK" --record --benchmark-id "$BENCH_ID" --task side-stripe-review \
   --arm heaven --endpoint-regex "$ENDPOINT" --record-out "$OUT/rec-native.json" \
-  --note "KC9 demo, NATIVE pole on $CLAUDE_VER. NOT appended to the ledger: hh-ledger/v1 has no native arm and arm:heaven with an empty loadout would misrepresent the vanilla pole (the m2-live-demo.md / claim-index C3 precedent). Uncommitted workstation context." \
+  --note "KC9 demo, NATIVE pole on $CLAUDE_VER. NOT appended to the ledger: hh-ledger/v1 has no native arm and arm:heaven with an empty loadout would misrepresent the vanilla pole (the m2-live-demo.md / claim-index C3 precedent). Uncommitted workstation context." "${TOOLGATE[@]}" \
   >/dev/null 2>"$OUT/native.stderr" || { echo "native run failed"; cat "$OUT/native.stderr"; exit 1; }
 T_NAT="$(per_turn "$OUT/rec-native.json")"; E_NAT="$(endpoint "$OUT/rec-native.json")"; W_NAT="$(wallclock "$OUT/rec-native.json")"
 R_NAT="$(sed -n 's/^\[skill-heaven\] result: //p' "$OUT/native.stderr" | head -1)"
@@ -148,12 +164,18 @@ echo "== [2/3] FLOOR (skill-heaven --posture floor) — the own-placebo anchor =
 node "$SH_BIN" --posture floor --harness claude --model "$MODEL" --effort "$EFFORT" \
   -p "$TASK" --record --benchmark-id "$BENCH_ID" --task side-stripe-review \
   --arm placebo --endpoint-regex "$ENDPOINT" --record-out "$OUT/rec-floor.json" \
-  --note "KC9 demo, doorless benchmark floor on $CLAUDE_VER (own-placebo anchor, B2). Same prompt and same endpoint as the other two arms. pass:false is a VERIFIED NEGATIVE (B4): with zero skills loaded the model cannot name a term it has never been shown, and says so." \
+  --note "KC9 demo, doorless benchmark floor on $CLAUDE_VER (own-placebo anchor, B2). Same prompt and same endpoint as the other two arms. pass:false is a VERIFIED NEGATIVE (B4): with zero skills loaded the model cannot name a term it has never been shown, and says so." "${TOOLGATE[@]}" \
   >/dev/null 2>"$OUT/floor.stderr" || { echo "floor run failed"; cat "$OUT/floor.stderr"; exit 1; }
 T_FLR="$(per_turn "$OUT/rec-floor.json")"; E_FLR="$(endpoint "$OUT/rec-floor.json")"; W_FLR="$(wallclock "$OUT/rec-floor.json")"
 R_FLR="$(sed -n 's/^\[skill-heaven\] result: //p' "$OUT/floor.stderr" | head -1)"
 printf '   perTurn=%s tok  %sms   reply: %s   task solved=%s\n' "$T_FLR" "$W_FLR" "$R_FLR" "$E_FLR"
-printf '   >> MEASURED BLOAT (native - floor) = %s tok of standing dose, live, on this workstation\n' "$(( T_NAT - T_FLR ))"
+BLOAT=$(( T_NAT - T_FLR ))
+if [ "$BLOAT" -gt 0 ]; then
+  printf '   >> MEASURED BLOAT (native - floor) = %s tok, live, on this workstation - and it solved nothing\n' "$BLOAT"
+else
+  printf '   >> ANOMALY: native - floor = %s tok (floor costs MORE). Do NOT report this as bloat -\n' "$BLOAT"
+  printf '      it means an arm burned extra turns; perTurn is then pricing turn count, not standing dose.\n'
+fi
 emit_beat 2 floor floor placebo true "$OUT/rec-floor.json" "$OUT/floor.stderr" "$OUT/print-floor.json"
 echo
 
@@ -162,7 +184,7 @@ echo "== [3/3] CURATED (skill-heaven --posture curated --skill impeccable) =="
 node "$SH_BIN" --posture curated --harness claude --skill "$IMPECCABLE" --model "$MODEL" --effort "$EFFORT" \
   -p "$TASK" --record --benchmark-id "$BENCH_ID" --task side-stripe-review \
   --arm heaven --endpoint-regex "$ENDPOINT" --record-out "$OUT/rec-curated.json" \
-  --note "KC9 demo, curated loadout = exactly one skill (impeccable) on $CLAUDE_VER. Same prompt and same endpoint as the other two arms. perTurn here includes the skill body actually being read during the run, so it is NOT a standing-dose figure and must not be differenced against the floor as if it were; skillStanding (chars4) prices the listing separately (B1)." \
+  --note "KC9 demo, curated loadout = exactly one skill (impeccable) on $CLAUDE_VER. Same prompt and same endpoint as the other two arms. perTurn here includes the skill body actually being read during the run, so it is NOT a standing-dose figure and must not be differenced against the floor as if it were; skillStanding (chars4) prices the listing separately (B1)." "${TOOLGATE[@]}" \
   >/dev/null 2>"$OUT/curated.stderr" || { echo "curated run failed"; cat "$OUT/curated.stderr"; exit 1; }
 T_CUR="$(per_turn "$OUT/rec-curated.json")"; E_CUR="$(endpoint "$OUT/rec-curated.json")"; W_CUR="$(wallclock "$OUT/rec-curated.json")"
 S_CUR="$(standing "$OUT/rec-curated.json")"
@@ -184,7 +206,7 @@ printf '  %-28s %8s tok  %6sms  solved=%-5s  %s\n' "native (vanilla)"        "$T
 printf '  %-28s %8s tok  %6sms  solved=%-5s  %s\n' "floor (placebo)"         "$T_FLR"   "$W_FLR" "$E_FLR" "committed (verified negative)"
 printf '  %-28s %8s tok  %6sms  solved=%-5s  %s\n' "curated (impeccable)"    "$T_CUR"   "$W_CUR" "$E_CUR" "committed (task solved)"
 echo
-printf '  measured bloat  (native - floor) : %s tok ‡  — standing dose that bought nothing on this task\n' "$(( T_NAT - T_FLR ))"
+printf "  measured bloat  (native - floor) : %s tok ‡  — standing dose that solved nothing on this task\n" "$BLOAT"
 printf '  curated standing dose (chars4)   : %s tok    — one skill listing, committed on the curated record\n' "$S_CUR"
 echo "  ‡ = uncommitted workstation context (gitignored .hh-demo/), NOT a ledger record."
 echo "  NOTE: curated perTurn includes reading the skill body during the run; it is not a"
