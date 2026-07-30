@@ -144,10 +144,34 @@ export function buildEvidence(ledgerFile: string, censusFile: string): Evidence 
   if (existsSync(censusFile)) {
     const text = readFileSync(censusFile, "utf8");
     for (const m of text.matchAll(/[0-9a-f]{64}/g)) shas.add(m[0]);
-    // ONLY per-record measured doses (…contracts.records[]) — NOT the summary
-    // stats (sum/min/max/p25/p90) that would bless unrelated aggregate numbers.
+    // Per-record measured doses (…contracts.records[]) — NOT the distribution
+    // stats (mean/min/p25/median/p75/p90/max) that would bless unrelated
+    // aggregate numbers.
     const census = JSON.parse(text);
     collectInts(census?.contracts?.records ?? [], measured);
+    // Narrow widening (KC8): the per-surface standing DOSES the census actually
+    // measured. `sum` is the whole surface's dose (9,384 graph-node listings /
+    // 14,498 named-skill listings) and `count` is how many listings were priced
+    // — both are measurements, not derived shape statistics. Everything else in
+    // `standingTokens` (mean/min/p25/median/p75/p90/max) stays EXCLUDED: those
+    // describe a distribution, and blessing them would let an arbitrary
+    // two-digit number in unrelated prose pass. Pinned by fixtures
+    // good-census-listing-sum.md / bad-census-distribution-stat.md.
+    for (const surface of Object.values(census?.registryListings ?? {})) {
+      const st = (surface as Record<string, unknown> | null)?.["standingTokens"] as
+        | Record<string, unknown>
+        | undefined;
+      if (!st) continue;
+      for (const key of ["sum", "count"] as const) {
+        const v = st[key];
+        if (typeof v === "number" && Number.isInteger(v)) measured.add(Math.abs(v));
+      }
+    }
+    // The H1 restatement's published standing doses (9,453 all-graph-node vs 249
+    // top-5) are the numbers the live blog post ships. They ARE committed here;
+    // ‡-tagging them would be false and would erode the sigil. deltaPct (−97.4)
+    // is non-integer and is not a token dose, so it is not blessed by this.
+    collectInts(census?.h1Restatement?.publishedStandingTokens ?? {}, measured);
   }
   return { measured, deltas, shas };
 }

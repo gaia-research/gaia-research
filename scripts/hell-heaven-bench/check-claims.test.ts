@@ -29,6 +29,9 @@ const REASON_ASSERTS: Record<string, string> = {
   // second red-team pass (salvage validation):
   "bad-tok-abbrev-header.md": "traces to no committed record",
   "bad-single-sha-census-match.md": "asserts a sha MATCH to the census",
+  // KC8: the census widening must stay narrow — distribution stats (p90/max)
+  // are NOT measured per-surface doses and must still bless nothing.
+  "bad-census-distribution-stat.md": "traces to no committed record",
 };
 
 const ev = buildEvidence(LEDGER, CENSUS);
