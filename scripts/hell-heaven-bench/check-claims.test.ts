@@ -8,7 +8,7 @@
 import { readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildEvidence, scanDoc } from "./check-claims.ts";
+import { buildEvidence, defaultDocs, scanDoc } from "./check-claims.ts";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const FIXTURES = join(HERE, "__fixtures__", "check-claims");
@@ -29,6 +29,9 @@ const REASON_ASSERTS: Record<string, string> = {
   // second red-team pass (salvage validation):
   "bad-tok-abbrev-header.md": "traces to no committed record",
   "bad-single-sha-census-match.md": "asserts a sha MATCH to the census",
+  // KC8: the census widening must stay narrow — distribution stats (p90/max)
+  // are NOT measured per-surface doses and must still bless nothing.
+  "bad-census-distribution-stat.md": "traces to no committed record",
 };
 
 const ev = buildEvidence(LEDGER, CENSUS);
@@ -58,5 +61,24 @@ for (const name of readdirSync(FIXTURES).filter((f) => f.endsWith(".md")).sort()
   }
 }
 
-console.log(`\n${pass}/${pass + fail} fixture(s) passed`);
+// ── scan-set coverage ───────────────────────────────────────────────────────
+// The default scan set is DERIVED from the reports directory, so a report added
+// there is gated automatically. Pin that: if someone reverts defaultDocs() to a
+// hand-written list, the next report silently falls out of coverage and this
+// fails. (This is the "written once and then forgotten" failure mode; the old
+// hard-coded list had exactly one of the three reports in it.)
+const REPORTS_DIR = join(HERE, "..", "..", "content", "reports", "hh-benchmark");
+const docs = defaultDocs();
+for (const md of readdirSync(REPORTS_DIR).filter((f) => f.endsWith(".md"))) {
+  const want = join(REPORTS_DIR, md);
+  if (docs.includes(want)) {
+    pass++;
+    console.log(`✓ scan-set covers content/reports/hh-benchmark/${md}`);
+  } else {
+    fail++;
+    console.error(`✗ scan-set MISSES content/reports/hh-benchmark/${md} — defaultDocs() must derive from the directory`);
+  }
+}
+
+console.log(`\n${pass}/${pass + fail} check(s) passed`);
 process.exit(fail ? 1 : 0);

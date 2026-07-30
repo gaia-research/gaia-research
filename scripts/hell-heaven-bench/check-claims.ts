@@ -12,8 +12,13 @@
 // same error each deliverable. This binds prose numbers/shas to committed
 // evidence so a machine catches it before a human has to.
 //
-// WHAT IT CHECKS (over docs/labs/harness-capability-matrix.md +
-// content/reports/hh-benchmark/*.md by default):
+// WHAT IT CHECKS. Default scan set (see `defaultDocs()` — DERIVED, so a new
+// report is gated the moment it lands in the directory):
+//   * docs/labs/harness-capability-matrix.md
+//   * content/reports/hh-benchmark/*.md — EVERY .md in that directory
+//   * content/blog/claude-5-system-prompt-shrink/post.md — the live post
+//     carrying the published standing-dose claim
+// In each of those:
 //   1. Every token-context NUMBER (a markdown column headed perTurn/tokens/
 //      standing/dose, or a prose/cell number adjacent to tok/perTurn/standing/
 //      invocation/delta) must either (a) carry the ‡ sigil = "declared
@@ -48,13 +53,22 @@
 //     about. A real committed magnitude reused in an unrelated context passes.
 //   * The sha false-match check is per physical line (a match split across two
 //     lines evades it); ASCII digits only (fullwidth digits are not recognized).
+//   * INTEGERS ONLY — a k-suffixed or decimal magnitude ("≈17.0k tok", "~6k
+//     tok") is INVISIBLE to the gate: normalizeNum rejects anything that is not
+//     a plain integer, so the number is skipped rather than checked. The
+//     capability matrix carries 18 such figures (gate (a)/(c) rows), none of
+//     them gated. Measured 2026-07-30 (KC8) and stated here rather than left as
+//     a silent hole; closing it means teaching normalizeNum the k suffix and
+//     then ‡-tagging or backing every one of those 18. That is a scope call for
+//     the owner, not a quiet edit — the numbers are real workstation smoke, so
+//     the sigil (not deletion) is the fix.
 // These are the gate's edges, not silent gaps; revisit if the doc set changes.
 //
 // CLI:
 //   npx tsx scripts/hell-heaven-bench/check-claims.ts [--file <md> ...]
 //   npx tsx scripts/hell-heaven-bench/check-claims.ts --ledger <jsonl> --census <json> <md> ...
 // Exit code: 0 = all claims trace (or are ‡-tagged); 1 = at least one overclaim.
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -62,10 +76,31 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(HERE, "..", "..");
 const DEFAULT_LEDGER = join(HERE, "data", "ledger.jsonl");
 const DEFAULT_CENSUS = join(REPO_ROOT, "content", "reports", "hh-benchmark", "data", "r0-census.json");
-const DEFAULT_DOCS = [
+// The scan set is DERIVED, not hand-listed. It used to name m2-live-demo.md
+// alone while the header, the README and the CI step all said "the hh-benchmark
+// reports" (plural) — a provenance gate whose own scope statement overclaimed
+// its coverage, which is the exact defect class it was built to catch. Reading
+// the directory means the next report dropped into content/reports/hh-benchmark/
+// is gated automatically: "written once and then forgotten" stops being possible.
+const HH_REPORTS_DIR = join(REPO_ROOT, "content", "reports", "hh-benchmark");
+// Explicitly-listed docs OUTSIDE that directory. The blog post ships the live
+// site's loudest measured Arc I claim (standing dose 9,453 -> 249), so it is
+// gated like a report. It is deliberately left FENCE-FREE: a fence-free doc is
+// scanned whole, which is stricter than fencing one paragraph.
+const EXTRA_DOCS = [
   join(REPO_ROOT, "docs", "labs", "harness-capability-matrix.md"),
-  join(REPO_ROOT, "content", "reports", "hh-benchmark", "m2-live-demo.md"),
+  join(REPO_ROOT, "content", "blog", "claude-5-system-prompt-shrink", "post.md"),
 ];
+
+export function defaultDocs(): string[] {
+  const reports = existsSync(HH_REPORTS_DIR)
+    ? readdirSync(HH_REPORTS_DIR)
+        .filter((f) => f.endsWith(".md"))
+        .sort()
+        .map((f) => join(HH_REPORTS_DIR, f))
+    : [];
+  return [...EXTRA_DOCS, ...reports];
+}
 
 export const SIGIL = "‡";
 // Fences must be a STANDALONE html comment line, so prose mentioning the marker
@@ -144,10 +179,34 @@ export function buildEvidence(ledgerFile: string, censusFile: string): Evidence 
   if (existsSync(censusFile)) {
     const text = readFileSync(censusFile, "utf8");
     for (const m of text.matchAll(/[0-9a-f]{64}/g)) shas.add(m[0]);
-    // ONLY per-record measured doses (…contracts.records[]) — NOT the summary
-    // stats (sum/min/max/p25/p90) that would bless unrelated aggregate numbers.
+    // Per-record measured doses (…contracts.records[]) — NOT the distribution
+    // stats (mean/min/p25/median/p75/p90/max) that would bless unrelated
+    // aggregate numbers.
     const census = JSON.parse(text);
     collectInts(census?.contracts?.records ?? [], measured);
+    // Narrow widening (KC8): the per-surface standing DOSES the census actually
+    // measured. `sum` is the whole surface's dose (9,384 graph-node listings /
+    // 14,498 named-skill listings) and `count` is how many listings were priced
+    // — both are measurements, not derived shape statistics. Everything else in
+    // `standingTokens` (mean/min/p25/median/p75/p90/max) stays EXCLUDED: those
+    // describe a distribution, and blessing them would let an arbitrary
+    // two-digit number in unrelated prose pass. Pinned by fixtures
+    // good-census-listing-sum.md / bad-census-distribution-stat.md.
+    for (const surface of Object.values(census?.registryListings ?? {})) {
+      const st = (surface as Record<string, unknown> | null)?.["standingTokens"] as
+        | Record<string, unknown>
+        | undefined;
+      if (!st) continue;
+      for (const key of ["sum", "count"] as const) {
+        const v = st[key];
+        if (typeof v === "number" && Number.isInteger(v)) measured.add(Math.abs(v));
+      }
+    }
+    // The H1 restatement's published standing doses (9,453 all-graph-node vs 249
+    // top-5) are the numbers the live blog post ships. They ARE committed here;
+    // ‡-tagging them would be false and would erode the sigil. deltaPct (−97.4)
+    // is non-integer and is not a token dose, so it is not blessed by this.
+    collectInts(census?.h1Restatement?.publishedStandingTokens ?? {}, measured);
   }
   return { measured, deltas, shas };
 }
@@ -309,7 +368,7 @@ function parseArgs(argv: string[]): { docs: string[]; ledger: string; census: st
     else if (argv[i] === "--file") docs.push(argv[++i]);
     else docs.push(argv[i]);
   }
-  return { docs: docs.length ? docs : DEFAULT_DOCS, ledger, census };
+  return { docs: docs.length ? docs : defaultDocs(), ledger, census };
 }
 
 const isMain = process.argv[1]?.endsWith("check-claims.ts");
