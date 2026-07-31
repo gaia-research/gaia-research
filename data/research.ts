@@ -124,21 +124,13 @@ export const researchEntries: readonly ResearchEntry[] = [
     action: "Learn more",
   },
   {
-    title: "Claim Index — Arc I",
-    shortName: "Claim Index",
-    type: "LEDGER",
-    status: "VRF",
-    description: "Every public Skill Heaven/Hell number bound to the committed record behind it — or explicitly marked as tracing to none.",
-    href: "/research/hh-benchmark/claims",
-    action: "Read the claim index",
-  },
-  {
     title: "The Hell Heaven Benchmark",
-    type: "METHOD",
-    status: "WIP",
-    description: "Drug-trial method for scoring skills by marginal efficacy against established model baselines; drafted in public, not yet executed.",
+    shortName: "HH Benchmark",
+    type: "BENCHMARK",
+    status: "VRF",
+    description: "Drug-trial method for scoring skills by marginal efficacy against model baselines. Arc I verified: baseline floor pricing, census, and machine-gated claim index.",
     href: "/research/hh-benchmark",
-    action: "Read the method",
+    action: "Read the benchmark & receipts",
   },
 ] as const;
 

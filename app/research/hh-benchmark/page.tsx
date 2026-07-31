@@ -8,7 +8,7 @@ import methodologyMd from "@/content/reports/hh-benchmark/methodology.md";
 export const metadata = {
   title: "The Hell Heaven Benchmark — Methodology",
   description:
-    "How Gaia Research plans to benchmark agent skills: marginal efficacy against established model baselines, a heaven/hell trial split, and stamps earned by the trial. Draft method, not yet executed. Help wanted.",
+    "How Gaia Research benchmarks agent skills: marginal efficacy against established model baselines, a heaven/hell trial split, and stamps earned by the trial. Arc I verified.",
 };
 
 // Render while the Markdown source is present at build time; Cloudflare Workers
@@ -31,7 +31,7 @@ export default function HhBenchmarkPage() {
       <SiteHeader />
       <main id="main" className="report-page">
         <header className="report-head">
-          <p className="signal"><span /> RESEARCH · METHOD · WIP</p>
+          <p className="signal"><span /> RESEARCH · METHOD · ARC I VERIFIED</p>
           <h1>The Hell Heaven<br />Benchmark</h1>
           <p className="report-sub">
             How do you benchmark a <em>skill</em>? A drug-trial method, drafted in public &mdash;
@@ -40,7 +40,7 @@ export default function HhBenchmarkPage() {
           <dl className="report-meta">
             <div><dt>Origin</dt><dd>Gaia Research · Open method</dd></div>
             <div><dt>Scope</dt><dd>v1 marginal efficacy</dd></div>
-            <div><dt>Status</dt><dd><span className="chip wip">WIP · NOT YET EXECUTED</span></dd></div>
+            <div><dt>Status</dt><dd><span className="chip vrf">VRF · ARC I VERIFIED</span></dd></div>
           </dl>
           <div className="report-links">
             <Link href="/research/hh-benchmark/claims">Claim index &rarr;</Link>
@@ -89,7 +89,7 @@ export default function HhBenchmarkPage() {
         </article>
 
         <footer className="report-foot">
-          <p>This method is a draft, published before execution. If you benchmark models or skills, come build it with us.</p>
+          <p>Arc I baseline floor pricing and machine claim verification are complete. If you benchmark models or skills, come build Arc II with us.</p>
           {/* lexicon-allow: anchor slug of the line name, not N9's retired repo name */}
           <Link className="button secondary" href="/#skill-heaven-hell">Back to Skill Heaven/Hell <span>→</span></Link>
         </footer>
