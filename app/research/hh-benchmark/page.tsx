@@ -44,7 +44,7 @@ export default function HhBenchmarkPage() {
           </dl>
           <div className="report-links">
             <Link href="/research/hh-benchmark/claims">Claim index &rarr;</Link>
-            <Link href="/research/hh-benchmark/demo">The three-minute demo &rarr;</Link>
+            <a href="/reports/hh-benchmark/kc9-demo-replay.html">Interactive replay ↗</a>
             <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a>
             <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>
             <a href="https://github.com/gaia-research/gaia-research/issues/62" target="_blank" rel="noreferrer">Help wanted ↗</a>
@@ -79,8 +79,8 @@ export default function HhBenchmarkPage() {
             pole that was measured but never committed. Narrated &mdash; and every spoken line is the
             same string shown on screen, so nothing is said that is not also read. Step through it
             yourself on the{" "}
-            <a href="/reports/hh-benchmark/kc9-demo-replay.html">interactive replay</a>, or read the{" "}
-            <Link href="/research/hh-benchmark/demo">full writeup</Link>.
+            <a href="/reports/hh-benchmark/kc9-demo-replay.html">interactive replay ↗</a>, or read the{" "}
+            <Link href="/research/hh-benchmark/claims">claim index &rarr;</Link>.
           </figcaption>
         </figure>
 
