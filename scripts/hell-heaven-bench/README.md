@@ -12,7 +12,9 @@ registry-proxy prototype — leave it alone.
 | `check-claims.ts` | **provenance gate** | Binds prose to committed evidence: every token number / sha in the gated docs must trace to a committed `ledger.jsonl` / `r0-census.json` record, or carry the `‡` sigil (= declared uncommitted context). Run before any docs PR. |
 | `demo-kc9-live.sh` | **KC9** | The three-minute demo: one task asked three ways (native / floor / curated) with a byte-identical prompt and a single shared objective endpoint. Emits `kc9-demo-transcript/v1` beats beside the `hh-ledger/v1` records; prints the append commands, never mutates the ledger. |
 | `render-kc9-replay.mjs` | **KC9** | Transcript -> one self-contained offline HTML replay page (no CDN, no build step). Output: `public/reports/hh-benchmark/kc9-demo-replay.html`. The page has two modes: the manual stepper, and `?autoplay=1` ("cinema") — a fixed 1080p stage that plays the run on a 180-second caption timeline. |
-| `record-kc9-video.mjs` | **KC9** | Records the replay page's cinema mode with Playwright and encodes it with ffmpeg. Outputs: `public/reports/hh-benchmark/kc9-demo.mp4` + `kc9-demo-poster.jpg`, embedded on `/research/hh-benchmark`. |
+| `kc9-script.mjs` | **KC9** | The demo's script and camera plan. One `say` string per beat serves as **both** the spoken narration and the on-screen caption, so they cannot drift; every figure in it is interpolated from the transcript. Shared by the renderer and the narrator. |
+| `narrate-kc9.mjs` | **KC9** | Synthesises the Milim voice-over (ElevenLabs) line by line and assembles `line + gap + line + gap …`. Outputs `content/reports/hh-benchmark/data/kc9-narration.{m4a,json}`. Needs `ELEVENLABS_API_KEY`; `--dry-run` lays out the timing without spending a credit. |
+| `record-kc9-video.mjs` | **KC9** | Records the replay page's cinema mode with Playwright, muxes the narration track, encodes with ffmpeg. Outputs: `public/reports/hh-benchmark/kc9-demo.mp4` + `kc9-demo-poster.jpg`, embedded on `/research/hh-benchmark`. Needs **no API key** — it consumes the committed track. |
 | `data/ledger.jsonl` | — | The ledger. Checked in; append-only. Includes the `hh-m2-smoke` launcher smoke records (B4 — flagged for easy owner veto). |
 
 ### Claims-provenance gate (why it exists)
@@ -152,6 +154,34 @@ Playwright is deliberately **not** a project dependency (it would fatten the
 Cloudflare bundle); the script resolves it from `PW_PATH`, a plain import, or the
 npx cache, exactly as `scripts/visual-audit.mjs` does. ffmpeg must be on `PATH`.
 The script fails loud if the MP4 exceeds Cloudflare's 25 MiB per-asset limit.
+
+### The voice-over, and why the audio is the timeline
+
+```bash
+echo 'ELEVENLABS_API_KEY=sk_...' >> .env.local      # gitignored
+node scripts/hell-heaven-bench/narrate-kc9.mjs --dry-run   # pacing, no credits
+node scripts/hell-heaven-bench/narrate-kc9.mjs             # synthesise + assemble
+```
+
+Each line is synthesised on its own, then the track is assembled as `line +
+silence(gap) + line + silence(gap) …`. So the start time of caption *N* is **by
+construction** the sum of everything before it — `render-kc9-replay.mjs` reads
+those durations out of `kc9-narration.json` and bakes them into the page. There
+is no hand-tuned offset anywhere, and no way for the captions to drift out of
+sync with the voice however long a take runs. Change a line, re-narrate, re-render:
+the timeline re-derives itself.
+
+**The track is committed; the per-line MP3s are not.** That keeps the video
+rebuildable from committed inputs with no API key, while the manifest records the
+exact text, per-line duration, and a sha256 of each line's audio. TTS is not
+deterministic — a re-take yields a different read, new durations, and a new
+self-consistent timeline. That is precisely why the durations are committed
+rather than assumed.
+
+**The replay page itself stays silent.** The voice exists only in the MP4; the
+caption track is the same string that was spoken, so the page loses nothing by
+remaining one self-contained file with no audio payload — and the captions
+double as the text alternative for the video.
 
 One task, three loadouts, **one** objective endpoint — the loadout is the only
 variable, so "curated succeeds" is a result rather than a definition. Writeup:

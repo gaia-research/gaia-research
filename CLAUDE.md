@@ -176,6 +176,17 @@ Hard rule: **always use image gen 2 / `gpt-image-2`; never use `nano-banana` or 
 
 Generated experiments and intermediate variants should go in `assets/workbench/` first. Promote reviewed outputs to `assets/generated/` or `assets/brand/`, then run the asset ledger sync/check scripts.
 
+## Voice-over & Narration (Milim TTS)
+
+When producing spoken narration — demo videos, walkthroughs, audio captions — use the `milim-voice-production` skill (`.agents/skills/milim-voice-production/SKILL.md`). Reference pipeline: `scripts/hell-heaven-bench/{kc9-script,narrate-kc9,record-kc9-video}.mjs`.
+
+Hard rules:
+
+- **Voice `0mEHhncrwNcxHPYG8b63` ("Little Dragon Girl V2") on model `eleven_v3` at `stability: 0.5` (Natural).** `eleven_multilingual_v2` reads the same lines flat and noticeably older — rejected 2026-07-31. `d8x5JlMZFAGFxrfm0WkG` ("Little Dragon girl") was the prototype voice and is superseded. Never substitute a stock voice.
+- **The ElevenLabs key lives in `.env.local` (gitignored) and never enters the transcript.** Keys rotate often: to change one, *open the file* (`open -e .env.local`) rather than asking for it in chat or echoing it. Verify with a status code and a last-4 fingerprint, never the value. A key that appears in chat, a commit, or command output is burned — say so and have it revoked.
+- **Numbers spoken aloud are interpolated from the artifact, never typed.** A gate cannot read audio, so the only defence against provenance overclaim is that the figure is read from the record at build time.
+- **Commit the assembled track + manifest; never per-line audio.** Keeps the artifact rebuildable with no API key.
+
 ## GitHub Pages (Deprecated)
 
 The site used to be served by Jekyll. It is now a Next.js App deployed to Cloudflare at `research.gaiaskilltree.com`.

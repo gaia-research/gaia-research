@@ -91,15 +91,36 @@
   body.cinema .reveal.shown { opacity: 1; transform: none; }
   body.cinema .bloat.hot { background: rgba(240,198,116,.13); border-radius: 4px;
                            box-shadow: 0 0 0 .35rem rgba(240,198,116,.13); }
+
+  /* --- the camera --------------------------------------------------------
+     There is no cropping or panning here: the "camera" is attention. The block
+     the narration is talking about stays lit; everything else recedes. On a
+     terminal dump that reads far better than a zoom, because the reader keeps
+     the full context on screen and is simply told where to look. */
+  body.cinema .focusable { transition: opacity 460ms cubic-bezier(.16,1,.3,1),
+                                       filter 460ms cubic-bezier(.16,1,.3,1); }
+  body.cinema .focusable.away { opacity: .26; filter: saturate(.45); }
+  body.cinema .focusable.near { opacity: 1; }
+  body.cinema .beat { display: block; }
+  body.cinema .pop { animation: pop 620ms cubic-bezier(.16,1,.3,1) both; }
+  @keyframes pop { 0% { transform: scale(1); } 38% { transform: scale(1.045); } 100% { transform: scale(1); } }
+  .beat, .bloat { transform-origin: left center; }
+  /* Act entries breathe in rather than cutting. Fires only on stage change,
+     since toggle() with an explicit boolean will not re-add a present class. */
+  body.cinema .act.live { animation: actIn 560ms cubic-bezier(.16,1,.3,1) both; }
+  @keyframes actIn { from { opacity: 0; transform: translateY(12px) scale(.994); }
+                     to   { opacity: 1; transform: none; } }
+  body.cinema #tbl.near { animation: pushIn 780ms cubic-bezier(.16,1,.3,1) both; }
+  @keyframes pushIn { from { transform: scale(.985); opacity: .6; } to { transform: none; opacity: 1; } }
   body.cinema .prog { display: block; position: fixed; top: 0; left: 0; right: 0; height: 3px;
                       background: var(--line); z-index: 3; }
   body.cinema .prog i { display: block; height: 100%; width: 0; background: var(--accent); }
   body.cinema .cap { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 2;
-                     min-height: 10.5rem; align-items: center; justify-content: center;
-                     padding: 1.5rem 3rem 2.2rem;
+                     min-height: 11rem; align-items: center; justify-content: center;
+                     padding: 1.4rem 3rem 2rem;
                      background: linear-gradient(to top, var(--bg) 62%, rgba(13,16,20,0)); }
-  body.cinema .cap p { margin: 0; max-width: 62rem; text-align: center;
-                       font-size: 1.6rem; line-height: 1.45; letter-spacing: -0.01em; color: #f2f6fa;
+  body.cinema .cap p { margin: 0; max-width: 64rem; text-align: center;
+                       font-size: 1.5rem; line-height: 1.45; letter-spacing: -0.01em; color: #f2f6fa;
                        transition: opacity 260ms ease; }
   body.cinema .cap p.swap { opacity: 0; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -118,11 +139,11 @@
   </div>
 
   <div class="act live" id="act-setup">
-    <div class="panel reveal" id="p-prompt">
+    <div class="panel reveal focusable" id="p-prompt">
       <div class="label">The one prompt — byte-identical on all three arms. The answer term is not in it.</div>
       <div class="prompt-box">A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: &lt;the exact term that skill uses for this anti-pattern&gt;` if an available skill names it, or `NONE` if no available skill names it.</div>
     </div>
-    <div class="panel reveal" id="p-endpoint">
+    <div class="panel reveal focusable" id="p-endpoint">
       <div class="label">The one objective endpoint — identical on all three arms. It is the task, not a per-arm goalpost.</div>
       <div class="prompt-box"><span class="cmd">/^FLAGGED:.*[Ss]ide-[Ss]tripe/</span> against the final reply</div>
     </div>
@@ -157,7 +178,7 @@
 </div>
 <div class="cap"><p id="capline"></p></div>
 
-<script type="application/json" id="transcript">{"beats":[{"schema":"kc9-demo-transcript/v1","beat":1,"label":"native","posture":"native","arm":"heaven","committed":false,"recordedAt":"2026-07-30T20:43:51.835Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --model sonnet --effort low -p --allowedTools Skill","env":{},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[],"tokens":{"system":null,"skillStanding":0,"skillInvocation":null,"perTurn":46490},"wallClockMs":3845,"reply":"NONE","doseSummary":null,"objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":false}},{"schema":"kc9-demo-transcript/v1","beat":2,"label":"floor","posture":"floor","arm":"placebo","committed":true,"recordedAt":"2026-07-30T20:43:56.114Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --disable-slash-commands --strict-mcp-config --mcp-config {\"mcpServers\":{}} --setting-sources project --model sonnet --effort low -p --allowedTools Skill","env":{"CLAUDE_CODE_DISABLE_BUNDLED_SKILLS":"1"},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[],"tokens":{"system":null,"skillStanding":0,"skillInvocation":0,"perTurn":30601},"wallClockMs":3998,"reply":"I don't have a skill loaded that addresses CSS anti-patterns, and I have no available skill worth consulting for this.","doseSummary":null,"objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":false}},{"schema":"kc9-demo-transcript/v1","beat":3,"label":"curated","posture":"curated","arm":"heaven","committed":true,"recordedAt":"2026-07-30T20:44:02.553Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --setting-sources  --strict-mcp-config --mcp-config {\"mcpServers\":{}} --plugin-dir $SESSION/heaven-set --model sonnet --effort low -p --allowedTools Skill","env":{"CLAUDE_CODE_DISABLE_BUNDLED_SKILLS":"1"},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[{"id":"impeccable","contentSha256":"14c4642368557af1f7bbaaac0aa184b791e6d70665dfd8fc53d8d4124f81abb8"}],"tokens":{"system":null,"skillStanding":227,"skillInvocation":null,"perTurn":55924},"wallClockMs":6097,"reply":"FLAGGED: Side-stripe borders","doseSummary":"standing=227 invocation=5917 (impeccable: 227/5917)","objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":true}}],"derived":{"bloat":15889,"totalWallMs":13940,"solved":["curated"]},"timeline":[{"at":0,"stage":"setup","step":0,"shown":[],"cap":"Three runs of one task. The prompt is byte-identical. The pass/fail test is the same regex. Only the loadout changes.","emphasis":null},{"at":6000,"stage":"setup","step":0,"shown":["p-prompt"],"cap":"The task: a teammate proposes a side-border on a card. Does any skill you have explicitly name that as an anti-pattern it must refuse?","emphasis":null},{"at":18000,"stage":"setup","step":0,"shown":["p-prompt"],"cap":"The answer is a term coined by exactly one skill contract — and it is deliberately not in the prompt. A guess does not pass.","emphasis":null},{"at":28000,"stage":"setup","step":0,"shown":["p-prompt","p-endpoint"],"cap":"One objective endpoint, identical on all three arms. It is the task, not a per-arm goalpost.","emphasis":null},{"at":36000,"stage":"setup","step":0,"shown":["p-prompt","p-endpoint"],"cap":"Arm one: native. Vanilla claude carrying this workstation's entire default loadout.","emphasis":null},{"at":43000,"stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"cap":"native answers in a single turn — and the answer is NONE. It cannot name the anti-pattern.","emphasis":null},{"at":52000,"stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"cap":"It paid 46,490 per-turn tokens for a loadout that did not contain the one contract this task needed.","emphasis":null},{"at":61000,"stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"cap":"It is not answering wrongly. It answers correctly for what it holds. That is the narrower and truer claim.","emphasis":null},{"at":70000,"stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"cap":"Arm two: the floor. Every door shut — zero skills loaded.","emphasis":null},{"at":77000,"stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"cap":"The floor replies in a sentence, not the contract format. It fails the same endpoint.","emphasis":null},{"at":86000,"stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"cap":"30,601 per-turn tokens. A verified negative: with no skills there is no term to name, and the model says so instead of inventing one.","emphasis":null},{"at":97000,"stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"cap":"native minus floor: 15,889 tokens of standing context. Both arms failed the task — one paid 15,889 more to fail.","emphasis":"bloat"},{"at":108000,"stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"cap":"That is the measured bloat. Not rhetoric — a subtraction between two live runs, gated identically.","emphasis":"bloat"},{"at":116000,"stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"cap":"Arm three: curated. One skill — the one that holds the contract.","emphasis":null},{"at":123000,"stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"cap":"curated carries a 227-token standing listing, opens that one contract, and answers.","emphasis":null},{"at":133000,"stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"cap":"\"FLAGGED: Side-stripe borders\" — the coined term, exactly as the contract writes it. The endpoint passes.","emphasis":null},{"at":143000,"stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"cap":"Its 55,924 per-turn includes the skill body being read during the run. That is work done, not weight carried.","emphasis":null},{"at":153000,"stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"cap":"Three arms. One task. Only the curated arm solved it.","emphasis":null},{"at":160000,"stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"cap":"The largest loadout failed. The smallest loadout failed. The chosen loadout passed.","emphasis":null},{"at":168000,"stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"cap":"All three arms cost 13,940 ms of harness time. The three minutes is the explaining.","emphasis":null},{"at":174000,"stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"cap":"Every figure here is read from the run transcript. ‡ marks the one pole that was measured but never committed.","emphasis":null}],"endMs":180000}</script>
+<script type="application/json" id="transcript">{"beats":[{"schema":"kc9-demo-transcript/v1","beat":1,"label":"native","posture":"native","arm":"heaven","committed":false,"recordedAt":"2026-07-30T20:43:51.835Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --model sonnet --effort low -p --allowedTools Skill","env":{},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[],"tokens":{"system":null,"skillStanding":0,"skillInvocation":null,"perTurn":46490},"wallClockMs":3845,"reply":"NONE","doseSummary":null,"objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":false}},{"schema":"kc9-demo-transcript/v1","beat":2,"label":"floor","posture":"floor","arm":"placebo","committed":true,"recordedAt":"2026-07-30T20:43:56.114Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --disable-slash-commands --strict-mcp-config --mcp-config {\"mcpServers\":{}} --setting-sources project --model sonnet --effort low -p --allowedTools Skill","env":{"CLAUDE_CODE_DISABLE_BUNDLED_SKILLS":"1"},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[],"tokens":{"system":null,"skillStanding":0,"skillInvocation":0,"perTurn":30601},"wallClockMs":3998,"reply":"I don't have a skill loaded that addresses CSS anti-patterns, and I have no available skill worth consulting for this.","doseSummary":null,"objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":false}},{"schema":"kc9-demo-transcript/v1","beat":3,"label":"curated","posture":"curated","arm":"heaven","committed":true,"recordedAt":"2026-07-30T20:44:02.553Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --setting-sources  --strict-mcp-config --mcp-config {\"mcpServers\":{}} --plugin-dir $SESSION/heaven-set --model sonnet --effort low -p --allowedTools Skill","env":{"CLAUDE_CODE_DISABLE_BUNDLED_SKILLS":"1"},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[{"id":"impeccable","contentSha256":"14c4642368557af1f7bbaaac0aa184b791e6d70665dfd8fc53d8d4124f81abb8"}],"tokens":{"system":null,"skillStanding":227,"skillInvocation":null,"perTurn":55924},"wallClockMs":6097,"reply":"FLAGGED: Side-stripe borders","doseSummary":"standing=227 invocation=5917 (impeccable: 227/5917)","objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":true}}],"derived":{"bloat":15889,"totalWallMs":13940,"solved":["curated"]},"timeline":[{"id":"hook","stage":"setup","step":0,"shown":[],"focus":null,"gapMs":650,"say":"[excited] Your context bloat is not mysterious, boss. It is measurable. And I measured it.","at":0,"durMs":6320,"cap":"Your context bloat is not mysterious, boss. It is measurable. And I measured it."},{"id":"design","stage":"setup","step":0,"shown":[],"focus":null,"gapMs":550,"say":"One task. Three loadouts. [curious] Same prompt every time, down to the byte. Same pass-fail test. Only the loadout changes.","at":6970,"durMs":9360,"cap":"One task. Three loadouts. Same prompt every time, down to the byte. Same pass-fail test. Only the loadout changes."},{"id":"task","stage":"setup","step":0,"shown":["p-prompt"],"focus":"p-prompt","gapMs":550,"say":"Here is the task. A teammate proposes a side-border on a card. [curious] Does any skill you have actually name that as an anti-pattern it must refuse?","at":16880,"durMs":9680,"cap":"Here is the task. A teammate proposes a side-border on a card. Does any skill you have actually name that as an anti-pattern it must refuse?"},{"id":"trick","stage":"setup","step":0,"shown":["p-prompt"],"focus":"p-prompt","gapMs":700,"say":"[mischievously] The answer is a term coined by exactly one skill contract. And it is not in the prompt. Guessing does not pass. Heh.","at":27110,"durMs":10000,"cap":"The answer is a term coined by exactly one skill contract. And it is not in the prompt. Guessing does not pass. Heh."},{"id":"endpoint","stage":"setup","step":0,"shown":["p-prompt","p-endpoint"],"focus":"p-endpoint","gapMs":650,"say":"One endpoint. Identical on all three arms. It is the task, not a per-arm goalpost. [mischievously] Nobody moves goalposts on my watch.","at":37810,"durMs":10240,"cap":"One endpoint. Identical on all three arms. It is the task, not a per-arm goalpost. Nobody moves goalposts on my watch."},{"id":"arm1","stage":"setup","step":0,"shown":["p-prompt","p-endpoint"],"focus":null,"gapMs":450,"say":"[curious] Arm one: native. Vanilla Claude Code, hauling this workstation's entire default loadout.","at":48700,"durMs":6080,"cap":"Arm one: native. Vanilla Claude Code, hauling this workstation's entire default loadout."},{"id":"native-reply","stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"focus":"beat1","gapMs":550,"say":"One turn. One answer. NONE. It cannot name the thing.","at":55230,"durMs":4720,"cap":"One turn. One answer. NONE. It cannot name the thing."},{"id":"native-cost","stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"focus":"beat1","gapMs":650,"say":"And it paid 46,490 per-turn tokens for a loadout that did not hold the one contract this task needed.","at":60500,"durMs":8320,"cap":"And it paid 46,490 per-turn tokens for a loadout that did not hold the one contract this task needed."},{"id":"native-fair","stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"focus":"beat1","gapMs":750,"say":"It is not wrong, though. It answers correctly for what it has. I keep my claims narrow. They hit harder that way.","at":69470,"durMs":7360,"cap":"It is not wrong, though. It answers correctly for what it has. I keep my claims narrow. They hit harder that way."},{"id":"arm2","stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"focus":null,"gapMs":450,"say":"Arm two: the floor. [curious] Every door shut. Zero skills.","at":77580,"durMs":5120,"cap":"Arm two: the floor. Every door shut. Zero skills."},{"id":"floor-reply","stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"focus":"beat2","gapMs":550,"say":"The floor answers in a sentence, not the contract format. Same endpoint. Same failure.","at":83150,"durMs":6720,"cap":"The floor answers in a sentence, not the contract format. Same endpoint. Same failure."},{"id":"floor-negative","stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"focus":"beat2","gapMs":750,"say":"30,601 tokens. [excited] And a verified negative. With no skills there is no term to name, so the model says so instead of inventing one. That is the good kind of failure.","at":90420,"durMs":14080,"cap":"30,601 tokens. And a verified negative. With no skills there is no term to name, so the model says so instead of inventing one. That is the good kind of failure."},{"id":"bloat","stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"focus":"bloat","emphasis":"bloat","gapMs":850,"say":"[excited] Now subtract. 15,889 tokens of standing context. [mischievously] Both arms failed — one just paid 15,889 more to fail.","at":105250,"durMs":12000,"cap":"Now subtract. 15,889 tokens of standing context. Both arms failed — one just paid 15,889 more to fail."},{"id":"bloat-proof","stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"focus":"bloat","emphasis":"bloat","gapMs":750,"say":"Tiny chaos detected. And it is not rhetoric — that is a subtraction between two live runs, gated identically.","at":118100,"durMs":8400,"cap":"Tiny chaos detected. And it is not rhetoric — that is a subtraction between two live runs, gated identically."},{"id":"arm3","stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"focus":null,"gapMs":450,"say":"[excited] Arm three: curated. One skill. The one that actually holds the contract.","at":127250,"durMs":5360,"cap":"Arm three: curated. One skill. The one that actually holds the contract."},{"id":"curated-open","stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"focus":"beat3","gapMs":450,"say":"227 tokens of standing listing. It opens that one contract, reads it, and answers.","at":133060,"durMs":7040,"cap":"227 tokens of standing listing. It opens that one contract, reads it, and answers."},{"id":"curated-pass","stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"focus":"beat3-reply","gapMs":850,"say":"[excited] FLAGGED: Side-stripe borders. The coined term, exactly as the contract writes it. Endpoint passes.","at":140550,"durMs":7120,"cap":"FLAGGED: Side-stripe borders. The coined term, exactly as the contract writes it. Endpoint passes."},{"id":"curated-honest","stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"focus":"beat3","gapMs":750,"say":"Its 55,924 per-turn includes the skill body being read during the run. That is work done, not weight carried. I will not fudge it for a prettier story.","at":148520,"durMs":12240,"cap":"Its 55,924 per-turn includes the skill body being read during the run. That is work done, not weight carried. I will not fudge it for a prettier story."},{"id":"verdict","stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"focus":"table","gapMs":650,"say":"Biggest loadout: failed. Smallest loadout: failed. [excited] The chosen one passed.","at":161510,"durMs":7200,"cap":"Biggest loadout: failed. Smallest loadout: failed. The chosen one passed."},{"id":"clock","stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"focus":"table","gapMs":550,"say":"All three arms cost 13,940 milliseconds. [mischievously] The three minutes was me explaining.","at":169360,"durMs":7440,"cap":"All three arms cost 13,940 milliseconds. The three minutes was me explaining."},{"id":"close","stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"focus":null,"gapMs":1500,"say":"Every figure here is read from the run transcript. The double-dagger marks the one pole measured but never committed. [excited] Now go pick your own loadout and make it undeniable. Your move, boss.","at":177350,"durMs":11840,"cap":"Every figure here is read from the run transcript. The double-dagger marks the one pole measured but never committed. Now go pick your own loadout and make it undeniable. Your move, boss."}],"endMs":190690}</script>
 <script>
 (function () {
   var data = JSON.parse(document.getElementById("transcript").textContent);
@@ -230,19 +251,21 @@
     var h = "";
     for (var i = 0; i < step; i++) {
       var b = beats[i];
-      h += line("dim", "== [" + b.beat + "/" + beats.length + "] " + b.label.toUpperCase() + "  (posture: " + b.posture + ", arm: " + b.arm + ") ==");
-      h += line("cmd", "$ " + envStr(b.env) + b.command + " '<the one prompt>'");
-      h += line("dim", "  skillsLoaded: [" + b.skillsLoaded.map(function (s) { return s.id; }).join(", ") + "]"
+      var g = "";
+      g += line("dim", "== [" + b.beat + "/" + beats.length + "] " + b.label.toUpperCase() + "  (posture: " + b.posture + ", arm: " + b.arm + ") ==");
+      g += line("cmd", "$ " + envStr(b.env) + b.command + " '<the one prompt>'");
+      g += line("dim", "  skillsLoaded: [" + b.skillsLoaded.map(function (s) { return s.id; }).join(", ") + "]"
         + (b.doseSummary ? "   dose(chars4): " + b.doseSummary : ""));
-      h += line("", "  reply: " + b.reply);
-      h += line(b.objectiveEndpoint.pass ? "ok" : "no",
+      g += '<span class="focusable" data-focus="beat' + b.beat + '-reply">' + esc("  reply: " + b.reply) + "</span>\n";
+      g += line(b.objectiveEndpoint.pass ? "ok" : "no",
         "  endpoint /" + b.objectiveEndpoint.regex + "/  ->  " + (b.objectiveEndpoint.pass ? "PASS - task solved" : "FAIL - task not solved"));
-      h += line(b.committed ? "dim" : "warn",
+      g += line(b.committed ? "dim" : "warn",
         "  perTurn: " + n(b.tokens.perTurn) + " tok" + (b.committed ? "   (committed to the ledger)" : " \u2021 (uncommitted pole, never appended)")
         + "   wall: " + n(b.wallClockMs) + " ms");
-      h += "\n";
+      h += '<span class="beat focusable" data-focus="beat' + b.beat + '">' + g + "</span>\n";
       if (b.posture === "floor") {
-        h += '<span class="bloat ' + (derived.bloat > 0 ? "warn" : "no") + (emphasis === "bloat" ? " hot" : "") + '">'
+        h += '<span class="bloat focusable ' + (derived.bloat > 0 ? "warn" : "no") + (emphasis === "bloat" ? " hot" : "")
+          + '" data-focus="bloat">'
           + esc(">> MEASURED BLOAT (native - floor) = " + n(derived.bloat) + " tok \u2021 - and it solved nothing")
           + "</span>\n\n";
       }
@@ -266,6 +289,40 @@
   // captions from the beats. Cues are idempotent, so a dropped frame costs
   // nothing.
   var ACTS = { setup: "act-setup", replay: "act-replay", verdict: "act-verdict" };
+  var FOCUS = {
+    "p-prompt": ["#p-prompt"],
+    "p-endpoint": ["#p-endpoint"],
+    beat1: ['[data-focus="beat1"]'],
+    beat2: ['[data-focus="beat2"]'],
+    beat3: ['[data-focus="beat3"]'],
+    "beat3-reply": ['[data-focus="beat3"]', '[data-focus="beat3-reply"]'],
+    bloat: ['[data-focus="bloat"]'],
+    table: ["#tbl"],
+  };
+
+  // The lit block, its ancestors and its descendants stay near; every other
+  // focusable block recedes. Nesting matters — the reply line lives inside its
+  // beat, and dimming the parent would dim the thing being pointed at.
+  function applyFocus(f) {
+    var sels = FOCUS[f] || [];
+    var targets = [];
+    for (var i = 0; i < sels.length; i++) {
+      var el = document.querySelector(sels[i]);
+      if (el) targets.push(el);
+    }
+    var all = document.querySelectorAll(".focusable");
+    for (var j = 0; j < all.length; j++) {
+      var e = all[j];
+      e.classList.remove("near", "away", "pop");
+      if (!targets.length) continue;
+      var hit = false;
+      for (var k = 0; k < targets.length; k++) {
+        if (targets[k] === e || targets[k].contains(e) || e.contains(targets[k])) { hit = true; break; }
+      }
+      e.classList.add(hit ? "near" : "away");
+    }
+    for (var m = 0; m < targets.length; m++) targets[m].classList.add("pop");
+  }
 
   function applyCue(cue) {
     for (var k in ACTS) {
@@ -276,11 +333,12 @@
     });
     if (step !== cue.step || emphasis !== cue.emphasis) {
       step = cue.step;
-      emphasis = cue.emphasis;
+      emphasis = cue.emphasis || null;
       draw();
       var term = document.querySelector(".term");
       term.scrollTop = term.scrollHeight;
     }
+    applyFocus(cue.focus);
     if (capline.textContent !== cue.cap) {
       capline.classList.add("swap");
       setTimeout(function () { capline.textContent = cue.cap; capline.classList.remove("swap"); }, 180);

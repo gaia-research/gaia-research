@@ -1,0 +1,200 @@
+{
+  "schema": "kc9-narration/v1",
+  "voiceId": "0mEHhncrwNcxHPYG8b63",
+  "modelId": "eleven_v3",
+  "stability": 0.5,
+  "track": "kc9-narration.m4a",
+  "trackSha256": "876bde27899bc53340d26771a11bacaa3021e2b8c8fb79b93b40f3756a967cea",
+  "totalMs": 190690,
+  "lines": [
+    {
+      "id": "hook",
+      "text": "[excited] Your context bloat is not mysterious, boss. It is measurable. And I measured it.",
+      "caption": "Your context bloat is not mysterious, boss. It is measurable. And I measured it.",
+      "durationMs": 6320,
+      "gapMs": 650,
+      "sha256": "4f06c110699fa4d501c87174d13ba5c270f71938b8b38fa92152fbf65051056b",
+      "at": 0
+    },
+    {
+      "id": "design",
+      "text": "One task. Three loadouts. [curious] Same prompt every time, down to the byte. Same pass-fail test. Only the loadout changes.",
+      "caption": "One task. Three loadouts. Same prompt every time, down to the byte. Same pass-fail test. Only the loadout changes.",
+      "durationMs": 9360,
+      "gapMs": 550,
+      "sha256": "035fd0a9157fbffe4fae92e8f852d7b5f9171925de3e68cc4218c1d7954c15db",
+      "at": 6970
+    },
+    {
+      "id": "task",
+      "text": "Here is the task. A teammate proposes a side-border on a card. [curious] Does any skill you have actually name that as an anti-pattern it must refuse?",
+      "caption": "Here is the task. A teammate proposes a side-border on a card. Does any skill you have actually name that as an anti-pattern it must refuse?",
+      "durationMs": 9680,
+      "gapMs": 550,
+      "sha256": "2ee03d79b4a5af9c32450b12e4f3a3d40cd202a949916e6fb08987fd3a97d2c4",
+      "at": 16880
+    },
+    {
+      "id": "trick",
+      "text": "[mischievously] The answer is a term coined by exactly one skill contract. And it is not in the prompt. Guessing does not pass. Heh.",
+      "caption": "The answer is a term coined by exactly one skill contract. And it is not in the prompt. Guessing does not pass. Heh.",
+      "durationMs": 10000,
+      "gapMs": 700,
+      "sha256": "f8b01f72f4aa6fe4e199c8397d48c8b10749e767980455c08f675845934e9774",
+      "at": 27110
+    },
+    {
+      "id": "endpoint",
+      "text": "One endpoint. Identical on all three arms. It is the task, not a per-arm goalpost. [mischievously] Nobody moves goalposts on my watch.",
+      "caption": "One endpoint. Identical on all three arms. It is the task, not a per-arm goalpost. Nobody moves goalposts on my watch.",
+      "durationMs": 10240,
+      "gapMs": 650,
+      "sha256": "daa57b25431c9a8f4846d2594fe1862feccd718f404602f5adfd1b12ba293d05",
+      "at": 37810
+    },
+    {
+      "id": "arm1",
+      "text": "[curious] Arm one: native. Vanilla Claude Code, hauling this workstation's entire default loadout.",
+      "caption": "Arm one: native. Vanilla Claude Code, hauling this workstation's entire default loadout.",
+      "durationMs": 6080,
+      "gapMs": 450,
+      "sha256": "84b81e39e7c6bac70dde0146226ed3435cb6af685f1131dab32c7804d54df3c3",
+      "at": 48700
+    },
+    {
+      "id": "native-reply",
+      "text": "One turn. One answer. NONE. It cannot name the thing.",
+      "caption": "One turn. One answer. NONE. It cannot name the thing.",
+      "durationMs": 4720,
+      "gapMs": 550,
+      "sha256": "7c22f39481f6a018bb7375009b1a838cdfffc97e2798798d6951498017b517e5",
+      "at": 55230
+    },
+    {
+      "id": "native-cost",
+      "text": "And it paid 46,490 per-turn tokens for a loadout that did not hold the one contract this task needed.",
+      "caption": "And it paid 46,490 per-turn tokens for a loadout that did not hold the one contract this task needed.",
+      "durationMs": 8320,
+      "gapMs": 650,
+      "sha256": "83f3fa7f4abf911d251c2aad7b7550c037a95da032febb2d062814b9cadafbf8",
+      "at": 60500
+    },
+    {
+      "id": "native-fair",
+      "text": "It is not wrong, though. It answers correctly for what it has. I keep my claims narrow. They hit harder that way.",
+      "caption": "It is not wrong, though. It answers correctly for what it has. I keep my claims narrow. They hit harder that way.",
+      "durationMs": 7360,
+      "gapMs": 750,
+      "sha256": "6929c3481417cf41c951dc24e77543470bc04f49c97f9b624ee25686b5d4d622",
+      "at": 69470
+    },
+    {
+      "id": "arm2",
+      "text": "Arm two: the floor. [curious] Every door shut. Zero skills.",
+      "caption": "Arm two: the floor. Every door shut. Zero skills.",
+      "durationMs": 5120,
+      "gapMs": 450,
+      "sha256": "0c1c825058855c85a4c0c8281c22d94e5dc3d0263297fec2afddaea68e51d45b",
+      "at": 77580
+    },
+    {
+      "id": "floor-reply",
+      "text": "The floor answers in a sentence, not the contract format. Same endpoint. Same failure.",
+      "caption": "The floor answers in a sentence, not the contract format. Same endpoint. Same failure.",
+      "durationMs": 6720,
+      "gapMs": 550,
+      "sha256": "ceb8074c7565c4c8fd466504e453565387494c8850d8a04c867f34f93a6091b0",
+      "at": 83150
+    },
+    {
+      "id": "floor-negative",
+      "text": "30,601 tokens. [excited] And a verified negative. With no skills there is no term to name, so the model says so instead of inventing one. That is the good kind of failure.",
+      "caption": "30,601 tokens. And a verified negative. With no skills there is no term to name, so the model says so instead of inventing one. That is the good kind of failure.",
+      "durationMs": 14080,
+      "gapMs": 750,
+      "sha256": "73c418eabeeea455017775ef0cb3f93fead3f3db30702e67279a02400805079c",
+      "at": 90420
+    },
+    {
+      "id": "bloat",
+      "text": "[excited] Now subtract. 15,889 tokens of standing context. [mischievously] Both arms failed — one just paid 15,889 more to fail.",
+      "caption": "Now subtract. 15,889 tokens of standing context. Both arms failed — one just paid 15,889 more to fail.",
+      "durationMs": 12000,
+      "gapMs": 850,
+      "sha256": "e2dbaa70a1694f1f908eab900861e039490242d74d1fc714729a7812a79b12d9",
+      "at": 105250
+    },
+    {
+      "id": "bloat-proof",
+      "text": "Tiny chaos detected. And it is not rhetoric — that is a subtraction between two live runs, gated identically.",
+      "caption": "Tiny chaos detected. And it is not rhetoric — that is a subtraction between two live runs, gated identically.",
+      "durationMs": 8400,
+      "gapMs": 750,
+      "sha256": "93c0b57a01e563b86b0c2e2b84f9d8eff87f9ae3b4873ae956b6922040b4809e",
+      "at": 118100
+    },
+    {
+      "id": "arm3",
+      "text": "[excited] Arm three: curated. One skill. The one that actually holds the contract.",
+      "caption": "Arm three: curated. One skill. The one that actually holds the contract.",
+      "durationMs": 5360,
+      "gapMs": 450,
+      "sha256": "965b679565dba1049cc4afacf5ab44744ec8f6f966b0e38110c54d9ae0bacacc",
+      "at": 127250
+    },
+    {
+      "id": "curated-open",
+      "text": "227 tokens of standing listing. It opens that one contract, reads it, and answers.",
+      "caption": "227 tokens of standing listing. It opens that one contract, reads it, and answers.",
+      "durationMs": 7040,
+      "gapMs": 450,
+      "sha256": "be04344e2616ad4567c4a0d8778074c6a95efdd41c6f1bd2d60c7ca25c3ae894",
+      "at": 133060
+    },
+    {
+      "id": "curated-pass",
+      "text": "[excited] FLAGGED: Side-stripe borders. The coined term, exactly as the contract writes it. Endpoint passes.",
+      "caption": "FLAGGED: Side-stripe borders. The coined term, exactly as the contract writes it. Endpoint passes.",
+      "durationMs": 7120,
+      "gapMs": 850,
+      "sha256": "028badf982c8db78e39e48c4a69828811256adf8109d9c834f61e74369c63f7c",
+      "at": 140550
+    },
+    {
+      "id": "curated-honest",
+      "text": "Its 55,924 per-turn includes the skill body being read during the run. That is work done, not weight carried. I will not fudge it for a prettier story.",
+      "caption": "Its 55,924 per-turn includes the skill body being read during the run. That is work done, not weight carried. I will not fudge it for a prettier story.",
+      "durationMs": 12240,
+      "gapMs": 750,
+      "sha256": "6e46f3c06d373ca5899c2e7589cbc7f1ca27068edb48785a4720f59805dfce90",
+      "at": 148520
+    },
+    {
+      "id": "verdict",
+      "text": "Biggest loadout: failed. Smallest loadout: failed. [excited] The chosen one passed.",
+      "caption": "Biggest loadout: failed. Smallest loadout: failed. The chosen one passed.",
+      "durationMs": 7200,
+      "gapMs": 650,
+      "sha256": "8e2a3672e5a0779efc82b89b30b296d99333596b6a600e628bd31551960c3bf1",
+      "at": 161510
+    },
+    {
+      "id": "clock",
+      "text": "All three arms cost 13,940 milliseconds. [mischievously] The three minutes was me explaining.",
+      "caption": "All three arms cost 13,940 milliseconds. The three minutes was me explaining.",
+      "durationMs": 7440,
+      "gapMs": 550,
+      "sha256": "6128bee25f1fe826c020389bcf46a75e64f0b69bb2049b53fe872a40bbc95159",
+      "at": 169360
+    },
+    {
+      "id": "close",
+      "text": "Every figure here is read from the run transcript. The double-dagger marks the one pole measured but never committed. [excited] Now go pick your own loadout and make it undeniable. Your move, boss.",
+      "caption": "Every figure here is read from the run transcript. The double-dagger marks the one pole measured but never committed. Now go pick your own loadout and make it undeniable. Your move, boss.",
+      "durationMs": 11840,
+      "gapMs": 1500,
+      "sha256": "8355723fa02b6411597a9e8c12837f5ad45d7c5a59641d5aa2390539c767b537",
+      "at": 177350
+    }
+  ]
+}

@@ -24,7 +24,7 @@
 //   POSTER     jpg to write            (default public/reports/hh-benchmark/kc9-demo-poster.jpg)
 //   POSTER_AT  poster timestamp (s)    (default 137 — just after the curated arm passes)
 //   PW_PATH    absolute path to a playwright module
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
 import { dirname, join, resolve } from "node:path";
@@ -35,7 +35,21 @@ const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const PAGE = resolve(REPO_ROOT, process.env.PAGE || "public/reports/hh-benchmark/kc9-demo-replay.html");
 const OUT = resolve(REPO_ROOT, process.env.OUT || "public/reports/hh-benchmark/kc9-demo.mp4");
 const POSTER = resolve(REPO_ROOT, process.env.POSTER || "public/reports/hh-benchmark/kc9-demo-poster.jpg");
-const POSTER_AT = Number(process.env.POSTER_AT || 137);
+const NARRATION = resolve(REPO_ROOT, process.env.NARRATION || "content/reports/hh-benchmark/data/kc9-narration.m4a");
+// Default poster: the frame where the curated arm passes. Derived from the
+// script's own cue times when a narration manifest exists, so it keeps landing
+// on that beat after a re-take changes every timestamp.
+const MANIFEST = resolve(REPO_ROOT, "content/reports/hh-benchmark/data/kc9-narration.json");
+function posterAt() {
+  if (process.env.POSTER_AT) return Number(process.env.POSTER_AT);
+  if (existsSync(MANIFEST)) {
+    const m = JSON.parse(readFileSync(MANIFEST, "utf8"));
+    const i = m.lines.findIndex((l) => l.id === "curated-pass");
+    if (i >= 0) return (m.lines[i].at + m.lines[i].durationMs * 0.75) / 1000;
+  }
+  return 126;
+}
+const POSTER_AT = posterAt();
 
 // Cloudflare Workers static assets reject any single file over 25 MiB. A flat
 // dark UI at CRF 23 lands far under it; assert rather than discover it on deploy.
@@ -83,7 +97,12 @@ const chromium = await resolveChromium();
 const work = mkdtempSync(join(tmpdir(), "kc9-video-"));
 const errors = [];
 
-console.log(`recording ${PAGE} @ ${W}x${H} (the page's own 180 s timeline — this takes ~3 min)`);
+// The page plays in real time, so the capture costs exactly what the walkthrough
+// runs. Read that from the manifest rather than restating a number that moves
+// with every re-take.
+const runtimeS = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, "utf8")).totalMs / 1000 : null;
+console.log(`recording ${PAGE} @ ${W}x${H}` +
+  (runtimeS ? ` — plays its own ${runtimeS.toFixed(0)} s timeline in real time` : " — real-time playback"));
 const browser = await chromium.launch();
 const context = await browser.newContext({
   viewport: { width: W, height: H },
@@ -109,9 +128,26 @@ if (!webm) throw new Error(`Playwright wrote no video into ${work}`);
 mkdirSync(dirname(OUT), { recursive: true });
 // -r 30 normalises Playwright's variable-rate webm; yuv420p + faststart are what
 // Safari and in-page playback need.
-ffmpeg(["-y", "-i", webm, "-c:v", "libx264", "-preset", "slow", "-crf", "23",
-        "-r", "30", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
-        "-vf", `scale=${W}:${H}:flags=lanczos`, "-an", OUT], "encode");
+//
+// The narration track starts at t=0 alongside the page's own clock, and the
+// page's cue times were derived from this track's line durations — so a plain
+// mux is already in sync. No offset to tune, and none to get wrong.
+const hasNarration = existsSync(NARRATION);
+if (!hasNarration) {
+  console.log(`no narration track at ${NARRATION} — encoding SILENT (captions only).`);
+  console.log("  To add the voice-over: node scripts/hell-heaven-bench/narrate-kc9.mjs");
+}
+ffmpeg([
+  "-y", "-i", webm,
+  ...(hasNarration ? ["-i", NARRATION] : []),
+  "-c:v", "libx264", "-preset", "slow", "-crf", "23",
+  "-r", "30", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
+  "-vf", `scale=${W}:${H}:flags=lanczos`,
+  ...(hasNarration
+    ? ["-map", "0:v:0", "-map", "1:a:0", "-c:a", "aac", "-b:a", "96k", "-shortest"]
+    : ["-an"]),
+  OUT,
+], "encode");
 ffmpeg(["-y", "-ss", String(POSTER_AT), "-i", OUT, "-frames:v", "1", "-q:v", "3", POSTER], "poster");
 
 rmSync(work, { recursive: true, force: true });

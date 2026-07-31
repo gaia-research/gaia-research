@@ -15,21 +15,28 @@
 //
 // THE PAGE HAS TWO MODES.
 //   * default        — the manual stepper. Next / Run all / Reset.
-//   * ?autoplay=1    — "cinema": a fixed-height stage that plays the run on a
-//                      180-second timeline with an on-screen caption track, and
-//                      sets `<body data-replay-done="1">` when it finishes.
+//   * ?autoplay=1    — "cinema": a fixed-height stage that plays the run on the
+//                      narration's own timeline, with an on-screen caption
+//                      track and a camera that focuses each beat as it lands.
+//                      Sets `<body data-replay-done="1">` when it finishes.
 // Cinema exists so the demo can be captured as a real video without a second
 // artifact and without hand-editing: `record-kc9-video.mjs` opens this page with
-// `?autoplay=1`, records it with Playwright, and encodes it with ffmpeg. The
+// `?autoplay=1`, records it with Playwright, and muxes the narration track. The
 // video is therefore a screen capture of THIS page — still not a terminal
 // recording, and still carrying no figure that is not read from the transcript.
-// The caption strings below are written here in Node and interpolate the beats,
-// so a caption that states a number states the transcript's number by
-// construction.
+// The script lives in `kc9-script.mjs` and interpolates the beats, so a caption
+// that states a number states the transcript's number by construction.
+//
+// The page itself is always SILENT. The voice-over exists only in the MP4; the
+// caption track is the same string that was spoken, so the page loses nothing
+// by staying a single self-contained file with no audio payload.
 //
 // Usage:
 //   node render-kc9-replay.mjs <transcript.jsonl> <out.html>
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { buildCues, layout } from "./kc9-script.mjs";
 
 const [, , inPath, outPath] = process.argv;
 if (!inPath || !outPath) {
@@ -60,84 +67,39 @@ const derived = {
 };
 
 // ---------------------------------------------------------------------------
-// The cinema timeline. 180 s — the "three minutes" of KC9's own sentence.
+// The cinema timeline.
 //
-// Every cue is [atSeconds, stage, stepsRevealed, revealedIds[], caption].
-// `stage` swaps which act is on the stage; `stepsRevealed` is the same beat
-// counter the manual stepper uses, so cinema and manual render from one code
-// path. Any figure inside a caption is interpolated from the transcript here —
-// there is no number in this file that was typed rather than read.
+// The script (words + camera plan) lives in `kc9-script.mjs`, shared with
+// `narrate-kc9.mjs` so the spoken line and the on-screen caption are literally
+// the same string. Absolute start times come from the REAL narration
+// durations recorded in `kc9-narration.json` — the track is assembled as
+// line + gap + line + gap, so a caption's start time is the running sum of
+// everything before it and cannot drift from the voice.
+//
+// With no manifest yet the page still plays, on estimated durations, silent
+// and captioned. The manifest is what makes it exact.
 // ---------------------------------------------------------------------------
-const END_S = 180;
-const num = (x) => Number(x).toLocaleString("en-US");
-const P_ALL = ["p-prompt", "p-endpoint"];
-
-const CUES = [
-  [0, "setup", 0, [],
-    "Three runs of one task. The prompt is byte-identical. The pass/fail test is the same regex. Only the loadout changes."],
-  [6, "setup", 0, ["p-prompt"],
-    "The task: a teammate proposes a side-border on a card. Does any skill you have explicitly name that as an anti-pattern it must refuse?"],
-  [18, "setup", 0, ["p-prompt"],
-    "The answer is a term coined by exactly one skill contract — and it is deliberately not in the prompt. A guess does not pass."],
-  [28, "setup", 0, P_ALL,
-    "One objective endpoint, identical on all three arms. It is the task, not a per-arm goalpost."],
-  [36, "setup", 0, P_ALL,
-    `Arm one: ${native.label}. Vanilla ${native.harness.name} carrying this workstation's entire default loadout.`],
-
-  [43, "replay", 1, P_ALL,
-    `${native.label} answers in a single turn — and the answer is ${native.reply}. It cannot name the anti-pattern.`],
-  [52, "replay", 1, P_ALL,
-    `It paid ${num(native.tokens.perTurn)} per-turn tokens for a loadout that did not contain the one contract this task needed.`],
-  [61, "replay", 1, P_ALL,
-    "It is not answering wrongly. It answers correctly for what it holds. That is the narrower and truer claim."],
-  [70, "replay", 1, P_ALL,
-    `Arm two: the ${floor.label}. Every door shut — zero skills loaded.`],
-
-  [77, "replay", 2, P_ALL,
-    `The ${floor.label} replies in a sentence, not the contract format. It fails the same endpoint.`],
-  [86, "replay", 2, P_ALL,
-    `${num(floor.tokens.perTurn)} per-turn tokens. A verified negative: with no skills there is no term to name, and the model says so instead of inventing one.`],
-  [97, "replay", 2, P_ALL,
-    `${native.label} minus ${floor.label}: ${num(derived.bloat)} tokens of standing context. Both arms failed the task — one paid ${num(derived.bloat)} more to fail.`, "bloat"],
-  [108, "replay", 2, P_ALL,
-    "That is the measured bloat. Not rhetoric — a subtraction between two live runs, gated identically.", "bloat"],
-  [116, "replay", 2, P_ALL,
-    `Arm three: ${curated.label}. One skill — the one that holds the contract.`],
-
-  [123, "replay", 3, P_ALL,
-    `${curated.label} carries a ${num(curated.tokens.skillStanding)}-token standing listing, opens that one contract, and answers.`],
-  [133, "replay", 3, P_ALL,
-    `"${curated.reply}" — the coined term, exactly as the contract writes it. The endpoint passes.`],
-  [143, "replay", 3, P_ALL,
-    `Its ${num(curated.tokens.perTurn)} per-turn includes the skill body being read during the run. That is work done, not weight carried.`],
-  [153, "replay", 3, P_ALL,
-    `Three arms. One task. Only the ${curated.label} arm solved it.`],
-
-  [160, "verdict", 3, P_ALL,
-    "The largest loadout failed. The smallest loadout failed. The chosen loadout passed."],
-  [168, "verdict", 3, P_ALL,
-    `All three arms cost ${num(derived.totalWallMs)} ms of harness time. The three minutes is the explaining.`],
-  [174, "verdict", 3, P_ALL,
-    "Every figure here is read from the run transcript. \u2021 marks the one pole that was measured but never committed."],
-];
-
-const timeline = CUES.map(([at, stage, step, shown, cap, emphasis]) => ({
-  at: at * 1000,
-  stage,
-  step,
-  shown,
-  cap,
-  emphasis: emphasis || null,
-}));
-
-for (let i = 1; i < timeline.length; i++) {
-  if (timeline[i].at <= timeline[i - 1].at) throw new Error(`timeline cue ${i} is not after its predecessor`);
+const HERE = dirname(fileURLToPath(import.meta.url));
+const manifestPath = resolve(HERE, "..", "..", "content/reports/hh-benchmark/data/kc9-narration.json");
+let durations = null;
+let narration = null;
+if (existsSync(manifestPath)) {
+  narration = JSON.parse(readFileSync(manifestPath, "utf8"));
+  durations = Object.fromEntries(narration.lines.map((l) => [l.id, l.durationMs]));
 }
-if (timeline[timeline.length - 1].at >= END_S * 1000) throw new Error("last cue must land before the end mark");
+
+const cues = buildCues({ beats, native, floor, curated, derived });
+const { timeline, endMs } = layout(cues, durations);
+
+if (durations) {
+  const missing = cues.filter((c) => durations[c.id] === undefined).map((c) => c.id);
+  if (missing.length) throw new Error(`narration manifest is stale — no audio for: ${missing.join(", ")}. Re-run narrate-kc9.mjs.`);
+}
 const maxStep = Math.max(...timeline.map((c) => c.step));
 if (maxStep !== beats.length) throw new Error(`timeline reveals ${maxStep} beats but the transcript has ${beats.length}`);
 
-const payload = JSON.stringify({ beats, derived, timeline, endMs: END_S * 1000 }).replace(/</g, "\\u003c");
+
+const payload = JSON.stringify({ beats, derived, timeline, endMs }).replace(/</g, "\\u003c");
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 const html = `<!doctype html>
@@ -233,15 +195,36 @@ const html = `<!doctype html>
   body.cinema .reveal.shown { opacity: 1; transform: none; }
   body.cinema .bloat.hot { background: rgba(240,198,116,.13); border-radius: 4px;
                            box-shadow: 0 0 0 .35rem rgba(240,198,116,.13); }
+
+  /* --- the camera --------------------------------------------------------
+     There is no cropping or panning here: the "camera" is attention. The block
+     the narration is talking about stays lit; everything else recedes. On a
+     terminal dump that reads far better than a zoom, because the reader keeps
+     the full context on screen and is simply told where to look. */
+  body.cinema .focusable { transition: opacity 460ms cubic-bezier(.16,1,.3,1),
+                                       filter 460ms cubic-bezier(.16,1,.3,1); }
+  body.cinema .focusable.away { opacity: .26; filter: saturate(.45); }
+  body.cinema .focusable.near { opacity: 1; }
+  body.cinema .beat { display: block; }
+  body.cinema .pop { animation: pop 620ms cubic-bezier(.16,1,.3,1) both; }
+  @keyframes pop { 0% { transform: scale(1); } 38% { transform: scale(1.045); } 100% { transform: scale(1); } }
+  .beat, .bloat { transform-origin: left center; }
+  /* Act entries breathe in rather than cutting. Fires only on stage change,
+     since toggle() with an explicit boolean will not re-add a present class. */
+  body.cinema .act.live { animation: actIn 560ms cubic-bezier(.16,1,.3,1) both; }
+  @keyframes actIn { from { opacity: 0; transform: translateY(12px) scale(.994); }
+                     to   { opacity: 1; transform: none; } }
+  body.cinema #tbl.near { animation: pushIn 780ms cubic-bezier(.16,1,.3,1) both; }
+  @keyframes pushIn { from { transform: scale(.985); opacity: .6; } to { transform: none; opacity: 1; } }
   body.cinema .prog { display: block; position: fixed; top: 0; left: 0; right: 0; height: 3px;
                       background: var(--line); z-index: 3; }
   body.cinema .prog i { display: block; height: 100%; width: 0; background: var(--accent); }
   body.cinema .cap { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 2;
-                     min-height: 10.5rem; align-items: center; justify-content: center;
-                     padding: 1.5rem 3rem 2.2rem;
+                     min-height: 11rem; align-items: center; justify-content: center;
+                     padding: 1.4rem 3rem 2rem;
                      background: linear-gradient(to top, var(--bg) 62%, rgba(13,16,20,0)); }
-  body.cinema .cap p { margin: 0; max-width: 62rem; text-align: center;
-                       font-size: 1.6rem; line-height: 1.45; letter-spacing: -0.01em; color: #f2f6fa;
+  body.cinema .cap p { margin: 0; max-width: 64rem; text-align: center;
+                       font-size: 1.5rem; line-height: 1.45; letter-spacing: -0.01em; color: #f2f6fa;
                        transition: opacity 260ms ease; }
   body.cinema .cap p.swap { opacity: 0; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -260,11 +243,11 @@ const html = `<!doctype html>
   </div>
 
   <div class="act live" id="act-setup">
-    <div class="panel reveal" id="p-prompt">
+    <div class="panel reveal focusable" id="p-prompt">
       <div class="label">The one prompt — byte-identical on all three arms. The answer term is not in it.</div>
       <div class="prompt-box">${esc(beats[0].prompt)}</div>
     </div>
-    <div class="panel reveal" id="p-endpoint">
+    <div class="panel reveal focusable" id="p-endpoint">
       <div class="label">The one objective endpoint — identical on all three arms. It is the task, not a per-arm goalpost.</div>
       <div class="prompt-box"><span class="cmd">/${esc(beats[0].objectiveEndpoint.regex)}/</span> against the final reply</div>
     </div>
@@ -372,19 +355,21 @@ const html = `<!doctype html>
     var h = "";
     for (var i = 0; i < step; i++) {
       var b = beats[i];
-      h += line("dim", "== [" + b.beat + "/" + beats.length + "] " + b.label.toUpperCase() + "  (posture: " + b.posture + ", arm: " + b.arm + ") ==");
-      h += line("cmd", "$ " + envStr(b.env) + b.command + " '<the one prompt>'");
-      h += line("dim", "  skillsLoaded: [" + b.skillsLoaded.map(function (s) { return s.id; }).join(", ") + "]"
+      var g = "";
+      g += line("dim", "== [" + b.beat + "/" + beats.length + "] " + b.label.toUpperCase() + "  (posture: " + b.posture + ", arm: " + b.arm + ") ==");
+      g += line("cmd", "$ " + envStr(b.env) + b.command + " '<the one prompt>'");
+      g += line("dim", "  skillsLoaded: [" + b.skillsLoaded.map(function (s) { return s.id; }).join(", ") + "]"
         + (b.doseSummary ? "   dose(chars4): " + b.doseSummary : ""));
-      h += line("", "  reply: " + b.reply);
-      h += line(b.objectiveEndpoint.pass ? "ok" : "no",
+      g += '<span class="focusable" data-focus="beat' + b.beat + '-reply">' + esc("  reply: " + b.reply) + "</span>\\n";
+      g += line(b.objectiveEndpoint.pass ? "ok" : "no",
         "  endpoint /" + b.objectiveEndpoint.regex + "/  ->  " + (b.objectiveEndpoint.pass ? "PASS - task solved" : "FAIL - task not solved"));
-      h += line(b.committed ? "dim" : "warn",
+      g += line(b.committed ? "dim" : "warn",
         "  perTurn: " + n(b.tokens.perTurn) + " tok" + (b.committed ? "   (committed to the ledger)" : " \\u2021 (uncommitted pole, never appended)")
         + "   wall: " + n(b.wallClockMs) + " ms");
-      h += "\\n";
+      h += '<span class="beat focusable" data-focus="beat' + b.beat + '">' + g + "</span>\\n";
       if (b.posture === "floor") {
-        h += '<span class="bloat ' + (derived.bloat > 0 ? "warn" : "no") + (emphasis === "bloat" ? " hot" : "") + '">'
+        h += '<span class="bloat focusable ' + (derived.bloat > 0 ? "warn" : "no") + (emphasis === "bloat" ? " hot" : "")
+          + '" data-focus="bloat">'
           + esc(">> MEASURED BLOAT (native - floor) = " + n(derived.bloat) + " tok \\u2021 - and it solved nothing")
           + "</span>\\n\\n";
       }
@@ -408,6 +393,40 @@ const html = `<!doctype html>
   // captions from the beats. Cues are idempotent, so a dropped frame costs
   // nothing.
   var ACTS = { setup: "act-setup", replay: "act-replay", verdict: "act-verdict" };
+  var FOCUS = {
+    "p-prompt": ["#p-prompt"],
+    "p-endpoint": ["#p-endpoint"],
+    beat1: ['[data-focus="beat1"]'],
+    beat2: ['[data-focus="beat2"]'],
+    beat3: ['[data-focus="beat3"]'],
+    "beat3-reply": ['[data-focus="beat3"]', '[data-focus="beat3-reply"]'],
+    bloat: ['[data-focus="bloat"]'],
+    table: ["#tbl"],
+  };
+
+  // The lit block, its ancestors and its descendants stay near; every other
+  // focusable block recedes. Nesting matters — the reply line lives inside its
+  // beat, and dimming the parent would dim the thing being pointed at.
+  function applyFocus(f) {
+    var sels = FOCUS[f] || [];
+    var targets = [];
+    for (var i = 0; i < sels.length; i++) {
+      var el = document.querySelector(sels[i]);
+      if (el) targets.push(el);
+    }
+    var all = document.querySelectorAll(".focusable");
+    for (var j = 0; j < all.length; j++) {
+      var e = all[j];
+      e.classList.remove("near", "away", "pop");
+      if (!targets.length) continue;
+      var hit = false;
+      for (var k = 0; k < targets.length; k++) {
+        if (targets[k] === e || targets[k].contains(e) || e.contains(targets[k])) { hit = true; break; }
+      }
+      e.classList.add(hit ? "near" : "away");
+    }
+    for (var m = 0; m < targets.length; m++) targets[m].classList.add("pop");
+  }
 
   function applyCue(cue) {
     for (var k in ACTS) {
@@ -418,11 +437,12 @@ const html = `<!doctype html>
     });
     if (step !== cue.step || emphasis !== cue.emphasis) {
       step = cue.step;
-      emphasis = cue.emphasis;
+      emphasis = cue.emphasis || null;
       draw();
       var term = document.querySelector(".term");
       term.scrollTop = term.scrollHeight;
     }
+    applyFocus(cue.focus);
     if (capline.textContent !== cue.cap) {
       capline.classList.add("swap");
       setTimeout(function () { capline.textContent = cue.cap; capline.classList.remove("swap"); }, 180);
@@ -457,4 +477,10 @@ const html = `<!doctype html>
 `;
 
 writeFileSync(outPath, html);
-console.log(`wrote ${outPath} (${beats.length} beats, ${timeline.length} cues over ${END_S}s, ${html.length} bytes, self-contained)`);
+console.log(
+  `wrote ${outPath} (${beats.length} beats, ${timeline.length} cues over ${(endMs / 1000).toFixed(1)}s, ` +
+  `${html.length} bytes, self-contained)\n` +
+  (narration
+    ? `  timing: real narration durations from kc9-narration.json (voice ${narration.voiceId})`
+    : `  timing: ESTIMATED — no kc9-narration.json yet. Run narrate-kc9.mjs, then re-render.`)
+);

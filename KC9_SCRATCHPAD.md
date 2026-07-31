@@ -556,3 +556,42 @@ inline patch here). No merge — PR only, same human gate as KC8.
   `nav-links` overflow is pre-existing site-wide — an untouched page shows it
   identically) · MP4 frames spot-checked against the transcript.
   **Still human-gated: do not merge on green CI.**
+
+- 2026-07-31 — Stage 4 (same Opus 5 session): **the video is narrated.** Marco's
+  call after reviewing Stage 3: the walkthrough needed a voice, in Milim's
+  register per `marketing-tasks/MILIM.md`, not just burned-in captions.
+  * **`kc9-script.mjs` (new)** — the words and the camera plan, shared by the
+    renderer and the narrator so the spoken line and the on-screen caption are
+    one authored string. Performance tags (`[excited]`/`[curious]`/
+    `[mischievously]`) mean the two are no longer byte-identical, so the caption
+    is now **derived** from the spoken line by stripping tags: one regex, one
+    direction, no second copy to drift. Manifest records both, so the stripping
+    is auditable. Every figure still interpolates from the transcript.
+  * **`narrate-kc9.mjs` (new)** — ElevenLabs per line, then assembles
+    `line + silence(gap) + line + silence(gap)`. **The audio IS the timeline:**
+    cue `at` is the running sum, so captions cannot drift from the voice however
+    long a take runs. Committed: the assembled `kc9-narration.m4a` + manifest.
+    NOT committed: per-line MP3s. So the video rebuilds from committed inputs
+    **with no API key**, while the manifest records exact text, duration, sha256.
+  * **Camerawork** — the "camera" is attention, not cropping: the block being
+    narrated stays lit (opacity 1) while every other focusable block recedes to
+    0.26. Verified by measuring computed opacity per cue, not by eye. Plus act
+    cross-fades, a push-in on the verdict table, and a pop on the focused block.
+  * **Voice, decided by ear over two rounds.** `eleven_multilingual_v2` reads
+    flat and too mature — rejected. Landed on **`eleven_v3`**, voice
+    **`0mEHhncrwNcxHPYG8b63` ("Little Dragon Girl V2")** at **stability 0.5
+    (Natural)**; `d8x5JlMZFAGFxrfm0WkG` was the prototype and is superseded.
+    Only three tags are used — an unverified tag risks being read aloud as a
+    literal word.
+  * **`/milim-voice-production` skill (new)**, `.agents/skills/`, registered in
+    CLAUDE.md. Leads with secure key handling because Marco rotates keys often:
+    **open `.env.local`, never print the key** — no `cat`, no `echo`, no argv;
+    verify with a status code and a last-4 fingerprint. A key that reaches chat,
+    a commit, or command output is burned.
+  Result: **190.7 s · 1920×1080 · H.264 + AAC mono · 9.66 MiB**, poster
+  auto-derived at the `curated-pass` beat. Verified: video 190.70 s / audio
+  190.73 s; captions sampled at four cue midpoints land on the right line and
+  are bracket-free; claims 7/7 · lexicon clean · 25/25 + 51/51 · 264/264 vitest
+  · typecheck · `build:next` (3 routes prerender) · no illegal fs usage ·
+  visual audit clean at 390/1280.
+  **Still human-gated: do not merge on green CI.**

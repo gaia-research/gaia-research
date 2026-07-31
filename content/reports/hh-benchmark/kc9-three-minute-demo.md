@@ -219,9 +219,11 @@ in this report.
 | Demo runner | [`scripts/hell-heaven-bench/demo-kc9-live.sh`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/demo-kc9-live.sh) | Runs the three arms; prints the ledger-append commands, never mutates the ledger |
 | Transcript | [`content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl`](https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl) | `kc9-demo-transcript/v1`, one line per beat: composed command, env, loadout, reply, endpoint, doses, wall-clock |
 | Replay page | [`/reports/hh-benchmark/kc9-demo-replay.html`](/reports/hh-benchmark/kc9-demo-replay.html) | One self-contained offline HTML file, served live and openable straight off disk — no CDN, no build step, no server. Step through the run beat by beat, then see all three arms side by side |
-| Video | [`/reports/hh-benchmark/kc9-demo.mp4`](/reports/hh-benchmark/kc9-demo.mp4) | The three minutes, actually three minutes long. A screen capture of the replay page in its `?autoplay=1` mode, embedded on [the method page](/research/hh-benchmark). No audio track: the narration is on-screen text |
+| Video | [`/reports/hh-benchmark/kc9-demo.mp4`](/reports/hh-benchmark/kc9-demo.mp4) | The three minutes, actually three minutes long: a narrated screen capture of the replay page in its `?autoplay=1` mode, embedded on [the method page](/research/hh-benchmark). Every spoken line is also on screen |
+| Script | [`scripts/hell-heaven-bench/kc9-script.mjs`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/kc9-script.mjs) | The words and the camera plan. One string per beat is **both** the spoken line and the on-screen caption; every figure in it is interpolated from the transcript |
+| Narration | [`kc9-narration.m4a`](https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/kc9-narration.m4a) + [`.json`](https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/kc9-narration.json) | The voice-over and its manifest: exact text, per-line duration, per-line sha256. The track is the timeline |
 | Renderer | [`scripts/hell-heaven-bench/render-kc9-replay.mjs`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/render-kc9-replay.mjs) | Transcript → replay page. Every figure on the page is read from the transcript at render time; none is typed in |
-| Recorder | [`scripts/hell-heaven-bench/record-kc9-video.mjs`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/record-kc9-video.mjs) | Replay page → MP4 + poster, via Playwright and ffmpeg. One command, no editing step |
+| Recorder | [`scripts/hell-heaven-bench/record-kc9-video.mjs`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/record-kc9-video.mjs) | Replay page → MP4 + poster, via Playwright and ffmpeg. One command, no editing step, no API key |
 | Ledger | [`scripts/hell-heaven-bench/data/ledger.jsonl`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/data/ledger.jsonl) | The two committed records (`hh-kc9-demo` / `side-stripe-review`) |
 
 **Why a replay page and not a terminal recording.** This run is three *headless*
@@ -246,9 +248,23 @@ that could carry a figure the transcript does not. Its caption strings are
 written in the renderer and interpolate the beats, so a caption that states a
 number states the transcript's number by construction; re-running the recorder
 against the same transcript produces the same walkthrough. It is still not a
-terminal recording, for every reason in the paragraph above. The narration is
-text on screen, so the file has no audio track and the same content stays
-readable as the replay page and as this report.
+terminal recording, for every reason in the paragraph above.
+
+**The audio is the timeline.** The walkthrough is narrated in the mascot's
+voice, and each line is synthesised on its own before the track is assembled as
+`line + silence + line + silence`. So the moment a caption appears is, by
+construction, the sum of every line and pause before it — nothing is
+hand-aligned, and the captions cannot drift out of sync with the voice however
+long a take runs. The same string is spoken and shown, which means the caption
+track *is* the transcript of the audio rather than a paraphrase of it. The
+committed manifest records each line's exact text, duration and a sha256 of its
+audio; the committed track means anyone can rebuild the video without an API
+key. Text-to-speech is not deterministic, so a re-take produces a different
+read, different durations, and a new self-consistent timeline — which is exactly
+why the durations are committed rather than assumed.
+
+The replay page itself stays silent. It remains one self-contained offline file,
+and a reader who cannot play audio loses nothing: the captions are the words.
 
 ## Where these claims are indexed
 

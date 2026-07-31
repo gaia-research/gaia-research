@@ -52,17 +52,18 @@ export default function HhBenchmarkPage() {
         </header>
 
         {/* The demo is the fastest way into the method, so it sits above it.
-            No audio track: the narration is on-screen text, and the same run is
-            readable as the interactive replay and the writeup linked below. */}
+            Narrated, so it must not autoplay and must not start muted-by-default
+            beyond the browser's own policy — the viewer presses play. Every
+            spoken line is also burned in as a caption, so the audio carries no
+            information the screen does not. */}
         <figure className="report-video">
           <video
             controls
-            muted
             playsInline
             preload="none"
             poster="/reports/hh-benchmark/kc9-demo-poster.jpg"
             src="/reports/hh-benchmark/kc9-demo.mp4"
-            aria-label="The KC9 three-minute demo: one task run under three loadouts — native, the doorless floor, and one curated skill — against a single shared endpoint."
+            aria-label="The KC9 three-minute demo: one task run under three loadouts — native, the doorless floor, and one curated skill — against a single shared endpoint. Narrated, with every spoken line also shown on screen."
           />
           <figcaption>
             <strong>The three-minute demo.</strong> One task, three loadouts, one endpoint &mdash;
@@ -75,7 +76,9 @@ export default function HhBenchmarkPage() {
               kc9-demo-transcript.jsonl
             </a>{" "}
             at render time, so the video cannot state a figure the records do not; ‡ marks the one
-            pole that was measured but never committed. Step through it yourself on the{" "}
+            pole that was measured but never committed. Narrated &mdash; and every spoken line is the
+            same string shown on screen, so nothing is said that is not also read. Step through it
+            yourself on the{" "}
             <a href="/reports/hh-benchmark/kc9-demo-replay.html">interactive replay</a>, or read the{" "}
             <Link href="/research/hh-benchmark/demo">full writeup</Link>.
           </figcaption>
