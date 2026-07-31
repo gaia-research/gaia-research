@@ -51,6 +51,36 @@ export default function HhBenchmarkPage() {
           </div>
         </header>
 
+        {/* The demo is the fastest way into the method, so it sits above it.
+            No audio track: the narration is on-screen text, and the same run is
+            readable as the interactive replay and the writeup linked below. */}
+        <figure className="report-video">
+          <video
+            controls
+            muted
+            playsInline
+            preload="none"
+            poster="/reports/hh-benchmark/kc9-demo-poster.jpg"
+            src="/reports/hh-benchmark/kc9-demo.mp4"
+            aria-label="The KC9 three-minute demo: one task run under three loadouts — native, the doorless floor, and one curated skill — against a single shared endpoint."
+          />
+          <figcaption>
+            <strong>The three-minute demo.</strong> One task, three loadouts, one endpoint &mdash;
+            played back from the run that produced it. Every figure on screen is read out of{" "}
+            <a
+              href="https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl"
+              target="_blank"
+              rel="noreferrer"
+            >
+              kc9-demo-transcript.jsonl
+            </a>{" "}
+            at render time, so the video cannot state a figure the records do not; ‡ marks the one
+            pole that was measured but never committed. Step through it yourself on the{" "}
+            <a href="/reports/hh-benchmark/kc9-demo-replay.html">interactive replay</a>, or read the{" "}
+            <Link href="/research/hh-benchmark/demo">full writeup</Link>.
+          </figcaption>
+        </figure>
+
         <article className="report-body">
           <Markdown remarkPlugins={[remarkGfm]}>{body}</Markdown>
         </article>

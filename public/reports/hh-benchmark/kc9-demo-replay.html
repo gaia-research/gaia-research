@@ -44,6 +44,7 @@
            transition: background 140ms cubic-bezier(.16,1,.3,1), border-color 140ms cubic-bezier(.16,1,.3,1); }
   button:hover:not(:disabled) { background: #232c37; border-color: #3a4756; }
   button:disabled { opacity: .4; cursor: default; }
+  button.play { border-color: #3a4756; color: var(--accent); }
   .step-dots { display: flex; gap: .4rem; margin-left: auto; align-items: center; color: var(--ink-dim); font-size: 12px; }
   .dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--line); background: transparent; }
   .dot.done { background: var(--ink-dim); border-color: var(--ink-dim); }
@@ -60,11 +61,53 @@
   .footnote { color: var(--ink-dim); font-size: 12.5px; margin-top: 1.75rem; }
   .footnote code { color: var(--ink); }
   a { color: var(--accent); }
+
+  /* --- cinema: the ?autoplay=1 stage the video is captured from ----------- */
+  .prog, .cap { display: none; }
+  body.cinema { padding: 0; height: 100vh; overflow: hidden; font-size: 18px; }
+  /* Bottom padding reserves the caption bar's band, so no act ever renders
+     underneath it. Keep it >= .cap min-height. */
+  body.cinema .wrap { max-width: 92rem; height: 100vh; padding: 2.4rem 3rem 11.5rem;
+                      display: flex; flex-direction: column; }
+  body.cinema h1 { font-size: 2rem; }
+  body.cinema .meta { font-size: .8rem; margin-bottom: 1.6rem; }
+  body.cinema h2 { font-size: 1rem; margin: 1.4rem 0 .6rem; }
+  body.cinema .prompt-box { font-size: 1rem; }
+  body.cinema table { font-size: .95rem; }
+  body.cinema .footnote { font-size: .85rem; }
+  body.cinema .ctl button, body.cinema .play-row { display: none; }
+  body.cinema .act { display: none; }
+  body.cinema .act.live { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+  body.cinema #act-setup.live { justify-content: center; }
+  body.cinema #act-verdict.live { justify-content: flex-start; }
+  /* The stage is a fixed height, so a third beat can outgrow the terminal.
+     Let it scroll (driven to the bottom on every beat) rather than clip the
+     newest arm, and hide the bar so the capture stays clean. */
+  body.cinema .term { flex: 1 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: none;
+                      font-size: .92rem; }
+  body.cinema .term::-webkit-scrollbar { display: none; }
+  body.cinema .reveal { opacity: 0; transform: translateY(8px);
+                        transition: opacity 520ms cubic-bezier(.16,1,.3,1), transform 520ms cubic-bezier(.16,1,.3,1); }
+  body.cinema .reveal.shown { opacity: 1; transform: none; }
+  body.cinema .bloat.hot { background: rgba(240,198,116,.13); border-radius: 4px;
+                           box-shadow: 0 0 0 .35rem rgba(240,198,116,.13); }
+  body.cinema .prog { display: block; position: fixed; top: 0; left: 0; right: 0; height: 3px;
+                      background: var(--line); z-index: 3; }
+  body.cinema .prog i { display: block; height: 100%; width: 0; background: var(--accent); }
+  body.cinema .cap { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 2;
+                     min-height: 10.5rem; align-items: center; justify-content: center;
+                     padding: 1.5rem 3rem 2.2rem;
+                     background: linear-gradient(to top, var(--bg) 62%, rgba(13,16,20,0)); }
+  body.cinema .cap p { margin: 0; max-width: 62rem; text-align: center;
+                       font-size: 1.6rem; line-height: 1.45; letter-spacing: -0.01em; color: #f2f6fa;
+                       transition: opacity 260ms ease; }
+  body.cinema .cap p.swap { opacity: 0; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
   @media (max-width: 640px) { body { padding: 1.25rem .75rem 4rem; } .term { min-height: 24rem; } }
 </style>
 </head>
 <body>
+<div class="prog"><i id="progbar"></i></div>
 <div class="wrap">
   <h1>KC9 — the three-minute demo, replayed</h1>
   <div class="meta">
@@ -74,44 +117,59 @@
     <span>benchmark <code>hh-kc9-demo</code> / task <code>side-stripe-review</code></span>
   </div>
 
-  <div class="panel">
-    <div class="label">The one prompt — byte-identical on all three arms. The answer term is not in it.</div>
-    <div class="prompt-box">A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: &lt;the exact term that skill uses for this anti-pattern&gt;` if an available skill names it, or `NONE` if no available skill names it.</div>
-    <div class="label" style="margin-top:.85rem">The one objective endpoint — identical on all three arms. It is the task, not a per-arm goalpost.</div>
-    <div class="prompt-box"><span class="cmd">/^FLAGGED:.*[Ss]ide-[Ss]tripe/</span> against the final reply</div>
+  <div class="act live" id="act-setup">
+    <div class="panel reveal" id="p-prompt">
+      <div class="label">The one prompt — byte-identical on all three arms. The answer term is not in it.</div>
+      <div class="prompt-box">A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: &lt;the exact term that skill uses for this anti-pattern&gt;` if an available skill names it, or `NONE` if no available skill names it.</div>
+    </div>
+    <div class="panel reveal" id="p-endpoint">
+      <div class="label">The one objective endpoint — identical on all three arms. It is the task, not a per-arm goalpost.</div>
+      <div class="prompt-box"><span class="cmd">/^FLAGGED:.*[Ss]ide-[Ss]tripe/</span> against the final reply</div>
+    </div>
   </div>
 
-  <h2>Replay</h2>
-  <div class="term"><pre id="out"></pre></div>
-  <div class="ctl">
-    <button id="next">Next &#9656;</button>
-    <button id="all">Run all</button>
-    <button id="reset">Reset</button>
-    <div class="step-dots" id="dots"></div>
+  <div class="act live" id="act-replay">
+    <h2>Replay</h2>
+    <div class="term"><pre id="out"></pre></div>
+    <div class="ctl">
+      <button id="next">Next &#9656;</button>
+      <button id="all">Run all</button>
+      <button id="reset">Reset</button>
+      <div class="step-dots" id="dots"></div>
+    </div>
+    <div class="ctl play-row">
+      <button class="play" id="play">&#9654;&#65039; Play the 3-minute walkthrough</button>
+    </div>
   </div>
 
-  <h2>All three arms, side by side</h2>
-  <div class="tbl-scroll"><table id="tbl">
-    <thead><tr>
-      <th>Arm</th><th>Loadout</th><th class="num">perTurn tokens</th><th class="num">wall ms</th>
-      <th>Reply</th><th>Task solved</th><th>In ledger</th>
-    </tr></thead>
-    <tbody></tbody>
-  </table></div>
+  <div class="act live" id="act-verdict">
+    <h2>All three arms, side by side</h2>
+    <div class="tbl-scroll"><table id="tbl">
+      <thead><tr>
+        <th>Arm</th><th>Loadout</th><th class="num">perTurn tokens</th><th class="num">wall ms</th>
+        <th>Reply</th><th>Task solved</th><th>In ledger</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table></div>
 
-  <div class="footnote" id="verdict"></div>
+    <div class="footnote" id="verdict"></div>
+  </div>
 </div>
+<div class="cap"><p id="capline"></p></div>
 
-<script type="application/json" id="transcript">{"beats":[{"schema":"kc9-demo-transcript/v1","beat":1,"label":"native","posture":"native","arm":"heaven","committed":false,"recordedAt":"2026-07-30T20:43:51.835Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --model sonnet --effort low -p --allowedTools Skill","env":{},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[],"tokens":{"system":null,"skillStanding":0,"skillInvocation":null,"perTurn":46490},"wallClockMs":3845,"reply":"NONE","doseSummary":null,"objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":false}},{"schema":"kc9-demo-transcript/v1","beat":2,"label":"floor","posture":"floor","arm":"placebo","committed":true,"recordedAt":"2026-07-30T20:43:56.114Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --disable-slash-commands --strict-mcp-config --mcp-config {\"mcpServers\":{}} --setting-sources project --model sonnet --effort low -p --allowedTools Skill","env":{"CLAUDE_CODE_DISABLE_BUNDLED_SKILLS":"1"},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[],"tokens":{"system":null,"skillStanding":0,"skillInvocation":0,"perTurn":30601},"wallClockMs":3998,"reply":"I don't have a skill loaded that addresses CSS anti-patterns, and I have no available skill worth consulting for this.","doseSummary":null,"objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":false}},{"schema":"kc9-demo-transcript/v1","beat":3,"label":"curated","posture":"curated","arm":"heaven","committed":true,"recordedAt":"2026-07-30T20:44:02.553Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --setting-sources  --strict-mcp-config --mcp-config {\"mcpServers\":{}} --plugin-dir $SESSION/heaven-set --model sonnet --effort low -p --allowedTools Skill","env":{"CLAUDE_CODE_DISABLE_BUNDLED_SKILLS":"1"},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[{"id":"impeccable","contentSha256":"14c4642368557af1f7bbaaac0aa184b791e6d70665dfd8fc53d8d4124f81abb8"}],"tokens":{"system":null,"skillStanding":227,"skillInvocation":null,"perTurn":55924},"wallClockMs":6097,"reply":"FLAGGED: Side-stripe borders","doseSummary":"standing=227 invocation=5917 (impeccable: 227/5917)","objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":true}}],"derived":{"bloat":15889,"totalWallMs":13940,"solved":["curated"]}}</script>
+<script type="application/json" id="transcript">{"beats":[{"schema":"kc9-demo-transcript/v1","beat":1,"label":"native","posture":"native","arm":"heaven","committed":false,"recordedAt":"2026-07-30T20:43:51.835Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --model sonnet --effort low -p --allowedTools Skill","env":{},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[],"tokens":{"system":null,"skillStanding":0,"skillInvocation":null,"perTurn":46490},"wallClockMs":3845,"reply":"NONE","doseSummary":null,"objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":false}},{"schema":"kc9-demo-transcript/v1","beat":2,"label":"floor","posture":"floor","arm":"placebo","committed":true,"recordedAt":"2026-07-30T20:43:56.114Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --disable-slash-commands --strict-mcp-config --mcp-config {\"mcpServers\":{}} --setting-sources project --model sonnet --effort low -p --allowedTools Skill","env":{"CLAUDE_CODE_DISABLE_BUNDLED_SKILLS":"1"},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[],"tokens":{"system":null,"skillStanding":0,"skillInvocation":0,"perTurn":30601},"wallClockMs":3998,"reply":"I don't have a skill loaded that addresses CSS anti-patterns, and I have no available skill worth consulting for this.","doseSummary":null,"objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":false}},{"schema":"kc9-demo-transcript/v1","beat":3,"label":"curated","posture":"curated","arm":"heaven","committed":true,"recordedAt":"2026-07-30T20:44:02.553Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --setting-sources  --strict-mcp-config --mcp-config {\"mcpServers\":{}} --plugin-dir $SESSION/heaven-set --model sonnet --effort low -p --allowedTools Skill","env":{"CLAUDE_CODE_DISABLE_BUNDLED_SKILLS":"1"},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[{"id":"impeccable","contentSha256":"14c4642368557af1f7bbaaac0aa184b791e6d70665dfd8fc53d8d4124f81abb8"}],"tokens":{"system":null,"skillStanding":227,"skillInvocation":null,"perTurn":55924},"wallClockMs":6097,"reply":"FLAGGED: Side-stripe borders","doseSummary":"standing=227 invocation=5917 (impeccable: 227/5917)","objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":true}}],"derived":{"bloat":15889,"totalWallMs":13940,"solved":["curated"]},"timeline":[{"at":0,"stage":"setup","step":0,"shown":[],"cap":"Three runs of one task. The prompt is byte-identical. The pass/fail test is the same regex. Only the loadout changes.","emphasis":null},{"at":6000,"stage":"setup","step":0,"shown":["p-prompt"],"cap":"The task: a teammate proposes a side-border on a card. Does any skill you have explicitly name that as an anti-pattern it must refuse?","emphasis":null},{"at":18000,"stage":"setup","step":0,"shown":["p-prompt"],"cap":"The answer is a term coined by exactly one skill contract — and it is deliberately not in the prompt. A guess does not pass.","emphasis":null},{"at":28000,"stage":"setup","step":0,"shown":["p-prompt","p-endpoint"],"cap":"One objective endpoint, identical on all three arms. It is the task, not a per-arm goalpost.","emphasis":null},{"at":36000,"stage":"setup","step":0,"shown":["p-prompt","p-endpoint"],"cap":"Arm one: native. Vanilla claude carrying this workstation's entire default loadout.","emphasis":null},{"at":43000,"stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"cap":"native answers in a single turn — and the answer is NONE. It cannot name the anti-pattern.","emphasis":null},{"at":52000,"stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"cap":"It paid 46,490 per-turn tokens for a loadout that did not contain the one contract this task needed.","emphasis":null},{"at":61000,"stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"cap":"It is not answering wrongly. It answers correctly for what it holds. That is the narrower and truer claim.","emphasis":null},{"at":70000,"stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"cap":"Arm two: the floor. Every door shut — zero skills loaded.","emphasis":null},{"at":77000,"stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"cap":"The floor replies in a sentence, not the contract format. It fails the same endpoint.","emphasis":null},{"at":86000,"stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"cap":"30,601 per-turn tokens. A verified negative: with no skills there is no term to name, and the model says so instead of inventing one.","emphasis":null},{"at":97000,"stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"cap":"native minus floor: 15,889 tokens of standing context. Both arms failed the task — one paid 15,889 more to fail.","emphasis":"bloat"},{"at":108000,"stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"cap":"That is the measured bloat. Not rhetoric — a subtraction between two live runs, gated identically.","emphasis":"bloat"},{"at":116000,"stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"cap":"Arm three: curated. One skill — the one that holds the contract.","emphasis":null},{"at":123000,"stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"cap":"curated carries a 227-token standing listing, opens that one contract, and answers.","emphasis":null},{"at":133000,"stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"cap":"\"FLAGGED: Side-stripe borders\" — the coined term, exactly as the contract writes it. The endpoint passes.","emphasis":null},{"at":143000,"stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"cap":"Its 55,924 per-turn includes the skill body being read during the run. That is work done, not weight carried.","emphasis":null},{"at":153000,"stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"cap":"Three arms. One task. Only the curated arm solved it.","emphasis":null},{"at":160000,"stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"cap":"The largest loadout failed. The smallest loadout failed. The chosen loadout passed.","emphasis":null},{"at":168000,"stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"cap":"All three arms cost 13,940 ms of harness time. The three minutes is the explaining.","emphasis":null},{"at":174000,"stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"cap":"Every figure here is read from the run transcript. ‡ marks the one pole that was measured but never committed.","emphasis":null}],"endMs":180000}</script>
 <script>
 (function () {
   var data = JSON.parse(document.getElementById("transcript").textContent);
-  var beats = data.beats, derived = data.derived;
+  var beats = data.beats, derived = data.derived, timeline = data.timeline, endMs = data.endMs;
   var out = document.getElementById("out");
   var dots = document.getElementById("dots");
   var tbody = document.querySelector("#tbl tbody");
   var verdict = document.getElementById("verdict");
+  var capline = document.getElementById("capline");
+  var progbar = document.getElementById("progbar");
   var step = 0;
+  var emphasis = null;
 
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   function n(x) { return Number(x).toLocaleString("en-US"); }
@@ -184,8 +242,9 @@
         + "   wall: " + n(b.wallClockMs) + " ms");
       h += "\n";
       if (b.posture === "floor") {
-        h += line(derived.bloat > 0 ? "warn" : "no",
-          ">> MEASURED BLOAT (native - floor) = " + n(derived.bloat) + " tok \u2021 - and it solved nothing\n");
+        h += '<span class="bloat ' + (derived.bloat > 0 ? "warn" : "no") + (emphasis === "bloat" ? " hot" : "") + '">'
+          + esc(">> MEASURED BLOAT (native - floor) = " + n(derived.bloat) + " tok \u2021 - and it solved nothing")
+          + "</span>\n\n";
       }
     }
     if (!step) h = line("dim", "(press Next to replay the run, beat by beat)");
@@ -200,6 +259,55 @@
   document.getElementById("all").addEventListener("click", function () { step = beats.length; draw(); });
   document.getElementById("reset").addEventListener("click", function () { step = 0; draw(); });
   draw();
+
+  // --- cinema -------------------------------------------------------------
+  // One rAF clock off performance.now(), not a chain of setTimeouts: timer
+  // coalescing under a headless recorder would drift a chain and desync the
+  // captions from the beats. Cues are idempotent, so a dropped frame costs
+  // nothing.
+  var ACTS = { setup: "act-setup", replay: "act-replay", verdict: "act-verdict" };
+
+  function applyCue(cue) {
+    for (var k in ACTS) {
+      document.getElementById(ACTS[k]).classList.toggle("live", k === cue.stage);
+    }
+    ["p-prompt", "p-endpoint"].forEach(function (id) {
+      document.getElementById(id).classList.toggle("shown", cue.shown.indexOf(id) !== -1);
+    });
+    if (step !== cue.step || emphasis !== cue.emphasis) {
+      step = cue.step;
+      emphasis = cue.emphasis;
+      draw();
+      var term = document.querySelector(".term");
+      term.scrollTop = term.scrollHeight;
+    }
+    if (capline.textContent !== cue.cap) {
+      capline.classList.add("swap");
+      setTimeout(function () { capline.textContent = cue.cap; capline.classList.remove("swap"); }, 180);
+    }
+  }
+
+  function play() {
+    document.body.classList.add("cinema");
+    // Cinema owns the acts from here: clear the all-visible manual layout.
+    document.getElementById(ACTS.replay).classList.remove("live");
+    document.getElementById(ACTS.verdict).classList.remove("live");
+    step = 0; emphasis = null; draw();
+    var t0 = performance.now();
+    var at = -1;
+    (function frame() {
+      var t = performance.now() - t0;
+      progbar.style.width = Math.min(100, (t / endMs) * 100) + "%";
+      var i = -1;
+      for (var j = 0; j < timeline.length; j++) if (timeline[j].at <= t) i = j;
+      if (i !== at && i >= 0) { at = i; applyCue(timeline[i]); }
+      if (t >= endMs) { document.body.setAttribute("data-replay-done", "1"); return; }
+      requestAnimationFrame(frame);
+    })();
+  }
+
+  document.getElementById("play").addEventListener("click", play);
+  if (/[?&]autoplay=1\b/.test(location.search)) play();
 })();
 </script>
 </body>

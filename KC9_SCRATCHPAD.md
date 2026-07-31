@@ -521,3 +521,38 @@ inline patch here). No merge — PR only, same human gate as KC8.
   `/research/hh-benchmark`). Do not merge on green CI. Everything else the plan
   listed is done, including the rendered route, which the brief had marked
   optional.
+
+- 2026-07-31 — Stage 3 (Opus 5 session): **the demo is now a real video**, on
+  Marco's call that KC9's deliverable is a three-minute MP4 on the site, not a
+  page you click through. No generative video (Runway/Higgsfield would be a
+  literal simulation, against everything this report says about itself) and no
+  asciinema (rejected in Stage 1 for reasons that still hold — three headless
+  JSON calls have no interactive TTY). Instead the **replay page grew a second
+  mode**, and the video is a screen recording of it:
+  * `render-kc9-replay.mjs` — `?autoplay=1` ("cinema"): a fixed 1080p stage that
+    plays the same beats over a 180-second timeline with an on-screen caption
+    track. 21 cues, three acts (setup → replay → verdict), one rAF clock off
+    `performance.now()` rather than a `setTimeout` chain, so timer coalescing
+    under the recorder cannot desync captions from beats. **Caption strings are
+    written in Node and interpolate the beats**, so a caption that states a
+    number states the transcript's number by construction. Manual mode is
+    unchanged and gains a "Play the 3-minute walkthrough" button.
+  * `record-kc9-video.mjs` (new) — Playwright records that page at 1920×1080,
+    ffmpeg encodes H.264/yuv420p + faststart and cuts a poster at 137 s (the
+    frame where the curated arm passes). Playwright stays a non-dependency,
+    resolved from the npx cache exactly as `visual-audit.mjs` does. Fails loud
+    over Cloudflare's 25 MiB per-asset limit. Result: **181.9 s, 4.84 MiB.**
+  * Video embedded on **`/research/hh-benchmark`**, not the `/demo` sub-page —
+    Marco's call that `/demo` sits too deep for the thing that sells the method.
+    New `.report-video` block in `globals.css`. No audio track: the narration is
+    on-screen text, and the same run stays readable as the replay page and the
+    report.
+  * `claim-index.md` gains **D7** — the video as **cited by path**, stating that
+    it introduces no figure of its own; every number it shows is one D1/D3
+    already place. Ledger untouched (14 records), F7 untouched, no cursor arm.
+  Verified: 7/7 claims gate · lexicon clean · 25/25 + 51/51 gate self-tests ·
+  264/264 vitest · typecheck · `build:next` (all 3 hh-benchmark routes
+  prerender) · no illegal fs usage · visual audit clean at 390/1280 (the 768 px
+  `nav-links` overflow is pre-existing site-wide — an untouched page shows it
+  identically) · MP4 frames spot-checked against the transcript.
+  **Still human-gated: do not merge on green CI.**

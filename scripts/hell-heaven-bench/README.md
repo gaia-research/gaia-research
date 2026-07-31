@@ -11,7 +11,8 @@ registry-proxy prototype — leave it alone.
 | `ledger.ts` | **M3 / R2 plumbing** | JSONL run ledger (methodology §6 + two-dose token categories). Always on: every run, manual or fleet, appends here. |
 | `check-claims.ts` | **provenance gate** | Binds prose to committed evidence: every token number / sha in the gated docs must trace to a committed `ledger.jsonl` / `r0-census.json` record, or carry the `‡` sigil (= declared uncommitted context). Run before any docs PR. |
 | `demo-kc9-live.sh` | **KC9** | The three-minute demo: one task asked three ways (native / floor / curated) with a byte-identical prompt and a single shared objective endpoint. Emits `kc9-demo-transcript/v1` beats beside the `hh-ledger/v1` records; prints the append commands, never mutates the ledger. |
-| `render-kc9-replay.mjs` | **KC9** | Transcript -> one self-contained offline HTML replay page (no CDN, no build step). Output: `public/reports/hh-benchmark/kc9-demo-replay.html`. |
+| `render-kc9-replay.mjs` | **KC9** | Transcript -> one self-contained offline HTML replay page (no CDN, no build step). Output: `public/reports/hh-benchmark/kc9-demo-replay.html`. The page has two modes: the manual stepper, and `?autoplay=1` ("cinema") — a fixed 1080p stage that plays the run on a 180-second caption timeline. |
+| `record-kc9-video.mjs` | **KC9** | Records the replay page's cinema mode with Playwright and encodes it with ffmpeg. Outputs: `public/reports/hh-benchmark/kc9-demo.mp4` + `kc9-demo-poster.jpg`, embedded on `/research/hh-benchmark`. |
 | `data/ledger.jsonl` | — | The ledger. Checked in; append-only. Includes the `hh-m2-smoke` launcher smoke records (B4 — flagged for easy owner veto). |
 
 ### Claims-provenance gate (why it exists)
@@ -137,7 +138,20 @@ SKILL_HEAVEN_DIR=/path/to/skill-heaven bash scripts/hell-heaven-bench/demo-kc9-l
 node scripts/hell-heaven-bench/render-kc9-replay.mjs \
      scripts/.hh-demo/kc9-transcript.jsonl \
      public/reports/hh-benchmark/kc9-demo-replay.html
+# then, to re-cut the video the site serves (~3 min: it plays the real timeline):
+node scripts/hell-heaven-bench/record-kc9-video.mjs
 ```
+
+The video is a **screen capture of that replay page**, not a second artifact with
+its own numbers: `record-kc9-video.mjs` opens the page with `?autoplay=1`, records
+it at 1920x1080 with Playwright, and encodes H.264 with ffmpeg. Because the
+renderer interpolates every caption figure out of the transcript, the video
+cannot state a number the committed records do not — and it is still not a
+terminal recording, for the reasons under *The artifacts* in the writeup.
+Playwright is deliberately **not** a project dependency (it would fatten the
+Cloudflare bundle); the script resolves it from `PW_PATH`, a plain import, or the
+npx cache, exactly as `scripts/visual-audit.mjs` does. ffmpeg must be on `PATH`.
+The script fails loud if the MP4 exceeds Cloudflare's 25 MiB per-asset limit.
 
 One task, three loadouts, **one** objective endpoint — the loadout is the only
 variable, so "curated succeeds" is a result rather than a definition. Writeup:

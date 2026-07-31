@@ -219,7 +219,9 @@ in this report.
 | Demo runner | [`scripts/hell-heaven-bench/demo-kc9-live.sh`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/demo-kc9-live.sh) | Runs the three arms; prints the ledger-append commands, never mutates the ledger |
 | Transcript | [`content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl`](https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl) | `kc9-demo-transcript/v1`, one line per beat: composed command, env, loadout, reply, endpoint, doses, wall-clock |
 | Replay page | [`/reports/hh-benchmark/kc9-demo-replay.html`](/reports/hh-benchmark/kc9-demo-replay.html) | One self-contained offline HTML file, served live and openable straight off disk — no CDN, no build step, no server. Step through the run beat by beat, then see all three arms side by side |
+| Video | [`/reports/hh-benchmark/kc9-demo.mp4`](/reports/hh-benchmark/kc9-demo.mp4) | The three minutes, actually three minutes long. A screen capture of the replay page in its `?autoplay=1` mode, embedded on [the method page](/research/hh-benchmark). No audio track: the narration is on-screen text |
 | Renderer | [`scripts/hell-heaven-bench/render-kc9-replay.mjs`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/render-kc9-replay.mjs) | Transcript → replay page. Every figure on the page is read from the transcript at render time; none is typed in |
+| Recorder | [`scripts/hell-heaven-bench/record-kc9-video.mjs`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/record-kc9-video.mjs) | Replay page → MP4 + poster, via Playwright and ffmpeg. One command, no editing step |
 | Ledger | [`scripts/hell-heaven-bench/data/ledger.jsonl`](https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/data/ledger.jsonl) | The two committed records (`hh-kc9-demo` / `side-stripe-review`) |
 
 **Why a replay page and not a terminal recording.** This run is three *headless*
@@ -231,6 +233,22 @@ structured data — this project's existing habit — so the durable artifact is
 data plus a renderer for it, and the page inherits the same honesty discipline as
 the prose: every number on it comes out of the transcript, and uncommitted ones
 carry ‡.
+
+**And why there is nonetheless a video.** KC9's own sentence promises *three
+minutes*, and the compute is fourteen seconds; the missing three minutes were
+always the explaining. So the explaining was written down as a timeline rather
+than performed: the replay page gained an `?autoplay=1` mode that plays the same
+beats over 180 seconds with an on-screen caption track, and `record-kc9-video.mjs`
+captures that page with Playwright and encodes it with ffmpeg. The video is
+therefore **a screen recording of this report's own artifact**, not a second
+telling of it — no editor, no re-enactment, no generated footage, and no frame
+that could carry a figure the transcript does not. Its caption strings are
+written in the renderer and interpolate the beats, so a caption that states a
+number states the transcript's number by construction; re-running the recorder
+against the same transcript produces the same walkthrough. It is still not a
+terminal recording, for every reason in the paragraph above. The narration is
+text on screen, so the file has no audio track and the same content stays
+readable as the replay page and as this report.
 
 ## Where these claims are indexed
 

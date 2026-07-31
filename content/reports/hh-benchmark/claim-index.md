@@ -103,6 +103,7 @@ directory and therefore in the derived scan set.
 | D4 | the demo's **first** run inverted: floor **64,658 ‡** against native **46,463 ‡** | [`kc9-three-minute-demo.md`][kc9-poles] | never committed, and reported as a **method finding** rather than as evidence for anything: `perTurn` sums usage across a whole headless run, so differencing two of them prices *turn count* unless both runs took a comparable number of turns. Same trap the M3 paired run hit from the other direction. | **‡ UNCOMMITTED — method caveat** |
 | D5 | the replay page and the `kc9-demo-transcript/v1` beats | [`kc9-demo-replay.html`][kc9-replay], [`kc9-demo-transcript.jsonl`][kc9-transcript] | committed and reproducible. The page carries no figure that is not read out of the transcript at render time, and it is not a markdown doc with numbers in prose, so the gate is structurally blind to it — same treatment as **C1**/**C4**'s run-record citations. | **cited by path** |
 | D6 | **F7** and **cursor** in the KC9 artifacts | — | neither appears. F7 stays as **C1** states it, locked and not re-derived — the demo never launches the product floor. Cursor stays as **C8** states it, deferred with no figure anywhere. | **unchanged by KC9** |
+| D7 | the demo video served on the method page | [`kc9-demo.mp4`][kc9-video], cut by [`record-kc9-video.mjs`][kc9-recorder] | a screen capture of the replay page's `?autoplay=1` mode, so it introduces **no figure of its own**: every number it shows is the one **D1**/**D3** already place, rendered out of the transcript at render time rather than typed into a caption. It is a binary the gate cannot read, and it is derived from an artifact the gate already covers — same **cited by path** treatment as **D5**. | **cited by path** |
 
 <!-- ledger-claims:end -->
 
@@ -128,6 +129,8 @@ directory and therefore in the derived scan set.
 [kc9-poles]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/kc9-three-minute-demo.md#what-the-first-run-got-wrong-and-why-it-is-in-this-report
 [kc9-replay]: https://github.com/gaia-research/gaia-research/blob/main/public/reports/hh-benchmark/kc9-demo-replay.html
 [kc9-transcript]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl
+[kc9-video]: https://github.com/gaia-research/gaia-research/blob/main/public/reports/hh-benchmark/kc9-demo.mp4
+[kc9-recorder]: https://github.com/gaia-research/gaia-research/blob/main/scripts/hell-heaven-bench/record-kc9-video.mjs
 [census]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/r0-census.json
 [census-listings]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/r0-census.json#L589
 [census-published]: https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/r0-census.json#L620
