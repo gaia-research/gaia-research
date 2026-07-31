@@ -44,11 +44,45 @@ export default function HhBenchmarkPage() {
           </dl>
           <div className="report-links">
             <Link href="/research/hh-benchmark/claims">Claim index &rarr;</Link>
+            <Link href="/research/hh-benchmark/demo">The three-minute demo &rarr;</Link>
             <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a>
             <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>
             <a href="https://github.com/gaia-research/gaia-research/issues/62" target="_blank" rel="noreferrer">Help wanted ↗</a>
           </div>
         </header>
+
+        {/* The demo is the fastest way into the method, so it sits above it.
+            Narrated, so it must not autoplay and must not start muted-by-default
+            beyond the browser's own policy — the viewer presses play. Every
+            spoken line is also burned in as a caption, so the audio carries no
+            information the screen does not. */}
+        <figure className="report-video">
+          <video
+            controls
+            playsInline
+            preload="none"
+            poster="/reports/hh-benchmark/kc9-demo-poster.jpg"
+            src="/reports/hh-benchmark/kc9-demo.mp4"
+            aria-label="The KC9 three-minute demo: one task run under three loadouts — native, the doorless floor, and one curated skill — against a single shared endpoint. Narrated, with every spoken line also shown on screen."
+          />
+          <figcaption>
+            <strong>The three-minute demo.</strong> One task, three loadouts, one endpoint &mdash;
+            played back from the run that produced it. Every figure on screen is read out of{" "}
+            <a
+              href="https://github.com/gaia-research/gaia-research/blob/main/content/reports/hh-benchmark/data/kc9-demo-transcript.jsonl"
+              target="_blank"
+              rel="noreferrer"
+            >
+              kc9-demo-transcript.jsonl
+            </a>{" "}
+            at render time, so the video cannot state a figure the records do not; ‡ marks the one
+            pole that was measured but never committed. Narrated &mdash; and every spoken line is the
+            same string shown on screen, so nothing is said that is not also read. Step through it
+            yourself on the{" "}
+            <a href="/reports/hh-benchmark/kc9-demo-replay.html">interactive replay</a>, or read the{" "}
+            <Link href="/research/hh-benchmark/demo">full writeup</Link>.
+          </figcaption>
+        </figure>
 
         <article className="report-body">
           <Markdown remarkPlugins={[remarkGfm]}>{body}</Markdown>

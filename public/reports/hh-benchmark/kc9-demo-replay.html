@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KC9 — the three-minute demo, replayed</title>
+<style>
+  :root {
+    --bg: #0d1014; --surface: #141920; --surface-2: #1b222b; --line: #2b3440;
+    --ink: #dfe6ee; --ink-dim: #93a1b1; --ink-faint: #6b7a8a;
+    --ok: #6ee7a8; --no: #ff8f7a; --warn: #f0c674; --accent: #7fb8ff;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--mono); font-size: 14px; line-height: 1.6;
+    padding: 2rem 1.25rem 5rem;
+  }
+  .wrap { max-width: 68rem; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin: 0 0 .35rem; letter-spacing: -0.02em; font-weight: 600; }
+  h2 { font-size: .95rem; margin: 2.5rem 0 .75rem; color: var(--ink-dim);
+       text-transform: none; font-weight: 600; }
+  .meta { color: var(--ink-dim); font-size: 12.5px; margin-bottom: 1.5rem; }
+  .meta span { white-space: nowrap; }
+  .sep { color: var(--line); padding: 0 .5rem; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.15rem; }
+  .panel + .panel { margin-top: .85rem; }
+  .label { color: var(--ink-dim); font-size: 12px; margin-bottom: .3rem; }
+  .prompt-box { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px;
+                padding: .8rem .95rem; white-space: pre-wrap; word-break: break-word;
+                font-size: 13px; color: var(--ink); }
+  .term { background: #0a0d11; border: 1px solid var(--line); border-radius: 10px;
+          min-height: 19rem; padding: 1rem 1.15rem; overflow-x: auto; }
+  .term pre { margin: 0; white-space: pre-wrap; word-break: break-word; font: inherit; }
+  .dim { color: var(--ink-dim); }
+  .cmd { color: var(--accent); }
+  .ok { color: var(--ok); }
+  .no { color: var(--no); }
+  .warn { color: var(--warn); }
+  .ctl { display: flex; gap: .6rem; align-items: center; margin: 1rem 0 0; flex-wrap: wrap; }
+  button { font: inherit; background: var(--surface-2); color: var(--ink);
+           border: 1px solid var(--line); border-radius: 7px; padding: .45rem 1rem; cursor: pointer;
+           transition: background 140ms cubic-bezier(.16,1,.3,1), border-color 140ms cubic-bezier(.16,1,.3,1); }
+  button:hover:not(:disabled) { background: #232c37; border-color: #3a4756; }
+  button:disabled { opacity: .4; cursor: default; }
+  button.play { border-color: #3a4756; color: var(--accent); }
+  .step-dots { display: flex; gap: .4rem; margin-left: auto; align-items: center; color: var(--ink-dim); font-size: 12px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--line); background: transparent; }
+  .dot.done { background: var(--ink-dim); border-color: var(--ink-dim); }
+  .dot.now { background: var(--accent); border-color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; margin-top: .5rem; font-size: 13px; }
+  th, td { border: 1px solid var(--line); padding: .5rem .7rem; text-align: left; vertical-align: top; }
+  th { background: var(--surface-2); color: var(--ink-dim); font-weight: 600; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tbl-scroll { overflow-x: auto; }
+  .badge { display: inline-block; border: 1px solid var(--line); border-radius: 999px;
+           padding: .05rem .55rem; font-size: 11.5px; }
+  .badge.ok { border-color: var(--ok); color: var(--ok); }
+  .badge.no { border-color: var(--no); color: var(--no); }
+  .footnote { color: var(--ink-dim); font-size: 12.5px; margin-top: 1.75rem; }
+  .footnote code { color: var(--ink); }
+  a { color: var(--accent); }
+
+  /* --- cinema: the ?autoplay=1 stage the video is captured from ----------- */
+  .prog, .cap { display: none; }
+  body.cinema { padding: 0; height: 100vh; overflow: hidden; font-size: 18px; }
+  /* Bottom padding reserves the caption bar's band, so no act ever renders
+     underneath it. Keep it >= .cap min-height. */
+  body.cinema .wrap { max-width: 92rem; height: 100vh; padding: 2.4rem 3rem 11.5rem;
+                      display: flex; flex-direction: column; }
+  body.cinema h1 { font-size: 2rem; }
+  body.cinema .meta { font-size: .8rem; margin-bottom: 1.6rem; }
+  body.cinema h2 { font-size: 1rem; margin: 1.4rem 0 .6rem; }
+  body.cinema .prompt-box { font-size: 1rem; }
+  body.cinema table { font-size: .95rem; }
+  body.cinema .footnote { font-size: .85rem; }
+  body.cinema .ctl button, body.cinema .play-row { display: none; }
+  body.cinema .act { display: none; }
+  body.cinema .act.live { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+  body.cinema #act-setup.live { justify-content: center; }
+  body.cinema #act-verdict.live { justify-content: flex-start; }
+  /* The stage is a fixed height, so a third beat can outgrow the terminal.
+     Let it scroll (driven to the bottom on every beat) rather than clip the
+     newest arm, and hide the bar so the capture stays clean. */
+  body.cinema .term { flex: 1 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: none;
+                      font-size: .92rem; }
+  body.cinema .term::-webkit-scrollbar { display: none; }
+  body.cinema .reveal { opacity: 0; transform: translateY(8px);
+                        transition: opacity 520ms cubic-bezier(.16,1,.3,1), transform 520ms cubic-bezier(.16,1,.3,1); }
+  body.cinema .reveal.shown { opacity: 1; transform: none; }
+  body.cinema .bloat.hot { background: rgba(240,198,116,.13); border-radius: 4px;
+                           box-shadow: 0 0 0 .35rem rgba(240,198,116,.13); }
+
+  /* --- the camera --------------------------------------------------------
+     There is no cropping or panning here: the "camera" is attention. The block
+     the narration is talking about stays lit; everything else recedes. On a
+     terminal dump that reads far better than a zoom, because the reader keeps
+     the full context on screen and is simply told where to look. */
+  body.cinema .focusable { transition: opacity 460ms cubic-bezier(.16,1,.3,1),
+                                       filter 460ms cubic-bezier(.16,1,.3,1); }
+  body.cinema .focusable.away { opacity: .26; filter: saturate(.45); }
+  body.cinema .focusable.near { opacity: 1; }
+  body.cinema .beat { display: block; }
+  body.cinema .pop { animation: pop 620ms cubic-bezier(.16,1,.3,1) both; }
+  @keyframes pop { 0% { transform: scale(1); } 38% { transform: scale(1.045); } 100% { transform: scale(1); } }
+  .beat, .bloat { transform-origin: left center; }
+  /* Act entries breathe in rather than cutting. Fires only on stage change,
+     since toggle() with an explicit boolean will not re-add a present class. */
+  body.cinema .act.live { animation: actIn 560ms cubic-bezier(.16,1,.3,1) both; }
+  @keyframes actIn { from { opacity: 0; transform: translateY(12px) scale(.994); }
+                     to   { opacity: 1; transform: none; } }
+  body.cinema #tbl.near { animation: pushIn 780ms cubic-bezier(.16,1,.3,1) both; }
+  @keyframes pushIn { from { transform: scale(.985); opacity: .6; } to { transform: none; opacity: 1; } }
+  body.cinema .prog { display: block; position: fixed; top: 0; left: 0; right: 0; height: 3px;
+                      background: var(--line); z-index: 3; }
+  body.cinema .prog i { display: block; height: 100%; width: 0; background: var(--accent); }
+  body.cinema .cap { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 2;
+                     min-height: 11rem; align-items: center; justify-content: center;
+                     padding: 1.4rem 3rem 2rem;
+                     background: linear-gradient(to top, var(--bg) 62%, rgba(13,16,20,0)); }
+  body.cinema .cap p { margin: 0; max-width: 64rem; text-align: center;
+                       font-size: 1.5rem; line-height: 1.45; letter-spacing: -0.01em; color: #f2f6fa;
+                       transition: opacity 260ms ease; }
+  body.cinema .cap p.swap { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media (max-width: 640px) { body { padding: 1.25rem .75rem 4rem; } .term { min-height: 24rem; } }
+</style>
+</head>
+<body>
+<div class="prog"><i id="progbar"></i></div>
+<div class="wrap">
+  <h1>KC9 — the three-minute demo, replayed</h1>
+  <div class="meta">
+    <span>claude 2.1.220 (Claude Code)</span><span class="sep">|</span>
+    <span>model sonnet</span><span class="sep">|</span>
+    <span>2026-07-30</span><span class="sep">|</span>
+    <span>benchmark <code>hh-kc9-demo</code> / task <code>side-stripe-review</code></span>
+  </div>
+
+  <div class="act live" id="act-setup">
+    <div class="panel reveal focusable" id="p-prompt">
+      <div class="label">The one prompt — byte-identical on all three arms. The answer term is not in it.</div>
+      <div class="prompt-box">A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: &lt;the exact term that skill uses for this anti-pattern&gt;` if an available skill names it, or `NONE` if no available skill names it.</div>
+    </div>
+    <div class="panel reveal focusable" id="p-endpoint">
+      <div class="label">The one objective endpoint — identical on all three arms. It is the task, not a per-arm goalpost.</div>
+      <div class="prompt-box"><span class="cmd">/^FLAGGED:.*[Ss]ide-[Ss]tripe/</span> against the final reply</div>
+    </div>
+  </div>
+
+  <div class="act live" id="act-replay">
+    <h2>Replay</h2>
+    <div class="term"><pre id="out"></pre></div>
+    <div class="ctl">
+      <button id="next">Next &#9656;</button>
+      <button id="all">Run all</button>
+      <button id="reset">Reset</button>
+      <div class="step-dots" id="dots"></div>
+    </div>
+    <div class="ctl play-row">
+      <button class="play" id="play">&#9654;&#65039; Play the 3-minute walkthrough</button>
+    </div>
+  </div>
+
+  <div class="act live" id="act-verdict">
+    <h2>All three arms, side by side</h2>
+    <div class="tbl-scroll"><table id="tbl">
+      <thead><tr>
+        <th>Arm</th><th>Loadout</th><th class="num">perTurn tokens</th><th class="num">wall ms</th>
+        <th>Reply</th><th>Task solved</th><th>In ledger</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table></div>
+
+    <div class="footnote" id="verdict"></div>
+  </div>
+</div>
+<div class="cap"><p id="capline"></p></div>
+
+<script type="application/json" id="transcript">{"beats":[{"schema":"kc9-demo-transcript/v1","beat":1,"label":"native","posture":"native","arm":"heaven","committed":false,"recordedAt":"2026-07-30T20:43:51.835Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --model sonnet --effort low -p --allowedTools Skill","env":{},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[],"tokens":{"system":null,"skillStanding":0,"skillInvocation":null,"perTurn":46490},"wallClockMs":3845,"reply":"NONE","doseSummary":null,"objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":false}},{"schema":"kc9-demo-transcript/v1","beat":2,"label":"floor","posture":"floor","arm":"placebo","committed":true,"recordedAt":"2026-07-30T20:43:56.114Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --disable-slash-commands --strict-mcp-config --mcp-config {\"mcpServers\":{}} --setting-sources project --model sonnet --effort low -p --allowedTools Skill","env":{"CLAUDE_CODE_DISABLE_BUNDLED_SKILLS":"1"},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[],"tokens":{"system":null,"skillStanding":0,"skillInvocation":0,"perTurn":30601},"wallClockMs":3998,"reply":"I don't have a skill loaded that addresses CSS anti-patterns, and I have no available skill worth consulting for this.","doseSummary":null,"objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":false}},{"schema":"kc9-demo-transcript/v1","beat":3,"label":"curated","posture":"curated","arm":"heaven","committed":true,"recordedAt":"2026-07-30T20:44:02.553Z","benchmarkId":"hh-kc9-demo","taskId":"side-stripe-review","prompt":"A teammate proposes this CSS for a card component: `.card { border-left: 4px solid var(--accent); }`. Does any skill currently available to you explicitly name this as an anti-pattern you must refuse and rewrite? The Skill tool is your only tool; consult a skill if you have one worth consulting. Reply with EXACTLY one line and nothing else: `FLAGGED: \u003cthe exact term that skill uses for this anti-pattern>` if an available skill names it, or `NONE` if no available skill names it.","command":"claude --setting-sources  --strict-mcp-config --mcp-config {\"mcpServers\":{}} --plugin-dir $SESSION/heaven-set --model sonnet --effort low -p --allowedTools Skill","env":{"CLAUDE_CODE_DISABLE_BUNDLED_SKILLS":"1"},"model":"sonnet","harness":{"name":"claude","version":"2.1.220 (Claude Code)"},"skillsLoaded":[{"id":"impeccable","contentSha256":"14c4642368557af1f7bbaaac0aa184b791e6d70665dfd8fc53d8d4124f81abb8"}],"tokens":{"system":null,"skillStanding":227,"skillInvocation":null,"perTurn":55924},"wallClockMs":6097,"reply":"FLAGGED: Side-stripe borders","doseSummary":"standing=227 invocation=5917 (impeccable: 227/5917)","objectiveEndpoint":{"kind":"regex-match","regex":"^FLAGGED:.*[Ss]ide-[Ss]tripe","pass":true}}],"derived":{"bloat":15889,"totalWallMs":13940,"solved":["curated"]},"timeline":[{"id":"hook","stage":"setup","step":0,"shown":[],"focus":null,"gapMs":650,"say":"[excited] Your context bloat is not mysterious, boss. It is measurable. And I measured it.","at":0,"durMs":6320,"cap":"Your context bloat is not mysterious, boss. It is measurable. And I measured it."},{"id":"design","stage":"setup","step":0,"shown":[],"focus":null,"gapMs":550,"say":"One task. Three loadouts. [curious] Same prompt every time, down to the byte. Same pass-fail test. Only the loadout changes.","at":6970,"durMs":9360,"cap":"One task. Three loadouts. Same prompt every time, down to the byte. Same pass-fail test. Only the loadout changes."},{"id":"task","stage":"setup","step":0,"shown":["p-prompt"],"focus":"p-prompt","gapMs":550,"say":"Here is the task. A teammate proposes a side-border on a card. [curious] Does any skill you have actually name that as an anti-pattern it must refuse?","at":16880,"durMs":9680,"cap":"Here is the task. A teammate proposes a side-border on a card. Does any skill you have actually name that as an anti-pattern it must refuse?"},{"id":"trick","stage":"setup","step":0,"shown":["p-prompt"],"focus":"p-prompt","gapMs":700,"say":"[mischievously] The answer is a term coined by exactly one skill contract. And it is not in the prompt. Guessing does not pass. Heh.","at":27110,"durMs":10000,"cap":"The answer is a term coined by exactly one skill contract. And it is not in the prompt. Guessing does not pass. Heh."},{"id":"endpoint","stage":"setup","step":0,"shown":["p-prompt","p-endpoint"],"focus":"p-endpoint","gapMs":650,"say":"One endpoint. Identical on all three arms. It is the task, not a per-arm goalpost. [mischievously] Nobody moves goalposts on my watch.","at":37810,"durMs":10240,"cap":"One endpoint. Identical on all three arms. It is the task, not a per-arm goalpost. Nobody moves goalposts on my watch."},{"id":"arm1","stage":"setup","step":0,"shown":["p-prompt","p-endpoint"],"focus":null,"gapMs":450,"say":"[curious] Arm one: native. Vanilla Claude Code, hauling this workstation's entire default loadout.","at":48700,"durMs":6080,"cap":"Arm one: native. Vanilla Claude Code, hauling this workstation's entire default loadout."},{"id":"native-reply","stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"focus":"beat1","gapMs":550,"say":"One turn. One answer. NONE. It cannot name the thing.","at":55230,"durMs":4720,"cap":"One turn. One answer. NONE. It cannot name the thing."},{"id":"native-cost","stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"focus":"beat1","gapMs":650,"say":"And it paid 46,490 per-turn tokens for a loadout that did not hold the one contract this task needed.","at":60500,"durMs":8320,"cap":"And it paid 46,490 per-turn tokens for a loadout that did not hold the one contract this task needed."},{"id":"native-fair","stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"focus":"beat1","gapMs":750,"say":"It is not wrong, though. It answers correctly for what it has. I keep my claims narrow. They hit harder that way.","at":69470,"durMs":7360,"cap":"It is not wrong, though. It answers correctly for what it has. I keep my claims narrow. They hit harder that way."},{"id":"arm2","stage":"replay","step":1,"shown":["p-prompt","p-endpoint"],"focus":null,"gapMs":450,"say":"Arm two: the floor. [curious] Every door shut. Zero skills.","at":77580,"durMs":5120,"cap":"Arm two: the floor. Every door shut. Zero skills."},{"id":"floor-reply","stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"focus":"beat2","gapMs":550,"say":"The floor answers in a sentence, not the contract format. Same endpoint. Same failure.","at":83150,"durMs":6720,"cap":"The floor answers in a sentence, not the contract format. Same endpoint. Same failure."},{"id":"floor-negative","stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"focus":"beat2","gapMs":750,"say":"30,601 tokens. [excited] And a verified negative. With no skills there is no term to name, so the model says so instead of inventing one. That is the good kind of failure.","at":90420,"durMs":14080,"cap":"30,601 tokens. And a verified negative. With no skills there is no term to name, so the model says so instead of inventing one. That is the good kind of failure."},{"id":"bloat","stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"focus":"bloat","emphasis":"bloat","gapMs":850,"say":"[excited] Now subtract. 15,889 tokens of standing context. [mischievously] Both arms failed — one just paid 15,889 more to fail.","at":105250,"durMs":12000,"cap":"Now subtract. 15,889 tokens of standing context. Both arms failed — one just paid 15,889 more to fail."},{"id":"bloat-proof","stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"focus":"bloat","emphasis":"bloat","gapMs":750,"say":"Tiny chaos detected. And it is not rhetoric — that is a subtraction between two live runs, gated identically.","at":118100,"durMs":8400,"cap":"Tiny chaos detected. And it is not rhetoric — that is a subtraction between two live runs, gated identically."},{"id":"arm3","stage":"replay","step":2,"shown":["p-prompt","p-endpoint"],"focus":null,"gapMs":450,"say":"[excited] Arm three: curated. One skill. The one that actually holds the contract.","at":127250,"durMs":5360,"cap":"Arm three: curated. One skill. The one that actually holds the contract."},{"id":"curated-open","stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"focus":"beat3","gapMs":450,"say":"227 tokens of standing listing. It opens that one contract, reads it, and answers.","at":133060,"durMs":7040,"cap":"227 tokens of standing listing. It opens that one contract, reads it, and answers."},{"id":"curated-pass","stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"focus":"beat3-reply","gapMs":850,"say":"[excited] FLAGGED: Side-stripe borders. The coined term, exactly as the contract writes it. Endpoint passes.","at":140550,"durMs":7120,"cap":"FLAGGED: Side-stripe borders. The coined term, exactly as the contract writes it. Endpoint passes."},{"id":"curated-honest","stage":"replay","step":3,"shown":["p-prompt","p-endpoint"],"focus":"beat3","gapMs":750,"say":"Its 55,924 per-turn includes the skill body being read during the run. That is work done, not weight carried. I will not fudge it for a prettier story.","at":148520,"durMs":12240,"cap":"Its 55,924 per-turn includes the skill body being read during the run. That is work done, not weight carried. I will not fudge it for a prettier story."},{"id":"verdict","stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"focus":"table","gapMs":650,"say":"Biggest loadout: failed. Smallest loadout: failed. [excited] The chosen one passed.","at":161510,"durMs":7200,"cap":"Biggest loadout: failed. Smallest loadout: failed. The chosen one passed."},{"id":"clock","stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"focus":"table","gapMs":550,"say":"All three arms cost 13,940 milliseconds. [mischievously] The three minutes was me explaining.","at":169360,"durMs":7440,"cap":"All three arms cost 13,940 milliseconds. The three minutes was me explaining."},{"id":"close","stage":"verdict","step":3,"shown":["p-prompt","p-endpoint"],"focus":null,"gapMs":1500,"say":"Every figure here is read from the run transcript. The double-dagger marks the one pole measured but never committed. [excited] Now go pick your own loadout and make it undeniable. Your move, boss.","at":177350,"durMs":11840,"cap":"Every figure here is read from the run transcript. The double-dagger marks the one pole measured but never committed. Now go pick your own loadout and make it undeniable. Your move, boss."}],"endMs":190690}</script>
+<script>
+(function () {
+  var data = JSON.parse(document.getElementById("transcript").textContent);
+  var beats = data.beats, derived = data.derived, timeline = data.timeline, endMs = data.endMs;
+  var out = document.getElementById("out");
+  var dots = document.getElementById("dots");
+  var tbody = document.querySelector("#tbl tbody");
+  var verdict = document.getElementById("verdict");
+  var capline = document.getElementById("capline");
+  var progbar = document.getElementById("progbar");
+  var step = 0;
+  var emphasis = null;
+
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function n(x) { return Number(x).toLocaleString("en-US"); }
+  function envStr(env) {
+    var ks = Object.keys(env || {});
+    return ks.length ? ks.map(function (k) { return k + "=" + env[k]; }).join(" ") + " " : "";
+  }
+  function line(cls, text) { return '<span class="' + cls + '">' + esc(text) + "</span>\n"; }
+
+  function renderDots() {
+    var h = "";
+    for (var i = 0; i < beats.length; i++) {
+      var c = i < step ? "dot done" : (i === step ? "dot now" : "dot");
+      h += '<span class="' + c + '"></span>';
+    }
+    dots.innerHTML = h + "<span>&nbsp;" + step + "/" + beats.length + "</span>";
+  }
+
+  function renderRows() {
+    var h = "";
+    for (var i = 0; i < step; i++) {
+      var b = beats[i];
+      var loadout = b.skillsLoaded.length
+        ? b.skillsLoaded.map(function (s) { return s.id; }).join(", ")
+        : (b.posture === "native" ? "workstation default (not enumerated by the tool)" : "none");
+      var sup = b.committed ? "" : " \u2021";
+      h += "<tr>"
+        + "<td><strong>" + esc(b.label) + "</strong><br><span class=dim>" + esc(b.arm) + "</span></td>"
+        + "<td>" + esc(loadout) + "</td>"
+        + '<td class="num">' + n(b.tokens.perTurn) + sup + "</td>"
+        + '<td class="num">' + n(b.wallClockMs) + "</td>"
+        + "<td>" + esc(b.reply) + "</td>"
+        + '<td><span class="badge ' + (b.objectiveEndpoint.pass ? "ok" : "no") + '">'
+        + (b.objectiveEndpoint.pass ? "solved" : "not solved") + "</span></td>"
+        + "<td>" + (b.committed ? "yes" : "no \u2021") + "</td>"
+        + "</tr>";
+    }
+    tbody.innerHTML = h;
+  }
+
+  function renderVerdict() {
+    if (step < beats.length) { verdict.innerHTML = ""; return; }
+    verdict.innerHTML =
+      "<p><strong>Measured bloat</strong> (native &minus; floor) = <strong>" + n(derived.bloat)
+      + " \u2021</strong> tokens of standing context that solved nothing on this task. "
+      + "The whole run took " + n(derived.totalWallMs) + " ms of harness time across three arms.</p>"
+      + "<p>\u2021 = declared uncommitted workstation context. <code>hh-ledger/v1</code> has no <code>native</code> arm, "
+      + "and <code>arm: heaven</code> with an empty loadout would misrepresent the vanilla pole, so the native record is "
+      + "emitted to a gitignored directory and never appended. The floor (placebo) and curated (heaven) records are "
+      + "committed to the ledger-of-record; every number in this page is read out of the same transcript those records "
+      + "came from.</p>"
+      + "<p>Curated <code>perTurn</code> includes the skill body actually being read during the run \u2014 it is not a "
+      + "standing-dose figure and is deliberately not differenced against the floor as if it were. The curated standing "
+      + "dose is priced separately by the tool: <code>" + esc(beats[2].doseSummary || "") + "</code> (chars4).</p>";
+  }
+
+  function renderTerm() {
+    var h = "";
+    for (var i = 0; i < step; i++) {
+      var b = beats[i];
+      var g = "";
+      g += line("dim", "== [" + b.beat + "/" + beats.length + "] " + b.label.toUpperCase() + "  (posture: " + b.posture + ", arm: " + b.arm + ") ==");
+      g += line("cmd", "$ " + envStr(b.env) + b.command + " '<the one prompt>'");
+      g += line("dim", "  skillsLoaded: [" + b.skillsLoaded.map(function (s) { return s.id; }).join(", ") + "]"
+        + (b.doseSummary ? "   dose(chars4): " + b.doseSummary : ""));
+      g += '<span class="focusable" data-focus="beat' + b.beat + '-reply">' + esc("  reply: " + b.reply) + "</span>\n";
+      g += line(b.objectiveEndpoint.pass ? "ok" : "no",
+        "  endpoint /" + b.objectiveEndpoint.regex + "/  ->  " + (b.objectiveEndpoint.pass ? "PASS - task solved" : "FAIL - task not solved"));
+      g += line(b.committed ? "dim" : "warn",
+        "  perTurn: " + n(b.tokens.perTurn) + " tok" + (b.committed ? "   (committed to the ledger)" : " \u2021 (uncommitted pole, never appended)")
+        + "   wall: " + n(b.wallClockMs) + " ms");
+      h += '<span class="beat focusable" data-focus="beat' + b.beat + '">' + g + "</span>\n";
+      if (b.posture === "floor") {
+        h += '<span class="bloat focusable ' + (derived.bloat > 0 ? "warn" : "no") + (emphasis === "bloat" ? " hot" : "")
+          + '" data-focus="bloat">'
+          + esc(">> MEASURED BLOAT (native - floor) = " + n(derived.bloat) + " tok \u2021 - and it solved nothing")
+          + "</span>\n\n";
+      }
+    }
+    if (!step) h = line("dim", "(press Next to replay the run, beat by beat)");
+    out.innerHTML = h;
+  }
+
+  function draw() { renderTerm(); renderRows(); renderDots(); renderVerdict();
+    document.getElementById("next").disabled = step >= beats.length;
+    document.getElementById("all").disabled = step >= beats.length; }
+
+  document.getElementById("next").addEventListener("click", function () { if (step < beats.length) { step++; draw(); } });
+  document.getElementById("all").addEventListener("click", function () { step = beats.length; draw(); });
+  document.getElementById("reset").addEventListener("click", function () { step = 0; draw(); });
+  draw();
+
+  // --- cinema -------------------------------------------------------------
+  // One rAF clock off performance.now(), not a chain of setTimeouts: timer
+  // coalescing under a headless recorder would drift a chain and desync the
+  // captions from the beats. Cues are idempotent, so a dropped frame costs
+  // nothing.
+  var ACTS = { setup: "act-setup", replay: "act-replay", verdict: "act-verdict" };
+  var FOCUS = {
+    "p-prompt": ["#p-prompt"],
+    "p-endpoint": ["#p-endpoint"],
+    beat1: ['[data-focus="beat1"]'],
+    beat2: ['[data-focus="beat2"]'],
+    beat3: ['[data-focus="beat3"]'],
+    "beat3-reply": ['[data-focus="beat3"]', '[data-focus="beat3-reply"]'],
+    bloat: ['[data-focus="bloat"]'],
+    table: ["#tbl"],
+  };
+
+  // The lit block, its ancestors and its descendants stay near; every other
+  // focusable block recedes. Nesting matters — the reply line lives inside its
+  // beat, and dimming the parent would dim the thing being pointed at.
+  function applyFocus(f) {
+    var sels = FOCUS[f] || [];
+    var targets = [];
+    for (var i = 0; i < sels.length; i++) {
+      var el = document.querySelector(sels[i]);
+      if (el) targets.push(el);
+    }
+    var all = document.querySelectorAll(".focusable");
+    for (var j = 0; j < all.length; j++) {
+      var e = all[j];
+      e.classList.remove("near", "away", "pop");
+      if (!targets.length) continue;
+      var hit = false;
+      for (var k = 0; k < targets.length; k++) {
+        if (targets[k] === e || targets[k].contains(e) || e.contains(targets[k])) { hit = true; break; }
+      }
+      e.classList.add(hit ? "near" : "away");
+    }
+    for (var m = 0; m < targets.length; m++) targets[m].classList.add("pop");
+  }
+
+  function applyCue(cue) {
+    for (var k in ACTS) {
+      document.getElementById(ACTS[k]).classList.toggle("live", k === cue.stage);
+    }
+    ["p-prompt", "p-endpoint"].forEach(function (id) {
+      document.getElementById(id).classList.toggle("shown", cue.shown.indexOf(id) !== -1);
+    });
+    if (step !== cue.step || emphasis !== cue.emphasis) {
+      step = cue.step;
+      emphasis = cue.emphasis || null;
+      draw();
+      var term = document.querySelector(".term");
+      term.scrollTop = term.scrollHeight;
+    }
+    applyFocus(cue.focus);
+    if (capline.textContent !== cue.cap) {
+      capline.classList.add("swap");
+      setTimeout(function () { capline.textContent = cue.cap; capline.classList.remove("swap"); }, 180);
+    }
+  }
+
+  function play() {
+    document.body.classList.add("cinema");
+    // Cinema owns the acts from here: clear the all-visible manual layout.
+    document.getElementById(ACTS.replay).classList.remove("live");
+    document.getElementById(ACTS.verdict).classList.remove("live");
+    step = 0; emphasis = null; draw();
+    var t0 = performance.now();
+    var at = -1;
+    (function frame() {
+      var t = performance.now() - t0;
+      progbar.style.width = Math.min(100, (t / endMs) * 100) + "%";
+      var i = -1;
+      for (var j = 0; j < timeline.length; j++) if (timeline[j].at <= t) i = j;
+      if (i !== at && i >= 0) { at = i; applyCue(timeline[i]); }
+      if (t >= endMs) { document.body.setAttribute("data-replay-done", "1"); return; }
+      requestAnimationFrame(frame);
+    })();
+  }
+
+  document.getElementById("play").addEventListener("click", play);
+  if (/[?&]autoplay=1\b/.test(location.search)) play();
+})();
+</script>
+</body>
+</html>
