@@ -25,6 +25,19 @@ function findPages(dir: string, baseDir: string = dir): string[] {
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
 describe("Mascot Tooltip Page Coverage", () => {
+  it("maps specific page routes to their dedicated contexts", () => {
+    expect(contextFromPathname("/about")).toBe("about");
+    expect(contextFromPathname("/blog")).toBe("blog");
+    expect(contextFromPathname("/blog/daily-agent-radar-2026-07-24")).toBe("blog");
+    expect(contextFromPathname("/labs/supabase")).toBe("supabase");
+    expect(contextFromPathname("/reports/ci-churn")).toBe("ci-churn");
+    expect(contextFromPathname("/research/ci-churn")).toBe("ci-churn");
+    expect(contextFromPathname("/research/cost")).toBe("cost");
+    expect(contextFromPathname("/research/hh-benchmark")).toBe("hh-benchmark");
+    expect(contextFromPathname("/research/hh-benchmark/claims")).toBe("hh-benchmark");
+    expect(contextFromPathname("/research/skill-evals")).toBe("skill-evals");
+  });
+
   it("verifies every page route has a mapped tooltip context with active dialog lines", () => {
     // Resolve the absolute path to the app directory
     const appDir = join(__dirname, "../../app");
