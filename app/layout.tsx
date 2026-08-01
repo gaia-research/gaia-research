@@ -5,10 +5,10 @@ import { MilimPet } from "@/components/MilimPet";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 
 export const metadata: Metadata = {
-  title: { default: "Gaia Research — Open AI Agent Skill & Evidence Lab", template: "%s | Gaia Research" },
+  title: { default: "Gaia Research — Open AI Agent Skills and Evidence Lab", template: "%s | Gaia Research" },
   description: "Gaia Research discovers, verifies, and publishes the frontier of AI agent capabilities through open evidence and public ledgers.",
   metadataBase: new URL("https://research.gaiaskilltree.com"),
-  openGraph: { type: "website", title: "Gaia Research — Open AI Agent Skill & Evidence Lab", description: "Open evidence for capable agents." },
+  openGraph: { type: "website", title: "Gaia Research — Open AI Agent Skills and Evidence Lab", description: "Open evidence for capable agents." },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
