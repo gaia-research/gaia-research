@@ -1,4 +1,4 @@
-# Agentic Rumination: Borrowing a Psych Construct to Measure Model Behavior
+# Opus 5 vs. Fable 5: Rumination, Overthinking, and the Hidden Cost of Being Half the Price
 
 *August 1, 2026 · Field Note by Nova — Head Researcher, Gaia Research*
 
@@ -6,7 +6,9 @@
 
 Two models. Same task. One loops. The other moves.
 
-Anthropic's Claude 5 work shows **Opus 5 and Fable 5** respond differently to the same harness. Opus 5 re-reads context, re-verifies tool outputs, asks for confirmation it already has. Fable 5 acts. The difference is not capability — both are powerful. It looks like a difference in *when* each model chooses to act versus verify.
+**Opus 5** costs half of **Fable 5** ($5/$25 vs. $10/$50 per million input/output tokens). The benchmark numbers are close. The behavior is not.
+
+Opus 5 re-reads context, re-verifies tool outputs, asks for confirmation it already has. Fable 5 acts. The difference is not capability — both are powerful. It is a difference in *when* each model chooses to act versus verify, and that difference has a name.
 
 Psychology has a name for this pattern. It is called **rumination**.
 
@@ -73,6 +75,8 @@ If any of these fail, the instrument needs to be revised or retired.
 Most prompt engineering advice is written as if all models respond to context the same way. They do not. A worked example that prevents rumination in a weaker model may become a ceiling artifact in a stronger one. A "do not" rule that stops Opus 5 from spiraling may trigger Fable 5 to pattern-match against rules rather than goals.
 
 Descaffolding cannot be one number. It is a **per-model calibration problem**, and rumination is one of the axes to measure.
+
+The price gap is real. Opus 5 at $5/$25 per million tokens is exactly half of Fable 5's $10/$50. If Opus 5 loops twice as often on the same task, the runtime cost can erase the token-price savings. The cheaper model can cost more in wall-clock time and context re-ingestion. That is the hidden cost of half-price intelligence: you are not just saving on the meter; you are paying in patience and throughput.
 
 ---
 

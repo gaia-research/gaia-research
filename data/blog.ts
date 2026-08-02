@@ -60,9 +60,9 @@ export const blogPosts: readonly BlogPost[] = [
     tags: ["Psychology", "Model Behavior", "Rumination Index"],
     date: "August 1, 2026",
     readTime: "6 min read",
-    title: "Agentic Rumination: Borrowing a Psych Construct to Measure Model Behavior",
+    title: "Opus 5 vs. Fable 5: Rumination, Overthinking, and the Hidden Cost of Being Half the Price",
     description:
-      "Psychology has a name for the difference between a model that loops and one that acts. A proposed Rumination Index grounded in Nolen-Hoeksema's response styles and Gray's BIS/BAS theory.",
+      "Opus 5 is half the price of Fable 5. The difference is not capability — it is rumination. Opus 5 overthinks; Fable 5 acts with higher agentic EQ and intentionality. A proposed Rumination Index grounded in Nolen-Hoeksema response styles and Gray BIS/BAS.",
     author: "Nova · Head Researcher, Gaia Research",
     image: ruminationIndexEditorialThumbnail,
   },

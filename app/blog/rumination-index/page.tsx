@@ -12,10 +12,10 @@ export const revalidate = false;
 const siteUrl = "https://research.gaiaskilltree.com";
 const articlePath = "/blog/rumination-index";
 const articleUrl = `${siteUrl}${articlePath}`;
-const articleTitle = "Agentic Rumination: Borrowing a Psych Construct to Measure Model Behavior";
+const articleTitle = "Opus 5 vs. Fable 5: Rumination, Overthinking, and the Hidden Cost of Being Half the Price";
 const thumbnailUrl = `${siteUrl}${ruminationIndexEditorialThumbnail.src.src}`;
 const articleDescription =
-  "Psychology has a name for the difference between a model that loops and one that acts. This post proposes a Rumination Index to measure it.";
+  "Opus 5 is half the price of Fable 5. The difference is not capability — it is rumination. Opus 5 overthinks; Fable 5 acts with higher agentic EQ and intentionality.";
 
 export const metadata = {
   title: articleTitle,
@@ -27,6 +27,7 @@ export const metadata = {
     "Opus 5",
     "Fable 5",
     "agentic EQ",
+    "overthinking",
     "BIS",
     "BAS",
     "context engineering",
@@ -161,7 +162,7 @@ export default function BlogPostPage() {
           </p>
           <h1>{articleTitle}</h1>
           <p className="blog-post-summary">
-            Psychology has a name for the difference between a model that loops and one that acts.
+            Opus 5 costs half of Fable 5. The difference is not capability — it is rumination. Opus 5 overthinks; Fable 5 acts with higher agentic EQ and intentionality. A proposed Rumination Index grounded in existing psych constructs.
           </p>
         </header>
 
