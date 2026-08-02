@@ -1,9 +1,7 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import ClaimIndexFigures from "@/components/ClaimIndexFigures";
+import ClaimIndexClient from "@/components/ClaimIndexClient";
 // loaded as raw text by webpack asset/source
 import claimIndexMd from "@/content/reports/hh-benchmark/claim-index.md";
 
@@ -18,82 +16,40 @@ export const metadata = {
 export const dynamic = "force-static";
 export const revalidate = false;
 
-// Strip the H1 (the page header renders its own) and every HTML-comment line —
-// which conveniently also hides the ledger-claims fences the gate reads.
-function loadClaimIndex() {
-  return claimIndexMd
+function parseClaimIndex(md: string) {
+  // Extract reference links defined at the end of claim-index.md
+  const linksMatch = md.match(/(\n\[[^\]]+\]:\s*https?:[\s\S]*)/);
+  const linksBlock = linksMatch ? linksMatch[1] : "";
+
+  const cleanLines = md
     .split("\n")
-    .filter((line: string) => !line.startsWith("# ") && !line.trim().startsWith("<!--"))
-    .join("\n")
-    .trim();
+    .filter((line: string) => !line.startsWith("# ") && !line.trim().startsWith("<!--"));
+  const cleanMd = cleanLines.join("\n");
+
+  const whatAndWhyMatch = cleanMd.match(/> \*\*What this page is\.\*\*[\s\S]*?(?=\n## The three evidence classes|$)/);
+  const methodMatch = cleanMd.match(/## The three evidence classes[\s\S]*?(?=\n## A —|$)/);
+  const secAMatch = cleanMd.match(/## A — the live site[\s\S]*?(?=\n## B —|$)/);
+  const secBMatch = cleanMd.match(/## B — gaia-research markdown[\s\S]*?(?=\n## C —|$)/);
+  const secCMatch = cleanMd.match(/## C — the `skill-heaven` repo[\s\S]*?(?=\n## D —|$)/);
+  const secDMatch = cleanMd.match(/## D — the KC9 three-minute demo[\s\S]*?(?=\n## What this index|$)/);
+  const settleMatch = cleanMd.match(/## What this index does and does not settle[\s\S]*/);
+
+  const withLinks = (text: string) => (text ? `${text.trim()}\n\n${linksBlock}` : "");
+
+  return {
+    whatAndWhy: withLinks(whatAndWhyMatch ? whatAndWhyMatch[0] : ""),
+    method: withLinks(methodMatch ? methodMatch[0] : ""),
+    secA: withLinks(secAMatch ? secAMatch[0] : ""),
+    secB: withLinks(secBMatch ? secBMatch[0] : ""),
+    secC: withLinks(secCMatch ? secCMatch[0] : ""),
+    secD: withLinks(secDMatch ? secDMatch[0] : ""),
+    settle: withLinks(settleMatch ? settleMatch[0] : ""),
+  };
 }
-
-// The inventory tables are the page. Two cell roles get tagged so the status
-// column reads as a column rather than as more prose — presentation only, driven
-// by what the Markdown already says, never by a lookup table that could drift
-// from it.
-const STATUS_FAMILY: [RegExp, "is-bound" | "is-gap" | "is-outside"][] = [
-  [/^RECORD\b/, "is-bound"],
-  [/^RUN RECORD\b/, "is-bound"],
-  [/^‡/, "is-gap"],
-  [/^NOT COMMITTED\b/, "is-gap"],
-  [/^NOT PROBED\b/, "is-gap"],
-  [/^SOFTENED\b/, "is-gap"],
-  [/^OUT OF SCOPE\b/, "is-outside"],
-  [/^clean\b/, "is-outside"],
-];
-
-type HastNode = { type?: string; tagName?: string; value?: string; children?: HastNode[] };
-
-function countCells(node: HastNode | undefined): number {
-  if (!node) return 0;
-  if (node.tagName === "th" || node.tagName === "td") return 1;
-  return (node.children ?? []).reduce((n, c) => n + countCells(c), 0);
-}
-
-function textOf(node: HastNode | undefined): string {
-  if (!node) return "";
-  if (node.type === "text") return node.value ?? "";
-  return (node.children ?? []).map(textOf).join("");
-}
-
-function cellClass(node: HastNode | undefined): string | undefined {
-  const text = textOf(node).trim();
-  if (/^[ABC]\d+$/.test(text)) return "claim-id";
-  // Status cells are terse; every other cell in these tables is a sentence.
-  if (text.length > 90) return undefined;
-  const hit = STATUS_FAMILY.find(([re]) => re.test(text));
-  return hit ? `claim-status ${hit[1]}` : undefined;
-}
-
-const markdownComponents = {
-  // Dense five-column tables scroll inside their own container; the page body
-  // never scrolls sideways.
-  table: ({ children, node }: { children?: ReactNode; node?: HastNode }) => {
-    // Column count drives the width ladder: left to itself, `auto` starves the
-    // "Where" column of path text while the "Record" column runs long.
-    const head = node?.children?.find((c) => (c as { tagName?: string }).tagName === "thead");
-    const cols = countCells(head);
-    return (
-      <div className={`claim-table-wrap cols-${cols}`}>
-        <table>{children}</table>
-      </div>
-    );
-  },
-  td: ({ children, node }: { children?: ReactNode; node?: HastNode }) => (
-    <td className={cellClass(node)}>{children}</td>
-  ),
-  // Every record link leaves for GitHub; open it without losing the index.
-  a: ({ children, href }: { children?: ReactNode; href?: string }) =>
-    href?.startsWith("http") ? (
-      <a href={href} target="_blank" rel="noreferrer">{children}</a>
-    ) : (
-      <a href={href}>{children}</a>
-    ),
-};
 
 export default function HhBenchmarkClaimsPage() {
-  const body = loadClaimIndex();
+  const sections = parseClaimIndex(claimIndexMd);
+
   return (
     <>
       <SiteHeader />
@@ -120,7 +76,7 @@ export default function HhBenchmarkClaimsPage() {
         <ClaimIndexFigures />
 
         <article className="report-body claim-body">
-          <Markdown remarkPlugins={[remarkGfm]} components={markdownComponents}>{body}</Markdown>
+          <ClaimIndexClient sections={sections} />
         </article>
 
         <footer className="report-foot">
