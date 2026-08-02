@@ -4,6 +4,7 @@ import claude5SystemPromptShrinkThumbnailSrc from "@/assets/generated/claude-5-s
 import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-editorial-thumbnail.webp";
 import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp";
 import yggdrasilIiThumbnailSrc from "@/assets/generated/yggdrasil-ii-editorial-thumbnail.webp";
+import ruminationIndexEditorialThumbnailSrc from "@/assets/generated/rumination-index-editorial-thumbnail.png";
 
 export type BlogPost = {
   href: string;
@@ -45,9 +46,26 @@ export const yggdrasilIiThumbnail = {
   alt: "Tiny pink-haired Milim kneels beside a greenhouse potting bench, tending a seedling amid terracotta pots and soft morning light.",
 } as const;
 
+export const ruminationIndexEditorialThumbnail = {
+  src: ruminationIndexEditorialThumbnailSrc,
+  alt: "Tiny pink-haired Milim sits alone at a large round wooden table in a sunlit archive, studying a notebook under dramatic negative space — placeholder thumbnail pending editorial illustration.",
+} as const;
+
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/rumination-index",
+    category: "Agent Skills",
+    tags: ["Psychology", "Model Behavior", "Rumination Index"],
+    date: "August 1, 2026",
+    readTime: "6 min read",
+    title: "Agentic Rumination: Borrowing a Psych Construct to Measure Model Behavior",
+    description:
+      "Psychology has a name for the difference between a model that loops and one that acts. A proposed Rumination Index grounded in Nolen-Hoeksema's response styles and Gray's BIS/BAS theory.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: ruminationIndexEditorialThumbnail,
+  },
   {
     href: "/blog/agentskills-io-standard",
     category: "Agent Skills",

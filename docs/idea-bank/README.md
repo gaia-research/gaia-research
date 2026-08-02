@@ -94,6 +94,13 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** Anthropic's Thariq Shihipar described cutting over 80% of Claude Code's system prompt for advanced Claude 5-generation models such as Opus 5 and Fable 5, with no measurable loss on Anthropic's coding evaluations. The audit separates model-compensating scaffolding (candidate to cut, measured) from repo-invariant policy (keep: Node 22 CI contract, the three-doc system, the lexicon gate) — and rides on the per-model measurement discipline (D12, Rank 2) we already run. The result is Anthropic's for Anthropic's harness, not a Gaia measurement.
 - **Doc:** [`claude-5-system-prompt-shrink-audit.md`](./claude-5-system-prompt-shrink-audit.md)
 
+## Rank 15 — Agentic-EQ-Aware Descaffolding — The Rumination Guard
+- **Status:** IDEA — unratified, in ideation
+- **Viability:** Medium-High
+- **Potential:** High
+- **Why now:** Anthropic's descaffolding finding (>80% prompt cut for Claude 5-gen models) may be a function of model EQ, not a universal constant. Fable 5/Mythos is described as having higher EQ than Opus 5 — meaning Opus 5 ruminate without discipline, while Fable 5 self-regulates. Testing this with our existing D12 infrastructure turns "prompt shrink" from hygiene into a per-model calibration problem.
+- **Doc:** [`agentic-discipline-eq-matrix.md`](./agentic-discipline-eq-matrix.md)
+
 ## Rank 15 — Random Forest + SHAP/LIME Trust-Appraisal Explainability Model
 - **Status:** RFC / research — unratified, decoupled v-next study
 - **Viability:** Medium-High
