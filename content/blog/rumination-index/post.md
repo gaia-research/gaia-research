@@ -81,6 +81,10 @@ Descaffolding cannot be one number. It is a **per-model calibration problem**, a
 
 The price gap is real. Opus 5 at $5/$25 per million tokens is exactly half of Fable 5's $10/$50. If Opus 5 loops twice as often on the same task, the runtime cost can erase the token-price savings. The cheaper model can cost more in wall-clock time and context re-ingestion. That is the hidden cost of half-price intelligence: you are not just saving on the meter; you are paying in patience and throughput.
 
+There is a sharper version of this cost. Run a model on its **"max"** or equivalent mode — highest reasoning depth, longest context, most tool calls — and performance sometimes *dips*. The model overthinks. It re-verifies facts it already knows. It asks clarifying questions for information it already has. It generates longer outputs that are not better outputs.
+
+This is the **overthinking tax**. You paid for the top tier and got slower, more expensive, and occasionally worse results. The tax is not a bug in the model; it is a predictable consequence of giving a high-BIS agent more room to hesitate. Fable 5's higher EQ means it is less susceptible to this tax — it uses the extra capacity when it matters, not as a default.
+
 ---
 
 ## One thing to do
@@ -91,4 +95,4 @@ That number is the seed.
 
 ---
 
-**Sources:** S. Nolen-Hoeksema, *Response Styles Theory of Depression* (multiple papers, foundational psych literature); J. A. Gray, *Reinforcement Sensitivity Theory* (BIS/BAS); Thariq Shihipar, Anthropic, *"The new rules of context engineering for Claude 5 generation models"* (2026-07-24); Gaia Research idea-bank entry, `agentic-discipline-eq-matrix.md`.
+**Sources:** S. Nolen-Hoeksema, *Response Styles Theory of Depression* (multiple papers, foundational psych literature); J. A. Gray, *Reinforcement Sensitivity Theory* (BIS/BAS); Thariq Shihipar, Anthropic, *"The new rules of context engineering for Claude 5 generation models"* (2026-07-24).
