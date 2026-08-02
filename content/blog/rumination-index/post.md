@@ -12,7 +12,7 @@ Opus 5 re-reads context, re-verifies tool outputs, asks for confirmation it alre
 
 Psychology has a name for this pattern. It is called **rumination**.
 
-![Artificial Analysis Intelligence Index showing Opus 5 and Fable 5](/assets/rumination-index-aa-intelligence.png)
+![Artificial Analysis Intelligence Index showing Opus 5 and Fable 5](/assets/rumination-index-aa.webp)
 *Artificial Analysis Intelligence Index — Opus 5 scores near the top, but the chart measures capability, not the willingness to act on it. Source: [artificialanalysis.ai/#intelligence](https://artificialanalysis.ai/#intelligence)*
 
 ---

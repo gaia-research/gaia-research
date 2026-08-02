@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "content/blog/rumination-index/aa-intelligence-source.png",
+    "sha256": "08aee21fd5d18f5d515ad74c6c02293831de37b0a03fdad958f68768222021b5",
+    "dimensions": {
+      "width": 3285,
+      "height": 4752,
+      "format": "png"
+    }
+  },
+  "exports": [
+    {
+      "path": "assets/generated/rumination-index-aa.webp",
+      "format": "webp",
+      "width": 1600,
+      "height": 900,
+      "fit": "contain",
+      "position": "attention",
+      "quality": 80,
+      "sha256": "c95fd18a97d18cf08345f9723a524af29c02cfb924ae2479d541cc0124969871",
+      "bytes": 44588
+    }
+  ],
+  "timestamp": "2026-08-02T23:34:16.206Z"
+}
