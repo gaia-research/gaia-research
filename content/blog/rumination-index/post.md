@@ -36,7 +36,7 @@ Jeffrey Gray's **Behavioral Inhibition System (BIS)** and **Behavioral Activatio
 - **High BIS** — heightened sensitivity to error, uncertainty, or ambiguity. The agent re-verifies before acting. Observable consequence: repeated tool calls on already-confirmed outputs.
 - **High BAS** — drive toward reward, exploration, and forward motion. The agent commits and course-corrects. Observable consequence: actions issued quickly, errors caught and fixed in the next turn.
 
-Opus 5's behavior — re-reading context, re-asking for confirmation it already has — is a high-BIS profile. Fable 5 commits and adjusts. Both have tradeoffs: high BIS avoids errors but stalls progress; high BAS moves fast but may miss edge cases. Better calibration means knowing which situation calls for which.
+Opus 5's behavior — re-reading context, re-asking for confirmation it already has — is a high-BIS profile. Fable 5 sits near neutral with a mild BAS lean: it commits and course-corrects, but its internal safety self-critique keeps it from being purely impulsive. The contrast matters more than the absolute position — Fable 5 acts where Opus 5 re-verifies, but it is not without its own inhibitory checks.
 
 [[BIS_BAS]]
 

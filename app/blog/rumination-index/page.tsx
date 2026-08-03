@@ -79,9 +79,7 @@ const articleStructuredData = {
 function loadPost() {
   // Strip H1 title & subtitle since header renders them
   return postMd.split("\n").slice(4).join("\n").trim();
-}
-
-function RuminationSignalsFigure() {
+}function RuminationSignalsFigure() {
   const signals = [
     { id: "s1", title: "Repeated tool calls", desc: "Same or paraphrased call within short window", color: "#ec4899", icon: "loop" },
     { id: "s2", title: "Context re-ingestion", desc: "Tokens spent re-reading already-processed blocks", color: "#f43f5e", icon: "reingest" },
@@ -93,30 +91,35 @@ function RuminationSignalsFigure() {
     switch (type) {
       case "loop":
         return (
-          <g stroke={c} strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M 6 16 A 10 10 0 1 1 16 26" />
-            <polyline points="10 22 16 26 22 22" />
+          <g transform="translate(-12, -12)">
+            <circle cx="12" cy="12" r="13" fill="#0f172a" stroke={c} strokeWidth="1.5" />
+            <path d="M 7 12 A 5 5 0 1 1 12 17" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" />
+            <polygon points="10,17 14,19 13,15" fill={c} />
           </g>
         );
       case "reingest":
         return (
-          <g stroke={c} strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="4" y="4" width="24" height="10" rx="2" strokeWidth="1.4" />
-            <path d="M 12 14 L 12 24 L 20 24" />
-            <polyline points="17 21 20 24 17 27" />
+          <g transform="translate(-12, -12)">
+            <circle cx="12" cy="12" r="13" fill="#0f172a" stroke={c} strokeWidth="1.5" />
+            <rect x="6" y="6" width="12" height="6" rx="1.5" fill="none" stroke={c} strokeWidth="1.4" />
+            <path d="M 12 12 L 12 17 L 16 17" fill="none" stroke={c} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            <polygon points="14,15 18,17 14,19" fill={c} />
           </g>
         );
       case "spiral":
         return (
-          <g stroke={c} strokeWidth="1.8" fill="none" strokeLinecap="round">
-            <path d="M 6 26 Q 2 12 16 8 Q 28 4 26 18 Q 24 28 14 26" markerEnd={`url(#arr-${c.replace('#','')})`} />
+          <g transform="translate(-12, -12)">
+            <circle cx="12" cy="12" r="13" fill="#0f172a" stroke={c} strokeWidth="1.5" />
+            <path d="M 6 16 C 5 8, 14 6, 17 11 C 19 15, 14 19, 10 16" fill="none" stroke={c} strokeWidth="1.6" strokeLinecap="round" />
+            <polygon points="12,14 8,16 11,18" fill={c} />
           </g>
         );
       case "delay":
         return (
-          <g stroke={c} strokeWidth="1.8" fill="none" strokeLinecap="round">
-            <circle cx="16" cy="16" r="11" />
-            <polyline points="16 10 16 16 21 16" />
+          <g transform="translate(-12, -12)">
+            <circle cx="12" cy="12" r="13" fill="#0f172a" stroke={c} strokeWidth="1.5" />
+            <circle cx="12" cy="12" r="7" fill="none" stroke={c} strokeWidth="1.4" />
+            <polyline points="12 8 12 12 15 12" fill="none" stroke={c} strokeWidth="1.5" strokeLinecap="round" />
           </g>
         );
       default:
@@ -162,54 +165,57 @@ function RuminationSignalsFigure() {
               {/* Title */}
               <text x={x + 18} y={y + 26} fill="#f8fafc" fontSize="13" fontWeight="600">{s.title}</text>
               {/* Icon in top-right of card */}
-              <g transform={`translate(${x + 314}, ${y + 12})`}>
+              <g transform={`translate(${x + 332}, ${y + 24})`}>
                 <SignalIcon type={s.icon} c={s.color} />
               </g>
               {/* Description */}
-              <text x={x + 18} y={y + 46} fill="#94a3b8" fontSize="11.5">{s.desc}</text>
+              <text x={x + 18} y={y + 45} fill="#94a3b8" fontSize="11.5">{s.desc}</text>
               {/* Divider */}
-              <line x1={x + 18} y1={y + 58} x2={x + 342} y2={y + 58} stroke="#1e293b" strokeWidth="1" />
+              <line x1={x + 18} y1={y + 57} x2={x + 342} y2={y + 57} stroke="#1e293b" strokeWidth="1" />
               {/* Mini diagram inside card */}
               {s.icon === "loop" ? (
                 <g transform={`translate(${x + 18}, ${y + 70})`}>
-                  <rect x="0" y="4" width="32" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
-                  <text x="16" y="17" fill="#cbd5e1" fontSize="8.5" textAnchor="middle">A</text>
-                  <line x1="32" y1="14" x2="52" y2="14" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#${markerId})`} />
-                  <rect x="52" y="4" width="32" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
-                  <text x="68" y="17" fill="#cbd5e1" fontSize="8.5" textAnchor="middle">B</text>
-                  <line x1="84" y1="14" x2="104" y2="14" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#${markerId})`} />
-                  <rect x="104" y="4" width="32" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
-                  <text x="120" y="17" fill="#f8fafc" fontSize="8.5" textAnchor="middle">A?</text>
-                  <path d="M 136 14 C 150 4, 150 24, 136 24" stroke={s.color} strokeWidth="1.2" fill="none" markerEnd={`url(#${markerId})`} />
-                  <text x="156" y="17" fill={s.color} fontSize="8.5" fontWeight="600">loop</text>
+                  <rect x="0" y="2" width="38" height="22" rx="4" fill="#0f172a" stroke="#334155" strokeWidth="1" />
+                  <text x="19" y="16" fill="#cbd5e1" fontSize="8.5" textAnchor="middle">Tool A</text>
+                  <line x1="38" y1="13" x2="58" y2="13" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#${markerId})`} />
+                  <rect x="58" y="2" width="38" height="22" rx="4" fill="#0f172a" stroke="#334155" strokeWidth="1" />
+                  <text x="77" y="16" fill="#cbd5e1" fontSize="8.5" textAnchor="middle">Tool B</text>
+                  <line x1="96" y1="13" x2="116" y2="13" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#${markerId})`} />
+                  <rect x="116" y="2" width="44" height="22" rx="4" fill="#0f172a" stroke={s.color} strokeWidth="1.4" />
+                  <text x="138" y="16" fill={s.color} fontSize="8.5" fontWeight="600" textAnchor="middle">Tool A'</text>
+                  <path d="M 160 13 C 176 0, 176 26, 160 26 L 24 26 L 24 24" stroke={s.color} strokeWidth="1.2" fill="none" markerEnd={`url(#${markerId})`} strokeDasharray="3,2" />
+                  <text x="190" y="16" fill={s.color} fontSize="8.5" fontWeight="600">repeat</text>
                 </g>
               ) : s.icon === "reingest" ? (
                 <g transform={`translate(${x + 18}, ${y + 70})`}>
-                  <rect x="0" y="4" width="68" height="20" rx="3" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
-                  <text x="34" y="17" fill="#94a3b8" fontSize="8.5" textAnchor="middle">context tokens</text>
-                  <line x1="68" y1="14" x2="92" y2="14" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#${markerId})`} />
-                  <rect x="92" y="4" width="56" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
-                  <text x="120" y="17" fill="#f8fafc" fontSize="8.5" textAnchor="middle">re-read</text>
-                  <text x="160" y="17" fill="#f43f5e" fontSize="8.5" fontWeight="600">+tokens</text>
+                  <rect x="0" y="2" width="76" height="22" rx="4" fill="#0f172a" stroke="#334155" strokeWidth="1" />
+                  <text x="38" y="16" fill="#94a3b8" fontSize="8.5" textAnchor="middle">Context (128k)</text>
+                  <line x1="76" y1="13" x2="104" y2="13" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#${markerId})`} />
+                  <rect x="104" y="2" width="76" height="22" rx="4" fill="#0f172a" stroke={s.color} strokeWidth="1.4" />
+                  <text x="142" y="16" fill="#f8fafc" fontSize="8.5" textAnchor="middle">Re-read context</text>
+                  <rect x="188" y="4" width="54" height="18" rx="3" fill="rgba(244, 63, 94, 0.12)" stroke={s.color} strokeWidth="1" />
+                  <text x="215" y="16" fill={s.color} fontSize="8" fontWeight="700" textAnchor="middle">+4.2k tokens</text>
                 </g>
               ) : s.icon === "spiral" ? (
                 <g transform={`translate(${x + 18}, ${y + 70})`}>
-                  <rect x="0" y="4" width="48" height="20" rx="3" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
-                  <text x="24" y="17" fill="#94a3b8" fontSize="8.5" textAnchor="middle">info ✓</text>
-                  <line x1="48" y1="14" x2="72" y2="14" stroke="#475569" strokeWidth="1.2" strokeDasharray="3,2" />
-                  <rect x="72" y="4" width="56" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
-                  <text x="100" y="17" fill="#f8fafc" fontSize="8.5" textAnchor="middle">verify?</text>
-                  <path d="M 128 14 C 142 4, 142 24, 128 24" stroke={s.color} strokeWidth="1.2" fill="none" markerEnd={`url(#${markerId})`} />
-                  <text x="148" y="17" fill={s.color} fontSize="8.5" fontWeight="600">loop</text>
+                  <rect x="0" y="2" width="56" height="22" rx="4" fill="#0f172a" stroke="#334155" strokeWidth="1" />
+                  <text x="28" y="16" fill="#94a3b8" fontSize="8.5" textAnchor="middle">Result ✓</text>
+                  <line x1="56" y1="13" x2="84" y2="13" stroke="#475569" strokeWidth="1.2" strokeDasharray="3,2" />
+                  <rect x="84" y="2" width="90" height="22" rx="4" fill="#0f172a" stroke={s.color} strokeWidth="1.4" />
+                  <text x="129" y="16" fill={s.color} fontSize="8.5" fontWeight="600" textAnchor="middle">"Let me check..."</text>
+                  <path d="M 174 13 C 190 2, 190 24, 174 24 L 132 24" stroke={s.color} strokeWidth="1.2" fill="none" markerEnd={`url(#${markerId})`} />
+                  <text x="194" y="16" fill={s.color} fontSize="8.5" fontWeight="600">loop</text>
                 </g>
               ) : (
                 <g transform={`translate(${x + 18}, ${y + 70})`}>
-                  <rect x="0" y="4" width="48" height="20" rx="3" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
-                  <text x="24" y="17" fill="#94a3b8" fontSize="8.5" textAnchor="middle">info ✓</text>
-                  <line x1="48" y1="14" x2="114" y2="14" stroke={s.color} strokeWidth="1.2" strokeDasharray="4,2" />
-                  <text x="81" y="10" fill={s.color} fontSize="8" textAnchor="middle">stall</text>
-                  <rect x="114" y="4" width="52" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
-                  <text x="140" y="17" fill="#cbd5e1" fontSize="8.5" textAnchor="middle">action</text>
+                  <rect x="0" y="2" width="62" height="22" rx="4" fill="#0f172a" stroke="#334155" strokeWidth="1" />
+                  <text x="31" y="16" fill="#94a3b8" fontSize="8.5" textAnchor="middle">Info Ready</text>
+                  <line x1="62" y1="13" x2="80" y2="13" stroke={s.color} strokeWidth="1.2" strokeDasharray="3,2" />
+                  <rect x="80" y="4" width="52" height="18" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1" />
+                  <text x="106" y="16" fill={s.color} fontSize="8" fontWeight="700" textAnchor="middle">4.2s delay</text>
+                  <line x1="132" y1="13" x2="150" y2="13" stroke={s.color} strokeWidth="1.2" strokeDasharray="3,2" />
+                  <rect x="150" y="2" width="68" height="22" rx="4" fill="#0f172a" stroke={s.color} strokeWidth="1.4" />
+                  <text x="184" y="16" fill="#cbd5e1" fontSize="8.5" fontWeight="600" textAnchor="middle">First Action</text>
                 </g>
               )}
             </g>
@@ -223,8 +229,8 @@ function RuminationSignalsFigure() {
 
 function BisBasFigure() {
   const barY = 110;
-  const opusX = 148;   // high-BIS marker: 13.75% of 640 bar (x = 60 + 88 = 148)
-  const fableX = 612;  // high-BAS marker: 86.25% of 640 bar (x = 60 + 552 = 612)
+  const opusX = 148;   // high-BIS marker: ~13.75% of 640 bar (x = 60 + 88 = 148)
+  const fableX = 430;  // near-neutral / mild-BAS: ~57.8% of 640 bar (x = 60 + 370 = 430)
 
   return (
     <figure className="blog-figure blog-figure-chart">
@@ -234,7 +240,8 @@ function BisBasFigure() {
         <desc id="bis-bas-desc">
           A single spectrum from Behavioral Inhibition System (verify, error-avoidance, rumination risk)
           through neutral to Behavioral Activation System (act, explore, course-correct, rumination risk low).
-          Opus 5 calibrates toward the BIS end; Fable 5 toward the BAS end.
+          Opus 5 calibrates toward the high-BIS end; Fable 5 lands near neutral with a mild BAS lean —
+          decisive when context is sufficient, but its safety self-critique tempers pure activation.
         </desc>
         <defs>
           <linearGradient id="bisbas-grad" x1="0" y1="0" x2="1" y2="0">
@@ -264,6 +271,9 @@ function BisBasFigure() {
         <rect x="60" y={barY} width="640" height="16" rx="8" fill="#1e293b" />
         <rect x="60" y={barY} width="640" height="16" rx="8" fill="url(#bisbas-grad)" />
 
+        {/* Neutral midpoint tick */}
+        <line x1="380" y1={barY - 4} x2="380" y2={barY + 20} stroke="#475569" strokeWidth="1" strokeDasharray="2,2" />
+
         {/* End & Midpoint Labels */}
         <text x="60" y={barY - 12} fill="#38bdf8" fontSize="12" fontWeight="600" textAnchor="start">
           BIS · Verify
@@ -281,7 +291,7 @@ function BisBasFigure() {
           Course-correct
         </text>
 
-        {/* Opus 5 marker (left/BIS side) */}
+        {/* Opus 5 marker (high-BIS) */}
         <line x1={opusX} y1={barY - 32} x2={opusX} y2={barY + 24} stroke="#38bdf8" strokeWidth="1.5" />
         <rect x={opusX - 32} y={barY - 48} width="64" height="22" rx="11" fill="#0f172a" stroke="#38bdf8" strokeWidth="1.8" />
         <text x={opusX} y={barY - 33} fill="#38bdf8" fontSize="10.5" fontWeight="700" textAnchor="middle">
@@ -289,9 +299,9 @@ function BisBasFigure() {
         </text>
         <circle cx={opusX} cy={barY + 8} r="5" fill="#38bdf8" stroke="#0f172a" strokeWidth="2" />
 
-        {/* Fable 5 marker (right/BAS side) */}
+        {/* Fable 5 marker (near-neutral / mild BAS) */}
         <line x1={fableX} y1={barY - 32} x2={fableX} y2={barY + 24} stroke="#ec4899" strokeWidth="1.5" />
-        <rect x={fableX - 32} y={barY - 48} width="64" height="22" rx="11" fill="#0f172a" stroke="#ec4899" strokeWidth="1.8" />
+        <rect x={fableX - 38} y={barY - 48} width="76" height="22" rx="11" fill="#0f172a" stroke="#ec4899" strokeWidth="1.8" />
         <text x={fableX} y={barY - 33} fill="#ec4899" fontSize="10.5" fontWeight="700" textAnchor="middle">
           Fable 5
         </text>
@@ -307,7 +317,7 @@ function BisBasFigure() {
           <rect x="390" y="0" width="310" height="54" rx="8" fill="#131c2e" />
           <rect x="390" y="0" width="4" height="54" rx="2" fill="#ec4899" />
           <text x="410" y="22" fill="#f8fafc" fontSize="12" fontWeight="600">Fable 5 Profile</text>
-          <text x="410" y="40" fill="#94a3b8" fontSize="11">High BAS: commits · course-corrects · moves</text>
+          <text x="410" y="40" fill="#94a3b8" fontSize="11">Near-neutral, mild BAS: commits · self-critiques · moves</text>
         </g>
       </svg>
       <p className="blog-svg-note">Illustrative framework from reinforcement sensitivity theory; applied to model behavior, not measured.</p>
