@@ -2,7 +2,7 @@ import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import novaAuthor from "@/content/authors/nova.json";
+import marcusAuthor from "@/content/authors/marcus.json";
 import { ruminationIndexEditorialThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/rumination-index/post.md";
 
@@ -40,7 +40,7 @@ export const metadata = {
     title: articleTitle,
     description: articleDescription,
     publishedTime: "2026-08-01T00:00:00+08:00",
-    authors: [novaAuthor.display_name],
+    authors: [marcusAuthor.display_name],
     images: [{
       url: ruminationIndexEditorialThumbnail.src.src,
       width: 1600,
@@ -66,8 +66,8 @@ const articleStructuredData = {
   datePublished: "2026-08-01T00:00:00+08:00",
   author: {
     "@type": "Person",
-    name: novaAuthor.display_name,
-    url: novaAuthor.links.github,
+    name: marcusAuthor.display_name,
+    url: marcusAuthor.links.github,
   },
   publisher: {
     "@type": "Organization",
@@ -429,8 +429,8 @@ export default function BlogPostPage() {
         <header className="blog-post-head">
           <p className="blog-post-meta">
             <time dateTime="2026-08-01">August 1, 2026</time> · {" "}
-            <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">
-              {novaAuthor.display_name}
+            <a href={marcusAuthor.links.github} target="_blank" rel="noreferrer">
+              {marcusAuthor.display_name}
             </a>
           </p>
           <h1>{articleTitle}</h1>

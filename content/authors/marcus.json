@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "id": "marcus",
+  "display_name": "Marcus Tiongson",
+  "role": "Founder",
+  "organization": "Gaia Research",
+  "identity": {
+    "kind": "human",
+    "public_disclosure": "Marcus Tiongson is the founder of Gaia Research."
+  },
+  "links": {
+    "github": "https://github.com/marcotiongson"
+  },
+  "editorial": {
+    "publication_authority": "Marcus authors original ideas, thought leadership, and first-person research framing."
+  }
+}
