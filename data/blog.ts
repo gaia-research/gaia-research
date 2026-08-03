@@ -4,7 +4,7 @@ import claude5SystemPromptShrinkThumbnailSrc from "@/assets/generated/claude-5-s
 import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-editorial-thumbnail.webp";
 import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp";
 import yggdrasilIiThumbnailSrc from "@/assets/generated/yggdrasil-ii-editorial-thumbnail.webp";
-import ruminationIndexEditorialThumbnailSrc from "@/assets/generated/rumination-index-editorial-thumbnail.png";
+import ruminationIndexEditorialThumbnailSrc from "@/assets/generated/rumination-index-editorial-thumbnail.webp";
 
 export type BlogPost = {
   href: string;
@@ -48,7 +48,7 @@ export const yggdrasilIiThumbnail = {
 
 export const ruminationIndexEditorialThumbnail = {
   src: ruminationIndexEditorialThumbnailSrc,
-  alt: "Tiny pink-haired Milim sits alone at a large round wooden table in a sunlit archive, studying a notebook under dramatic negative space.",
+  alt: "Tiny pink-haired Milim sips a warm drink beside a small white dragon in a quiet high-rise lounge, city lights blurred behind rain-streaked glass.",
 } as const;
 
 // Keep this list deliberately small and editorial. Home consumes the first

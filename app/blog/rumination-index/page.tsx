@@ -94,33 +94,29 @@ function RuminationSignalsFigure() {
       case "loop":
         return (
           <g stroke={c} strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="30" cy="40" r="11" />
-            <polyline points="38,32 46,40 38,48" />
-            <line x1="46" y1="40" x2="54" y2="40" />
-            <path d="M54,30 A14,14 0 0,1 54,50" markerEnd={`url(#arr-${c.replace('#','')})`} />
+            <path d="M 6 16 A 10 10 0 1 1 16 26" />
+            <polyline points="10 22 16 26 22 22" />
           </g>
         );
       case "reingest":
         return (
           <g stroke={c} strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="20" y1="28" x2="20" y2="50" markerEnd={`url(#arr-dn-${c.replace('#','')})`} />
-            <line x1="20" y1="50" x2="40" y2="50" markerEnd={`url(#arr-h-${c.replace('#','')})`} />
-            <line x1="40" y1="50" x2="40" y2="28" markerEnd={`url(#arr-up-${c.replace('#','')})`} />
-            <line x1="40" y1="28" x2="54" y2="28" markerEnd={`url(#arr-h-${c.replace('#','')})`} />
-            <text x="30" y="58" fill="#475569" fontSize="7" textAnchor="middle">re-read</text>
+            <rect x="4" y="4" width="24" height="10" rx="2" strokeWidth="1.4" />
+            <path d="M 12 14 L 12 24 L 20 24" />
+            <polyline points="17 21 20 24 17 27" />
           </g>
         );
       case "spiral":
         return (
           <g stroke={c} strokeWidth="1.8" fill="none" strokeLinecap="round">
-            <path d="M 24 46 Q 16 32 30 28 Q 44 24 42 38 Q 40 50 28 48" markerEnd={`url(#arr-${c.replace('#','')})`} />
+            <path d="M 6 26 Q 2 12 16 8 Q 28 4 26 18 Q 24 28 14 26" markerEnd={`url(#arr-${c.replace('#','')})`} />
           </g>
         );
       case "delay":
         return (
           <g stroke={c} strokeWidth="1.8" fill="none" strokeLinecap="round">
-            <line x1="16" y1="40" x2="48" y2="40" strokeDasharray="4,3" />
-            <text x="56" y="44" fill="#475569" fontSize="8">delay</text>
+            <circle cx="16" cy="16" r="11" />
+            <polyline points="16 10 16 16 21 16" />
           </g>
         );
       default:
@@ -138,7 +134,6 @@ function RuminationSignalsFigure() {
           repeated tool calls, context re-ingestion, self-confirmation spirals, and decision latency.
         </desc>
         <defs>
-          {/* Arrowhead markers — one per unique color used in diagrams */}
           <marker id="arr-ec4899" viewBox="0 0 8 6" refX="8" refY="3" markerWidth="7" markerHeight="5" orient="auto">
             <path d="M0,0 L8,3 L0,6 Z" fill="#ec4899" />
           </marker>
@@ -150,15 +145,6 @@ function RuminationSignalsFigure() {
           </marker>
           <marker id="arr-0ea5e9" viewBox="0 0 8 6" refX="8" refY="3" markerWidth="7" markerHeight="5" orient="auto">
             <path d="M0,0 L8,3 L0,6 Z" fill="#0ea5e9" />
-          </marker>
-          <marker id="arr-dn-f43f5e" viewBox="0 0 8 6" refX="8" refY="3" markerWidth="7" markerHeight="5" orient="auto">
-            <path d="M0,0 L8,3 L0,6 Z" fill="#f43f5e" />
-          </marker>
-          <marker id="arr-up-f43f5e" viewBox="0 0 8 6" refX="8" refY="3" markerWidth="7" markerHeight="5" orient="auto">
-            <path d="M0,0 L8,3 L0,6 Z" fill="#f43f5e" />
-          </marker>
-          <marker id="arr-h-f43f5e" viewBox="0 0 8 6" refX="8" refY="3" markerWidth="7" markerHeight="5" orient="auto">
-            <path d="M0,0 L8,3 L0,6 Z" fill="#f43f5e" />
           </marker>
         </defs>
         {signals.map((s, i) => {
@@ -174,56 +160,56 @@ function RuminationSignalsFigure() {
               {/* Colored left accent stripe */}
               <rect x={x} y={y} width="4" height="120" rx="2" fill={s.color} />
               {/* Title */}
-              <text x={x + 18} y={y + 24} fill="#f8fafc" fontSize="13" fontWeight="600">{s.title}</text>
-              {/* Icon */}
-              <SignalIcon type={s.icon} c={s.color} />
+              <text x={x + 18} y={y + 26} fill="#f8fafc" fontSize="13" fontWeight="600">{s.title}</text>
+              {/* Icon in top-right of card */}
+              <g transform={`translate(${x + 314}, ${y + 12})`}>
+                <SignalIcon type={s.icon} c={s.color} />
+              </g>
               {/* Description */}
-              <text x={x + 18} y={y + 54} fill="#94a3b8" fontSize="12">{s.desc}</text>
+              <text x={x + 18} y={y + 46} fill="#94a3b8" fontSize="11.5">{s.desc}</text>
               {/* Divider */}
-              <line x1={x + 18} y1={y + 66} x2={x + 340} y2={y + 66} stroke="#1e293b" strokeWidth="1" />
-              {/* Mini diagram */}
+              <line x1={x + 18} y1={y + 58} x2={x + 342} y2={y + 58} stroke="#1e293b" strokeWidth="1" />
+              {/* Mini diagram inside card */}
               {s.icon === "loop" ? (
-                <g transform={`translate(${x + 18}, ${y + 82})`}>
-                  <rect x="0" y="4" width="36" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
-                  <text x="18" y="18" fill="#cbd5e1" fontSize="8" textAnchor="middle">A</text>
-                  <line x1="36" y1="14" x2="56" y2="14" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#arr-${s.color.replace('#','')})`} />
-                  <rect x="56" y="4" width="36" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
-                  <text x="74" y="18" fill="#cbd5e1" fontSize="8" textAnchor="middle">B</text>
-                  <line x1="92" y1="14" x2="112" y2="14" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#arr-${s.color.replace('#','')})`} />
-                  <rect x="112" y="4" width="36" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
-                  <text x="130" y="18" fill="#f8fafc" fontSize="8" textAnchor="middle">{s.id === 's1' ? 'A?' : '?'}</text>
-                  {/* Loopback arc */}
-                  <path d="M148,6 A14,14 0 0,1 148,26 L140,26" stroke={s.color} strokeWidth="1.2" fill="none" markerEnd={`url(#arr-${s.color.replace('#','')})`} />
-                  <text x="154" y="28" fill={s.color} fontSize="8">loop</text>
+                <g transform={`translate(${x + 18}, ${y + 70})`}>
+                  <rect x="0" y="4" width="32" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
+                  <text x="16" y="17" fill="#cbd5e1" fontSize="8.5" textAnchor="middle">A</text>
+                  <line x1="32" y1="14" x2="52" y2="14" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#${markerId})`} />
+                  <rect x="52" y="4" width="32" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
+                  <text x="68" y="17" fill="#cbd5e1" fontSize="8.5" textAnchor="middle">B</text>
+                  <line x1="84" y1="14" x2="104" y2="14" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#${markerId})`} />
+                  <rect x="104" y="4" width="32" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
+                  <text x="120" y="17" fill="#f8fafc" fontSize="8.5" textAnchor="middle">A?</text>
+                  <path d="M 136 14 C 150 4, 150 24, 136 24" stroke={s.color} strokeWidth="1.2" fill="none" markerEnd={`url(#${markerId})`} />
+                  <text x="156" y="17" fill={s.color} fontSize="8.5" fontWeight="600">loop</text>
                 </g>
               ) : s.icon === "reingest" ? (
-                <g transform={`translate(${x + 18}, ${y + 80})`}>
-                  <rect x="0" y="4" width="36" height="20" rx="3" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
-                  <text x="18" y="18" fill="#64748b" fontSize="8" textAnchor="middle">context</text>
-                  <line x1="18" y1="24" x2="18" y2="38" stroke="#f43f5e" strokeWidth="1.2" markerEnd={`url(#arr-dn-f43f5e)`} />
-                  <rect x="0" y="38" width="36" height="20" rx="3" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
-                  <text x="18" y="52" fill="#64748b" fontSize="8" textAnchor="middle">re-read</text>
-                  <line x1="36" y1="48" x2="80" y2="48" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#arr-h-f43f5e)`} />
-                  <text x="84" y="52" fill="#94a3b8" fontSize="8">+tokens</text>
+                <g transform={`translate(${x + 18}, ${y + 70})`}>
+                  <rect x="0" y="4" width="68" height="20" rx="3" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
+                  <text x="34" y="17" fill="#94a3b8" fontSize="8.5" textAnchor="middle">context tokens</text>
+                  <line x1="68" y1="14" x2="92" y2="14" stroke="#475569" strokeWidth="1.2" markerEnd={`url(#${markerId})`} />
+                  <rect x="92" y="4" width="56" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
+                  <text x="120" y="17" fill="#f8fafc" fontSize="8.5" textAnchor="middle">re-read</text>
+                  <text x="160" y="17" fill="#f43f5e" fontSize="8.5" fontWeight="600">+tokens</text>
                 </g>
               ) : s.icon === "spiral" ? (
-                <g transform={`translate(${x + 18}, ${y + 82})`}>
-                  <rect x="0" y="2" width="28" height="24" rx="3" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
-                  <text x="14" y="15" fill="#64748b" fontSize="7" textAnchor="middle">info ✓</text>
-                  <line x1="28" y1="14" x2="60" y2="14" stroke="#475569" strokeWidth="1.2" strokeDasharray="3,2" />
-                  <text x="66" y="18" fill="#94a3b8" fontSize="8">verify?</text>
-                  <path d="M 60 14 Q 72 4 80 14 Q 88 24 76 28" stroke={s.color} strokeWidth="1.2" fill="none" markerEnd={`url(#arr-${s.color.replace('#','')})`} />
-                  <text x="88" y="18" fill={s.color} fontSize="8">loop</text>
+                <g transform={`translate(${x + 18}, ${y + 70})`}>
+                  <rect x="0" y="4" width="48" height="20" rx="3" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
+                  <text x="24" y="17" fill="#94a3b8" fontSize="8.5" textAnchor="middle">info ✓</text>
+                  <line x1="48" y1="14" x2="72" y2="14" stroke="#475569" strokeWidth="1.2" strokeDasharray="3,2" />
+                  <rect x="72" y="4" width="56" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
+                  <text x="100" y="17" fill="#f8fafc" fontSize="8.5" textAnchor="middle">verify?</text>
+                  <path d="M 128 14 C 142 4, 142 24, 128 24" stroke={s.color} strokeWidth="1.2" fill="none" markerEnd={`url(#${markerId})`} />
+                  <text x="148" y="17" fill={s.color} fontSize="8.5" fontWeight="600">loop</text>
                 </g>
               ) : (
-                <g transform={`translate(${x + 18}, ${y + 82})`}>
-                  <rect x="0" y="2" width="28" height="24" rx="3" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
-                  <text x="14" y="15" fill="#64748b" fontSize="7" textAnchor="middle">info ✓</text>
-                  <line x1="28" y1="14" x2="64" y2="14" stroke="#475569" strokeWidth="1.2" strokeDasharray="4,2" />
-                  <text x="68" y="18" fill="#94a3b8" fontSize="8">delay</text>
-                  <line x1="64" y1="14" x2="64" y2="34" stroke={s.color} strokeWidth="1.2" markerEnd={`url(#arr-${s.color.replace('#','')})`} />
-                  <rect x="64" y="34" width="56" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
-                  <text x="92" y="48" fill="#cbd5e1" fontSize="8" textAnchor="middle">action</text>
+                <g transform={`translate(${x + 18}, ${y + 70})`}>
+                  <rect x="0" y="4" width="48" height="20" rx="3" fill="#0f172a" stroke="#334155" strokeWidth="1.2" />
+                  <text x="24" y="17" fill="#94a3b8" fontSize="8.5" textAnchor="middle">info ✓</text>
+                  <line x1="48" y1="14" x2="114" y2="14" stroke={s.color} strokeWidth="1.2" strokeDasharray="4,2" />
+                  <text x="81" y="10" fill={s.color} fontSize="8" textAnchor="middle">stall</text>
+                  <rect x="114" y="4" width="52" height="20" rx="3" fill="#0f172a" stroke={s.color} strokeWidth="1.2" />
+                  <text x="140" y="17" fill="#cbd5e1" fontSize="8.5" textAnchor="middle">action</text>
                 </g>
               )}
             </g>
@@ -236,9 +222,9 @@ function RuminationSignalsFigure() {
 }
 
 function BisBasFigure() {
-  const opusX = 88;   // high-BIS marker: near the verify end (left)
-  const fableX = 320;  // high-BAS marker: near the act end (right)
-  const barY = 128;
+  const barY = 110;
+  const opusX = 148;   // high-BIS marker: 13.75% of 640 bar (x = 60 + 88 = 148)
+  const fableX = 612;  // high-BAS marker: 86.25% of 640 bar (x = 60 + 552 = 612)
 
   return (
     <figure className="blog-figure blog-figure-chart">
@@ -251,92 +237,175 @@ function BisBasFigure() {
           Opus 5 calibrates toward the BIS end; Fable 5 toward the BAS end.
         </desc>
         <defs>
-          {/* Blue → neutral → pink spectrum gradient */}
           <linearGradient id="bisbas-grad" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="#38bdf8" />
             <stop offset="50%" stopColor="#475569" />
             <stop offset="100%" stopColor="#ec4899" />
           </linearGradient>
-          {/* Subtle glow under the spectrum bar */}
           <linearGradient id="bar-glow" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.06" />
+            <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.08" />
             <stop offset="50%" stopColor="#38bdf8" stopOpacity="0" />
-            <stop offset="100%" stopColor="#ec4899" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="#ec4899" stopOpacity="0.08" />
           </linearGradient>
-          {/* Triangle arrowhead */}
-          <marker id="arr-tri" viewBox="0 0 8 6" refX="8" refY="3" markerWidth="8" markerHeight="6" orient="auto">
-            <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8" />
-          </marker>
-          {/* Arrowheads for model markers */}
-          <marker id="arr-bis-tick" viewBox="0 0 8 6" refX="8" refY="3" markerWidth="7" markerHeight="5" orient="auto">
-            <path d="M0,0 L8,3 L0,6 Z" fill="#38bdf8" />
-          </marker>
-          <marker id="arr-bas-tick" viewBox="0 0 8 6" refX="8" refY="3" markerWidth="7" markerHeight="5" orient="auto">
-            <path d="M0,0 L8,3 L0,6 Z" fill="#ec4899" />
-          </marker>
         </defs>
 
-        {/* ── Title block ── */}
-        <text x="380" y="44" fill="#f8fafc" fontSize="16" fontWeight="700" textAnchor="middle">
+        {/* Title block */}
+        <text x="380" y="36" fill="#f8fafc" fontSize="15" fontWeight="700" textAnchor="middle">
           Behavioral Calibration Spectrum
         </text>
-        <text x="380" y="66" fill="#64748b" fontSize="12" textAnchor="middle">
+        <text x="380" y="54" fill="#64748b" fontSize="11.5" textAnchor="middle">
           Inhibition ←—— → Activation
         </text>
 
-        {/* ── Glow beneath bar ── */}
+        {/* Glow beneath bar */}
         <rect x="60" y={barY + 2} width="640" height="18" rx="9" fill="url(#bar-glow)" />
 
-        {/* ── Spectrum bar: verify(blue) → neutral → act(pink) ── */}
+        {/* Spectrum bar */}
         <rect x="60" y={barY} width="640" height="16" rx="8" fill="#1e293b" />
         <rect x="60" y={barY} width="640" height="16" rx="8" fill="url(#bisbas-grad)" />
 
-        {/* ── End labels ── */}
-        <text x="60" y={barY - 10} fill="#38bdf8" fontSize="12" fontWeight="600" textAnchor="middle">
+        {/* End & Midpoint Labels */}
+        <text x="60" y={barY - 12} fill="#38bdf8" fontSize="12" fontWeight="600" textAnchor="start">
           BIS · Verify
         </text>
-        <text x="700" y={barY - 10} fill="#ec4899" fontSize="12" fontWeight="600" textAnchor="middle">
+        <text x="700" y={barY - 12} fill="#ec4899" fontSize="12" fontWeight="600" textAnchor="end">
           BAS · Act
         </text>
-        <text x="60" y={barY + 36} fill="#475569" fontSize="10" textAnchor="middle">
+        <text x="60" y={barY + 34} fill="#475569" fontSize="10" textAnchor="start">
           Re-verify
         </text>
-        <text x="380" y={barY + 36} fill="#475569" fontSize="10" textAnchor="middle">
+        <text x="380" y={barY + 34} fill="#475569" fontSize="10" textAnchor="middle">
           Neutral
         </text>
-        <text x="700" y={barY + 36} fill="#475569" fontSize="10" textAnchor="middle">
+        <text x="700" y={barY + 34} fill="#475569" fontSize="10" textAnchor="end">
           Course-correct
         </text>
 
-        {/* ── Opus 5 marker (left/BIS side) ── */}
-        <line x1={60 + opusX} y1={barY - 18} x2={60 + opusX} y2={barY + 34} stroke="#38bdf8" strokeWidth="1.5" />
-        <circle cx={60 + opusX} cy={barY + 8} r="8" fill="#0f172a" stroke="#38bdf8" strokeWidth="2.5" />
-        <text x={60 + opusX} y={barY + 12} fill="#38bdf8" fontSize="9" fontWeight="bold" textAnchor="middle">
+        {/* Opus 5 marker (left/BIS side) */}
+        <line x1={opusX} y1={barY - 32} x2={opusX} y2={barY + 24} stroke="#38bdf8" strokeWidth="1.5" />
+        <rect x={opusX - 32} y={barY - 48} width="64" height="22" rx="11" fill="#0f172a" stroke="#38bdf8" strokeWidth="1.8" />
+        <text x={opusX} y={barY - 33} fill="#38bdf8" fontSize="10.5" fontWeight="700" textAnchor="middle">
           Opus 5
         </text>
+        <circle cx={opusX} cy={barY + 8} r="5" fill="#38bdf8" stroke="#0f172a" strokeWidth="2" />
 
-        {/* ── Fable 5 marker (right/BAS side) ── */}
-        <line x1={60 + fableX} y1={barY - 18} x2={60 + fableX} y2={barY + 34} stroke="#ec4899" strokeWidth="1.5" />
-        <circle cx={60 + fableX} cy={barY + 8} r="8" fill="#0f172a" stroke="#ec4899" strokeWidth="2.5" />
-        <text x={60 + fableX} y={barY + 12} fill="#ec4899" fontSize="9" fontWeight="bold" textAnchor="middle">
+        {/* Fable 5 marker (right/BAS side) */}
+        <line x1={fableX} y1={barY - 32} x2={fableX} y2={barY + 24} stroke="#ec4899" strokeWidth="1.5" />
+        <rect x={fableX - 32} y={barY - 48} width="64" height="22" rx="11" fill="#0f172a" stroke="#ec4899" strokeWidth="1.8" />
+        <text x={fableX} y={barY - 33} fill="#ec4899" fontSize="10.5" fontWeight="700" textAnchor="middle">
           Fable 5
         </text>
+        <circle cx={fableX} cy={barY + 8} r="5" fill="#ec4899" stroke="#0f172a" strokeWidth="2" />
 
-        {/* ── Behavioral outcome labels ── */}
-        <rect x="60" y="190" width="320" height="52" rx="8" fill="#131c2e" />
-        <rect x="60" y="190" width="4" height="52" rx="2" fill="#38bdf8" />
-        <text x="84" y="214" fill="#f8fafc" fontSize="12" fontWeight="600">Opus 5 profile</text>
-        <text x="84" y="232" fill="#94a3b8" fontSize="11">High BIS: re-verifies · loops · stalls</text>
+        {/* Behavioral outcome profile cards */}
+        <g transform="translate(0, 180)">
+          <rect x="60" y="0" width="310" height="54" rx="8" fill="#131c2e" />
+          <rect x="60" y="0" width="4" height="54" rx="2" fill="#38bdf8" />
+          <text x="80" y="22" fill="#f8fafc" fontSize="12" fontWeight="600">Opus 5 Profile</text>
+          <text x="80" y="40" fill="#94a3b8" fontSize="11">High BIS: re-verifies · loops · stalls</text>
 
-        <rect x="380" y="190" width="320" height="52" rx="8" fill="#131c2e" />
-        <rect x="380" y="190" width="4" height="52" rx="2" fill="#ec4899" />
-        <text x="404" y="214" fill="#f8fafc" fontSize="12" fontWeight="600">Fable 5 profile</text>
-        <text x="404" y="232" fill="#94a3b8" fontSize="11">High BAS: commits · course-corrects · moves</text>
+          <rect x="390" y="0" width="310" height="54" rx="8" fill="#131c2e" />
+          <rect x="390" y="0" width="4" height="54" rx="2" fill="#ec4899" />
+          <text x="410" y="22" fill="#f8fafc" fontSize="12" fontWeight="600">Fable 5 Profile</text>
+          <text x="410" y="40" fill="#94a3b8" fontSize="11">High BAS: commits · course-corrects · moves</text>
+        </g>
       </svg>
       <p className="blog-svg-note">Illustrative framework from reinforcement sensitivity theory; applied to model behavior, not measured.</p>
     </figure>
   );
 }
+function EconomicsGapFigure() {
+  return (
+    <figure className="blog-figure blog-figure-chart">
+      <figcaption>The Overthinking Tax: Headline token discount vs. real-world task run savings</figcaption>
+      <svg viewBox="0 0 760 220" role="img" aria-labelledby="econ-gap-title econ-gap-desc">
+        <title id="econ-gap-title">Headline price cut vs actual task savings</title>
+        <desc id="econ-gap-desc">
+          While Opus 5 has a 50 percent headline token price discount over Fable 5, real-world task run savings erode to roughly 20 percent due to rumination and fix-bloat.
+        </desc>
+
+        {/* Headline Price Cut Bar */}
+        <g transform="translate(60, 35)">
+          <text x="0" y="16" fill="#94a3b8" fontSize="12" fontWeight="600">Headline Token Price</text>
+          <rect x="0" y="26" width="300" height="32" rx="6" fill="#0f172a" stroke="#334155" strokeWidth="1" />
+          <rect x="0" y="26" width="150" height="32" rx="6" fill="#38bdf8" />
+          <text x="75" y="46" fill="#0f172a" fontSize="11" fontWeight="800" textAnchor="middle">-50% per token</text>
+          <text x="160" y="46" fill="#64748b" fontSize="11">$5 / $25 per M tokens</text>
+        </g>
+
+        {/* Real Task-Run Savings Bar */}
+        <g transform="translate(60, 115)">
+          <text x="0" y="16" fill="#94a3b8" fontSize="12" fontWeight="600">Real Task-Run Cost (In Harness)</text>
+          <rect x="0" y="26" width="300" height="32" rx="6" fill="#0f172a" stroke="#334155" strokeWidth="1" />
+          <rect x="0" y="26" width="235" height="32" rx="6" fill="#ec4899" />
+          <text x="117" y="46" fill="#ffffff" fontSize="11" fontWeight="800" textAnchor="middle">~20% Actual Savings</text>
+          <text x="245" y="46" fill="#64748b" fontSize="11">Wall-clock & tokens</text>
+        </g>
+
+        {/* Overthinking Tax Gap Card */}
+        <g transform="translate(420, 35)">
+          <rect x="0" y="0" width="280" height="144" rx="10" fill="#131c2e" stroke="#f43f5e" strokeWidth="1.2" />
+          <rect x="0" y="0" width="4" height="144" rx="2" fill="#f43f5e" />
+          <text x="20" y="30" fill="#f43f5e" fontSize="12" fontWeight="700" letterSpacing="0.04em">THE OVERTHINKING TAX (+30%)</text>
+          <line x1="20" y1="42" x2="260" y2="42" stroke="#1e293b" strokeWidth="1" />
+          
+          <text x="20" y="64" fill="#cbd5e1" fontSize="11">• 2.1x token re-ingestion</text>
+          <text x="20" y="86" fill="#cbd5e1" fontSize="11">• Redundant self-verification loops</text>
+          <text x="20" y="108" fill="#cbd5e1" fontSize="11">• Code nitpicking & fix-bloat</text>
+          <text x="20" y="128" fill="#94a3b8" fontSize="10" fontStyle="italic">Erodes half-price token advantages</text>
+        </g>
+      </svg>
+      <p className="blog-svg-note">Observed harness behavior across agent execution trials; task-level economics vs. raw token pricing.</p>
+    </figure>
+  );
+}
+
+function ReasoningEffortFigure() {
+  return (
+    <figure className="blog-figure blog-figure-chart">
+      <figcaption>The Reasoning Effort Paradox: Task success peaks at Medium effort; Max effort spikes rumination</figcaption>
+      <svg viewBox="0 0 760 230" role="img" aria-labelledby="effort-title effort-desc">
+        <title id="effort-title">Reasoning effort dial vs task success</title>
+        <desc id="effort-desc">
+          Task completion efficiency peaks at medium reasoning effort. Cranking reasoning to Max causes overthinking, fix-bloat, and increased latency without accuracy gains.
+        </desc>
+
+        {/* Axes */}
+        <line x1="80" y1="170" x2="680" y2="170" stroke="#334155" strokeWidth="1.5" />
+        <line x1="80" y1="30" x2="80" y2="170" stroke="#334155" strokeWidth="1.5" />
+
+        {/* Axis Labels */}
+        <text x="380" y="206" fill="#94a3b8" fontSize="11" fontWeight="600" textAnchor="middle">Reasoning Effort Setting (Thinking Depth)</text>
+        <text x="40" y="100" fill="#94a3b8" fontSize="11" fontWeight="600" textAnchor="middle" transform="rotate(-90, 40, 100)">Task Efficiency / Success</text>
+
+        {/* Effort Level Ticks */}
+        <text x="160" y="188" fill="#64748b" fontSize="11" textAnchor="middle">Low Effort</text>
+        <text x="380" y="188" fill="#38bdf8" fontSize="11" fontWeight="700" textAnchor="middle">Medium Effort (Optimal)</text>
+        <text x="600" y="188" fill="#ec4899" fontSize="11" fontWeight="700" textAnchor="middle">Max Effort (Rumination Risk)</text>
+
+        {/* Curve Area Fill */}
+        <path d="M 120 150 Q 380 40 600 130 L 600 170 L 120 170 Z" fill="rgba(56, 189, 248, 0.06)" />
+
+        {/* Curve Path */}
+        <path d="M 120 150 Q 380 40 600 130" fill="none" stroke="#38bdf8" strokeWidth="3" />
+
+        {/* Peak Dot (Medium) */}
+        <circle cx="380" cy="58" r="6" fill="#38bdf8" stroke="#0f172a" strokeWidth="2" />
+        <rect x="310" y="24" width="140" height="24" rx="4" fill="#0f172a" stroke="#38bdf8" strokeWidth="1.2" />
+        <text x="380" y="40" fill="#38bdf8" fontSize="10" fontWeight="700" textAnchor="middle">Peak Task Efficiency</text>
+
+        {/* Drop Callout (Max) */}
+        <circle cx="600" cy="130" r="6" fill="#ec4899" stroke="#0f172a" strokeWidth="2" />
+        <rect x="510" y="70" width="170" height="44" rx="6" fill="#131c2e" stroke="#ec4899" strokeWidth="1.2" />
+        <text x="595" y="88" fill="#ec4899" fontSize="10.5" fontWeight="700" textAnchor="middle">Overthinking Tax</text>
+        <text x="595" y="104" fill="#94a3b8" fontSize="9.5" textAnchor="middle">Fix-bloat & self-loops</text>
+        <line x1="595" y1="114" x2="600" y2="124" stroke="#ec4899" strokeWidth="1" strokeDasharray="2,2" />
+      </svg>
+      <p className="blog-svg-note">Effort-to-performance dynamic observed across developer benchmarks and extended reasoning evaluations.</p>
+    </figure>
+  );
+}
+
 export default function BlogPostPage() {
   const body = loadPost();
   return (
@@ -373,6 +442,9 @@ export default function BlogPostPage() {
           <Markdown
             remarkPlugins={[remarkGfm]}
             components={{
+              img: ({ src, alt, ...props }) => (
+                <img src={src} alt={alt || ""} className="blog-post-body-img" {...props} />
+              ),
               p: ({ children, ...props }) => {
                 const text = props.node?.children
                   .map((child) => child.type === "text" ? child.value : "")
@@ -383,6 +455,12 @@ export default function BlogPostPage() {
                 }
                 if (text === "[[BIS_BAS]]") {
                   return <BisBasFigure />;
+                }
+                if (text === "[[ECONOMICS_GAP]]") {
+                  return <EconomicsGapFigure />;
+                }
+                if (text === "[[REASONING_EFFORT]]") {
+                  return <ReasoningEffortFigure />;
                 }
                 return <p {...props}>{children}</p>;
               },

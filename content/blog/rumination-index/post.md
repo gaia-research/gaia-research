@@ -64,7 +64,7 @@ This post proposes a framework. It presents no measured results. If the Ruminati
 
 1. **Rumination is detectable without model cooperation.** Harness-side logs capture the behavioral signatures; the model does not need to self-report.
 2. **Rumination scores differ systematically between models on the same task.** Opus 5 and Fable 5 on the same harness should produce different distributions, and that distribution shift should correlate with BIS/BAS calibration scores measured independently.
-3. **Excess rumination predicts token waste without predicting success.** Tasks with high rumination scores should consume more tokens but not produce measurably better outcomes, once baseline model capability is controlled for.
+3. **Excess rumination predicts task-level cost inflation without predicting success.** Tasks with high rumination scores consume significantly more tokens and wall-clock time (eroding the headline token discount down to ~20% actual task savings), without producing measurably better outcomes once baseline model capability is controlled for.
 
 If any of these fail, the instrument needs to be revised or retired.
 
@@ -72,13 +72,17 @@ If any of these fail, the instrument needs to be revised or retired.
 
 ## Rumination is a per-model calibration problem
 
-Most prompt engineering advice treats all models as if they respond to context identically. They do not.
+Most prompt engineering advice treats all models as if they respond to context identically. They do not. Legacy prompts that instruct models to "verify every step" or include heavy worked examples create **prompt technical debt**: they act as artificial BIS triggers, causing Opus 5 to fix-bloat and hyper-fixate on redundant verification loops.
 
 A worked example that prevents rumination in a weaker model can become a ceiling artifact in a stronger one: the model pattern-matches against the example rather than reasoning about the task. A "do not" rule designed for Opus 5 may trigger Fable 5 to treat the rule as a constraint to obey literally, not a goal to reason toward. These are not tuning problems — they are per-model calibration problems, and rumination is one axis to measure.
 
-The price gap makes calibration a cost problem, not just a behavior problem. Opus 5 at $5/$25 per million tokens is exactly half of Fable 5's $10/$50. If Opus 5 loops twice as often on the same task, the token-price savings disappear in wall-clock time and context re-ingestion.
+The price gap makes calibration a cost problem, not just a behavior problem. Opus 5 at $5/$25 per million tokens is half the headline cost of Fable 5's $10/$50. But in agent harnesses, real task-run savings erode to ~20% because Opus 5 spends excess tokens re-reading context and generating fix-bloat.
+
+[[ECONOMICS_GAP]]
 
 Run a model on its **"max"** or equivalent mode — highest reasoning depth, longest context, most tool calls — and performance drops. The model overthinks: re-verifying known facts, asking for information already in context, producing longer outputs that are not better outputs.
+
+[[REASONING_EFFORT]]
 
 This is the overthinking tax. High-BIS agents spend the extra capacity by default instead of reserving it. If Fable 5 has higher EQ calibration, it may resist — it holds capacity until a situation warrants it.
 
@@ -92,4 +96,4 @@ That number is the seed.
 
 ---
 
-**Sources:** S. Nolen-Hoeksema, *Response Styles Theory of Depression* (multiple papers, foundational psych literature); J. A. Gray, *Reinforcement Sensitivity Theory* (BIS/BAS); Thariq Shihipar, Anthropic, *"The new rules of context engineering for Claude 5 generation models"* (2026-07-24).
+**Sources:** S. Nolen-Hoeksema, *Response Styles Theory of Depression* (multiple papers, foundational psych literature); J. A. Gray, *Reinforcement Sensitivity Theory* (BIS/BAS); Thariq Shihipar, Anthropic, *"The new rules of context engineering for Claude 5 generation models"* (2026-07-24); Theo Browne (t3.gg), *"Developer benchmarks & agent harness evaluations for Opus 5"* (2026-07-28).
