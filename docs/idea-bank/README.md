@@ -122,7 +122,14 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** Autonomous skill self-evolution is widely touted but rarely explained at an architectural level. Unpacking Hermes Agent's `/learn` trajectory capture, 3-tier progressive disclosure, and isolated background Curator process (`curator.py`) delivers rare, high-signal technical content genuinely not easily available elsewhere.
 - **Doc:** [`blog-idea-hermes-skills-autonomous-self-improvement.md`](./blog-idea-hermes-skills-autonomous-self-improvement.md)
 
-## Rank 18 — Blog Subscriber Email Pipeline & Mailing MCP Integration
+## Rank 18 — Blog Idea: The "Perfect Prompt" Trap — Under-Scoping Sub-Agents for Agency
+- **Status:** In Ideation (unratified)
+- **Viability:** High
+- **Potential:** High
+- **Why now:** A well-sourced essay on a real, non-obvious tension: over-specified sub-agent prompts degrade reasoning (arXiv:2505.13360 — up to 41% accuracy drop from requirement conflicts), yet Anthropic found *vague* sub-agent prompts cause chaos (drift, duplication). The resolution — **scope the boundary tightly, under-scope the trajectory** ("constrained autonomy") — reframes delegation-prompt craft and rhymes with the current Skill Heaven descaffolding line. Ships with a small `delegate-with-agency` orchestrator skill/custom-instruction artifact.
+- **Doc:** [`blog-idea-subagent-agency-underscoped-prompts.md`](./blog-idea-subagent-agency-underscoped-prompts.md)
+
+## Rank 19 — Blog Subscriber Email Pipeline & Mailing MCP Integration
 - **Status:** Proposed Issue / RFC Plan
 - **Viability:** Very High
 - **Potential:** High
