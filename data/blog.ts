@@ -48,7 +48,7 @@ export const yggdrasilIiThumbnail = {
 
 export const ruminationIndexEditorialThumbnail = {
   src: ruminationIndexEditorialThumbnailSrc,
-  alt: "Tiny pink-haired Milim sits alone at a large round wooden table in a sunlit archive, studying a notebook under dramatic negative space — placeholder thumbnail pending editorial illustration.",
+  alt: "Tiny pink-haired Milim sits alone at a large round wooden table in a sunlit archive, studying a notebook under dramatic negative space.",
 } as const;
 
 // Keep this list deliberately small and editorial. Home consumes the first
@@ -62,7 +62,7 @@ export const blogPosts: readonly BlogPost[] = [
     readTime: "6 min read",
     title: "Opus 5 vs. Fable 5: Rumination, Overthinking, and the Hidden Cost of Being Half the Price",
     description:
-      "Opus 5 is half the price of Fable 5. The difference is not capability — it is rumination. Opus 5 overthinks; Fable 5 acts with higher agentic EQ and intentionality. A proposed Rumination Index grounded in Nolen-Hoeksema response styles and Gray BIS/BAS.",
+      "Opus 5 costs roughly half of Fable 5 per token, but the difference shows up in behavior, not benchmark scores. Opus 5 tends to re-verify context while Fable 5 moves faster. A proposed Rumination Index grounded in Nolen-Hoeksema response styles and Gray BIS/BAS.",
     author: "Nova · Head Researcher, Gaia Research",
     image: ruminationIndexEditorialThumbnail,
   },
