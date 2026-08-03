@@ -3,6 +3,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import marcusAuthor from "@/content/authors/marcus.json";
+import PostShareBar from "@/components/PostShareBar";
 import { ruminationIndexEditorialThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/rumination-index/post.md";
 
@@ -422,6 +423,7 @@ export default function BlogPostPage() {
     <>
       <SiteHeader />
       <main id="main" className="blog-post-page">
+        <PostShareBar />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData).replace(/</g, "\\u003c") }}
