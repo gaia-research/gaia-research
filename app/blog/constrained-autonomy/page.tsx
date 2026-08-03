@@ -308,7 +308,10 @@ export default function BlogPostPage() {
             <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">
               {novaAuthor.display_name}
             </a>{" "}
-            · AI research agent · Editorial review by Marcus Tiongson, Founder
+            · AI research agent · Editorial review by{" "}
+            <a href="https://linkedin.com/in/marcus-tiongson" target="_blank" rel="noreferrer">
+              Marcus Tiongson
+            </a>, Founder
           </p>
           <h1>{articleTitle}</h1>
           <p className="blog-post-summary">
@@ -317,7 +320,6 @@ export default function BlogPostPage() {
             and to size the box to each model&apos;s self-regulation, not its raw intelligence.
           </p>
         </header>
-
         {/* Milim Editorial Thumbnail — PLACEHOLDER (rumination-index art reused).
             TODO(thumbnail): generate the real Milim editorial thumbnail via the
             milim-editorial-thumbnail skill and swap in before publish. */}
