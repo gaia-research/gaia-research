@@ -4,6 +4,7 @@ import claude5SystemPromptShrinkThumbnailSrc from "@/assets/generated/claude-5-s
 import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-editorial-thumbnail.webp";
 import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp";
 import yggdrasilIiThumbnailSrc from "@/assets/generated/yggdrasil-ii-editorial-thumbnail.webp";
+import ruminationIndexEditorialThumbnailSrc from "@/assets/generated/rumination-index-editorial-thumbnail.webp";
 
 export type BlogPost = {
   href: string;
@@ -45,9 +46,26 @@ export const yggdrasilIiThumbnail = {
   alt: "Tiny pink-haired Milim kneels beside a greenhouse potting bench, tending a seedling amid terracotta pots and soft morning light.",
 } as const;
 
+export const ruminationIndexEditorialThumbnail = {
+  src: ruminationIndexEditorialThumbnailSrc,
+  alt: "Tiny pink-haired Milim sips a warm drink beside a small white dragon in a quiet high-rise lounge, city lights blurred behind rain-streaked glass.",
+} as const;
+
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/rumination-index",
+    category: "Agent Skills",
+    tags: ["Psychology", "Model Behavior", "Rumination Index"],
+    date: "August 1, 2026",
+    readTime: "6 min read",
+    title: "Opus 5 vs. Fable 5: Rumination, Overthinking, and the Hidden Cost of Being Half the Price",
+    description:
+      "Opus 5 costs roughly half of Fable 5 per token, but the difference shows up in behavior, not benchmark scores. Opus 5 tends to re-verify context while Fable 5 moves faster. A proposed Rumination Index grounded in Nolen-Hoeksema response styles and Gray BIS/BAS.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: ruminationIndexEditorialThumbnail,
+  },
   {
     href: "/blog/agentskills-io-standard",
     category: "Agent Skills",
