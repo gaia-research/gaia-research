@@ -5,6 +5,11 @@ import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-edit
 import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp";
 import yggdrasilIiThumbnailSrc from "@/assets/generated/yggdrasil-ii-editorial-thumbnail.webp";
 import ruminationIndexEditorialThumbnailSrc from "@/assets/generated/rumination-index-editorial-thumbnail.webp";
+// TODO(thumbnail): PLACEHOLDER only — reuses the rumination-index thumbnail. A dedicated
+// Milim editorial thumbnail for /blog/constrained-autonomy must be generated via the
+// milim-editorial-thumbnail skill and swapped in (rename to
+// constrained-autonomy-editorial-thumbnail.webp) before publish.
+import constrainedAutonomyEditorialThumbnailSrc from "@/assets/generated/constrained-autonomy-editorial-thumbnail-PLACEHOLDER.webp";
 
 export type BlogPost = {
   href: string;
@@ -51,9 +56,27 @@ export const ruminationIndexEditorialThumbnail = {
   alt: "Tiny pink-haired Milim sips a warm drink beside a small white dragon in a quiet high-rise lounge, city lights blurred behind rain-streaked glass.",
 } as const;
 
+// TODO(thumbnail): PLACEHOLDER art — replace with the real Milim editorial thumbnail before publish.
+export const constrainedAutonomyEditorialThumbnail = {
+  src: constrainedAutonomyEditorialThumbnailSrc,
+  alt: "PLACEHOLDER — pending Milim editorial thumbnail for the constrained-autonomy post.",
+} as const;
+
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/constrained-autonomy",
+    category: "Agent Skills",
+    tags: ["Prompting", "Sub-Agents", "Delegation"],
+    date: "August 3, 2026",
+    readTime: "7 min read",
+    title: "Constrained Autonomy: Why a Flawless Brief Can Make Your Sub-Agent Dumber",
+    description:
+      "Scope is not one dial, it is two: a boundary budget and a trajectory budget. Over-specifying degrades reasoning, yet vague sub-agent prompts cause drift. The resolution — scope the box tightly, under-scope the path — and a safe agency frontier that moves with each model's self-regulation.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: constrainedAutonomyEditorialThumbnail,
+  },
   {
     href: "/blog/rumination-index",
     category: "Agent Skills",
