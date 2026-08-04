@@ -190,6 +190,8 @@ function TwoDialsFigure() {
 }
 
 // [[SAFE_FRONTIER]] — freedom you can safely grant vs. a model's capability × self-regulation.
+// Label layout is phone-aware: anchors and offsets keep callouts clear of each other when the
+// SVG scales to ~320–390px (fixed SVG text does not reflow).
 function SafeFrontierFigure() {
   const px = (t: number) => 90 + t * 610;
   const py = (f: number) => 360 - f * 300;
@@ -205,19 +207,23 @@ function SafeFrontierFigure() {
     .map((p) => p.join(","))
     .join(" ");
 
+  // Keep labels short and fan them away from the vertical ghost line + frontier point.
   const points: {
     t: number;
     f: number;
     color: string;
     label: string;
     sub: string;
-    anchor: "start" | "end";
+    anchor: "start" | "end" | "middle";
     dx: number;
     dy: number;
   }[] = [
-    { t: 0.2, f: 0.18, color: "#f59e0b", label: "Small, drift-prone worker", sub: "short leash + more structure", anchor: "start", dx: 12, dy: 4 },
-    { t: 0.5, f: 0.42, color: "#38bdf8", label: "High-IQ, low-EQ (ruminates)", sub: "kept tight despite being smart", anchor: "start", dx: 12, dy: 4 },
-    { t: 0.9, f: 0.9, color: "#ec4899", label: "Frontier, self-regulating", sub: "loose box, almost no path", anchor: "end", dx: -12, dy: 4 },
+    // Bottom-left: label above-right so it clears the x-axis.
+    { t: 0.2, f: 0.18, color: "#f59e0b", label: "Small, drift-prone", sub: "short leash + structure", anchor: "start", dx: 12, dy: -22 },
+    // Mid: label left of the point so it never collides with the ghost callout above.
+    { t: 0.5, f: 0.42, color: "#38bdf8", label: "High-IQ, low-EQ", sub: "kept tight (ruminates)", anchor: "end", dx: -12, dy: 4 },
+    // Top-right: label above-left, clear of the ghost line and zone copy.
+    { t: 0.9, f: 0.9, color: "#ec4899", label: "Frontier, self-reg", sub: "loose box, free path", anchor: "end", dx: -12, dy: -18 },
   ];
 
   return (
@@ -236,30 +242,34 @@ function SafeFrontierFigure() {
         {/* Safe band */}
         <polygon points={band} fill="rgba(52,211,153,0.12)" stroke="#34d399" strokeWidth="1.4" strokeDasharray="5,4" />
         <text
-          x={px(0.62)}
-          y={py(0.62)}
+          x={px(0.58)}
+          y={py(0.55)}
           fill="#34d399"
-          fontSize="12"
+          fontSize="11"
           fontWeight="700"
           textAnchor="middle"
-          transform={`rotate(-26, ${px(0.62)}, ${py(0.62)})`}
+          transform={`rotate(-26, ${px(0.58)}, ${py(0.55)})`}
         >
           safe agency frontier
         </text>
 
-        {/* Zone labels */}
-        <text x={px(0.16)} y={py(0.9)} fill="#f43f5e" fontSize="12" fontWeight="700">Too loose</text>
-        <text x={px(0.16)} y={py(0.9) + 16} fill="#94a3b8" fontSize="10.5">drift · duplication · loops</text>
-        <text x={px(0.16)} y={py(0.9) + 30} fill="#94a3b8" fontSize="10.5">→ off the rails</text>
+        {/* Zone labels — parked in corners, clear of example points */}
+        <text x={px(0.08)} y={py(0.92)} fill="#f43f5e" fontSize="11" fontWeight="700">Too loose</text>
+        <text x={px(0.08)} y={py(0.92) + 14} fill="#94a3b8" fontSize="10">drift · loops · rails</text>
 
-        <text x={px(0.66)} y={py(0.2)} fill="#f59e0b" fontSize="12" fontWeight="700">Too tight</text>
-        <text x={px(0.66)} y={py(0.2) + 16} fill="#94a3b8" fontSize="10.5">wasted agency (overhang)</text>
-        <text x={px(0.66)} y={py(0.2) + 30} fill="#94a3b8" fontSize="10.5">brittle chains that snap</text>
+        <text x={px(0.72)} y={py(0.14)} fill="#f59e0b" fontSize="11" fontWeight="700">Too tight</text>
+        <text x={px(0.72)} y={py(0.14) + 14} fill="#94a3b8" fontSize="10">wasted agency</text>
+        <text x={px(0.72)} y={py(0.14) + 28} fill="#94a3b8" fontSize="10">brittle chains</text>
 
-        {/* Ghost "off the rails" point for the ruminator */}
+        {/* Ghost "off the rails" point for the ruminator — callout LEFT of the line */}
         <line x1={px(0.5)} y1={py(0.42)} x2={px(0.5)} y2={py(0.82)} stroke="#f43f5e" strokeWidth="1.4" strokeDasharray="3,3" />
         <circle cx={px(0.5)} cy={py(0.82)} r="6" fill="none" stroke="#f43f5e" strokeWidth="1.6" />
-        <text x={px(0.5) + 12} y={py(0.82) + 4} fill="#f43f5e" fontSize="10">if treated as "smart" → off the rails</text>
+        <text x={px(0.5) - 12} y={py(0.82) - 2} fill="#f43f5e" fontSize="10" textAnchor="end">
+          if treated as &quot;smart&quot;
+        </text>
+        <text x={px(0.5) - 12} y={py(0.82) + 12} fill="#f43f5e" fontSize="10" textAnchor="end">
+          → off the rails
+        </text>
 
         {/* Example points */}
         {points.map((p) => (
@@ -268,7 +278,7 @@ function SafeFrontierFigure() {
             <text x={px(p.t) + p.dx} y={py(p.f) + p.dy} fill="#f8fafc" fontSize="11" fontWeight="600" textAnchor={p.anchor}>
               {p.label}
             </text>
-            <text x={px(p.t) + p.dx} y={py(p.f) + p.dy + 14} fill="#94a3b8" fontSize="10" textAnchor={p.anchor}>
+            <text x={px(p.t) + p.dx} y={py(p.f) + p.dy + 13} fill="#94a3b8" fontSize="10" textAnchor={p.anchor}>
               {p.sub}
             </text>
           </g>
@@ -277,10 +287,10 @@ function SafeFrontierFigure() {
         {/* Axes */}
         <line x1="90" y1="360" x2="700" y2="360" stroke="#334155" strokeWidth="1.5" />
         <line x1="90" y1="60" x2="90" y2="360" stroke="#334155" strokeWidth="1.5" />
-        <text x="395" y="410" fill="#94a3b8" fontSize="11.5" fontWeight="600" textAnchor="middle">
-          Model capability × effective context × self-regulation  →
+        <text x="395" y="400" fill="#94a3b8" fontSize="11" fontWeight="600" textAnchor="middle">
+          Capability × context × self-regulation  →
         </text>
-        <text x="30" y="210" fill="#94a3b8" fontSize="11.5" fontWeight="600" textAnchor="middle" transform="rotate(-90, 30, 210)">
+        <text x="28" y="210" fill="#94a3b8" fontSize="11" fontWeight="600" textAnchor="middle" transform="rotate(-90, 28, 210)">
           Freedom you can safely grant  →
         </text>
       </svg>
@@ -320,9 +330,6 @@ export default function BlogPostPage() {
             and to size the box to each model&apos;s self-regulation, not its raw intelligence.
           </p>
         </header>
-        {/* Milim Editorial Thumbnail — PLACEHOLDER (rumination-index art reused).
-            TODO(thumbnail): generate the real Milim editorial thumbnail via the
-            milim-editorial-thumbnail skill and swap in before publish. */}
         <figure className="blog-post-illustration">
           <img
             src={constrainedAutonomyEditorialThumbnail.src.src}

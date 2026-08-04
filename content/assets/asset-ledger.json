@@ -566,6 +566,23 @@
       "derivatives": []
     },
     {
+      "id": "logo-gaia-slime-logo",
+      "path": "assets/brand/logo/gaia-slime-logo.png",
+      "kind": "logo",
+      "status": "candidate",
+      "sourceType": "brand",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "ecd9b308b9327d0e5d5fb7df35882129871d8d27340ef51d2b7c9eebc0b7b915",
+      "bytes": 79655,
+      "dimensions": {
+        "width": 295,
+        "height": 295
+      },
+      "derivatives": []
+    },
+    {
       "id": "logo-logo-black",
       "path": "assets/brand/logo/logo-black.svg",
       "kind": "logo",
@@ -579,6 +596,23 @@
       "dimensions": {
         "width": 64,
         "height": 64
+      },
+      "derivatives": []
+    },
+    {
+      "id": "logo-logo-mark-png",
+      "path": "assets/brand/logo/logo-mark.png",
+      "kind": "logo",
+      "status": "candidate",
+      "sourceType": "brand",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "ecd9b308b9327d0e5d5fb7df35882129871d8d27340ef51d2b7c9eebc0b7b915",
+      "bytes": 79655,
+      "dimensions": {
+        "width": 295,
+        "height": 295
       },
       "derivatives": []
     },
@@ -1569,6 +1603,23 @@
       "derivatives": []
     },
     {
+      "id": "agentskills-io-standard-editorial-thumbnail",
+      "path": "assets/generated/agentskills-io-standard-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "d1740ba44d3edf1ea6d27e428d3e9073d66dfcfcb6c643190ae577a685aa217a",
+      "bytes": 180016,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
+    },
+    {
       "id": "chief-scout-hero",
       "path": "assets/generated/chief-scout-hero.png",
       "kind": "hero-illustration",
@@ -1609,6 +1660,23 @@
       },
       "derivatives": [],
       "notes": "User-approved source from Codex generated image set 019f9f27-cf9d-7413-938d-caa634b99703; center-cropped and exported as a 1600x900 WebP at quality 90."
+    },
+    {
+      "id": "constrained-autonomy-editorial-thumbnail",
+      "path": "assets/generated/constrained-autonomy-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "d5b5907699ae5d1bd79d922b73ad4d7b66b757187603aa8322bd5d83fa7c39a5",
+      "bytes": 292520,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
     },
     {
       "id": "context-diet-empty-state",
@@ -1659,7 +1727,6 @@
         "width": 1600,
         "height": 900
       },
-      "notes": "Approved from assets/workbench/generated/context-diet-hero-chicken-diner-b.png; exported as compact 1600x900 WebP at quality 82.",
       "derivatives": [
         "assets/generated/exports/context-diet/context-diet-og.png",
         "assets/generated/exports/context-diet/context-diet-og.webp",
@@ -1669,7 +1736,8 @@
         "assets/generated/exports/context-diet/context-diet-hero-4-3.webp",
         "assets/generated/exports/context-diet/context-diet-hero-3-4.avif",
         "assets/generated/exports/context-diet/context-diet-hero-3-4.webp"
-      ]
+      ],
+      "notes": "Approved from assets/workbench/generated/context-diet-hero-chicken-diner-b.png; exported as compact 1600x900 WebP at quality 82."
     },
     {
       "id": "context-diet-loading-state",
@@ -1737,7 +1805,24 @@
         "width": 1600,
         "height": 900
       },
-      "notes": "Approved from assets/workbench/generated/context-diet-method-mall-mirror-approved.png; exported as compact 1600x900 WebP at quality 82.",
+      "derivatives": [],
+      "notes": "Approved from assets/workbench/generated/context-diet-method-mall-mirror-approved.png; exported as compact 1600x900 WebP at quality 82."
+    },
+    {
+      "id": "daily-agent-radar-2026-07-24-editorial-thumbnail",
+      "path": "assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "a62ab77479938eb0eb872ad3a6d2f51a28ffd41e8a61c40c850d02bdf4d5de11",
+      "bytes": 141572,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
       "derivatives": []
     },
     {
@@ -2425,6 +2510,40 @@
         "assets/generated/exports/research-og/research-og-twitter.png",
         "assets/generated/exports/research-og/research-og-twitter.webp"
       ]
+    },
+    {
+      "id": "rumination-index-aa",
+      "path": "assets/generated/rumination-index-aa.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "d26edb6930cdd4858424ad2f5a9e69f1d91e1aaee33285d308022025a4df650c",
+      "bytes": 56976,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
+    },
+    {
+      "id": "rumination-index-editorial-thumbnail",
+      "path": "assets/generated/rumination-index-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "0a4ee765035f263f823fa252901d7a0e3bc7c476b313e4f188926b44edea4669",
+      "bytes": 240176,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
     },
     {
       "id": "skill-evals-editorial-thumbnail",

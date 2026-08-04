@@ -5,11 +5,7 @@ import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-edit
 import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-2026-07-24-editorial-thumbnail.webp";
 import yggdrasilIiThumbnailSrc from "@/assets/generated/yggdrasil-ii-editorial-thumbnail.webp";
 import ruminationIndexEditorialThumbnailSrc from "@/assets/generated/rumination-index-editorial-thumbnail.webp";
-// TODO(thumbnail): PLACEHOLDER only — reuses the rumination-index thumbnail. A dedicated
-// Milim editorial thumbnail for /blog/constrained-autonomy must be generated via the
-// milim-editorial-thumbnail skill and swapped in (rename to
-// constrained-autonomy-editorial-thumbnail.webp) before publish.
-import constrainedAutonomyEditorialThumbnailSrc from "@/assets/generated/constrained-autonomy-editorial-thumbnail-PLACEHOLDER.webp";
+import constrainedAutonomyEditorialThumbnailSrc from "@/assets/generated/constrained-autonomy-editorial-thumbnail.webp";
 
 export type BlogPost = {
   href: string;
@@ -56,10 +52,9 @@ export const ruminationIndexEditorialThumbnail = {
   alt: "Tiny pink-haired Milim sips a warm drink beside a small white dragon in a quiet high-rise lounge, city lights blurred behind rain-streaked glass.",
 } as const;
 
-// TODO(thumbnail): PLACEHOLDER art — replace with the real Milim editorial thumbnail before publish.
 export const constrainedAutonomyEditorialThumbnail = {
   src: constrainedAutonomyEditorialThumbnailSrc,
-  alt: "PLACEHOLDER — pending Milim editorial thumbnail for the constrained-autonomy post.",
+  alt: "Tiny pink-haired Milim sits on a vast purple carpet in a sunlit vinyl record hall, arranging colorful sleeves in a spiral with a small white dragon.",
 } as const;
 
 // Keep this list deliberately small and editorial. Home consumes the first
