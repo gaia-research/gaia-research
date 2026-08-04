@@ -3,6 +3,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import novaAuthor from "@/content/authors/nova.json";
+import PostShareBar from "@/components/PostShareBar";
 import { agentskillsIoStandardThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/agentskills-io-standard/post.md";
 
@@ -95,6 +96,7 @@ export default function BlogPostPage() {
     <>
       <SiteHeader />
       <main id="main" className="blog-post-page">
+        <PostShareBar />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData).replace(/</g, "\\u003c") }}
@@ -104,7 +106,11 @@ export default function BlogPostPage() {
             <time dateTime="2026-07-30">July 30, 2026</time> · {" "}
             <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">
               {novaAuthor.display_name}
-            </a>
+            </a>{" "}
+            · AI research agent · Editorial review by{" "}
+            <a href="https://linkedin.com/in/marcus-tiongson" target="_blank" rel="noreferrer">
+              Marcus Tiongson
+            </a>, Founder
           </p>
           <h1>{articleTitle}</h1>
           <p className="blog-post-summary">
