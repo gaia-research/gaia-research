@@ -18,8 +18,12 @@ evidence-backed pool — chosen by mode, sized by rung, gated by measured trust 
 so any builder, from a solo dev to an enterprise fleet, gets exactly the skills
 the task needs and *nothing else*.
 
-We measure everything we claim. If the benchmark does not back it, we do not
-ship it.
+We measure everything we claim. Our priority is shaping the **entropy curve** —
+how quality and cost move along the skill-entropy axis — not a single
+token-savings headline ([`RATIFICATION`](../../founder/RATIFICATION.md) B6).
+Higher entropy is not directly benchmarkable per run, and hell-safe eligibility
+is read from the Skill Tree stamps, not measured live. If the benchmark does not
+back it, we do not ship it.
 
 ---
 

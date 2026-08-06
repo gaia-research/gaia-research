@@ -2,7 +2,7 @@
   "lexicon": "2",
   "namespace": "gaia.brand",
   "extends": "core",
-  "updated": "2026-07-28",
+  "updated": "2026-08-06",
   "about": "Brand and character vocabulary — the names that carry voice rather than mechanism.",
   "terms": [
     {
@@ -10,7 +10,14 @@
       "state": "canonical",
       "group": "names",
       "oracle": "N7",
-      "definition": "The Hell-mode persona. The Heaven persona's name is RESERVED and undecided — nothing may hard-code one; it lives in the marketing-tasks brand extension when it closes."
+      "definition": "The Gaia Research lab mascot. NOT the Skill Heaven / Skill Hell persona (founder ruling 2026-08-06, reversing the prior N7). Milim stays in Gaia Research."
+    },
+    {
+      "term": "Lucy",
+      "state": "parked",
+      "group": "names",
+      "oracle": "N7",
+      "definition": "Internal working name for the Skill Heaven / Skill Hell persona (the Skill Angel; Heaven form and a fallen Hell inversion). The DESIGN is final (site prototype, `skill-heaven/packages/site`), but the PUBLIC name is reserved and undecided — do not hard-code 'Lucy' in user-facing copy or shipped code. Parked until the public name is chosen."
     }
   ]
 }

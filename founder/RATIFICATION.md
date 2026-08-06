@@ -42,16 +42,18 @@
 
 | # | Status | Decision |
 |---|---|---|
-| N1 | **CURRENT** | **Modes plus a ladder.** The product is discrete **mode switching**, and within a mode a **ladder** sets how much enters context. The entry mechanism never changes what a mode means. The control is a ladder with discrete rungs — never a continuous fader. |
+| N1 | **CURRENT** | **Modes plus a ladder.** The product is discrete **mode switching**, and within a mode a **ladder** sets how much enters context. The entry mechanism never changes what a mode means. The control is a ladder with discrete rungs — never a continuous fader. ⚠️ **N11 recasts this for the user-facing surface: one entropy ladder whose regions *are* the modes. "Discrete rungs, never a fader" survives intact.** |
 | N2 | **CURRENT** | Mode names are **"Skill Heaven mode"** and **"Skill Hell mode"** — the skill terms lead even where a mode also touches context or prompt. |
-| N3 | **CURRENT** | Levels use agentic-coding terms: `off · low · med · high · xhigh · max`. No celestial level names. |
+| N3 | **CURRENT** | Levels use agentic-coding terms: `off · low · med · high · xhigh · max`. No celestial level names. **These rung labels are entropy levels (N11).** |
 | N4 | **CURRENT** | **`ultra` survives**, as the arm above Hell — a **mode**, not a rung (the ladder's top rung is `max`). This is also what the ledger's frozen arm key already assumes, so nothing migrates. ⚠️ The mode-not-rung placement is inferred from P5, not ruled outright; correct freely. |
-| N5 | **CURRENT** | **Two dials, not one scale**: mode (Heaven · Hell · Ultra) × ladder rung (`off…max`). ⚠️ Inferred from P5 rather than ruled on directly; correct freely. |
+| N5 | **CURRENT — NARROWED BY N11** | **Two dials, not one scale**: mode (Heaven · Hell · Ultra) × ladder rung (`off…max`). ⚠️ **On the user-facing surface N11 collapses these into one entropy ladder where mode is a *region* of the rung axis; the two-dial model survives only as internal mechanism, not as what the user sees.** |
 | N6 | **CURRENT** | The index is the **Hell Heaven (HH) Index**; schema key `hellHeaven`. Becomes INVARIANT once the canon ask lands upstream. |
-| N7 | **INVARIANT** | **Milim is the Hell-mode persona.** The Heaven persona's name is reserved and undecided — **nothing may hard-code one**. Credit Matt Pocock for naming Skill Hell; the frame is "Stop installing. Start summoning." |
+| N7 | **INVARIANT** | **Milim is the Gaia Research lab mascot — NOT the Skill Heaven / Skill Hell persona** (reverses the prior N7; see the supersession log). The line has its own persona: **its design is final** (site prototype, `packages/site`), its **public name is reserved and undecided** — nothing may hard-code one — and its **internal working name is Lucy**. Credit Matt Pocock for naming Skill Hell; the frame is "Stop installing. Start summoning." |
 | N8 | **CURRENT** | **Positioning: scalpel, not door.** The user lives in a bare harness and reaches for this when it hurts. Pain vocabulary is **context bloat**; the name carries the brand, the tagline carries the symptom. Mental model is **harness-first** — never a `sudo`-style wrapper identity. **After the reach, the in-session surface is a truthful map, bound by one rule: never claim a transition the harness cannot perform.** Four readings of that rule: **capability discovery** — the surface states where the session sits and what it costs, claimed from the launch record and never guessed; a session with no record gets no readout. **Posture adjustment** — the surface explains the moves and offers only those the harness can perform, upward in-session, downward only at boot (D12); every command it prints must be one the tool accepts. **Clean-room access** — the clean room and the product floor are one posture under two names, and neither name retires the other; it is unlocked only for a session that launched there, and everywhere else a visibly locked upsell that states its reason and never a command the tool then refuses (which mechanism opens it is OPEN 11). **Refusal transparency** — a gated target gets an explicit, honest refusal that names the gate (P2), and a posture name the engine knows is answered honestly, never rendered as an unknown word. |
 | N9 | **INVARIANT** | **Names are settled**: the `skill-heaven` monorepo doubles as the plugin marketplace; user-facing installables are the **per-harness doors**; the core bin survives as the research driver. In-session commands `/skill-heaven` and `/skill-hell`. The extensions are the product and the core is the engine — not the inverse. Invariant because the repo exists and reversing it now costs more than it buys. |
 | N10 | **CURRENT** | <!-- lexicon-allow --> **A ban retires a word, not the method it named.** Two terms coined in matrix gate (a) are retired as vocabulary: `lean` and `add-ons`. The mechanisms they described are untouched — `--setting-sources project` still composes, and stacking still works at every posture (route G) — but neither keeps its name. **Naming stays open:** no successor is ratified for either, and `project-only` was the standing proposal for `lean` and is **not** adopted by this entry. A banned term with no successor must declare `"naming": "open"` in the lexicon rather than leave `replacement` empty, so an omission can never read as a ruling. Consequence for writers: **rephrase, do not substitute.** |
+| N11 | **CURRENT** | **The user-facing dial is a single ENTROPY ladder.** `off · low · med · high · xhigh · max · ultra` is one axis, and what it measures is **skill entropy** — the disorder a skill loadout adds to context. **Heaven is the low-entropy region** (`off · low · med`), **Hell the high-entropy region** (`high · xhigh · max`), **`ultra` above**. Mode is therefore a *region of the ladder*, not a second orthogonal dial — this **supersedes the two-dial reading of N1/N5 on the user-facing surface**. Up the ladder, **quality rises and cost rises together**; a skill entering context "pollutes" it, raising entropy — which is why **Skill Hell routes through gaia mcp as a mixture-of-agents for skills** (D4/D5). |
+| N12 | **CURRENT** | **The product domain is `skill-heaven.dev`, served from the site package in the `skill-heaven` monorepo.** Final — only registration/cost is outstanding. |
 
 ## 2. Posture semantics
 
@@ -89,6 +91,7 @@
 | B3 | **INVARIANT** | **Determinism does not exist** in any target harness: N repeats plus confidence intervals. The ledger validator rejects a fixed-run field. |
 | B4 | **INVARIANT** | **The ledger is always on**, the claim-discipline table binds all public copy, and **no claim ships ahead of its benchmark**. A **"will not work" ledger is as first-class as a "will work" one** — verified negative findings are recorded with the same rigor. If Hell does not net-save, Heaven becomes the hero. |
 | B5 | **INVARIANT** | **Benchmark arms run on clean sandboxed harness installs.** A user-configured local install is native-posture evidence at best; workstation runs are smoke evidence and must say so. |
+| B6 | **CURRENT** | **We shape the entropy CURVE, not a token-savings headline.** The priority claim is how **quality and cost move along the skill-entropy axis** (N11) — the general curve — not a single token-reduction number. Higher entropy is **not directly benchmarkable per run**; **hell-safe eligibility is read from the Skill Tree stamps** (G1/G2), not measured live. This does not amend B1's separate-dose discipline or B2's placebo anchoring — it sets what the headline is *about*. |
 
 ## 5. Governance & structure
 
@@ -98,7 +101,22 @@
 | G2 | **CURRENT** | **Stamps are discrete set-membership**; routing is lookup, no arithmetic. The numeric float stays provisional until the research shows signal beyond the stamps. |
 | G3 | **INVARIANT** | **This decision system**: one accepted ratification doc per repo in `founder/`, everything else archived. Public decisions here, enterprise decisions in the private lane. An RFC closes only when all its decisions close here. |
 
-## 6. Open items — do not improvise these
+## 6. Business model & sourcing
+
+| # | Status | Decision |
+|---|---|---|
+| C1 | **CURRENT** | **Skill Heaven and Skill Hell are free.** The doors, the core engine, and a **bundled `gaia mcp`** ship at no cost — the free product is the whole runtime layer plus its transport. |
+| C2 | **CURRENT** | **`gaia mcp` defaults to the Gaia Skill Tree** as its remote skill source. Canon is the out-of-the-box pool a summon draws from; no configuration required to reach it. |
+| C3 | **OPEN** | **How the free tier is metered.** A **usage meter on `gaia mcp`** is the leaning instrument, but **whether a paywall sits on it, and where, is undecided** — nothing may build a paywall into the free path until this is ruled. Kept open on purpose, so a failed test can force a pivot. |
+| C4 | **CURRENT — IN PROGRESS** | **Custom, non-Gaia skill-tree endpoints are a separate product** (working name **"Your Skill Tree"**, not final). Bring-your-own / private skill trees, **privacy-focused and built for enterprise**; **enterprise skills are paywalled per `gaia mcp` usage, metered like tokens**. Shape is almost final and implementation is in the works, so this stays **amendable** — several of its edges are deliberately soft pending test outcomes. |
+
+*Relationship: this is the Skill Heaven **line's** commercial shape and partially
+reactivates, for this line, the enterprise thread `GAIA_ROADMAP v5` deferred at
+the ecosystem level (V5-9) and the billing it placed out of scope. This line
+oracle wins for the line; the ecosystem roadmap owns its own timing. Consistent
+with D2 (MCP additive-only) and D4 (≤2-tool surface, its schema dose measured).*
+
+## 7. Open items — do not improvise these
 
 1. <!-- lexicon-allow --> **Posture-set collision.** The shipped set does not match P1's four. Proposal on the table: two of the shipped stops are not rungs but **axes** — stacking add-ons is an action available at *any* posture, and behavioral restraint is behavioral, not positional. (The word `add-ons` is retired by N10; the action it names is what this open item is about, and stays open.)
 2. **Compaction survival (needs a probe).** P5 asserts a summoned skill does
@@ -131,7 +149,7 @@
 or two → N5 · `ultra` in the frozen ledger key — no longer a conflict, N4 keeps
 the arm name the ledger already uses.)
 
-## 7. Pointer map
+## 8. Pointer map
 
 | Doc | Role |
 |---|---|
@@ -148,13 +166,20 @@ The private lane (ideas, undecided RFCs, enterprise decisions, the persona
 board) and canon (read-only; the stamp-schema target) sit outside this repo per
 G1/G3.
 
-## 8. Supersession log
+## 9. Supersession log
 
 **`git log -p founder/RATIFICATION.md` is the supersession log.** Only reversals
 of a **publicly shipped claim** are written here — those need an audit trail a
 reader can find. Internal changes of mind do not, and writing them all down is
 what made the previous log longer than the decisions themselves.
 
+- **2026-08-06 — N7 reversed: Milim is no longer the Skill Heaven / Skill Hell persona.**
+  Milim returns to being purely the Gaia Research lab mascot; the line keeps its
+  own persona (final design, reserved public name, internal working name Lucy).
+  The prior ruling — "Milim is the Hell-mode persona" — had reached the site
+  `PRODUCT.md` and the `gaia.brand` lexicon, so the reversal is logged here.
+  The marketing-tasks persona RFCs premised on it (#119/#120/#121) are closed as
+  superseded.
 - **2026-07-22 — D12's "fork recomposes subtractively" claim was falsified.**
   The original finding came from an unreliable probe method; a deterministic
   re-probe reversed it. Subtractive recomposition and conversation-history

@@ -2,15 +2,25 @@
   "lexicon": "2",
   "namespace": "gaia.heaven",
   "extends": "core",
-  "updated": "2026-07-29",
-  "about": "The Skill Heaven / Skill Hell product line: the two dials (ladder and mode), the postures they name, the mechanisms that move skills in and out of a session, and the launcher/door names. skill-heaven consumes this namespace; it does not own it.",
+  "updated": "2026-08-06",
+  "about": "The Skill Heaven / Skill Hell product line: the entropy ladder (the single user-facing dial), the postures it names, the mechanisms that move skills in and out of a session, and the launcher/door names. skill-heaven consumes this namespace; it does not own it.",
   "terms": [
+    {
+      "term": "skill entropy",
+      "state": "canonical",
+      "group": "entropy",
+      "oracle": "N11, B6",
+      "synonyms": [
+        "entropy"
+      ],
+      "definition": "The disorder a skill loadout adds to a session's context — the single axis the user-facing ladder measures (N11). A skill entering context 'pollutes' it, raising entropy. Heaven = lower skill entropy (cleaner context, fewer skills); Hell = higher skill entropy (more summoned, richer but noisier). Quality and cost both rise with it. The product's priority is shaping the general entropy curve against quality and cost — NOT a token-savings headline (B6); higher entropy is not directly benchmarkable per run, so hell-safe eligibility is read from the Skill Tree."
+    },
     {
       "term": "ladder",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N1, N5, P5",
-      "definition": "The rung axis (`off…max`) that sets how much may be summoned per task and how much of the choosing is automated. One of two dials, with mode as the other."
+      "oracle": "N1, N5, N11, P5",
+      "definition": "The single user-facing dial: the entropy axis `off…max` with `ultra` above, measuring skill entropy — how much may be summoned per task and how much of the choosing is automated. Its regions ARE the modes (N11): `off·low·med` = Heaven (low entropy), `high·xhigh·max` = Hell (high entropy), `ultra` above. N11 supersedes the earlier 'one of two dials' reading on the user-facing surface."
     },
     {
       "term": "posture",
@@ -57,8 +67,8 @@
       "term": "hell lane",
       "state": "canonical",
       "group": "posture",
-      "oracle": "P1",
-      "definition": "The evidenced pool, honesty-gated, above native — how much of it enters is the ladder's rung."
+      "oracle": "P1, N11, B6",
+      "definition": "The high-entropy region above native: the evidenced pool, honesty-gated. How much of it enters is the ladder's rung (N11). Skills entering context raise skill entropy, so Hell routes through gaia mcp as a mixture-of-agents for skills — quality rises with cost. Hell-safe eligibility is read from the Skill Tree, not measured live (B6)."
     },
     {
       "term": "clean-room",
@@ -157,15 +167,15 @@
       "term": "mode",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N1, N2",
-      "definition": "Discrete mode switching — the interaction model. Same mode, same semantics, any door. N2 leans 'Skill Heaven mode' / 'Skill Hell mode'."
+      "oracle": "N1, N2, N11",
+      "definition": "Discrete mode switching — the interaction model. Same mode, same semantics, any door. On the user-facing surface a mode is a REGION of the entropy ladder (N11): Heaven = low-entropy rungs, Hell = high-entropy rungs, Ultra above. N2 leans 'Skill Heaven mode' / 'Skill Hell mode'."
     },
     {
       "term": "level",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N3",
-      "definition": "Agentic-coding level terms: off · low · med · high · xhigh · max. No celestial level names."
+      "oracle": "N3, N11",
+      "definition": "Agentic-coding level terms: off · low · med · high · xhigh · max. No celestial level names. These are the entropy levels (N11): the rung labels on the single entropy ladder."
     },
     {
       "term": "Heaven-0",
@@ -258,6 +268,20 @@
       "group": "names",
       "oracle": "N9",
       "definition": "The product monorepo (`gaia-research/skill-heaven`), which doubles as the Claude Code plugin marketplace. Its core bin is the research driver, not the user-facing install."
+    },
+    {
+      "term": "skill-heaven.dev",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N12",
+      "definition": "The product's public domain, served from the `packages/site` package inside the `skill-heaven` monorepo. Final; only registration/cost is outstanding."
+    },
+    {
+      "term": "Your Skill Tree",
+      "state": "parked",
+      "group": "names",
+      "oracle": "C4",
+      "definition": "Working name for the separate, in-progress product that serves custom, non-Gaia (bring-your-own / private) skill-tree endpoints through `gaia mcp` — privacy-focused and built for enterprise, where skills are paywalled per MCP usage (C4). Name is NOT final and the product is in the works; parked until it ships and the name is chosen."
     },
     {
       "term": "claude-heaven",
