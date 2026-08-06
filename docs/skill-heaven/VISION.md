@@ -53,28 +53,41 @@ The analogy is exact, and we make it load-bearing:
 | Proposer-pool quality caps the ceiling | **Registry evidence-coverage caps the payoff** — the honesty gate, §5 |
 
 More skills is literally more experts in the mixture — and MoA says that helps
-*until it doesn't*. The ladder is where "doesn't" lives. Gaia's edge over a naive
+*until it doesn't*. Every skill that enters context "pollutes" it, raising
+**skill entropy** — the single axis the ladder measures (§3). **Skill Hell is
+that mixture-of-agents for skills**: it routes through `gaia-mcp`, the
+deterministic router, summoning more experts as you climb — quality up, cost up,
+together. The ladder is where "until it doesn't" lives. Gaia's edge over a naive
 mixture: the pool is an **evidence-backed registry**, not a pile of hyped
 plugins. Better experts, provable.
 
 ---
 
-## 3. Two dials, not one
+## 3. One dial: the entropy ladder
 
-You pick a **mode** — Heaven, Hell, or Ultra — and a **rung** on the ladder:
-`off · low · med · high · xhigh · max`. The mode says *which direction*. The rung
-says *how much*.
+There is **one** user-facing dial, and it is an **entropy ladder**:
+`off · low · med · high · xhigh · max · ultra`. What it measures is **skill
+entropy** — the disorder a skill loadout adds to your session's context. Climb
+it and both **quality and cost rise together**: more skills in the room means
+more experts, richer work, and a noisier, costlier context.
+
+The **modes are regions of this one ladder**, not a second dial:
 
 ```
- mode:   ☁️ HEAVEN ────────── NATIVE ────────── 🔥 HELL ── ⚡ ULTRA
- rung:   off ── low ── med ── high ── xhigh ── max
+ skill entropy →  off ── low ── med ── high ── xhigh ── max ── ultra
+                 └──── ☁️ HEAVEN ────┘└───── 🔥 HELL ─────┘   ⚡ ULTRA
+                     (low entropy)         (high entropy)      (above)
 ```
 
-This page used to claim the two were one axis — that skill breadth simply *was*
-your effort setting, one dial you already knew. It reads well and it isn't true:
-how hard your agent should think and how much it should carry are different
-questions. **Native is the default**, and staying there is a perfectly good
-answer.
+Heaven is the **low-entropy** region (`off · low · med`) — a cleared, quiet
+room. Hell is the **high-entropy** region (`high · xhigh · max`) — the room
+filling with summoned experts. `ultra` sits above.
+
+This page used to argue that mode and rung were two separate axes. On the
+surface the user actually touches, they are not: there is one axis — skill
+entropy — and the mode is simply *where on it you are standing* (per
+[`RATIFICATION`](../../founder/RATIFICATION.md) N11). **Native — your own setup,
+untouched — is the default**, and staying there is a perfectly good answer.
 
 ---
 
