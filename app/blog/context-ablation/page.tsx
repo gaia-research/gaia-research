@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import PostShareBar from "@/components/PostShareBar";
 import marcusAuthor from "@/content/authors/marcus.json";
+import { contextAblationEditorialThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/context-ablation/post.md";
 
 export const dynamic = "force-static";
@@ -13,6 +14,7 @@ const siteUrl = "https://research.gaiaskilltree.com";
 const articlePath = "/blog/context-ablation";
 const articleUrl = `${siteUrl}${articlePath}`;
 const articleTitle = "Context Ablation: Press Delete Without Losing the Experiment";
+const thumbnailUrl = `${siteUrl}${contextAblationEditorialThumbnail.src.src}`;
 const articleDescription =
   "Context ablation is a controlled way to test whether an agent still needs a context block: checkpoint the original, remove one unit, run paired evaluations, and accept only an exact reversible candidate.";
 
@@ -36,11 +38,18 @@ export const metadata = {
     description: articleDescription,
     publishedTime: "2026-08-07T00:00:00+08:00",
     authors: [marcusAuthor.display_name],
+    images: [{
+      url: contextAblationEditorialThumbnail.src.src,
+      width: 1600,
+      height: 900,
+      alt: contextAblationEditorialThumbnail.alt,
+    }],
   },
   twitter: {
     card: "summary_large_image",
     title: articleTitle,
     description: articleDescription,
+    images: [contextAblationEditorialThumbnail.src.src],
   },
 };
 
@@ -49,6 +58,7 @@ const articleStructuredData = {
   "@type": "BlogPosting",
   headline: articleTitle,
   description: articleDescription,
+  image: thumbnailUrl,
   url: articleUrl,
   datePublished: "2026-08-07T00:00:00+08:00",
   author: {

@@ -6,6 +6,7 @@ import dailyAgentRadarThumbnailSrc from "@/assets/generated/daily-agent-radar-20
 import yggdrasilIiThumbnailSrc from "@/assets/generated/yggdrasil-ii-editorial-thumbnail.webp";
 import ruminationIndexEditorialThumbnailSrc from "@/assets/generated/rumination-index-editorial-thumbnail.webp";
 import constrainedAutonomyEditorialThumbnailSrc from "@/assets/generated/constrained-autonomy-editorial-thumbnail.webp";
+import contextAblationEditorialThumbnailSrc from "@/assets/generated/context-ablation-editorial-thumbnail.webp";
 
 export type BlogPost = {
   href: string;
@@ -57,6 +58,11 @@ export const constrainedAutonomyEditorialThumbnail = {
   alt: "Tiny pink-haired Milim sits on a vast purple carpet in a sunlit vinyl record hall, arranging colorful sleeves in a spiral with a small white dragon.",
 } as const;
 
+export const contextAblationEditorialThumbnail = {
+  src: contextAblationEditorialThumbnailSrc,
+  alt: "Cheerful pink-haired Milim in a classic sailor uniform sweeps a sunlit classroom floor beside her school satchel.",
+} as const;
+
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
@@ -70,6 +76,7 @@ export const blogPosts: readonly BlogPost[] = [
     description:
       "Context ablation tests whether an agent still needs one context block: checkpoint the original, run paired evaluations, and accept only an exact reversible candidate.",
     author: "Marcus Tiongson · Founder, Gaia Research",
+    image: contextAblationEditorialThumbnail,
   },
   {
     href: "/blog/constrained-autonomy",

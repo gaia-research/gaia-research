@@ -1679,6 +1679,26 @@
       "derivatives": []
     },
     {
+      "id": "context-ablation-editorial-thumbnail",
+      "path": "assets/generated/context-ablation-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "approved",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research · gpt-image-2 editorial commission",
+      "alt": "Cheerful pink-haired Milim in a classic sailor uniform sweeps a sunlit classroom floor beside her school satchel.",
+      "sha256": "2d2ccf299b16f5499ecae98ced82e50ba93c2e817a6645b1dee65a6195d66807",
+      "bytes": 160850,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": [
+        "public/assets/context-ablation-editorial-thumbnail.webp"
+      ],
+      "notes": "User-approved for PR #153; generated with gpt-image-2 and exported as a 1600x900 WebP at quality 90."
+    },
+    {
       "id": "context-diet-empty-state",
       "path": "assets/generated/context-diet-empty-state.webp",
       "kind": "illustration",
