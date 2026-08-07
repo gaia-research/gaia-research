@@ -40,9 +40,10 @@ the thing you want gone — is exactly backwards, and the resulting code looks c
 | Claude Code | `--setting-sources` |
 | Hermes | `--toolsets` |
 
-This class produced the only defect that shipped. Claude's `curated` posture was fixed to use an
-empty allowlist; its sibling `product-floor` kept naming `project` and therefore kept loading
-project-scope skills. The two postures share a mechanism, and the fix was applied to one of them.
+This class produced the one allowlist defect that reached shipped code. Claude's `curated` posture
+was fixed to use an empty allowlist; its sibling `product-floor` kept naming `project` and
+therefore kept loading project-scope skills for a week. The two postures share a mechanism, and
+the fix was applied to one of them. Both are corrected as of this writing.
 
 **Generalisation: when you fix an allowlist, grep for every other caller of the same flag.** A
 per-posture fix on a shared mechanism is a per-posture bug.
@@ -126,8 +127,18 @@ or `skill_manage` are present in the resolved tool set — otherwise the skills 
 string.
 
 So the working lever was `--toolsets`, naming a set that omits `skills`. No filesystem work, no
-scoped home, no auth trap. **No amount of black-box flag probing would have revealed why the
-documented flag failed.** One grep of the harness's own source did.
+scoped home, no auth trap.
+
+**Black-box probing established *that* the documented flag failed; only reading the source
+established *why*** — and it took five separate lookups across the CLI entrypoint, the agent setup
+mixin, the system-prompt builder, the toolset definitions, and the tool resolver. The point is not
+that source-reading is quick. It is that no volume of flag permutations would have produced the
+explanation, and without the explanation the correct lever is not guessable.
+
+One further precision: Hermes distinguishes *preloaded skills* (the `--skills` flag's own content)
+from *the skills index* (the always-present listing). They are separate code paths. `ignore_rules`
+gates neither — which is why the help text is wrong about the first and the toolset allowlist is
+the answer for the second.
 
 ### 3. An account limit is not a harness limit
 
@@ -160,7 +171,8 @@ Note that `--no-prompt-templates` contributes **nothing** on this machine — me
 leaves the total unchanged. It is retained in the composed floor because it suppresses a context
 source that could be non-empty elsewhere, not because it was observed to save anything here.
 
-Standing context falls **74.9%** from baseline to the launchable floor (11,271 → 2,831). The
+Standing context falls **74.9%** from baseline to the launchable floor — the `product-floor`
+posture, the 2,831 row, not the doorless 1,069 row. The
 door — the surface that keeps the launcher reachable — costs **1,762 tokens** (2,831 − 1,069).
 
 **These savings are a property of the working directory, not of pi.** The ~6,900 tokens
@@ -196,10 +208,21 @@ A **64% reduction**, identical across repeats. Note that `--safe-mode` adds noth
 toolset allowlist — consistent with the source analysis above, since it never touches toolsets.
 These are diagnostic usage fields, not a priced Skill Heaven dose.
 
-This harness also produced the cleanest illustration of the confabulation problem: a free-text
-floor listing, run against the composed floor, **invented four skill names**. The load-bearing
-evidence here is the implementation gate plus the stable usage figures, not anything the model
-said about itself.
+The second lever gives a stronger result still. Under a scoped `HERMES_HOME` with the
+`.no-bundled-skills` marker, `hermes skills list` reports:
+
+```
+default profile:  2 hub-installed, 70 builtin, 36 local — 108 enabled, 0 disabled
+scoped home:      0 hub-installed,  0 builtin,  0 local —   0 enabled, 0 disabled
+```
+
+**A verified zero**, twice, from a command that enumerates disk rather than asking a model. This
+is the strongest evidence in the note, and it is strong precisely because of what produced it: a
+disk-enumerating subcommand, not an inference.
+
+The contrast is the point. Against the same composed floor, a free-text listing **invented four
+skill names that do not exist**. One instrument returns zero; the other hallucinates a non-empty
+answer. Both were run on the same harness on the same day.
 
 ### grok 0.2.118
 
@@ -256,12 +279,13 @@ that safely covers arbitrary external roots. That gap is why the grok door ships
 The taxonomy exists to make the sixth door cheap. Two data points, both from the same day:
 
 - **Hermes** was probed without the taxonomy, from scratch, including a full negative-result
-  campaign against the documented flags. Worker cost: **$8.32**.
-- **grok** was probed after its mechanism class had been identified by hand in advance. Worker
-  cost: **$0.59**.
+  campaign against the documented flags.
+- **grok** was probed after its mechanism class had been identified by hand in advance.
 
-These are not controlled measurements — different harnesses, different scopes, one model tier
-apart — and should not be read as a 14× claim. They are recorded because the direction is large
+The second cost roughly an order of magnitude less in model spend than the first, read from the
+session cost logs rather than from any artefact in the repository. These are not controlled
+measurements — different harnesses, different scopes, one model tier apart — and the figures are
+not reproducible from the published record, so no ratio is claimed here. They are recorded because the direction is large
 enough to be worth testing properly, and because the mechanism is plausible: most of a probe
 campaign is spent discovering *which class you are in*.
 
