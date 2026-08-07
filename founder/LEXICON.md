@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-research` · 55 terms across 5 namespace(s) · updated **2026-07-28**.
+> Schema `2` · HQ `gaia-research` · 59 terms across 5 namespace(s) · updated **2026-07-28**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
@@ -16,7 +16,7 @@
 | `core` | `gaia-research` | `founder/lexicon.json` | 2 |
 | `gaia.research` | `gaia-research` | `founder/lexicon.gaia.research.json` | 13 |
 | `gaia.brand` | `gaia-research` | `founder/lexicon.gaia.brand.json` | 1 |
-| `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 36 |
+| `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 40 |
 | `gaia.mcp` | `gaia-research` | `founder/lexicon.gaia.mcp.json` | 3 |
 
 Terms owned by **gaia-research/gaia-skill-tree** are listed name-only in `founder/lexicon.foreign.json` and are
@@ -128,6 +128,7 @@ to make a decision.
 | `summon` | ✅ canonical | D4 | One of gaia-mcp's two tools (with `search_skills`). Additive-only. A summon brings a skill into context once, for this session only — it does not survive a compact or a new session, and installs nothing. |
 | `router` | ✅ canonical | D5 | Deterministic nearest-neighbour over a build-time frozen embedding index. No model call ever decides a loadout. |
 | `firebreak` | ⛔ banned | N1, P5 | Retired 2026-07-24. It named a token ceiling on the summon flood — the thing the ladder now sets and the meter now shows. **Use `ladder`.** Two senses ran side by side: the live 'token-ceiling firebreak' and the archived RFC-68 sense (an architectural boundary against tool-exposure degradation). Neither survives: a cap with a control and a readout does not need a third name. |
+| `context source` | ✅ canonical | N9 | A class of material a harness loads into a session: skills, rule and instruction files, memory, prompt templates, toolsets, plugins and MCP servers, subagents. A posture is a statement about which context sources are admitted — skills are one class among several, and framing a door as suppressing only skills is what caused the Hermes and Grok findings to be missed. |
 
 ### names
 
@@ -140,6 +141,9 @@ to make a decision.
 | `pi-heaven` | ✅ canonical | N9 | The R&D vanguard door — interaction design is proven on pi first, then ported down to Claude Code's more restrictive plugin surface. |
 | `hh-launcher` | ⛔ banned | N9 | Retired working name for the launcher repo. **Use `skill-heaven`.** |
 | `skill-heaven-hell` | ⛔ banned | N9 | Retired fallback repo name. **Use `skill-heaven`.** Retired as a NAME for the repo/installable. The hyphenated string is also the natural URL slug of the line's own name, 'Skill Heaven / Skill Hell', which is fully canonical (this oracle's title uses it) — see the homepage anchor `#skill-heaven-hell`. A slug of the line name is not an instance of the retired name; mark such lines `lexicon-allow` rather than renaming public URL fragments. |
+| `codex-heaven` | ✅ canonical | N9 | The Codex CLI door. Codex's isolation flags are unusually strong — config, session persistence, and the writable filesystem are each independently suppressible per invocation. |
+| `hermes-heaven` | ✅ canonical | N9 | The Hermes Agent door. Hermes seeds bundled skills onto disk in the profile, so its floor is reached by an explicit toolset allowlist that omits the skills toolset, not by a suppression flag. |
+| `grok-heaven` | ✅ canonical | N9 | The Grok door. Grok reads Claude's project and user skill directories, so its context is not self-contained — the first door where a harness loads another harness's sources. |
 
 ## `gaia.mcp`
 

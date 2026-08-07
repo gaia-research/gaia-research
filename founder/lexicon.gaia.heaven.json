@@ -2,7 +2,7 @@
   "lexicon": "2",
   "namespace": "gaia.heaven",
   "extends": "core",
-  "updated": "2026-07-29",
+  "updated": "2026-08-07",
   "about": "The Skill Heaven / Skill Hell product line: the two dials (ladder and mode), the postures they name, the mechanisms that move skills in and out of a session, and the launcher/door names. skill-heaven consumes this namespace; it does not own it.",
   "terms": [
     {
@@ -289,6 +289,34 @@
       "oracle": "N9",
       "definition": "Retired fallback repo name.",
       "note": "Retired as a NAME for the repo/installable. The hyphenated string is also the natural URL slug of the line's own name, 'Skill Heaven / Skill Hell', which is fully canonical (this oracle's title uses it) — see the homepage anchor `#skill-heaven-hell`. A slug of the line name is not an instance of the retired name; mark such lines `lexicon-allow` rather than renaming public URL fragments."
+    },
+    {
+      "term": "codex-heaven",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N9",
+      "definition": "The Codex CLI door. Codex's isolation flags are unusually strong — config, session persistence, and the writable filesystem are each independently suppressible per invocation."
+    },
+    {
+      "term": "hermes-heaven",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N9",
+      "definition": "The Hermes Agent door. Hermes seeds bundled skills onto disk in the profile, so its floor is reached by an explicit toolset allowlist that omits the skills toolset, not by a suppression flag."
+    },
+    {
+      "term": "grok-heaven",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N9",
+      "definition": "The Grok door. Grok reads Claude's project and user skill directories, so its context is not self-contained — the first door where a harness loads another harness's sources."
+    },
+    {
+      "term": "context source",
+      "state": "canonical",
+      "group": "mechanism",
+      "oracle": "N9",
+      "definition": "A class of material a harness loads into a session: skills, rule and instruction files, memory, prompt templates, toolsets, plugins and MCP servers, subagents. A posture is a statement about which context sources are admitted — skills are one class among several, and framing a door as suppressing only skills is what caused the Hermes and Grok findings to be missed."
     }
   ]
 }
