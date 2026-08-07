@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { ContextDietAnalyzer } from "@/components/labs/ContextDietAnalyzer";
 import { ContextDietEvidence } from "@/components/labs/ContextDietEvidence";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 
 const pagePath = "/labs/context-diet";
 const pageUrl = `https://research.gaiaskilltree.com${pagePath}`;
-const pageTitle = "Context Diet v1.1 — Agent Context Audit";
+const pageTitle = "Context Diet v1.2 — Agent Context Audit";
 const pageDescription =
-  "Audit CLAUDE.md, AGENTS.md, and other agent-context files of any size. Estimate safe, recommended, and aggressive reduction before explicitly approving destructive retirement.";
+  "Measure and compact agent-context files without losing rules, or use guided ablation to test intentional omissions with checkpoints, evidence gates, explicit acceptance, and rollback.";
 const socialImage = "/assets/context-diet-hero.webp";
 
 export const metadata: Metadata = {
@@ -57,8 +56,8 @@ export default function ContextDietPage() {
       <SiteHeader />
       <aside className="wip-banner" aria-label="Context Diet Lab 001 leaderboard status">
         <div>
-          <span className="wip-tag">Context Diet v1.1 · now live</span>
-          <p>Audit any context file now. Nothing is removed until you explicitly approve a later pass.</p>
+          <span className="wip-tag">Context Diet v1.2 · now live</span>
+          <p>Preserve every rule in normal compaction—or enter a separate, reversible ablation flow for intentional removal.</p>
           <a href="https://github.com/gaia-research/skill-context-diet">Follow the lab source ↗</a>
         </div>
       </aside>
@@ -71,7 +70,7 @@ export default function ContextDietPage() {
           <div>
             <p className="signal"><span /> LAB 001 / CONTEXT DIET BENCHMARK</p>
             <h1>Context <em>Diet.</em></h1>
-            <p>Every context file pays rent on every run—even when it is nowhere near a hard limit. Measure the drag, set a natural-language goal, and let Context Diet propose what to keep, compress, externalize, or retire.</p>
+            <p>Every context file pays rent on every run—even when it is nowhere near a hard limit. Measure the drag, then compact toward a target while keeping every inventoried rule recoverable. Intentional rule loss belongs to the separate guided ablation mode below.</p>
             <a className="button primary" href="#analyzer">Estimate the diet <span>↓</span></a>
           </div>
           <Image src="/assets/context-diet-hero.webp" alt="Milim and Gaia sharing an oversized basket of fried chicken at a midnight diner counter." width={1600} height={900} priority sizes="(max-width: 800px) 100vw, 50vw" />
@@ -92,19 +91,76 @@ export default function ContextDietPage() {
           <ContextDietEvidence />
         </section>
 
+        <section className="cd-mode-guide section-shell" aria-labelledby="mode-guide-title">
+          <div className="cd-mode-guide-head">
+            <p className="signal"><span /> TWO MODES · DIFFERENT CLAIMS</p>
+            <h2 id="mode-guide-title">Compaction preserves. Ablation tests an omission.</h2>
+            <p>
+              Context Diet does not treat a smaller file as proof of a better one. Choose the path
+              that matches the change you are actually making.
+            </p>
+          </div>
+
+          <div className="cd-mode-compare">
+            <article>
+              <p className="cd-mode-label">Normal mode</p>
+              <h3>Rule-preserving compaction</h3>
+              <p>
+                The default path inventories the original rules, generates review-only candidates,
+                and adversarially checks the complete result—including linked files. A candidate
+                with a weakened or missing load-bearing rule is disqualified.
+              </p>
+              <ul>
+                <li>Measures exact characters and estimates tokens.</li>
+                <li>Compares externalize, condense, telegraphic, and hybrid strategies.</li>
+                <li>Targets 100% recoverable rules; externalization is movement, not deletion.</li>
+                <li>Leaves application to user review through the host&apos;s normal edit flow.</li>
+              </ul>
+              <a className="cd-mode-link" href="https://github.com/gaia-research/skill-context-diet/blob/main/METHODOLOGY.md">
+                Read the compaction methodology <span>↗</span>
+              </a>
+            </article>
+
+            <article className="cd-mode-ablation">
+              <p className="cd-mode-label">Experimental mode</p>
+              <h3>Guided, reversible ablation</h3>
+              <p>
+                Use ablation when the goal intentionally removes context. The controller checkpoints
+                the original, derives deletion units locally, protects sensitive blocks, and stages
+                a bounded omission without editing the live target.
+              </p>
+              <ul>
+                <li>Tests exact configured model routes against a sealed behavioral suite.</li>
+                <li>Blocks acceptance on regression, missing coverage, uncertain judgment, or stale evidence.</li>
+                <li>Requires an explicit trial ID and candidate SHA before the only candidate-apply path.</li>
+                <li>Journals atomic writes and supports exact, reversible rollback.</li>
+              </ul>
+              <p className="cd-mode-caveat">
+                “No regression observed” applies only to that exact route, snapshot, and sealed suite.
+                It does not prove a rule is universally safe to delete.
+              </p>
+              <a className="button secondary" href="https://github.com/gaia-research/skill-context-diet/blob/main/ABLATION.md">
+                Open the guided ablation protocol <span>↗</span>
+              </a>
+            </article>
+          </div>
+        </section>
+
         <section className="lab-method section-shell">
           <Image src="/assets/context-diet-token-compression-motif.webp" alt="A happy Milim trying on an outfit in a sunny mall fitting-room mirror." width={1600} height={900} sizes="(max-width: 800px) 100vw, 45vw" />
           <div>
-            <span className="section-kicker">TWO PASSES · ONE NATURAL PROMPT</span>
-            <h2>First diagnose. Then decide what leaves.</h2>
-            <p>Call Context Diet anytime and describe the outcome you want. The first pass is read-only: it inventories protected context and estimates safe, recommended, and aggressive reduction. A later explicit “apply” authorizes retirement against a fresh, verified plan.</p>
+            <span className="section-kicker">NORMAL MODE · RULES STAY RECOVERABLE</span>
+            <h2>Measure. Bake off. Audit every rule.</h2>
+            <p>For ordinary compaction, Context Diet measures the file before proposing any rewrite. It then compares four strategies and qualifies only candidates that remain under the target without weakening or losing a load-bearing rule.</p>
             <ul>
-              <li><strong>Audit:</strong> classify what stays inline, condenses, moves, or has expired.</li>
-              <li><strong>Estimate:</strong> show the defensible floor before changing a byte.</li>
-              <li><strong>Apply:</strong> require clear approval, verify the source hash, then preserve a recoverable diff.</li>
-              <li><strong>80%:</strong> treat it as a stretch goal—not permission to cut protected rules.</li>
+              <li><strong>Measure:</strong> map exact character cost by section.</li>
+              <li><strong>Inventory:</strong> extract atomic rules and identify protected constraints.</li>
+              <li><strong>Compare:</strong> generate multiple review-only compaction candidates.</li>
+              <li><strong>Audit:</strong> score the full candidate corpus against every original rule.</li>
             </ul>
-            <Link className="button secondary" href="/">Return to research <span>→</span></Link>
+            <a className="button secondary" href="https://github.com/gaia-research/skill-context-diet">
+              Inspect the source <span>↗</span>
+            </a>
           </div>
         </section>
       </main>
