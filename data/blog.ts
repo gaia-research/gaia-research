@@ -61,6 +61,17 @@ export const constrainedAutonomyEditorialThumbnail = {
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
   {
+    href: "/blog/context-ablation",
+    category: "Agent Skills",
+    tags: ["Context Engineering", "Evaluation", "Claude Code"],
+    date: "August 7, 2026",
+    readTime: "7 min read",
+    title: "Context Ablation: Press Delete Without Losing the Experiment",
+    description:
+      "Context ablation tests whether an agent still needs one context block: checkpoint the original, run paired evaluations, and accept only an exact reversible candidate.",
+    author: "Marcus Tiongson · Founder, Gaia Research",
+  },
+  {
     href: "/blog/constrained-autonomy",
     category: "Agent Skills",
     tags: ["Prompting", "Sub-Agents", "Delegation"],
