@@ -159,6 +159,15 @@ export default function BlogPostPage() {
           <p className="blog-post-summary">A deletion is not an experiment until the original, the test, and the decision are all reviewable.</p>
         </header>
 
+        <figure className="blog-post-illustration">
+          <img
+            src={contextAblationEditorialThumbnail.src.src}
+            width={contextAblationEditorialThumbnail.src.width}
+            height={contextAblationEditorialThumbnail.src.height}
+            alt={contextAblationEditorialThumbnail.alt}
+          />
+        </figure>
+
         <article className="blog-post-body report-body">
           <Markdown
             remarkPlugins={[remarkGfm]}
