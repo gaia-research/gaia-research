@@ -7,8 +7,10 @@ import CopyCommand from "@/components/CopyCommand";
 import {
   version,
   packageName,
+  packageSelector,
   npmInstallCmd,
-  npxCmd,
+  summonNpxCmd,
+  scopedSummonNpxCmd,
   availableTools,
   plannedTools,
   integrations,
@@ -34,13 +36,13 @@ export default function McpPage() {
                 Gaia <em>MCP</em>
               </h1>
               <p className="mcp-hero-lede">
-                The Gaia Skill Tree, wired directly into your editor. Discover and inspect
-                evidence-backed skills over a single stdio connection.
+                The Gaia Skill Tree, wired directly into your editor. Discover, inspect, and
+                summon evidence-backed skills over a single stdio connection.
               </p>
               <div className="mcp-badges">
                 <span className="chip act">ACT ACTIVE</span>
                 <span className="mcp-version-badge">
-                  {packageName}@{version}
+                  {packageSelector}
                 </span>
               </div>
               <div className="mcp-hero-install">
@@ -79,7 +81,7 @@ export default function McpPage() {
 
         {/* ── Modes ─────────────────────────────────────────────────────── */}
         <section className="mcp-modes section-shell" aria-labelledby="modes-title">
-          <h2 id="modes-title">Two modes. One package.</h2>
+          <h2 id="modes-title">One released mode. One separate profile.</h2>
           <div className="mcp-modes-grid">
             <article className="mcp-mode-card">
               <header className="mcp-mode-head">
@@ -88,8 +90,8 @@ export default function McpPage() {
                 <span className="mcp-mode-badge">Active</span>
               </header>
               <p>
-                Reads directly from the public Gaia Skill Tree registry. No local checkout
-                required. Skills are fetched on demand and cached locally.
+                The published server reads the public Gaia Skill Tree registry. No local
+                checkout is required; skills are fetched on demand and cached locally.
               </p>
               <dl className="mcp-mode-meta">
                 <div>
@@ -107,34 +109,31 @@ export default function McpPage() {
               </dl>
             </article>
 
-            <article className="mcp-mode-card mcp-mode-card-bonded">
+            <article className="mcp-mode-card mcp-mode-card-profile">
               <header className="mcp-mode-head">
                 <span className="mcp-mode-icon" aria-hidden="true">⬡</span>
-                <h3>Bonded Mode</h3>
-                <span className="mcp-mode-badge mcp-mode-badge-bonded">Local</span>
+                <h3>Heaven / Summon profile</h3>
+                <span className="mcp-mode-badge mcp-mode-badge-profile">Separate</span>
               </header>
               <p>
-                Points to a local <code>gaia-skill-tree</code> checkout. Edits to your local
-                skills are reflected immediately &mdash; no publish cycle needed.
+                The thin two-tool profile described by D4 is a separate integration surface for
+                Heaven/Summon. It is not the published four-tool package and is not a released
+                local-checkout mode.
               </p>
               <dl className="mcp-mode-meta">
                 <div>
-                  <dt>Source</dt>
-                  <dd>Local filesystem path</dd>
+                  <dt>Shape</dt>
+                  <dd>Two-tool schema-dose surface</dd>
                 </div>
                 <div>
-                  <dt>Local files</dt>
-                  <dd>gaia-skill-tree checkout</dd>
+                  <dt>Current state</dt>
+                  <dd>Separate profile; not this package surface</dd>
                 </div>
                 <div>
                   <dt>Best for</dt>
-                  <dd>Developing new skills</dd>
+                  <dd>Future schema-dose integration</dd>
                 </div>
               </dl>
-              <CopyCommand
-                className="mcp-mode-cmd"
-                command={`GAIA_SKILL_TREE=../gaia-skill-tree ${npxCmd}`}
-              />
             </article>
           </div>
         </section>
@@ -142,13 +141,12 @@ export default function McpPage() {
         {/* ── Available Tools ───────────────────────────────────────────── */}
         <section className="mcp-tools section-shell" aria-labelledby="available-tools-title">
           <header className="mcp-tools-head">
-            <h2 id="available-tools-title">Available Tools (v0.1.0)</h2>
+            <h2 id="available-tools-title">Available Tools (published v{version})</h2>
             <p>
-              Registry mode tools currently shipped in{" "}
-              <code>
-                {packageName}@{version}
-              </code>
-              . These read-only tools allow complete exploration of public skills.
+              The observed {packageName}@{version} release exposes four published tools: the
+              separate thin Heaven/Summon profile has its own two-tool schema-dose constraint,
+              which is not a cap on this package surface. Setup commands below intentionally use
+              the moving <code>{packageName}@latest</code> selector.
             </p>
           </header>
           <div className="mcp-tools-grid">
@@ -188,7 +186,8 @@ export default function McpPage() {
           <header className="mcp-tools-head">
             <h2 id="planned-tools-title">Planned Capabilities</h2>
             <p>
-              Under development for upcoming releases. These tools enable local mutations, benchmark runs, and skill composition.
+              Separately planned for upcoming releases. These capabilities are not part of the
+              current four-tool package surface.
             </p>
           </header>
           <div className="mcp-tools-grid">
@@ -267,9 +266,17 @@ export default function McpPage() {
 
           <div className="mcp-integration-note">
             <p>
-              <strong>Bonded mode:</strong> prefix the command with{" "}
-              <code>GAIA_SKILL_TREE=/path/to/gaia-skill-tree</code> to use a local checkout instead
-              of the live registry.
+              <strong>MCP server:</strong> the snippets select the <code>gaia-mcp</code> binary
+              explicitly from the scoped package, which publishes two binaries.
+            </p>
+            <p>
+              <strong>Summon CLI:</strong> use either the public alias <code>{summonNpxCmd}</code>{" "}
+              or the scoped package&apos;s explicit <code>{scopedSummonNpxCmd}</code> selector. Both
+              paths are separate from the MCP server&apos;s <code>gaia-mcp</code> bin.
+            </p>
+            <p>
+              <strong>Local checkouts:</strong> the published server reads the public registry;
+              local-checkout support is not released and is not advertised here.
             </p>
           </div>
         </section>
@@ -283,7 +290,8 @@ export default function McpPage() {
               </p>
               <h2 id="mcp-cta-title">Get started today.</h2>
               <p>
-                {packageName}@{version} is published and ready for use. Star the repository to follow development.
+                {packageName}@{version} is the observed published release; the setup command uses{" "}
+                {packageName}@latest. Star the repository to follow development.
               </p>
             </div>
             <div className="mcp-cta-actions">

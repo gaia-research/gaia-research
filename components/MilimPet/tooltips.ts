@@ -181,13 +181,13 @@ export const TOOLTIPS: Record<PageContext, Tooltip[]> = {
       text: "Registry Mode is the default! Zero checkout, live cache, evidence-backed skills on demand. Plug-and-play science!",
     },
     {
-      text: "Bonded Mode is for the builders — point GAIA_SKILL_TREE at your local checkout and your edits are live instantly. No publish cycle. No waiting. Hehe!",
+      text: "Registry Mode is the released path, boss — it reads the public registry. Local-checkout support is not part of the published server yet, so don't wire one by guesswork!",
     },
     {
-      text: "gaia_search finds the skill. gaia_inspect reads every field. gaia_status tells you what's online. Three tools, infinite power, boss!",
+      text: "gaia_search finds the skill. gaia_inspect reads every field. summon brings the full skill directory into a session. gaia_status tells you what's online. Four tools, infinite power, boss!",
     },
     {
-      text: "Install in 60 seconds! npm i -g @gaia/mcp-server, paste the config snippet, restart your editor — done. I timed it.",
+      text: "MCP server tip! Use npx -y -p @gaia-research/mcp@latest gaia-mcp in your editor config — select the gaia-mcp binary explicitly, boss!",
     },
     {
       text: "skill-fuse over MCP is COMING, boss. Compose skills straight from your editor. Gaia's already vibrating with anticipation.",
@@ -201,10 +201,10 @@ export const TOOLTIPS: Record<PageContext, Tooltip[]> = {
       link: { text: "The Skill Tree is the destination", href: "https://gaiaskilltree.com" },
     },
     {
-      text: "Bonded Mode tip: edits to local skills show up immediately in gaia_inspect. No publish loop. Perfect for rapid iteration!",
+      text: "Need a summon from the shell? Use the npx-friendly alias npx -y skill-hell@latest. The server selector and summon selector are documented separately, boss!",
     },
     {
-      text: "Read-only tools today, write tools tomorrow. Local install and skill-fuse are next on the roadmap — the strongest always has a roadmap, hehe.",
+      text: "The published package exposes four tools, while the thin Heaven/Summon profile is a separate two-tool surface. The Registry stays read-only even when summon materializes a session copy. Skill-fuse is still on the roadmap, hehe.",
     },
   ],
 };

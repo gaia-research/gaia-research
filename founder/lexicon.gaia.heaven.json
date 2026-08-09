@@ -2,7 +2,7 @@
   "lexicon": "2",
   "namespace": "gaia.heaven",
   "extends": "core",
-  "updated": "2026-08-07",
+  "updated": "2026-08-09",
   "about": "The Skill Heaven / Skill Hell product line: the two dials (ladder and mode), the postures they name, the mechanisms that move skills in and out of a session, and the launcher/door names. skill-heaven consumes this namespace; it does not own it.",
   "terms": [
     {
@@ -220,7 +220,7 @@
       "state": "canonical",
       "group": "mechanism",
       "oracle": "D4",
-      "definition": "One of gaia-mcp's two tools (with `search_skills`). Additive-only. A summon brings a skill into context once, for this session only — it does not survive a compact or a new session, and installs nothing."
+      "definition": "One of the thin Heaven/Summon profile's two proposed tools (with `search_skills`). The published rich Registry/Bond package also exposes `summon` alongside `gaia_search`, `gaia_inspect`, and `gaia_status`; D4's <=2-tool/schema-dose constraint applies to the thin profile, not the package total. Additive-only. A summon brings a skill into context once, for this session only — it does not survive a compact or a new session, and installs nothing."
     },
     {
       "term": "router",

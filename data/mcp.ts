@@ -1,16 +1,23 @@
 // Single source of truth for the @gaia-research/mcp package.
 // All downstream pages, tests, and docs derive from this file.
 
-export const version = "0.1.0";
+/** Immutable release fact; public commands intentionally use the moving @latest selector. */
+export const version = "0.4.0";
 export const packageName = "@gaia-research/mcp";
+export const packageSelector = `${packageName}@latest`;
 
 /** "ACT" = active/released, "PLN" = planned. */
 export const status = "ACT" as const;
 
-export const npmInstallCmd = `npm install ${packageName}@${version}`;
-export const npxCmd = `npx -y ${packageName}@${version}`;
+export const npmInstallCmd = `npm install ${packageSelector}`;
+/** The scoped package publishes two binaries, so select gaia-mcp explicitly. */
+export const npxCmd = `npx -y -p ${packageSelector} gaia-mcp`;
+/** Public npx-friendly selector for the separate summon CLI package. */
+export const summonNpxCmd = "npx -y skill-hell@latest";
+/** The scoped package also publishes a `skill-hell` bin; keep this selector explicit. */
+export const scopedSummonNpxCmd = `npx -y -p ${packageSelector} skill-hell`;
 
-// ── Available tools (Registry mode) ───────────────────────────────────────────
+// ── Available tools (published four-tool package surface) ───────────────────
 
 export type McpTool = {
   name: string;
@@ -48,6 +55,18 @@ export const availableTools: readonly McpTool[] = [
     },
   },
   {
+    name: "summon",
+    description: "Install the best-matching Named Skill into a session-locked temporary directory without changing your real configuration. Returns a printable card, inspect URL, trust fields, timing, cache state, and ranking disclosure.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "Task or capability to summon a matching skill for." },
+        limit: { type: "number", description: "Max number of candidates to consider (1–5)." },
+      },
+      required: ["query"],
+    },
+  },
+  {
     name: "gaia_status",
     description: "Report server version, Registry mode, data-contract compatibility, source freshness, counts, and available tools.",
     inputSchema: {
@@ -57,7 +76,7 @@ export const availableTools: readonly McpTool[] = [
   },
 ] as const;
 
-// ── Planned tools (Bonded mode / future releases) ────────────────────────────
+// ── Planned tools (future releases; no released local-checkout mode) ─────────
 
 export const plannedTools: readonly McpTool[] = [
   {
@@ -142,7 +161,7 @@ export const integrations: readonly Integration[] = [
         mcpServers: {
           gaia: {
             command: "npx",
-            args: ["-y", `${packageName}@${version}`],
+            args: ["-y", "-p", packageSelector, "gaia-mcp"],
           },
         },
       },
@@ -153,11 +172,15 @@ export const integrations: readonly Integration[] = [
   {
     id: "codex",
     label: "OpenAI Codex CLI",
-    configFile: "~/.codex/config.yaml",
+    configFile: "~/.codex/config.toml",
     snippet: [
-      "mcpServers:",
-      "  - name: gaia",
-      `    command: npx -y ${packageName}@${version}`,
+      "# ~/.codex/config.toml",
+      "[mcp_servers.gaia]",
+      'command = "npx"',
+      `args = ["-y", "-p", "${packageSelector}", "gaia-mcp"]`,
+      "",
+      "# Equivalent Codex CLI registration:",
+      `# codex mcp add gaia -- ${npxCmd}`,
     ].join("\n"),
   },
   {
@@ -169,7 +192,7 @@ export const integrations: readonly Integration[] = [
         mcpServers: {
           gaia: {
             command: "npx",
-            args: ["-y", `${packageName}@${version}`],
+            args: ["-y", "-p", packageSelector, "gaia-mcp"],
           },
         },
       },
