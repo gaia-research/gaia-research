@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-research` · 60 terms across 5 namespace(s) · updated **2026-07-28**.
+> Schema `2` · HQ `gaia-research` · 61 terms across 5 namespace(s) · updated **2026-07-28**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
@@ -15,7 +15,7 @@
 |---|---|---|---|
 | `core` | `gaia-research` | `founder/lexicon.json` | 2 |
 | `gaia.research` | `gaia-research` | `founder/lexicon.gaia.research.json` | 13 |
-| `gaia.brand` | `gaia-research` | `founder/lexicon.gaia.brand.json` | 1 |
+| `gaia.brand` | `gaia-research` | `founder/lexicon.gaia.brand.json` | 2 |
 | `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 40 |
 | `gaia.mcp` | `gaia-research` | `founder/lexicon.gaia.mcp.json` | 4 |
 
@@ -86,7 +86,8 @@ to make a decision.
 
 | Term | State | Oracle | Definition |
 |---|---|---|---|
-| `Milim` | ✅ canonical | N7 | The Hell-mode persona. The Heaven persona's name is RESERVED and undecided — nothing may hard-code one; it lives in the marketing-tasks brand extension when it closes. |
+| `Milim` | ✅ canonical | N7 | Gaia Research's lab mascot. Not the Skill Heaven / Skill Hell persona. |
+| `Lucy` | 🅿️ parked | N7 | Internal working name for the Skill Heaven / Skill Hell persona. Its design is final, but the public name is reserved and undecided; do not hard-code Lucy in user-facing copy or shipped code. |
 
 ## `gaia.heaven`
 
