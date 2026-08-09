@@ -1,0 +1,30 @@
+# Fresh-environment published MCP stdio evidence
+captured_at_utc: 2026-08-09T06:45:38Z
+requested_spec: @gaia-research/mcp@latest
+server_command: npx --yes --package=@gaia-research/mcp@latest gaia-mcp
+isolation: HOME and npm_config_cache were newly created for this command (paths redacted).
+node_version: v22.23.1
+npm_version: 10.9.8
+## Resolved npm metadata
+
+{
+  "version": "0.4.0",
+  "dist.tarball": "https://registry.npmjs.org/@gaia-research/mcp/-/mcp-0.4.0.tgz",
+  "dist.integrity": "sha512-Ptu+kZBjXoVB5sj3z9NA/dsDmq2h6SHBaZPxNixzmE8MongpeK9DDEHWHlkQB8WxwlZJul0pmcF7u+PxkAy4Vg==",
+  "bin": {
+    "gaia-mcp": "dist/bin/gaia-mcp.js",
+    "skill-hell": "dist/bin/skill-hell.js"
+  }
+}
+
+metadata_exit_status: 0
+
+## JSON-RPC transcript and server stderr
+CLIENT> {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"v5-closeout-evidence","version":"1.0.0"}}}
+SERVER> {"result":{"protocolVersion":"2024-11-05","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"gaia-mcp","version":"0.4.0"},"instructions":"Use gaia_search to discover capabilities, gaia_inspect to verify a candidate with evidence, summon to install the best-matching skill's full directory (SKILL.md plus any reference/, scripts/, and fixtures) into a session-locked temp directory, and gaia_status to check data freshness and capabilities. summon returns a printable card and inspect URL plus cloneSeconds, materializeSeconds, totalSeconds, and cacheState (cold or warm) for every materialized skill, an honest ranking disclosure, and totalSeconds for the invocation. The Gaia Registry itself is read-only and cannot be installed into, fused, or mutated; summon does not touch your real configuration. Session payloads are ephemeral; a separate bounded, commit-addressed payload cache may retain copies across sessions and can always be rebuilt on a miss."},"jsonrpc":"2.0","id":1}
+CLIENT> {"jsonrpc":"2.0","method":"notifications/initialized"}
+CLIENT> {"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
+SERVER> {"result":{"tools":[{"name":"gaia_search","title":"Search Gaia skills","description":"Find generic and Named Skills in the public Gaia Registry. Returns ranked structured results with trust and source freshness metadata.","inputSchema":{"type":"object","properties":{"query":{"type":"string","minLength":1,"description":"Task, capability, or skill to find."},"limit":{"type":"integer","minimum":1,"maximum":20},"kinds":{"type":"array","items":{"type":"string","enum":["generic","named"]},"minItems":1},"types":{"type":"array","items":{"type":"string","minLength":1},"minItems":1,"description":"Skill types to include. Alias of tiers for client compatibility."},"tiers":{"type":"array","items":{"type":"string","minLength":1},"minItems":1},"minStars":{"type":"integer","minimum":0,"maximum":6},"minTrustMagnitude":{"type":"number","minimum":0},"contributors":{"type":"array","items":{"type":"string","minLength":1},"minItems":1},"installable":{"type":"boolean","description":"Filter by a directly linked, non-blocked SKILL.md source."}},"required":["query"],"additionalProperties":false,"$schema":"http://json-schema.org/draft-07/schema#"},"annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":true,"openWorldHint":true},"execution":{"taskSupport":"forbidden"}},{"name":"gaia_inspect","title":"Inspect a Gaia skill","description":"Return an evidence-backed dossier for one generic or Named Skill, including relationships, implementations, trust, sources, and data freshness.","inputSchema":{"type":"object","properties":{"id":{"type":"string","minLength":1,"description":"Generic id, Named Skill id, or Named catalog reference."}},"required":["id"],"additionalProperties":false,"$schema":"http://json-schema.org/draft-07/schema#"},"annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":true,"openWorldHint":true},"execution":{"taskSupport":"forbidden"}},{"name":"summon","title":"Summon a Gaia skill","description":"Install the best-matching Named Skill from the live Gaia Registry: resolve the current source commit, reuse a bounded commit-addressed payload cache when available, or shallow-clone transiently on a miss; validate the resolved subpath, discard clone scaffolding, then materialize the whole skill directory (SKILL.md plus any reference/, scripts/, and fixtures) into a session-locked temp directory. Recurses into suiteComponents for suite skills. Never writes to your real configuration. Falls through to the next-best candidate on an install failure and reports what was skipped. The structured result includes a printable card and inspect URL, tree-provided trust fields, per-skill cloneSeconds, materializeSeconds, totalSeconds, and cacheState (cold or warm), an honest ranking disclosure, plus the invocation totalSeconds.","inputSchema":{"type":"object","properties":{"query":{"type":"string","minLength":1,"description":"Task or capability to summon a matching skill for."},"limit":{"type":"integer","minimum":1,"maximum":5}},"required":["query"],"additionalProperties":false,"$schema":"http://json-schema.org/draft-07/schema#"},"annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":true},"execution":{"taskSupport":"forbidden"}},{"name":"gaia_status","title":"Check Gaia MCP status","description":"Report server version, Registry mode, data-contract compatibility, source freshness, counts, and available tools.","inputSchema":{"type":"object","properties":{},"additionalProperties":false,"$schema":"http://json-schema.org/draft-07/schema#"},"annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":true,"openWorldHint":true},"execution":{"taskSupport":"forbidden"}}]},"jsonrpc":"2.0","id":2}
+CLIENT_RESULT> {"listed":true,"timedOut":false,"toolNames":["gaia_search","gaia_inspect","summon","gaia_status"],"exactExpectedFourTools":true,"serverExitCode":0,"serverSignal":null}
+
+command_exit_status: 0
