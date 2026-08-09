@@ -2,33 +2,40 @@
   "lexicon": "2",
   "namespace": "gaia.mcp",
   "extends": "core",
-  "updated": "2026-07-28",
-  "about": "Tool-surface vocabulary for the Gaia MCP server. NOTE: the three banned entries record VOCABULARY INTENT only. @gaia-research/mcp v0.1.0 is published and its README documents those tool names; renaming a live public interface is a breaking change and is NOT authorised by a lexicon entry. Roadmap V5-19 rules the final tool names open and schedules the rename for Arc III.",
+  "updated": "2026-08-09",
+  "about": "Tool-surface vocabulary for the Gaia MCP server. The published rich Registry/Bond package currently exposes four tools: gaia_search, gaia_inspect, summon, and gaia_status. Here, Bond names the package surface, not a released local-checkout mode. D4's <=2-tool rule belongs to the distinct thin Heaven/Summon profile; its future search_skills name stays parked until that profile ships.",
   "terms": [
     {
       "term": "gaia_search",
-      "state": "banned",
+      "state": "canonical",
       "group": "names",
-      "replacement": "search_skills",
       "oracle": "D4",
-      "definition": "Prototype MCP tool name. Retired 2026-07-28: D4 fixes gaia-mcp's surface at two tools named `search_skills` and `summon`, and `summon`'s own entry already names `search_skills` as its partner. Nothing is published yet, so the prototype spelling never becomes a compatibility obligation.",
-      "note": "Banned before Program 4 writes its first tool definition — the ordering is available exactly once. The prototype server's own copy (`data/mcp.ts`, the Milim pet tooltips) is outside every lexicon scope and is not what this ban is aimed at; it is aimed at the tool definition Program 4 has not written yet."
+      "definition": "Search tool in the published rich Registry/Bond package (@gaia-research/mcp). It is distinct from `search_skills`, the proposed search name for D4's thin Heaven/Summon profile; that profile distinction does not retire this published name.",
+      "note": "The published package's four-tool surface is a live compatibility obligation. No local-checkout capability is implied by the package's Registry/Bond label."
     },
     {
       "term": "gaia_inspect",
-      "state": "banned",
+      "state": "canonical",
       "group": "names",
-      "replacement": "search_skills",
       "oracle": "D4",
-      "definition": "Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a third read verb has no ratified home — evidence retrieval belongs to `search_skills`."
+      "definition": "Inspection tool in the published rich Registry/Bond package (@gaia-research/mcp). It is not a tool in D4's distinct thin Heaven/Summon profile, but that profile constraint does not deprecate this published name.",
+      "note": "Keep this spelling when documenting or integrating the published package; do not substitute the future profile's proposed `search_skills` name."
     },
     {
       "term": "gaia_status",
-      "state": "banned",
+      "state": "canonical",
       "group": "names",
-      "replacement": "search_skills",
       "oracle": "D4",
-      "definition": "Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a freshness verb has no ratified home — data freshness is reported by `search_skills`, not by a tool of its own."
+      "definition": "Status tool in the published rich Registry/Bond package (@gaia-research/mcp). It is not a tool in D4's distinct thin Heaven/Summon profile, but that profile constraint does not deprecate this published name.",
+      "note": "Keep this spelling when documenting or integrating the published package; do not infer a two-tool limit for the package total from D4."
+    },
+    {
+      "term": "search_skills",
+      "state": "parked",
+      "group": "names",
+      "oracle": "D4",
+      "definition": "Proposed search tool name for D4's distinct thin Heaven/Summon profile, paired with `summon`. The profile is future work; this name does not describe or rename the published rich package's `gaia_search` tool.",
+      "note": "Parked because the thin profile has not shipped. D4's <=2-tool/schema-dose constraint remains a separate profile decision, not a ban on the published package's four names."
     }
   ]
 }

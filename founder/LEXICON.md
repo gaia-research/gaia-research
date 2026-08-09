@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-research` · 59 terms across 5 namespace(s) · updated **2026-07-28**.
+> Schema `2` · HQ `gaia-research` · 60 terms across 5 namespace(s) · updated **2026-07-28**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
@@ -17,7 +17,7 @@
 | `gaia.research` | `gaia-research` | `founder/lexicon.gaia.research.json` | 13 |
 | `gaia.brand` | `gaia-research` | `founder/lexicon.gaia.brand.json` | 1 |
 | `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 40 |
-| `gaia.mcp` | `gaia-research` | `founder/lexicon.gaia.mcp.json` | 3 |
+| `gaia.mcp` | `gaia-research` | `founder/lexicon.gaia.mcp.json` | 4 |
 
 Terms owned by **gaia-research/gaia-skill-tree** are listed name-only in `founder/lexicon.foreign.json` and are
 defined there, never here:
@@ -125,7 +125,7 @@ to make a decision.
 | `resident` | 🅿️ parked | — | Proposed name for a skill currently in context. Not the founder's word for it; kept parked rather than promoted alongside `summonable`. Proposed name for a skill currently in context; not the founder's word for it, so it stays parked beside the canonical `summonable`. The ordinary-English sense ("a permanent resident of your config") is exempted by pattern — the fifth time a one-word rule met a second meaning. |
 | `summonable` | ✅ canonical | P5 | A skill that is indexed and reachable but costs nothing until summoned. Hell grows this set; a summon brings a proxy into context for this session only. |
 | `eviction` | ✅ canonical | D2 | Removal of a skill from context. Always harness-side, never an MCP operation — MCP is additive-only in every target harness. |
-| `summon` | ✅ canonical | D4 | One of gaia-mcp's two tools (with `search_skills`). Additive-only. A summon brings a skill into context once, for this session only — it does not survive a compact or a new session, and installs nothing. |
+| `summon` | ✅ canonical | D4 | One of the thin Heaven/Summon profile's two proposed tools (with `search_skills`). The published rich Registry/Bond package also exposes `summon` alongside `gaia_search`, `gaia_inspect`, and `gaia_status`; D4's <=2-tool/schema-dose constraint applies to the thin profile, not the package total. Additive-only. A summon brings a skill into context once, for this session only — it does not survive a compact or a new session, and installs nothing. |
 | `router` | ✅ canonical | D5 | Deterministic nearest-neighbour over a build-time frozen embedding index. No model call ever decides a loadout. |
 | `firebreak` | ⛔ banned | N1, P5 | Retired 2026-07-24. It named a token ceiling on the summon flood — the thing the ladder now sets and the meter now shows. **Use `ladder`.** Two senses ran side by side: the live 'token-ceiling firebreak' and the archived RFC-68 sense (an architectural boundary against tool-exposure degradation). Neither survives: a cap with a control and a readout does not need a third name. |
 | `context source` | ✅ canonical | N9 | A class of material a harness loads into a session: skills, rule and instruction files, memory, prompt templates, toolsets, plugins and MCP servers, subagents. A posture is a statement about which context sources are admitted — skills are one class among several, and framing a door as suppressing only skills is what caused the Hermes and Grok findings to be missed. |
@@ -151,7 +151,8 @@ to make a decision.
 
 | Term | State | Oracle | Definition |
 |---|---|---|---|
-| `gaia_search` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 fixes gaia-mcp's surface at two tools named `search_skills` and `summon`, and `summon`'s own entry already names `search_skills` as its partner. Nothing is published yet, so the prototype spelling never becomes a compatibility obligation. **Use `search_skills`.** Banned before Program 4 writes its first tool definition — the ordering is available exactly once. The prototype server's own copy (`data/mcp.ts`, the Milim pet tooltips) is outside every lexicon scope and is not what this ban is aimed at; it is aimed at the tool definition Program 4 has not written yet. |
-| `gaia_inspect` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a third read verb has no ratified home — evidence retrieval belongs to `search_skills`. **Use `search_skills`.** |
-| `gaia_status` | ⛔ banned | D4 | Prototype MCP tool name. Retired 2026-07-28: D4 caps gaia-mcp at two tools (`search_skills`, `summon`), so a freshness verb has no ratified home — data freshness is reported by `search_skills`, not by a tool of its own. **Use `search_skills`.** |
+| `gaia_search` | ✅ canonical | D4 | Search tool in the published rich Registry/Bond package (@gaia-research/mcp). It is distinct from `search_skills`, the proposed search name for D4's thin Heaven/Summon profile; that profile distinction does not retire this published name. The published package's four-tool surface is a live compatibility obligation. No local-checkout capability is implied by the package's Registry/Bond label. |
+| `gaia_inspect` | ✅ canonical | D4 | Inspection tool in the published rich Registry/Bond package (@gaia-research/mcp). It is not a tool in D4's distinct thin Heaven/Summon profile, but that profile constraint does not deprecate this published name. Keep this spelling when documenting or integrating the published package; do not substitute the future profile's proposed `search_skills` name. |
+| `gaia_status` | ✅ canonical | D4 | Status tool in the published rich Registry/Bond package (@gaia-research/mcp). It is not a tool in D4's distinct thin Heaven/Summon profile, but that profile constraint does not deprecate this published name. Keep this spelling when documenting or integrating the published package; do not infer a two-tool limit for the package total from D4. |
+| `search_skills` | 🅿️ parked | D4 | Proposed search tool name for D4's distinct thin Heaven/Summon profile, paired with `summon`. The profile is future work; this name does not describe or rename the published rich package's `gaia_search` tool. Parked because the thin profile has not shipped. D4's <=2-tool/schema-dose constraint remains a separate profile decision, not a ban on the published package's four names. |
 
