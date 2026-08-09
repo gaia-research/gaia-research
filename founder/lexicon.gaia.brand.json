@@ -2,7 +2,7 @@
   "lexicon": "2",
   "namespace": "gaia.brand",
   "extends": "core",
-  "updated": "2026-07-28",
+  "updated": "2026-08-09",
   "about": "Brand and character vocabulary — the names that carry voice rather than mechanism.",
   "terms": [
     {
@@ -10,7 +10,14 @@
       "state": "canonical",
       "group": "names",
       "oracle": "N7",
-      "definition": "The Hell-mode persona. The Heaven persona's name is RESERVED and undecided — nothing may hard-code one; it lives in the marketing-tasks brand extension when it closes."
+      "definition": "Gaia Research's lab mascot. Not the Skill Heaven / Skill Hell persona."
+    },
+    {
+      "term": "Lucy",
+      "state": "parked",
+      "group": "names",
+      "oracle": "N7",
+      "definition": "Internal working name for the Skill Heaven / Skill Hell persona. Its design is final, but the public name is reserved and undecided; do not hard-code Lucy in user-facing copy or shipped code."
     }
   ]
 }
