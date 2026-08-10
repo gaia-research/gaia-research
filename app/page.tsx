@@ -72,14 +72,14 @@ export default function Home() {
    <header className="hh-intro">
     <p className="signal"><span /> HELL HEAVEN INDEX · ARC I VERIFIED</p>
     <h2 id="hh-title">Stop <em>installing</em> skills.<br />Start <em>summoning</em> them.</h2>
-    <p className="hh-lede">Marketplaces make you install skills forever &mdash; bloat you never asked for, pinned to every repo. We&rsquo;re building the exit inside <Link href="/mcp">Gaia MCP</Link>: a per-session summon over the evidenced Skill Tree, sized by one <b>ladder</b> &mdash; <code>off → max</code> &mdash; with <b>Heaven</b> and <b>Hell</b> as the two directions you can take it.</p>
-    <p className="hh-new-here">New to Gaia? Start with <Link href="/about">the four names</Link> &mdash; what the Skill Tree, Research, Skill Heaven and Skill Hell each are, and which one you want right now.</p>
+    <p className="hh-lede">Marketplaces make you install skills forever &mdash; bloat you never asked for, pinned to every repo. <b>Skill Zero</b> is the launcher that starts a harness with zero ambient skill debt. <b>Heaven</b> and <b>Hell</b> are the summon directions on the HH axis: Heaven converges toward the right few skills; Hell explores the evidenced world.</p>
+    <p className="hh-new-here">New to Gaia? Start with <Link href="/about">the four names</Link> &mdash; the Skill Tree, Research, the Skill Heaven umbrella, and Skill Zero. The <b>HH Index</b> is in the works.</p>
    </header>
    <div className="hh-poles">
     <article className="hh-pole hh-heaven">
-     <span className="chip wip">☁ HEAVEN · SHIPS FIRST</span>
-     <h3>One step below vanilla.</h3>
-     <p>Invoking Heaven <b>clears the ambient clutter</b> and hands you back a clean, hand-picked set of your own skills &mdash; not the full installed pile, and not a blank slate. Cleaner than vanilla. For architecting, brainstorming, office hours &mdash; where a quiet context <em>is</em> the feature.</p>
+     <span className="chip wip">☁ HEAVEN · AXIS WIP</span>
+     <h3>Converge on the right few.</h3>
+     <p>Heaven is the curated summon direction: it pulls the evidenced pool toward the small set a design session actually needs. Skill Zero gives it a clean launch when useful; Heaven decides what deserves to come back.</p>
     </article>
     <article className="hh-pole hh-hell">
      <span className="chip wip">🔥 HELL · GATED</span>
@@ -87,7 +87,7 @@ export default function Home() {
      <p>Summon every good skill in the evidenced world for autonomous fleets and long loops &mdash; bounded by the rung you picked. Unlocks only when the registry&rsquo;s trust-coverage clears a measured gate. Ludicrous mode ships with a seatbelt.</p>
     </article>
    </div>
-   <p className="hh-foot">The <b>Hell Heaven (HH) Index</b> &mdash; a per-skill <code>hellHeaven</code> stamp, benchmarked, not guessed &mdash; is the research that keeps the ladder honest. Read the <Link href="/research/hh-benchmark">benchmark method &amp; receipts →</Link> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>.</p>
+   <p className="hh-foot"><b>Skill Zero</b> is the usable launcher prototype. The <b>Hell Heaven (HH) Index</b> &mdash; a per-skill <code>hellHeaven</code> stamp over Heaven/Hell polarity, benchmarked, not guessed &mdash; is the research now in the works. Read the <Link href="/research/hh-benchmark">benchmark method &amp; receipts →</Link> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>.</p>
    <style>{`
     .hh{padding:var(--space-dense) var(--gutter)}
     .hh-intro{max-width:64ch;margin:0 0 var(--space-tight)}
