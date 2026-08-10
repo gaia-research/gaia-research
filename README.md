@@ -4,6 +4,11 @@
 
 [![Live Portal](https://img.shields.io/badge/Live-Cloudflare-f38020?style=flat-square)](https://research.gaiaskilltree.com)
 
+### Gaia Ecosystem
+[![Skill Tree](https://img.shields.io/badge/Skill_Tree-gaiaskilltree.com-f59e0b)](https://gaiaskilltree.com/)
+[![Research](https://img.shields.io/badge/Research-gaia--research%2Fgaia--research-ec4899)](https://github.com/gaia-research/gaia-research)
+[![Skill Heaven Preview](https://img.shields.io/badge/Skill_Heaven_Preview-gaia--research.github.io%2Fskill--heaven-a58ae0)](https://gaia-research.github.io/skill-heaven/#/hero-a)
+
 Welcome to the **Gaia Research** laboratory! Deployed live at **[research.gaiaskilltree.com](https://research.gaiaskilltree.com)**, this repository serves as the core documentation, evidence vault, design asset ledger, and portal for verifying AI agentic capabilities.
 
 <p align="center">
