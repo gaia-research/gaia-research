@@ -101,9 +101,9 @@ here as a cost deviation from the brief rather than silently reported as cheap).
 | # | Command | Observed | Cell verified |
 |---|---|---|---|
 | G1-rerun | `CODEX_HOME=<fresh + auth.json> codex exec --json --skip-git-repo-check -C <proj w/ one fixture skill> "$Q"` | `turn.completed` with a full `usage` object (`input_tokens:18986, output_tokens:360, …`); fixture skill listed alongside 66 others | **auth propagation still holds** (no quota/login error now the window has passed); **token introspection resolved**: completed-turn `usage` object confirmed live, no longer deferred |
-| G1-skills-config-override | same sandbox + `-c 'skills.config=[{path="<abs SKILL.md>",enabled=false}]'` | targeted fixture skill **absent** from the listing, all 66 others unchanged; `input_tokens:18925` both reps (2/2 reproduced, byte-identical); fresh `$CODEX_HOME` never grew a `config.toml` | **`-c` overrides DO reach `skills.config` per-session** — a real, non-persisting, per-invocation suppression route. This is the finding that can move `compileCodex`'s `execSupport` off `"recipe"` (classification change itself belongs to `skill-heaven`, out of scope here) |
+| G1-skills-config-override | same sandbox + `-c 'skills.config=[{path="<abs SKILL.md>",enabled=false}]'` | targeted fixture skill **absent** from the listing, all 66 others unchanged; `input_tokens:18925` both reps (2/2 reproduced, byte-identical); fresh `$CODEX_HOME` never grew a `config.toml` | **`-c` overrides DO reach `skills.config` per-session** — a real, non-persisting, per-invocation suppression route. This is the finding that can move `compileCodex`'s `execSupport` off `"recipe"` (classification change itself belongs to `gaia-skill-heaven`, out of scope here) |
 | P1-requantify | `pi -p --provider google-antigravity --model gemini-3.6-flash --thinking low "$Q" --no-skills` (argv order held fixed at the documented-safe shape), **N=15** | **0/15 leaks** (all `NONE`) | Re-quantifying P1's ~22% (2/9) rate on 0.82.1: 95% CI upper bound for 0/15 ≈ **21.8%** (Clopper-Pearson-style; rule-of-three ≈20%) — **statistically indistinguishable** from the original ~22%, so this is **not** evidence the race is fixed, only that it didn't trigger in 15 bounded runs. Model changed too (confound disclosed, not controlled for) |
-| argv-order-recheck | order A (documented-broken): `pi --no-skills -p … "$Q"` ×3; order B (documented-safe): `pi -p … "$Q" --no-skills` ×3 | **0/6 leaks** — both orderings returned `NONE` every time | The 0.80.10 argv-ordering landmine (`--no-skills` immediately before `-p` silently loses suppression) **did not reproduce** on 0.82.1 in 6 tries. Small n and a harness+model double-change vs. the original record — read as "not triggered", not "certified fixed"; `compilePi`'s tail-args-first mitigation was not touched (owned by `skill-heaven`, being edited elsewhere) but this is evidence toward its removability |
+| argv-order-recheck | order A (documented-broken): `pi --no-skills -p … "$Q"` ×3; order B (documented-safe): `pi -p … "$Q" --no-skills` ×3 | **0/6 leaks** — both orderings returned `NONE` every time | The 0.80.10 argv-ordering landmine (`--no-skills` immediately before `-p` silently loses suppression) **did not reproduce** on 0.82.1 in 6 tries. Small n and a harness+model double-change vs. the original record — read as "not triggered", not "certified fixed"; `compilePi`'s tail-args-first mitigation was not touched (owned by `gaia-skill-heaven`, being edited elsewhere) but this is evidence toward its removability |
 
 Also load-bearing from `claude --help` (2.1.211): `--effort <low|medium|high|xhigh|max>` — the
 effort axis the postures map onto (`Heaven · Auto · Ultra · Hell`) already exists as a
@@ -122,7 +122,7 @@ under-reports its own skill listing — the self-report flake that falsified the
 knob is undocumented and version-pinned, so the T9/T9b routes are **re-verified on
 every CLI upgrade — this row is that re-verification** for the 2.1.215→2.1.216
 step. Driver: [`scripts/hell-heaven-bench/demo-m2-floor-live.sh`](../../scripts/hell-heaven-bench/demo-m2-floor-live.sh)
-(the `skill-heaven` bin composes each route). Every number below is drawn from a
+(the `skill-zero` bin composes each route). Every number below is drawn from a
 **committed `hh-ledger/v1` record**
 ([`data/ledger.jsonl`](../../scripts/hell-heaven-bench/data/ledger.jsonl),
 `benchmarkId: hh-m2-smoke`, `recordedAt 2026-07-22T07:23Z`). The absolute
@@ -131,7 +131,7 @@ with cache/cwd — the **eviction / re-admission** is the load-bearing fact, not
 absolute level (see the live-demo writeup for the native pole and the −16k delta,
 which are workstation-only, uncommitted context).
 
-| # | Command (composed by `skill-heaven`, model sonnet·low) | Observed (committed record) | Cell verified |
+| # | Command (composed by `skill-zero`, model sonnet·low) | Observed (committed record) | Cell verified |
 |---|---|---|---|
 | T9b·216 | floor: `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1 claude -p --disable-slash-commands --setting-sources project --strict-mcp-config --mcp-config '{"mcpServers":{}}'`; probe = `firecrawl-crawl` listed? YES/NO | `firecrawl-crawl` = **NO** (endpoint `/^NO/` ✓); **perTurn 30,661** tok, `skillStanding 0` (`listing-probe`/**placebo**) | **T9b floor route survives 2.1.215→2.1.216**: `firecrawl-crawl` evicted from the listing (**YES→NO**; the native-pole YES is the gate-(a) fresh pole above, uncommitted here). Token count is the hard signal (**D12**) |
 | T9·216 | curated: `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1 claude -p --setting-sources project --strict-mcp-config --mcp-config '{"mcpServers":{}}' --plugin-dir <heaven-set:impeccable>`; probe = enumerate all skills | `impeccable` re-admitted (endpoint `/impeccable/` ✓); **perTurn 31,624** tok, `skillStanding 227` (`readmit-probe`/**heaven**); enumeration self-report = `heaven-set:impeccable` only (corroborating, per the record note — **not** the hard signal) | **T9 curated route survives the upgrade**: env knob still honored on 2.1.216 (cross-check: gate-(a) row GA0 string-probed the knob **present** on this build), single real skill re-admitted. `skillsLoaded` pins `impeccable sha256:14c4642…` = the SKILL.md bytes loaded **this run** (differs from the R0 census sha `2bc172…` — file edited since census, not the census artifact) |
@@ -253,8 +253,8 @@ it does **not** recompose. History carries forward on both (codeword recalled).
 
 **Consequence:** subtractive recomposition and conversation-history survival are
 **mutually exclusive** on Claude Code 2.1.216. The fully-subtractive floor is
-reachable **only at boot** (fresh session, T9 route) → **`claude-heaven` launcher
-is the only path to the floor** (launcher-locked). The in-session `/skill-heaven`
+reachable **only at boot** (fresh session, T9 route) → **`claude-zero` launcher
+is the only path to the floor** (launcher-locked). The in-session `/skill-zero`
 scalpel can move **upward** (additive) and shed some non-skill weight, but cannot
 descend below its launch floor. This is the **posture ladder** the product ships.
 
@@ -287,7 +287,7 @@ fresh T9 **≈17.0k tok (firecrawl NO)**.
 
 **Ladder map (authoritative):**
 - **Launcher-only floor** ≈17.0k, firecrawl NO — evicts bundled *and* user/global
-  skills + MCP + non-project settings. Reachable **only** via `claude-heaven` at boot.
+  skills + MCP + non-project settings. Reachable **only** via `claude-zero` at boot.
 - **Scalpel floor (in-session)** ≈19.2–19.6k, firecrawl **YES** — can shed the top
   ~⅓ of the gap (via `--setting-sources project` / `--safe-mode`) but **cannot**
   evict user/global skills on any continued session.
@@ -358,7 +358,7 @@ favor of **census** for the *standing* number (consistent with B1/D4) — while 
 | GB-3 | inspect GB-2 for a per-loadout *standing*-token field | `context_window.total_input_tokens` **is** a live token count, but it is **whole-session running usage** (system + skills + messages + tool results), **not** the skills-only *standing* dose; **no field isolates the standing number** | **dose-source = census over the composed loadout at (re)compile time**, NOT live introspection. The `⚡ native · 14.2k standing` number must come from `census.ts` over the active profile; `context_window.total_input_tokens` (or `transcript_path`) yields a *running-usage* readout later (invocation side, B1), but **never** the isolated **standing** dose. Correction: the earlier "only `exceeds_200k_tokens`, boolean not a count" claim understated the input — counts exist; they're just the wrong *scope* for the standing readout |
 
 **Blocks:** WS4 step-1 statusline segment. The segment computes its standing-dose
-number by censusing the profile it launched with (`claude-heaven` launcher floor,
+number by censusing the profile it launched with (`claude-zero` launcher floor,
 or the posture the upward scalpel composed — D12), never from Claude's statusline
 input. The `context_window` counts are usable for a **second, distinct** readout
 (live running usage), clearly labeled apart from the standing dose.
@@ -373,11 +373,11 @@ interactive `claude`, read the file.
 **Date:** 2026-07-21. **Method:** the ratified census method — `makeListingLine`
 (`- <id>: <description>`, whitespace-collapsed) + `tokenize` (chars4) from
 `scripts/hell-heaven-bench/census.ts`, the same proxy every R0 number uses.
-`/skill-heaven` and `/skill-hell` have no committed command definitions yet
+`/skill-zero` and `/skill-hell` have no committed command definitions yet
 (WS4), so **representative draft descriptions** are priced; final WS4 copy
 re-prices with the same method and must stay under the ceiling this sets.
 
-**Gate question (plan):** the standing tokens the `/skill-heaven` + `/skill-hell`
+**Gate question (plan):** the standing tokens the `/skill-zero` + `/skill-hell`
 commands themselves add to every session (the tool must not be its own bloat).
 **Verdict:** combined **≈57 tok/session** (chars4) with tight draft copy —
 **negligible** (~0.4 % of the 14.2k native standing dose in the D10 mock). The
@@ -385,16 +385,16 @@ tool is not its own bloat, and the number is disclosed.
 
 | Command | Listing line (chars) | Standing dose (chars4) |
 |---|---|---|
-| `/skill-heaven` | `- skill-heaven: Switch skill posture — floor, curated, or native; composes the profile and prints the fork-relaunch command.` (124) | ≈31 tok |
+| `/skill-zero` | `- skill-zero: Switch skill posture — floor, curated, or native; composes the profile and prints the fork-relaunch command.` (124) | ≈31 tok |
 | `/skill-hell` | `- skill-hell: Locked door: Hell-mode benchmark status and ledger link; opens only when Hell is proven safe.` (107) | ≈26 tok |
 | **combined self-dose** | | **≈57 tok / session** |
 
 **Caveats:** chars4 is a proxy, not the Claude tokenizer (as everywhere in R0 —
 recorded, swappable when a counted backend lands); descriptions are **draft** —
 WS4 re-prices; if the listed id carries a plugin-name prefix
-(`heaven-set:skill-heaven`), add ~4 chars/line (≈1 tok, negligible). **Discipline
+(`heaven-set:skill-zero`), add ~4 chars/line (≈1 tok, negligible). **Discipline
 (D4/B1):** this self-dose is disclosed and subtracted in every claim — it is the
-only standing cost `claude-heaven`'s doors add (Heaven's purest form uses no
+only standing cost `claude-zero`'s doors add (Heaven's purest form uses no
 server). **Blocks:** WS4 steps 2–3 copy + README claims; the final command
 descriptions must price at or below this ceiling.
 
@@ -403,50 +403,50 @@ descriptions must price at or below this ceiling.
 **Date:** 2026-07-23. **Version:** Claude Code **2.1.216** (macOS, this
 workstation). **Method:** live install probe against the **public** monorepo, run
 in a **throwaway `CLAUDE_CONFIG_DIR`** (zero mutation to the real `~/.claude`;
-verified afterward — no `skill-heaven` marketplace present in the real config).
+verified afterward — no `gaia-skill-heaven` marketplace present in the real config).
 The artifact under test is the root `.claude-plugin/marketplace.json` that landed
-on `gaia-research/skill-heaven` `main` via the WS2 manifest merge
-(`skill-heaven@29afbc7`).
+on `gaia-research/gaia-skill-heaven` `main` via the WS2 manifest merge
+(`gaia-skill-heaven@29afbc7`).
 
 **Gate question (plan / D10):** does the *marketplace-from-monorepo layout* work —
 can a user add the monorepo as a Claude Code marketplace and install the
-per-harness Claude door (`claude-heaven`) from it, with the **relative** plugin
-`source` (`./packages/claude-heaven/plugin`) resolving correctly under the
+per-harness Claude door (`claude-zero`) from it, with the **relative** plugin
+`source` (`./packages/claude-zero/plugin`) resolving correctly under the
 repo-root `.claude-plugin/` (N9: the monorepo *"doubles as the Claude Code plugin
 marketplace"*)? **Verdict: ✅ POSITIVE.** `marketplace add` clones and validates
-the catalog; `claude-heaven@skill-heaven` installs and enables; the relative
-source resolves against `packages/claude-heaven/plugin`. pi-heaven and other
+the catalog; `claude-zero@gaia-skill-heaven` installs and enables; the relative
+source resolves against `packages/claude-zero/plugin`. pi-zero and other
 harness doors are **not** in this manifest by design (N9 — they ship through their
-own harness's channel), so the Claude Code marketplace lists `claude-heaven` only.
+own harness's channel), so the Claude Code marketplace lists `claude-zero` only.
 
 | # | Command | Observed | Cell verified |
 |---|---|---|---|
-| GD-1 | `claude plugin marketplace add gaia-research/skill-heaven` | `✔ Successfully added marketplace: skill-heaven (declared in user settings)` (clones repo, "validating marketplace" → OK) | repo-root `.claude-plugin/marketplace.json` is a valid Claude Code marketplace catalog; add-from-GitHub-monorepo works |
-| GD-2 | `claude plugin marketplace list` | `skill-heaven` · `Source: GitHub (gaia-research/skill-heaven)` | the monorepo is registered as a marketplace source |
-| GD-3 | `claude plugin install claude-heaven@skill-heaven` | `✔ Successfully installed plugin: claude-heaven@skill-heaven (scope: user)` | the relative `source: ./packages/claude-heaven/plugin` resolves + installs from a subdirectory of the marketplace root |
-| GD-4 | `claude plugin list` | `claude-heaven@skill-heaven` · `Version: 0.0.0` · `Status: ✔ enabled` | installed door is enabled; cache at `plugins/cache/skill-heaven/claude-heaven`, marketplace clone at `plugins/marketplaces/skill-heaven/packages/claude-heaven` |
+| GD-1 | `claude plugin marketplace add gaia-research/gaia-skill-heaven` | `✔ Successfully added marketplace: gaia-skill-heaven (declared in user settings)` (clones repo, "validating marketplace" → OK) | repo-root `.claude-plugin/marketplace.json` is a valid Claude Code marketplace catalog; add-from-GitHub-monorepo works |
+| GD-2 | `claude plugin marketplace list` | `gaia-skill-heaven` · `Source: GitHub (gaia-research/gaia-skill-heaven)` | the monorepo is registered as a marketplace source |
+| GD-3 | `claude plugin install claude-zero@gaia-skill-heaven` | `✔ Successfully installed plugin: claude-zero@gaia-skill-heaven (scope: user)` | the relative `source: ./packages/claude-zero/plugin` resolves + installs from a subdirectory of the marketplace root |
+| GD-4 | `claude plugin list` | `claude-zero@gaia-skill-heaven` · `Version: 0.0.0` · `Status: ✔ enabled` | installed door is enabled; cache at `plugins/cache/gaia-skill-heaven/claude-zero`, marketplace clone at `plugins/marketplaces/gaia-skill-heaven/packages/claude-zero` |
 | GD-5 | `claude plugin validate .` (in a fresh clone of `main`) | `Validating marketplace manifest: …/.claude-plugin/marketplace.json` → `✔ Validation passed` (no warnings) | the manifest + the referenced `plugin.json` pass the harness's own validator on the merged tree |
 
 **Repro (throwaway config, ~30s):**
 
 ```bash
 export CLAUDE_CONFIG_DIR="$(mktemp -d)/gd-probe"
-claude plugin marketplace add gaia-research/skill-heaven
+claude plugin marketplace add gaia-research/gaia-skill-heaven
 claude plugin marketplace list
-claude plugin install claude-heaven@skill-heaven
-claude plugin list                       # claude-heaven@skill-heaven, enabled
+claude plugin install claude-zero@gaia-skill-heaven
+claude plugin list                       # claude-zero@gaia-skill-heaven, enabled
 rm -rf "$CLAUDE_CONFIG_DIR"               # leaves the real ~/.claude untouched
 ```
 
 **Caveats:** version-pinned — the `/plugin` CLI surface and cache layout are
 Claude-Code-internal and undocumented as a contract; **re-run on Claude Code
-upgrades** (record the exact `claude --version`). `claude-heaven` is a **WS4
+upgrades** (record the exact `claude --version`). `claude-zero` is a **WS4
 scaffold** — it installs and enables but wires **no commands/skills yet** (its own
 `plugin.json` says so), so this gate proves *distribution*, not door behavior; the
-`/skill-heaven` + `/skill-hell` behavior rides gate (a)/(c) + WS4. The install
+`/skill-zero` + `/skill-hell` behavior rides gate (a)/(c) + WS4. The install
 succeeding does **not** itself add standing dose (gate (c) prices the eventual
 command self-dose separately). **Unblocks:** WS4 slice 1 (statusline segment →
-`/skill-heaven` picker → `/skill-hell` locked door) can now assume a
+`/skill-zero` picker → `/skill-hell` locked door) can now assume a
 real, installable-from-monorepo Claude Code door; closes the last **pending** D10
 verification gate (a/b/c already green; e is research-track).
 
@@ -475,7 +475,7 @@ suppression rate, false-restraint rate); repeat ×runs, report CIs (no
 determinism). **Depends on:** gaia-skill-tree producing the heaven-native skill
 set first (repo boundary: authored upstream, flows through marketing-tasks).
 **Blocks:** any WS4 copy that promises "below-vanilla in-session" behavior; the
-behavioral rung in the `/skill-heaven` ladder UI. Until green, the MVP ladder
+behavioral rung in the `/skill-zero` ladder UI. Until green, the MVP ladder
 ships **physical-only** (gate (a)); the behavioral rung renders as
 "coming — research" and never as a working stop.
 

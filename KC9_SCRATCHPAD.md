@@ -34,7 +34,7 @@ sit as an unlinked island.
   "the same shape, native vs curated, with a task chosen for 3-minute-demo
   legibility," not new infrastructure.
 - **The launcher itself is real and tested.** `skill-heaven`'s
-  `claude-heaven` CLI (package at `packages/claude-heaven/`) does genuine
+  `claude-zero` CLI (package at `packages/claude-zero/`) does genuine
   native/curated/product-floor launches: `planLaunch` → `materialize(fsPlan)`
   → writes manifest+settings → invokes real `claude`. This was just
   independently re-verified in Arc I's A1 work (213/213 tests, `tsc` clean,
@@ -72,7 +72,7 @@ sit as an unlinked island.
   independently touches product-floor's cost, that's a *new*, separately
   labeled measurement — never framed as "re-deriving F7."
 - **Cursor** is **deferred** — no availability to test it. KC9's demo is
-  scoped to `claude`/`claude-heaven` only; do not fabricate or imply a cursor
+  scoped to `claude`/`claude-zero` only; do not fabricate or imply a cursor
   arm.
 
 ## Pipeline (Marco's design, 2026-07-31)
@@ -348,7 +348,7 @@ gated from the moment it's added — no extra wiring needed on `check-claims.ts`
 ### 5. Explicitly out of scope for Stage 2 per the orchestrator's brief
 
 No re-derivation of F7 (+515 tok, locked). No cursor arm (deferred, no
-availability — this demo is `claude`/`claude-heaven` only). No edits inside
+availability — this demo is `claude`/`claude-zero` only). No edits inside
 the `skill-heaven` checkout (read-only dependency; if the pilot in §1 reveals
 a genuine launcher gap, that's a separately-scoped issue in that repo, not an
 inline patch here). No merge — PR only, same human gate as KC8.

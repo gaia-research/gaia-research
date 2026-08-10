@@ -2,15 +2,18 @@
 
 > Companion to the ratified findings in
 > [`../idea-bank/archived/2026-07-24-skill-heaven-hell-mvp.md`](../idea-bank/archived/2026-07-24-skill-heaven-hell-mvp.md).
-> Scope: the R0–R3 slice of `../skill-heaven/MISSION.md` §3, Heaven first, Hell staged behind it.
+> Scope: the R0–R3 slice of `../skill-heaven/MISSION.md` §3: Skill Zero first, HH Index in progress, Hell staged behind the gate.
 > Baseline harnesses: **Claude Code, Codex CLI, Cursor, pi.**
 > **Decision authority:** [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)
 > — this plan implements; the founder doc decides.
 
 ## 0. Posture
 
-- **Heaven ships first** — it is pure subtraction, needs no registry, no gate, and
-  (in its purest form) no MCP server.
+- **Skill Zero ships first** — it is the complete subtractive launcher prototype,
+  needs no registry, no gate, and (in its purest form) no MCP server.
+- **Heaven and Hell are summon directions** — Heaven converges/curates from the
+  evidenced pool; Hell explores/expands it. The HH Index that measures that axis
+  is in the works.
 - **Hell follows** — it needs the Ygg II stamps (epic 1002, still being finalized),
   the benchmark to earn them, and the ladder cap. We build its routing spike early
   because performance is its top priority, but nothing ships until the gate clears.
@@ -33,23 +36,23 @@
 **M0 (spike, 1–2 days): validate every cell above on current harness versions**
 before building on it. Output: a checked matrix in `docs/labs/`.
 
-## 2. Heaven MVP
+## 2. Skill Zero launch MVP
 
 ### M1 — R0 census, two-part dose (`scripts/hell-heaven-bench/census.ts`)
 
 Tokenize every canon skill contract **twice**: the listing line (standing dose) and
 the full body (invocation dose). Publish the distribution as the R0 ledger artifact.
 Pure Tier-1 measurement, no new schema, publishable immediately. Re-runnable against
-any repo's local skill set (that is what Heaven's "below vanilla" delta is computed
+any repo's local skill set (that is what Skill Zero's "below vanilla" delta is computed
 from).
 
-### M2 — Heaven mechanism, in-harness first (decision A)
+### M2 — Skill Zero mechanism, in-harness first (decision A)
 
 > **Status 2026-07-20: implemented; naming closed.** The launcher-shaped
-> profile compiler lives in **`gaia-research/skill-heaven`** (monorepo + Claude
+> profile compiler lives in **`gaia-research/gaia-skill-heaven`** (monorepo + Claude
 > plugin marketplace, per N8/N9 — the `hh-launcher` working name is retired; <!-- lexicon-allow: states that the name is retired -->
-> per-harness installables `claude-heaven`/`pi-heaven`/… are the user-facing
-> product, the core `skill-heaven` bin is the research driver). Continuation:
+> per-harness installables `claude-zero`/`pi-zero`/… are the user-facing
+> product, the core `skill-zero` bin is the research driver). Continuation:
 > [`skill-heaven-continuation-plan.md`](./archived/2026-07-24-skill-heaven-continuation-plan.md).
 > First pass per
 > [`m2-heaven-launcher-plan.md`](./archived/2026-07-24-m2-heaven-launcher-plan.md) and D6/D7.
@@ -69,21 +72,21 @@ from).
 > discovery ✅, suppression mechanism nonexistent → grok is native-posture-only
 > for now.
 
-Preferred shape: **inside the harness** — e.g. `claude --heaven-mode` semantics.
+Preferred shape: **inside the harness** — e.g. first-class zero-launch semantics.
 Two spikes on Claude Code, pick by evidence:
 
 1. **Hooks/plugin route (preferred):** a SessionStart hook (or plugin) that scopes
-   the session to a Heaven config — skills listing suppressed/replaced with the
-   grilling-native set — and restores nothing because nothing shared was mutated.
-2. **Thin launcher fallback (`claude-heaven`):** session-scoped config dir + curated
+   the session to a Skill Zero config — ambient skill listing suppressed/replaced
+   with the selected set — and restores nothing because nothing shared was mutated.
+2. **Thin launcher fallback (`claude-zero`):** session-scoped config dir + curated
    skills dir, journaled stash/restore only where env-scoping is impossible.
 
 Acceptance (either route):
-- Vanilla session and Heaven session run **concurrently in the same repo** without
+- Vanilla session and Skill Zero session run **concurrently in the same repo** without
   interference (no shared-state mutation).
 - Kill -9 mid-session leaves no evicted state behind (journal + `doctor` repair if
   the fallback route wins).
-- Measured loaded-context tokens: Heaven < vanilla on the same repo, verified via
+- Measured loaded-context tokens: Skill Zero < vanilla on the same repo, verified via
   `/context` / OTEL, with the census script as the by-construction cross-check.
 - pi port lands second; Codex/Cursor get a documented manual recipe in v1 (tracked
   files make automated eviction dirty — overlay tricks are post-MVP).
@@ -155,7 +158,7 @@ Stamps land after the benchmark and after the epic. Until then `gaia-research`:
 |---|---|---|---|
 | M0 | Harness capability matrix verified | — | pre-R0 |
 | M1 | Census, two-part dose | — | R0 |
-| M2 | Heaven in-harness (Claude Code, then pi) | M0 | R3 (Heaven mechanism) |
+| M2 | Skill Zero in-harness (Claude Code, then pi) | M0 | R3 (Skill Zero mechanism) |
 | M3 | Ledger appender | M1 | R2 plumbing |
 | M4 | Hell routing spike + stress harness | M1 | pre-R4 |
 | M5 | Summon surface + ladder cap | M4, Ygg II stamps | R4 |

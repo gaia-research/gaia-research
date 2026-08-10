@@ -157,17 +157,17 @@ gate's evidence set · **X** = out of KC8 scope, stated as such.
 | B2 | same pair, matrix M2 2.1.216 rows | `harness-capability-matrix.md:134–137` (fenced) | same records; PASSES | **A** |
 | B3 | native **46,849 ‡**, delta **−16,188 ‡**, invocation **5,917 ‡** | `m2-live-demo.md` | correctly ‡-tagged; lives in gitignored `scripts/.hh-demo/` | **C** — already honest; cite as the reference use of ‡ |
 | B4 | gate (a) ladder: ≈**25.2k** native · ≈**17.0k** floor · ≈**19.2–19.6k** scalpel · **+233** · **+68** · **+1,745** · ~**6k** | `harness-capability-matrix.md:261–306` | **entirely OUTSIDE the fence → not gated at all**; no committed records | **C** — workstation smoke from `gate-a-resume-recomposition.sh`, never committed. Extend the fence and ‡-tag, or leave outside and say so on the KC8 page. **Recommend: ‡ inside an extended fence** |
-| B5 | gate (c) self-dose ≈**57 tok** (31 + 26); door command **24 tok** (28 prefixed) | matrix L386–390; skill-heaven `claude-heaven/README.md` | chars4 over *draft* copy, never committed | **C** — ‡, and label "draft copy, re-priced at WS4" |
+| B5 | gate (c) self-dose ≈**57 tok** (31 + 26); door command **24 tok** (28 prefixed) | matrix L386–390; skill-heaven `claude-zero/README.md` | chars4 over *draft* copy, never committed | **C** — ‡, and label "draft copy, re-priced at WS4" |
 | B6 | census: **8,919** standing · **88,416** invocation · **11.1×**/**23.2×**/**40.8×** · **9,384** · **14,498** | `r0-census.md` | `contracts.records[]` values pass; `9,384`/`14,498` are `registryListings.*.standingTokens.sum` — committed but unread by the gate | **W** |
 | B7 | census sanity check: "6 contracts, standing **597** vs invocation **10,376**" | `r0-census.md:78` | run over *this* repo; JSON never committed | **C — ‡.** Genuinely uncommitted; exactly what ‡ is for |
 | B8 | oracle P7/P8 carry **+515**, **~20k**, **2.6%**, `["doctor"]`, `skills=[]`, **74 skills** | `founder/RATIFICATION.md` | oracle is out of every scan set; CLAUDE.md says it should "contain no number" | **X** — do **not** edit the oracle. The KC8 page names where each of those numbers' record lives |
 
-#### Surface C — `gaia-research/skill-heaven` (public repo, badge-linked from the site)
+#### Surface C — `gaia-research/gaia-skill-heaven` (public repo, badge-linked from the site)
 
 | # | Claim | Where | Evidence status today | Disposition |
 |---|---|---|---|---|
-| C1 | **F7**: door **+515 tok** (**20,176** vs benchmark floor **19,661**), **−28.9%** off native **28,379**; claude **2.1.216**, probed **2026-07-24** | `README.md:113–115`, `claude-heaven/README.md:124,216`, `core/src/compile.ts` `FLOOR_EVIDENCE` (test-pinned), oracle P7/P8 | real measurement, pinned in source + a test — but **no ledger record, no run record, no raw output committed anywhere**. This is *the* shipped claim with no benchmark record. | **B — backfill (see §2).** F7 is **LOCKED**: cite as-is, do **not** re-derive against 2.1.220 |
-| C2 | **KC4 clean room**: curated `skills` = `["heaven-set:kc4-curated-marker","doctor"]`, 2/2 byte-identical, claude **2.1.220**, 2026-07-30 | `README.md:163–186` | probe **script** committed (`packages/claude-heaven/scripts/probe-kc4-listing-residual.sh`); **observed output committed nowhere**; not a token number → gate structurally blind | **B/C** — wants a `harness-probe/v1` run record in this repo's `runs/`. If Marco won't authorize a re-run, the page states "script-reproducible, output not committed" |
+| C1 | **F7**: door **+515 tok** (**20,176** vs benchmark floor **19,661**), **−28.9%** off native **28,379**; claude **2.1.216**, probed **2026-07-24** | `README.md:113–115`, `claude-zero/README.md:124,216`, `core/src/compile.ts` `FLOOR_EVIDENCE` (test-pinned), oracle P7/P8 | real measurement, pinned in source + a test — but **no ledger record, no run record, no raw output committed anywhere**. This is *the* shipped claim with no benchmark record. | **B — backfill (see §2).** F7 is **LOCKED**: cite as-is, do **not** re-derive against 2.1.220 |
+| C2 | **KC4 clean room**: curated `skills` = `["heaven-set:kc4-curated-marker","doctor"]`, 2/2 byte-identical, claude **2.1.220**, 2026-07-30 | `README.md:163–186` | probe **script** committed (`packages/claude-zero/scripts/probe-kc4-listing-residual.sh`); **observed output committed nowhere**; not a token number → gate structurally blind | **B/C** — wants a `harness-probe/v1` run record in this repo's `runs/`. If Marco won't authorize a re-run, the page states "script-reproducible, output not committed" |
 | C3 | KC4 (superseded) 2026-07-29: project marker + `doctor`; "~**64**-entry", "~**68**-entry" listings | `README.md:150,172–173` | approximations, no artifact | **C** — the `~` figures must stay approximations and never become the page's numbers |
 | C4 | codex "**74→73** entries, 2/2 byte-identical" | skill-heaven `README.md:85` | skill-heaven's own re-probe has no committed record; the **upstream** G1 rows do (`codex-g1-2026-07-29.run.json`, `input_tokens 18986` / `18925`) | **C** (skill-heaven side) / **A-via-run-record** (matrix side, but gate can't read run records) |
 | C5 | pi "2 of ~9" · "**0/15**" · "95% CI ≈ **21.8%**" | matrix P1 rows (outside fence) | `pi-race-and-argv-order-2026-07-29.run.json` committed | same as C4 |
@@ -340,7 +340,7 @@ Stage 5 then only authors `claim-index.md`, its route, and its entrypoints.
   `harness-probes/README.md` + a run record, `hh-benchmark-ci.yml`,
   `lexicon-ci.yml` scopes, `founder/RATIFICATION.md` §2/§4, `data/research.ts`,
   the three research routes, `app/page.tsx` + `app/about/page.tsx`, and (read-only)
-  `skill-heaven`'s `README.md`, `packages/claude-heaven/README.md`,
+  `skill-heaven`'s `README.md`, `packages/claude-zero/README.md`,
   `packages/core/src/compile.ts` `FLOOR_EVIDENCE`, plus issue #13.
 
   **Three headline findings:** (1) the gate's own declared scope overclaims —
@@ -626,7 +626,7 @@ regions (`#L261-L291`, `#L382-L390`), `gate-a-resume-recomposition.sh`, both
 sources. Every external link now opens in a new tab.
 
 **Verified before linking, worth knowing:** on `skill-heaven` `main`, the KC4
-probe script (`packages/claude-heaven/scripts/probe-kc4-listing-residual.sh`)
+probe script (`packages/claude-zero/scripts/probe-kc4-listing-residual.sh`)
 and the public "74 → 73" codex line **do not exist** — both live only on the
 Arc I lane branches (`dev/kc4-*`, `integration/arc-i-lane-a`). So C4 carries no
 link *on purpose* and now says why; C6 keeps its link to the committed run

@@ -3,9 +3,9 @@
 Ranked by combined **viability** and **potential**.
 
 ## Rank 1 — Skill Heaven / Skill Hell MVP (Ratified)
-- **Viability:** High (Heaven), Medium-High (Hell)
+- **Viability:** High (Skill Zero), Medium-High (Hell)
 - **Potential:** Very High
-- **Why now:** The current North Star (VISION/MISSION); Heaven is pure subtraction and shippable without registry or gate, and the engineering findings + owner decisions are ratified and ready to implement.
+- **Why now:** The current North Star (VISION/MISSION); Skill Zero is a complete subtractive launcher prototype, Heaven/Hell are summon directions, and the HH Index work keeps the gate evidence-first.
 - **Doc:** [`skill-heaven-hell-mvp.md`](./archived/2026-07-24-skill-heaven-hell-mvp.md) · Plan: [`../plans/skill-heaven-hell-mvp-plan.md`](../plans/skill-heaven-hell-mvp-plan.md) · **Decisions: [`founder/RATIFICATION.md`](../../founder/RATIFICATION.md)**
 
 ## Rank 2 — Per-Model × Per-Harness Token-Savings Matrix

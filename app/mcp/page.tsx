@@ -112,13 +112,13 @@ export default function McpPage() {
             <article className="mcp-mode-card mcp-mode-card-profile">
               <header className="mcp-mode-head">
                 <span className="mcp-mode-icon" aria-hidden="true">⬡</span>
-                <h3>Heaven / Summon profile</h3>
+                <h3>HH summon profile</h3>
                 <span className="mcp-mode-badge mcp-mode-badge-profile">Separate</span>
               </header>
               <p>
                 The thin two-tool profile described by D4 is a separate integration surface for
-                Heaven/Summon. It is not the published four-tool package and is not a released
-                local-checkout mode.
+                the Heaven/Hell summon axis. It is not the published four-tool package and is not a
+                released local-checkout mode.
               </p>
               <dl className="mcp-mode-meta">
                 <div>
@@ -144,7 +144,7 @@ export default function McpPage() {
             <h2 id="available-tools-title">Available Tools (published v{version})</h2>
             <p>
               The observed {packageName}@{version} release exposes four published tools: the
-              separate thin Heaven/Summon profile has its own two-tool schema-dose constraint,
+              separate thin HH summon profile has its own two-tool schema-dose constraint,
               which is not a cap on this package surface. Setup commands below intentionally use
               the moving <code>{packageName}@latest</code> selector.
             </p>

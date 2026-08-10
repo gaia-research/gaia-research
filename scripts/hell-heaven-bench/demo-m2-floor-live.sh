@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # M2 "tool in action" demo — vanilla vs floor vs curated, driven by the
-# skill-heaven bin, on a LIVE Claude Code. Produces the three deliverables the
+# skill-zero bin, on a LIVE Claude Code. Produces the three deliverables the
 # owner asked for:
 #   1. vanilla (native) vs floor on the same repo: the firecrawl-crawl listing
 #      drops YES -> NO, with a LIVE per-turn token delta.
@@ -25,8 +25,8 @@ set -euo pipefail
 command -v jq >/dev/null || { echo "need jq"; exit 2; }
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-SH_DIR="${SKILL_HEAVEN_DIR:-$HOME/Documents/skill-heaven}"
-SH_BIN="$SH_DIR/packages/core/bin/skill-heaven.mjs"
+SH_DIR="${SKILL_HEAVEN_DIR:-$HOME/Documents/gaia-skill-heaven}"
+SH_BIN="$SH_DIR/packages/core/bin/skill-zero.mjs"
 IMPECCABLE="$REPO_ROOT/.agents/skills/impeccable"
 # Sonnet at low reasoning is the owner's preferred probe model: haiku
 # under-reports its own skill listing (a self-report flake that falsified the
@@ -36,7 +36,7 @@ EFFORT="${EFFORT:-low}"
 OUT="$REPO_ROOT/scripts/.hh-demo"
 mkdir -p "$OUT"
 
-[ -f "$SH_BIN" ]     || { echo "skill-heaven bin not found: $SH_BIN (set SKILL_HEAVEN_DIR)"; exit 2; }
+[ -f "$SH_BIN" ]     || { echo "skill-zero bin not found: $SH_BIN (set SKILL_HEAVEN_DIR)"; exit 2; }
 [ -d "$IMPECCABLE" ] || { echo "impeccable fixture not found: $IMPECCABLE"; exit 2; }
 
 CLAUDE_VER="$(claude --version)"
@@ -53,13 +53,13 @@ per_turn() { jq -r '.tokens.perTurn' "$1"; }
 endpoint() { jq -r '.objectiveEndpoint.pass' "$1"; }
 result_of() { jq -r 'select(.tokens).notes? // empty' "$1" >/dev/null 2>&1; }  # noop guard
 
-echo "### skill-heaven M2 live demo   |   $CLAUDE_VER   |   model: $MODEL"
+echo "### skill-zero M2 live demo   |   $CLAUDE_VER   |   model: $MODEL"
 echo "### repo: $REPO_ROOT"
-echo "### skill-heaven: $SH_DIR"
+echo "### gaia-skill-heaven: $SH_DIR"
 echo
 
 # --- 0. Show the tool composing each profile (FREE — no quota) ------------------
-echo "== compiled profiles (skill-heaven --print; no quota) =="
+echo "== compiled profiles (skill-zero --print; no quota) =="
 node "$SH_BIN" --posture floor --harness claude --model "$MODEL" --effort "$EFFORT" -p "$BQ_FC" --print \
   | jq -c '{posture:"floor", command, argv, env}' | tee "$OUT/print-floor.json"
 node "$SH_BIN" --posture curated --harness claude --skill "$IMPECCABLE" --model "$MODEL" -p "$BQ_IMP" --print \
@@ -78,7 +78,7 @@ echo "   perTurn=$T_NAT tok   firecrawl-crawl listed (regex ^YES pass)=$E_NAT"
 echo
 
 # --- 2. floor — placebo arm, the same listing probe -----------------------------
-echo "== [2/3] floor (skill-heaven --posture floor): firecrawl-crawl listing =="
+echo "== [2/3] floor (skill-zero --posture floor): firecrawl-crawl listing =="
 node "$SH_BIN" --posture floor --harness claude --model "$MODEL" --effort "$EFFORT" \
   -p "$BQ_FC" --record --benchmark-id hh-m2-smoke --task listing-probe \
   --arm placebo --endpoint-regex '^NO' --record-out "$OUT/rec-floor.json" \
@@ -90,7 +90,7 @@ echo "   perTurn=$T_FLR tok   firecrawl-crawl dropped to NONE (regex ^NO pass)=$
 echo
 
 # --- 3. curated — re-admit one real skill (impeccable) --------------------------
-echo "== [3/3] curated (skill-heaven --posture curated --skill impeccable) =="
+echo "== [3/3] curated (skill-zero --posture curated --skill impeccable) =="
 node "$SH_BIN" --posture curated --harness claude --skill "$IMPECCABLE" --model "$MODEL" --effort "$EFFORT" \
   -p "$BQ_IMP" --record --benchmark-id hh-m2-smoke --task readmit-probe \
   --arm heaven --endpoint-regex 'impeccable' --record-out "$OUT/rec-curated.json" \

@@ -1,6 +1,6 @@
-# Bibliography & References: Skill-Heaven ACI Architecture
+# Bibliography & References: Skill Heaven / Skill Zero ACI Architecture
 
-This document extracts and formalizes the canonical literature referenced in the Skill-Heaven Agent-Computer Interface (ACI) Tiering RRLs. Since the original documents utilized inline search engine citations, this list provides the formalized academic paper titles, core systems, and their specific architectural contributions to the RFC #68 blueprint.
+This document extracts and formalizes the canonical literature referenced in the Skill Heaven / Skill Zero Agent-Computer Interface (ACI) Tiering RRLs. Since the original documents utilized inline search engine citations, this list provides the formalized academic paper titles, core systems, and their specific architectural contributions to the RFC #68 blueprint.
 
 ## Core Agent-Computer Interface (ACI) & Interface Design
 

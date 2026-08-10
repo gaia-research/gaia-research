@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Git commit authorship
+
+**Only `mbtiongson1 <marco.tngsn@gmail.com>` commits in this repo.** Never append `Co-Authored-By`, `pi-Session`, or any AI-attribution trailer to a commit message. The repo-local user identity is already set; do not override it. A `commit-msg` hook strips any such trailers automatically as a backstop.
+
 ## Orient before you build (branch & merge state)
 
 **Always confirm which line / branch you are actually on before building on top of it, and sync `main` first.** Two recurring traps in this repo:
@@ -50,7 +54,7 @@ npx tsx scripts/lexicon/check-lexicon.ts --emit    # regenerate founder/LEXICON.
 
 If the gate flags a word you meant in a different sense — `lean` as in *clean*, a PRNG `seed`, a latency `budget` — that is the gate over-reaching, and it has happened five times. Fix it with an `except` pattern or a narrower scope in `lexicon.json`, **not** by sprinkling `lexicon-allow` markers. Repeated silencing is how a linter dies. The lexicon is **line-scoped, not repo-scoped**: the craft lab, the Milim pet and unrelated reports have their own vocabularies and are none of its business.
 
-**Current active line (as of 2026-07):** the **Skill Heaven / Skill Hell** MVP. Research, benchmarks (census / ledger / capability matrix under `scripts/hell-heaven-bench/` + `content/reports/hh-benchmark/` + `docs/labs/harness-capability-matrix.md`), and the site live **here**; the shippable product — the shared engine + per-harness doors (`claude-heaven`, `pi-heaven`, …) — lives in the **separate `gaia-research/skill-heaven` monorepo**, which doubles as the Claude Code plugin marketplace (RATIFICATION N9). The homepage north-star question is settled: the Next.js site on `main` **is** the live site at `research.gaiaskilltree.com`. When in doubt about the current direction, confirm with the user.
+**Current active line (as of 2026-07):** the **Skill Heaven / Skill Hell** MVP. Research, benchmarks (census / ledger / capability matrix under `scripts/hell-heaven-bench/` + `content/reports/hh-benchmark/` + `docs/labs/harness-capability-matrix.md`), and the site live **here**; the shippable product — the shared engine + per-harness doors (`claude-zero`, `pi-zero`, …) — lives in the **separate `gaia-research/gaia-skill-heaven` monorepo**, which doubles as the Claude Code plugin marketplace (RATIFICATION N9). The homepage north-star question is settled: the Next.js site on `main` **is** the live site at `research.gaiaskilltree.com`. When in doubt about the current direction, confirm with the user.
 
 ## Repository Purpose
 

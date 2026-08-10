@@ -2,74 +2,22 @@
   "lexicon": "2",
   "namespace": "gaia.heaven",
   "extends": "core",
-  "updated": "2026-08-09",
-  "about": "The Skill Heaven / Skill Hell product line: the two dials (ladder and mode), the postures they name, the mechanisms that move skills in and out of a session, and the launcher/door names. skill-heaven consumes this namespace; it does not own it.",
+  "updated": "2026-08-11",
+  "about": "Skill Heaven is the umbrella runtime brand (repo `gaia-skill-heaven`) and the Heaven/Hell/Ultra axis namespace: Heaven and Hell are summon directions, Ultra is the auto-switch governor. The clean-slate launcher is Skill Zero (`gaia.zero`), not Heaven.",
   "terms": [
     {
       "term": "ladder",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N1, N5, P5",
-      "definition": "The rung axis (`off…max`) that sets how much may be summoned per task and how much of the choosing is automated. One of two dials, with mode as the other."
-    },
-    {
-      "term": "posture",
-      "state": "canonical",
-      "group": "posture",
-      "oracle": "P1",
-      "definition": "A named position in the mode dial (P1's four). Distinct from a ladder rung, which is how much enters."
-    },
-    {
-      "term": "native",
-      "state": "canonical",
-      "group": "posture",
-      "oracle": "P1",
-      "definition": "The user's own setup, untouched — no eviction, no summoning. The default posture."
-    },
-    {
-      "term": "curated",
-      "state": "canonical",
-      "group": "posture",
-      "oracle": "P1, P6",
-      "definition": "A personal-profile posture: a clean base plus a hand-picked fraction of the user's OWN skills, named explicitly at launch. Onboardable and personalizable; skills may be sourced externally via gaia mcp; saved as a personal profile. Because it is personalized it is NOT a measured arm.",
-      "note": "Ratified P6 (2026-07-30), NOT LOCKED — amendable as the product shape settles. The measured arms are three and curated is not among them: clean room / door / native. Arc I ships the composition only; onboarding, profile persistence and MCP-sourced skills are later arcs (gaia mcp is Program 4, Arc III). KC4 (2026-07-30): composed with `--setting-sources ''` (empty value, NOT the flag omitted) so no ambient project scope is inherited; `doctor` is the single disclosed residual, an upstream harness limitation ruled acceptable."
-    },
-    {
-      "term": "floor",
-      "state": "canonical",
-      "group": "posture",
-      "oracle": "P1, B1, B2, P7, P8",
-      "definition": "The DOORLESS BENCHMARK floor: evict all skills, bare prompt profile, zero server, slash commands off — the benchmark's placebo-of-record, at level `off`. Composed by core for measurement runs; it keeps no door, so it is never offered on the in-session surface.",
-      "note": "The product/benchmark question this entry used to park is CLOSED — V5-5 split the floors and skill-heaven PR #14 landed it: the doorful launchable posture is `product-floor` (synonym: `clean-room`), priced as its own arm, never pooled with this one (B1). Ratified P7 (2026-07-30): `floor`, `product-floor` and `clean-room` are EQUIVALENT TERMS WITHIN ERROR MARGIN — the door is +515 tok on ~20k (F7), about 2.6%. The three names no longer carry three separate stories. SCOPE OF THIS RULING: vocabulary only. B1's discipline that the arms are priced separately and never averaged is NOT amended here — if that was intended it needs its own explicit line. Verified 2026-07-30 (2/2): this is the ONLY posture reaching a genuinely empty listing — `skills=[]`, `doctor` included — because `--disable-slash-commands` suppresses everything. That same flag is what removes the door (F6), so \"zero skills plus a door\" is not a state the harness can produce. That is why two floors exist at all: it is one flag doing two jobs, not a design choice. P8 (2026-07-30): this is ABSOLUTE ZERO — a ruler, not a product state. It stays the placebo-of-record (B2) and is deliberately not launchable. AUDIENCE (P8): INTERNAL / benchmarking only — absolute zero is OURS, not a product concept. Never offer it as a row, never name it in public copy, never present it as a user choice. It exists so we have a ruler."
-    },
-    {
-      "term": "product-floor",
-      "state": "canonical",
-      "group": "posture",
-      "oracle": "D12, B1, P7, P8",
-      "synonyms": [
-        "clean-room"
-      ],
-      "definition": "The DOORFUL clean floor — the cleanest launchable posture: bundled skills, user/global skills, MCP and non-project settings evicted; the door (slash commands) kept. Composed only at boot, via a launcher (D12); priced as its own arm, never pooled with the benchmark `floor` (B1). Synonym: `clean-room` — two names for one posture; neither retires the other.",
-      "note": "Ratified by V5-5 and landed in core's posture set (skill-heaven PR #14). Fully clean is not possible because the bare minimum stays — the door is the bare minimum. Ratified P7 (2026-07-30): `floor`, `product-floor` and `clean-room` are EQUIVALENT TERMS WITHIN ERROR MARGIN — the door is +515 tok on ~20k (F7), about 2.6%. The three names no longer carry three separate stories. SCOPE OF THIS RULING: vocabulary only. B1's discipline that the arms are priced separately and never averaged is NOT amended here — if that was intended it needs its own explicit line. MEASURED CAVEAT (2026-07-30, claude 2.1.220, 2/2 byte-identical): this posture composes `--setting-sources project` WITHOUT `--disable-slash-commands`, so it INHERITS project-scope skills from cwd — probed as `skills=[\"pf-project-marker\",\"doctor\"]` with a planted marker vs `[\"doctor\"]` in a clean dir. So `clean-room` is not yet an accurate name for it, and this arm's token figure is cwd-dependent. `--setting-sources ''` fixes it (probed: `[\"doctor\"]`). An error margin cannot cover this: the leak scales with the user's repo, it is not a constant. Fix pending a founder call because re-composing a measured arm re-derives F7. P8 (2026-07-30): this is \"OFF\" — whatever the harness can actually be launched at, NEAREST to zero. \"Off\" is a MEASURED per-harness quantity, not a fixed composition: probe downward until nothing further evicts, then record what remains. A launchable floor that is not the nearest achievable zero is a DEFECT BY DEFINITION — which is what the project-scope leak above now is. On claude, \"off\" is empirically [\"doctor\"]. AUDIENCE (P8): this is the PRODUCT-LINE floor, and `off` is its user-facing word — the lowest point a user can actually launch at. LEVEL_ALIASES currently maps `off`->`floor`, which points the product word at the internal instrument; under P8 `off` belongs here."
+      "oracle": "N11, N1, N5, P5",
+      "definition": "The rung axis (`off…max`) that sets how much may be summoned per task and how much of the choosing is automated."
     },
     {
       "term": "hell lane",
       "state": "canonical",
       "group": "posture",
-      "oracle": "P1",
-      "definition": "The evidenced pool, honesty-gated, above native — how much of it enters is the ladder's rung."
-    },
-    {
-      "term": "clean-room",
-      "state": "canonical",
-      "group": "posture",
-      "oracle": "D12, P7, P8",
-      "definition": "The cleanest launchable posture: bundled skills, user/global skills, MCP and non-project settings all evicted; the door stays. Reachable only at boot, via the launcher. Synonym of `product-floor` — two names for one posture; neither retires the other.",
-      "note": "Promotion RATIFIED 2026-07-30 (R7); it had been demoted 2026-07-24 as unshipped and the posture has since shipped: the posture has now shipped as `product-floor` in core (V5-5, skill-heaven PR #14). The earlier \"fully-subtractive\" adjective overreached — the enumerated list never included slash commands; fully clean is not possible because the bare minimum stays. Ratified P7 (2026-07-30): `floor`, `product-floor` and `clean-room` are EQUIVALENT TERMS WITHIN ERROR MARGIN — the door is +515 tok on ~20k (F7), about 2.6%. The three names no longer carry three separate stories. SCOPE OF THIS RULING: vocabulary only. B1's discipline that the arms are priced separately and never averaged is NOT amended here — if that was intended it needs its own explicit line. P8 (2026-07-30): as a synonym of `product-floor` this names \"off\" — the nearest ACHIEVABLE zero — not absolute zero. It becomes an accurate name once the project-scope leak is fixed and the posture actually reaches [\"doctor\"].",
-      "synonyms": [
-        "product-floor"
-      ]
+      "oracle": "N11, P1",
+      "definition": "The explore/expand summon direction above native: the evidenced pool, honesty-gated; how much enters is bounded by the ladder rung."
     },
     {
       "term": "scalpel",
@@ -157,15 +105,8 @@
       "term": "mode",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N1, N2",
-      "definition": "Discrete mode switching — the interaction model. Same mode, same semantics, any door. N2 leans 'Skill Heaven mode' / 'Skill Hell mode'."
-    },
-    {
-      "term": "level",
-      "state": "canonical",
-      "group": "posture",
-      "oracle": "N3",
-      "definition": "Agentic-coding level terms: off · low · med · high · xhigh · max. No celestial level names."
+      "oracle": "N11, N1, N2",
+      "definition": "The behavioral axis selection: Heaven (converge/curated summon), Hell (explore/expand summon), or Ultra (the auto-switch governor)."
     },
     {
       "term": "Heaven-0",
@@ -187,8 +128,8 @@
       "term": "ultra",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N4",
-      "definition": "The arm above Hell — a mode, not a rung. The ladder's top rung is `max`."
+      "oracle": "N11, N4",
+      "definition": "The automated Heaven↔Hell switch governor. Axis, not launcher; gated exactly like Hell until evidence clears it."
     },
     {
       "term": "resident",
@@ -205,22 +146,15 @@
       "term": "summonable",
       "state": "canonical",
       "group": "mechanism",
-      "definition": "A skill that is indexed and reachable but costs nothing until summoned. Hell grows this set; a summon brings a proxy into context for this session only.",
-      "oracle": "P5"
-    },
-    {
-      "term": "eviction",
-      "state": "canonical",
-      "group": "mechanism",
-      "oracle": "D2",
-      "definition": "Removal of a skill from context. Always harness-side, never an MCP operation — MCP is additive-only in every target harness."
+      "definition": "A skill that is indexed and reachable but costs nothing until summoned. Hell expands this set; Heaven converges it. A summon brings a proxy into context for this session only.",
+      "oracle": "N11, P5"
     },
     {
       "term": "summon",
       "state": "canonical",
       "group": "mechanism",
-      "oracle": "D4",
-      "definition": "One of the thin Heaven/Summon profile's two proposed tools (with `search_skills`). The published rich Registry/Bond package also exposes `summon` alongside `gaia_search`, `gaia_inspect`, and `gaia_status`; D4's <=2-tool/schema-dose constraint applies to the thin profile, not the package total. Additive-only. A summon brings a skill into context once, for this session only — it does not survive a compact or a new session, and installs nothing."
+      "oracle": "N11, D4",
+      "definition": "A per-session operation that brings a skill into context once, without installing it. Hell is the explore/expand summon direction; Heaven is the converge/curated summon direction."
     },
     {
       "term": "router",
@@ -239,44 +173,34 @@
       "note": "Two senses ran side by side: the live 'token-ceiling firebreak' and the archived RFC-68 sense (an architectural boundary against tool-exposure degradation). Neither survives: a cap with a control and a readout does not need a third name."
     },
     {
-      "term": "launcher",
-      "state": "canonical",
-      "group": "names",
-      "oracle": "D6, D12",
-      "definition": "The boot-time composer. Owns the launcher-locked subtractive floor — the only path to the deepest Heaven."
-    },
-    {
-      "term": "door",
-      "state": "canonical",
-      "group": "names",
-      "oracle": "N9",
-      "definition": "A per-harness installable — `claude-heaven`, `pi-heaven`, `codex-heaven`. The doors are the user-facing product."
-    },
-    {
       "term": "skill-heaven",
       "state": "canonical",
       "group": "names",
-      "oracle": "N9",
-      "definition": "The product monorepo (`gaia-research/skill-heaven`), which doubles as the Claude Code plugin marketplace. Its core bin is the research driver, not the user-facing install."
+      "oracle": "N11, N9",
+      "definition": "The umbrella runtime brand and repo: `gaia-research/gaia-skill-heaven`. It contains the Skill Zero launcher module and the Heaven/Hell/Ultra runtime direction work; it is not the launcher bin."
     },
     {
       "term": "claude-heaven",
-      "state": "canonical",
+      "state": "banned",
       "group": "names",
-      "oracle": "N9",
-      "definition": "The flagship door. Claude Code is the reference harness and marketing weight sits here."
+      "oracle": "N11, N9",
+      "definition": "Retired door product name. Use `claude-zero` for the Skill Zero door.",
+      "replacement": "claude-zero",
+      "note": "Retired by the Skill Zero split (2026-08-11): Heaven is a summon direction and umbrella brand, not a per-harness launcher name."
     },
     {
       "term": "pi-heaven",
-      "state": "canonical",
+      "state": "banned",
       "group": "names",
-      "oracle": "N9",
-      "definition": "The R&D vanguard door — interaction design is proven on pi first, then ported down to Claude Code's more restrictive plugin surface."
+      "oracle": "N11, N9",
+      "definition": "Retired door product name. Use `pi-zero` for the Skill Zero door.",
+      "replacement": "pi-zero",
+      "note": "Retired by the Skill Zero split (2026-08-11): Heaven is a summon direction and umbrella brand, not a per-harness launcher name."
     },
     {
       "term": "hh-launcher",
       "state": "banned",
-      "replacement": "skill-heaven",
+      "replacement": "skill-zero",
       "group": "names",
       "oracle": "N9",
       "definition": "Retired working name for the launcher repo."
@@ -284,7 +208,7 @@
     {
       "term": "skill-heaven-hell",
       "state": "banned",
-      "replacement": "skill-heaven",
+      "replacement": "gaia-skill-heaven",
       "group": "names",
       "oracle": "N9",
       "definition": "Retired fallback repo name.",
@@ -292,31 +216,51 @@
     },
     {
       "term": "codex-heaven",
-      "state": "canonical",
+      "state": "banned",
       "group": "names",
-      "oracle": "N9",
-      "definition": "The Codex CLI door. Codex's isolation flags are unusually strong — config, session persistence, and the writable filesystem are each independently suppressible per invocation."
+      "oracle": "N11, N9",
+      "definition": "Retired door product name. Use `codex-zero` for the Skill Zero door.",
+      "replacement": "codex-zero",
+      "note": "Retired by the Skill Zero split (2026-08-11): Heaven is a summon direction and umbrella brand, not a per-harness launcher name."
     },
     {
       "term": "hermes-heaven",
-      "state": "canonical",
+      "state": "banned",
       "group": "names",
-      "oracle": "N9",
-      "definition": "The Hermes Agent door. Hermes seeds bundled skills onto disk in the profile, so its floor is reached by an explicit toolset allowlist that omits the skills toolset, not by a suppression flag."
+      "oracle": "N11, N9",
+      "definition": "Retired door product name. Use `hermes-zero` for the Skill Zero door.",
+      "replacement": "hermes-zero",
+      "note": "Retired by the Skill Zero split (2026-08-11): Heaven is a summon direction and umbrella brand, not a per-harness launcher name."
     },
     {
       "term": "grok-heaven",
-      "state": "canonical",
+      "state": "banned",
       "group": "names",
-      "oracle": "N9",
-      "definition": "The Grok door. Grok reads Claude's project and user skill directories, so its context is not self-contained — the first door where a harness loads another harness's sources."
+      "oracle": "N11, N9",
+      "definition": "Retired door product name. Use `grok-zero` for the Skill Zero door.",
+      "replacement": "grok-zero",
+      "note": "Retired by the Skill Zero split (2026-08-11): Heaven is a summon direction and umbrella brand, not a per-harness launcher name."
     },
     {
-      "term": "context source",
+      "term": "heaven",
       "state": "canonical",
-      "group": "mechanism",
-      "oracle": "N9",
-      "definition": "A class of material a harness loads into a session: skills, rule and instruction files, memory, prompt templates, toolsets, plugins and MCP servers, subagents. A posture is a statement about which context sources are admitted — skills are one class among several, and framing a door as suppressing only skills is what caused the Hermes and Grok findings to be missed."
+      "group": "axis",
+      "oracle": "N11",
+      "definition": "The converge/curated summon direction on the Heaven/Hell axis. Heaven is not subtraction and not the launcher; Skill Zero owns clean-slate launch."
+    },
+    {
+      "term": "hell",
+      "state": "canonical",
+      "group": "axis",
+      "oracle": "N11",
+      "definition": "The explore/expand summon direction on the Heaven/Hell axis. `skill-hell` remains the standalone explore-direction summon tool."
+    },
+    {
+      "term": "polarity",
+      "state": "canonical",
+      "group": "axis",
+      "oracle": "N11",
+      "definition": "The Heaven↔Hell behavioral direction of a summon: converge/curate toward Heaven, explore/expand toward Hell; Ultra governs switching."
     }
   ]
 }

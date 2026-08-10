@@ -8,7 +8,7 @@ import methodologyMd from "@/content/reports/hh-benchmark/methodology.md";
 export const metadata = {
   title: "The Hell Heaven Benchmark — Methodology",
   description:
-    "How Gaia Research benchmarks agent skills: marginal efficacy against established model baselines, a heaven/hell trial split, and stamps earned by the trial. Arc I verified.",
+    "How Gaia Research benchmarks agent skills: marginal efficacy against established model baselines, the Heaven/Hell summon axis, and stamps earned by the trial. Arc I verified.",
 };
 
 // Render while the Markdown source is present at build time; Cloudflare Workers
@@ -89,7 +89,7 @@ export default function HhBenchmarkPage() {
         </article>
 
         <footer className="report-foot">
-          <p>Arc I baseline floor pricing and machine claim verification are complete. If you benchmark models or skills, come build Arc II with us.</p>
+          <p>Arc I baseline pricing and machine claim verification are complete. The HH Index over the Heaven/Hell summon axis is in the works. If you benchmark models or skills, come build Arc II with us.</p>
           {/* lexicon-allow: anchor slug of the line name, not N9's retired repo name */}
           <Link className="button secondary" href="/#skill-heaven-hell">Back to Skill Heaven/Hell <span>→</span></Link>
         </footer>

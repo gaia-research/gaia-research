@@ -1,0 +1,152 @@
+{
+  "lexicon": "2",
+  "namespace": "gaia.zero",
+  "extends": "core",
+  "updated": "2026-08-11",
+  "about": "Skill Zero launcher vocabulary: clean-slate boot composition, per-harness doors, postures, floors, context-source eviction, and the zero door/command names. Skill Zero lives inside the Skill Heaven umbrella (`gaia-skill-heaven`) and owns subtraction; Heaven/Hell/Ultra own summon direction and governance in `gaia.heaven`.",
+  "terms": [
+    {
+      "term": "posture",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, P1",
+      "definition": "A Skill Zero launch position: which context sources the harness admits at boot."
+    },
+    {
+      "term": "native",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, P1",
+      "definition": "A Skill Zero posture: the user's own setup, untouched — no eviction, no summoning. The default posture."
+    },
+    {
+      "term": "curated",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, P1, P6",
+      "definition": "A Skill Zero posture: a clean base plus a hand-picked fraction of the user's own skills, named explicitly at launch. Onboardable and personalizable; skills may be sourced externally via gaia mcp; saved as a personal profile. Because it is personalized it is not a measured arm.",
+      "note": "Ratified P6 (2026-07-30), NOT LOCKED — amendable as the product shape settles. The measured arms are three and curated is not among them: clean room / door / native. Arc I ships the composition only; onboarding, profile persistence and MCP-sourced skills are later arcs (gaia mcp is Program 4, Arc III). KC4 (2026-07-30): composed with `--setting-sources ''` (empty value, NOT the flag omitted) so no ambient project scope is inherited; `doctor` is the single disclosed residual, an upstream harness limitation ruled acceptable."
+    },
+    {
+      "term": "floor",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, P1, B1, B2, P7, P8",
+      "definition": "The Skill Zero doorless benchmark floor: evict all skills, bare prompt profile, zero server, slash commands off — the benchmark placebo-of-record, at level `off`. Composed by Skill Zero for measurement runs; it keeps no door, so it is never offered on the in-session surface.",
+      "note": "The product/benchmark question this entry used to park is CLOSED — V5-5 split the floors and skill-heaven PR #14 landed it: the doorful launchable posture is `product-floor` (synonym: `clean-room`), priced as its own arm, never pooled with this one (B1). Ratified P7 (2026-07-30): `floor`, `product-floor` and `clean-room` are EQUIVALENT TERMS WITHIN ERROR MARGIN — the door is +515 tok on ~20k (F7), about 2.6%. The three names no longer carry three separate stories. SCOPE OF THIS RULING: vocabulary only. B1's discipline that the arms are priced separately and never averaged is NOT amended here — if that was intended it needs its own explicit line. Verified 2026-07-30 (2/2): this is the ONLY posture reaching a genuinely empty listing — `skills=[]`, `doctor` included — because `--disable-slash-commands` suppresses everything. That same flag is what removes the door (F6), so \"zero skills plus a door\" is not a state the harness can produce. That is why two floors exist at all: it is one flag doing two jobs, not a design choice. P8 (2026-07-30): this is ABSOLUTE ZERO — a ruler, not a product state. It stays the placebo-of-record (B2) and is deliberately not launchable. AUDIENCE (P8): INTERNAL / benchmarking only — absolute zero is OURS, not a product concept. Never offer it as a row, never name it in public copy, never present it as a user choice. It exists so we have a ruler."
+    },
+    {
+      "term": "product-floor",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, D12, B1, P7, P8",
+      "synonyms": [
+        "clean-room"
+      ],
+      "definition": "The Skill Zero doorful clean floor — the cleanest launchable posture: bundled skills, user/global skills, MCP and non-project settings evicted; the door (slash commands) kept. Composed only at boot, via Skill Zero; priced as its own arm, never pooled with the benchmark `floor` (B1). Synonym: `clean-room` — two names for one posture; neither retires the other.",
+      "note": "Ratified by V5-5 and landed in core's posture set (skill-heaven PR #14). Fully clean is not possible because the bare minimum stays — the door is the bare minimum. Ratified P7 (2026-07-30): `floor`, `product-floor` and `clean-room` are EQUIVALENT TERMS WITHIN ERROR MARGIN — the door is +515 tok on ~20k (F7), about 2.6%. The three names no longer carry three separate stories. SCOPE OF THIS RULING: vocabulary only. B1's discipline that the arms are priced separately and never averaged is NOT amended here — if that was intended it needs its own explicit line. MEASURED CAVEAT (2026-07-30, claude 2.1.220, 2/2 byte-identical): this posture composes `--setting-sources project` WITHOUT `--disable-slash-commands`, so it INHERITS project-scope skills from cwd — probed as `skills=[\"pf-project-marker\",\"doctor\"]` with a planted marker vs `[\"doctor\"]` in a clean dir. So `clean-room` is not yet an accurate name for it, and this arm's token figure is cwd-dependent. `--setting-sources ''` fixes it (probed: `[\"doctor\"]`). An error margin cannot cover this: the leak scales with the user's repo, it is not a constant. Fix pending a founder call because re-composing a measured arm re-derives F7. P8 (2026-07-30): this is \"OFF\" — whatever the harness can actually be launched at, NEAREST to zero. \"Off\" is a MEASURED per-harness quantity, not a fixed composition: probe downward until nothing further evicts, then record what remains. A launchable floor that is not the nearest achievable zero is a DEFECT BY DEFINITION — which is what the project-scope leak above now is. On claude, \"off\" is empirically [\"doctor\"]. AUDIENCE (P8): this is the PRODUCT-LINE floor, and `off` is its user-facing word — the lowest point a user can actually launch at. LEVEL_ALIASES currently maps `off`->`floor`, which points the product word at the internal instrument; under P8 `off` belongs here."
+    },
+    {
+      "term": "clean-room",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, D12, P7, P8",
+      "definition": "The cleanest launchable Skill Zero posture: bundled skills, user/global skills, MCP and non-project settings all evicted; the door stays. Reachable only at boot, via Skill Zero. Synonym of `product-floor` — two names for one posture; neither retires the other.",
+      "note": "Promotion RATIFIED 2026-07-30 (R7); it had been demoted 2026-07-24 as unshipped and the posture has since shipped: the posture has now shipped as `product-floor` in core (V5-5, skill-heaven PR #14). The earlier \"fully-subtractive\" adjective overreached — the enumerated list never included slash commands; fully clean is not possible because the bare minimum stays. Ratified P7 (2026-07-30): `floor`, `product-floor` and `clean-room` are EQUIVALENT TERMS WITHIN ERROR MARGIN — the door is +515 tok on ~20k (F7), about 2.6%. The three names no longer carry three separate stories. SCOPE OF THIS RULING: vocabulary only. B1's discipline that the arms are priced separately and never averaged is NOT amended here — if that was intended it needs its own explicit line. P8 (2026-07-30): as a synonym of `product-floor` this names \"off\" — the nearest ACHIEVABLE zero — not absolute zero. It becomes an accurate name once the project-scope leak is fixed and the posture actually reaches [\"doctor\"].",
+      "synonyms": [
+        "product-floor"
+      ]
+    },
+    {
+      "term": "level",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, N3",
+      "definition": "Skill Zero launch level terms: off · low · med · high · xhigh · max. No celestial level names."
+    },
+    {
+      "term": "eviction",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, D2",
+      "definition": "Skill Zero removal of a skill or context source at launch. Always harness-side, never an MCP operation — MCP is additive-only in every target harness."
+    },
+    {
+      "term": "launcher",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, D6, D12",
+      "definition": "Skill Zero: the boot-time composer that severs the skill catalogue to zero and can restore selected user skills. It owns the launcher-locked subtractive floor."
+    },
+    {
+      "term": "door",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, N9",
+      "definition": "A per-harness Skill Zero installable — `claude-zero`, `pi-zero`, `codex-zero`, `hermes-zero`, `grok-zero`. Doors are the user-facing launch identities."
+    },
+    {
+      "term": "context source",
+      "state": "canonical",
+      "group": "launcher",
+      "oracle": "N11, N9",
+      "definition": "A class of material a harness loads into a session: skills, rule and instruction files, memory, prompt templates, toolsets, plugins and MCP servers, subagents. A Skill Zero posture is a statement about which context sources are admitted — skills are one class among several."
+    },
+    {
+      "term": "skill-zero",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N11",
+      "definition": "The Skill Zero launcher engine and npm/bin name: the clean-slate module inside `gaia-skill-heaven` that composes zero-skill and selected-skill launch postures."
+    },
+    {
+      "term": "claude-zero",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N11",
+      "definition": "The Claude Code Skill Zero door and short user-facing launcher identity."
+    },
+    {
+      "term": "pi-zero",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N11",
+      "definition": "The pi Skill Zero door and short user-facing launcher identity."
+    },
+    {
+      "term": "codex-zero",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N11",
+      "definition": "The Codex CLI Skill Zero door and short user-facing launcher identity."
+    },
+    {
+      "term": "hermes-zero",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N11",
+      "definition": "The Hermes Agent Skill Zero door and short user-facing launcher identity."
+    },
+    {
+      "term": "grok-zero",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "N11",
+      "definition": "The grok Skill Zero door and short user-facing launcher identity."
+    },
+    {
+      "term": "/skill-zero",
+      "state": "canonical",
+      "group": "commands",
+      "oracle": "N11",
+      "definition": "The in-session Skill Zero command, meaningful inside a zero-launched session."
+    },
+    {
+      "term": "/skill-ultra",
+      "state": "canonical",
+      "group": "commands",
+      "oracle": "N11",
+      "definition": "The in-session command for the Ultra auto-switch governor surface."
+    }
+  ]
+}

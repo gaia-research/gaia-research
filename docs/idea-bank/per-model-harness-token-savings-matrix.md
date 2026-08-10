@@ -20,7 +20,7 @@ gate in the capability matrix.
 
 ## What to research
 
-A post-MVP benchmark surface that reports Skill Heaven's token savings
+A post-MVP benchmark surface that reports Skill Zero's token savings
 **locked per model and per reasoning level** (e.g. Sonnet 5 at low / medium /
 high, plus Opus, Haiku, and non-Claude harness models) **× per harness**
 (Claude Code, pi, codex, cursor, grok) **× posture** (native / floor /
@@ -38,7 +38,7 @@ checked against — same shape as the existing GSB submission-vs.-canon split
 in `content/schemas/`.
 
 A **sandboxed environment is created for this exact task for
-`claude-heaven`** — the **B5** clean-install fixture (built for the
+`claude-zero`** — the **B5** clean-install fixture (built for the
 benchmark, not the workstation's growing `~/.claude`) doubles as the harness
 this matrix runs on.
 

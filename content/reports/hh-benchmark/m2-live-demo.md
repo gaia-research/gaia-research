@@ -3,7 +3,7 @@
 > **Smoke/demo evidence, 2026-07-22.** Workstation run on Claude Code
 > **2.1.216**, model **`sonnet` at `--effort low`**. Per **B5** this is *smoke
 > evidence*, not a benchmark arm (benchmark arms run on clean sandboxed
-> installs). It exists to show the `skill-heaven` bin actually composing the
+> installs). It exists to show the `skill-zero` bin actually composing the
 > floor and curated postures live, and to **re-verify the T9/T9b routes on
 > 2.1.216** (the `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS` knob is undocumented and
 > version-pinned — re-verify on every CLI upgrade).
@@ -45,7 +45,7 @@ borrowed baseline.
 ## Result 1 — vanilla vs. floor: the probed skill drops out of the listing
 
 Same repo, same probe (*"Is a skill named exactly `firecrawl-crawl` listed?
-YES/NO"*), one flag-profile apart. `skill-heaven --posture floor` composes the
+YES/NO"*), one flag-profile apart. `skill-zero --posture floor` composes the
 T9b route the bin prints for itself:
 
 ```
@@ -68,7 +68,7 @@ them plus the bundled CLI skills.)
 
 ## Result 2 — curated re-admission of one real skill
 
-`skill-heaven --posture curated --skill .agents/skills/impeccable` composes the
+`skill-zero --posture curated --skill .agents/skills/impeccable` composes the
 T9 route (`--setting-sources project` + `--plugin-dir` + the bundled-skills
 knob) and copies the skill into a session-scoped plugin dir. Asked to enumerate
 all available skills, the model returns **exactly one line**:
@@ -115,7 +115,7 @@ follow-up work, tracked separately.)
 
 ## What this does and does not prove
 
-- **Does:** the `skill-heaven` bin composes floor and curated live on 2.1.216
+- **Does:** the `skill-zero` bin composes floor and curated live on 2.1.216
   with zero shared-state mutation (`git status` clean in both repos, `~/.claude`
   untouched, temp dirs disposable); the T9/T9b routes survive the 2.1.215 →
   2.1.216 upgrade; the single-skill re-admission (**+963 per-turn** between the
