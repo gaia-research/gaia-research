@@ -46,7 +46,7 @@ says it is: a behavioral **axis direction**, not a launcher.
 | Launcher engine (`packages/core`) | `skill-heaven` (bin `skill-heaven`) | **`skill-zero`** (bin `skill-zero`) |
 | Claude door | `claude-heaven` | **`claude-zero`** (plugin/marketplace/`plugin.json` identity; bins `claude-zero`, `claude-zero-statusline`) | <!-- lexicon-allow -->
 | pi door | `pi-heaven` | **`pi-zero`** (pi-extension identity) | <!-- lexicon-allow -->
-| Future doors | `codex/hermes/grok-heaven` | **`codex/hermes/grok-zero`** | <!-- lexicon-allow -->
+| Existing tested prototype doors | `codex/hermes/grok-heaven` | **`codex/hermes/grok-zero`** | <!-- lexicon-allow -->
 | In-session commands | `/skill-heaven`, `/skill-hell` | **`/skill-heaven`, `/skill-hell`, `/skill-ultra`, `/skill-zero`** — all ship with the launcher; `/skill-zero` is **gated** (only meaningful inside the zero launcher) |
 | Core bin role | research driver | unchanged (still `--print`/`--record`), now spelled `skill-zero` |
 
