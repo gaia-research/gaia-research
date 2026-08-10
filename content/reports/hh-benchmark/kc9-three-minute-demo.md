@@ -132,7 +132,7 @@ $ CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1 claude --setting-sources '' \
   endpoint /^FLAGGED:.*[Ss]ide-[Ss]tripe/  →  PASS
 ```
 
-`skill-heaven --posture curated --skill .agents/skills/impeccable` composes the
+`skill-zero --posture curated --skill .agents/skills/impeccable` composes the
 T9 route and copies exactly one contract into a session-scoped plugin dir. The
 model consults it and returns the coined term. **This is the "successful task"
 beat, and it is the only arm that passes the endpoint.**

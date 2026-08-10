@@ -11,7 +11,7 @@
 
 ## The question
 
-A **door** is a launcher that boots an AI coding harness into a chosen posture — most usefully, a
+A **door** is a Skill Zero launcher that boots an AI coding harness into a chosen posture — most usefully, a
 posture where almost nothing is loaded. The premise is that a model does not need the bloat: if a
 session's standing context can be cut by two-thirds without losing the ability to work, that is a
 cost saving on every turn of every session.
@@ -20,8 +20,8 @@ Building one door is a product. Building five in a day turned out to be a resear
 because **every harness hides its skills somewhere different, and the differences are not
 cosmetic.** Two of the five required abandoning the approach that worked on the others.
 
-This note records the taxonomy, the measurement traps, and two findings that generalise beyond
-Skill Heaven.
+This note records the Skill Zero taxonomy, the measurement traps, and two findings that generalise beyond
+the Skill Heaven umbrella.
 
 ---
 
@@ -206,7 +206,7 @@ repeated:
 
 A **64% reduction**, identical across repeats. Note that `--safe-mode` adds nothing on top of the
 toolset allowlist — consistent with the source analysis above, since it never touches toolsets.
-These are diagnostic usage fields, not a priced Skill Heaven dose.
+These are diagnostic usage fields, not a priced Skill Zero dose.
 
 The second lever gives a stronger result still. Under a scoped `HERMES_HOME` with the
 `.no-bundled-skills` marker, `hermes skills list` reports:

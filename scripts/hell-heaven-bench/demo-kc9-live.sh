@@ -63,8 +63,8 @@ set -euo pipefail
 command -v jq >/dev/null || { echo "need jq"; exit 2; }
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-SH_DIR="${SKILL_HEAVEN_DIR:-$HOME/Documents/skill-heaven}"
-SH_BIN="$SH_DIR/packages/core/bin/skill-heaven.mjs"
+SH_DIR="${SKILL_HEAVEN_DIR:-$HOME/Documents/gaia-skill-heaven}"
+SH_BIN="$SH_DIR/packages/core/bin/skill-zero.mjs"
 IMPECCABLE="$REPO_ROOT/.agents/skills/impeccable"
 # Sonnet at low reasoning is the owner's preferred probe model (haiku
 # under-reports; see demo-m2-floor-live.sh). Override with MODEL=/EFFORT=.
@@ -75,7 +75,7 @@ TRANSCRIPT="$OUT/kc9-transcript.jsonl"
 mkdir -p "$OUT"
 : > "$TRANSCRIPT"
 
-[ -f "$SH_BIN" ]     || { echo "skill-heaven bin not found: $SH_BIN (set SKILL_HEAVEN_DIR)"; exit 2; }
+[ -f "$SH_BIN" ]     || { echo "skill-zero bin not found: $SH_BIN (set SKILL_HEAVEN_DIR)"; exit 2; }
 [ -d "$IMPECCABLE" ] || { echo "impeccable fixture not found: $IMPECCABLE"; exit 2; }
 
 CLAUDE_VER="$(claude --version)"
@@ -89,7 +89,7 @@ PROMPT
 # The one endpoint. Identical for every arm — it is the task, not a goalpost.
 ENDPOINT='^FLAGGED:.*[Ss]ide-[Ss]tripe'
 # The one tool gate. Identical for every arm (see header). Passed through
-# skill-heaven's `--` lane, so it lands on the composed claude argv unchanged.
+# skill-zero's `--` lane, so it lands on the composed claude argv unchanged.
 TOOLGATE=(-- --allowedTools Skill)
 
 per_turn()  { jq -r '.tokens.perTurn'          "$1"; }
@@ -102,8 +102,8 @@ wallclock() { jq -r '.wallClockMs'             "$1"; }
 emit_beat() {
   local beat="$1" label="$2" posture="$3" arm="$4" committed="$5" rec="$6" stderr_f="$7" print_f="$8"
   local reply dose
-  reply="$(sed -n 's/^\[skill-heaven\] result: //p' "$stderr_f" | head -1)"
-  dose="$(sed -n 's/^\[skill-heaven\] curated loadout dose (chars4): //p' "$stderr_f" | head -1)"
+  reply="$(sed -n 's/^\[skill-zero\] result: //p' "$stderr_f" | head -1)"
+  dose="$(sed -n 's/^\[skill-zero\] curated loadout dose (chars4): //p' "$stderr_f" | head -1)"
   jq -nc \
     --argjson beat "$beat" --arg label "$label" --arg posture "$posture" --arg arm "$arm" \
     --argjson committed "$committed" --arg reply "$reply" --arg dose "$dose" \
@@ -129,12 +129,12 @@ emit_beat() {
 
 echo "### KC9 three-minute demo   |   $CLAUDE_VER   |   model: $MODEL (effort $EFFORT)"
 echo "### repo: $REPO_ROOT"
-echo "### skill-heaven: $SH_DIR"
+echo "### gaia-skill-heaven: $SH_DIR"
 echo "### one task, three loadouts, ONE endpoint: /$ENDPOINT/"
 echo
 
 # --- 0. Show the tool composing each profile (FREE — no quota) ------------------
-echo "== compiled profiles (skill-heaven --print; no quota spent) =="
+echo "== compiled profiles (skill-zero --print; no quota spent) =="
 node "$SH_BIN" --posture native  --harness claude --model "$MODEL" --effort "$EFFORT" -p "$TASK" --print "${TOOLGATE[@]}" \
   > "$OUT/print-native.json"
 node "$SH_BIN" --posture floor   --harness claude --model "$MODEL" --effort "$EFFORT" -p "$TASK" --print "${TOOLGATE[@]}" \
@@ -160,7 +160,7 @@ emit_beat 1 native native heaven false "$OUT/rec-native.json" "$OUT/native.stder
 echo
 
 # --- 2. floor — the placebo-of-record. The measured bloat is native minus this --
-echo "== [2/3] FLOOR (skill-heaven --posture floor) — the own-placebo anchor =="
+echo "== [2/3] FLOOR (skill-zero --posture floor) — the own-placebo anchor =="
 node "$SH_BIN" --posture floor --harness claude --model "$MODEL" --effort "$EFFORT" \
   -p "$TASK" --record --benchmark-id "$BENCH_ID" --task side-stripe-review \
   --arm placebo --endpoint-regex "$ENDPOINT" --record-out "$OUT/rec-floor.json" \
@@ -180,7 +180,7 @@ emit_beat 2 floor floor placebo true "$OUT/rec-floor.json" "$OUT/floor.stderr" "
 echo
 
 # --- 3. curated — one skill admitted on purpose; the task completes -------------
-echo "== [3/3] CURATED (skill-heaven --posture curated --skill impeccable) =="
+echo "== [3/3] CURATED (skill-zero --posture curated --skill impeccable) =="
 node "$SH_BIN" --posture curated --harness claude --skill "$IMPECCABLE" --model "$MODEL" --effort "$EFFORT" \
   -p "$TASK" --record --benchmark-id "$BENCH_ID" --task side-stripe-review \
   --arm heaven --endpoint-regex "$ENDPOINT" --record-out "$OUT/rec-curated.json" \

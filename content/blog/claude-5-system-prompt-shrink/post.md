@@ -62,7 +62,7 @@ measurable loss**.
 The committed
 [Context Diet report](https://github.com/gaia-research/gaia-research/tree/main/content/reports/context-diet-lab-001),
 [Skill Heaven evidence](https://github.com/gaia-research/gaia-research/tree/main/content/reports/hh-benchmark),
-and [product repository](https://github.com/gaia-research/skill-heaven) keep
+and [product repository](https://github.com/gaia-research/gaia-skill-heaven) keep
 those scopes separate. Gaia has measured compression at the `CLAUDE.md` and
 skill layers; its task-equivalence trials are not complete.
 
