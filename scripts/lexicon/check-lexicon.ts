@@ -14,7 +14,7 @@
 // flat `core` file. It is a root manifest plus one file per owned namespace,
 // split across two HQs:
 //
-//   gaia-research     core · gaia.research · gaia.brand · gaia.heaven · gaia.mcp
+//   gaia-research     core · gaia.research · gaia.brand · gaia.heaven · gaia.zero · gaia.mcp
 //   gaia-skill-tree   gaia.skills · gaia.trust
 //
 // `skill-heaven` and `gaia-mcp` own NO namespace — they consume. `gaia.registry`

@@ -44,7 +44,7 @@ const foreign: Foreign | null = lex.foreign
 // fixture basename → substring that must appear in at least one finding message,
 // so each test pins WHICH class was caught, not merely that something was.
 const REASON_ASSERTS: Record<string, string> = {
-  "bad-retired-name-in-plan.md": 'use "skill-heaven"',
+  "bad-retired-name-in-plan.md": 'use "skill-zero"',
   "bad-retired-level-name.md": 'use "level"',
   "bad-parked-in-user-facing.md": "must not ship",
   "bad-seed-in-report.md": "N repeats",
@@ -119,9 +119,9 @@ check(
 );
 
 console.log("\nnamespaces (V5-8 federation)");
-const OWNED = ["core", "gaia.research", "gaia.brand", "gaia.heaven", "gaia.mcp"];
+const OWNED = ["core", "gaia.research", "gaia.brand", "gaia.heaven", "gaia.zero", "gaia.mcp"];
 check(
-  "this HQ owns exactly the five ratified namespaces",
+  "this HQ owns exactly the six ratified namespaces",
   JSON.stringify([...(lex.owns ?? [])].sort()) === JSON.stringify([...OWNED].sort()),
   JSON.stringify(lex.owns),
 );

@@ -124,7 +124,7 @@ export const TOOLTIPS: Record<PageContext, Tooltip[]> = {
   ],
 
   "hh-benchmark": [
-    { text: "Welcome to the HH Index, boss! Heaven converges, Hell explores, and Skill Zero keeps launch debt out of the room." },,
+    { text: "Welcome to the HH Index, boss! Heaven converges, Hell explores, and Skill Zero keeps launch debt out of the room." },
     { text: "Four pillars: performance, reliability, triggering, and efficiency. Zero slop allowed!" },
     { text: "Check out the leaderboard or claims index — evidence beats vibes every single time!", link: { text: "claims index", href: "/research/hh-benchmark/claims" } },
     { text: "I benchmarked myself on this matrix once. Score: OVER 9000, obviously, hehe!" },
