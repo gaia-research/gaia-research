@@ -1,22 +1,24 @@
 {
   "report": {
-    "totalRegistrySkills": 243,
-    "reachableCount": 243,
+    "totalRegistrySkills": 278,
+    "reachableCount": 278,
     "internalConnectivityPct": 100,
     "unreachableCount": 0,
-    "gameSeedReachableCount": 160,
-    "gameSeedReachablePct": 65.8,
+    "gameSeedReachableCount": 187,
+    "gameSeedReachablePct": 67.3,
     "reachablePct": 100,
-    "namedBackedFusionCount": 84,
-    "deterministicFusionReachCount": 89,
+    "namedBackedFusionCount": 97,
+    "deterministicFusionReachCount": 104,
     "genericIntermediateFusions": [
       "agent-eval",
       "ghostwrite",
       "knowledge-harvest",
+      "ml-artifact-management",
+      "ml-pipeline",
       "plan-and-execute",
       "research"
     ],
-    "reachableNamedSkillCount": 153,
+    "reachableNamedSkillCount": 171,
     "gameSeedSlugs": [
       "code",
       "data",
@@ -25,10 +27,14 @@
     ],
     "seedSlugs": [
       "adaptive-pattern-learning",
+      "agent-fusion",
+      "agent-reach",
       "api-call",
       "audience-model",
+      "auto-review",
       "autonomous-engineering-platform",
       "bioinformatic-sequence-analysis",
+      "brand-guideline-application",
       "browser-control",
       "chain-of-thought",
       "chunk-document",
@@ -81,12 +87,14 @@
       "issue-triage",
       "literature-search",
       "logical-inference",
+      "map-animation",
       "math-reason",
       "mcp-integration",
       "memory-pattern-design",
       "molecular-databases",
       "multi-repo-coordination",
       "object-detection",
+      "opinion",
       "optical-character-recognition",
       "parallel-execution",
       "parse-html",
@@ -95,13 +103,18 @@
       "pathway-ontology-retrieval",
       "performance-tuning",
       "plan-decompose",
+      "plan-synthesis",
+      "postgres-best-practices",
       "probabilistic-programming",
       "prompt",
+      "prompt-caching",
       "prompt-injection-defense",
       "protein-structure-analysis",
       "proteomic-data-retrieval",
+      "quantum-circuit-programming",
       "question-answer",
       "rank",
+      "react-performance-optimization",
       "refactor-code",
       "requirements-analysis",
       "retrieve",
@@ -110,39 +123,52 @@
       "schema-design",
       "scientific-visualization",
       "score-relevance",
+      "scroll-world",
       "self-consistency",
       "self-critique",
       "semantic-cache",
       "sentiment-analysis",
       "sequential-agent-pipeline",
+      "session-journaling",
+      "single-cell-analysis",
       "skill-discovery",
       "software-design",
       "speech-to-text",
+      "static-artwork-design",
       "statistical-analysis",
       "structured-output",
       "summarize",
+      "supabase",
       "swarm-topology-management",
       "synthetic-data-generation",
       "system-integration",
       "test-driven-development",
       "text-to-speech",
       "time-series-forecasting",
+      "timeline-animation",
       "token-observability",
       "tokenize",
       "tool-select",
       "tool-use",
       "transactional-email-resend",
       "translate",
+      "ui-audit",
       "ux-audit",
       "vector-db-optimization",
       "vector-search",
+      "video-captions",
+      "video-interactivity",
+      "video-preview",
+      "video-rendering",
+      "video-saas",
+      "video-scaffolding",
       "vision-qa",
       "web",
       "web-search",
       "worker-agent-dispatch",
       "write-report"
     ],
-    "generatedAt": "2026-07-23"
+    "generatedAt": "2026-08-13"
   },
   "reachable": [
     "adaptive-pattern-learning",
@@ -150,13 +176,16 @@
     "adversarial-robustness-testing",
     "agent-environment-setup",
     "agent-eval",
+    "agent-fusion",
     "agent-handoff",
     "agent-memory-learning",
     "agent-memory-platform",
+    "agent-reach",
     "agentic-workflow-design",
     "api-call",
     "architecture-diagram",
     "audience-model",
+    "auto-review",
     "automated-testing",
     "autonomous-data-scientist",
     "autonomous-debug",
@@ -164,11 +193,13 @@
     "autonomous-web-research",
     "bioinformatic-sequence-analysis",
     "brainstorming",
+    "brand-guideline-application",
     "browser-automation",
     "browser-control",
     "career-operations",
     "causal-inference",
     "chain-of-thought",
+    "cheminformatics-analysis",
     "chunk-document",
     "ci-churn-analysis",
     "cite-sources",
@@ -182,6 +213,7 @@
     "code-review-pipeline",
     "collaborative-diagramming",
     "computational-biology-workflows",
+    "computational-science-platform",
     "computer-use",
     "content-moderation",
     "context-compression",
@@ -241,6 +273,7 @@
     "git-ship-done-pipeline",
     "grant-application-processing",
     "graph-driven-issue-triage",
+    "graph-neural-network-modeling",
     "grill-me",
     "grill-with-docs",
     "grounding",
@@ -260,6 +293,7 @@
     "literature-review",
     "literature-search",
     "logical-inference",
+    "map-animation",
     "math-reason",
     "mathematical-animation",
     "mcp-debugger-control",
@@ -270,14 +304,18 @@
     "ml-artifact-management",
     "ml-pipeline",
     "molecular-databases",
+    "molecular-machine-learning",
+    "molecular-visualization",
     "multi-agent-debate",
     "multi-agent-orchestration-v",
     "multi-node-orchestration",
     "multi-repo-coordination",
     "multi-topology-orchestration",
     "multimodal-reasoning",
+    "neural-training-orchestration",
     "object-detection",
     "ontology-alignment",
+    "opinion",
     "optical-character-recognition",
     "parallel-execution",
     "parse-html",
@@ -289,21 +327,26 @@
     "personal-knowledge-management",
     "plan-and-execute",
     "plan-decompose",
+    "plan-synthesis",
     "platform-modernization-sprint",
+    "postgres-best-practices",
     "prd-generation",
     "prediction-market-analysis",
     "probabilistic-programming",
     "productivity",
     "project-management",
+    "prompt-caching",
     "prompt-injection-defense",
     "prompt-optimization",
     "protein-structure-analysis",
     "proteomic-data-retrieval",
     "prototype",
+    "quantum-circuit-programming",
     "question-answer",
     "rag-pipeline",
     "rank",
     "re-act-reasoning",
+    "react-performance-optimization",
     "real-time-voice-assistant",
     "reasoning-pattern-bank",
     "receiving-code-review",
@@ -313,6 +356,7 @@
     "registry-entry-audit",
     "registry-health-scan",
     "regulatory-compliance-mapping",
+    "reinforcement-learning-training",
     "release-automation",
     "requesting-code-review",
     "requirements-analysis",
@@ -322,9 +366,11 @@
     "route-intent",
     "schema-design",
     "scientific-discovery",
+    "scientific-literature-retrieval",
     "scientific-visualization",
     "scientific-writing",
     "score-relevance",
+    "scroll-world",
     "search-engine-optimization",
     "security-audit",
     "self-consistency",
@@ -332,6 +378,9 @@
     "semantic-cache",
     "sentiment-analysis",
     "sequential-agent-pipeline",
+    "session-journaling",
+    "single-cell-analysis",
+    "single-cell-omics-modeling",
     "skill-authoring",
     "skill-discovery",
     "skill-fusion",
@@ -340,11 +389,13 @@
     "skill-security-analysis",
     "software-design",
     "speech-to-text",
+    "static-artwork-design",
     "statistical-analysis",
     "stealth-browser-interaction",
     "structured-output",
     "subagent-driven-development",
     "summarize",
+    "supabase",
     "superpowers",
     "supply-chain-optimization",
     "swarm-topology-management",
@@ -356,6 +407,7 @@
     "text-to-sql-pipeline",
     "threat-intelligence-synthesis",
     "time-series-forecasting",
+    "timeline-animation",
     "token-observability",
     "tokenize",
     "tool-chaining",
@@ -363,17 +415,26 @@
     "tool-select",
     "tool-use",
     "transactional-email-resend",
+    "transformer-model-engineering",
     "translate",
     "translation-pipeline",
     "tree-of-thought",
     "ubiquitous-language",
+    "ui-audit",
     "using-git-worktrees",
     "ux-audit",
     "vector-db-optimization",
     "vector-search",
     "verification-before-completion",
     "vertical-slice-planning",
+    "video-captions",
+    "video-composition",
     "video-intelligence",
+    "video-interactivity",
+    "video-preview",
+    "video-rendering",
+    "video-saas",
+    "video-scaffolding",
     "vision-qa",
     "voice-agent",
     "web-accessibility",
@@ -524,6 +585,14 @@
       ]
     },
     {
+      "result": "cheminformatics-analysis",
+      "prereqs": [
+        "data-analysis",
+        "molecular-databases",
+        "molecular-visualization"
+      ]
+    },
+    {
       "result": "cloud-platform-management",
       "prereqs": [
         "api-call",
@@ -553,6 +622,13 @@
         "molecular-databases",
         "protein-structure-analysis",
         "proteomic-data-retrieval"
+      ]
+    },
+    {
+      "result": "computational-science-platform",
+      "prereqs": [
+        "agent-environment-setup",
+        "core-platform-implementation"
       ]
     },
     {
@@ -826,6 +902,14 @@
       ]
     },
     {
+      "result": "graph-neural-network-modeling",
+      "prereqs": [
+        "data-analysis",
+        "fine-tune",
+        "ml-pipeline"
+      ]
+    },
+    {
       "result": "grill-me",
       "prereqs": [
         "design-review",
@@ -940,6 +1024,21 @@
       ]
     },
     {
+      "result": "molecular-machine-learning",
+      "prereqs": [
+        "data-analysis",
+        "ml-pipeline",
+        "molecular-databases"
+      ]
+    },
+    {
+      "result": "molecular-visualization",
+      "prereqs": [
+        "protein-structure-analysis",
+        "scientific-visualization"
+      ]
+    },
+    {
       "result": "multi-agent-debate",
       "prereqs": [
         "chain-of-thought",
@@ -980,6 +1079,14 @@
         "image-caption",
         "logical-inference",
         "question-answer"
+      ]
+    },
+    {
+      "result": "neural-training-orchestration",
+      "prereqs": [
+        "distributed-neural-training",
+        "ml-artifact-management",
+        "ml-pipeline"
       ]
     },
     {
@@ -1148,6 +1255,14 @@
       ]
     },
     {
+      "result": "reinforcement-learning-training",
+      "prereqs": [
+        "automated-testing",
+        "ml-pipeline",
+        "reward-modeling"
+      ]
+    },
+    {
       "result": "release-automation",
       "prereqs": [
         "code-execution",
@@ -1180,6 +1295,13 @@
       ]
     },
     {
+      "result": "scientific-literature-retrieval",
+      "prereqs": [
+        "literature-search",
+        "retrieve"
+      ]
+    },
+    {
       "result": "scientific-writing",
       "prereqs": [
         "cite-sources",
@@ -1199,6 +1321,14 @@
       "prereqs": [
         "code-review-pipeline",
         "evaluate-output"
+      ]
+    },
+    {
+      "result": "single-cell-omics-modeling",
+      "prereqs": [
+        "computational-biology-workflows",
+        "data-analysis",
+        "probabilistic-programming"
       ]
     },
     {
@@ -1319,6 +1449,14 @@
       ]
     },
     {
+      "result": "transformer-model-engineering",
+      "prereqs": [
+        "embed-text",
+        "fine-tune",
+        "ml-pipeline"
+      ]
+    },
+    {
       "result": "translation-pipeline",
       "prereqs": [
         "audience-model",
@@ -1359,6 +1497,19 @@
       "prereqs": [
         "plan-decompose",
         "route-intent"
+      ]
+    },
+    {
+      "result": "video-composition",
+      "prereqs": [
+        "map-animation",
+        "timeline-animation",
+        "video-captions",
+        "video-interactivity",
+        "video-preview",
+        "video-rendering",
+        "video-saas",
+        "video-scaffolding"
       ]
     },
     {
@@ -1468,6 +1619,7 @@
     "browser-control",
     "career-operations",
     "chain-of-thought",
+    "cheminformatics-analysis",
     "chunk-document",
     "cite-sources",
     "classify",
@@ -1478,6 +1630,7 @@
     "code-generation",
     "code-review-pipeline",
     "computational-biology-workflows",
+    "computational-science-platform",
     "computer-use",
     "context-compression",
     "core-platform-implementation",
@@ -1502,6 +1655,7 @@
     "evaluate-output",
     "executing-plans",
     "extract-entities",
+    "fine-tune",
     "finishing-a-development-branch",
     "firecrawl",
     "format-output",
@@ -1509,11 +1663,13 @@
     "generate-sql",
     "generate-test",
     "generate-text",
+    "generative-media",
     "genomic-data-retrieval",
     "ghostwrite",
     "git-integration",
     "git-ship-done-pipeline",
     "graph-driven-issue-triage",
+    "graph-neural-network-modeling",
     "grill-me",
     "grill-with-docs",
     "guardrails",
@@ -1530,17 +1686,23 @@
     "literature-review",
     "literature-search",
     "logical-inference",
+    "map-animation",
     "mcp-integration",
     "mcp-server-creation",
     "memory-manage",
     "memory-pattern-design",
+    "ml-artifact-management",
+    "ml-pipeline",
     "molecular-databases",
+    "molecular-machine-learning",
+    "molecular-visualization",
     "multi-agent-debate",
     "multi-agent-orchestration-v",
     "multi-node-orchestration",
     "multi-repo-coordination",
     "multi-topology-orchestration",
     "multimodal-reasoning",
+    "neural-training-orchestration",
     "parallel-execution",
     "parse-html",
     "performance-tuning",
@@ -1550,6 +1712,7 @@
     "plan-decompose",
     "platform-modernization-sprint",
     "prd-generation",
+    "probabilistic-programming",
     "productivity",
     "project-management",
     "prompt-optimization",
@@ -1565,15 +1728,20 @@
     "registry-curation",
     "registry-entry-audit",
     "registry-health-scan",
+    "reinforcement-learning-training",
     "release-automation",
     "requesting-code-review",
     "requirements-analysis",
     "research",
     "retrieve",
+    "reward-modeling",
     "route-intent",
+    "scientific-literature-retrieval",
+    "scientific-visualization",
     "score-relevance",
     "security-audit",
     "self-critique",
+    "single-cell-omics-modeling",
     "skill-authoring",
     "skill-discovery",
     "skill-fusion",
@@ -1588,10 +1756,12 @@
     "swarm-topology-management",
     "system-integration",
     "systematic-debugging",
+    "timeline-animation",
     "tokenize",
     "tool-creation",
     "tool-select",
     "tool-use",
+    "transformer-model-engineering",
     "ubiquitous-language",
     "using-git-worktrees",
     "ux-audit",
@@ -1599,10 +1769,18 @@
     "vector-search",
     "verification-before-completion",
     "vertical-slice-planning",
+    "video-captions",
+    "video-composition",
     "video-intelligence",
+    "video-interactivity",
+    "video-preview",
+    "video-rendering",
+    "video-saas",
+    "video-scaffolding",
     "vision-qa",
     "web-scrape",
     "web-search",
+    "wiki-search",
     "worker-agent-dispatch",
     "workflow-automation",
     "workspace-automation",
@@ -1773,6 +1951,13 @@
       "via": "seed-bridge"
     },
     {
+      "result": "fine-tune",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
       "result": "format-output",
       "prereqs": [
         "web"
@@ -1864,6 +2049,13 @@
       "via": "seed-bridge"
     },
     {
+      "result": "map-animation",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
       "result": "mcp-integration",
       "prereqs": [
         "data"
@@ -1920,6 +2112,13 @@
       "via": "seed-bridge"
     },
     {
+      "result": "probabilistic-programming",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
       "result": "protein-structure-analysis",
       "prereqs": [
         "code"
@@ -1969,9 +2168,23 @@
       "via": "seed-bridge"
     },
     {
+      "result": "reward-modeling",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
       "result": "route-intent",
       "prereqs": [
         "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "scientific-visualization",
+      "prereqs": [
+        "code"
       ],
       "via": "seed-bridge"
     },
@@ -2039,6 +2252,13 @@
       "via": "seed-bridge"
     },
     {
+      "result": "timeline-animation",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
       "result": "tokenize",
       "prereqs": [
         "data"
@@ -2077,6 +2297,48 @@
       "result": "vector-search",
       "prereqs": [
         "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "video-captions",
+      "prereqs": [
+        "data"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "video-interactivity",
+      "prereqs": [
+        "web"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "video-preview",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "video-rendering",
+      "prereqs": [
+        "prompt"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "video-saas",
+      "prereqs": [
+        "code"
+      ],
+      "via": "seed-bridge"
+    },
+    {
+      "result": "video-scaffolding",
+      "prereqs": [
+        "code"
       ],
       "via": "seed-bridge"
     },
@@ -2123,9 +2385,11 @@
     "brainstorming",
     "browser-automation",
     "career-operations",
+    "cheminformatics-analysis",
     "cloud-platform-management",
     "code-review-pipeline",
     "computational-biology-workflows",
+    "computational-science-platform",
     "data-analysis",
     "deployment-automation",
     "design-generation",
@@ -2143,10 +2407,12 @@
     "finishing-a-development-branch",
     "firecrawl",
     "founder-mode-orchestration",
+    "generative-media",
     "ghostwrite",
     "git-integration",
     "git-ship-done-pipeline",
     "graph-driven-issue-triage",
+    "graph-neural-network-modeling",
     "grill-me",
     "grill-with-docs",
     "guardrails",
@@ -2157,11 +2423,16 @@
     "literature-review",
     "mcp-server-creation",
     "memory-manage",
+    "ml-artifact-management",
+    "ml-pipeline",
+    "molecular-machine-learning",
+    "molecular-visualization",
     "multi-agent-debate",
     "multi-agent-orchestration-v",
     "multi-node-orchestration",
     "multi-topology-orchestration",
     "multimodal-reasoning",
+    "neural-training-orchestration",
     "personal",
     "personal-knowledge-management",
     "plan-and-execute",
@@ -2177,10 +2448,13 @@
     "registry-curation",
     "registry-entry-audit",
     "registry-health-scan",
+    "reinforcement-learning-training",
     "release-automation",
     "requesting-code-review",
     "research",
+    "scientific-literature-retrieval",
     "security-audit",
+    "single-cell-omics-modeling",
     "skill-authoring",
     "skill-fusion",
     "skill-mastery",
@@ -2189,12 +2463,15 @@
     "superpowers",
     "systematic-debugging",
     "tool-creation",
+    "transformer-model-engineering",
     "ubiquitous-language",
     "using-git-worktrees",
     "verification-before-completion",
     "vertical-slice-planning",
+    "video-composition",
     "video-intelligence",
     "web-scrape",
+    "wiki-search",
     "workflow-automation",
     "workspace-automation",
     "writing-plans",

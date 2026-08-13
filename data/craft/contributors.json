@@ -1,5 +1,5 @@
 {
-  "total": 47,
+  "total": 61,
   "contributors": {
     "0xdarkmatter": {
       "count": 1
@@ -15,6 +15,15 @@
     },
     "anthropic": {
       "count": 2
+    },
+    "anthropics": {
+      "count": 2
+    },
+    "aplaceforallmystuff": {
+      "count": 1
+    },
+    "ayghri": {
+      "count": 1
     },
     "bradautomates": {
       "count": 1
@@ -34,6 +43,12 @@
     "devin-ai": {
       "count": 1
     },
+    "dietrichgebert": {
+      "count": 1
+    },
+    "disler": {
+      "count": 4
+    },
     "favorchurch": {
       "count": 9
     },
@@ -41,7 +56,7 @@
       "count": 6
     },
     "gaia-research": {
-      "count": 2
+      "count": 3
     },
     "gaiabot": {
       "count": 2
@@ -70,6 +85,12 @@
     "intelligentcode-ai": {
       "count": 8
     },
+    "juliusbrussee": {
+      "count": 1
+    },
+    "k-dense-ai": {
+      "count": 10
+    },
     "karpathy": {
       "count": 1
     },
@@ -83,10 +104,16 @@
       "count": 1
     },
     "mattpocock": {
-      "count": 34
+      "count": 33
     },
     "mbtiongson1": {
       "count": 12
+    },
+    "mvanhorn": {
+      "count": 1
+    },
+    "nextlevelbuilder": {
+      "count": 1
     },
     "nexu-io": {
       "count": 1
@@ -100,11 +127,20 @@
     "openai": {
       "count": 2
     },
+    "oso95": {
+      "count": 1
+    },
+    "panniantong": {
+      "count": 1
+    },
     "pbakaus": {
       "count": 1
     },
     "pexp13": {
       "count": 1
+    },
+    "remotion-dev": {
+      "count": 12
     },
     "rico-favor": {
       "count": 1
@@ -127,10 +163,16 @@
     "stanfordnlp": {
       "count": 1
     },
+    "supabase": {
+      "count": 2
+    },
     "upsonic": {
       "count": 1
     },
     "vercel": {
+      "count": 1
+    },
+    "vercel-labs": {
       "count": 1
     },
     "xquik-dev": {

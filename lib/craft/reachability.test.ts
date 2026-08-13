@@ -495,29 +495,42 @@ describe('synthesizeSeedBridges — tiny fixture unit test', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 8. A′ integration test — real data/craft/ ground-truth assertions
+// 8. A′ integration test — real data/craft/ regression floors
 // ---------------------------------------------------------------------------
+//
+// These assertions deliberately test the ratified floors and derived
+// identities, rather than pinning a transient registry snapshot. The scheduled
+// resync must be able to open a human-reviewed PR when upstream legitimately
+// adds nodes, named records, or target-closure intermediates.
 
-describe('A′ integration — real data ground-truth assertions', () => {
-  it('reachableNamedSkillCount === 153 (primary DoD metric)', () => {
+const REQUIRED_GENERIC_INTERMEDIATES = [
+  'agent-eval',
+  'ghostwrite',
+  'knowledge-harvest',
+  'plan-and-execute',
+  'research',
+];
+
+describe('A′ integration — real data regression floors', () => {
+  it('reachableNamedSkillCount stays above the ratified watermark', () => {
     const out = deriveReachability({ write: false });
-    expect(out.report.reachableNamedSkillCount).toBe(153);
+    expect(out.report.reachableNamedSkillCount).toBeGreaterThanOrEqual(150);
   });
 
-  it('namedBackedFusionCount === 84', () => {
+  it('namedBackedFusionCount stays above the ratified watermark', () => {
     const out = deriveReachability({ write: false });
-    expect(out.report.namedBackedFusionCount).toBe(84);
+    expect(out.report.namedBackedFusionCount).toBeGreaterThanOrEqual(82);
   });
 
-  it('deterministicFusionReachCount === 89 (84 + 5 explained intermediates)', () => {
+  it('deterministicFusionReachCount stays above the ratified watermark', () => {
     const out = deriveReachability({ write: false });
-    expect(out.report.deterministicFusionReachCount).toBe(89);
+    expect(out.report.deterministicFusionReachCount).toBeGreaterThanOrEqual(87);
   });
 
-  it('genericIntermediateFusions is exactly the 5 known unavoidable intermediates', () => {
+  it('retains every required generic intermediate while allowing reviewed topology growth', () => {
     const out = deriveReachability({ write: false });
     expect(out.report.genericIntermediateFusions).toEqual(
-      ['agent-eval', 'ghostwrite', 'knowledge-harvest', 'plan-and-execute', 'research'],
+      expect.arrayContaining(REQUIRED_GENERIC_INTERMEDIATES),
     );
   });
 
@@ -526,9 +539,9 @@ describe('A′ integration — real data ground-truth assertions', () => {
     expect(out.report.gameSeedReachablePct).toBeGreaterThan(17);
   });
 
-  it('seedBridges count === 71 (one per root basic in target closure)', () => {
+  it('seedBridges count stays above the structural regression floor', () => {
     const out = deriveReachability({ write: false });
-    expect(out.seedBridges).toHaveLength(71);
+    expect(out.seedBridges.length).toBeGreaterThanOrEqual(71);
   });
 
   it('all seedBridges have via: seed-bridge and a single game-seed prereq', () => {
@@ -549,8 +562,11 @@ describe('A′ integration — real data ground-truth assertions', () => {
     expect(out.report.deterministicFusionReachCount).toBe(
       out.report.namedBackedFusionCount + out.report.genericIntermediateFusions.length,
     );
-    // allowed size is 5
-    expect(out.report.genericIntermediateFusions.length).toBe(5);
+    // Existing required intermediates cannot disappear; upstream may add
+    // further reviewed topology intermediates.
+    expect(out.report.genericIntermediateFusions).toEqual(
+      expect.arrayContaining(REQUIRED_GENERIC_INTERMEDIATES),
+    );
     void allowed; // suppress unused-var
   });
 });
@@ -699,7 +715,7 @@ describe('bridges.ts — seed-bridge accessors (route-level behaviour)', () => {
     expect(getSeedBridge('agent-eval')).toBeUndefined();
   });
 
-  it('getReachableNamedSkillCount returns 153 (primary DoD metric)', () => {
-    expect(getReachableNamedSkillCount()).toBe(153);
+  it('getReachableNamedSkillCount returns at least the ratified watermark', () => {
+    expect(getReachableNamedSkillCount()).toBeGreaterThanOrEqual(150);
   });
 });

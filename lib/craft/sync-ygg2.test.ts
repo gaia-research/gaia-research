@@ -157,6 +157,8 @@ function runSyncViaTsx(registryDir: string): {
         ...process.env,
         GAIA_SKILL_TREE_REGISTRY: registryDir,
         GAIA_CRAFT_OUT_DIR: outDir,
+        GAIA_SKILL_TREE_COMMIT: 'fixture-commit',
+        GAIA_CRAFT_SOURCE_DATE: '2026-08-13',
       },
       cwd: path.resolve(__dirname, '../../'),
       encoding: 'utf8',
@@ -298,6 +300,23 @@ describe('sync-skill-tree: Yggdrasil II fixture — valid registry', () => {
     expect(Array.isArray(bridges.reachable)).toBe(true);
     expect(Array.isArray(bridges.unreachable)).toBe(true);
     expect(bridges.unreachable!.length).toBe(0);
+  });
+
+  it('records the explicit upstream commit in registry-snapshot.json', () => {
+    const { outDir } = runSyncViaTsx(validFixtureDir);
+    testOutDirs.push(outDir);
+    const snapshot = JSON.parse(
+      fs.readFileSync(path.join(outDir, 'registry-snapshot.json'), 'utf8'),
+    ) as {
+      generatedAt?: string;
+      upstreamCommit?: string;
+      nodeCount?: number;
+      namedSkillFileCount?: number;
+    };
+    expect(snapshot.generatedAt).toBe('2026-08-13');
+    expect(snapshot.upstreamCommit).toBe('fixture-commit');
+    expect(snapshot.nodeCount).toBe(243);
+    expect(snapshot.namedSkillFileCount).toBe(200);
   });
 
   it('does NOT write to the real data/craft/ directory', () => {
