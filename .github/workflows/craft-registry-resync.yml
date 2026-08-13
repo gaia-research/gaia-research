@@ -44,6 +44,12 @@ jobs:
           # boundary — see this repo's CLAUDE.md).
           token: ${{ secrets.GAIA_SKILL_TREE_RO_TOKEN }}
 
+      - name: Record checked-out upstream provenance
+        id: skill-tree
+        run: |
+          echo "sha=$(git -C _skilltree rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "date=$(git -C _skilltree show -s --format=%cs HEAD)" >> "$GITHUB_OUTPUT"
+
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
@@ -54,9 +60,13 @@ jobs:
         run: npm ci
 
       - name: Regenerate craft data
+        id: regenerate
         env:
           GAIA_SKILL_TREE_REGISTRY: ${{ github.workspace }}/_skilltree/registry
-        run: npx tsx scripts/craft/sync-skill-tree.ts   # sanity gate aborts the job on drift
+          GAIA_SKILL_TREE_REPOSITORY: gaia-research/gaia-skill-tree
+          GAIA_SKILL_TREE_COMMIT: ${{ steps.skill-tree.outputs.sha }}
+          GAIA_CRAFT_SOURCE_DATE: ${{ steps.skill-tree.outputs.date }}
+        run: npx tsx scripts/craft/sync-skill-tree.ts   # sanity gate aborts the job on schema drift
 
       - name: Type-check (tsc --noEmit)
         run: npx tsc --noEmit
@@ -64,7 +74,11 @@ jobs:
       - name: Gate — tests must pass on regenerated data
         run: npm run test
 
+      # A bad downstream assertion must not discard a successful generated
+      # snapshot. Open the review PR and leave the job failed for visibility;
+      # schema-sanity failures still cannot publish anything.
       - name: Open PR if data drifted
+        if: ${{ always() && steps.regenerate.outcome == 'success' }}
         uses: peter-evans/create-pull-request@v6
         with:
           # Use a PAT (not the default GITHUB_TOKEN) so craft-ci.yml actually

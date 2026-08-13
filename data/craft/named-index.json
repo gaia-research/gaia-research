@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-23",
+  "generatedAt": "2026-08-13",
   "skills": {
     "pytest-patterns": {
       "c": "0xdarkmatter",
@@ -99,7 +99,35 @@
       "g": "tool-creation",
       "lvl": "3★"
     },
-    "claude-video": {
+    "brand-guidelines": {
+      "c": "anthropics",
+      "t": "Brand Guidelines",
+      "d": "Applies Anthropic's official brand colors, typography, and visual rules to artifacts that need Anthropic's look and feel.",
+      "g": "brand-guideline-application",
+      "lvl": "3★"
+    },
+    "canvas-design": {
+      "c": "anthropics",
+      "t": "Canvas Design",
+      "d": "Creates original static visual artifacts such as posters and print-ready graphics from a design brief.",
+      "g": "static-artwork-design",
+      "lvl": "2★"
+    },
+    "log-to-daily": {
+      "c": "aplaceforallmystuff",
+      "t": "Log To Daily",
+      "d": "Logs conversation activity to today's daily note on demand, capturing decisions, outcomes, and next steps in a structured dated entry.",
+      "g": "session-journaling",
+      "lvl": "1★"
+    },
+    "i-have-adhd": {
+      "c": "ayghri",
+      "t": "I Have ADHD",
+      "d": "Structures raw output into a specified format such as markdown, JSON, CSV, HTML, or cognitive accessibility layout constraints.",
+      "g": "format-output",
+      "lvl": "1★"
+    },
+    "watch": {
       "c": "bradautomates",
       "t": "The Temporal Eye",
       "d": "Enables AI agents to watch videos by downloading them, extracting frames, and transcribing audio for multimodal analysis.",
@@ -113,7 +141,7 @@
       "g": "browser-control",
       "lvl": "3★"
     },
-    "stagehand": {
+    "browse": {
       "c": "browserbase",
       "t": "The SDK of Intent",
       "d": "SDK for browser agents that combines deterministic browser automation with AI-assisted page interaction.",
@@ -139,6 +167,41 @@
       "t": "The Codebreaker's Will",
       "d": "Autonomous software engineering agent capable of end-to-end debugging, code generation, and self-correction across complex multi-file codebases.",
       "g": "autonomous-debug",
+      "lvl": "2★"
+    },
+    "ponytail": {
+      "c": "dietrichgebert",
+      "t": "Ponytail",
+      "d": "Forces the laziest solution that actually works: question whether the task should exist, prefer standard library and native features, and ship the smallest correct implementation.",
+      "g": "implement-with-discernment",
+      "lvl": "4★"
+    },
+    "agent-fusion": {
+      "c": "disler",
+      "t": "Agent Fusion",
+      "d": "Orchestrate multiple specialized AI models as a fused agentic team: form opinions, merge parallel plans, and auto-validate outputs to achieve frontier performance at reduced cost.",
+      "g": "agent-fusion",
+      "lvl": "4★"
+    },
+    "auto-review": {
+      "c": "disler",
+      "t": "Auto-Review",
+      "d": "Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.",
+      "g": "auto-review",
+      "lvl": "2★"
+    },
+    "opinion": {
+      "c": "disler",
+      "t": "Opinion",
+      "d": "Formulate and articulate a strong, reasoned opinion or recommendation as a discrete agent step, avoiding model selection bias and decision paralysis.",
+      "g": "opinion",
+      "lvl": "2★"
+    },
+    "plan-synthesis": {
+      "c": "disler",
+      "t": "Plan Synthesis",
+      "d": "Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence.",
+      "g": "plan-synthesis",
       "lvl": "2★"
     },
     "attendees": {
@@ -209,14 +272,14 @@
       "t": "Firecrawl Interact",
       "d": "Integrate Firecrawl browser interaction into product code.",
       "g": "browser-control",
-      "lvl": "2★"
+      "lvl": "3★"
     },
     "firecrawl-build-onboarding": {
       "c": "firecrawl",
       "t": "Firecrawl Onboarding",
       "d": "Configure Firecrawl credentials and client setup for agent tools.",
       "g": "agent-environment-setup",
-      "lvl": "2★"
+      "lvl": "3★"
     },
     "firecrawl-build-scrape": {
       "c": "firecrawl",
@@ -237,7 +300,7 @@
       "t": "Firecrawl Research Index",
       "d": "Retrieve and query academic literature through Firecrawl Research.",
       "g": "literature-search",
-      "lvl": "2★"
+      "lvl": "3★"
     },
     "firecrawl-skills": {
       "c": "firecrawl",
@@ -246,14 +309,21 @@
       "g": "firecrawl",
       "lvl": "4★"
     },
-    "skill-ci-churn": {
+    "ci-churn": {
       "c": "gaia-research",
       "t": "CI Churn Analysis",
       "d": "Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.",
       "g": "ci-churn-analysis",
       "lvl": "2★"
     },
-    "skill-fuse": {
+    "cost": {
+      "c": "gaia-research",
+      "t": "Cost",
+      "d": "CLI + agent skill invoked via /cost. Reads JSONL session logs from pi, Claude Code, Codex, opencode; prices every turn against BerriAI/litellm's catalog; auto-refreshes prices.",
+      "g": "token-observability",
+      "lvl": "1★"
+    },
+    "fuse": {
       "c": "gaia-research",
       "t": "Skill Fusion",
       "d": "Composes multiple named skill implementations for a single contributor into a unified ultimate or suite skill node: collecting component IDs, verifying node existence, researching evidence, writing the ultimate node, back-linking derivatives on components, upd",
@@ -286,13 +356,6 @@
       "t": "Gstack Benchmark",
       "d": "Web performance benchmarking that captures baseline metrics, compares current performance against those baselines, and identifies regressions in load times, Core Web Vitals, and bundle sizes across specified pages.",
       "g": "evaluate-output",
-      "lvl": "3★"
-    },
-    "browse": {
-      "c": "garrytan",
-      "t": "Gstack Browse — Directed Browser Navigation",
-      "d": "Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream verification or reporting.",
-      "g": "browser-control",
       "lvl": "3★"
     },
     "canary": {
@@ -355,7 +418,7 @@
       "c": "garrytan",
       "t": "Gstack Design Review — UX Audit Pass",
       "d": "Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to surface actionable improvements.",
-      "g": "ux-audit",
+      "g": "ui-audit",
       "lvl": "2★"
     },
     "design-shotgun": {
@@ -617,264 +680,264 @@
       "g": "write-report",
       "lvl": "1★"
     },
-    "alphafold_database_fetch_and_analyze": {
+    "alphafold-database-fetch-and-analyze": {
       "c": "google-deepmind",
       "t": "Alphafold-Database-Fetch-And-Analyze",
       "d": "Retrieve and analyze AlphaFold predicted structures for a protein. Use when the user provides a specific UniProt Accession ID and wants structural confidence metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if the user only has a p",
       "g": "computational-biology-workflows",
-      "lvl": "3★"
+      "lvl": "4★"
     },
-    "alphagenome_single_variant_analysis": {
+    "alphagenome-single-variant-analysis": {
       "c": "google-deepmind",
       "t": "Alphagenome-Single-Variant-Analysis",
       "d": "Analyzes genetic variant effects on gene expression (RNA-seq), chromatin accessibility (DNASE), histone marks (ChIP), and transcription factors using the AlphaGenome API. Use when the user asks about non-coding variant effects, pathogenicity, clinical signific",
       "g": "computational-biology-workflows",
       "lvl": "3★"
     },
-    "chembl_database": {
+    "chembl-database": {
       "c": "google-deepmind",
       "t": "Chembl-Database",
       "d": "Query the ChEMBL database for bioactive molecules, drug targets, bioactivity data, approved drugs, and chemical structures. Use when the user asks about compounds, targets, IC50/Ki values, drug mechanisms, or structure searches.",
       "g": "molecular-databases",
       "lvl": "3★"
     },
-    "clinical_trials_database": {
+    "clinical-trials-database": {
       "c": "google-deepmind",
       "t": "Clinical-Trials-Database",
       "d": "Query ClinicalTrials.gov via APIv2. Use when you want to search for trials by condition, drug, location, status, or phase; retrieve trial details by NCT ID; check eligibility/inclusion criteria; count trials across conditions or time periods; identify a sponso",
       "g": "clinical-data-retrieval",
-      "lvl": "3★"
+      "lvl": "4★"
     },
-    "clinvar_database": {
+    "clinvar-database": {
       "c": "google-deepmind",
       "t": "Clinvar-Database",
       "d": "Use when needing clinical significance, pathogenicity classifications (e.g., Pathogenic, Benign, VUS), clinical evidence rationales, or finding \"hard positive\" benchmark controls for human genomic variants.",
       "g": "clinical-data-retrieval",
       "lvl": "3★"
     },
-    "dbsnp_database": {
+    "dbsnp-database": {
       "c": "google-deepmind",
       "t": "Dbsnp-Database",
       "d": "Use when you want to look up, map, and search for short genetic variants (SNPs, indels) in NCBI's dbSNP database. Resolves between rsIDs, genomic coordinates in VCF format, and HGVS strings. For an rsID, returns variant type, gene associations, clinical signif",
       "g": "genomic-data-retrieval",
       "lvl": "3★"
     },
-    "embl_ebi_ols": {
+    "embl-ebi-ols": {
       "c": "google-deepmind",
       "t": "Embl-Ebi-Ols",
       "d": "Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical ontology terms, definitions, and hierarchies across 250+ ontologies (e.g., GO, DOID, HP). Use when the user asks to search for terms, retrieve details, navigate hierarchies (parents, ch",
       "g": "pathway-ontology-retrieval",
       "lvl": "3★"
     },
-    "encode_ccres_database": {
+    "encode-ccres-database": {
       "c": "google-deepmind",
       "t": "Encode-Ccres-Database",
       "d": "Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via the SCREEN GraphQL API, or make custom queries to the ENCODE Portal REST API for experiments and files (ChIP-seq peaks, etc.). Use when you want to query regulatory annotations or raw experimenta",
       "g": "genomic-data-retrieval",
       "lvl": "3★"
     },
-    "ensembl_database": {
+    "ensembl-database": {
       "c": "google-deepmind",
       "t": "Ensembl-Database",
       "d": "Query the Ensembl database to resolve gene, transcript, and protein IDs, fetch genomic or protein sequences, retrieve gene structures (exons), and get variant consequence and effect predictions (VEP). Use this skill as a primary ID translator, genomic sequence",
       "g": "genomic-data-retrieval",
-      "lvl": "3★"
+      "lvl": "4★"
     },
-    "foldseek_structural_search": {
+    "foldseek-structural-search": {
       "c": "google-deepmind",
       "t": "Foldseek-Structural-Search",
       "d": "Performs 3D structural searches of proteins against various databases (PDB, AlphaFold, CATH, MGnify, etc.) using the Foldseek API. Use ONLY when the user provides a physical 3D coordinate file (.cif, .mmcif, or .pdb) and wants to find structurally similar prot",
       "g": "protein-structure-analysis",
       "lvl": "3★"
     },
-    "gnomad_database": {
+    "gnomad-database": {
       "c": "google-deepmind",
       "t": "Gnomad-Database",
       "d": "Query the Genome Aggregation Database (gnomAD). Use when determining the rarity or allele frequency of specific genetic variants, retrieving gene constraint metrics (pLI, LOEUF) to assess loss-of-function intolerance, finding variants in a genomic region or ge",
       "g": "genomic-data-retrieval",
       "lvl": "3★"
     },
-    "gtex_database": {
+    "gtex-database": {
       "c": "google-deepmind",
       "t": "Gtex-Database",
       "d": "Use when you want to retrieve quantitative RNA expression data and variant eQTL information from the GTEx (Genotype-Tissue Expression) Project across 54 non-diseased tissue sites.",
       "g": "genomic-data-retrieval",
       "lvl": "3★"
     },
-    "human_protein_atlas_database": {
+    "human-protein-atlas-database": {
       "c": "google-deepmind",
       "t": "Human-Protein-Atlas-Database",
       "d": "Use when you want to retrieve semi-quantitative protein expression and spatial localisation data from the Human Protein Atlas (HPA).",
       "g": "proteomic-data-retrieval",
       "lvl": "3★"
     },
-    "interpro_database": {
+    "interpro-database": {
       "c": "google-deepmind",
       "t": "Interpro-Database",
       "d": "Identify domains, families, and sites in proteins; find all proteins in a family or sharing a domain; explore species distribution for a domain; annotate genomes with protein families and GO terms. InterPro combines 14 databases (e.g., Pfam, CDD) into one sear",
       "g": "proteomic-data-retrieval",
       "lvl": "3★"
     },
-    "jaspar_database": {
+    "jaspar-database": {
       "c": "google-deepmind",
       "t": "Jaspar-Database",
       "d": "Query the JASPAR database for Transcription Factor (TF) binding profiles. Use when retrieving Position Frequency Matrices (PFMs) or Position Weight Matrices (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting TF metadata. Supports",
       "g": "genomic-data-retrieval",
       "lvl": "3★"
     },
-    "literature_search_arxiv": {
+    "literature-search-arxiv": {
       "c": "google-deepmind",
       "t": "Literature-Search-Arxiv",
       "d": "Search for scientific papers, preprints, and publications on arXiv. Extract metadata, abstracts, and download full-text PDFs or HTML versions of papers. Use when the user asks to find research papers, literature, or specific arXiv IDs.",
-      "g": "literature-search",
+      "g": "scientific-literature-retrieval",
       "lvl": "3★"
     },
-    "literature_search_biorxiv": {
+    "literature-search-biorxiv": {
       "c": "google-deepmind",
       "t": "Literature-Search-Biorxiv",
       "d": "Browse, filter, and download life sciences, biology, and medical preprints from bioRxiv and medRxiv. Supports fetching paper metadata by DOI, and browsing by date range with category and keyword filters. Keyword filtering is local, so date ranges MUST be narro",
-      "g": "literature-search",
+      "g": "scientific-literature-retrieval",
       "lvl": "3★"
     },
-    "literature_search_europepmc": {
+    "literature-search-europepmc": {
       "c": "google-deepmind",
       "t": "Literature-Search-Europepmc",
       "d": "Search Europe PMC for scientific literature and download open-access full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists and bibliography.",
-      "g": "literature-search",
+      "g": "scientific-literature-retrieval",
       "lvl": "3★"
     },
-    "literature_search_openalex": {
+    "literature-search-openalex": {
       "c": "google-deepmind",
       "t": "Literature-Search-Openalex",
       "d": "Query the OpenAlex scholarly database for research papers, authors, institutions, topics, sources, publishers, funders, geo-locations, and keywords. Use when searching academic papers, resolving DOIs, downloading open-access PDFs, finding an author's publicati",
-      "g": "literature-search",
+      "g": "scientific-literature-retrieval",
       "lvl": "4★"
     },
-    "ncbi_sequence_fetch": {
+    "ncbi-sequence-fetch": {
       "c": "google-deepmind",
       "t": "Ncbi-Sequence-Fetch",
       "d": "Retrieve protein and nucleotide sequences from NCBI databases using E-utilities. Supports direct accession lookup, CDS translation, gene+organism search, locus lookup, PubMed-linked sequences, patent protein extraction, and organism+length fallback search. Use",
       "g": "genomic-data-retrieval",
       "lvl": "3★"
     },
-    "openfda_database": {
+    "openfda-database": {
       "c": "google-deepmind",
       "t": "Openfda-Database",
       "d": "Query, search, and download data from the openFDA API for drugs, devices, foods, tobacco, cosmetics, animal and veterinary products, substances, and transparency data. Use for FDA adverse events, recalls, labeling, approvals, shortages, 510(k) clearances, NDC",
       "g": "clinical-data-retrieval",
       "lvl": "3★"
     },
-    "opentargets_database": {
+    "opentargets-database": {
       "c": "google-deepmind",
       "t": "Opentargets-Database",
       "d": "Query Open Targets Platform for target-disease associations, drug target discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic target identification.",
       "g": "clinical-data-retrieval",
       "lvl": "3★"
     },
-    "pdb_database": {
+    "pdb-database": {
       "c": "google-deepmind",
       "t": "Pdb-Database",
       "d": "Use when you want to search for or download experimentally-determined 3D structures for biomolecules (proteins, nucleic acids, bound ligands). Supports searching by sequence similarity, structure similarity, chemical and other attributes. Also use to get metad",
       "g": "protein-structure-analysis",
-      "lvl": "3★"
+      "lvl": "4★"
     },
-    "protein_sequence_msa": {
+    "protein-sequence-msa": {
       "c": "google-deepmind",
       "t": "Protein-Sequence-Msa",
       "d": "Performs multiple sequence alignment of proteins with EBI Clustal Omega. Use when you need to align multiple sequences to assess similarity, domain conservation, or key residue conservation. Supports up to 4000 sequences and a maximum file size of 4 MB. Do not",
       "g": "computational-biology-workflows",
       "lvl": "3★"
     },
-    "protein_sequence_similarity_search": {
+    "protein-sequence-similarity-search": {
       "c": "google-deepmind",
       "t": "Protein-Sequence-Similarity-Search",
       "d": "Searches for homologous protein sequences using MMseqs2 (fast, default) or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein sequence or FASTA file and asks to find homologues, sequence matches, or wants to infer protein functi",
       "g": "bioinformatic-sequence-analysis",
-      "lvl": "3★"
+      "lvl": "4★"
     },
-    "pubchem_database": {
+    "pubchem-database": {
       "c": "google-deepmind",
       "t": "Pubchem-Database",
       "d": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure searches, bioactivity, for cheminformatics. Use when a user asks about a specific chemical, drug, or molecule.",
       "g": "molecular-databases",
-      "lvl": "3★"
+      "lvl": "4★"
     },
-    "pubmed_database": {
+    "pubmed-database": {
       "c": "google-deepmind",
       "t": "Pubmed-Database",
       "d": "Search PubMed for scientific literature, including published clinical trials. Fetch abstracts and full text. Link published research to biological databases (gene, protein, nucleotide, PubChem) to discover associations between papers and specific compounds or",
-      "g": "literature-search",
+      "g": "scientific-literature-retrieval",
       "lvl": "3★"
     },
     "pymol": {
       "c": "google-deepmind",
       "t": "Pymol",
       "d": "Visualize, analyze, and render protein and molecular structures using PyMOL. Use when the user wants to create images of protein structures, perform structural alignments or superposition, measure distances or contacts, highlight binding sites or active site r",
-      "g": "scientific-visualization",
-      "lvl": "3★"
+      "g": "molecular-visualization",
+      "lvl": "4★"
     },
-    "quickgo_database": {
+    "quickgo-database": {
       "c": "google-deepmind",
       "t": "Quickgo-Database",
       "d": "Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API. Use this when you need to map genes to biological processes, molecular functions, or cellular components, find genes associated with a specific pathway/GO term, or explore the Gene Ontology h",
       "g": "pathway-ontology-retrieval",
       "lvl": "3★"
     },
-    "reactome_database": {
+    "reactome-database": {
       "c": "google-deepmind",
       "t": "Reactome-Database",
       "d": "Query the Reactome database (Analysis and Content Services). Use when the user asks about pathway analysis, gene list enrichment, retrieving results by token, finding unmapped or not-found identifiers, mapping identifiers, reaction participants (inputs, output",
       "g": "pathway-ontology-retrieval",
-      "lvl": "3★"
+      "lvl": "4★"
     },
     "science_skills_common": {
       "c": "google-deepmind",
       "t": "Science-Skills-Common",
       "d": "Shared Python package for Science Skills, currently containing http_client -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not a standalone agent skill. Do not invoke directly.",
       "g": "core-platform-implementation",
-      "lvl": "3★"
+      "lvl": "1★"
     },
-    "string_database": {
+    "string-database": {
       "c": "google-deepmind",
       "t": "String-Database",
       "d": "Query the STRING database for protein-protein interactions (PPIs), functional enrichment, and homology. Use when the user asks about interactions between specific proteins, interaction evidence, confidence scores, protein interaction partners, or pathway enric",
       "g": "proteomic-data-retrieval",
       "lvl": "3★"
     },
-    "ucsc_conservation_and_tfbs": {
+    "ucsc-conservation-and-tfbs": {
       "c": "google-deepmind",
       "t": "Ucsc-Conservation-And-Tfbs",
       "d": "Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription Factor Binding Sites (TFBS) from the UCSC Genome Browser. Use when analyzing whether genomic variants or regions are evolutionarily conserved, functionally important, or bounded by TF",
       "g": "genomic-data-retrieval",
       "lvl": "3★"
     },
-    "unibind_database": {
+    "unibind-database": {
       "c": "google-deepmind",
       "t": "Unibind-Database",
       "d": "Queries the UniBind database for experimentally validated transcription factor (TF) binding sites. Use when retrieving direct TF-DNA interaction datasets, downloading binding site coordinates (BED/FASTA) for local analysis, or listing available datasets by spe",
       "g": "genomic-data-retrieval",
       "lvl": "3★"
     },
-    "uniprot_database": {
+    "uniprot-database": {
       "c": "google-deepmind",
       "t": "Uniprot-Database",
       "d": "Access protein metadata, function, taxonomy, and sequences across UniProtKB, UniParc, and UniRef. Use when searching for proteins, mapping identifiers, or retrieving functional annotations and publications. Don't use for sequence alignment, protein folding, or",
       "g": "proteomic-data-retrieval",
-      "lvl": "3★"
+      "lvl": "4★"
     },
     "uv": {
       "c": "google-deepmind",
       "t": "Uv",
       "d": "Checks whether the uv Python package manager is installed and installs it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.",
-      "g": "core-platform-implementation",
-      "lvl": "3★"
+      "g": "computational-science-platform",
+      "lvl": "4★"
     },
-    "workflow_skill_creator": {
+    "workflow-skill-creator": {
       "c": "google-deepmind",
       "t": "Workflow-Skill-Creator",
       "d": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"packag",
       "g": "skill-authoring",
-      "lvl": "3★"
+      "lvl": "4★"
     },
     "notte-browser": {
       "c": "gooseworks",
@@ -902,7 +965,7 @@
       "t": "Get Shit Done",
       "d": "Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify, and ship as a repeatable agentic software delivery loop.",
       "g": "git-ship-done-pipeline",
-      "lvl": "3★"
+      "lvl": "4★"
     },
     "plan-phase": {
       "c": "gsd-build",
@@ -1023,7 +1086,84 @@
       "g": "e2e-testing",
       "lvl": "1★"
     },
-    "autoresearch": {
+    "caveman": {
+      "c": "juliusbrussee",
+      "t": "The Caveman Codex",
+      "d": "Ultra-compressed agent communication mode that strips articles, filler words, and narration from prompts/output to cut token usage; ships lite/full/ultra intensity tiers plus wenyan variants and multi-agent support.",
+      "g": "context-compression",
+      "lvl": "1★"
+    },
+    "deepchem": {
+      "c": "k-dense-ai",
+      "t": "DeepChem",
+      "d": "Run molecular machine learning workflows with DeepChem for property prediction, featurization, and benchmarked datasets.",
+      "g": "molecular-machine-learning",
+      "lvl": "4★"
+    },
+    "pymc": {
+      "c": "k-dense-ai",
+      "t": "PyMC",
+      "d": "Build Bayesian models with PyMC using hierarchical models, MCMC, variational inference, and posterior checks.",
+      "g": "probabilistic-programming",
+      "lvl": "4★"
+    },
+    "pytorch-lightning": {
+      "c": "k-dense-ai",
+      "t": "PyTorch Lightning",
+      "d": "Orchestrate scalable PyTorch training with Lightning modules, trainers, callbacks, and distributed execution.",
+      "g": "neural-training-orchestration",
+      "lvl": "3★"
+    },
+    "qiskit": {
+      "c": "k-dense-ai",
+      "t": "Qiskit",
+      "d": "Build, simulate, transpile, and execute quantum circuits with Qiskit and IBM Quantum Runtime.",
+      "g": "quantum-circuit-programming",
+      "lvl": "3★"
+    },
+    "rdkit": {
+      "c": "k-dense-ai",
+      "t": "RDKit",
+      "d": "Perform cheminformatics analysis with RDKit for molecular parsing, descriptors, fingerprints, reactions, and similarity.",
+      "g": "cheminformatics-analysis",
+      "lvl": "2★"
+    },
+    "scanpy": {
+      "c": "k-dense-ai",
+      "t": "Scanpy",
+      "d": "Run standard single-cell RNA-seq analysis with Scanpy for QC, clustering, visualization, and differential expression.",
+      "g": "single-cell-analysis",
+      "lvl": "3★"
+    },
+    "scvi-tools": {
+      "c": "k-dense-ai",
+      "t": "scvi-tools",
+      "d": "Model single-cell omics data with scvi-tools for batch correction, transfer learning, and multimodal integration.",
+      "g": "single-cell-omics-modeling",
+      "lvl": "2★"
+    },
+    "stable-baselines3": {
+      "c": "k-dense-ai",
+      "t": "Stable Baselines3",
+      "d": "Train reinforcement learning agents with Stable-Baselines3 using PPO, SAC, DQN, TD3, and related algorithms.",
+      "g": "reinforcement-learning-training",
+      "lvl": "3★"
+    },
+    "torch-geometric": {
+      "c": "k-dense-ai",
+      "t": "Torch Geometric",
+      "d": "Build graph neural network workflows with PyTorch Geometric for node, link, and graph prediction.",
+      "g": "graph-neural-network-modeling",
+      "lvl": "4★"
+    },
+    "transformers": {
+      "c": "k-dense-ai",
+      "t": "Transformers",
+      "d": "Work with Hugging Face Transformers for model loading, pipeline inference, generation, and trainer fine-tuning.",
+      "g": "transformer-model-engineering",
+      "lvl": "3★"
+    },
+    "autoresearch-universal": {
       "c": "karpathy",
       "t": "The Scholar's Compass",
       "d": "Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.",
@@ -1085,13 +1225,6 @@
       "d": "Productivity skill for routing questions to the right expert or skill in a workspace.",
       "g": "route-intent",
       "lvl": "1★"
-    },
-    "caveman": {
-      "c": "mattpocock",
-      "t": "The Caveman Console",
-      "d": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words. Removed from mattpocock/skills suite in v1.0.1.",
-      "g": "context-compression",
-      "lvl": "2★"
     },
     "codebase-design": {
       "c": "mattpocock",
@@ -1394,6 +1527,20 @@
       "g": "graph-driven-issue-triage",
       "lvl": "2★"
     },
+    "last30days": {
+      "c": "mvanhorn",
+      "t": "Autonomous Web Research (Last 30 Days)",
+      "d": "Independently surveys, maps, and extracts structured information across multiple platforms (Reddit, X, YouTube, HN, Polymarket, GitHub) into grounded synthesis briefs.",
+      "g": "autonomous-web-research",
+      "lvl": "4★"
+    },
+    "ui-ux-pro-max": {
+      "c": "nextlevelbuilder",
+      "t": "UI/UX Pro Max",
+      "d": "Systematically evaluates a user interface against established usability heuristics, accessibility standards, visual style rules, color palettes, typography, and motion guidelines.",
+      "g": "ux-audit",
+      "lvl": "4★"
+    },
     "open-design": {
       "c": "nexu-io",
       "t": "The Artisan's Forge",
@@ -1506,11 +1653,25 @@
       "g": "self-consistency",
       "lvl": "3★"
     },
+    "scroll-world": {
+      "c": "oso95",
+      "t": "Scroll World",
+      "d": "Builds scroll-scrubbed 3D world landing pages for any brand or industry, flying camera paths through connected scenes with zero cuts.",
+      "g": "scroll-world",
+      "lvl": "3★"
+    },
+    "agent-reach": {
+      "c": "panniantong",
+      "t": "Agent Reach",
+      "d": "Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.",
+      "g": "agent-reach",
+      "lvl": "3★"
+    },
     "impeccable": {
       "c": "pbakaus",
       "t": "The Aesthetic Shield",
       "d": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
-      "g": "ux-audit",
+      "g": "ui-audit",
       "lvl": "4★"
     },
     "sentiment-analysis": {
@@ -1519,6 +1680,90 @@
       "d": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers the full pipeline from raw noisy input through preprocessing, inference, and output normalisation. Stack is intentionally tool-agnostic — three im",
       "g": "sentiment-analysis",
       "lvl": "1★"
+    },
+    "remotion-best-practices": {
+      "c": "remotion-dev",
+      "t": "Remotion Best Practices",
+      "d": "remotion-dev named skill for remotion-best-practices",
+      "g": "video-composition",
+      "lvl": "2★"
+    },
+    "remotion-captions": {
+      "c": "remotion-dev",
+      "t": "Remotion Captions",
+      "d": "remotion-dev named skill for remotion-captions",
+      "g": "video-captions",
+      "lvl": "2★"
+    },
+    "remotion-create": {
+      "c": "remotion-dev",
+      "t": "Remotion Create",
+      "d": "remotion-dev named skill for remotion-create",
+      "g": "video-scaffolding",
+      "lvl": "2★"
+    },
+    "remotion-docs": {
+      "c": "remotion-dev",
+      "t": "Remotion Docs",
+      "d": "remotion-dev named skill for remotion-docs",
+      "g": "wiki-search",
+      "lvl": "2★"
+    },
+    "remotion-interactivity": {
+      "c": "remotion-dev",
+      "t": "Remotion Interactivity",
+      "d": "remotion-dev named skill for remotion-interactivity",
+      "g": "video-interactivity",
+      "lvl": "2★"
+    },
+    "remotion-maps": {
+      "c": "remotion-dev",
+      "t": "Remotion Maps",
+      "d": "remotion-dev named skill for remotion-maps",
+      "g": "map-animation",
+      "lvl": "2★"
+    },
+    "remotion-markup": {
+      "c": "remotion-dev",
+      "t": "Remotion Markup",
+      "d": "remotion-dev named skill for remotion-markup",
+      "g": "timeline-animation",
+      "lvl": "2★"
+    },
+    "remotion-multimedia": {
+      "c": "remotion-dev",
+      "t": "Remotion Multimedia",
+      "d": "remotion-dev named skill for remotion-multimedia",
+      "g": "generative-media",
+      "lvl": "2★"
+    },
+    "remotion-render": {
+      "c": "remotion-dev",
+      "t": "Remotion Render",
+      "d": "remotion-dev named skill for remotion-render",
+      "g": "video-rendering",
+      "lvl": "2★"
+    },
+    "remotion-saas": {
+      "c": "remotion-dev",
+      "t": "Remotion SaaS",
+      "d": "remotion-dev named skill for remotion-saas",
+      "g": "video-saas",
+      "lvl": "2★"
+    },
+    "remotion-studio": {
+      "c": "remotion-dev",
+      "t": "Remotion Studio",
+      "d": "remotion-dev named skill for remotion-studio",
+      "g": "video-preview",
+      "lvl": "2★"
+    },
+    "remotion-upgrade": {
+      "c": "remotion-dev",
+      "t": "Remotion Upgrade",
+      "d": "remotion-dev named skill for remotion-upgrade",
+      "g": "framework-upgrade",
+      "lvl": "2★"
     },
     "implement-with-discernment": {
       "c": "rico-favor",
@@ -1681,7 +1926,7 @@
       "g": "workflow-automation",
       "lvl": "1★"
     },
-    "hive-mind-coordination": {
+    "hive-mind": {
       "c": "ruvnet",
       "t": "Queen Seraphina's Hive",
       "d": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
@@ -1912,6 +2157,20 @@
       "g": "prompt-optimization",
       "lvl": "4★"
     },
+    "supabase-postgres-best-practices": {
+      "c": "supabase",
+      "t": "Supabase Postgres Best Practices",
+      "d": "supabase named skill for supabase-postgres-best-practices",
+      "g": "postgres-best-practices",
+      "lvl": "2★"
+    },
+    "supabase": {
+      "c": "supabase",
+      "t": "Supabase",
+      "d": "supabase named skill for supabase core integration",
+      "g": "supabase",
+      "lvl": "2★"
+    },
     "unittest-generator": {
       "c": "upsonic",
       "t": "The Test Weaver",
@@ -1925,6 +2184,13 @@
       "d": "Searches the skills.sh registry by keyword or category, queries install counts to surface popular skills, and auto-installs the selected skill into the current project's skills directory.",
       "g": "skill-discovery",
       "lvl": "2★"
+    },
+    "vercel-react-best-practices": {
+      "c": "vercel-labs",
+      "t": "Vercel React Best Practices",
+      "d": "Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.",
+      "g": "react-performance-optimization",
+      "lvl": "3★"
     },
     "hermes-tweet": {
       "c": "xquik-dev",
@@ -1963,12 +2229,21 @@
     "test-driven-development": "addy-osmani",
     "pptx": "anthropic",
     "skill-creator": "anthropic",
-    "claude-video": "bradautomates",
+    "brand-guidelines": "anthropics",
+    "canvas-design": "anthropics",
+    "log-to-daily": "aplaceforallmystuff",
+    "i-have-adhd": "ayghri",
+    "watch": "bradautomates",
     "browser-harness": "browser-use",
-    "stagehand": "browserbase",
+    "browse": "browserbase",
     "evidence-attestation": "caioribeiroclw-pixel",
     "plan-decompose-gh-wallfacer": "changkun",
     "autonomous-swe": "devin-ai",
+    "ponytail": "dietrichgebert",
+    "agent-fusion": "disler",
+    "auto-review": "disler",
+    "opinion": "disler",
+    "plan-synthesis": "disler",
     "attendees": "favorchurch",
     "count-checkin-by-church": "favorchurch",
     "export-attendees": "favorchurch",
@@ -1984,13 +2259,13 @@
     "firecrawl-build-search": "firecrawl",
     "firecrawl-research-index": "firecrawl",
     "firecrawl-skills": "firecrawl",
-    "skill-ci-churn": "gaia-research",
-    "skill-fuse": "gaia-research",
+    "ci-churn": "gaia-research",
+    "cost": "gaia-research",
+    "fuse": "gaia-research",
     "gaia-triage": "gaiabot",
     "repo-docs-before-pr": "gaiabot",
     "benchmark-models": "garrytan",
     "benchmark": "garrytan",
-    "browse": "garrytan",
     "canary": "garrytan",
     "careful": "garrytan",
     "codex": "garrytan",
@@ -2037,43 +2312,43 @@
     "unfreeze": "garrytan",
     "codeburn": "getagentseal",
     "readme-generator": "glincker",
-    "alphafold_database_fetch_and_analyze": "google-deepmind",
-    "alphagenome_single_variant_analysis": "google-deepmind",
-    "chembl_database": "google-deepmind",
-    "clinical_trials_database": "google-deepmind",
-    "clinvar_database": "google-deepmind",
-    "dbsnp_database": "google-deepmind",
-    "embl_ebi_ols": "google-deepmind",
-    "encode_ccres_database": "google-deepmind",
-    "ensembl_database": "google-deepmind",
-    "foldseek_structural_search": "google-deepmind",
-    "gnomad_database": "google-deepmind",
-    "gtex_database": "google-deepmind",
-    "human_protein_atlas_database": "google-deepmind",
-    "interpro_database": "google-deepmind",
-    "jaspar_database": "google-deepmind",
-    "literature_search_arxiv": "google-deepmind",
-    "literature_search_biorxiv": "google-deepmind",
-    "literature_search_europepmc": "google-deepmind",
-    "literature_search_openalex": "google-deepmind",
-    "ncbi_sequence_fetch": "google-deepmind",
-    "openfda_database": "google-deepmind",
-    "opentargets_database": "google-deepmind",
-    "pdb_database": "google-deepmind",
-    "protein_sequence_msa": "google-deepmind",
-    "protein_sequence_similarity_search": "google-deepmind",
-    "pubchem_database": "google-deepmind",
-    "pubmed_database": "google-deepmind",
+    "alphafold-database-fetch-and-analyze": "google-deepmind",
+    "alphagenome-single-variant-analysis": "google-deepmind",
+    "chembl-database": "google-deepmind",
+    "clinical-trials-database": "google-deepmind",
+    "clinvar-database": "google-deepmind",
+    "dbsnp-database": "google-deepmind",
+    "embl-ebi-ols": "google-deepmind",
+    "encode-ccres-database": "google-deepmind",
+    "ensembl-database": "google-deepmind",
+    "foldseek-structural-search": "google-deepmind",
+    "gnomad-database": "google-deepmind",
+    "gtex-database": "google-deepmind",
+    "human-protein-atlas-database": "google-deepmind",
+    "interpro-database": "google-deepmind",
+    "jaspar-database": "google-deepmind",
+    "literature-search-arxiv": "google-deepmind",
+    "literature-search-biorxiv": "google-deepmind",
+    "literature-search-europepmc": "google-deepmind",
+    "literature-search-openalex": "google-deepmind",
+    "ncbi-sequence-fetch": "google-deepmind",
+    "openfda-database": "google-deepmind",
+    "opentargets-database": "google-deepmind",
+    "pdb-database": "google-deepmind",
+    "protein-sequence-msa": "google-deepmind",
+    "protein-sequence-similarity-search": "google-deepmind",
+    "pubchem-database": "google-deepmind",
+    "pubmed-database": "google-deepmind",
     "pymol": "google-deepmind",
-    "quickgo_database": "google-deepmind",
-    "reactome_database": "google-deepmind",
+    "quickgo-database": "google-deepmind",
+    "reactome-database": "google-deepmind",
     "science_skills_common": "google-deepmind",
-    "string_database": "google-deepmind",
-    "ucsc_conservation_and_tfbs": "google-deepmind",
-    "unibind_database": "google-deepmind",
-    "uniprot_database": "google-deepmind",
+    "string-database": "google-deepmind",
+    "ucsc-conservation-and-tfbs": "google-deepmind",
+    "unibind-database": "google-deepmind",
+    "uniprot-database": "google-deepmind",
     "uv": "google-deepmind",
-    "workflow_skill_creator": "google-deepmind",
+    "workflow-skill-creator": "google-deepmind",
     "notte-browser": "gooseworks",
     "discuss-phase": "gsd-build",
     "execute-phase": "gsd-build",
@@ -2095,7 +2370,18 @@
     "requirements-engineer": "intelligentcode-ai",
     "security-engineer": "intelligentcode-ai",
     "user-tester": "intelligentcode-ai",
-    "autoresearch": "karpathy",
+    "caveman": "juliusbrussee",
+    "deepchem": "k-dense-ai",
+    "pymc": "k-dense-ai",
+    "pytorch-lightning": "k-dense-ai",
+    "qiskit": "k-dense-ai",
+    "rdkit": "k-dense-ai",
+    "scanpy": "k-dense-ai",
+    "scvi-tools": "k-dense-ai",
+    "stable-baselines3": "k-dense-ai",
+    "torch-geometric": "k-dense-ai",
+    "transformers": "k-dense-ai",
+    "autoresearch-universal": "karpathy",
     "backend-code-review": "langgenius",
     "component-refactoring": "langgenius",
     "e2e-cucumber-playwright": "langgenius",
@@ -2104,7 +2390,6 @@
     "upgrade-laravel-v13": "laravel",
     "nielsen-heuristics-audit": "martin-stepanoski",
     "ask-matt": "mattpocock",
-    "caveman": "mattpocock",
     "codebase-design": "mattpocock",
     "diagnose": "mattpocock",
     "diagnosing-bugs": "mattpocock",
@@ -2148,6 +2433,8 @@
     "gaia-preview": "mbtiongson1",
     "gaia-wiki-sync": "mbtiongson1",
     "graphify-triage": "mbtiongson1",
+    "last30days": "mvanhorn",
+    "ui-ux-pro-max": "nextlevelbuilder",
     "open-design": "nexu-io",
     "feed-monitoring": "nousresearch",
     "brainstorming": "obra",
@@ -2164,8 +2451,22 @@
     "writing-plans": "obra",
     "few-shot-learning": "openai",
     "self-consistency": "openai",
+    "scroll-world": "oso95",
+    "agent-reach": "panniantong",
     "impeccable": "pbakaus",
     "sentiment-analysis": "pexp13",
+    "remotion-best-practices": "remotion-dev",
+    "remotion-captions": "remotion-dev",
+    "remotion-create": "remotion-dev",
+    "remotion-docs": "remotion-dev",
+    "remotion-interactivity": "remotion-dev",
+    "remotion-maps": "remotion-dev",
+    "remotion-markup": "remotion-dev",
+    "remotion-multimedia": "remotion-dev",
+    "remotion-render": "remotion-dev",
+    "remotion-saas": "remotion-dev",
+    "remotion-studio": "remotion-dev",
+    "remotion-upgrade": "remotion-dev",
     "implement-with-discernment": "rico-favor",
     "agentdb-advanced": "ruvnet",
     "agentdb-learning": "ruvnet",
@@ -2189,7 +2490,7 @@
     "github-release-management": "ruvnet",
     "github-suite": "ruvnet",
     "github-workflow-automation": "ruvnet",
-    "hive-mind-coordination": "ruvnet",
+    "hive-mind": "ruvnet",
     "hooks-automation": "ruvnet",
     "pair-programming": "ruvnet",
     "performance-analysis": "ruvnet",
@@ -2222,8 +2523,11 @@
     "n8n-mcp-tools-expert": "sickn33",
     "readme-generate": "spring-ai",
     "dspy": "stanfordnlp",
+    "supabase-postgres-best-practices": "supabase",
+    "supabase": "supabase",
     "unittest-generator": "upsonic",
     "find-skills": "vercel",
+    "vercel-react-best-practices": "vercel-labs",
     "hermes-tweet": "xquik-dev",
     "orchestkit-rag": "yonatangross",
     "mcp-tool-developer": "yundu-ai"

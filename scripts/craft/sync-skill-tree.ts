@@ -60,12 +60,16 @@
 // Run: npx tsx scripts/craft/sync-skill-tree.ts
 // Env: GAIA_SKILL_TREE_REGISTRY — override the registry root (used by CI, which
 //      checks out gaia-skill-tree at an arbitrary path, not a fixed sibling
-//      depth). FORCE_RESYNC=1 — bypass the delta-guard sanity assertion (see
-//      assertRegistryShape below); use only when a real, reviewed registry
-//      contraction is expected. GAIA_CRAFT_OUT_DIR — override the output
-//      directory (default: data/craft relative to repo root). Used by tests to
-//      write into an isolated temp dir so they never touch the real data/craft/.
+//      depth). GAIA_SKILL_TREE_COMMIT / GAIA_CRAFT_SOURCE_DATE — checked-out
+//      upstream SHA and YYYY-MM-DD source date, recorded by CI for stable,
+//      reviewable provenance. FORCE_RESYNC=1 — bypass the delta-guard sanity
+//      assertion (see assertRegistryShape below); use only when a real,
+//      reviewed registry contraction is expected. GAIA_CRAFT_OUT_DIR — override
+//      the output directory (default: data/craft relative to repo root). Used
+//      by tests to write into an isolated temp dir so they never touch the real
+//      data/craft/.
 
+import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
@@ -172,6 +176,15 @@ interface ContributorRoster {
   total: number;
   /** handle -> { count } where count = named-skill authorship count. */
   contributors: Record<string, { count: number }>;
+}
+
+/** Provenance for a generated craft snapshot; lets reviewers verify its source. */
+interface RegistrySnapshot {
+  generatedAt: string;
+  upstreamRepository: string;
+  upstreamCommit: string;
+  nodeCount: number;
+  namedSkillFileCount: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -565,9 +578,18 @@ function listNamedSkillFiles(): NamedSkillFile[] {
   return files;
 }
 
+function snapshotDate(): string {
+  const sourceDate = process.env.GAIA_CRAFT_SOURCE_DATE;
+  return sourceDate && /^\d{4}-\d{2}-\d{2}$/.test(sourceDate)
+    ? sourceDate
+    : new Date().toISOString().slice(0, 10);
+}
+
 function buildNamedIndex(files: NamedSkillFile[]): NamedIndex {
   const index: NamedIndex = {
-    generatedAt: new Date().toISOString().slice(0, 10),
+    // In CI this is the immutable upstream commit date, not wall-clock time,
+    // so an unchanged registry produces no date-only resync diff.
+    generatedAt: snapshotDate(),
     skills: {},
     slugToContributor: {},
     unlinkedSlugs: [],
@@ -728,6 +750,52 @@ async function embedAndUpsertNamedSkills(
 function assertShape(condition: boolean, message: string): void {
   if (!condition) {
     throw new Error(`❌ Registry sanity check failed: ${message}`);
+  }
+}
+
+/**
+ * Resolve the checked-out upstream commit without making the sync depend on a
+ * Git checkout (fixture tests and archived exports may not have one). CI
+ * passes GAIA_SKILL_TREE_COMMIT explicitly so the reviewed source is unambiguous.
+ */
+function registryGitCommit(): string | undefined {
+  try {
+    return execFileSync('git', ['-C', REGISTRY_ROOT, 'rev-parse', 'HEAD'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+  } catch {
+    return undefined;
+  }
+}
+
+function resolveRegistryCommit(): string {
+  const explicit = process.env.GAIA_SKILL_TREE_COMMIT;
+  const checkedOut = registryGitCommit();
+  if (explicit && checkedOut) {
+    assertShape(
+      explicit === checkedOut,
+      `upstream commit mismatch: requested ${explicit}, checked out ${checkedOut}`,
+    );
+  }
+  return explicit ?? checkedOut ?? 'unknown';
+}
+
+/** Refuse to stamp a clean commit SHA onto data read from a dirty worktree. */
+function assertRegistrySourceIsClean(): void {
+  try {
+    const status = execFileSync('git', ['-C', REGISTRY_ROOT, 'status', '--porcelain'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    assertShape(
+      status.length === 0,
+      'upstream registry worktree has local modifications; commit or discard them before syncing',
+    );
+  } catch (err) {
+    // Non-git fixture/export directories have no commit to misrepresent. Keep
+    // them supported; a real Git status failure above has already thrown.
+    if (err instanceof Error && err.message.includes('Registry sanity check failed')) throw err;
   }
 }
 
@@ -893,9 +961,26 @@ async function main() {
     namedFiles,
     namedIndex,
   });
+  assertRegistrySourceIsClean();
 
   // 5. Write output files
   fs.mkdirSync(OUT_DIR, { recursive: true });
+
+  // Snapshot provenance is a separately reviewable generated artifact. Never
+  // infer the source from generatedAt: the upstream commit is the evidence.
+  const snapshot: RegistrySnapshot = {
+    generatedAt: snapshotDate(),
+    upstreamRepository: process.env.GAIA_SKILL_TREE_REPOSITORY ?? 'gaia-research/gaia-skill-tree',
+    upstreamCommit: resolveRegistryCommit(),
+    nodeCount: skills.length,
+    namedSkillFileCount: namedFiles.length,
+  };
+  fs.writeFileSync(
+    path.join(OUT_DIR, 'registry-snapshot.json'),
+    JSON.stringify(snapshot, null, 2),
+    'utf8',
+  );
+  console.log(`✅ Wrote data/craft/registry-snapshot.json (${snapshot.upstreamCommit})`);
 
   // skills.json
   const skillsOut = skills.map(s => ({

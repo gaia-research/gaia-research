@@ -6,6 +6,23 @@
     "type": "basic"
   },
   {
+    "id": "agent-fusion",
+    "name": "/agent-fusion",
+    "displayName": "Agent Fusion",
+    "type": "basic",
+    "prerequisites": [
+      "opinion",
+      "plan-synthesis",
+      "auto-review"
+    ]
+  },
+  {
+    "id": "agent-reach",
+    "name": "/agent-reach",
+    "displayName": "Agent Reach",
+    "type": "basic"
+  },
+  {
     "id": "api-call",
     "name": "/api-call",
     "displayName": "API Call",
@@ -18,6 +35,12 @@
     "type": "basic"
   },
   {
+    "id": "auto-review",
+    "name": "/auto-review",
+    "displayName": "Auto-Review",
+    "type": "basic"
+  },
+  {
     "id": "autonomous-engineering-platform",
     "name": "/autonomous-engineering-platform",
     "displayName": "Autonomous Engineering Platform",
@@ -27,6 +50,12 @@
     "id": "bioinformatic-sequence-analysis",
     "name": "/bioinformatic-sequence-analysis",
     "displayName": "Bioinformatic Sequence Analysis",
+    "type": "basic"
+  },
+  {
+    "id": "brand-guideline-application",
+    "name": "/brand-guideline-application",
+    "displayName": "Brand Guideline Application",
     "type": "basic"
   },
   {
@@ -330,6 +359,12 @@
     "type": "basic"
   },
   {
+    "id": "map-animation",
+    "name": "/map-animation",
+    "displayName": "map-animation",
+    "type": "basic"
+  },
+  {
     "id": "math-reason",
     "name": "/math-reason",
     "displayName": "Math Reason",
@@ -363,6 +398,12 @@
     "id": "object-detection",
     "name": "/object-detection",
     "displayName": "Object Detection",
+    "type": "basic"
+  },
+  {
+    "id": "opinion",
+    "name": "/opinion",
+    "displayName": "Opinion",
     "type": "basic"
   },
   {
@@ -414,9 +455,27 @@
     "type": "basic"
   },
   {
+    "id": "plan-synthesis",
+    "name": "/plan-synthesis",
+    "displayName": "Plan Synthesis",
+    "type": "basic"
+  },
+  {
+    "id": "postgres-best-practices",
+    "name": "/postgres-best-practices",
+    "displayName": "postgres-best-practices",
+    "type": "basic"
+  },
+  {
     "id": "probabilistic-programming",
     "name": "/probabilistic-programming",
     "displayName": "Probabilistic Programming",
+    "type": "basic"
+  },
+  {
+    "id": "prompt-caching",
+    "name": "/prompt-caching",
+    "displayName": "Prompt Caching",
     "type": "basic"
   },
   {
@@ -438,6 +497,12 @@
     "type": "basic"
   },
   {
+    "id": "quantum-circuit-programming",
+    "name": "/quantum-circuit-programming",
+    "displayName": "Quantum Circuit Programming",
+    "type": "basic"
+  },
+  {
     "id": "question-answer",
     "name": "/question-answer",
     "displayName": "Question Answer",
@@ -447,6 +512,12 @@
     "id": "rank",
     "name": "/rank",
     "displayName": "Rank",
+    "type": "basic"
+  },
+  {
+    "id": "react-performance-optimization",
+    "name": "/react-performance-optimization",
+    "displayName": "React Performance Optimization",
     "type": "basic"
   },
   {
@@ -498,6 +569,12 @@
     "type": "basic"
   },
   {
+    "id": "scroll-world",
+    "name": "/scroll-world",
+    "displayName": "Scroll World",
+    "type": "basic"
+  },
+  {
     "id": "self-consistency",
     "name": "/self-consistency",
     "displayName": "Self-Consistency",
@@ -528,6 +605,18 @@
     "type": "basic"
   },
   {
+    "id": "session-journaling",
+    "name": "/session-journaling",
+    "displayName": "Session Journaling",
+    "type": "basic"
+  },
+  {
+    "id": "single-cell-analysis",
+    "name": "/single-cell-analysis",
+    "displayName": "Single-Cell Analysis",
+    "type": "basic"
+  },
+  {
     "id": "skill-discovery",
     "name": "/skill-discovery",
     "displayName": "Skill Discovery",
@@ -546,6 +635,12 @@
     "type": "basic"
   },
   {
+    "id": "static-artwork-design",
+    "name": "/static-artwork-design",
+    "displayName": "Static Artwork Design",
+    "type": "basic"
+  },
+  {
     "id": "statistical-analysis",
     "name": "/statistical-analysis",
     "displayName": "Statistical Analysis",
@@ -561,6 +656,12 @@
     "id": "summarize",
     "name": "/summarize",
     "displayName": "Summarize",
+    "type": "basic"
+  },
+  {
+    "id": "supabase",
+    "name": "/supabase",
+    "displayName": "supabase",
     "type": "basic"
   },
   {
@@ -600,6 +701,12 @@
     "type": "basic"
   },
   {
+    "id": "timeline-animation",
+    "name": "/timeline-animation",
+    "displayName": "timeline-animation",
+    "type": "basic"
+  },
+  {
     "id": "token-observability",
     "name": "/token-observability",
     "displayName": "Token Observability",
@@ -636,6 +743,12 @@
     "type": "basic"
   },
   {
+    "id": "ui-audit",
+    "name": "/ui-audit",
+    "displayName": "UI Audit",
+    "type": "basic"
+  },
+  {
     "id": "ux-audit",
     "name": "/ux-audit",
     "displayName": "UX Audit",
@@ -651,6 +764,42 @@
     "id": "vector-search",
     "name": "/vector-search",
     "displayName": "Vector Search",
+    "type": "basic"
+  },
+  {
+    "id": "video-captions",
+    "name": "/video-captions",
+    "displayName": "video-captions",
+    "type": "basic"
+  },
+  {
+    "id": "video-interactivity",
+    "name": "/video-interactivity",
+    "displayName": "video-interactivity",
+    "type": "basic"
+  },
+  {
+    "id": "video-preview",
+    "name": "/video-preview",
+    "displayName": "video-preview",
+    "type": "basic"
+  },
+  {
+    "id": "video-rendering",
+    "name": "/video-rendering",
+    "displayName": "video-rendering",
+    "type": "basic"
+  },
+  {
+    "id": "video-saas",
+    "name": "/video-saas",
+    "displayName": "video-saas",
+    "type": "basic"
+  },
+  {
+    "id": "video-scaffolding",
+    "name": "/video-scaffolding",
+    "displayName": "video-scaffolding",
     "type": "basic"
   },
   {
@@ -862,6 +1011,17 @@
     ]
   },
   {
+    "id": "cheminformatics-analysis",
+    "name": "/cheminformatics-analysis",
+    "displayName": "Cheminformatics Analysis",
+    "type": "fusion",
+    "prerequisites": [
+      "molecular-databases",
+      "molecular-visualization",
+      "data-analysis"
+    ]
+  },
+  {
     "id": "cloud-platform-management",
     "name": "/cloud-platform-management",
     "displayName": "Cloud Platform Management",
@@ -903,6 +1063,16 @@
       "molecular-databases",
       "protein-structure-analysis",
       "proteomic-data-retrieval"
+    ]
+  },
+  {
+    "id": "computational-science-platform",
+    "name": "/computational-science-platform",
+    "displayName": "Computational Science Platform",
+    "type": "fusion",
+    "prerequisites": [
+      "agent-environment-setup",
+      "core-platform-implementation"
     ]
   },
   {
@@ -1266,6 +1436,17 @@
     ]
   },
   {
+    "id": "graph-neural-network-modeling",
+    "name": "/graph-neural-network-modeling",
+    "displayName": "Graph Neural Network Modeling",
+    "type": "fusion",
+    "prerequisites": [
+      "data-analysis",
+      "fine-tune",
+      "ml-pipeline"
+    ]
+  },
+  {
     "id": "grill-me",
     "name": "/grill-me",
     "displayName": "Grill Me",
@@ -1425,6 +1606,27 @@
     ]
   },
   {
+    "id": "molecular-machine-learning",
+    "name": "/molecular-machine-learning",
+    "displayName": "Molecular Machine Learning",
+    "type": "fusion",
+    "prerequisites": [
+      "molecular-databases",
+      "data-analysis",
+      "ml-pipeline"
+    ]
+  },
+  {
+    "id": "molecular-visualization",
+    "name": "/molecular-visualization",
+    "displayName": "Molecular Visualization",
+    "type": "fusion",
+    "prerequisites": [
+      "protein-structure-analysis",
+      "scientific-visualization"
+    ]
+  },
+  {
     "id": "multi-agent-debate",
     "name": "/multi-agent-debate",
     "displayName": "Multi-Agent Debate",
@@ -1480,6 +1682,17 @@
       "image-caption",
       "question-answer",
       "logical-inference"
+    ]
+  },
+  {
+    "id": "neural-training-orchestration",
+    "name": "/neural-training-orchestration",
+    "displayName": "Neural Training Orchestration",
+    "type": "fusion",
+    "prerequisites": [
+      "ml-pipeline",
+      "distributed-neural-training",
+      "ml-artifact-management"
     ]
   },
   {
@@ -1711,6 +1924,17 @@
     ]
   },
   {
+    "id": "reinforcement-learning-training",
+    "name": "/reinforcement-learning-training",
+    "displayName": "Reinforcement Learning Training",
+    "type": "fusion",
+    "prerequisites": [
+      "reward-modeling",
+      "ml-pipeline",
+      "automated-testing"
+    ]
+  },
+  {
     "id": "release-automation",
     "name": "/release-automation",
     "displayName": "Release Automation",
@@ -1755,6 +1979,16 @@
     ]
   },
   {
+    "id": "scientific-literature-retrieval",
+    "name": "/scientific-literature-retrieval",
+    "displayName": "Scientific Literature Retrieval",
+    "type": "fusion",
+    "prerequisites": [
+      "literature-search",
+      "retrieve"
+    ]
+  },
+  {
     "id": "scientific-writing",
     "name": "/scientific-writing",
     "displayName": "Scientific Writing",
@@ -1783,6 +2017,17 @@
     "prerequisites": [
       "code-review-pipeline",
       "evaluate-output"
+    ]
+  },
+  {
+    "id": "single-cell-omics-modeling",
+    "name": "/single-cell-omics-modeling",
+    "displayName": "Single-Cell Omics Modeling",
+    "type": "fusion",
+    "prerequisites": [
+      "computational-biology-workflows",
+      "probabilistic-programming",
+      "data-analysis"
     ]
   },
   {
@@ -1945,6 +2190,17 @@
     ]
   },
   {
+    "id": "transformer-model-engineering",
+    "name": "/transformer-model-engineering",
+    "displayName": "Transformer Model Engineering",
+    "type": "fusion",
+    "prerequisites": [
+      "fine-tune",
+      "embed-text",
+      "ml-pipeline"
+    ]
+  },
+  {
     "id": "translation-pipeline",
     "name": "/translation-pipeline",
     "displayName": "Translation Pipeline",
@@ -2003,6 +2259,22 @@
     "prerequisites": [
       "plan-decompose",
       "route-intent"
+    ]
+  },
+  {
+    "id": "video-composition",
+    "name": "/video-composition",
+    "displayName": "Video Composition",
+    "type": "fusion",
+    "prerequisites": [
+      "video-scaffolding",
+      "timeline-animation",
+      "video-preview",
+      "video-rendering",
+      "map-animation",
+      "video-saas",
+      "video-interactivity",
+      "video-captions"
     ]
   },
   {

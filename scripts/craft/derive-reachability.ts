@@ -93,6 +93,14 @@ const DEFAULT_OUT_DIR =
   process.env.GAIA_CRAFT_OUT_DIR ??
   path.resolve(__dirname, '../../data/craft');
 
+/** Use the immutable upstream source date in CI to avoid date-only resync diffs. */
+function snapshotDate(): string {
+  const sourceDate = process.env.GAIA_CRAFT_SOURCE_DATE;
+  return sourceDate && /^\d{4}-\d{2}-\d{2}$/.test(sourceDate)
+    ? sourceDate
+    : new Date().toISOString().slice(0, 10);
+}
+
 // ---------------------------------------------------------------------------
 // Game UI seed slugs (the 4 cards players start with — NOT in the registry).
 // Including them in Metric A seeds keeps the closure correct if a future
@@ -654,7 +662,7 @@ export function deriveReachability(options?: {
     reachableNamedSkillCount,
     gameSeedSlugs: GAME_SEED_SLUGS.slice().sort(),
     seedSlugs: seedsA.slice().sort(),
-    generatedAt: new Date().toISOString().slice(0, 10),
+    generatedAt: snapshotDate(),
   };
 
   // Sort seedBridges by result id for reviewable diffs
