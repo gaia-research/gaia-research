@@ -142,11 +142,32 @@
       "definition": "The in-session Skill Zero command, meaningful inside a zero-launched session."
     },
     {
+      "term": "/summon",
+      "state": "canonical",
+      "group": "commands",
+      "oracle": "N12",
+      "definition": "The single summon: one skill into context, one session, nothing installed. Present in every implementation, at every rung, on every door; Skill Zero ships it by default as the product floor."
+    },
+    {
+      "term": "/skill-heaven",
+      "state": "canonical",
+      "group": "commands",
+      "oracle": "N12, N11",
+      "definition": "The in-session command for the converge summon direction. Carries the `off…max` ladder setting how many skills may be auto-summoned per capability gap."
+    },
+    {
+      "term": "/skill-hell",
+      "state": "canonical",
+      "group": "commands",
+      "oracle": "N12, N11, N9",
+      "definition": "The in-session command for the explore summon direction. Carries the same `off…max` ladder as /skill-heaven, cast wider; also the standalone summon CLI in gaia-mcp."
+    },
+    {
       "term": "/skill-ultra",
       "state": "canonical",
       "group": "commands",
-      "oracle": "N11",
-      "definition": "The in-session command for the Ultra auto-switch governor surface."
+      "oracle": "N12, N11",
+      "definition": "The in-session command for Skill Ultra, the controller over the Heaven and Hell summon directions. It picks direction and depth per capability gap and carries no ladder of its own."
     }
   ]
 }

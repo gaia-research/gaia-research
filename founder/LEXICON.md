@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-research` · 72 terms across 6 namespace(s) · updated **2026-08-11**.
+> Schema `2` · HQ `gaia-research` · 76 terms across 6 namespace(s) · updated **2026-08-11**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
@@ -16,8 +16,8 @@
 | `core` | `gaia-research` | `founder/lexicon.json` | 2 |
 | `gaia.research` | `gaia-research` | `founder/lexicon.gaia.research.json` | 13 |
 | `gaia.brand` | `gaia-research` | `founder/lexicon.gaia.brand.json` | 2 |
-| `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 32 |
-| `gaia.zero` | `gaia-research` | `founder/lexicon.gaia.zero.json` | 19 |
+| `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 33 |
+| `gaia.zero` | `gaia-research` | `founder/lexicon.gaia.zero.json` | 22 |
 | `gaia.mcp` | `gaia-research` | `founder/lexicon.gaia.mcp.json` | 4 |
 
 Terms owned by **gaia-research/gaia-skill-tree** are listed name-only in `founder/lexicon.foreign.json` and are
@@ -96,7 +96,7 @@ to make a decision.
 
 | Term | State | Oracle | Definition |
 |---|---|---|---|
-| `ladder` | ✅ canonical | N11, N1, N5, P5 | The rung axis (`off…max`) that sets how much may be summoned per task and how much of the choosing is automated. |
+| `ladder` | ✅ canonical | N12, N11, N1, N5, P5 | The discrete rung axis (`off…max`) carried by BOTH summon directions, setting how many skills the agent may auto-summon per capability gap. It is per direction, not one global scale, and its per-rung counts are provisional until the benchmark lands. |
 | `hell lane` | ✅ canonical | N11, P1 | The explore/expand summon direction above native: the evidenced pool, honesty-gated; how much enters is bounded by the ladder rung. |
 | `scalpel` | 🅿️ parked | D12, N8 | The in-session control. Upward-only from the launched floor; carries conversation history; cannot descend below its launch posture. Names the in-session control from D12's former product design; that framing was cut back to physics 2026-07-24. Parked until the control exists. |
 | `lean` | ⛔ banned | N10 | Coined in matrix gate (a) as a rung for `--setting-sources project`. Not one of P1's four postures — this is the naming collision the PR #4 review flagged. Retired as a WORD 2026-07-29 (N10); the `--setting-sources project` composition it named is untouched and stays available. No successor: `project-only` was the standing proposal and was NOT adopted, so nothing replaces this — rephrase instead of substituting. Scope is load-bearing, not a softening: `lean` appears in 111 files, nearly all innocent (`clean`, `lean bundle`), and `banned` is not auto-narrowed the way `parked` was. |
@@ -106,10 +106,10 @@ to make a decision.
 | `rung` | ✅ canonical | N1, N5 | One selectable position on the ladder (`off…max`). The chosen word of the notch/rung/stop cluster — a ladder has rungs. Promoted 2026-07-24 for consistency with the oracle, which uses `rung` throughout after the ladder ruling. Correct freely if `notch` or `stop` reads better. |
 | `slider` | ⛔ banned | N1 | Retired 2026-07-24. The control is a ladder with discrete rungs, not a continuous fader. **Use `ladder`.** This was the longest-running vocabulary conflict on the line — N1 superseded the slider framing while later entries mandated a slider, and neither acknowledged the other. Closed by choosing the ladder. The in-session posture surface ships with NO noun for the control (2026-07-29): `ladder`/`rung` name the off…max ladder — a different control — and the mode-control name is open. Do not substitute `ladder` into copy about the posture surface, and do not coin a replacement. |
 | `picker` | 🅿️ parked | — | Candidate replacement for the contested `slider` — a discrete chooser with locked entries, which is what the product actually renders. Unratified. WITHDRAWN as a candidate 2026-07-29 (founder): the control name remains open and the method is locked — the method is already implied by Skill Heaven / Skill Hell. Do not ratify; do not propose a noun for the control surface. |
-| `mode` | ✅ canonical | N11, N1, N2 | The behavioral axis selection: Heaven (converge/curated summon), Hell (explore/expand summon), or Ultra (the auto-switch governor). |
+| `mode` | ✅ canonical | N12, N11, N1, N2 | The behavioral axis selection: Heaven (converge summon), Hell (explore summon), or Ultra (the controller over both). |
 | `Heaven-0` | ⛔ banned | N3 | Retired as a level name. Historical shorthand in archived docs only. **Use `level`.** |
 | `Heaven-1` | ⛔ banned | N3 | Retired as a level name. Historical shorthand in archived docs only. **Use `level`.** |
-| `ultra` | ✅ canonical | N11, N4 | The automated Heaven↔Hell switch governor. Axis, not launcher; gated exactly like Hell until evidence clears it. |
+| `ultra` | ✅ canonical | N12, N11, N4 | The controller over the Heaven and Hell summon directions, invoked by `/skill-ultra`. It picks direction and depth per capability gap and has no ladder of its own — no rung, and never a fader. |
 
 ### mechanism
 
@@ -120,6 +120,7 @@ to make a decision.
 | `resident` | 🅿️ parked | — | Proposed name for a skill currently in context. Not the founder's word for it; kept parked rather than promoted alongside `summonable`. Proposed name for a skill currently in context; not the founder's word for it, so it stays parked beside the canonical `summonable`. The ordinary-English sense ("a permanent resident of your config") is exempted by pattern — the fifth time a one-word rule met a second meaning. |
 | `summonable` | ✅ canonical | N11, P5 | A skill that is indexed and reachable but costs nothing until summoned. Hell expands this set; Heaven converges it. A summon brings a proxy into context for this session only. |
 | `summon` | ✅ canonical | N11, D4 | A per-session operation that brings a skill into context once, without installing it. Hell is the explore/expand summon direction; Heaven is the converge/curated summon direction. |
+| `auto-summon` | ✅ canonical | N12 | A summon the agent issues itself at a capability gap, rather than one the user types. The ladder rung sets how many are permitted per gap; at `off` none are automatic and `/summon` still works by hand. |
 | `router` | ✅ canonical | D5 | Deterministic nearest-neighbour over a build-time frozen embedding index. No model call ever decides a loadout. |
 | `firebreak` | ⛔ banned | N1, P5 | Retired 2026-07-24. It named a token ceiling on the summon flood — the thing the ladder now sets and the meter now shows. **Use `ladder`.** Two senses ran side by side: the live 'token-ceiling firebreak' and the archived RFC-68 sense (an architectural boundary against tool-exposure degradation). Neither survives: a cap with a control and a readout does not need a third name. |
 
@@ -178,7 +179,10 @@ to make a decision.
 | Term | State | Oracle | Definition |
 |---|---|---|---|
 | `/skill-zero` | ✅ canonical | N11 | The in-session Skill Zero command, meaningful inside a zero-launched session. |
-| `/skill-ultra` | ✅ canonical | N11 | The in-session command for the Ultra auto-switch governor surface. |
+| `/summon` | ✅ canonical | N12 | The single summon: one skill into context, one session, nothing installed. Present in every implementation, at every rung, on every door; Skill Zero ships it by default as the product floor. |
+| `/skill-heaven` | ✅ canonical | N12, N11 | The in-session command for the converge summon direction. Carries the `off…max` ladder setting how many skills may be auto-summoned per capability gap. |
+| `/skill-hell` | ✅ canonical | N12, N11, N9 | The in-session command for the explore summon direction. Carries the same `off…max` ladder as /skill-heaven, cast wider; also the standalone summon CLI in gaia-mcp. |
+| `/skill-ultra` | ✅ canonical | N12, N11 | The in-session command for Skill Ultra, the controller over the Heaven and Hell summon directions. It picks direction and depth per capability gap and carries no ladder of its own. |
 
 ## `gaia.mcp`
 

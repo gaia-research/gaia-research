@@ -9,8 +9,8 @@
       "term": "ladder",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N11, N1, N5, P5",
-      "definition": "The rung axis (`off…max`) that sets how much may be summoned per task and how much of the choosing is automated."
+      "oracle": "N12, N11, N1, N5, P5",
+      "definition": "The discrete rung axis (`off…max`) carried by BOTH summon directions, setting how many skills the agent may auto-summon per capability gap. It is per direction, not one global scale, and its per-rung counts are provisional until the benchmark lands."
     },
     {
       "term": "hell lane",
@@ -105,8 +105,8 @@
       "term": "mode",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N11, N1, N2",
-      "definition": "The behavioral axis selection: Heaven (converge/curated summon), Hell (explore/expand summon), or Ultra (the auto-switch governor)."
+      "oracle": "N12, N11, N1, N2",
+      "definition": "The behavioral axis selection: Heaven (converge summon), Hell (explore summon), or Ultra (the controller over both)."
     },
     {
       "term": "Heaven-0",
@@ -128,8 +128,8 @@
       "term": "ultra",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N11, N4",
-      "definition": "The automated Heaven↔Hell switch governor. Axis, not launcher; gated exactly like Hell until evidence clears it."
+      "oracle": "N12, N11, N4",
+      "definition": "The controller over the Heaven and Hell summon directions, invoked by `/skill-ultra`. It picks direction and depth per capability gap and has no ladder of its own — no rung, and never a fader."
     },
     {
       "term": "resident",
@@ -155,6 +155,13 @@
       "group": "mechanism",
       "oracle": "N11, D4",
       "definition": "A per-session operation that brings a skill into context once, without installing it. Hell is the explore/expand summon direction; Heaven is the converge/curated summon direction."
+    },
+    {
+      "term": "auto-summon",
+      "state": "canonical",
+      "group": "mechanism",
+      "oracle": "N12",
+      "definition": "A summon the agent issues itself at a capability gap, rather than one the user types. The ladder rung sets how many are permitted per gap; at `off` none are automatic and `/summon` still works by hand."
     },
     {
       "term": "router",
