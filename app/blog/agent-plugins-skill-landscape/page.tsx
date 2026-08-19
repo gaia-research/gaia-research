@@ -102,7 +102,8 @@ export default function BlogPostPage() {
             remarkPlugins={[remarkGfm]}
             components={{
               p: ({ children, ...props }) => {
-                const text = Array.isArray(children) ? children.join("") : children;
+                const childArray = Array.isArray(children) ? children : [children];
+                const text = childArray.length === 1 && typeof childArray[0] === "string" ? childArray[0] : null;
 
                 if (text === "[[SVG_1_LAYER_CAKE]]") {
                   return (
@@ -140,8 +141,11 @@ export default function BlogPostPage() {
                       <iframe
                         src="https://www.youtube-nocookie.com/embed/UaeWJK_vv-Y"
                         title="Agent Plugins — Technical Overview"
+                        width="960"
+                        height="540"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
+                        style={{ width: "100%", aspectRatio: "16 / 9", height: "auto" }}
                       />
                     </figure>
                   );
