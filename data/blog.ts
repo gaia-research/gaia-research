@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import agentPluginsSkillLandscapeThumbnailSrc from "@/assets/generated/agent-plugins-skill-landscape-editorial-thumbnail.webp";
 import agentskillsIoStandardThumbnailSrc from "@/assets/generated/agentskills-io-standard-editorial-thumbnail.webp";
 import claude5SystemPromptShrinkThumbnailSrc from "@/assets/generated/claude-5-system-prompt-shrink-editorial-thumbnail.webp";
 import skillEvalsEditorialThumbnailSrc from "@/assets/generated/skill-evals-editorial-thumbnail.webp";
@@ -22,6 +23,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const agentPluginsSkillLandscapeThumbnail = {
+  src: agentPluginsSkillLandscapeThumbnailSrc,
+  alt: "Tiny pink-haired Milim sits with headphones in a train cabin, watching the sunset over calm waters through a porthole window.",
+} as const;
 
 export const skillEvalsEditorialThumbnail = {
   src: skillEvalsEditorialThumbnailSrc,
@@ -66,6 +72,18 @@ export const contextAblationEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/agent-plugins-skill-landscape",
+    category: "Agent Skills",
+    tags: ["Agent Plugins", "Packaging", "Portability"],
+    date: "August 19, 2026",
+    readTime: "5 min read",
+    title: "Agent Plugins: The Skill Landscape Just Got a Package Format",
+    description:
+      "A package format for portable agent capabilities: skills, MCP servers, and client permissions all traveling together.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: agentPluginsSkillLandscapeThumbnail,
+  },
   {
     href: "/blog/context-ablation",
     category: "Agent Skills",
