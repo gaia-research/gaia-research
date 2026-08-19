@@ -262,68 +262,7 @@ The specification does **not** currently define a portable permission system, sa
 
 That leaves an important asymmetry:
 
-<svg viewBox="0 0 980 430" xmlns="http://www.w3.org/2000/svg"
-     role="img" aria-labelledby="title desc">
-  <title id="title">Portability is ahead of trust</title>
-  <desc id="desc">
-    An illustrative comparison showing that Agent Plugins v1 standardizes
-    packaging while permissions, trust, sandboxing, and authorization remain
-    mostly client-controlled.
-  </desc>
-
-  <rect width="980" height="430" rx="24" fill="#05060a"/>
-
-  <text x="70" y="66"
-        fill="#f4f1ea" font-size="27" font-weight="700">
-    Portability is ahead of trust.
-  </text>
-
-  <text x="70" y="102"
-        fill="#94a3b8" font-size="14">
-    Illustrative · not measured data
-  </text>
-
-  <text x="70" y="176"
-        fill="#cbd5e1" font-size="16">
-    Packaging interoperability
-  </text>
-
-  <rect x="310" y="151" width="570" height="34" rx="7"
-        fill="#0b0e14"/>
-  <rect x="310" y="151" width="520" height="34" rx="7"
-        fill="#fbbf24"/>
-
-  <text x="70" y="248"
-        fill="#cbd5e1" font-size="16">
-    Trust interoperability
-  </text>
-
-  <rect x="310" y="223" width="570" height="34" rx="7"
-        fill="#0b0e14"/>
-  <rect x="310" y="223" width="132" height="34" rx="7"
-        fill="#ec4899"/>
-
-  <line x1="70" y1="300" x2="880" y2="300"
-        stroke="#334155"/>
-
-  <text x="70" y="340"
-        fill="#38bdf8" font-size="14">
-    v1 portable:
-  </text>
-  <text x="190" y="340"
-        fill="#cbd5e1" font-size="14">
-    skills · MCP configuration · package manifest
-  </text>
-
-  <text x="70" y="374"
-        fill="#ec4899" font-size="14">
-    client-owned:
-  </text>
-  <text x="190" y="374"
-        fill="#cbd5e1" font-size="14">
-    permissions · sandboxing · OAuth · approval UX
-  </text>
-</svg>
+[[SVG_3_PORTABILITY_TRUST]]
 
 We are getting better at answering:
 
