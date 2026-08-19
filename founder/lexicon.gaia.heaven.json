@@ -2,22 +2,31 @@
   "lexicon": "2",
   "namespace": "gaia.heaven",
   "extends": "core",
-  "updated": "2026-08-11",
-  "about": "Skill Heaven is the umbrella runtime brand (repo `gaia-skill-heaven`) and the Heaven/Hell/Ultra axis namespace: Heaven and Hell are summon directions, Ultra is the auto-switch governor. The clean-slate launcher is Skill Zero (`gaia.zero`), not Heaven.",
+  "updated": "2026-08-19",
+  "about": "Skill Heaven is the umbrella runtime brand (repo `gaia-skill-heaven`) and the Heaven/Hell/Ultra axis namespace: Heaven and Hell are summon directions, Ultra is the top of the line. The clean-slate launcher is Skill Zero (`gaia.zero`), not Heaven. What the line measures is `skill entropy`.",
   "terms": [
+    {
+      "term": "skill entropy",
+      "state": "canonical",
+      "group": "posture",
+      "oracle": "N13, N3, N11, D5",
+      "definition": "What the ladder measures: how much skill variety and volume enters a session. Every rung is a skill-entropy level — `zero` is zero skills and therefore zero skill entropy, and `low → med → high → xhigh → max` is rising skill entropy. Heaven converges (the lower-entropy direction); Hell explores (the higher-entropy direction); `ultra` picks the entropy per gap. This is what makes Heaven and Hell one line rather than two products.",
+      "note": "Ratified N13 (2026-08-19) as the ladder's subject. PRODUCT CONCEPT, NOT AN INFORMATION-THEORETIC ONE: no formula, no unit, no threshold and no number is ratified, and none may be invented downstream to make it look measurable. IT IS NOT MEASURED TODAY. What the benchmark is being built to find is the ENTROPY CURVE — how quality and cost move together as skill entropy rises — not a token-savings headline. The curve is expected to rise and then turn, because Hell routes its summons through gaia mcp as a mixture-of-agents for skills (D5): more experts in context, better until it isn't. THE BENCHMARK IS NOT BUILT, so the curve is a target and never a result; no surface may render it as one (B4)."
+    },
     {
       "term": "ladder",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N12, N11, N1, N5, P5",
-      "definition": "The discrete rung axis (`off…max`) carried by BOTH summon directions, setting how many skills the agent may auto-summon per capability gap. It is per direction, not one global scale, and its per-rung counts are provisional until the benchmark lands."
+      "oracle": "N13, N12, N11, N1, N3, N5, P5",
+      "definition": "The one line the whole product reads from: `zero · low · med · high · xhigh · max · ultra`, a single global scale rather than one per direction. A rung is a skill-entropy level — it names a DIRECTION (converge toward Heaven, explore toward Hell) and a POSITION along that band. It carries no count and caps no summon.",
+      "note": "N13 (2026-08-15, consolidated 2026-08-19) withdrew two readings. (1) The per-direction ladder N12(3) introduced: a session sits at exactly one rung and the surface is READ from it — there is no Heaven-position and Hell-position held at once. (2) The count model: N12(3)'s 'how many skills the agent may auto-summon per capability gap' and N12(5)'s per-rung counts are withdrawn outright. No rung carries a count and no summon is capped; how far to reach on a given gap is the agent's call, worked out in use while the benchmark is built. What stays PROVISIONAL is only the representative rung per band — Heaven's `low`, Hell's `high` — and every surface rendering one must say so. A count encoded in a constant is a decision made by omission; do not."
     },
     {
       "term": "hell lane",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N11, P1",
-      "definition": "The explore/expand summon direction above native: the evidenced pool, honesty-gated; how much enters is bounded by the ladder rung."
+      "oracle": "N13, N11, P1",
+      "definition": "The explore/expand summon direction: the higher-entropy half of the one line, occupying `high · xhigh · max` (N13-2). The evidenced pool, honesty-gated. The rung names how far along the explore band the session sits; it does not bound intake by count."
     },
     {
       "term": "scalpel",
@@ -81,9 +90,9 @@
       "term": "rung",
       "state": "canonical",
       "group": "posture",
-      "definition": "One selectable position on the ladder (`off…max`). The chosen word of the notch/rung/stop cluster — a ladder has rungs.",
-      "oracle": "N1, N5",
-      "note": "Promoted 2026-07-24 for consistency with the oracle, which uses `rung` throughout after the ladder ruling. Correct freely if `notch` or `stop` reads better."
+      "definition": "One selectable position on the ladder (`zero · low · med · high · xhigh · max · ultra`) — a skill-entropy level. The chosen word of the notch/rung/stop cluster: a ladder has rungs.",
+      "oracle": "N13, N3, N1, N5",
+      "note": "Promoted 2026-07-24 for consistency with the oracle, which uses `rung` throughout after the ladder ruling. Correct freely if `notch` or `stop` reads better. N13 (2026-08-19): the floor rung is spelled `zero`, not `off`, and `ultra` is the seventh rung on the same line. A rung carries no count."
     },
     {
       "term": "slider",
@@ -105,8 +114,9 @@
       "term": "mode",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N12, N11, N1, N2",
-      "definition": "The behavioral axis selection: Heaven (converge summon), Hell (explore summon), or Ultra (the controller over both)."
+      "oracle": "N13, N12, N11, N1, N2",
+      "definition": "The band a rung falls in, READ from the rung rather than chosen on a second dial (N13-2): Skill Zero at `zero`, Heaven (converge) at `low · med`, Hell (explore) at `high · xhigh · max`, Ultra at `ultra`.",
+      "note": "N13 (2026-08-19) collapsed N5's two dials into one. Selecting a surface selects into its band; selecting a rung fine-tunes within it. A session sits at exactly one rung, so it is in exactly one mode."
     },
     {
       "term": "Heaven-0",
@@ -128,8 +138,9 @@
       "term": "ultra",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N12, N11, N4",
-      "definition": "The controller over the Heaven and Hell summon directions, invoked by `/skill-ultra`. It picks direction and depth per capability gap and has no ladder of its own — no rung, and never a fader."
+      "oracle": "N13, N12, N11, N4",
+      "definition": "The top of the one line. It picks the skill entropy per capability gap — direction and depth both. Invoked by `/skill-ultra`. Never a fader (N1).",
+      "note": "N13(3) (2026-08-19) places `ultra` on the line as its last position; N12(4)'s off-the-line placement is withdrawn. It has no sub-ladder because it is the top of this one. THE CONTROLLER'S HEURISTICS ARE NOT BUILT — today the agent at `ultra` picks direction and depth unaided, and no surface may present a shipped controller."
     },
     {
       "term": "resident",
@@ -160,8 +171,9 @@
       "term": "auto-summon",
       "state": "canonical",
       "group": "mechanism",
-      "oracle": "N12",
-      "definition": "A summon the agent issues itself at a capability gap, rather than one the user types. The ladder rung sets how many are permitted per gap; at `off` none are automatic and `/summon` still works by hand."
+      "oracle": "N13, N12",
+      "definition": "A summon the agent issues itself at a capability gap, rather than one the user types. The rung sets the direction and how far along its band the session sits — not a number: nothing is permitted-per-gap and no summon is capped. At `zero` none are automatic and `/summon` still works by hand.",
+      "note": "N13(4) (2026-08-19) withdrew the count model N12(3)/N12(5) carried. How far to reach on a given gap is the agent's call, worked out in use while the benchmark is built."
     },
     {
       "term": "router",
@@ -176,8 +188,8 @@
       "group": "mechanism",
       "definition": "Retired 2026-07-24. It named a token ceiling on the summon flood — the thing the ladder now sets and the meter now shows.",
       "replacement": "ladder",
-      "oracle": "N1, P5",
-      "note": "Two senses ran side by side: the live 'token-ceiling firebreak' and the archived RFC-68 sense (an architectural boundary against tool-exposure degradation). Neither survives: a cap with a control and a readout does not need a third name."
+      "oracle": "N1, P5, N13",
+      "note": "Two senses ran side by side: the live 'token-ceiling firebreak' and the archived RFC-68 sense (an architectural boundary against tool-exposure degradation). Neither survives: a cap with a control and a readout does not need a third name. N13 (2026-08-19): the sentence explaining this ban no longer holds either — the ladder does NOT set a ceiling, because no rung carries a count and no summon is capped. The ban stands on stronger ground: there is no ceiling to name."
     },
     {
       "term": "skill-heaven",
@@ -252,22 +264,23 @@
       "term": "heaven",
       "state": "canonical",
       "group": "axis",
-      "oracle": "N11",
-      "definition": "The converge/curated summon direction on the Heaven/Hell axis. Heaven is not subtraction and not the launcher; Skill Zero owns clean-slate launch."
+      "oracle": "N13, N11",
+      "definition": "The converge/curated summon direction — the LOWER-entropy direction of the one line, occupying the band `low · med` (N13-2). Heaven is not subtraction and not the launcher; Skill Zero owns clean-slate launch. Representative rung `low`, PROVISIONAL until the benchmark lands."
     },
     {
       "term": "hell",
       "state": "canonical",
       "group": "axis",
-      "oracle": "N11",
-      "definition": "The explore/expand summon direction on the Heaven/Hell axis. `skill-hell` remains the standalone explore-direction summon tool."
+      "oracle": "N13, N11",
+      "definition": "The explore/expand summon direction — the HIGHER-entropy direction of the one line, occupying the band `high · xhigh · max` (N13-2). `skill-hell` remains the standalone explore-direction summon tool. Representative rung `high`, PROVISIONAL until the benchmark lands.",
+      "note": "N13(5) (2026-08-19): nothing on the line refuses. Hell is not gated, locked or sealed — P2's gate was SATISFIED by owner ratification, the condition P2 itself named. What is outstanding on this band is implementation, not permission."
     },
     {
       "term": "polarity",
       "state": "canonical",
       "group": "axis",
-      "oracle": "N11",
-      "definition": "The Heaven↔Hell behavioral direction of a summon: converge/curate toward Heaven, explore/expand toward Hell; Ultra governs switching."
+      "oracle": "N13, N11",
+      "definition": "The Heaven↔Hell direction of a summon along skill entropy: converge/curate toward Heaven (lower), explore/expand toward Hell (higher). `ultra` picks the direction per gap."
     }
   ]
 }
