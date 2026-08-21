@@ -1,0 +1,18 @@
+[
+  {
+    "path": "scripts/scout-bench/fixtures/craft-50/craft-recipe-validator.json",
+    "relevance_signal": "Checks fusion recipe inputs and outputs against node schema"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/craft-50/craft-dag-cycle-detector.json",
+    "relevance_signal": "Detects circular dependencies in prerequisite graphs"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/craft-50/craft-tier-enforcer.json",
+    "relevance_signal": "Ensures fusion recipes adhere to basic vs fusion tier hierarchy"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/craft-50/craft-schema-linter.json",
+    "relevance_signal": "Validates named and generic skill YAML/JSON contracts"
+  }
+]

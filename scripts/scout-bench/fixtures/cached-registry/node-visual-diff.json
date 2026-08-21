@@ -1,0 +1,7 @@
+{
+  "id": "node-visual-diff",
+  "tier": "basic",
+  "title": "Visual Diff Inspector",
+  "description": "Perceptual image diffing and layout comparison",
+  "prerequisites": []
+}

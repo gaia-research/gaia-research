@@ -1,0 +1,5 @@
+{
+  "id": "skill-security-audit",
+  "name": "Security Auditor",
+  "description": "Dependency vulnerability scanner and SAST checker"
+}

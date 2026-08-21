@@ -1,0 +1,5 @@
+{
+  "id": "skill-wasm-build",
+  "name": "WASM Compiler",
+  "description": "Rust to WebAssembly builder and bundler"
+}

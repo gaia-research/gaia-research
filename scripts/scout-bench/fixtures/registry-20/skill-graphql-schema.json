@@ -1,0 +1,5 @@
+{
+  "id": "skill-graphql-schema",
+  "name": "GraphQL Schema Builder",
+  "description": "Apollo GraphQL type resolver generator"
+}

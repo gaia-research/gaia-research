@@ -1,0 +1,7 @@
+{
+  "id": "node-eval-runner",
+  "tier": "fusion",
+  "title": "Automated Evaluation Runner",
+  "description": "Orchestrates multi-arm benchmark evaluations",
+  "prerequisites": ["node-core-eval"]
+}

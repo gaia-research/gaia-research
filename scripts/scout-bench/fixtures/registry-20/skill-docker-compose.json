@@ -1,0 +1,5 @@
+{
+  "id": "skill-docker-compose",
+  "name": "Docker Compose Helper",
+  "description": "Multi-container local stack runner"
+}

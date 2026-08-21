@@ -1,0 +1,4 @@
+{
+  "name": "sql_query",
+  "description": "Execute raw SQL queries against remote database"
+}

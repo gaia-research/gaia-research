@@ -1,0 +1,4 @@
+{
+  "name": "dns_lookup",
+  "description": "Query DNS nameservers for A/AAAA/CNAME records"
+}

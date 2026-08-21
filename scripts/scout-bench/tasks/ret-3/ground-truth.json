@@ -1,0 +1,14 @@
+[
+  {
+    "path": "scripts/scout-bench/fixtures/cached-registry/node-eval-runner.json",
+    "relevance_signal": "Declares node-core-eval in prerequisites array"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/cached-registry/node-judge-panel.json",
+    "relevance_signal": "Declares node-core-eval in prerequisites array"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/cached-registry/node-fusion-engine.json",
+    "relevance_signal": "Declares node-core-eval in prerequisites array"
+  }
+]

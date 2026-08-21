@@ -1,0 +1,19 @@
+{
+  "tools": [
+    { "name": "read", "description": "Read file contents from local repository" },
+    { "name": "write", "description": "Write markdown blog post or code file to disk" },
+    { "name": "image_generate", "description": "Generate 16:9 raster editorial thumbnail images" },
+    { "name": "bash", "description": "Execute shell commands, test runners, and claim verifiers" },
+    { "name": "sql_query", "description": "Execute raw SQL queries against remote database" },
+    { "name": "docker_build", "description": "Build and tag container images from Dockerfile" },
+    { "name": "pdf_extract", "description": "Parse binary PDF files and extract raw text tables" },
+    { "name": "s3_upload", "description": "Upload binary objects to AWS S3 bucket" },
+    { "name": "dns_lookup", "description": "Query DNS nameservers for A/AAAA/CNAME records" },
+    { "name": "git_clone", "description": "Clone remote git repositories" },
+    { "name": "grpc_invoke", "description": "Send gRPC protocol buffer RPC calls" },
+    { "name": "kafka_produce", "description": "Publish event records to Kafka topics" },
+    { "name": "redis_cli", "description": "Execute Redis in-memory cache commands" },
+    { "name": "k8s_scale", "description": "Scale Kubernetes deployment replica sets" },
+    { "name": "audio_synthesize", "description": "Generate raw TTS audio waveforms" }
+  ]
+}

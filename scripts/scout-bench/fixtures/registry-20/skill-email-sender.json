@@ -1,0 +1,5 @@
+{
+  "id": "skill-email-sender",
+  "name": "Email Broadcaster",
+  "description": "Transactional email sender via Resend/Sendgrid"
+}

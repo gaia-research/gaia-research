@@ -1,0 +1,4 @@
+{
+  "name": "pdf_extract",
+  "description": "Parse binary PDF files and extract raw text tables"
+}

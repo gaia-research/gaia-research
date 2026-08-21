@@ -1,0 +1,5 @@
+{
+  "id": "skill-audio-transcribe",
+  "name": "Audio Transcriber",
+  "description": "Whisper audio speech-to-text pipeline"
+}

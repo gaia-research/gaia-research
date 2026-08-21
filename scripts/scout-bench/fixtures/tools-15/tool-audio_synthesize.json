@@ -1,0 +1,4 @@
+{
+  "name": "audio_synthesize",
+  "description": "Generate raw TTS audio waveforms"
+}

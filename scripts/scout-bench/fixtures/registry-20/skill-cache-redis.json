@@ -1,0 +1,5 @@
+{
+  "id": "skill-cache-redis",
+  "name": "Redis Cache Manager",
+  "description": "Key-value cache invalidator and TTL manager"
+}

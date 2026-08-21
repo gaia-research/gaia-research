@@ -1,0 +1,5 @@
+{
+  "id": "skill-benchmark-runner",
+  "name": "Benchmark Runner",
+  "description": "Execution latency and memory profiler"
+}

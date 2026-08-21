@@ -1,0 +1,26 @@
+[
+  {
+    "path": "scripts/visual-audit.mjs",
+    "relevance_signal": "Playwright multi-viewport screenshot and cut-off detection script"
+  },
+  {
+    "path": "scripts/visual-check.mjs",
+    "relevance_signal": "Visual regression check and comparison runner"
+  },
+  {
+    "path": "scripts/visual-charts.mjs",
+    "relevance_signal": "Visual chart render verification utility"
+  },
+  {
+    "path": "scripts/visual-copy.mjs",
+    "relevance_signal": "Visual asset copy and staging utility"
+  },
+  {
+    "path": "scripts/visual-takeroot.mjs",
+    "relevance_signal": "Root snapshot taker for visual diffing"
+  },
+  {
+    "path": ".agents/skills/visual-audit/SKILL.md",
+    "relevance_signal": "Skill definition for visual and mobile audit procedures"
+  }
+]

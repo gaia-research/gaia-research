@@ -1,0 +1,24 @@
+{
+  "skills": [
+    { "id": "skill-visual-audit", "name": "Visual Audit", "description": "Playwright multi-viewport cut-off detection and responsive layout testing" },
+    { "id": "skill-impeccable", "name": "Impeccable Design Polish", "description": "Responsive layout debugging, visual hierarchy refinement, and CSS polish" },
+    { "id": "skill-preview", "name": "Preview Server Manager", "description": "Local dev server preview runner and port monitor for localhost UI checking" },
+    { "id": "skill-db-migrate", "name": "Database Migrator", "description": "Postgres schema migration planner and rollback manager" },
+    { "id": "skill-audio-transcribe", "name": "Audio Transcriber", "description": "Whisper audio speech-to-text pipeline" },
+    { "id": "skill-git-rebase", "name": "Git Rebase Assistant", "description": "Interactive rebase conflict resolver" },
+    { "id": "skill-security-audit", "name": "Security Auditor", "description": "Dependency vulnerability scanner and SAST checker" },
+    { "id": "skill-api-codegen", "name": "API Code Generator", "description": "OpenAPI spec to TypeScript types and client generator" },
+    { "id": "skill-seo-optimizer", "name": "SEO Optimizer", "description": "Meta tags, structured JSON-LD data, and sitemap generator" },
+    { "id": "skill-i18n-localize", "name": "i18n Localizer", "description": "Translation string extraction and ICU message formatting" },
+    { "id": "skill-docker-compose", "name": "Docker Compose Helper", "description": "Multi-container local stack runner" },
+    { "id": "skill-k8s-deploy", "name": "Kubernetes Deployer", "description": "Helm chart and manifest validator" },
+    { "id": "skill-cron-scheduler", "name": "Cron Scheduler", "description": "Background worker queue job scheduler" },
+    { "id": "skill-email-sender", "name": "Email Broadcaster", "description": "Transactional email sender via Resend/Sendgrid" },
+    { "id": "skill-auth-guard", "name": "Auth Guard", "description": "JWT validation and OAuth2 authorization flow" },
+    { "id": "skill-cache-redis", "name": "Redis Cache Manager", "description": "Key-value cache invalidator and TTL manager" },
+    { "id": "skill-wasm-build", "name": "WASM Compiler", "description": "Rust to WebAssembly builder and bundler" },
+    { "id": "skill-benchmark-runner", "name": "Benchmark Runner", "description": "Execution latency and memory profiler" },
+    { "id": "skill-graphql-schema", "name": "GraphQL Schema Builder", "description": "Apollo GraphQL type resolver generator" },
+    { "id": "skill-bundle-analyze", "name": "Bundle Analyzer", "description": "Webpack/Vite chunk size and tree-shaking inspector" }
+  ]
+}

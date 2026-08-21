@@ -1,0 +1,7 @@
+{
+  "id": "node-telemetry-sink",
+  "tier": "basic",
+  "title": "Telemetry Sink",
+  "description": "Collects structured runtime metrics and token expenditures",
+  "prerequisites": []
+}

@@ -1,0 +1,7 @@
+{
+  "id": "node-fusion-engine",
+  "tier": "fusion",
+  "title": "Fusion Recipe Engine",
+  "description": "Combines basic skills into specialized fusion nodes with verification",
+  "prerequisites": ["node-core-eval", "node-visual-diff"]
+}

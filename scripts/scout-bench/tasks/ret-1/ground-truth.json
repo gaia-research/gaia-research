@@ -1,0 +1,10 @@
+[
+  {
+    "path": "scripts/scout-bench/fixtures/cached-skills/visual-audit.md",
+    "relevance_signal": "Dedicated visual and mobile cut-off audit skill using Playwright"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/cached-skills/impeccable.md",
+    "relevance_signal": "Frontend design, responsive layout polish, and visual hierarchy skill"
+  }
+]
