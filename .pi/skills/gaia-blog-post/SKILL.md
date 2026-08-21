@@ -46,7 +46,36 @@ Every blog post **MUST** feature a 16:9 flat screenprint **Milim Editorial Thumb
 
 ---
 
-## 4. Template & Code Routing
+## 4. Standard 3x Worker Subagent Pipeline
+
+All blog posts undergo a standardized 3-stage subagent review chain (`subagent` tool with `chain` mode):
+
+1. **Stage 1 — Fact Check & Grounding Worker**: Audits core claims against empirical evidence, papers, terminal traces, and benchmarks. Identifies exact mechanisms, bounds metrics, checks architectural claims, and flags any speculative/fabricated statements.
+2. **Stage 2 — Prune & Anti-Slop Worker**: Strips corporate hype words ("game-changing", "paradigm shift", "seamless"), eliminates fluff/filler, and enforces Nova persona (low-ego, demure, peer-focused, skeptical, field-tested). Ensures conceptual models are marked as such and not presented as empirical results.
+3. **Stage 3 — Polish, Structure & Visual Worker**: Shapes the final post into clear, skimmable narrative arcs, writes concrete before/after code contrasts, inserts placeholders for inline responsive SVG diagrams, and defines actionable closing takeaways.
+
+```json
+{
+  "chain": [
+    {
+      "agent": "worker",
+      "task": "Fact-check research claims, verify metric bounds, isolate core architectural divergence, and produce grounded analysis brief for topic: <TOPIC>."
+    },
+    {
+      "agent": "worker",
+      "task": "Prune corporate fluff, eliminate buzzwords, enforce Nova persona (low-ego, skeptical, peer-to-peer), structure code contrasts and ASCII diagrams based on: {previous}."
+    },
+    {
+      "agent": "worker",
+      "task": "Refine into final Gaia Research Markdown post with clear section hooks, SVG placeholders ([[SVG_1_...]], [[SVG_2_...]]), and actionable developer takeaways based on: {previous}."
+    }
+  ]
+}
+```
+
+---
+
+## 5. Template & Code Routing
 
 Boilerplate code and file structures are maintained in the separate `template.md` file inside this skill directory:
 
@@ -57,7 +86,7 @@ Boilerplate code and file structures are maintained in the separate `template.md
 
 ---
 
-## 5. Pre-Publishing Quality Checklist
+## 6. Pre-Publishing Quality Checklist
 
 - [ ] **Anti-Slop Check**: Zero unratified roadmap claims, zero boilerplate headers, zero corporate hype buzzwords. Single-topic deep dive.
 - [ ] **Show-Don't-Tell Verification**: At least one form of primary evidence is embedded — a real YouTube talk (only if directly relevant), terminal output trace, or linked paper. If the post describes a conceptual framework with no external source, it is clearly labelled as such. SVG graphs used in place of long text paragraphs.

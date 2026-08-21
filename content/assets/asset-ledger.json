@@ -1603,6 +1603,23 @@
       "derivatives": []
     },
     {
+      "id": "agent-plugins-skill-landscape-editorial-thumbnail",
+      "path": "assets/generated/agent-plugins-skill-landscape-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "3b048540d4350f6c98250be70b13f499675a3ee737ca2e20d21dcd83df05ec4a",
+      "bytes": 241048,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
+    },
+    {
       "id": "agentskills-io-standard-editorial-thumbnail",
       "path": "assets/generated/agentskills-io-standard-editorial-thumbnail.webp",
       "kind": "illustration",
@@ -2582,6 +2599,23 @@
       },
       "derivatives": [],
       "notes": "Approved for PR #99 as the blog thumbnail and inline editorial image. Promoted from assets/workbench/generated/skill-evals-observatory-screenprint-v01.png."
+    },
+    {
+      "id": "skill-evaluator-vs-skillopt-editorial-thumbnail",
+      "path": "assets/generated/skill-evaluator-vs-skillopt-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "632f84b185a80ffdd0945ef71c62bea76c30ba3ab12359f097e59c0b40b61c58",
+      "bytes": 104048,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
     },
     {
       "id": "yggdrasil-ii-editorial-thumbnail",
