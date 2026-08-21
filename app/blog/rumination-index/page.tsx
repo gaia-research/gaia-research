@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import marcusAuthor from "@/content/authors/marcus.json";
 import PostShareBar from "@/components/PostShareBar";
@@ -452,7 +454,8 @@ export default function BlogPostPage() {
 
         <article className="blog-post-body report-body">
           <Markdown
-            remarkPlugins={[remarkGfm]}
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeKatex]}
             components={{
               img: ({ src, alt, ...props }) => (
                 <img src={src} alt={alt || ""} className="blog-post-body-img" {...props} />

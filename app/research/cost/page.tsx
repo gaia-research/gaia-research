@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyCommand from "@/components/CopyCommand";
 import { installCmd, repoUrl, treeUrl } from "@/data/research";
@@ -74,7 +76,7 @@ export default function CostResearchPage() {
         </section>
 
         <article className="report-body">
-          <Markdown remarkPlugins={[remarkGfm]}>{body}</Markdown>
+          <Markdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>{body}</Markdown>
         </article>
 
         <footer className="report-foot">

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 // loaded as raw text by webpack asset/source
 import methodologyMd from "@/content/reports/hh-benchmark/methodology.md";
@@ -85,7 +87,7 @@ export default function HhBenchmarkPage() {
         </figure>
 
         <article className="report-body">
-          <Markdown remarkPlugins={[remarkGfm]}>{body}</Markdown>
+          <Markdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>{body}</Markdown>
         </article>
 
         <footer className="report-foot">

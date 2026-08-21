@@ -8,20 +8,6 @@
 >
 > When skills inevitably fail, two divergent engineering philosophies emerge on how to fix them. Neither is sufficient alone.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        TWO DIVERGENT MENTAL MODELS                     │
-├───────────────────────────────────┬────────────────────────────────────┤
-│      NVIDIA Skill Evaluator       │         Microsoft SkillOpt         │
-│         "The Gatekeeper"          │            "The Tuner"             │
-├───────────────────────────────────┼────────────────────────────────────┤
-│ • Static release-engineering gate │ • Continuous parameter optimizer   │
-│ • Sandboxed Harbor container runs │ • Text-space gradient descent      │
-│ • Paired dual-arm A/B lift trials │ • Forward rollout + reflection loop│
-│ • Diagnoses flaws, writes no fixes│ • Proposes diffs, lacks sandboxing │
-└───────────────────────────────────┴────────────────────────────────────┘
-```
-
 When an agent skill underperforms in production, you hit two distinct engineering problems:
 
 1. **The Verification Problem:** How do you prove that adding a 500-word instruction bundle actually provides net positive task lift across diverse workloads without introducing regressions, prompt injection vulnerabilities, or runaway token overhead?
@@ -53,10 +39,6 @@ The output of Skill Evaluator is a **multi-dimensional scorecard** measuring Ski
 
 What it will **not** do is write a single line of text to fix a failing test. It tells you that you failed; you have to figure out why.
 
-```text
-[Candidate Skill] ──► [Tier 1: AST / Security] ──► [Tier 2: Semantic Dedup] ──► [Tier 3: Harbor Sandbox] ──► Scorecard (Pass / Fail)
-```
-
 ### The Tuner: Microsoft SkillOpt
 
 Microsoft treats an agent skill as a **trainable external parameter state** ($S \in \mathcal{T}$).
@@ -68,10 +50,6 @@ $$\min_{S \in \mathcal{T}} \mathcal{L}_{\text{task}}(S) \quad \text{subject to} 
 SkillOpt maintains a frozen target model ($M_{\text{target}}$) and uses a separate reflective optimizer model ($M_{\text{optimizer}}$, such as GPT-5.5) to inspect failed trajectories in minibatches ($b=8$). It computes textual edits bounded by a textual learning rate ($\eta$), condition candidates against a negative feedback buffer of past rejected edits, and promotes updates only when they strictly beat incumbent scores on held-out validation splits.
 
 The output of SkillOpt is a compact, optimized `best_skill.md` file (typically 300 to 2,000 tokens) introducing zero inference-time latency or custom runtime wrappers.
-
-```text
-[Initial Skill S_0] ──► [Forward Rollout (B=40)] ──► [Error Minibatch (b=8)] ──► [Textual Gradient ∇_S] ──► [Validation Gate] ──► best_skill.md
-```
 
 ---
 
@@ -95,37 +73,9 @@ Across >300 verified enterprise skills across 30 product lines in Claude Code an
 | Efficiency | 43 / 100 | 78 / 100 | +35 pts | Redundant tool execution pruning |
 | Security | 97 / 100 | 98 / 100 | +1 pt | Host and runtime safety policy maintenance |
 
-```text
-                  THE 3-TIER HARBOR VERIFICATION PIPELINE
-                  
-  Candidate Skill (SKILL.md + references/)
-         │
-         ▼
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │ Tier 1: Static Syntax, AST & Security Linters                          │
-  │ • Frontmatter schema validation & AST structural bounds                │
-  │ • Semgrep rules for shell injection, rm -rf, and credential leaks      │
-  │ • Secret scanner (Gitleaks) + PII / Unicode smuggling filters          │
-  └───────────────────────────────────┬────────────────────────────────────┘
-                                      │ PASS
-                                      ▼
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │ Tier 2: Embedding-Based Semantic Deduplication                         │
-  │ • Dense retrieval cosine similarity against existing catalog vectors   │
-  │ • Rejects overlapping skill definitions that bloat system prompts      │
-  └───────────────────────────────────┬────────────────────────────────────┘
-                                      │ PASS
-                                      ▼
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │ Tier 3: Isolated Harbor Dual-Arm Container Trials                      │
-  │ • Arm A (Baseline): Target Agent runs Task Suite w/o Skill             │
-  │ • Arm B (Treatment): Target Agent runs Task Suite w/ Candidate Skill   │
-  │ • Post-execution assertions run in ephemeral Docker sandboxes          │
-  └───────────────────────────────────┬────────────────────────────────────┘
-                                      │
-                                      ▼
-             Lift Matrix: [ Δ_corr, Δ_disc, Δ_eff, Δ_effc, Δ_sec ]
-```
+[[SVG_HARBOR_PIPELINE]]
+
+[[SVG_HARBOR_METRIC_LIFTS]]
 
 #### The Real-World Efficiency Divergence
 
@@ -164,39 +114,7 @@ SkillOpt replaces manual prompting guesswork with an algorithmic forward-backwar
 3. **Rejected-Edit Memory Buffer:** Edits that fail validation are cached in a negative feedback buffer. Subsequent optimizer prompts condition on this buffer, preventing the model from oscillating between two equally flawed phrasings.
 4. **SkillOpt-Sleep Daemon:** An offline background daemon that parses real developer session transcripts across five stages: **Harvest $\to$ Mine $\to$ Replay $\to$ Consolidate $\to$ Stage/Adopt**.
 
-```text
-                            SKILLOPT OPTIMIZATION LOOP
-                            
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │ 1. Forward Rollout (Batch B = 40)                                      │
-  │    Execute current skill S_t on target agent M_target across train set │
-  └───────────────────────────────────┬────────────────────────────────────┘
-                                      │
-                                      ▼
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │ 2. Error Mining (Minibatch b = 8)                                      │
-  │    Extract failure trajectories, tool stderr, and timeout traces       │
-  └───────────────────────────────────┬────────────────────────────────────┘
-                                      │
-                                      ▼
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │ 3. Textual Backward Pass (M_opt: GPT-5.5)                              │
-  │    Compute textual gradient ∇_S: identify failure modes & draft diffs  │
-  └───────────────────────────────────┬────────────────────────────────────┘
-                                      │
-                                      ▼
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │ 4. Learning Rate Clip (Budget η = 4 → 2)                               │
-  │    Limit edit operations (add/del/modify) to avoid prompt thrashing    │
-  └───────────────────────────────────┬────────────────────────────────────┘
-                                      │
-                                      ▼
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │ 5. Validation Gate & Negative Feedback Buffer                          │
-  │    Accept S' iff Score_val(S') > Score_val(S_t)                        │
-  │    If rejected: Cache diff into Negative Buffer to block repeat drift  │
-  └────────────────────────────────────────────────────────────────────────┘
-```
+[[SVG_SKILLOPT_LOOP]]
 
 #### The Unified Diff in Practice
 
@@ -225,18 +143,7 @@ Furthermore, in cross-harness transfer trials, a spreadsheet skill trained insid
 
 Both paradigms exhibit critical failure modes when deployed in isolation.
 
-```text
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                           STRUCTURAL BLIND SPOTS                             │
-├──────────────────────────────────────┬───────────────────────────────────────┤
-│        Microsoft SkillOpt            │        NVIDIA Skill Evaluator         │
-├──────────────────────────────────────┼───────────────────────────────────────┤
-│ • Reward-hacking on validation tests │ • Zero remediation guidance           │
-│ • Fragile regexes & brittle hacks    │ • High container compute overhead     │
-│ • Context bloat (pushes 2,000 tokens)│ • Manual prompt authoring bottleneck  │
-│ • Unsandboxed execution hazards      │ • Static linters miss dynamic bugs    │
-└──────────────────────────────────────┴───────────────────────────────────────┘
-```
+[[SVG_STRUCTURAL_BLIND_SPOTS]]
 
 ### 1. Why Optimizers Reward-Hack Without Sandboxes
 
@@ -269,37 +176,6 @@ Loading 30,000 tokens of specialized instructions before the user enters their q
 The practical architecture is clear: **SkillOpt is the proposer; Skill Evaluator is the gatekeeper.**
 
 Treating them as competitors is an architectural error. In an enterprise agent capability lifecycle, they form the inner and outer loops of automated skill engineering.
-
-```text
-                            THE COMPLEMENTARY PIPELINE
-                            
-  ┌───────────────────────────────────────────────────────────────────────────┐
-  │                         1. PROPOSER (SkillOpt)                            │
-  │  • Executes rollouts on failed execution traces                           │
-  │  • Generates candidate prompt diffs bounded by learning rate η            │
-  └─────────────────────────────────────┬─────────────────────────────────────┘
-                                        │ candidate SKILL.md
-                                        ▼
-  ┌───────────────────────────────────────────────────────────────────────────┐
-  │                   2. STATIC LINTER (NVIDIA Tier 1 & 2)                    │
-  │  • AST parsing, Semgrep security scans, PII & credential checks           │
-  │  • Embedding deduplication: reject if semantic overlap > threshold        │
-  └─────────────────────────────────────┬─────────────────────────────────────┘
-                                        │ PASS
-                                        ▼
-  ┌───────────────────────────────────────────────────────────────────────────┐
-  │                   3. HARBOR SANDBOX (NVIDIA Tier 3)                       │
-  │  • Isolated container dual-arm A/B trial (Baseline vs. Candidate)         │
-  │  • Enforces Δ_corr > 0, Δ_sec >= 0, and Δ_effc within token budget        │
-  └─────────────────────────────────────┬─────────────────────────────────────┘
-                                        │
-                        ┌───────────────┴───────────────┐
-                        │ PASS                          │ FAIL
-                        ▼                               ▼
-               [Production Catalog]           [Negative Edit Buffer]
-                                                        │
-                                                        └───────────► (Re-prompt M_opt)
-```
 
 ### The Closed-Loop Flow:
 

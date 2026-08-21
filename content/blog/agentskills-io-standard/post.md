@@ -78,7 +78,7 @@ Illustrative token budget impact across a 40-skill workload comparing progressiv
 |---|---|---|---|
 | **Boot System Prompt Tokens** | 8,450 tokens | 1,120 tokens | **-86.7%** |
 | **Tool Choice Accuracy** | 78.4% | 94.2% | **+15.8%** |
-| **Average Token Cost / Task** | $0.142 | $0.038 | **-73.2%** |
+| **Average Token Cost / Task** | \$0.142 | \$0.038 | **-73.2%** |
 
 ---
 
