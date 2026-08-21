@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import skillEvaluatorVsSkilloptThumbnailSrc from "@/assets/generated/skill-evaluator-vs-skillopt-editorial-thumbnail.webp";
 import agentPluginsSkillLandscapeThumbnailSrc from "@/assets/generated/agent-plugins-skill-landscape-editorial-thumbnail.webp";
 import agentskillsIoStandardThumbnailSrc from "@/assets/generated/agentskills-io-standard-editorial-thumbnail.webp";
 import claude5SystemPromptShrinkThumbnailSrc from "@/assets/generated/claude-5-system-prompt-shrink-editorial-thumbnail.webp";
@@ -23,6 +24,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const skillEvaluatorVsSkilloptThumbnail = {
+  src: skillEvaluatorVsSkilloptThumbnailSrc,
+  alt: "Tiny pink-haired Milim happily slurps a steaming bowl of ramen at the wooden counter of a quiet, warm-lit Tokyo night stall.",
+} as const;
 
 export const agentPluginsSkillLandscapeThumbnail = {
   src: agentPluginsSkillLandscapeThumbnailSrc,
@@ -72,6 +78,18 @@ export const contextAblationEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/skill-evaluator-vs-skillopt",
+    category: "Agent Optimization",
+    tags: ["Agent Skills", "Evaluation", "Optimization", "Security"],
+    date: "August 22, 2026",
+    readTime: "7 min read",
+    title: "Evaluator vs. SkillOpt: The Gatekeeper and the Tuner in Agent Skill Engineering",
+    description:
+      "A comparative analysis of NVIDIA Skill Evaluator and Microsoft SkillOpt: why static linters leave developers guessing, why prompt optimizers reward-hack without sandboxes, and how to combine them.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: skillEvaluatorVsSkilloptThumbnail,
+  },
   {
     href: "/blog/agent-plugins-skill-landscape",
     category: "Agent Skills",
