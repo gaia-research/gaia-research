@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "katex/dist/katex.min.css";
 import "./globals.css";
 import "../components/MilimPet/milim-pet.css";
 import { MilimPet } from "@/components/MilimPet";
