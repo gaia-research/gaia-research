@@ -1,0 +1,5 @@
+{
+  "id": "craft-dag-cycle-detector",
+  "name": "DAG Cycle Detector",
+  "desc": "Detects circular dependencies in prerequisite graphs"
+}

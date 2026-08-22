@@ -1,0 +1,5 @@
+{
+  "id": "craft-tier-enforcer",
+  "name": "Tier Enforcer",
+  "desc": "Ensures fusion recipes adhere to basic vs fusion tier hierarchy"
+}

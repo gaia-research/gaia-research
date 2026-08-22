@@ -1,0 +1,5 @@
+{
+  "id": "skill-auth-guard",
+  "name": "Auth Guard",
+  "description": "JWT validation and OAuth2 authorization flow"
+}

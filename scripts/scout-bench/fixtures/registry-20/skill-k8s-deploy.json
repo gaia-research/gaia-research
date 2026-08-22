@@ -1,0 +1,5 @@
+{
+  "id": "skill-k8s-deploy",
+  "name": "Kubernetes Deployer",
+  "description": "Helm chart and manifest validator"
+}

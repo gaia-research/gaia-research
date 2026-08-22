@@ -1,0 +1,5 @@
+{
+  "id": "skill-visual-audit",
+  "name": "Visual Audit",
+  "description": "Playwright multi-viewport cut-off detection and responsive layout testing"
+}

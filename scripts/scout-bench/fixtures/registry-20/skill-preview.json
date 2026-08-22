@@ -1,0 +1,5 @@
+{
+  "id": "skill-preview",
+  "name": "Preview Server Manager",
+  "description": "Local dev server preview runner and port monitor for localhost UI checking"
+}

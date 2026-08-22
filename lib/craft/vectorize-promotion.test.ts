@@ -45,18 +45,22 @@ describe('resolveVectorizePromotion', () => {
   });
 
   it('returns undefined when the AI embed call hangs past VECTORIZE_TIMEOUT_MS', async () => {
-    const hangingAi: AiLike = { run: vi.fn(() => new Promise(() => {})) };
-    const vectorize = mockVectorize([{ score: 0.95, metadata: { slug: KNOWN_SLUG } }]);
+    vi.useFakeTimers();
+    try {
+      const hangingAi: AiLike = { run: vi.fn(() => new Promise(() => {})) };
+      const vectorize = mockVectorize([{ score: 0.95, metadata: { slug: KNOWN_SLUG } }]);
 
-    const start = Date.now();
-    const result = await resolveVectorizePromotion('Scraping the Web', {
-      AI: hangingAi,
-      VECTORIZE: vectorize,
-    });
-    const elapsed = Date.now() - start;
+      const promise = resolveVectorizePromotion('Scraping the Web', {
+        AI: hangingAi,
+        VECTORIZE: vectorize,
+      });
+      await vi.advanceTimersByTimeAsync(VECTORIZE_TIMEOUT_MS + 50);
+      const result = await promise;
 
-    expect(result).toBeUndefined();
-    expect(elapsed).toBeLessThan(VECTORIZE_TIMEOUT_MS + 200);
+      expect(result).toBeUndefined();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('returns undefined when the Vectorize query throws', async () => {

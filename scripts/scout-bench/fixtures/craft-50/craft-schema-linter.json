@@ -1,0 +1,5 @@
+{
+  "id": "craft-schema-linter",
+  "name": "Schema Linter",
+  "desc": "Validates named and generic skill YAML/JSON contracts"
+}

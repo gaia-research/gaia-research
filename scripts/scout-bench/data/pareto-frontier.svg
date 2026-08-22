@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="100%" style="background-color: #0f172a; border-radius: 8px; font-family: system-ui, sans-serif;">
+  <style>
+    .title { font-weight: bold; fill: #f8fafc; font-size: 16px; }
+    .subtitle { fill: #94a3b8; font-size: 12px; }
+    .axis-label { fill: #cbd5e1; font-size: 12px; font-weight: 500; }
+  </style>
+
+  <!-- Title & Subtitle -->
+  <text x="400" y="30" class="title" text-anchor="middle">Scout Fan-Out Cost vs. F2 Quality Pareto Frontier</text>
+  <text x="400" y="48" class="subtitle" text-anchor="middle">Gold Opus-4 Evaluated · 9 Tasks × N Repeats</text>
+
+  <!-- Grid -->
+  <line x1="80" y1="420.0" x2="740" y2="420.0" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="68" y="424.0" fill="#94a3b8" font-size="11" text-anchor="end" font-family="monospace">0.4</text><line x1="80" y1="360.0" x2="740" y2="360.0" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="68" y="364.0" fill="#94a3b8" font-size="11" text-anchor="end" font-family="monospace">0.5</text><line x1="80" y1="300.0" x2="740" y2="300.0" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="68" y="304.0" fill="#94a3b8" font-size="11" text-anchor="end" font-family="monospace">0.6</text><line x1="80" y1="240.0" x2="740" y2="240.0" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="68" y="244.0" fill="#94a3b8" font-size="11" text-anchor="end" font-family="monospace">0.7</text><line x1="80" y1="180.0" x2="740" y2="180.0" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="68" y="184.0" fill="#94a3b8" font-size="11" text-anchor="end" font-family="monospace">0.8</text><line x1="80" y1="120.0" x2="740" y2="120.0" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="68" y="124.0" fill="#94a3b8" font-size="11" text-anchor="end" font-family="monospace">0.9</text><line x1="80" y1="60.0" x2="740" y2="60.0" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="68" y="64.0" fill="#94a3b8" font-size="11" text-anchor="end" font-family="monospace">1.0</text><line x1="80.0" y1="60" x2="80.0" y2="420" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="80.0" y="440" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="monospace">$0.0000</text><line x1="212.0" y1="60" x2="212.0" y2="420" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="212.0" y="440" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="monospace">$0.0059</text><line x1="344.0" y1="60" x2="344.0" y2="420" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="344.0" y="440" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="monospace">$0.0118</text><line x1="476.0" y1="60" x2="476.0" y2="420" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="476.0" y="440" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="monospace">$0.0177</text><line x1="608.0" y1="60" x2="608.0" y2="420" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="608.0" y="440" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="monospace">$0.0236</text><line x1="740.0" y1="60" x2="740.0" y2="420" stroke="#334155" stroke-dasharray="3,3" stroke-width="1" /><text x="740.0" y="440" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="monospace">$0.0295</text>
+
+  <!-- Axes -->
+  <line x1="80" y1="420" x2="740" y2="420" stroke="#64748b" stroke-width="2" />
+  <line x1="80" y1="60" x2="80" y2="420" stroke="#64748b" stroke-width="2" />
+
+  <!-- Axis Labels -->
+  <text x="400" y="465" class="axis-label" text-anchor="middle">Total Cost (USD / Task Run)</text>
+  <text x="25" y="240" class="axis-label" text-anchor="middle" transform="rotate(-90 25 240)">Quality (F2 Score)</text>
+
+  <!-- Pareto Frontier Path -->
+  <path d="M 472.5 208.9 L 486.7 78.4 L 561.0 73.2 L 593.5 66.6 " fill="none" stroke="#ec4899" stroke-width="2.5" stroke-dasharray="4,4" opacity="0.8" />
+
+  <!-- Data Points -->
+  
+      <g opacity="1">
+        <circle cx="486.7" cy="78.4" r="7" fill="#38bdf8" stroke="#ffffff" stroke-width="2">
+          <title>A (K=1): F2=0.969, Cost=$0.01820 (Pareto Frontier)</title>
+        </circle>
+        <text x="486.7" y="68.4" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">A (K=1)</text>
+      </g>
+
+      <g opacity="1">
+        <circle cx="472.5" cy="208.9" r="7" fill="#94a3b8" stroke="#ffffff" stroke-width="2">
+          <title>B (K=1): F2=0.752, Cost=$0.01757 (Pareto Frontier)</title>
+        </circle>
+        <text x="472.5" y="198.9" fill="#94a3b8" font-size="11" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">B (K=1)</text>
+      </g>
+
+      <g opacity="0.5">
+        <circle cx="530.2" cy="109.6" r="5" fill="#ec4899" stroke="#475569" stroke-width="1">
+          <title>C (K=3): F2=0.917, Cost=$0.02015 (Dominated)</title>
+        </circle>
+        <text x="530.2" y="99.6" fill="#ec4899" font-size="11" font-weight="normal" text-anchor="middle" font-family="system-ui, sans-serif">C (K=3)</text>
+      </g>
+
+      <g opacity="1">
+        <circle cx="561.0" cy="73.2" r="7" fill="#ec4899" stroke="#ffffff" stroke-width="2">
+          <title>C (K=4): F2=0.978, Cost=$0.02152 (Pareto Frontier)</title>
+        </circle>
+        <text x="561.0" y="63.2" fill="#ec4899" font-size="11" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">C (K=4)</text>
+      </g>
+
+      <g opacity="0.5">
+        <circle cx="591.0" cy="104.6" r="5" fill="#ec4899" stroke="#475569" stroke-width="1">
+          <title>C (K=5): F2=0.926, Cost=$0.02287 (Dominated)</title>
+        </circle>
+        <text x="591.0" y="94.6" fill="#ec4899" font-size="11" font-weight="normal" text-anchor="middle" font-family="system-ui, sans-serif">C (K=5)</text>
+      </g>
+
+      <g opacity="0.5">
+        <circle cx="620.1" cy="104.6" r="5" fill="#ec4899" stroke="#475569" stroke-width="1">
+          <title>C (K=6): F2=0.926, Cost=$0.02417 (Dominated)</title>
+        </circle>
+        <text x="620.1" y="94.6" fill="#ec4899" font-size="11" font-weight="normal" text-anchor="middle" font-family="system-ui, sans-serif">C (K=6)</text>
+      </g>
+
+      <g opacity="1">
+        <circle cx="593.5" cy="66.6" r="7" fill="#a855f7" stroke="#ffffff" stroke-width="2">
+          <title>D (K=4): F2=0.989, Cost=$0.02298 (Pareto Frontier)</title>
+        </circle>
+        <text x="593.5" y="56.6" fill="#a855f7" font-size="11" font-weight="bold" text-anchor="middle" font-family="system-ui, sans-serif">D (K=4)</text>
+      </g>
+
+      <g opacity="0.5">
+        <circle cx="653.9" cy="66.6" r="5" fill="#a855f7" stroke="#475569" stroke-width="1">
+          <title>D (K=6): F2=0.989, Cost=$0.02568 (Dominated)</title>
+        </circle>
+        <text x="653.9" y="56.6" fill="#a855f7" font-size="11" font-weight="normal" text-anchor="middle" font-family="system-ui, sans-serif">D (K=6)</text>
+      </g>
+
+  <!-- Legend -->
+  <g transform="translate(520, 70)">
+    <rect width="210" height="90" fill="#1e293b" rx="6" stroke="#334155" />
+    <circle cx="15" cy="18" r="5" fill="#38bdf8" />
+    <text x="28" y="22" fill="#cbd5e1" font-size="11">Arch A: Single Flash 3.7</text>
+    <circle cx="15" cy="38" r="5" fill="#94a3b8" />
+    <text x="28" y="42" fill="#cbd5e1" font-size="11">Arch B: Single Lite 3.5</text>
+    <circle cx="15" cy="58" r="5" fill="#ec4899" />
+    <text x="28" y="62" fill="#cbd5e1" font-size="11">Arch C: Parallel Lite (K=3..6)</text>
+    <circle cx="15" cy="78" r="5" fill="#a855f7" />
+    <text x="28" y="82" fill="#cbd5e1" font-size="11">Arch D: Cascaded Funnel</text>
+  </g>
+</svg>

@@ -1,6 +1,9 @@
 # Parallel Cheap-Scout Fan-Out: Cost-Performance Pareto Frontier
 
 - **Rank:** 20
+- **Plan:** [`../plans/issue-parallel-cheap-scouting-bench.md`](../plans/issue-parallel-cheap-scouting-bench.md)
+- **Research Receipt:** [`../../content/reports/parallel-scouting-economics.md`](../../content/reports/parallel-scouting-economics.md)
+- **Ledger Data:** [`../../scripts/scout-bench/data/ledger.jsonl`](../../scripts/scout-bench/data/ledger.jsonl)
 - **Status:** Proposed Research / RFC -- **not ratified**. Nothing below overrides `founder/RATIFICATION.md`.
 - **Viability:** High (all models already accessible via Antigravity routing; pi-dynamic-workflows provides parallel dispatch; pi-cost provides telemetry)
 - **Potential:** Very High (directly applicable to every multi-agent orchestration pattern in the Gaia ecosystem)

@@ -1,0 +1,4 @@
+{
+  "name": "redis_cli",
+  "description": "Execute Redis in-memory cache commands"
+}

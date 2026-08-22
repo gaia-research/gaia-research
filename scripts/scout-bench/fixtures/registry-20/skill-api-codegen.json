@@ -1,0 +1,5 @@
+{
+  "id": "skill-api-codegen",
+  "name": "API Code Generator",
+  "description": "OpenAPI spec to TypeScript types and client generator"
+}

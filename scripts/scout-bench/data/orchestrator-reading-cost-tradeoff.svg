@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480" width="100%" height="100%" style="background:#0b0c13;font-family:'DM Mono',ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;">
+  <defs>
+    <linearGradient id="gridGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0.02"/>
+    </linearGradient>
+    <filter id="glowPink" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="880" height="480" fill="#0b0c13" rx="8"/>
+  <rect width="880" height="480" fill="url(#gridGrad)" rx="8"/>
+  <rect x="0.5" y="0.5" width="879" height="479" fill="none" stroke="#1e2238" stroke-width="1" rx="8"/>
+
+  <!-- Grid Lines -->
+  <line x1="120" y1="360" x2="800" y2="360" stroke="#1f233b" stroke-width="1"/>
+  <line x1="120" y1="280" x2="800" y2="280" stroke="#1f233b" stroke-width="1" stroke-dasharray="4 4"/>
+  <line x1="120" y1="200" x2="800" y2="200" stroke="#1f233b" stroke-width="1" stroke-dasharray="4 4"/>
+  <line x1="120" y1="120" x2="800" y2="120" stroke="#1f233b" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- Axis Lines -->
+  <line x1="120" y1="80" x2="120" y2="360" stroke="#545770" stroke-width="1.5"/>
+  <line x1="120" y1="360" x2="800" y2="360" stroke="#545770" stroke-width="1.5"/>
+
+  <!-- Title & Meta -->
+  <text x="40" y="45" fill="#f0f1f5" font-size="16" font-weight="700" letter-spacing="0.05em">ORCHESTRATOR CONTEXT READING OVERHEAD VS. RECALL RETENTION</text>
+  <text x="40" y="65" fill="#8c90aa" font-size="11">Lead Orchestrator Ingest Cost ($/run) vs. Candidate Recall Ceiling across 360 Benchmark Runs</text>
+
+  <!-- Y-Axis Labels (Recall %) -->
+  <text x="105" y="364" fill="#8c90aa" font-size="11" text-anchor="end">70%</text>
+  <text x="105" y="284" fill="#8c90aa" font-size="11" text-anchor="end">80%</text>
+  <text x="105" y="204" fill="#8c90aa" font-size="11" text-anchor="end">90%</text>
+  <text x="105" y="124" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="end">100%</text>
+  <text x="50" y="240" fill="#545770" font-size="11" transform="rotate(-90 50 240)" text-anchor="middle">RECALL (%)</text>
+
+  <!-- X-Axis Labels (Orchestrator Ingest Cost $/run) -->
+  <text x="160" y="385" fill="#8c90aa" font-size="11" text-anchor="middle">$0.0005</text>
+  <text x="320" y="385" fill="#8c90aa" font-size="11" text-anchor="middle">$0.0015</text>
+  <text x="480" y="385" fill="#8c90aa" font-size="11" text-anchor="middle">$0.0025</text>
+  <text x="640" y="385" fill="#8c90aa" font-size="11" text-anchor="middle">$0.0035</text>
+  <text x="780" y="385" fill="#8c90aa" font-size="11" text-anchor="middle">$0.0050</text>
+  <text x="460" y="415" fill="#8c90aa" font-size="12" text-anchor="middle">ORCHESTRATOR INGESTION &amp; CONTEXT READING COST ($ / RUN)</text>
+
+  <!-- Naive Concatenation Path (Red / Amber dashed) -->
+  <path d="M 195 289 L 579 120 L 760 120" fill="none" stroke="#f43f5e" stroke-width="2" stroke-dasharray="6 4" opacity="0.6"/>
+
+  <!-- Naive Points -->
+  <!-- K=1 Naive: cost $0.00072 (x=195), recall 78.9% (y=289) -->
+  <circle cx="195" cy="289" r="6" fill="#f43f5e" stroke="#0b0c13" stroke-width="2"/>
+  <text x="195" y="315" fill="#f43f5e" font-size="10" text-anchor="middle">Naive K=1</text>
+  <text x="195" y="328" fill="#8c90aa" font-size="9" text-anchor="middle">(1.4k tok · 78.9%)</text>
+
+  <!-- K=4 Naive: cost $0.00312 (x=579), recall 100% (y=120) -->
+  <circle cx="579" cy="120" r="6" fill="#f43f5e" stroke="#0b0c13" stroke-width="2"/>
+  <text x="579" y="100" fill="#f43f5e" font-size="10" text-anchor="middle">Naive K=4 (Unbounded)</text>
+  <text x="579" y="85" fill="#f87171" font-size="9" text-anchor="middle">6.2k tok (+330% bloat)</text>
+
+  <!-- K=6 Naive: cost $0.00474 (x=760), recall 100% (y=120) -->
+  <circle cx="760" cy="120" r="6" fill="#f43f5e" stroke="#0b0c13" stroke-width="2"/>
+  <text x="760" y="100" fill="#f43f5e" font-size="10" text-anchor="middle">Naive K=6</text>
+  <text x="760" y="85" fill="#f87171" font-size="9" text-anchor="middle">9.5k tok ($0.0047)</text>
+
+  <!-- Bounded RRF Optimal Node (Milim Pink) -->
+  <!-- Bounded RRF K=4: cost $0.00086 (x=218), recall 100.0% (y=120) -->
+  <circle cx="218" cy="120" r="9" fill="#ec4899" filter="url(#glowPink)"/>
+  <circle cx="218" cy="120" r="4" fill="#ffffff"/>
+  <text x="218" y="155" fill="#ec4899" font-size="11" font-weight="700" text-anchor="middle">Bounded RRF (K=4, Top-3)</text>
+  <text x="218" y="170" fill="#38bdf8" font-size="10" font-weight="600" text-anchor="middle">100% Recall · 1.7k tok</text>
+  <text x="218" y="184" fill="#a78bfa" font-size="9" text-anchor="middle">$0.00086 Ingest Cost</text>
+
+  <!-- Cascaded Verifier Node (Rimuru Blue) -->
+  <!-- Cascaded Funnel K=4: cost $0.00059 (x=175), recall 100.0% (y=120) -->
+  <circle cx="175" cy="120" r="8" fill="#38bdf8" filter="url(#glowBlue)"/>
+  <circle cx="175" cy="120" r="3" fill="#ffffff"/>
+  <text x="175" y="75" fill="#38bdf8" font-size="10" font-weight="700" text-anchor="middle">Cascaded Funnel (D)</text>
+  <text x="175" y="60" fill="#8c90aa" font-size="9" text-anchor="middle">1.1k tok · 95.6% Prec</text>
+
+  <!-- Compression Arrow & Callout -->
+  <path d="M 540 125 C 440 125 320 125 240 125" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="290" y="105" width="190" height="32" rx="4" fill="#141624" stroke="#38bdf8" stroke-width="1"/>
+  <text x="385" y="125" fill="#38bdf8" font-size="10" font-weight="700" text-anchor="middle">-72.4% CONTEXT COMPRESSION</text>
+
+  <!-- Legend Bottom -->
+  <rect x="120" y="435" width="680" height="35" rx="4" fill="#0d0f1a" stroke="#1f233b"/>
+  <circle cx="145" cy="452" r="5" fill="#ec4899"/>
+  <text x="158" y="456" fill="#f0f1f5" font-size="10">Bounded RRF Fleet (Optimal Recall + Min Ingest)</text>
+
+  <circle cx="435" cy="452" r="5" fill="#38bdf8"/>
+  <text x="448" y="456" fill="#f0f1f5" font-size="10">Cascaded Two-Tier Funnel</text>
+
+  <circle cx="630" cy="452" r="5" fill="#f43f5e"/>
+  <text x="643" y="456" fill="#f0f1f5" font-size="10">Naive Raw Concatenation</text>
+</svg>

@@ -1,0 +1,26 @@
+[
+  {
+    "path": "scripts/hell-heaven-bench/ledger.ts",
+    "relevance_signal": "Canonical ledger appender and validator defining hh-ledger/v1 schema and types"
+  },
+  {
+    "path": "scripts/hell-heaven-bench/check-claims.ts",
+    "relevance_signal": "Claims provenance checker verifying ledger records against reports"
+  },
+  {
+    "path": "scripts/hell-heaven-bench/census.ts",
+    "relevance_signal": "Census script computing skill standing and dosage against ledger schema"
+  },
+  {
+    "path": "docs/labs/harness-capability-matrix.md",
+    "relevance_signal": "Capability matrix documenting harness dosage and measured ledger parameters"
+  },
+  {
+    "path": "content/reports/hh-benchmark/methodology.md",
+    "relevance_signal": "Core methodology document specifying the ledger schema and arms"
+  },
+  {
+    "path": "content/reports/hh-benchmark/claim-index.md",
+    "relevance_signal": "Index of all ratified claims linked to ledger records"
+  }
+]

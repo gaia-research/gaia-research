@@ -1,0 +1,5 @@
+{
+  "id": "skill-git-rebase",
+  "name": "Git Rebase Assistant",
+  "description": "Interactive rebase conflict resolver"
+}

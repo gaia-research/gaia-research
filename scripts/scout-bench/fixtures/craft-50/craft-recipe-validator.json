@@ -1,0 +1,5 @@
+{
+  "id": "craft-recipe-validator",
+  "name": "Craft Recipe Validator",
+  "desc": "Checks fusion recipe inputs and outputs against node schema"
+}

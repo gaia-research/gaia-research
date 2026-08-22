@@ -1,0 +1,14 @@
+[
+  {
+    "path": "scripts/scout-bench/fixtures/registry-20/skill-visual-audit.json",
+    "relevance_signal": "Core Playwright mobile viewport runner"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/registry-20/skill-impeccable.json",
+    "relevance_signal": "CSS breakpoint and layout analysis"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/registry-20/skill-preview.json",
+    "relevance_signal": "Local preview server manager"
+  }
+]

@@ -1,0 +1,5 @@
+{
+  "id": "skill-i18n-localize",
+  "name": "i18n Localizer",
+  "description": "Translation string extraction and ICU message formatting"
+}

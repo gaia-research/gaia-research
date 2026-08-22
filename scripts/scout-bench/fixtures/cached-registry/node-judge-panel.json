@@ -1,0 +1,7 @@
+{
+  "id": "node-judge-panel",
+  "tier": "fusion",
+  "title": "Judge Panel Grading Hub",
+  "description": "Multi-agent grading synthesis with statistical aggregation",
+  "prerequisites": ["node-core-eval"]
+}

@@ -1,0 +1,5 @@
+{
+  "id": "skill-cron-scheduler",
+  "name": "Cron Scheduler",
+  "description": "Background worker queue job scheduler"
+}

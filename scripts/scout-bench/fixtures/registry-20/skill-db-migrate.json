@@ -1,0 +1,5 @@
+{
+  "id": "skill-db-migrate",
+  "name": "Database Migrator",
+  "description": "Postgres schema migration planner and rollback manager"
+}

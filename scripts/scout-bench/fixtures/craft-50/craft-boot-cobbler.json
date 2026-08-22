@@ -1,0 +1,5 @@
+{
+  "id": "craft-boot-cobbler",
+  "name": "boot cobbler",
+  "desc": "Specialized craft domain tool for craft-boot-cobbler"
+}

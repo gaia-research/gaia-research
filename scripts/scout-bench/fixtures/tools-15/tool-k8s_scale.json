@@ -1,0 +1,4 @@
+{
+  "name": "k8s_scale",
+  "description": "Scale Kubernetes deployment replica sets"
+}

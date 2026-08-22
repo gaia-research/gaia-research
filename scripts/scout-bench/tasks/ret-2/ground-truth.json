@@ -1,0 +1,10 @@
+[
+  {
+    "path": "scripts/scout-bench/fixtures/cached-docs/doc-methodology.md",
+    "relevance_signal": "Defines placebo arm specification (skillsLoaded: []) and same-harness baseline requirement"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/cached-docs/doc-blog-m2.md",
+    "relevance_signal": "Discusses live demo placebo calibration and baseline comparison"
+  }
+]

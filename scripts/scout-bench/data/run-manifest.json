@@ -1,0 +1,32 @@
+{
+  "benchmarkId": "parallel-scout-v1",
+  "generatedAt": "2026-08-01T00:00:00.000Z",
+  "gitCommit": "04c2ca1b904623a97aaeafb8d629aa954efb4008",
+  "fixtureCount": 102,
+  "fixtureChecksumFile": "scripts/scout-bench/data/fixture-checksums.sha256",
+  "pricingSnapshot": {
+    "gemini-3.5-flash-lite": {
+      "inputPer1M": 0.3,
+      "outputPer1M": 2.5,
+      "cacheReadPer1M": 0.03
+    },
+    "gemini-3.7-flash": {
+      "inputPer1M": 0.3,
+      "outputPer1M": 2.5,
+      "cacheReadPer1M": 0.075
+    },
+    "claude-opus-4-6": {
+      "inputPer1M": 5.0,
+      "outputPer1M": 25.0,
+      "cacheReadPer1M": 0.5
+    }
+  },
+  "taskSuites": {
+    "localization": ["loc-1", "loc-2", "loc-3"],
+    "retrieval": ["ret-1", "ret-2", "ret-3"],
+    "pruning": ["prune-1", "prune-2", "prune-3"]
+  },
+  "architectures": ["A", "B", "C", "D"],
+  "kValues": [3, 4, 5, 6],
+  "repeatsPerCell": 5
+}

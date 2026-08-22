@@ -1,0 +1,5 @@
+{
+  "id": "skill-bundle-analyze",
+  "name": "Bundle Analyzer",
+  "description": "Webpack/Vite chunk size and tree-shaking inspector"
+}

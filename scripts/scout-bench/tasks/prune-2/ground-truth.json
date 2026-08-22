@@ -1,0 +1,18 @@
+[
+  {
+    "path": "scripts/scout-bench/fixtures/tools-15/tool-read.json",
+    "relevance_signal": "Inspects existing templates and style guides"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/tools-15/tool-write.json",
+    "relevance_signal": "Writes markdown post file"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/tools-15/tool-image_generate.json",
+    "relevance_signal": "Generates 16:9 editorial thumbnail"
+  },
+  {
+    "path": "scripts/scout-bench/fixtures/tools-15/tool-bash.json",
+    "relevance_signal": "Executes verification scripts and check-claims"
+  }
+]

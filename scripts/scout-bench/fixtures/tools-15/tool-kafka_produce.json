@@ -1,0 +1,4 @@
+{
+  "name": "kafka_produce",
+  "description": "Publish event records to Kafka topics"
+}

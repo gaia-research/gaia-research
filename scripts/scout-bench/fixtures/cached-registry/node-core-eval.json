@@ -1,0 +1,7 @@
+{
+  "id": "node-core-eval",
+  "tier": "basic",
+  "title": "Core Evaluation Engine",
+  "description": "Foundational evaluation primitives and metric calculators",
+  "prerequisites": []
+}
