@@ -121,9 +121,6 @@ export default function ParallelScoutingBlogPostPage() {
             height={parallelCheapScoutingThumbnail.src.height}
             alt={parallelCheapScoutingThumbnail.alt}
           />
-          <figcaption style={{ padding: "0.6rem 1rem", fontSize: "0.8rem", color: "var(--dim)" }}>
-            Four tiny Milim scouts exploring a tranquil twilight campsite in distinct palette-coordinated hoodies.
-          </figcaption>
         </figure>
 
         <article className="blog-post-body report-body">
