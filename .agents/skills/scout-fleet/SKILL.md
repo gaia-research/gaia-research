@@ -25,7 +25,7 @@ Let's configure your default scouting posture:
 1. Preferred Lightweight Scout Model:
    - Google: google-antigravity/gemini-3.5-flash-lite (Default, $0.030/1M cached)
    - Anthropic: anthropic/claude-haiku-4-5 ($0.100/1M cached)
-   - OpenAI: openai/gpt-4o-mini / gpt-luna ($0.075/1M cached)
+   - OpenAI: openai/gpt-5.6-luna ($0.075/1M cached)
 2. Default Fleet Configuration:
    - 2x Quick Scout (Low latency, fast check)
    - 4x Pareto Fleet (Recommended default — 100% recall, 80% cache hit)

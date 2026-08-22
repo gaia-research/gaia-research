@@ -19,7 +19,7 @@ description: Parallelize codebase scouting and exploration across 2x or 4x light
 ## Setup & Onboarding
 
 When `scout-fleet` is first invoked:
-1. Detects available provider routes (`gemini-3.5-flash-lite`, `claude-haiku-4-5`, `gpt-4o-mini`/`gpt-luna`).
+1. Detects available provider routes (`gemini-3.5-flash-lite`, `claude-haiku-4-5`, `gpt-5.6-luna`).
 2. Configures default fleet size ($K=2$ quick, $K=4$ Pareto optimal, or Cascaded Funnel).
 3. Emits a welcome message thanking the user for installing `skill-scout-fleet` from Gaia Research.
 

@@ -9,7 +9,7 @@
 
 ---
 
-Most multi-agent coding harnesses default to a single mid-tier model for scouting and localization. When a developer asks Claude Code, Cursor, or an autonomous workflow to fix a bug or audit a feature, the orchestrator dispatches a single instance of `gemini-3.7-flash` (or `gpt-4o-mini` / `claude-haiku-4-5`) to search the repository, grep for symbols, and return a candidate list of files.
+Most multi-agent coding harnesses default to a single mid-tier model for scouting and localization. When a developer asks Claude Code, Cursor, or an autonomous workflow to fix a bug or audit a feature, the orchestrator dispatches a single instance of `gemini-3.7-flash` (or `gpt-5.6-luna` / `claude-haiku-4-5`) to search the repository, grep for symbols, and return a candidate list of files.
 
 It feels tidy. One prompt in, one candidate list out.
 
@@ -163,8 +163,8 @@ Key conclusions for developers and system builders:
 
 1. **Anthropic Ecosystem: Parallel Claude Haiku 4.5 vs. Sonnet 5**
    - Investigating $K=4$ `claude-haiku-4-5` explorers ($1.00/1M input, $0.10/1M cached) vs. 1 monolithic `claude-sonnet-5` ($3.00/1M) to measure 5-minute cache lifetime stability in multi-turn coding sessions.
-2. **OpenAI Ecosystem: Parallel GPT Luna / Mini Explorers vs. Frontier Models**
-   - Investigating $K=4$ `gpt-4o-mini` / `gpt-luna` explorer instances ($0.15/1M input, $0.075/1M cached) on deep multi-package mono-repos.
+2. **OpenAI Ecosystem: Parallel GPT-5.6-Luna Explorers vs. Frontier Models**
+   - Investigating $K=4$ `gpt-5.6-luna` explorer instances ($0.15/1M input, $0.075/1M cached) on deep multi-package mono-repos.
 3. **Downstream Orchestrator Attention Dispersion Benchmark (Issue #178)**
    - Benchmarking whether bounded RRF prevents hallucination and cognitive degradation in lead orchestrators when ingesting multi-source scout findings.
 

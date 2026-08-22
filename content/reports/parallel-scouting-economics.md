@@ -60,7 +60,7 @@ We evaluate four structural postures across 9 deterministic benchmark tasks with
 | `anthropic/claude-haiku-4-5` | Lightweight Explorer | $1.00 | $5.00 | $0.100 |
 | `openai/gpt-sol-5.6` | Frontier Orchestrator | $3.00 | $12.00 | $0.300 |
 | `openai/gpt-terra-5.6` | Multimodal Orchestrator | $2.00 | $8.00 | $0.200 |
-| `openai/gpt-4o-mini` / `gpt-luna` | Lightweight Explorer | $0.15 | $0.60 | $0.075 |
+| `openai/gpt-5.6-luna` | Lightweight Explorer | $0.15 | $0.60 | $0.075 |
 | `xai/grok-4.6` | Real-time Orchestrator | $2.00 | $10.00 | $0.200 |
 | `zai/zai-5.3` | Low-latency Orchestrator | $1.50 | $6.00 | $0.150 |
 
@@ -131,8 +131,8 @@ When parallel scouts discover candidates, how much does context reading cost the
 - **Baseline Hypothesis:** $K=4$ `claude-haiku-4-5` explorers ($1.00/1M input, $0.100/1M cached) outperform a single `claude-sonnet-5` ($3.00/1M input) in recall while cutting total turn cost by >60% on 5-minute cache windows.
 - **Empirical Gap:** Measure prompt-cache lifetime stability across long-running multi-turn agent sessions and quantify the exact threshold where cache eviction alters the Pareto frontier.
 
-### 2. Research Agenda: GPT Luna / Mini Explorer Tier
-- **Baseline Hypothesis:** Parallel $K=4$ `gpt-4o-mini` / `gpt-luna` explorers ($0.15/1M input, $0.075/1M cached) compress repository reconnaissance latency by ~45% relative to monolithic `gpt-sol-5.6` or `gpt-terra-5.6` runs.
+### 2. Research Agenda: GPT-5.6-Luna Explorer Tier
+- **Baseline Hypothesis:** Parallel $K=4$ `gpt-5.6-luna` explorers ($0.15/1M input, $0.075/1M cached) compress repository reconnaissance latency by ~45% relative to monolithic `gpt-sol-5.6` or `gpt-terra-5.6` runs.
 - **Empirical Gap:** Benchmark multi-root mono-repo cross-package symbol discovery to test whether lightweight models maintain 100% recall as repository depth exceeds 10,000 files.
 
 ### 3. Research Agenda: Orchestrator Cognitive Load & Attention Dispersion
