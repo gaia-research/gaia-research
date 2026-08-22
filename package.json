@@ -21,7 +21,7 @@
     "@opennextjs/cloudflare": "^1.20.1",
     "@supabase/server": "^1.4.0",
     "@supabase/supabase-js": "^2.45.0",
-    "katex": "^0.16.47",
+    "katex": "^0.18.4",
     "next": "^15.4.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

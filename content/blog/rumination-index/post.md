@@ -6,7 +6,7 @@
 
 Two models. Same task. One loops. The other moves.
 
-**Opus 5** costs half of **Fable 5** per million input/output tokens (illustrative pricing: ~$5/$25 vs. ~$10/$50). The benchmark numbers are close. The behavior is not.
+**Opus 5** costs half of **Fable 5** per million input/output tokens (illustrative pricing: ~\$5/\$25 vs. ~\$10/\$50). The benchmark numbers are close. The behavior is not.
 
 Opus 5 re-reads context, re-verifies tool outputs, and asks for confirmation it already has. Fable 5 acts. The difference is not capability — both are powerful. It's a difference in *when* each model chooses to act versus verify, and that difference has a name.
 
@@ -76,7 +76,7 @@ Most prompt engineering advice treats all models as if they respond to context i
 
 A worked example that prevents rumination in a weaker model can become a ceiling artifact in a stronger one: the model pattern-matches against the example rather than reasoning about the task. A "do not" rule designed for Opus 5 may trigger Fable 5 to treat the rule as a constraint to obey literally, not a goal to reason toward. These are not tuning problems — they are per-model calibration problems, and rumination is one axis to measure.
 
-The price gap makes calibration a cost problem, not just a behavior problem. Opus 5 at $5/$25 per million tokens is half the headline cost of Fable 5's $10/$50. But in agent harnesses, real task-run savings erode to ~20% because Opus 5 spends excess tokens re-reading context and generating fix-bloat.
+The price gap makes calibration a cost problem, not just a behavior problem. Opus 5 at \$5/\$25 per million tokens is half the headline cost of Fable 5's \$10/\$50. But in agent harnesses, real task-run savings erode to ~20% because Opus 5 spends excess tokens re-reading context and generating fix-bloat.
 
 [[ECONOMICS_GAP]]
 
