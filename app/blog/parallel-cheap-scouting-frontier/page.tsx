@@ -7,6 +7,7 @@ import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import novaAuthor from "@/content/authors/nova.json";
 import marcusAuthor from "@/content/authors/marcus.json";
 import PostShareBar from "@/components/PostShareBar";
+import CopyCommand from "@/components/CopyCommand";
 import { parallelCheapScoutingThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/parallel-cheap-scouting-frontier/post.md";
 
@@ -236,6 +237,18 @@ export default function ParallelScoutingBlogPostPage() {
                 style={{ width: "100%", minWidth: "540px", height: "auto", display: "block" }}
               />
             </div>
+          </div>
+
+          {/* Interactive Install CTA Box */}
+          <div style={{ margin: "48px 0 24px", padding: "28px", background: "var(--surface-raised)", border: "1px solid var(--border)", borderRadius: "8px" }}>
+            <p className="signal" style={{ margin: "0 0 8px 0" }}><span></span> REFERENCE SKILL</p>
+            <h3 style={{ margin: "0 0 10px 0", fontSize: "1.35rem", color: "var(--ink)", fontFamily: "var(--body)", fontWeight: 600 }}>
+              Install Scout Fleet in your harness today
+            </h3>
+            <p style={{ margin: "0 0 18px 0", color: "var(--muted)", fontSize: "0.95rem", lineHeight: "1.6" }}>
+              Add 2x, 4x, or cascaded funnel parallel scouting with zero-token RRF deduplication directly to Claude Code, Cursor, Windsurf, or pi:
+            </p>
+            <CopyCommand command="npx skills install gaia-research/skill-scout-fleet" />
           </div>
         </article>
 

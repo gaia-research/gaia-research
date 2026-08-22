@@ -151,6 +151,16 @@ We have opened **[GitHub Issue #178](https://github.com/gaia-research/gaia-resea
 > **Rule of Thumb:** *4 cheap scouts are much more reliable than one smart one.*  
 > Update your harness's default explore and scouting configuration from 1 monolithic model to **parallel scouts ($K=2$ quick checks, $K=4$ default Pareto fleet)**. This posture is strictly cheaper due to prompt caching and consistently makes fewer search mistakes than a single scout. Install our standardized reference skill via `npx skills install gaia-research/skill-scout-fleet` (invokable as `/scout-fleet`).
 
+### Install the Reference Skill
+
+You can install the open-source reference implementation directly into your local agent harness (Claude Code, Cursor, Windsurf, or pi):
+
+```bash
+npx skills install gaia-research/skill-scout-fleet
+```
+
+Once installed, invoke it anytime with `/scout-fleet` to partition search subspaces, fan out across lightweight scouts, and merge candidate paths with zero-token Reciprocal Rank Fusion.
+
 Key conclusions for developers and system builders:
 1. **Never deploy a single cheap scout alone.** It misses ~21% of candidates.
 2. **Deploy $K=4$ with diverse framing.** Assign each scout a distinct search lens (subspaces, imports, aliases, configs).
