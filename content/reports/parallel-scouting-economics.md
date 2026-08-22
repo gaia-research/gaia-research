@@ -13,13 +13,13 @@
 
 ## Abstract
 
-State-of-the-art agent architectures conventionally rely on a single mid-tier LLM for codebase scouting, file localization, and context pruning. We empirically evaluate whether replacing this monolithic scout with **$K$ concurrent instances of an ultra-cheap model** (`gemini-3.5-flash-lite`), fused via **zero-token deterministic rank aggregation** (Reciprocal Rank Fusion, $k=60$), establishes a superior cost-performance Pareto frontier. Across 360 runs on 9 tasks spanning codebase localization, document retrieval, and skill pruning, $K=4$ parallel lite scouts achieve **100.0% recall** (surpassing a single Flash 3.7 at 98.9%), elevate prompt-cache hit rates from 35.0% to **80.0%**, and reduce quality variance ($\sigma(F_2)$) by over 4.4x (0.138 to 0.031). We evaluate result checks using **Claude Opus 4.6** (explicitly distinguishing from Opus 4) under a strict Minimal (Low, Light) reasoning effort baseline (effort calibration is out of scope). Furthermore, we model the hidden downstream reading costs across the most utilized orchestrator models in 2026—**Fable 5, Opus 5, Sonnet 5, Gemini Flash 3.7, GPT Sol 5.6, GPT Terra 5.6, Grok 4.6, and ZAI 5.3**—demonstrating that unbounded scout output concatenation inflates orchestrator reading costs by $O(K)$, whereas deterministic top-$M$ rank aggregation compresses context overhead by **72.4%** while preserving the 100% recall ceiling. Finally, we provide comparative research and architectural recommendations for cross-ecosystem deployments, including Anthropic **Claude Haiku explorers vs. Sonnet** and OpenAI **GPT Luna / mini explorers**.
+State-of-the-art agent architectures conventionally rely on a single mid-tier LLM for codebase scouting, file localization, and context pruning. We empirically evaluate whether replacing this monolithic scout with **$K$ concurrent instances of an ultra-cheap model** (`gemini-3.5-flash-lite`), fused via **zero-token deterministic rank aggregation** (Reciprocal Rank Fusion, $k=60$), establishes a superior cost-performance Pareto frontier. Across 360 runs on 9 tasks spanning codebase localization, document retrieval, and skill pruning, $K=4$ parallel lite scouts achieve **100.0% recall** (surpassing a single Flash 3.7 at 98.9%), elevate prompt-cache hit rates from 35.0% to **80.0%**, and reduce quality variance ($\sigma(F_2)$) by over 4.4x (0.138 to 0.031). We evaluate result checks using **Claude Opus 4.6** (explicitly distinguishing from Opus 4) under a strict Minimal (Low, Light) reasoning effort baseline (effort calibration is out of scope). Furthermore, we model the hidden downstream reading costs across the most utilized orchestrator models—**Fable 5, Opus 5, Sonnet 5, Gemini Flash 3.7, GPT Sol 5.6, GPT Terra 5.6, Grok 4.6, and ZAI 5.3**—demonstrating that unbounded scout output concatenation inflates orchestrator reading costs by $O(K)$, whereas deterministic top-$M$ rank aggregation compresses context overhead by **72.4%** while preserving the 100% recall ceiling. Finally, we establish concrete research recommendations for cross-ecosystem investigation, including Anthropic **Claude Haiku 4.5 explorers vs. Sonnet 5** and OpenAI **GPT Luna / mini explorer tiers**.
 
 ---
 
 ## Introduction
 
-In multi-agent coding harnesses, autonomous agents allocate a large fraction of token expenditures and latency to exploratory reconnaissance—discovering candidate files, inspecting type declarations, filtering tool catalogs, and pruning irrelevant context. Mainstream agent harnesses (`claude-code`, `cursor`, `copilot-workspace`) almost universally deploy a single mid-tier scout model (e.g. `gemini-3.7-flash`, `claude-3-5-sonnet`, `gpt-4o`) sequentially per task step.
+In multi-agent coding harnesses, autonomous agents allocate a large fraction of token expenditures and latency to exploratory reconnaissance—discovering candidate files, inspecting type declarations, filtering tool catalogs, and pruning irrelevant context. Mainstream agent harnesses (`claude-code`, `cursor`, `copilot-workspace`) almost universally deploy a single mid-tier scout model (e.g. `gemini-3.7-flash`, `claude-sonnet-5`, `gpt-sol-5.6`) sequentially per task step.
 
 This standard design suffers from two structural handicaps:
 1. **Perspective Blindness & Single-Trajectory Failure:** A single scout sampling at low temperature commits early to a greedy exploration path. On lightweight models, single-path recall drops to 78.9%; even standard mid-tier models exhibit an average missing-candidate rate of 1.1% (98.9% recall).
@@ -57,7 +57,7 @@ We evaluate four structural postures across 9 deterministic benchmark tasks with
 | `anthropic/claude-opus-5` | Frontier Orchestrator | $5.00 | $25.00 | $0.500 |
 | `anthropic/claude-fable-5` | Agentic Orchestrator | $4.00 | $20.00 | $0.400 |
 | `anthropic/claude-sonnet-5` | Mainstream Orchestrator | $3.00 | $15.00 | $0.300 |
-| `anthropic/claude-3-5-haiku` | Lightweight Explorer | $0.80 | $4.00 | $0.080 |
+| `anthropic/claude-haiku-4-5` | Lightweight Explorer | $1.00 | $5.00 | $0.100 |
 | `openai/gpt-sol-5.6` | Frontier Orchestrator | $3.00 | $12.00 | $0.300 |
 | `openai/gpt-terra-5.6` | Multimodal Orchestrator | $2.00 | $8.00 | $0.200 |
 | `openai/gpt-4o-mini` / `gpt-luna` | Lightweight Explorer | $0.15 | $0.60 | $0.075 |
@@ -98,7 +98,7 @@ Candidates meeting quorum ($q \ge 2$) or exceeding rank thresholds are emitted d
 
 ### Orchestrator Ingestion Costs Across Modern Frontier Models
 
-When parallel scouts discover candidates, how much does context reading cost the lead orchestrator? We compare naive raw output concatenation against bounded zero-token RRF across the most utilized orchestrator models in the 2026 landscape:
+When parallel scouts discover candidates, how much does context reading cost the lead orchestrator? We compare naive raw output concatenation against bounded zero-token RRF across the most utilized orchestrator models in the landscape:
 
 | Lead Orchestrator Model | Input Rate ($/1M) | Naive Ingest ($K=1$, 1.45k tok) | Naive Ingest ($K=4$, 6.24k tok) | Bounded RRF ($M \le 3$, 1.72k tok) | Cascaded Verifier ($M=2.1$, 1.18k tok) | Overhead Savings |
 |:---|---:|---:|---:|---:|---:|---:|
@@ -117,27 +117,24 @@ When parallel scouts discover candidates, how much does context reading cost the
 
 ## Conclusions
 
-1. **Monolithic Scouts Are Dominated:** Single-model scouting occupies a strictly dominated region on the cost-quality Pareto curve.
-2. **$K=4$ Fan-Out Is the Optimal Frontier:** Four concurrent `gemini-3.5-flash-lite` scouts maximize recall (100.0%) and cache utilization (80.0%) while maintaining low p50 latency (5,376ms).
-3. **Deterministic Aggregation Neutralizes Ingestion Overhead:** Zero-token RRF deduplication bounds candidate payload size, protecting lead orchestrators (Opus 5, Fable 5, GPT Sol 5.6, Grok 4.6, ZAI 5.3) from context bloat and reading token tax.
-4. **Cascaded Funnels Are Optimal for High-Stakes Operations:** Where downstream execution penalty for false positives is severe, a two-tier funnel (4 Lite Scouts $\to$ RRF $\to$ 1 Verifier) yields peak precision (95.6%) and $F_2 = 0.989$.
+1. **Rule of Thumb for Harness Developers:** *4 cheap scouts are much more reliable than one smart one.*
+2. **Default Harness Configuration Guidance:** Developers should update their harness's default explore and scouting configuration from 1 monolithic model to **parallel scouts ($K=2$ for rapid checks, $K=4$ for Pareto-optimal coverage)**. This topology is consistently cheaper due to prefix prompt caching and eliminates narrow search blindspots.
+3. **Reference Implementation Available:** Gaia Research ships the reference harness skill `gaia-research/skill-scout-fleet` (invokable as `/scout-fleet` via `npx skills install gaia-research/skill-scout-fleet`).
+4. **Deterministic Aggregation Is Mandatory:** Zero-token RRF deduplication bounds candidate payload size, protecting lead orchestrators (Opus 5, Fable 5, GPT Sol 5.6, Grok 4.6, ZAI 5.3) from context bloat and reading token tax.
+5. **Cascaded Funnels for Critical Edits:** When false positives carry severe downstream execution costs, a two-tier funnel (4 Lite Scouts $\to$ RRF $\to$ 1 Verifier) yields peak precision (95.6%) and $F_2 = 0.989$.
 
 ---
 
 ## Recommendations
 
-### 1. Anthropic Ecosystem: Claude Haiku Explorers vs. Sonnet
-- **The Status Quo:** Default harnesses deploy a single `claude-sonnet-5` ($3.00/1M) for codebase localization, which averages 98.2% recall at $0.012+ per sweep.
-- **The Recommended Posture:** Deploy **$K=4$ concurrent `claude-3-5-haiku` explorers** ($0.80/1M input).
-- **Prompt Cache Multiplier:** Anthropic provides a **90% discount on 5-minute prompt cache reads** ($0.08/1M vs $0.80/1M). Dispatching 4 Haiku scouts with identical repo maps costs only **$0.0038 total**—less than one-third the cost of 1 Sonnet scout—while boosting candidate recall to **100.0%**.
+### 1. Research Agenda: Haiku 4.5 Explorers vs. Sonnet 5
+- **Baseline Hypothesis:** $K=4$ `claude-haiku-4-5` explorers ($1.00/1M input, $0.100/1M cached) outperform a single `claude-sonnet-5` ($3.00/1M input) in recall while cutting total turn cost by >60% on 5-minute cache windows.
+- **Empirical Gap:** Measure prompt-cache lifetime stability across long-running multi-turn agent sessions and quantify the exact threshold where cache eviction alters the Pareto frontier.
 
-### 2. OpenAI Ecosystem: GPT Luna / Mini Explorers vs. Frontier Models
-- **The Status Quo:** Relying on monolithic frontier orchestrators (`gpt-sol-5.6` / `gpt-terra-5.6`) for exploratory grepping incurs high latency and substantial token burn.
-- **The Recommended Posture:** Deploy **$K=4$ specialized lightweight explorers** (`gpt-4o-mini` or `gpt-luna-explorer`, priced at $0.15/1M input, $0.075/1M cached).
-- **Latency & Coverage Advantage:** Parallel lightweight explorer fan-out cuts wall-clock exploration time by ~45% while eliminating narrow search blindspots.
+### 2. Research Agenda: GPT Luna / Mini Explorer Tier
+- **Baseline Hypothesis:** Parallel $K=4$ `gpt-4o-mini` / `gpt-luna` explorers ($0.15/1M input, $0.075/1M cached) compress repository reconnaissance latency by ~45% relative to monolithic `gpt-sol-5.6` or `gpt-terra-5.6` runs.
+- **Empirical Gap:** Benchmark multi-root mono-repo cross-package symbol discovery to test whether lightweight models maintain 100% recall as repository depth exceeds 10,000 files.
 
-### 3. Harness Architecture Invariants
-- **Always Enforce Top-$M$ Payload Bounding ($M \le 3$):** Never stream unranked raw outputs to the orchestrator.
-- **Use Deterministic Merging (RRF $k=60$):** Eliminate LLM judge calls during candidate aggregation.
-- **Pin Shared System Prefixes:** Ensure prompt headers, schema declarations, and file trees share identical tokens to maximize prefix cache absorption.
-- **Track Orchestrator Ingestion Benchmarks:** Follow and contribute to **[GitHub Issue #178](https://github.com/gaia-research/gaia-research/issues/178)** as we extend multi-model cognitive load and attention dispersion benchmarks.
+### 3. Research Agenda: Orchestrator Cognitive Load & Attention Dispersion
+- **Active Investigation:** [GitHub Issue #178](https://github.com/gaia-research/gaia-research/issues/178) investigates downstream orchestrator task accuracy when ingesting bounded vs. unbounded scout candidate payloads.
+- **Key Metrics to Track:** Downstream code edit accuracy ($F_1$), hallucination rates on distractors, and total orchestrator token expenditure across varying candidate limits ($M \in \{1, 3, 5, \infty\}$).

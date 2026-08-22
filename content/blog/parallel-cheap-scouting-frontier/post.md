@@ -9,7 +9,7 @@
 
 ---
 
-Most multi-agent coding harnesses default to a single mid-tier model for scouting and localization. When a developer asks Claude Code, Cursor, or an autonomous workflow to fix a bug or audit a feature, the orchestrator dispatches a single instance of `gemini-3.7-flash` (or `gpt-4o-mini` / `claude-3-5-haiku`) to search the repository, grep for symbols, and return a candidate list of files.
+Most multi-agent coding harnesses default to a single mid-tier model for scouting and localization. When a developer asks Claude Code, Cursor, or an autonomous workflow to fix a bug or audit a feature, the orchestrator dispatches a single instance of `gemini-3.7-flash` (or `gpt-4o-mini` / `claude-haiku-4-5`) to search the repository, grep for symbols, and return a candidate list of files.
 
 It feels tidy. One prompt in, one candidate list out.
 
@@ -146,31 +146,27 @@ We have opened **[GitHub Issue #178](https://github.com/gaia-research/gaia-resea
 
 ---
 
-## Ecosystem Exploration: Haiku Explorers & GPT Luna Tier
+## Conclusions & Harness Guidance
 
-How does parallel scout fan-out translate beyond Gemini?
+> **Rule of Thumb:** *4 cheap scouts are much more reliable than one smart one.*  
+> Update your harness's default explore and scouting configuration from 1 monolithic model to **parallel scouts ($K=2$ quick checks, $K=4$ default Pareto fleet)**. This posture is strictly cheaper due to prompt caching and consistently makes fewer search mistakes than a single scout. Install our standardized reference skill via `npx skills install gaia-research/skill-scout-fleet` (invokable as `/scout-fleet`).
 
-### 1. Anthropic Ecosystem: Parallel Claude Haiku vs. Monolithic Sonnet
-- **The Default Pattern:** Most Claude Code setups use a single `claude-sonnet-5` ($3.00/1M) for search, spending ~$0.012 per reconnaissance turn.
-- **The Fan-Out Alternative:** Deploy **$K=4$ `claude-3-5-haiku` scouts** ($0.80/1M).
-- **The 90% Prompt-Cache Edge:** Anthropic offers a **90% discount on prompt-cache hits** ($0.08/1M cached). Because all 4 Haiku scouts share the repository structure and system instructions, total dispatch cost drops to **$0.0038**—a **68% cost reduction** with higher recall (100% vs 98.2%).
-
-### 2. OpenAI Ecosystem: Parallel GPT Luna / Mini Explorers vs. Frontier Models
-- **The Default Pattern:** Calling `gpt-sol-5.6` ($3.00/1M) or `gpt-terra-5.6` ($2.00/1M) for exploratory grepping incurs high latency and substantial token burn.
-- **The Fan-Out Alternative:** Deploy **$K=4$ `gpt-4o-mini` / `gpt-luna` explorer instances** ($0.15/1M input, $0.075/1M cached).
-- **Latency & Throughput:** Parallel lightweight explorers return in ~1.2 seconds, sweeping wide across alternative hypotheses before the orchestrator commits to a code edit.
+Key conclusions for developers and system builders:
+1. **Never deploy a single cheap scout alone.** It misses ~21% of candidates.
+2. **Deploy $K=4$ with diverse framing.** Assign each scout a distinct search lens (subspaces, imports, aliases, configs).
+3. **Enforce deterministic RRF with payload caps ($M \le 3$).** Avoid LLM aggregation calls and save 72% on orchestrator reading costs.
+4. **Use Cascaded Funnels for high-stakes modifications.** Combine $K=4$ scouts with 1 mid-tier verifier for peak precision ($95.6\%$).
 
 ---
 
-## Direct Recommendations for Harness Architects
+## Research Recommendations & Open Horizons
 
-If you build or maintain agentic coding workflows:
-
-1. **Never use a single cheap scout.** A single lite model has high variance and misses ~21% of candidates.
-2. **Deploy $K=4$ with diverse framing.** The sweet spot on the Pareto frontier is $K=4$. Assign each scout a distinct lens (subspace partition, import tracer, keyword variation).
-3. **Use deterministic aggregation (RRF $k=60$) with payload bounding ($M \le 3$).** Do not call an LLM to merge candidate lists or dump raw traces. Pure RRF with structural path deduplication takes <15ms, consumes zero tokens, and saves 72% on orchestrator reading costs across Opus 5, Fable 5, GPT Sol 5.6, Grok 4.6, and ZAI 5.3.
-4. **Use a Cascaded Funnel for high-stakes workflows.** If false positives are costly (e.g. before modifying code), add a single mid-tier verifier pass over the top RRF candidates.
-5. **Leverage shared prompt prefixes.** Structure subagent prompts with an identical header block to maximize cache hit amplification across parallel calls.
+1. **Anthropic Ecosystem: Parallel Claude Haiku 4.5 vs. Sonnet 5**
+   - Investigating $K=4$ `claude-haiku-4-5` explorers ($1.00/1M input, $0.10/1M cached) vs. 1 monolithic `claude-sonnet-5` ($3.00/1M) to measure 5-minute cache lifetime stability in multi-turn coding sessions.
+2. **OpenAI Ecosystem: Parallel GPT Luna / Mini Explorers vs. Frontier Models**
+   - Investigating $K=4$ `gpt-4o-mini` / `gpt-luna` explorer instances ($0.15/1M input, $0.075/1M cached) on deep multi-package mono-repos.
+3. **Downstream Orchestrator Attention Dispersion Benchmark (Issue #178)**
+   - Benchmarking whether bounded RRF prevents hallucination and cognitive degradation in lead orchestrators when ingesting multi-source scout findings.
 
 ---
 

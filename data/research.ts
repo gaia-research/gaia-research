@@ -52,6 +52,13 @@ const skills = [
     status: "ACT",
     inTree: true,
   },
+  {
+    slug: "skill-scout-fleet",
+    blurb: "Parallel cheap-scout fan-out harness (2x, 4x, or cascaded funnel) with zero-token RRF deduplication.",
+    status: "ACT",
+    inTree: true,
+    surface: { label: "Read the benchmark", href: "/research/parallel-scouting" },
+  },
 ] as const satisfies readonly Skill[];
 
 // ── Derivations (never hard-code these downstream) ──────────────────────────
