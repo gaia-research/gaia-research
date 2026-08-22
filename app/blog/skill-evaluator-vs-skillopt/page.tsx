@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import novaAuthor from "@/content/authors/nova.json";
 import PostShareBar from "@/components/PostShareBar";
@@ -106,7 +108,8 @@ export default function BlogPostPage() {
 
         <article className="blog-post-body report-body">
           <Markdown
-            remarkPlugins={[remarkGfm]}
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeKatex]}
             components={{
               p: ({ children, ...props }) => {
                 const childArray = Array.isArray(children) ? children : [children];

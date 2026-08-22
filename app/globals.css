@@ -307,6 +307,19 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
 .blog-post-body h3{font-family:var(--body);font-size:1rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted)}
 .blog-video{margin:2.5rem 0 3.5rem}.blog-video iframe{display:block;width:100%;aspect-ratio:16/9;border:1px solid var(--line);background:var(--surface)}.blog-video figcaption{margin-top:.65rem;color:var(--dim);font-size:.8125rem;line-height:1.5}
 
+/* KaTeX math formatting & responsive containment */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.6rem 0;
+  margin: 1.25rem 0 !important;
+  -webkit-overflow-scrolling: touch;
+}
+.katex {
+  font-size: 1.05em;
+  color: var(--ink);
+}
+
 /* ── MCP Product Page ──────────────────────────────────────────────────────── */
 .mcp-page{min-height:80vh}
 

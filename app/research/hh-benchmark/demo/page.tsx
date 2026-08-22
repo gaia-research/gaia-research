@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 // loaded as raw text by webpack asset/source
 import demoMd from "@/content/reports/hh-benchmark/kc9-three-minute-demo.md";
@@ -50,7 +52,7 @@ export default function HhBenchmarkDemoPage() {
         </header>
 
         <article className="report-body">
-          <Markdown remarkPlugins={[remarkGfm]}>{body}</Markdown>
+          <Markdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>{body}</Markdown>
         </article>
 
         <footer className="report-foot">

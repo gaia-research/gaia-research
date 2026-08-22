@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 // loaded as raw text by webpack asset/source
 import reportMd from "@/content/reports/parallel-scouting-economics.md";
@@ -60,7 +62,8 @@ export default function ParallelScoutingResearchPage() {
 
         <article className="report-body">
           <Markdown
-            remarkPlugins={[remarkGfm]}
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeKatex]}
             components={{
               table: ({ children }) => (
                 <div style={{ overflowX: "auto", margin: "24px 0" }}>
