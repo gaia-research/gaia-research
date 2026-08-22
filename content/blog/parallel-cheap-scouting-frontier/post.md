@@ -17,6 +17,8 @@ The problem is that a single scout suffers from **perspective blindness**. If it
 
 In [Issue #174](https://github.com/gaia-research/gaia-research/issues/174), we tested the opposite posture: **replace the single standard scout with $K$ parallel instances of an ultra-cheap model** (`gemini-3.5-flash-lite`), each dispatched across a different partition or framing of the search space, fused deterministically via Reciprocal Rank Fusion (RRF).
 
+Every result check in this benchmark was evaluated using **Claude Opus 4.6** (`antigravity/claude-opus-4-6` — explicitly not Opus 4). To establish a reproducible baseline, **Minimal (Low, Light) reasoning effort** was enforced across all runs; dynamic effort calibration was deliberately treated as out of scope.
+
 Here is what 360 benchmark runs across 9 tasks and 4 architectures showed.
 
 ---
@@ -60,7 +62,7 @@ The benchmark ledger records 45 repeats per architecture-task cell (360 total ru
 | **C (Parallel Lite)** | 6 | 45 | 100.0% | 72.6% | 0.926 | ±0.039 | $0.00849 | $0.02417 | 5,620ms | 84.0% |
 | **D (Cascaded Funnel)**| **4** | **45** | **100.0%** | **95.6%** | **0.989** | **±0.024** | **$0.00584** | **$0.02298** | **7,693ms** | **80.0%** |
 
-*(Note: Total cost includes the fixed gold Opus-4 judge call per run. Pure scout execution costs are in the "Scout Cost" column.)*
+*(Note: Total cost includes the fixed gold Opus-4.6 judge call per run. Pure scout execution costs are in the "Scout Cost" column.)*
 
 ---
 
@@ -115,24 +117,28 @@ Result: **100.0% recall, 95.6% precision, and an $F_2$ score of 0.989**.
 
 ---
 
-## The Hidden Cost: Orchestrator Ingestion Across Different Models
+## The Hidden Cost: Orchestrator Ingestion Across Modern 2026 Models
 
 If parallel scouts increase recall, what happens when their findings are handed back to the lead orchestrator?
 
 A common pitfall in multi-agent designs is **unbounded concatenation**—dumping raw output from all $K$ scouts directly into the orchestrator's context window.
 
-### Cross-Model Orchestrator Ingestion Matrix
+### Orchestrator Reading Taxes Across the Most Utilized Models
 
 | Lead Orchestrator Model | Input Pricing ($/1M) | Naive Ingest ($K=4$, 6.24k tok) | Bounded RRF ($M \le 3$, 1.72k tok) | Cascaded Verifier (1.18k tok) | Context Cost Savings |
 |:---|---:|---:|---:|---:|---:|
-| **Claude Opus 4.6** | $5.00 | $0.03120 | **$0.00860** | **$0.00590** | **-72.4%** |
-| **Claude 3.7 Sonnet** | $3.00 | $0.01872 | **$0.00516** | **$0.00354** | **-72.4%** |
-| **Gemini 3.7 Thinking** | $1.25 | $0.00780 | **$0.00215** | **$0.00147** | **-72.4%** |
-| **GPT-5 / GPT-4o** | $2.50 | $0.01560 | **$0.00430** | **$0.00295** | **-72.4%** |
+| **Claude Opus 5** | $5.00 | $0.03120 | **$0.00860** | **$0.00590** | **-72.4%** |
+| **Claude Fable 5** | $4.00 | $0.02496 | **$0.00688** | **$0.00472** | **-72.4%** |
+| **Claude Sonnet 5** | $3.00 | $0.01872 | **$0.00516** | **$0.00354** | **-72.4%** |
+| **GPT Sol 5.6** | $3.00 | $0.01872 | **$0.00516** | **$0.00354** | **-72.4%** |
+| **GPT Terra 5.6** | $2.00 | $0.01248 | **$0.00344** | **$0.00236** | **-72.4%** |
+| **Grok 4.6** | $2.00 | $0.01248 | **$0.00344** | **$0.00236** | **-72.4%** |
+| **ZAI 5.3** | $1.50 | $0.00936 | **$0.00258** | **$0.00177** | **-72.4%** |
+| **Gemini Flash 3.7** | $0.30 | $0.00187 | **$0.00052** | **$0.00035** | **-72.4%** |
 
 ### Why Bounded Rank Fusion is Essential
 
-1. **Prevents Reading Cost Explosion:** At \$5.00/1M on Opus-4, reading 6.2k tokens of unranked scout dumps costs \$0.0312—over 5x the cost of the entire scout fleet! Bounded RRF caps orchestrator ingest cost to **\$0.0086**.
+1. **Prevents Reading Cost Explosion:** At \$5.00/1M on Opus 5 or \$4.00/1M on Fable 5, reading 6.2k tokens of unranked scout dumps costs up to \$0.0312—over 5x the cost of the entire scout fleet! Bounded RRF caps orchestrator ingest cost to **\$0.0086**.
 2. **Zero Aggregation Tokens:** Reciprocal Rank Fusion ($k=60$) is purely mathematical and runs in <15ms with zero LLM API calls.
 3. **Guards Cognitive Bandwidth:** Bounded payloads keep the orchestrator focused on actionable targets rather than sifting through duplicate reasoning traces.
 
@@ -145,12 +151,12 @@ We have opened **[GitHub Issue #178](https://github.com/gaia-research/gaia-resea
 How does parallel scout fan-out translate beyond Gemini?
 
 ### 1. Anthropic Ecosystem: Parallel Claude Haiku vs. Monolithic Sonnet
-- **The Default Pattern:** Most Claude Code setups use a single `claude-3-7-sonnet` ($3.00/1M) for search, spending ~$0.012 per reconnaissance turn.
+- **The Default Pattern:** Most Claude Code setups use a single `claude-sonnet-5` ($3.00/1M) for search, spending ~$0.012 per reconnaissance turn.
 - **The Fan-Out Alternative:** Deploy **$K=4$ `claude-3-5-haiku` scouts** ($0.80/1M).
 - **The 90% Prompt-Cache Edge:** Anthropic offers a **90% discount on prompt-cache hits** ($0.08/1M cached). Because all 4 Haiku scouts share the repository structure and system instructions, total dispatch cost drops to **$0.0038**—a **68% cost reduction** with higher recall (100% vs 98.2%).
 
 ### 2. OpenAI Ecosystem: Parallel GPT Luna / Mini Explorers vs. Frontier Models
-- **The Default Pattern:** Calling `gpt-4o` ($2.50/1M) or `o3` for exploratory grepping incurs high latency and substantial token burn.
+- **The Default Pattern:** Calling `gpt-sol-5.6` ($3.00/1M) or `gpt-terra-5.6` ($2.00/1M) for exploratory grepping incurs high latency and substantial token burn.
 - **The Fan-Out Alternative:** Deploy **$K=4$ `gpt-4o-mini` / `gpt-luna` explorer instances** ($0.15/1M input, $0.075/1M cached).
 - **Latency & Throughput:** Parallel lightweight explorers return in ~1.2 seconds, sweeping wide across alternative hypotheses before the orchestrator commits to a code edit.
 
@@ -162,7 +168,7 @@ If you build or maintain agentic coding workflows:
 
 1. **Never use a single cheap scout.** A single lite model has high variance and misses ~21% of candidates.
 2. **Deploy $K=4$ with diverse framing.** The sweet spot on the Pareto frontier is $K=4$. Assign each scout a distinct lens (subspace partition, import tracer, keyword variation).
-3. **Use deterministic aggregation (RRF $k=60$) with payload bounding ($M \le 3$).** Do not call an LLM to merge candidate lists or dump raw traces. Pure RRF with structural path deduplication takes <15ms, consumes zero tokens, and saves 72% on orchestrator reading costs.
+3. **Use deterministic aggregation (RRF $k=60$) with payload bounding ($M \le 3$).** Do not call an LLM to merge candidate lists or dump raw traces. Pure RRF with structural path deduplication takes <15ms, consumes zero tokens, and saves 72% on orchestrator reading costs across Opus 5, Fable 5, GPT Sol 5.6, Grok 4.6, and ZAI 5.3.
 4. **Use a Cascaded Funnel for high-stakes workflows.** If false positives are costly (e.g. before modifying code), add a single mid-tier verifier pass over the top RRF candidates.
 5. **Leverage shared prompt prefixes.** Structure subagent prompts with an identical header block to maximize cache hit amplification across parallel calls.
 

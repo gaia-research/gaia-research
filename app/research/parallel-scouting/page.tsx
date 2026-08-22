@@ -56,6 +56,7 @@ export default function ParallelScoutingResearchPage() {
               </dd>
             </div>
             <div><dt>Origin</dt><dd>Gaia Research · Issue #174</dd></div>
+            <div><dt>Evaluator</dt><dd>Claude Opus 4.6 (Minimal effort)</dd></div>
             <div><dt>Runs</dt><dd>360 evaluated runs (9 tasks × 8 configs × 5 repeats)</dd></div>
             <div><dt>Status</dt><dd><span className="chip vrf">VRF · EMPIRICALLY VERIFIED</span></dd></div>
           </dl>
