@@ -3,14 +3,14 @@ import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { statusText } from "@/data/research";
 
-// The canonical ecosystem explainer. It owns exactly one thing: the four names
+// The canonical ecosystem explainer. It owns exactly one thing: the three names
 // and how they relate. Every other doc keeps its own thesis and is linked from
 // here, never restated — that is the rule that stops this page becoming a
 // competing north star.
 //
 // TWO HARD CONSTRAINTS, both deliberate:
 //   1. No repository name and no package name appears in this copy. How the
-//      four names are packaged is an open question, and it must be free to
+//      three names are packaged is an open question, and it must be free to
 //      move without anyone rewriting this page.
 //   2. Every state label is the true one. State words are NOT invented here —
 //      they come from `statusText` in @/data/research, the same map the
@@ -21,13 +21,13 @@ import { statusText } from "@/data/research";
 //      gated is not a lifecycle state.
 
 export const metadata: Metadata = {
-  title: "About Gaia — one system, four names",
+  title: "About Gaia — one system, three names",
   description:
-    "Gaia is an open capability control system for AI agents, built as four named parts: the Skill Tree, Research, Skill Heaven, and Skill Hell. What each one is, how they relate, and which one you want right now.",
+    "Gaia is an open capability control system for AI agents, built as three named parts: the Skill Tree, Research, and the Skill Heaven umbrella (housing Skill Zero and Skill Hell). What each one is, how they relate, and which one you want right now.",
   openGraph: {
-    title: "About Gaia — one system, four names",
+    title: "About Gaia — one system, three names",
     description:
-      "The Skill Tree, Research, Skill Heaven, and Skill Hell — what each name is, how they relate, and which one you want right now.",
+      "The Skill Tree, Research, and Skill Heaven (housing Skill Zero and Skill Hell) — what each name is, how they relate, and which one you want right now.",
     type: "website",
   },
 };
@@ -83,48 +83,30 @@ export default function AboutPage() {
             </li>
           </ol>
           <p>
-            Each question has a name. Keeping them apart is the whole design: one of them
-            is a permanent public record, one is a laboratory, one runs inside your session,
-            and one is not open yet.
+            Each question has a home. Keeping them apart is the whole design: one is the
+            permanent public record (the Skill Tree), one is the open laboratory (Research),
+            and one is the runtime umbrella that houses your session (Skill Heaven).
           </p>
         </section>
 
-        {/* ── The four names ────────────────────────────────────────────── */}
+        {/* ── The three names ────────────────────────────────────────────── */}
         <section className="about-names section-shell" aria-labelledby="about-names-title">
           <header className="about-names-intro">
             <p className="signal">
-              <span /> THE FOUR NAMES
+              <span /> ONE HOUSE, THREE ROOMS
             </p>
             <h2 id="about-names-title">Who does what.</h2>
+            <p className="about-names-sub" style={{ color: "var(--muted)", marginTop: "0.5rem" }}>
+              Research proves it, the registry records it, the launcher runs it. Each room keeps its own colour.
+            </p>
           </header>
 
-          <article className="about-card" aria-labelledby="name-tree">
+          <article className="about-card about-card-research" aria-labelledby="name-research" style={{ borderColor: "color-mix(in srgb, var(--rimuru-blue) 40%, var(--line))" }}>
             <div className="about-card-head">
-              <span className="about-role">THE RECORD</span>
+              <span className="about-role" style={{ color: "var(--rimuru-blue)" }}>ROOM 01 · THE LABORATORY</span>
               <span className="chip act">ACT {statusText.ACT}</span>
             </div>
-            <h3 id="name-tree">Skill Tree</h3>
-            <p>
-              The permanent public record of what agent capabilities exist, who demonstrated
-              each one first, and what evidence stands behind it. A skill is not an entry in
-              a list — it is a record with a trail: its origin contributor, its evidence, its
-              stars, and a timeline of how it earned them.
-            </p>
-            <p className="about-want">
-              <b>You want this if</b> you are looking for a capability, checking whether one
-              is trustworthy, or putting your own work on the record.
-            </p>
-            <a className="about-go" href={TREE} target="_blank" rel="noreferrer">
-              Browse the Skill Tree <span aria-hidden="true">↗</span>
-            </a>
-          </article>
-
-          <article className="about-card" aria-labelledby="name-research">
-            <div className="about-card-head">
-              <span className="about-role">THE LABORATORY</span>
-              <span className="chip act">ACT {statusText.ACT}</span>
-            </div>
-            <h3 id="name-research">Research</h3>
+            <h3 id="name-research">Gaia Research</h3>
             <p>
               The open laboratory that measures what capabilities really cost and whether
               they help — what a skill costs while merely listed, what it costs when invoked,
@@ -145,58 +127,63 @@ export default function AboutPage() {
             </div>
           </article>
 
-          <article className="about-card about-card-heaven" aria-labelledby="name-heaven">
+          <article className="about-card about-card-tree" aria-labelledby="name-tree" style={{ borderColor: "color-mix(in srgb, #d4a853 40%, var(--line))" }}>
             <div className="about-card-head">
-              <span className="about-role">THE RUNTIME</span>
-              <span className="chip wip">WIP {statusText.WIP}</span>
+              <span className="about-role" style={{ color: "#d4a853" }}>ROOM 02 · THE RECORD</span>
+              <span className="chip act">ACT {statusText.ACT}</span>
             </div>
-            <h3 id="name-heaven">Skill Heaven</h3>
+            <h3 id="name-tree">Gaia Skill Tree</h3>
             <p>
-              The layer that decides what enters an agent&rsquo;s session and how much of it.
-              Where the Tree answers <em>what exists and why trust it</em>, Skill Heaven
-              answers <em>what should be in this context, right now</em> — one ladder from
-              off to max, with a stated posture at every rung and the dose measured rather
-              than guessed.
+              The permanent public record of what agent capabilities exist, who demonstrated
+              each one first, and what evidence stands behind it. A skill is not an entry in
+              a list — it is a record with a trail: its origin contributor, its evidence, its
+              stars, and a timeline of how it earned them.
             </p>
             <p className="about-want">
-              <b>You want this if</b> your agent&rsquo;s context is crowded with capabilities it
-              is not using on this task, and you want that priced instead of assumed.
+              <b>You want this if</b> you are looking for a capability, checking whether one
+              is trustworthy, or putting your own work on the record.
             </p>
-            <p className="about-state">
-              <b>Experimental.</b> The measurement is public before the product is. There is
-              nothing to install from this page yet — when there is, it will say so here.
-            </p>
-            <Link className="about-go" href="/research/hh-benchmark">
-              Read the benchmark method <span aria-hidden="true">→</span>
-            </Link>
+            <a className="about-go" href={TREE} target="_blank" rel="noreferrer" style={{ color: "#d4a853", borderColor: "#d4a853" }}>
+              Browse the Skill Tree <span aria-hidden="true">↗</span>
+            </a>
+          </article>
 
-            {/* Skill Hell renders INSIDE the Heaven card, on purpose. It is a
-                gated tier of Skill Heaven, not a separate thing you could go
-                and get — nesting it is how the page says that without a
-                sentence of disclaimer. It stays visibly present and visibly
-                locked. */}
-            <div className="about-locked" aria-labelledby="name-hell">
-              <div className="about-card-head">
-                <span className="about-role">
-                  <span className="about-lock" aria-hidden="true">
-                    🔒
-                  </span>{" "}
-                  A GATED TIER OF SKILL HEAVEN
-                </span>
-                <span className="chip wip">{HELL_CHIP}</span>
-              </div>
-              <h3 id="name-hell">Skill Hell</h3>
-              <p>
-                The other direction on the same ladder. Where Heaven admits a quiet session,
-                Hell summons everything the evidenced world has to offer for long autonomous
-                runs — still bounded by the rung you chose. It is a tier of Skill Heaven, not
-                a separate part of Gaia.
-              </p>
-              <p className="about-state">
-                <b>Gated, and staying gated</b> until measured trust coverage clears the gate.
-                There is nothing to install, nothing to join, and no waiting list. When it
-                opens, this is where it will say so.
-              </p>
+          <article className="about-card about-card-heaven" aria-labelledby="name-heaven" style={{ borderColor: "color-mix(in srgb, #c084fc 40%, var(--line))" }}>
+            <div className="about-card-head">
+              <span className="about-role" style={{ color: "#c084fc" }}>ROOM 03 · THE RUNTIME UMBRELLA</span>
+              <span className="chip wip">WIP PROTOTYPE</span>
+            </div>
+            <h3 id="name-heaven">Gaia Skill Heaven</h3>
+            <p>
+              The runtime umbrella that decides what enters an agent&rsquo;s session and how much of it.
+              Where the Tree answers <em>what exists and why trust it</em>, Skill Heaven
+              answers <em>what should be in this context, right now</em> &mdash; housing four surfaces along the skill entropy line:
+            </p>
+            <ul style={{ listStyle: "none", padding: 0, margin: "0.75rem 0 1rem", display: "grid", gap: "0.5rem" }}>
+              <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
+                <b style={{ color: "var(--ink)" }}>Skill Zero:</b> The clean-slate launcher that starts your harness with zero ambient skill debt.
+              </li>
+              <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
+                <b style={{ color: "var(--ink)" }}>Skill Heaven:</b> The converge summon direction for focused, curated session capabilities.
+              </li>
+              <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
+                <b style={{ color: "var(--ink)" }}>Skill Hell:</b> The explore summon direction for wide autonomous capability search.
+              </li>
+              <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
+                <b style={{ color: "var(--ink)" }}>Skill Ultra:</b> The governor auto-switching entropy per gap at the crown of the line.
+              </li>
+            </ul>
+            <p className="about-want">
+              <b>You want this if</b> you want on-demand skill summoning, a clean slate, or
+              session-only capabilities without permanent installation bloat.
+            </p>
+            <div className="about-go-row">
+              <a className="about-go" href="https://gaia-research.github.io/gaia-skill-heaven/" target="_blank" rel="noreferrer" style={{ color: "#c084fc", borderColor: "#c084fc" }}>
+                Visit Skill Heaven <span aria-hidden="true">↗</span>
+              </a>
+              <Link className="about-go" href="/research/hh-benchmark">
+                Read the benchmark method <span aria-hidden="true">→</span>
+              </Link>
             </div>
           </article>
         </section>
@@ -311,22 +298,38 @@ export default function AboutPage() {
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Understand what a crowded context costs you</th>
-                  <td>Skill Heaven</td>
+                  <th scope="row">Launch with zero ambient skill debt (clean slate)</th>
+                  <td>Skill Zero (under Skill Heaven)</td>
                   <td>
-                    <span className="chip wip">WIP {statusText.WIP}</span>
+                    <span className="chip wip">WIP PROTOTYPE</span>
+                  </td>
+                  <td>
+                    <a href="https://gaia-research.github.io/gaia-skill-heaven/" target="_blank" rel="noreferrer">
+                      Use Skill Zero ↗
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Summon skills on demand into session or explore/converge</th>
+                  <td>Gaia Skill Heaven</td>
+                  <td>
+                    <span className="chip wip">WIP PROTOTYPE</span>
+                  </td>
+                  <td>
+                    <a href="https://gaia-research.github.io/gaia-skill-heaven/" target="_blank" rel="noreferrer">
+                      Visit Skill Heaven ↗
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">See the benchmark method behind the HH Index</th>
+                  <td>Research</td>
+                  <td>
+                    <span className="chip act">ACT {statusText.ACT}</span>
                   </td>
                   <td>
                     <Link href="/research/hh-benchmark">Read the benchmark method →</Link>
                   </td>
-                </tr>
-                <tr>
-                  <th scope="row">Run fully autonomous, everything admitted</th>
-                  <td>Skill Hell</td>
-                  <td>
-                    <span className="chip wip">{HELL_CHIP}</span>
-                  </td>
-                  <td>Nothing yet — it is gated on evidence, not on demand.</td>
                 </tr>
               </tbody>
             </table>
@@ -352,13 +355,13 @@ export default function AboutPage() {
 
           <article className="about-entry">
             <h3>
-              The four names <span className="about-date">2026-07-28</span>
+              The three names <span className="about-date">2026-08-11</span>
             </h3>
             <p>
-              Gaia is now told publicly as four names — the Skill Tree, Research, Skill
-              Heaven, and Skill Hell. Nothing you already use changed; what changed is the
-              map. Skill Heaven is named as the runtime layer and is experimental. Skill Hell
-              is named and gated.
+              Gaia is told publicly as three names &mdash; the Skill Tree (the record), Research (the laboratory),
+              and Gaia Skill Heaven (the runtime umbrella). Skill Zero (the clean launcher), Skill Heaven (converge),
+              Skill Hell (explore), and Skill Ultra (governor) live under the Skill Heaven runtime umbrella rather
+              than as separate top-level ecosystem names.
             </p>
           </article>
 
