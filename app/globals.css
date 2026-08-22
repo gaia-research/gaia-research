@@ -320,6 +320,74 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
   color: var(--ink);
 }
 
+/* Responsive Table Scroll Container & Impeccable Mobile Layout */
+.table-scroll-container,
+.blog-table-wrap,
+.report-table-wrap {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.5rem 0 2rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.table-scroll-container table,
+.blog-table-wrap table,
+.report-table-wrap table,
+.report-table {
+  width: 100%;
+  min-width: 580px;
+  table-layout: auto !important;
+  border-collapse: collapse;
+  margin: 0 !important;
+  border: 0 !important;
+}
+
+.table-scroll-container th,
+.table-scroll-container td,
+.blog-table-wrap th,
+.blog-table-wrap td,
+.report-table th,
+.report-table td {
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+
+.table-scroll-container thead,
+.blog-table-wrap thead,
+.report-table thead {
+  background: var(--surface-raised);
+}
+
+.table-scroll-container th,
+.blog-table-wrap th,
+.report-table th {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.table-scroll-container td,
+.blog-table-wrap td,
+.report-table td {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.table-scroll-container tbody tr:hover,
+.blog-table-wrap tbody tr:hover,
+.report-table tbody tr:hover {
+  background: rgba(56, 189, 248, 0.04);
+}
+
 /* ── MCP Product Page ──────────────────────────────────────────────────────── */
 .mcp-page{min-height:80vh}
 

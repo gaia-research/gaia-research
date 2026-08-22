@@ -5,6 +5,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import novaAuthor from "@/content/authors/nova.json";
+import marcusAuthor from "@/content/authors/marcus.json";
 import PostShareBar from "@/components/PostShareBar";
 import { parallelCheapScoutingThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/parallel-cheap-scouting-frontier/post.md";
@@ -29,7 +30,7 @@ export const metadata = {
     title: "The $0.003 Scout Fleet: Why Four Parallel Cheap Models Beat One Expensive One",
     description: articleDescription,
     publishedTime: "2026-08-22T00:00:00+08:00",
-    authors: [novaAuthor.display_name],
+    authors: [marcusAuthor.display_name, novaAuthor.display_name],
     images: [
       {
         url: parallelCheapScoutingThumbnail.src.src,
@@ -55,11 +56,18 @@ const articleStructuredData = {
   image: thumbnailUrl,
   url: articleUrl,
   datePublished: "2026-08-22T00:00:00+08:00",
-  author: {
-    "@type": "Person",
-    name: novaAuthor.display_name,
-    url: novaAuthor.links.github,
-  },
+  author: [
+    {
+      "@type": "Person",
+      name: marcusAuthor.display_name,
+      url: marcusAuthor.links.github,
+    },
+    {
+      "@type": "Person",
+      name: novaAuthor.display_name,
+      url: novaAuthor.links.github,
+    },
+  ],
   publisher: {
     "@type": "Organization",
     name: "Gaia Research",
@@ -68,8 +76,11 @@ const articleStructuredData = {
 };
 
 function loadPost() {
-  // Strip H1 title & subtitle since header renders them
-  return postMd.split("\n").slice(4).join("\n").trim();
+  const parts = postMd.split("\n---\n");
+  if (parts.length > 1) {
+    return parts.slice(1).join("\n---\n").trim();
+  }
+  return postMd.split("\n").slice(6).join("\n").trim();
 }
 
 export default function ParallelScoutingBlogPostPage() {
@@ -85,11 +96,15 @@ export default function ParallelScoutingBlogPostPage() {
         />
         <header className="blog-post-head">
           <p className="blog-post-meta">
-            <time dateTime="2026-08-22">August 22, 2026</time> ·{" "}
+            <time dateTime="2026-08-22">August 22, 2026</time> · By{" "}
+            <a href={marcusAuthor.links.github} target="_blank" rel="noreferrer">
+              {marcusAuthor.display_name}
+            </a>{" "}
+            &amp;{" "}
             <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">
               {novaAuthor.display_name}
             </a>{" "}
-            · Head Researcher, Gaia Research
+            · Gaia Research
           </p>
           <h1>The $0.003 Scout Fleet: Why Four Parallel Cheap Models Beat One Expensive One</h1>
           <p className="blog-post-summary">
@@ -97,6 +112,7 @@ export default function ParallelScoutingBlogPostPage() {
           </p>
         </header>
 
+        {/* Frontloaded Hero Illustration */}
         <figure className="blog-post-illustration">
           <img
             src={parallelCheapScoutingThumbnail.src.src}
@@ -104,6 +120,9 @@ export default function ParallelScoutingBlogPostPage() {
             height={parallelCheapScoutingThumbnail.src.height}
             alt={parallelCheapScoutingThumbnail.alt}
           />
+          <figcaption style={{ padding: "0.6rem 1rem", fontSize: "0.8rem", color: "var(--dim)" }}>
+            Twin Milim scouts surveying parallel repository paths at base camp.
+          </figcaption>
         </figure>
 
         <article className="blog-post-body report-body">
@@ -112,7 +131,7 @@ export default function ParallelScoutingBlogPostPage() {
             rehypePlugins={[rehypeKatex]}
             components={{
               table: ({ children }) => (
-                <div style={{ overflowX: "auto", margin: "24px 0" }}>
+                <div className="table-scroll-container">
                   <table className="report-table">{children}</table>
                 </div>
               ),
@@ -123,85 +142,100 @@ export default function ParallelScoutingBlogPostPage() {
 
           {/* Interactive SVG Pareto Chart */}
           <div style={{ margin: "40px 0", background: "#0b0f19", padding: "24px", borderRadius: "12px", border: "1px solid #1e293b" }}>
-            <h3 style={{ margin: "0 0 8px 0", color: "#f8fafc", fontSize: "1.2rem" }}>Pareto Frontier: Execution Cost vs. Quality (F2 Score)</h3>
+            <h3 style={{ margin: "0 0 8px 0", color: "#f8fafc", fontSize: "1.2rem", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+              Pareto Frontier: Execution Cost vs. Quality (F2 Score)
+            </h3>
             <p style={{ margin: "0 0 20px 0", color: "#94a3b8", fontSize: "0.9rem" }}>
               360 runs across 9 tasks. The pink dashed line represents the non-dominated Pareto Frontier.
             </p>
-            <svg
-              viewBox="0 0 800 480"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ width: "100%", height: "auto" }}
-            >
-              <rect width="800" height="480" fill="#0f172a" rx="8" />
-              {/* Grid Lines */}
-              <line x1="80" y1="420" x2="740" y2="420" stroke="#64748b" strokeWidth="2" />
-              <line x1="80" y1="60" x2="80" y2="420" stroke="#64748b" strokeWidth="2" />
-              
-              <line x1="80" y1="360" x2="740" y2="360" stroke="#334155" strokeDasharray="3,3" />
-              <text x="68" y="364" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">0.5</text>
-              <line x1="80" y1="300" x2="740" y2="300" stroke="#334155" strokeDasharray="3,3" />
-              <text x="68" y="304" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">0.6</text>
-              <line x1="80" y1="240" x2="740" y2="240" stroke="#334155" strokeDasharray="3,3" />
-              <text x="68" y="244" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">0.7</text>
-              <line x1="80" y1="180" x2="740" y2="180" stroke="#334155" strokeDasharray="3,3" />
-              <text x="68" y="184" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">0.8</text>
-              <line x1="80" y1="120" x2="740" y2="120" stroke="#334155" strokeDasharray="3,3" />
-              <text x="68" y="124" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">0.9</text>
-              <line x1="80" y1="60" x2="740" y2="60" stroke="#334155" strokeDasharray="3,3" />
-              <text x="68" y="64" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">1.0</text>
+            <div style={{ overflowX: "auto", width: "100%" }}>
+              <svg
+                viewBox="0 0 800 480"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ width: "100%", minWidth: "540px", height: "auto" }}
+              >
+                <rect width="800" height="480" fill="#0f172a" rx="8" />
+                {/* Grid Lines */}
+                <line x1="80" y1="420" x2="740" y2="420" stroke="#64748b" strokeWidth="2" />
+                <line x1="80" y1="60" x2="80" y2="420" stroke="#64748b" strokeWidth="2" />
+                
+                <line x1="80" y1="360" x2="740" y2="360" stroke="#334155" strokeDasharray="3,3" />
+                <text x="68" y="364" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">0.5</text>
+                <line x1="80" y1="300" x2="740" y2="300" stroke="#334155" strokeDasharray="3,3" />
+                <text x="68" y="304" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">0.6</text>
+                <line x1="80" y1="240" x2="740" y2="240" stroke="#334155" strokeDasharray="3,3" />
+                <text x="68" y="244" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">0.7</text>
+                <line x1="80" y1="180" x2="740" y2="180" stroke="#334155" strokeDasharray="3,3" />
+                <text x="68" y="184" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">0.8</text>
+                <line x1="80" y1="120" x2="740" y2="120" stroke="#334155" strokeDasharray="3,3" />
+                <text x="68" y="124" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">0.9</text>
+                <line x1="80" y1="60" x2="740" y2="60" stroke="#334155" strokeDasharray="3,3" />
+                <text x="68" y="64" fill="#94a3b8" fontSize="11" textAnchor="end" fontFamily="monospace">1.0</text>
 
-              {/* X Axis labels */}
-              <text x="80" y="440" fill="#94a3b8" fontSize="11" textAnchor="middle" fontFamily="monospace">$0.000</text>
-              <text x="245" y="440" fill="#94a3b8" fontSize="11" textAnchor="middle" fontFamily="monospace">$0.006</text>
-              <text x="410" y="440" fill="#94a3b8" fontSize="11" textAnchor="middle" fontFamily="monospace">$0.012</text>
-              <text x="575" y="440" fill="#94a3b8" fontSize="11" textAnchor="middle" fontFamily="monospace">$0.018</text>
-              <text x="740" y="440" fill="#94a3b8" fontSize="11" textAnchor="middle" fontFamily="monospace">$0.024</text>
+                {/* X Axis labels */}
+                <text x="80" y="440" fill="#94a3b8" fontSize="11" textAnchor="middle" fontFamily="monospace">$0.000</text>
+                <text x="245" y="440" fill="#94a3b8" fontSize="11" textAnchor="middle" fontFamily="monospace">$0.006</text>
+                <text x="410" y="440" fill="#94a3b8" fontSize="11" textAnchor="middle" fontFamily="monospace">$0.012</text>
+                <text x="575" y="440" fill="#94a3b8" fontSize="11" textAnchor="middle" fontFamily="monospace">$0.018</text>
+                <text x="740" y="440" fill="#94a3b8" fontSize="11" textAnchor="middle" fontFamily="monospace">$0.024</text>
 
-              {/* Axis titles */}
-              <text x="410" y="468" fill="#cbd5e1" fontSize="12" textAnchor="middle">Total Cost (USD / Task Run)</text>
-              <text x="25" y="240" fill="#cbd5e1" fontSize="12" textAnchor="middle" transform="rotate(-90 25 240)">Quality (F2 Score)</text>
+                {/* Axis titles */}
+                <text x="410" y="468" fill="#cbd5e1" fontSize="12" textAnchor="middle">Total Cost (USD / Task Run)</text>
+                <text x="25" y="240" fill="#cbd5e1" fontSize="12" textAnchor="middle" transform="rotate(-90 25 240)">Quality (F2 Score)</text>
 
-              {/* Pareto Frontier Path */}
-              <path d="M 563 208 L 580 78 L 671 73 L 712 66" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeDasharray="4,4" />
+                {/* Pareto Frontier Path */}
+                <path d="M 563 208 L 580 78 L 671 73 L 712 66" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeDasharray="4,4" />
 
-              {/* Points */}
-              {/* B: K=1 (Cost 0.01757, F2 0.752) */}
-              <circle cx="563" cy="208" r="7" fill="#94a3b8" stroke="#ffffff" strokeWidth="2" />
-              <text x="563" y="196" fill="#94a3b8" fontSize="11" fontWeight="bold" textAnchor="middle">B (K=1)</text>
+                {/* Points */}
+                <circle cx="563" cy="208" r="7" fill="#94a3b8" stroke="#ffffff" strokeWidth="2" />
+                <text x="563" y="196" fill="#94a3b8" fontSize="11" fontWeight="bold" textAnchor="middle">B (K=1)</text>
 
-              {/* A: K=1 (Cost 0.01820, F2 0.969) */}
-              <circle cx="580" cy="78" r="7" fill="#38bdf8" stroke="#ffffff" strokeWidth="2" />
-              <text x="580" y="66" fill="#38bdf8" fontSize="11" fontWeight="bold" textAnchor="middle">A (K=1)</text>
+                <circle cx="580" cy="78" r="7" fill="#38bdf8" stroke="#ffffff" strokeWidth="2" />
+                <text x="580" y="66" fill="#38bdf8" fontSize="11" fontWeight="bold" textAnchor="middle">A (K=1)</text>
 
-              {/* C: K=3 (Cost 0.02015, F2 0.917) -> Dominated */}
-              <circle cx="634" cy="110" r="5" fill="#ec4899" stroke="#475569" strokeWidth="1" opacity="0.5" />
-              <text x="634" y="98" fill="#ec4899" fontSize="10" textAnchor="middle" opacity="0.5">C (K=3)</text>
+                <circle cx="634" cy="110" r="5" fill="#ec4899" stroke="#475569" strokeWidth="1" opacity="0.5" />
+                <text x="634" y="98" fill="#ec4899" fontSize="10" textAnchor="middle" opacity="0.5">C (K=3)</text>
 
-              {/* C: K=4 (Cost 0.02152, F2 0.978) -> Optimal */}
-              <circle cx="671" cy="73" r="7" fill="#ec4899" stroke="#ffffff" strokeWidth="2" />
-              <text x="671" y="60" fill="#ec4899" fontSize="11" fontWeight="bold" textAnchor="middle">C (K=4)</text>
+                <circle cx="671" cy="73" r="7" fill="#ec4899" stroke="#ffffff" strokeWidth="2" />
+                <text x="671" y="60" fill="#ec4899" fontSize="11" fontWeight="bold" textAnchor="middle">C (K=4)</text>
 
-              {/* C: K=5, K=6 -> Dominated */}
-              <circle cx="708" cy="104" r="5" fill="#ec4899" stroke="#475569" strokeWidth="1" opacity="0.5" />
-              <text x="708" y="94" fill="#ec4899" fontSize="10" textAnchor="middle" opacity="0.5">C (K=5,6)</text>
+                <circle cx="708" cy="104" r="5" fill="#ec4899" stroke="#475569" strokeWidth="1" opacity="0.5" />
+                <text x="708" y="94" fill="#ec4899" fontSize="10" textAnchor="middle" opacity="0.5">C (K=5,6)</text>
 
-              {/* D: K=4 (Cost 0.02298, F2 0.989) -> Peak */}
-              <circle cx="712" cy="66" r="7" fill="#a855f7" stroke="#ffffff" strokeWidth="2" />
-              <text x="712" y="52" fill="#a855f7" fontSize="11" fontWeight="bold" textAnchor="middle">D (K=4)</text>
+                <circle cx="712" cy="66" r="7" fill="#a855f7" stroke="#ffffff" strokeWidth="2" />
+                <text x="712" y="52" fill="#a855f7" fontSize="11" fontWeight="bold" textAnchor="middle">D (K=4)</text>
 
-              {/* Legend */}
-              <g transform="translate(100, 80)">
-                <rect width="230" height="95" fill="#1e293b" rx="6" stroke="#334155" />
-                <circle cx="15" cy="18" r="5" fill="#38bdf8" />
-                <text x="28" y="22" fill="#cbd5e1" fontSize="11">Arch A: Single Flash 3.7</text>
-                <circle cx="15" cy="38" r="5" fill="#94a3b8" />
-                <text x="28" y="42" fill="#cbd5e1" fontSize="11">Arch B: Single Lite 3.5</text>
-                <circle cx="15" cy="58" r="5" fill="#ec4899" />
-                <text x="28" y="62" fill="#cbd5e1" fontSize="11">Arch C: Parallel Lite (K=3..6)</text>
-                <circle cx="15" cy="78" r="5" fill="#a855f7" />
-                <text x="28" y="82" fill="#cbd5e1" fontSize="11">Arch D: Cascaded Funnel</text>
-              </g>
-            </svg>
+                {/* Legend */}
+                <g transform="translate(100, 80)">
+                  <rect width="230" height="95" fill="#1e293b" rx="6" stroke="#334155" />
+                  <circle cx="15" cy="18" r="5" fill="#38bdf8" />
+                  <text x="28" y="22" fill="#cbd5e1" fontSize="11">Arch A: Single Flash 3.7</text>
+                  <circle cx="15" cy="38" r="5" fill="#94a3b8" />
+                  <text x="28" y="42" fill="#cbd5e1" fontSize="11">Arch B: Single Lite 3.5</text>
+                  <circle cx="15" cy="58" r="5" fill="#ec4899" />
+                  <text x="28" y="62" fill="#cbd5e1" fontSize="11">Arch C: Parallel Lite (K=3..6)</text>
+                  <circle cx="15" cy="78" r="5" fill="#a855f7" />
+                  <text x="28" y="82" fill="#cbd5e1" fontSize="11">Arch D: Cascaded Funnel</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          {/* Orchestrator Context Overhead SVG */}
+          <div style={{ margin: "40px 0", background: "#0b0f19", padding: "24px", borderRadius: "12px", border: "1px solid #1e293b" }}>
+            <h3 style={{ margin: "0 0 8px 0", color: "#f8fafc", fontSize: "1.2rem", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+              Orchestrator Reading Overhead &amp; Context Compression
+            </h3>
+            <p style={{ margin: "0 0 20px 0", color: "#94a3b8", fontSize: "0.9rem" }}>
+              Comparison of raw scout concatenation vs. deterministic top-3 RRF bounding and cascaded verifier filtering.
+            </p>
+            <div style={{ overflowX: "auto", width: "100%" }}>
+              <img
+                src="/assets/orchestrator-reading-cost-tradeoff.svg"
+                alt="Orchestrator Context Reading Overhead vs. Recall Retention diagram"
+                style={{ width: "100%", minWidth: "540px", height: "auto", display: "block" }}
+              />
+            </div>
           </div>
         </article>
 
@@ -229,6 +263,18 @@ export default function ParallelScoutingBlogPostPage() {
                 className="directive-link"
               >
                 Inspect ledger.jsonl <span aria-hidden="true">↗</span>
+              </a>
+            </article>
+            <article className="directive-card">
+              <h3>Follow-Up Issue #178</h3>
+              <p>Orchestrator ingestion benchmarks across Haiku, Sonnet, and GPT Luna explorer tiers.</p>
+              <a
+                href="https://github.com/gaia-research/gaia-research/issues/178"
+                target="_blank"
+                rel="noreferrer"
+                className="directive-link"
+              >
+                Follow Issue #178 <span aria-hidden="true">↗</span>
               </a>
             </article>
           </div>
