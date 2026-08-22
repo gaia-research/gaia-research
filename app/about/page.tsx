@@ -83,9 +83,9 @@ export default function AboutPage() {
             </li>
           </ol>
           <p>
-            Each question has a name. Keeping them apart is the whole design: one of them
-            is a permanent public record, one is a laboratory, one runs inside your session,
-            and one is not open yet.
+            Each question has a home. Keeping them apart is the whole design: one is the
+            permanent public record (the Skill Tree), one is the open laboratory (Research),
+            and one is the runtime umbrella that houses your session (Skill Heaven).
           </p>
         </section>
 
@@ -93,38 +93,20 @@ export default function AboutPage() {
         <section className="about-names section-shell" aria-labelledby="about-names-title">
           <header className="about-names-intro">
             <p className="signal">
-              <span /> THE THREE NAMES
+              <span /> ONE HOUSE, THREE ROOMS
             </p>
             <h2 id="about-names-title">Who does what.</h2>
+            <p className="about-names-sub" style={{ color: "var(--muted)", marginTop: "0.5rem" }}>
+              Research proves it, the registry records it, the launcher runs it. Each room keeps its own colour.
+            </p>
           </header>
 
-          <article className="about-card" aria-labelledby="name-tree">
+          <article className="about-card about-card-research" aria-labelledby="name-research" style={{ borderColor: "color-mix(in srgb, var(--rimuru-blue) 40%, var(--line))" }}>
             <div className="about-card-head">
-              <span className="about-role">THE RECORD</span>
+              <span className="about-role" style={{ color: "var(--rimuru-blue)" }}>ROOM 01 · THE LABORATORY</span>
               <span className="chip act">ACT {statusText.ACT}</span>
             </div>
-            <h3 id="name-tree">Skill Tree</h3>
-            <p>
-              The permanent public record of what agent capabilities exist, who demonstrated
-              each one first, and what evidence stands behind it. A skill is not an entry in
-              a list — it is a record with a trail: its origin contributor, its evidence, its
-              stars, and a timeline of how it earned them.
-            </p>
-            <p className="about-want">
-              <b>You want this if</b> you are looking for a capability, checking whether one
-              is trustworthy, or putting your own work on the record.
-            </p>
-            <a className="about-go" href={TREE} target="_blank" rel="noreferrer">
-              Browse the Skill Tree <span aria-hidden="true">↗</span>
-            </a>
-          </article>
-
-          <article className="about-card" aria-labelledby="name-research">
-            <div className="about-card-head">
-              <span className="about-role">THE LABORATORY</span>
-              <span className="chip act">ACT {statusText.ACT}</span>
-            </div>
-            <h3 id="name-research">Research</h3>
+            <h3 id="name-research">Gaia Research</h3>
             <p>
               The open laboratory that measures what capabilities really cost and whether
               they help — what a skill costs while merely listed, what it costs when invoked,
@@ -145,12 +127,33 @@ export default function AboutPage() {
             </div>
           </article>
 
-          <article className="about-card about-card-heaven" aria-labelledby="name-heaven">
+          <article className="about-card about-card-tree" aria-labelledby="name-tree" style={{ borderColor: "color-mix(in srgb, #d4a853 40%, var(--line))" }}>
             <div className="about-card-head">
-              <span className="about-role">THE RUNTIME UMBRELLA</span>
+              <span className="about-role" style={{ color: "#d4a853" }}>ROOM 02 · THE RECORD</span>
               <span className="chip act">ACT {statusText.ACT}</span>
             </div>
-            <h3 id="name-heaven">Skill Heaven</h3>
+            <h3 id="name-tree">Gaia Skill Tree</h3>
+            <p>
+              The permanent public record of what agent capabilities exist, who demonstrated
+              each one first, and what evidence stands behind it. A skill is not an entry in
+              a list — it is a record with a trail: its origin contributor, its evidence, its
+              stars, and a timeline of how it earned them.
+            </p>
+            <p className="about-want">
+              <b>You want this if</b> you are looking for a capability, checking whether one
+              is trustworthy, or putting your own work on the record.
+            </p>
+            <a className="about-go" href={TREE} target="_blank" rel="noreferrer" style={{ color: "#d4a853", borderColor: "#d4a853" }}>
+              Browse the Skill Tree <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+
+          <article className="about-card about-card-heaven" aria-labelledby="name-heaven" style={{ borderColor: "color-mix(in srgb, #c084fc 40%, var(--line))" }}>
+            <div className="about-card-head">
+              <span className="about-role" style={{ color: "#c084fc" }}>ROOM 03 · THE RUNTIME UMBRELLA</span>
+              <span className="chip act">ACT {statusText.ACT}</span>
+            </div>
+            <h3 id="name-heaven">Gaia Skill Heaven</h3>
             <p>
               The runtime umbrella that decides what enters an agent&rsquo;s session and how much of it.
               Where the Tree answers <em>what exists and why trust it</em>, Skill Heaven
@@ -163,7 +166,7 @@ export default function AboutPage() {
               session-only capabilities without permanent installation bloat.
             </p>
             <div className="about-go-row">
-              <a className="about-go" href="https://skill-heaven.dev" target="_blank" rel="noreferrer">
+              <a className="about-go" href="https://skill-heaven.dev" target="_blank" rel="noreferrer" style={{ color: "#c084fc", borderColor: "#c084fc" }}>
                 Visit Skill Heaven <span aria-hidden="true">↗</span>
               </a>
               <Link className="about-go" href="/research/hh-benchmark">

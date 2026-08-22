@@ -10,7 +10,7 @@ import methodologyMd from "@/content/reports/hh-benchmark/methodology.md";
 export const metadata = {
   title: "The Hell Heaven Benchmark — Methodology",
   description:
-    "How Gaia Research benchmarks agent skills: marginal efficacy against established model baselines, the Heaven/Hell summon axis, and stamps earned by the trial. Arc I verified.",
+    "How Gaia Research benchmarks agent skills: marginal efficacy against established model baselines, the Heaven/Hell summon axis, and empirical polarity measurement. Arc I verified.",
 };
 
 // Render while the Markdown source is present at build time; Cloudflare Workers
