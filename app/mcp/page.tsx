@@ -48,13 +48,13 @@ export default function McpPage() {
                 <span /> SKILL HEAVEN RUNTIME UMBRELLA
               </p>
               <h1 id="mcp-title">
-                Stop Installing MCPs. <br />
+                Stop Installing Skills. <br />
                 Start <em>Summoning</em>.
               </h1>
               <p className="mcp-hero-lede">
                 The Gaia Skill Tree now connects directly to your agent via the <strong>Skill Heaven Agent Plugin</strong>,
-                which packages its own summon MCP server. Summon capabilities into ephemeral session context on demand &mdash;
-                with zero diffs on disk and zero ambient skill debt.
+                which packages its own summon MCP server. Summon skills into ephemeral session context on demand &mdash;
+                with zero diffs on disk, zero ambient skill debt, and no manual MCP server setup.
               </p>
               <div className="mcp-badges">
                 <span className="chip act">PLUGIN RELEASED</span>
