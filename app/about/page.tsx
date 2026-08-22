@@ -157,16 +157,28 @@ export default function AboutPage() {
             <p>
               The runtime umbrella that decides what enters an agent&rsquo;s session and how much of it.
               Where the Tree answers <em>what exists and why trust it</em>, Skill Heaven
-              answers <em>what should be in this context, right now</em> &mdash; housing both
-              <strong>Skill Zero</strong> (the clean launcher with zero ambient skill debt) and
-              <strong>Skill Hell</strong> (the exploratory summon along the HH axis).
+              answers <em>what should be in this context, right now</em> &mdash; housing four surfaces along the skill entropy line:
             </p>
+            <ul style={{ listStyle: "none", padding: 0, margin: "0.75rem 0 1rem", display: "grid", gap: "0.5rem" }}>
+              <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
+                <b style={{ color: "var(--ink)" }}>Skill Zero:</b> The clean-slate launcher that starts your harness with zero ambient skill debt.
+              </li>
+              <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
+                <b style={{ color: "var(--ink)" }}>Skill Heaven:</b> The converge summon direction for focused, curated session capabilities.
+              </li>
+              <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
+                <b style={{ color: "var(--ink)" }}>Skill Hell:</b> The explore summon direction for wide autonomous capability search.
+              </li>
+              <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
+                <b style={{ color: "var(--ink)" }}>Skill Ultra:</b> The governor auto-switching entropy per gap at the crown of the line.
+              </li>
+            </ul>
             <p className="about-want">
               <b>You want this if</b> you want on-demand skill summoning, a clean slate, or
               session-only capabilities without permanent installation bloat.
             </p>
             <div className="about-go-row">
-              <a className="about-go" href="https://skill-heaven.dev" target="_blank" rel="noreferrer" style={{ color: "#c084fc", borderColor: "#c084fc" }}>
+              <a className="about-go" href="https://gaia-research.github.io/gaia-skill-heaven/" target="_blank" rel="noreferrer" style={{ color: "#c084fc", borderColor: "#c084fc" }}>
                 Visit Skill Heaven <span aria-hidden="true">↗</span>
               </a>
               <Link className="about-go" href="/research/hh-benchmark">
@@ -286,13 +298,25 @@ export default function AboutPage() {
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Launch with zero ambient skill debt or summon on demand</th>
-                  <td>Skill Heaven</td>
+                  <th scope="row">Launch with zero ambient skill debt (clean slate)</th>
+                  <td>Skill Zero (under Skill Heaven)</td>
                   <td>
                     <span className="chip act">ACT {statusText.ACT}</span>
                   </td>
                   <td>
-                    <a href="https://skill-heaven.dev" target="_blank" rel="noreferrer">
+                    <a href="https://gaia-research.github.io/gaia-skill-heaven/" target="_blank" rel="noreferrer">
+                      Use Skill Zero ↗
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Summon skills on demand into session or explore/converge</th>
+                  <td>Gaia Skill Heaven</td>
+                  <td>
+                    <span className="chip act">ACT {statusText.ACT}</span>
+                  </td>
+                  <td>
+                    <a href="https://gaia-research.github.io/gaia-skill-heaven/" target="_blank" rel="noreferrer">
                       Visit Skill Heaven ↗
                     </a>
                   </td>
@@ -334,22 +358,10 @@ export default function AboutPage() {
               The three names <span className="about-date">2026-08-11</span>
             </h3>
             <p>
-              Gaia is now told publicly as three names &mdash; the Skill Tree, Research,
-              and Gaia Skill Heaven. Skill Zero (the clean launcher) and Skill Hell (the
-              exploratory summon) live under the Skill Heaven runtime umbrella rather than
-              as separate top-level names.
-            </p>
-          </article>
-
-          <article className="about-entry">
-            <h3>
-              The four names <span className="about-date">2026-07-28</span>
-            </h3>
-            <p>
-              Gaia is now told publicly as four names — the Skill Tree, Research, Skill
-              Heaven, and Skill Hell. Nothing you already use changed; what changed is the
-              map. Skill Heaven is named as the runtime layer and is experimental. Skill Hell
-              is named and gated.
+              Gaia is told publicly as three names &mdash; the Skill Tree (the record), Research (the laboratory),
+              and Gaia Skill Heaven (the runtime umbrella). Skill Zero (the clean launcher), Skill Heaven (converge),
+              Skill Hell (explore), and Skill Ultra (governor) live under the Skill Heaven runtime umbrella rather
+              than as separate top-level ecosystem names.
             </p>
           </article>
 
