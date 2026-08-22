@@ -3,14 +3,14 @@ import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { statusText } from "@/data/research";
 
-// The canonical ecosystem explainer. It owns exactly one thing: the four names
+// The canonical ecosystem explainer. It owns exactly one thing: the three names
 // and how they relate. Every other doc keeps its own thesis and is linked from
 // here, never restated — that is the rule that stops this page becoming a
 // competing north star.
 //
 // TWO HARD CONSTRAINTS, both deliberate:
 //   1. No repository name and no package name appears in this copy. How the
-//      four names are packaged is an open question, and it must be free to
+//      three names are packaged is an open question, and it must be free to
 //      move without anyone rewriting this page.
 //   2. Every state label is the true one. State words are NOT invented here —
 //      they come from `statusText` in @/data/research, the same map the
@@ -21,13 +21,13 @@ import { statusText } from "@/data/research";
 //      gated is not a lifecycle state.
 
 export const metadata: Metadata = {
-  title: "About Gaia — one system, four names",
+  title: "About Gaia — one system, three names",
   description:
-    "Gaia is an open capability control system for AI agents, built as four named parts: the Skill Tree, Research, Skill Heaven, and Skill Hell. What each one is, how they relate, and which one you want right now.",
+    "Gaia is an open capability control system for AI agents, built as three named parts: the Skill Tree, Research, and the Skill Heaven umbrella (housing Skill Zero and Skill Hell). What each one is, how they relate, and which one you want right now.",
   openGraph: {
-    title: "About Gaia — one system, four names",
+    title: "About Gaia — one system, three names",
     description:
-      "The Skill Tree, Research, Skill Heaven, and Skill Hell — what each name is, how they relate, and which one you want right now.",
+      "The Skill Tree, Research, and Skill Heaven (housing Skill Zero and Skill Hell) — what each name is, how they relate, and which one you want right now.",
     type: "website",
   },
 };
@@ -89,11 +89,11 @@ export default function AboutPage() {
           </p>
         </section>
 
-        {/* ── The four names ────────────────────────────────────────────── */}
+        {/* ── The three names ────────────────────────────────────────────── */}
         <section className="about-names section-shell" aria-labelledby="about-names-title">
           <header className="about-names-intro">
             <p className="signal">
-              <span /> THE FOUR NAMES
+              <span /> THE THREE NAMES
             </p>
             <h2 id="about-names-title">Who does what.</h2>
           </header>
@@ -147,56 +147,28 @@ export default function AboutPage() {
 
           <article className="about-card about-card-heaven" aria-labelledby="name-heaven">
             <div className="about-card-head">
-              <span className="about-role">THE RUNTIME</span>
-              <span className="chip wip">WIP {statusText.WIP}</span>
+              <span className="about-role">THE RUNTIME UMBRELLA</span>
+              <span className="chip act">ACT {statusText.ACT}</span>
             </div>
             <h3 id="name-heaven">Skill Heaven</h3>
             <p>
-              The layer that decides what enters an agent&rsquo;s session and how much of it.
+              The runtime umbrella that decides what enters an agent&rsquo;s session and how much of it.
               Where the Tree answers <em>what exists and why trust it</em>, Skill Heaven
-              answers <em>what should be in this context, right now</em> — one ladder from
-              off to max, with a stated posture at every rung and the dose measured rather
-              than guessed.
+              answers <em>what should be in this context, right now</em> &mdash; housing both
+              <strong>Skill Zero</strong> (the clean launcher with zero ambient skill debt) and
+              <strong>Skill Hell</strong> (the exploratory summon along the HH axis).
             </p>
             <p className="about-want">
-              <b>You want this if</b> your agent&rsquo;s context is crowded with capabilities it
-              is not using on this task, and you want that priced instead of assumed.
+              <b>You want this if</b> you want on-demand skill summoning, a clean slate, or
+              session-only capabilities without permanent installation bloat.
             </p>
-            <p className="about-state">
-              <b>Experimental.</b> The measurement is public before the product is. There is
-              nothing to install from this page yet — when there is, it will say so here.
-            </p>
-            <Link className="about-go" href="/research/hh-benchmark">
-              Read the benchmark method <span aria-hidden="true">→</span>
-            </Link>
-
-            {/* Skill Hell renders INSIDE the Heaven card, on purpose. It is a
-                gated tier of Skill Heaven, not a separate thing you could go
-                and get — nesting it is how the page says that without a
-                sentence of disclaimer. It stays visibly present and visibly
-                locked. */}
-            <div className="about-locked" aria-labelledby="name-hell">
-              <div className="about-card-head">
-                <span className="about-role">
-                  <span className="about-lock" aria-hidden="true">
-                    🔒
-                  </span>{" "}
-                  A GATED TIER OF SKILL HEAVEN
-                </span>
-                <span className="chip wip">{HELL_CHIP}</span>
-              </div>
-              <h3 id="name-hell">Skill Hell</h3>
-              <p>
-                The other direction on the same ladder. Where Heaven admits a quiet session,
-                Hell summons everything the evidenced world has to offer for long autonomous
-                runs — still bounded by the rung you chose. It is a tier of Skill Heaven, not
-                a separate part of Gaia.
-              </p>
-              <p className="about-state">
-                <b>Gated, and staying gated</b> until measured trust coverage clears the gate.
-                There is nothing to install, nothing to join, and no waiting list. When it
-                opens, this is where it will say so.
-              </p>
+            <div className="about-go-row">
+              <a className="about-go" href="https://skill-heaven.dev" target="_blank" rel="noreferrer">
+                Visit Skill Heaven <span aria-hidden="true">↗</span>
+              </a>
+              <Link className="about-go" href="/research/hh-benchmark">
+                Read the benchmark method <span aria-hidden="true">→</span>
+              </Link>
             </div>
           </article>
         </section>
@@ -311,22 +283,26 @@ export default function AboutPage() {
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Understand what a crowded context costs you</th>
+                  <th scope="row">Launch with zero ambient skill debt or summon on demand</th>
                   <td>Skill Heaven</td>
                   <td>
-                    <span className="chip wip">WIP {statusText.WIP}</span>
+                    <span className="chip act">ACT {statusText.ACT}</span>
+                  </td>
+                  <td>
+                    <a href="https://skill-heaven.dev" target="_blank" rel="noreferrer">
+                      Visit Skill Heaven ↗
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">See the benchmark method behind the HH Index</th>
+                  <td>Research</td>
+                  <td>
+                    <span className="chip act">ACT {statusText.ACT}</span>
                   </td>
                   <td>
                     <Link href="/research/hh-benchmark">Read the benchmark method →</Link>
                   </td>
-                </tr>
-                <tr>
-                  <th scope="row">Run fully autonomous, everything admitted</th>
-                  <td>Skill Hell</td>
-                  <td>
-                    <span className="chip wip">{HELL_CHIP}</span>
-                  </td>
-                  <td>Nothing yet — it is gated on evidence, not on demand.</td>
                 </tr>
               </tbody>
             </table>
@@ -349,6 +325,18 @@ export default function AboutPage() {
             learned. This is a standing surface, not an announcement: when something makes
             prior knowledge wrong, it gets a dated entry here.
           </p>
+
+          <article className="about-entry">
+            <h3>
+              The three names <span className="about-date">2026-08-11</span>
+            </h3>
+            <p>
+              Gaia is now told publicly as three names &mdash; the Skill Tree, Research,
+              and Gaia Skill Heaven. Skill Zero (the clean launcher) and Skill Hell (the
+              exploratory summon) live under the Skill Heaven runtime umbrella rather than
+              as separate top-level names.
+            </p>
+          </article>
 
           <article className="about-entry">
             <h3>

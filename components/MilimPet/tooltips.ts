@@ -187,7 +187,7 @@ export const TOOLTIPS: Record<PageContext, Tooltip[]> = {
       text: "gaia_search finds the skill. gaia_inspect reads every field. summon brings the full skill directory into a session. gaia_status tells you what's online. Four tools, infinite power, boss!",
     },
     {
-      text: "MCP server tip! Use npx -y -p @gaia-research/mcp@latest gaia-mcp in your editor config — select the gaia-mcp binary explicitly, boss!",
+      text: "Skill Heaven plugin tip! Install the unified Claude Code plugin via claude plugin install skill-heaven@gaia-skill-heaven — it bundles its own summon MCP server, boss!",
     },
     {
       text: "skill-fuse over MCP is COMING, boss. Compose skills straight from your editor. Gaia's already vibrating with anticipation.",
@@ -201,7 +201,7 @@ export const TOOLTIPS: Record<PageContext, Tooltip[]> = {
       link: { text: "The Skill Tree is the destination", href: "https://gaiaskilltree.com" },
     },
     {
-      text: "Need a summon from the shell? Use the npx-friendly alias npx -y skill-hell@latest. The server selector and summon selector are documented separately, boss!",
+      text: "Need a summon from the shell? Use the Skill Heaven launcher or claude plugin install skill-heaven@gaia-skill-heaven. Single summon, zero ambient bloat, boss!",
     },
     {
       text: "The published package exposes four tools, while the thin Heaven/Summon profile is a separate two-tool surface. The Registry stays read-only even when summon materializes a session copy. Skill-fuse is still on the roadmap, hehe.",
