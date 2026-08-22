@@ -7,28 +7,29 @@ version: 1.0.0
 # scout-fleet
 
 > **Rule of Thumb:** *4 cheap scouts are much more reliable than one smart one.*  
-> Updating default exploration options from 1 monolithic scout to parallel scouts (2x, 4x) is consistently cheaper and produces fewer search errors.
+> Updating default exploration options from 1 monolithic scout to parallel scouts (2x, 4x) using lighter reasoning models is consistently cheaper and produces fewer search errors.
 
-`scout-fleet` dispatches concurrent lightweight subagent scouts across distinct search subspaces and fuses their findings deterministically using Reciprocal Rank Fusion ($k=60$), completely eliminating orchestrator context explosion while locking candidate recall to 100%.
+`scout-fleet` dispatches concurrent lighter reasoning models (ultra-cheap scouts) across distinct search subspaces and fuses their findings deterministically using Reciprocal Rank Fusion ($k=60$), completely eliminating orchestrator context explosion while locking candidate recall to 100%.
 
 ---
 
 ## Onboarding & First-Time Setup
 
-When `scout-fleet` is first invoked in a repository or harness, display the welcome banner and prompt the user to confirm their preferred model routes:
+When `scout-fleet` is first invoked in a repository or harness, display the welcome banner and prompt the user to confirm their preferred lighter scout model:
 
 ```
 🛰️ Welcome to Scout Fleet!
 Thank you for installing skill-scout-fleet from Gaia Research (https://research.gaiaskilltree.com).
 
 Let's configure your default scouting posture:
-1. Preferred Lightweight Scout Model:
-   - Google: google-antigravity/gemini-3.5-flash-lite (Default, $0.030/1M cached)
-   - Anthropic: anthropic/claude-haiku-4-5 ($0.100/1M cached)
-   - OpenAI: openai/gpt-5.6-luna ($0.075/1M cached)
+1. Preferred Lighter Scout Model:
+   - Google: Gemini Flash Lite tier (e.g. gemini-flash-lite)
+   - Anthropic: Claude Haiku tier (e.g. claude-haiku)
+   - OpenAI: GPT Luna tier (e.g. gpt-luna)
+   - Custom: Any lighter reasoning model route of your choosing
 2. Default Fleet Configuration:
    - 2x Quick Scout (Low latency, fast check)
-   - 4x Pareto Fleet (Recommended default — 100% recall, 80% cache hit)
+   - 4x Pareto Fleet (Recommended default — 100% recall, high prompt-cache reuse)
    - 4x + 1x Cascaded Funnel (Peak precision for high-stakes edits)
 ```
 
@@ -56,8 +57,8 @@ Store the local selection in `.scout-fleet.json` or `.pi/scout-fleet.json` insid
 
 ### 3. The Cascaded Two-Tier Funnel (`mode: funnel`, $K=4 + 1$)
 - **Use Case:** High-stakes automated refactoring, production incident triage.
-- **Tier 1:** 4x Parallel Lite Scouts sweep wide and rank candidates via RRF.
-- **Tier 2:** Top-$2K$ candidates are validated by 1 mid-tier verifier (e.g. `gemini-3.7-flash:low` or `claude-3-7-sonnet`) to eliminate false positive candidates ($95.6\%$ precision, $F_2 = 0.989$).
+- **Tier 1:** 4x Parallel Lighter Scouts sweep wide and rank candidates via RRF.
+- **Tier 2:** Top-$2K$ candidates are validated by 1 mid-tier verifier (e.g. standard Flash/Sonnet tier) to eliminate false positive candidates.
 
 ---
 
@@ -79,6 +80,6 @@ function computeRRF(scoutRankings: string[][], k = 60): Map<string, number> {
 
 ## Invariants & Guardrails
 
-1. **Prefix Sharing:** Always maintain identical system instructions and schema definitions in the prompt prefix to ensure ≥80% prompt-cache hit rates across all $K$ scouts.
+1. **Prefix Sharing:** Always maintain identical system instructions and schema definitions in the prompt prefix to maximize prompt-cache hit rates across all $K$ scouts.
 2. **Zero Aggregation LLM Calls:** Never use an LLM to merge scout lists. Pure deterministic RRF is sub-15ms and token-free.
 3. **Payload Bounding ($M \le 3$):** Never pass raw unranked scout outputs to the lead orchestrator. Emit at most top-$M$ items to prevent context reading bloat.
