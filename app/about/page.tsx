@@ -151,7 +151,7 @@ export default function AboutPage() {
           <article className="about-card about-card-heaven" aria-labelledby="name-heaven" style={{ borderColor: "color-mix(in srgb, #c084fc 40%, var(--line))" }}>
             <div className="about-card-head">
               <span className="about-role" style={{ color: "#c084fc" }}>ROOM 03 · THE RUNTIME UMBRELLA</span>
-              <span className="chip act">ACT {statusText.ACT}</span>
+              <span className="chip wip">WIP PROTOTYPE</span>
             </div>
             <h3 id="name-heaven">Gaia Skill Heaven</h3>
             <p>
@@ -301,7 +301,7 @@ export default function AboutPage() {
                   <th scope="row">Launch with zero ambient skill debt (clean slate)</th>
                   <td>Skill Zero (under Skill Heaven)</td>
                   <td>
-                    <span className="chip act">ACT {statusText.ACT}</span>
+                    <span className="chip wip">WIP PROTOTYPE</span>
                   </td>
                   <td>
                     <a href="https://gaia-research.github.io/gaia-skill-heaven/" target="_blank" rel="noreferrer">
@@ -313,7 +313,7 @@ export default function AboutPage() {
                   <th scope="row">Summon skills on demand into session or explore/converge</th>
                   <td>Gaia Skill Heaven</td>
                   <td>
-                    <span className="chip act">ACT {statusText.ACT}</span>
+                    <span className="chip wip">WIP PROTOTYPE</span>
                   </td>
                   <td>
                     <a href="https://gaia-research.github.io/gaia-skill-heaven/" target="_blank" rel="noreferrer">
