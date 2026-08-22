@@ -5,8 +5,6 @@
 **By Marcus Rafael B. Tiongson & Nova** · Gaia Research  
 *August 22, 2026* · 7 min read
 
-![Four tiny Milim scouts exploring a tranquil twilight campsite in distinct palette-coordinated hoodies](/assets/parallel-cheap-scouting-editorial-thumbnail.webp)
-
 ---
 
 Most multi-agent coding harnesses default to a single mid-tier model for scouting and localization. When a developer asks Claude Code, Cursor, or an autonomous workflow to fix a bug or audit a feature, the orchestrator dispatches a single instance of `gemini-3.7-flash` (or `gpt-5.6-luna` / `claude-haiku-4-5`) to search the repository, grep for symbols, and return a candidate list of files.
@@ -17,7 +15,7 @@ The problem is that a single scout suffers from **perspective blindness**. If it
 
 In [Issue #174](https://github.com/gaia-research/gaia-research/issues/174), we tested the opposite posture: **replace the single standard scout with $K$ parallel instances of an ultra-cheap model** (`gemini-3.5-flash-lite`), each dispatched across a different partition or framing of the search space, fused deterministically via Reciprocal Rank Fusion (RRF).
 
-Every result check in this benchmark was evaluated using **Claude Opus 4.6** (`antigravity/claude-opus-4-6` — explicitly not Opus 4). To establish a reproducible baseline, **Minimal (Low, Light) reasoning effort** was enforced across all runs; dynamic effort calibration was deliberately treated as out of scope.
+Every result check in this benchmark was evaluated using **Claude Opus 4.6** (`claude-opus-4-6`). To establish a reproducible baseline, **Minimal (Low, Light) reasoning effort** was enforced across all runs; dynamic effort calibration was deliberately treated as out of scope.
 
 Here is what 360 benchmark runs across 9 tasks and 4 architectures showed.
 

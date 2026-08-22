@@ -3,7 +3,7 @@
 > **Research Receipt · Issue #174 / Idea Bank Rank 20**  
 > **Authors:** Marcus Rafael B. Tiongson & Nova (Head Researcher, Gaia Research)  
 > **Pinned commit SHA:** `04c2ca1b904623a97aaeafb8d629aa954efb4008`  
-> **Evaluator:** Gold Claude Opus 4.6 (`antigravity/claude-opus-4-6` — not Opus 4)  
+> **Evaluator:** Gold Claude Opus 4.6 (`claude-opus-4-6`)  
 > **Reasoning Effort Contract:** Minimal (Low, Light) reasoning effort recorded across all runs; effort calibration is out of scope  
 > **Ledger Schema:** `scout-bench/v1` (360 committed records, 9 tasks × 8 configurations × 5 repeats)  
 > **Reproduce:** `npx tsx scripts/scout-bench/ledger.ts validate`  
@@ -13,7 +13,7 @@
 
 ## Abstract
 
-State-of-the-art agent architectures conventionally rely on a single mid-tier LLM for codebase scouting, file localization, and context pruning. We empirically evaluate whether replacing this monolithic scout with **$K$ concurrent instances of an ultra-cheap model** (`gemini-3.5-flash-lite`), fused via **zero-token deterministic rank aggregation** (Reciprocal Rank Fusion, $k=60$), establishes a superior cost-performance Pareto frontier. Across 360 runs on 9 tasks spanning codebase localization, document retrieval, and skill pruning, $K=4$ parallel lite scouts achieve **100.0% recall** (surpassing a single Flash 3.7 at 98.9%), elevate prompt-cache hit rates from 35.0% to **80.0%**, and reduce quality variance ($\sigma(F_2)$) by over 4.4x (0.138 to 0.031). We evaluate result checks using **Claude Opus 4.6** (explicitly distinguishing from Opus 4) under a strict Minimal (Low, Light) reasoning effort baseline (effort calibration is out of scope). Furthermore, we model the hidden downstream reading costs across the most utilized orchestrator models—**Fable 5, Opus 5, Sonnet 5, Gemini Flash 3.7, GPT Sol 5.6, GPT Terra 5.6, Grok 4.6, and ZAI 5.3**—demonstrating that unbounded scout output concatenation inflates orchestrator reading costs by $O(K)$, whereas deterministic top-$M$ rank aggregation compresses context overhead by **72.4%** while preserving the 100% recall ceiling. Finally, we establish concrete research recommendations for cross-ecosystem investigation, including Anthropic **Claude Haiku 4.5 explorers vs. Sonnet 5** and OpenAI **GPT Luna / mini explorer tiers**.
+State-of-the-art agent architectures conventionally rely on a single mid-tier LLM for codebase scouting, file localization, and context pruning. We empirically evaluate whether replacing this monolithic scout with **$K$ concurrent instances of an ultra-cheap model** (`gemini-3.5-flash-lite`), fused via **zero-token deterministic rank aggregation** (Reciprocal Rank Fusion, $k=60$), establishes a superior cost-performance Pareto frontier. Across 360 runs on 9 tasks spanning codebase localization, document retrieval, and skill pruning, $K=4$ parallel lite scouts achieve **100.0% recall** (surpassing a single Flash 3.7 at 98.9%), elevate prompt-cache hit rates from 35.0% to **80.0%**, and reduce quality variance ($\sigma(F_2)$) by over 4.4x (0.138 to 0.031). We evaluate result checks using **Claude Opus 4.6** under a strict Minimal (Low, Light) reasoning effort baseline (effort calibration is out of scope). Furthermore, we model the hidden downstream reading costs across the most utilized orchestrator models—**Fable 5, Opus 5, Sonnet 5, Gemini Flash 3.7, GPT Sol 5.6, GPT Terra 5.6, Grok 4.6, and ZAI 5.3**—demonstrating that unbounded scout output concatenation inflates orchestrator reading costs by $O(K)$, whereas deterministic top-$M$ rank aggregation compresses context overhead by **72.4%** while preserving the 100% recall ceiling. Finally, we establish concrete research recommendations for cross-ecosystem investigation, including Anthropic **Claude Haiku 4.5 explorers vs. Sonnet 5** and OpenAI **GPT Luna / mini explorer tiers**.
 
 ---
 
@@ -44,7 +44,7 @@ We evaluate four structural postures across 9 deterministic benchmark tasks with
 
 ### Evaluator & Reasoning Effort Contract
 
-- **Gold Evaluator:** All ground-truth evaluation and scoring was conducted by **Claude Opus 4.6** (`antigravity/claude-opus-4-6` — explicitly distinct from Opus 4).
+- **Gold Evaluator:** All ground-truth evaluation and scoring was conducted by **Claude Opus 4.6** (`claude-opus-4-6`).
 - **Reasoning Effort Discipline:** Minimal (Low, Light) reasoning efforts were recorded across all runs. Dynamic effort calibration is treated as out of scope for this benchmark to isolate pure structural routing performance without confounding adaptive inference budgets.
 
 ### Pricing Contract & Frontier Model Matrix (per 1M Tokens)
