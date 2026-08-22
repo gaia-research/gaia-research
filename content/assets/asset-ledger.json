@@ -2509,6 +2509,23 @@
       "derivatives": []
     },
     {
+      "id": "parallel-cheap-scouting-editorial-thumbnail",
+      "path": "assets/generated/parallel-cheap-scouting-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "b7eee39c15b67ef3ecaf20646af029cd963697c4481ff761f5296133f298475b",
+      "bytes": 150730,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
+    },
+    {
       "id": "raphael-archive-preview",
       "path": "assets/generated/raphael-archive-preview.png",
       "kind": "og-image",

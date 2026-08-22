@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import parallelCheapScoutingThumbnailSrc from "@/assets/generated/parallel-cheap-scouting-editorial-thumbnail.webp";
 import skillEvaluatorVsSkilloptThumbnailSrc from "@/assets/generated/skill-evaluator-vs-skillopt-editorial-thumbnail.webp";
 import agentPluginsSkillLandscapeThumbnailSrc from "@/assets/generated/agent-plugins-skill-landscape-editorial-thumbnail.webp";
 import agentskillsIoStandardThumbnailSrc from "@/assets/generated/agentskills-io-standard-editorial-thumbnail.webp";
@@ -24,6 +25,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const parallelCheapScoutingThumbnail = {
+  src: parallelCheapScoutingThumbnailSrc,
+  alt: "Two microscopic twin pink-haired Milims explore a tranquil twilight campsite, one crouching on the left with binoculars and one sitting on a log on the right pointing at evening stars.",
+} as const;
 
 export const skillEvaluatorVsSkilloptThumbnail = {
   src: skillEvaluatorVsSkilloptThumbnailSrc,
@@ -78,6 +84,18 @@ export const contextAblationEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/parallel-cheap-scouting-frontier",
+    category: "Agent Architecture",
+    tags: ["Parallel Fan-Out", "Scouting", "Prompt Caching", "Pareto Frontier"],
+    date: "August 22, 2026",
+    readTime: "6 min read",
+    title: "The $0.003 Scout Fleet: Why Four Parallel Cheap Models Beat One Expensive One",
+    description:
+      "When an agent localizes code, one standard model looks where it's told. Four ultra-cheap models look everywhere. Empirical findings and Pareto frontier across 360 runs in Issue #174.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: parallelCheapScoutingThumbnail,
+  },
   {
     href: "/blog/skill-evaluator-vs-skillopt",
     category: "Agent Optimization",

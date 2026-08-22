@@ -124,6 +124,15 @@ export const researchEntries: readonly ResearchEntry[] = [
     action: "Learn more",
   },
   {
+    title: "Parallel Cheap-Scout Fan-Out Benchmark",
+    shortName: "Scout Fan-Out",
+    type: "BENCHMARK",
+    status: "VRF",
+    description: "Empirical study of parallel cheap-scout fan-out vs single mid-tier scouts across 360 runs: Pareto frontier, prompt-cache amplification, and flake rate reduction.",
+    href: "/research/parallel-scouting",
+    action: "Read the benchmark & receipts",
+  },
+  {
     title: "The Hell Heaven Benchmark",
     shortName: "HH Benchmark",
     type: "BENCHMARK",
