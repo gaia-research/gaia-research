@@ -5,7 +5,7 @@
 **By Marcus Rafael B. Tiongson & Nova** · Gaia Research  
 *August 22, 2026* · 7 min read
 
-![Twin Milim scouts surveying parallel repository paths at base camp](/assets/parallel-cheap-scouting-editorial-thumbnail.webp)
+![Four tiny Milim scouts exploring a tranquil twilight campsite in distinct palette-coordinated hoodies](/assets/parallel-cheap-scouting-editorial-thumbnail.webp)
 
 ---
 

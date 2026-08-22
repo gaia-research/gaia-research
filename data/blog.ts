@@ -28,7 +28,7 @@ export type BlogPost = {
 
 export const parallelCheapScoutingThumbnail = {
   src: parallelCheapScoutingThumbnailSrc,
-  alt: "Two microscopic twin pink-haired Milims explore a tranquil twilight campsite, one crouching on the left with binoculars and one sitting on a log on the right pointing at evening stars.",
+  alt: "Four microscopic chibi Milim scouts with distinct hair tones and colorful hoodies explore a vast tranquil twilight campsite with a mini tent and glowing lantern.",
 } as const;
 
 export const skillEvaluatorVsSkilloptThumbnail = {
