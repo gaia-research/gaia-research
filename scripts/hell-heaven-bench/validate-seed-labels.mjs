@@ -18,6 +18,11 @@
 // Usage:
 //   node validate-labels.mjs [dir]        # default: <script dir>/data/seed-labels
 //   node validate-labels.mjs --selftest   # run fixtures + live worksheets
+//   node validate-labels.mjs --summary    # generate data/seed-labels/summary.jsonl
+//                                         # (one aggregate line per worksheet;
+//                                         #  PREDICTIONS ONLY pending R2 receipts)
+
+import { writeFileSync } from 'node:fs';
 
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -211,6 +216,63 @@ export function validateWorksheet(text, filename, { strict = false } = {}) {
   return errors;
 }
 
+// --- summary aggregate (predictions only, B4) -------------------------------
+
+export function summarizeWorksheet(text) {
+  const dims = [];
+  const passed = [];
+  for (const line of text.split('\n')) {
+    const m = line.match(/^\|\s*([A-Z]\d{1,2})\s*\|\s*(\S*)\s*\|$/);
+    if (!m) continue;
+    const [, id, val] = m;
+    if (!DIMENSIONS.has(id) || !DIM_VALUES.has(val)) continue;
+    dims.push([id, val]);
+    if (val === 'pass') passed.push(id);
+  }
+  // Environment qualifier bullets under "## Environment qualifiers"
+  const sec = (text.split('## Environment qualifiers')[1] ?? '').split('## ')[0];
+  const envQ = sec.split('\n').filter((l) => /^- /.test(l)).map((l) => l.replace(/^- /, '').trim());
+  const tierRaw = parseField(text, 'hell-safe-tier');
+  return {
+    skillId: parseField(text, 'skill-id') ?? null,
+    primaryStamp: parseField(text, 'primary-stamp') ?? null,
+    secondaryStamps:
+      (parseField(text, 'secondary-stamps') ?? 'none') === 'none'
+        ? []
+        : (parseField(text, 'secondary-stamps') ?? '').split(',').map((s) => s.trim()).filter(Boolean),
+    hellSafeTier: tierRaw !== undefined && REAL_TIERS.has(tierRaw) ? tierRaw : null,
+    denyListed: parseField(text, 'deny-list-status') === 'yes',
+    dimensionsPassed: passed,
+    environmentQualifiers: envQ,
+    predictionOnly: true,
+    labeledAt: '2026-08-23',
+  };
+}
+
+function writeSummary() {
+  const dir = join(dirname(fileURLToPath(import.meta.url)), 'data', 'seed-labels');
+  const lines = [{ schema: 'seed-label-summary/v0', note: 'predictions pending R2 receipts' }];
+  let bad = 0;
+  for (const f of readdirSync(dir).sort()) {
+    if (!f.endsWith('.md')) continue;
+    const errs = validateWorksheet(readFileSync(join(dir, f), 'utf8'), f);
+    if (errs.length) {
+      bad++;
+      console.error(`${f}: refusing to summarize invalid worksheet:`);
+      for (const e of errs) console.error(`  - ${e}`);
+      continue;
+    }
+    lines.push(summarizeWorksheet(readFileSync(join(dir, f), 'utf8')));
+  }
+  if (bad > 0) {
+    console.error(`${bad} invalid worksheet(s); summary NOT written`);
+    process.exit(1);
+  }
+  const out = join(dir, 'summary.jsonl');
+  writeFileSync(out, lines.map((l) => JSON.stringify(l)).join('\n') + '\n');
+  console.log(`wrote ${out}: ${lines.length - 1} worksheet line(s) + header`);
+}
+
 function selftest() {
   const dir = join(dirname(fileURLToPath(import.meta.url)), 'data', 'seed-labels');
   const fxDir = join(dir, '__fixtures__');
@@ -243,6 +305,8 @@ function selftest() {
 
 if (process.argv.includes('--selftest')) {
   selftest();
+} else if (process.argv.includes('--summary')) {
+  writeSummary();
 } else {
   const rest = process.argv.slice(2).filter((a) => !a.startsWith('--'));
   const dir = rest[0] ?? join(dirname(fileURLToPath(import.meta.url)), 'data', 'seed-labels');
