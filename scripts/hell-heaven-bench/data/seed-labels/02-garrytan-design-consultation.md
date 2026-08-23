@@ -19,16 +19,21 @@ audit-class: no
 
 | dim | prediction |
 |-----|------------|
-| H1 |  |
-| H2 |  |
-| H3 |  |
-| H4 |  |
-| H5 |  |
-| S1 |  |
-| S2 |  |
-| S3 |  |
-| S4 |  |
-| S5 |  |
+| H1 | pass |
+| H2 | pass |
+| H3 | pass |
+| H4 | pass |
+| H5 | pass |
+| S1 | pass |
+| S2 | pass |
+| S3 | pass |
+| S4 | pass |
+| S5 | pass |
+| U1 | pass |
+| U2 | fail |
+| U3 | fail |
+| U4 | pass |
+| U5 | pass |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: heaven-native
@@ -46,6 +51,8 @@ deny-list-status: no
 ## Notes
 
 > POSITIVE CONTROL (Heaven): no write-path, no publish surface, no environment dependence, no plausible secondary stamp. Labeler disagreement here HALTS labeling (K1).
+>
+> Evidence basis: full upstream SKILL.md inspected (garrytan/gstack@main, design-consultation/SKILL.md, 1258 lines). Pure consultation genre: reads code/design context, returns critique and recommendations; no mutation instructions found on inspection. H1 passes against the design-guide genre-class cutoff (PROVISIONAL — tokens.system stays null until M2a; the cutoff table is not yet ratified, so this row is the control's soft spot and is flagged as such rather than hidden). H4: consultation loop (present work -> critique -> revise) is load-bearing. U2/U3 fail on inspection (no externalized checkpoint state; whole-design gap, not one mergeable artifact) => ultra-ready conjunction fails cleanly, preserving "no plausible secondary stamp".
 
 ## Known-miss cases
 
