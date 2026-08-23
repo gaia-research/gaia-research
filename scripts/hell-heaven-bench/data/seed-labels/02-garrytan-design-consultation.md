@@ -37,17 +37,17 @@ audit-class: no
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: heaven-native
-secondary-stamps: hell-safe@low
+secondary-stamps: none
 
 ## Hell-safe tier
 
-hell-safe-tier: low
+hell-safe-tier: none
 deny-list-status: no
 
 ## Environment qualifiers
 
 - composition-unverified (S3 stack-degradation clause; recorded, never certified)
-- suite-machinery qualifier (T1 split): the hell-safe@low verdict covers the SKILL.md AS INSPECTED including its gstack preamble; writes observed are config/checkpoint class, not publish-class
+- suite-machinery observation (T1 split): the SKILL.md AS INSPECTED carries gstack-preamble writes (config/checkpoint class, not publish-class), recorded on the S1 fail; no hell-safe verdict derives, so no tier qualifier attaches
 
 ## Notes
 
@@ -61,9 +61,9 @@ deny-list-status: no
 >
 > S2/S3/S5 pass: no publish-class actions anywhere in the body (the AskUserQuestion gates plus typed-confirmation rule for one-way doors are genuinely strong); no secrets handling; cost is session-bound consultation with no metered external spend. S4 passes — DESIGN.md and checkpoint commits land in the user's own repo where landing automation is the repo's own CI, accounted by the WIP:/explicit-commit discipline.
 >
-> R1a derivation: S-prefix = 0 passing rows (S1 fails) => hell-safe@low. R1b: secondary hell-safe@low recorded (derivation non-empty => mandatory). Primary heaven-native STANDS — the H-conjunction is untouched by the S1 fail (rubric §3.1), so the control still derives its required verdict cleanly.
+> R1a derivation: S-prefix = 0 passing rows (S1 fails) => none — NO hell-safe stamp (bijection row "S1 fails | none"). [K1 gate, second run: this line previously read "=> hell-safe@low", a mis-application of the S1-fails row; mechanically repaired.] R1b: the derivation is EMPTY, so there is no secondary stamp to record — a `none` pointing at the failing row (S1) is exactly what §3.2 requires. Primary heaven-native STANDS — the H-conjunction is untouched by the S1 fail (rubric §3.1), so the control still derives its required verdict cleanly.
 >
-> CHANGED vs prior revision: S1 pass -> fail (grounded in actual upstream content); tier none -> low (R1a bijection on S1-fail); secondary hell-safe@low added (R1b mandatory). U rows unchanged: U2/U3 fail on inspection (no externalized checkpoint state; whole-design gap, not one mergeable artifact) => ultra-ready conjunction fails cleanly.
+> CHANGED vs prior revisions: S1 pass -> fail (grounded in actual upstream content); tier -> none (R1a bijection on S1-fail; K1 gate second run repaired an intermediate mis-derivation that read the S1-fails row as @low); hell-safe secondary removed (derivation empty under R1b — nothing to record). U rows unchanged: U2/U3 fail on inspection (no externalized checkpoint state; whole-design gap, not one mergeable artifact) => ultra-ready conjunction fails cleanly.
 
 ## Known-miss cases
 

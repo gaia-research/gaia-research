@@ -31,12 +31,12 @@ audit-class: yes
 | S5 | fail |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
-primary-stamp: hell-safe@low
+primary-stamp: none-auto
 secondary-stamps: none
 
 ## Hell-safe tier
 
-hell-safe-tier: low
+hell-safe-tier: none
 deny-list-status: no
 
 ## Environment qualifiers
@@ -49,9 +49,9 @@ deny-list-status: no
 
 > T1 contrast to seed #9: same genre family, this half is review-only. H4 predicted fail: batch-shaped sweep, loop not load-bearing.
 >
-> LABELER DELTA vs seed-set prediction (@high): actual SKILL.md inspected (gstack cso v2.0.0). The audit core IS report-only (H5 pass), but the skill body carries gstack-suite session machinery with ungated writes: first-run CLAUDE.md creation + `git commit` of routing rules, optional continuous-checkpoint auto-commits (`WIP:` prefix), and persistent writes under `~/.gstack/` (analytics/telemetry jsonl, learnings, trend tracking). None are verification-gated or draft-only => S1 fails on static inspection; ceiling drops to low per §3.2. S5 fails too: comprehensive mode runs parallel verifier subagents and monthly deep scans with NO stated spend/time ceiling.
+> LABELER DELTA vs seed-set prediction (@high): actual SKILL.md inspected (gstack cso v2.0.0). The audit core IS report-only (H5 pass), but the skill body carries gstack-suite session machinery with ungated writes: first-run CLAUDE.md creation + `git commit` of routing rules, optional continuous-checkpoint auto-commits (`WIP:` prefix), and persistent writes under `~/.gstack/` (analytics/telemetry jsonl, learnings, trend tracking). None are verification-gated or draft-only => S1 fails on static inspection; the R1a bijection maps an S1 fail to NONE — no hell-safe verdict at any bit pattern. [K1 gate, second run: previously read "ceiling drops to low", which is v1 cap-down language R1a abolishes; mechanically repaired.] S5 fails too: comprehensive mode runs parallel verifier subagents and monthly deep scans with NO stated spend/time ceiling.
 >
-> Heaven rows: H1 fails (preamble executes a large shell block every invocation plus ~1300-line body - standing dose uneconomical, T7-adjacent), H3 fails (demands broad multi-phase context exclusive attention - anti-flood poison for stacked contexts), H2 passes as prediction (verifier subagent FP filtering is genuine quality machinery). Heaven-native therefore not earned; hell-safe@low is the only earned stamp and takes PRIMARY as the sole verdict.
+> Heaven rows: H1 fails (preamble executes a large shell block every invocation plus ~1300-line body - standing dose uneconomical, T7-adjacent), H3 fails (demands broad multi-phase context exclusive attention - anti-flood poison for stacked contexts), H2 passes as prediction (verifier subagent FP filtering is genuine quality machinery). Heaven-native therefore not earned; the hell-safe derivation is EMPTY under R1a (S1 fail => none) and this worksheet scores no U rows, so no stamp is earned: verdict records none-auto with the failing row named (S1).
 >
 > Info-flow adjacency recorded (not scored down): the findings table reports file:line locations of hardcoded secrets into transcripts and persists them in `~/.gstack` trend files. This reads secrets and re-materializes their LOCATION (not contents) outside the session dir - adjacent to deny-list class 2's concern; admission evidence that would retire it = canary-secrets egress probe results.
 
