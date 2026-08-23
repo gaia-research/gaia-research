@@ -178,3 +178,18 @@ what made the previous log longer than the decisions themselves.
   survival are mutually exclusive, so the floor is launcher-locked. The claim
   had reached planning docs before it was caught. Evidence and full audit
   trail: matrix gate (a).
+
+## 9. R1 sprint rulings — stamp taxonomy shape (owner, live session 2026-08-23)
+
+Ruled during the R1 planning sprint (umbrella issue #185; synthesis
+`docs/skill-heaven/R1-STAMP-TAXONOMY-SYNTHESIS.md`). Per D9 these deltas ride
+the implementing PRs off `dev/r1-hh-benchmark`.
+
+| Id | Status | Ruling |
+|---|---|---|
+| T9 | **CURRENT** | **Stamps are MULTIPLICATIVE, with a primary-stamp convention.** A skill may hold `heaven-native`, `hell-safe@tier`, and `ultra-ready` simultaneously when it earns each independently; no stamp excludes another. Every stamped skill declares exactly one **primary stamp** (the surface affinity its best-evidenced behaviour supports), which is what single-slot consumers render. Dual/triple-stamp cells are expected output of the seed set, not anomalies — the tension patterns T1–T3 predicted them. |
+| T8 | **CURRENT** | **The publish-class deny-list is RUNG-INDEPENDENT.** Skills whose irreversible side effects cannot be gated by environment detection or verification gates (publish-to-external-channels, secret-bearing writes, destructive infra mutations without dry-run semantics) are excluded from autonomous summon at EVERY rung of the ladder — Hell's band included. N13(5)'s "nothing on the line refuses" governs reachability for the *user*; this list governs what the *benchmark will ever stamp* `hell-safe`. A deny-listed skill can still be summoned by explicit user command (`/summon`), which is not autonomy. |
+
+Still OPEN from the synthesis's six escalations: standing-dose weighting;
+probe-patch-as-mutation (synthesis T10); privacy/egress axis placement; D5's
+curation-vs-ranking boundary (existing open item 7).
