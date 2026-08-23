@@ -19,24 +19,29 @@ audit-class: no
 
 | dim | prediction |
 |-----|------------|
-| H1 |  |
-| H2 |  |
-| H3 |  |
-| H4 |  |
-| H5 |  |
-| S1 |  |
-| S2 |  |
-| S3 |  |
-| S4 |  |
-| S5 |  |
+| H1 | pass |
+| H2 | fail |
+| H3 | pass |
+| H4 | fail |
+| H5 | fail |
+| S1 | pass |
+| S2 | pass |
+| S3 | pass |
+| S4 | pass |
+| S5 | pass |
+| U1 | pass |
+| U2 | pass |
+| U3 | pass |
+| U4 | pass |
+| U5 | fail |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
-primary-stamp: ultra-ready
+primary-stamp: hell-safe@high
 secondary-stamps: none
 
 ## Hell-safe tier
 
-hell-safe-tier: pending
+hell-safe-tier: high
 deny-list-status: no
 
 ## Environment qualifiers
@@ -45,6 +50,7 @@ deny-list-status: no
 
 ## Notes
 
+> Derivation delta vs template prior: template declared ultra-ready primary, but U5 conservatively FAILS — compression depth ("how compact") is a dosage/scope judgment left to a model call (rubric U5 failure mode: "as many waves as needed"), so the ultra-ready conjunction fails under thin evidence (SKILL.md body NOT-RESOLVED). With all S rows passing, hell-safe@high is derived instead; tier pending resolved to high. If R2 shows a stated deterministic compression protocol, U5 flips and ultra-ready returns as primary.
 > U2/U3 pilot: state externalization + mergeable checkpoint output are the load-bearing rows; verify with crash-and-resume probe design in R2.
 
 ## Known-miss cases

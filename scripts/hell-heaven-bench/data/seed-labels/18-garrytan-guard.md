@@ -19,29 +19,29 @@ audit-class: no
 
 | dim | prediction |
 |-----|------------|
-| H1 |  |
-| H2 |  |
-| H3 |  |
-| H4 |  |
-| H5 |  |
-| S1 |  |
-| S2 |  |
-| S3 |  |
-| S4 |  |
-| S5 |  |
-| U1 |  |
-| U2 |  |
-| U3 |  |
-| U4 |  |
-| U5 |  |
+| H1 | pass |
+| H2 | fail |
+| H3 | pass |
+| H4 | fail |
+| H5 | pass |
+| S1 | pass |
+| S2 | pass |
+| S3 | pass |
+| S4 | pass |
+| S5 | pass |
+| U1 | pass |
+| U2 | pass |
+| U3 | pass |
+| U4 | pass |
+| U5 | pass |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: ultra-ready
-secondary-stamps: none
+secondary-stamps: hell-safe@high
 
 ## Hell-safe tier
 
-hell-safe-tier: pending
+hell-safe-tier: high
 deny-list-status: no
 
 ## Environment qualifiers
@@ -50,6 +50,7 @@ deny-list-status: no
 
 ## Notes
 
+> Labeling pass: all five U rows predicted pass (config-driven thresholds keep U5 deterministic; violation logs give structured mergeable output for U3) -> ultra-ready stands as PRIMARY per rubric S3.4 rule 2 precedence tie-break vs the also-earned hell-safe. All S rows pass on inspection of genre + registry description; ceiling conservatively high rather than max because S2 ceiling scenarios are judgment-by-design and the SKILL.md body is NOT-RESOLVED. Secondary hell-safe@high recorded (T9 dual stamp = expected output).
 > S3 probe target (siblings careful, freeze). Governor compatibility U1 is the deterministic-trigger question.
 
 ## Known-miss cases

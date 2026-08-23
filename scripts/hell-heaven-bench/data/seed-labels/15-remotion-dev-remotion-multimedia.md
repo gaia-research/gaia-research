@@ -19,27 +19,22 @@ audit-class: no
 
 | dim | prediction |
 |-----|------------|
-| H1 |  |
-| H3 |  |
-| H5 |  |
-| S1 |  |
-| S2 |  |
-| S3 |  |
-| S4 |  |
-| S5 |  |
-| U1 |  |
-| U2 |  |
-| U3 |  |
-| U4 |  |
-| U5 |  |
+| H1 | fail |
+| H3 | pass |
+| H5 | fail |
+| S1 | pass |
+| S2 | pass |
+| S3 | pass |
+| S4 | pass |
+| S5 | fail |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
-primary-stamp: hell-safe@high
+primary-stamp: hell-safe@med
 secondary-stamps: none
 
 ## Hell-safe tier
 
-hell-safe-tier: high
+hell-safe-tier: med
 deny-list-status: no
 
 ## Environment qualifiers
@@ -49,6 +44,9 @@ deny-list-status: no
 ## Notes
 
 > STRUCTURAL DIMENSIONS ONLY (taste-dependent curation; rubric preamble item 6): H2/H4 deliberately unscored. Cost-containment cell S5 is the live question.
+>
+> Derivation delta vs template prior: canon checkout carries registry metadata only (SKILL.md body NOT-RESOLVED), so spend/time ceilings could not be verified -> S5 conservatively FAIL -> rubric S3.2 caps ceiling at med. Template's hell-safe@high downgraded to hell-safe@med; upgrades to high only if R2 pinning shows explicit ceilings.
+> S3 passes on the information-flow clause (no secret handling in media-gen genre); stack-degradation clause uncertifiable -> composition-unverified qualifier applies. S1/S2/S4 are prediction-from-inspection at low confidence.
 
 ## Known-miss cases
 

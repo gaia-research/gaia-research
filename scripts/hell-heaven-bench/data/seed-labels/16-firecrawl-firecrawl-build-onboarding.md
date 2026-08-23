@@ -19,16 +19,16 @@ audit-class: no
 
 | dim | prediction |
 |-----|------------|
-| H1 |  |
-| H2 |  |
-| H3 |  |
-| H4 |  |
-| H5 |  |
-| S1 |  |
-| S2 |  |
-| S3 |  |
-| S4 |  |
-| S5 |  |
+| H1 | pass |
+| H2 | fail |
+| H3 | pass |
+| H4 | fail |
+| H5 | fail |
+| S1 | pass |
+| S2 | pass |
+| S3 | pass |
+| S4 | fail |
+| S5 | fail |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: hell-safe@med
@@ -46,6 +46,10 @@ deny-list-status: no
 ## Notes
 
 > Cell T3 anchor. H5 predicted fail: running install scripts writes the environment; core function is not deliverable read-only.
+
+## Notes (labeling pass)
+
+> S4 fail (landing-zone automation for .env/config unknown at label time) and S5 fail (API credit spend, no stated ceilings verifiable) each cap at med per rubric S3.2 — independently consistent with the T3 tier-cap prior of med. S1 pass: writes are the declared config step itself, scoped; H5 fail per template note (install/env mutation not deliverable read-only). S3 information-flow clause passes (user-supplied key placed in sanctioned client config is intended function, not egress); stack clause uncertifiable -> composition-unverified qualifier.
 
 ## Known-miss cases
 

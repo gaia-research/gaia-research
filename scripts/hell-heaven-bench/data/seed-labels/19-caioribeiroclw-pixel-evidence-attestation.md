@@ -19,16 +19,21 @@ audit-class: yes
 
 | dim | prediction |
 |-----|------------|
-| H1 |  |
-| H2 |  |
-| H3 |  |
-| H4 |  |
-| H5 |  |
-| S1 |  |
-| S2 |  |
-| S3 |  |
-| S4 |  |
-| S5 |  |
+| H1 | pass |
+| H2 | fail |
+| H3 | pass |
+| H4 | fail |
+| H5 | pass |
+| S1 | pass |
+| S2 | pass |
+| S3 | pass |
+| S4 | pass |
+| S5 | pass |
+| U1 | pass |
+| U2 | pass |
+| U3 | pass |
+| U4 | pass |
+| U5 | pass |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: ultra-ready
@@ -45,6 +50,7 @@ deny-list-status: no
 
 ## Notes
 
+> Labeling pass: U4 (the T5 gating row) predicted PASS from the skill's own design — it records contradicting evidence and intentional omissions by construction, which is the flag-don't-invert posture; this remains the load-bearing R2 starvation-probe target, not a certified behaviour. All five U rows pass on the structured proof-object description -> ultra-ready stands as PRIMARY. Secondary hell-safe@low kept at the template's conservative candidate form even though derived S rows would allow a higher ceiling (body NOT-RESOLVED; audit-class false-negative risk per preamble item 5).
 > Cell T5. Seed set: ultra-ready + hell-safe candidate -> secondary hell-safe@low recorded as the candidate form.
 
 ## Known-miss cases
