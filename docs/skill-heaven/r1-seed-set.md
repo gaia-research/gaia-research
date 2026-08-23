@@ -53,6 +53,28 @@ Genres, primary-stamp predictions, tension cells per the synthesis (§4 there), 
 | 19 | Grounding/citation-integrity discipline | C | ultra-ready + hell-safe candidate | T5 |
 | 20 | Heavy normative reference (WCAG-class rulebook) | S | none-auto / summon-floor | T7 |
 
+### 2b. Tension-cell coverage accounting (T1–T11)
+
+The table column above names each seed's *headline* cells; several cells are carried in
+the rubric's anchor assignments and the worksheets' qualifier fields rather than the
+column, so the full map is written out here to make the §1 claim checkable:
+
+| Cell | Seeds carrying it | Where recorded |
+|------|-------------------|----------------|
+| T1 reviewer/remediator split | #5 (reviewer half), #8 (contrast), #9, #10 | table + rubric T1 anchors |
+| T2 griller polarity cap | #1 | table + rubric T2 rule |
+| T3 ceiling-not-blanket | #16 | table + rubric T3 anchor |
+| T4 env gate above `med` | #12 | table + rubric T4 anchor |
+| T5 grounding inversion | #19 | table + rubric T5 anchor |
+| T6 learn-vs-ship scoping | #6 (vs #10) | table + rubric T6 anchors |
+| T7 dosing paradox / heavy refs | #20 (anchor), #4 (lite) | table + rubric T7 anchor |
+| T8 publish-class deny-list | structural rule (rung-independent); exercised by #9, #10 | rubric §5 + worksheet deny-list-status fields |
+| T9 multiplicative + one PRIMARY | #3 (anchor), #1, #6, #7 | table + every worksheet's stamp block |
+| T10 probe-patch-as-mutation (OPEN) | #9 — both readings recorded per the interim conservative rule | worksheet 09 environment-qualifiers field |
+| T11 scope-of-validity qualifiers | #4, #10 (rubric anchors); #20 adjacent | worksheets 04/10/20 qualifier fields |
+
+Every cell T1–T11 lands at least once. No cell relies on a seed outside the 20.
+
 ## 3. Concrete skill identities per slot
 
 Identities sourced READ-ONLY from the Arbor I canon checkout
