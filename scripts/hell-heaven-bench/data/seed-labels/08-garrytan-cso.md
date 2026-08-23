@@ -19,39 +19,48 @@ audit-class: yes
 
 | dim | prediction |
 |-----|------------|
-| H1 |  |
-| H2 |  |
-| H3 |  |
-| H4 |  |
-| H5 |  |
-| S1 |  |
-| S2 |  |
-| S3 |  |
-| S4 |  |
-| S5 |  |
+| H1 | fail |
+| H2 | pass |
+| H3 | fail |
+| H4 | fail |
+| H5 | pass |
+| S1 | fail |
+| S2 | pass |
+| S3 | pass |
+| S4 | pass |
+| S5 | fail |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
-primary-stamp: hell-safe@high
+primary-stamp: hell-safe@low
 secondary-stamps: none
 
 ## Hell-safe tier
 
-hell-safe-tier: high
+hell-safe-tier: low
 deny-list-status: no
 
 ## Environment qualifiers
 
-- read-only status MUST be verified by behaviour probe during labeling (intent-vs-behaviour, T1) - title alone certifies nothing
+- read-only status of the AUDIT CORE verified against upstream SKILL.md v2.0.0 ("You do NOT make code changes. You produce a Security Posture Report") - but the surrounding gstack session machinery carries ungated writes, so title-alone certification is replaced by split behaviour labelling (T1)
+- composition-unverified (S3 stack-degradation clause)
+- environment: audit quality depends on available evidence channels per door (runtime config, CI logs); findings requiring runtime evidence are a declared miss class
 
 ## Notes
 
 > T1 contrast to seed #9: same genre family, this half is review-only. H4 predicted fail: batch-shaped sweep, loop not load-bearing.
+>
+> LABELER DELTA vs seed-set prediction (@high): actual SKILL.md inspected (gstack cso v2.0.0). The audit core IS report-only (H5 pass), but the skill body carries gstack-suite session machinery with ungated writes: first-run CLAUDE.md creation + `git commit` of routing rules, optional continuous-checkpoint auto-commits (`WIP:` prefix), and persistent writes under `~/.gstack/` (analytics/telemetry jsonl, learnings, trend tracking). None are verification-gated or draft-only => S1 fails on static inspection; ceiling drops to low per §3.2. S5 fails too: comprehensive mode runs parallel verifier subagents and monthly deep scans with NO stated spend/time ceiling.
+>
+> Heaven rows: H1 fails (preamble executes a large shell block every invocation plus ~1300-line body - standing dose uneconomical, T7-adjacent), H3 fails (demands broad multi-phase context exclusive attention - anti-flood poison for stacked contexts), H2 passes as prediction (verifier subagent FP filtering is genuine quality machinery). Heaven-native therefore not earned; hell-safe@low is the only earned stamp and takes PRIMARY as the sole verdict.
+>
+> Info-flow adjacency recorded (not scored down): the findings table reports file:line locations of hardcoded secrets into transcripts and persists them in `~/.gstack` trend files. This reads secrets and re-materializes their LOCATION (not contents) outside the session dir - adjacent to deny-list class 2's concern; admission evidence that would retire it = canary-secrets egress probe results.
 
 ## Known-miss cases
 
 - Audit-class: known-miss cases mandatory so the R2 curve cannot flatter recall-blind scoring.
 - Predicted miss class: findings requiring runtime/runtime-config evidence a static checklist sweep cannot reach (dependency CVE depth, IAM policy evaluation).
 - Predicted miss class: cross-service/trust-boundary issues invisible to single-repo inspection.
+- Predicted miss class: LLM/skill supply-chain findings gated behind confidence filters in daily mode (8/10 bar) - systematic false negatives by design, quantifiable only in R2.
 
 ## Labeling (next phase - leave EMPTY)
 

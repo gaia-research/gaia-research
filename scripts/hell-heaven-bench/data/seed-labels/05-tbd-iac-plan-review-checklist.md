@@ -19,16 +19,16 @@ audit-class: no
 
 | dim | prediction |
 |-----|------------|
-| H1 |  |
-| H2 |  |
-| H3 |  |
-| H4 |  |
-| H5 |  |
-| S1 |  |
-| S2 |  |
-| S3 |  |
-| S4 |  |
-| S5 |  |
+| H1 | pass |
+| H2 | pass |
+| H3 | pass |
+| H4 | pass |
+| H5 | pass |
+| S1 | pass |
+| S2 | pass |
+| S3 | pass |
+| S4 | pass |
+| S5 | pass |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: heaven-native
@@ -42,16 +42,20 @@ deny-list-status: adjacent
 ## Environment qualifiers
 
 - scope-of-validity: sanctioned IaC conventions only; adjacent to deny-list class 3 (infra mutation) by domain - reviewer half carries no write-path so no unconditional exclusion applies
+- composition-unverified (S3 stack-degradation clause - qualifier, never raises ceiling)
+- environment: verdict-form output may gate downstream deploy automation; landing-zone behaviour unprobed
 
 ## Notes
 
-> T1 anchor (reviewer half). Seed set declares heaven-native, explicitly NOT hell-safe - recorded as tier:none prediction; labelers must reconcile the explicit NOT-hell-safe call with S-row passes during labeling. Identity TBD at read time.
+> T1 anchor (reviewer half). Identity TBD at read time - NO canon IaC-review skill found; labels above are scored against the REQUIRED SHAPE (review-only, strictly zero write-scope, verdict-form output), not against inspected SKILL.md content. Thin evidence => conservative stamping.
+>
+> RECONCILIATION RECORDED (rubric defect candidate, resolution order step 3): every row above passes ON THE SHAPE AS DECLARED, so §3.2's derivation would yield hell-safe@{low..max} - yet the seed set explicitly declares this slot NOT hell-safe. Rather than override an explicit upstream call with shape-only evidence, tier:none is recorded and the delta flagged for D9 arbitration. A pure reviewer touches no infra, so deny-list class 3 does not bind; status stays `adjacent` with missing admission evidence named: true dry-run semantics (plan-preview provably executing nothing) demonstrated on the actual skill text.
 
 ## Known-miss cases
 
 - (none - not audit-class)
 
-## Labeling (next phase - leave EMPTY)
+## Labeling
 
 labeler:
 confidence:
