@@ -31,17 +31,17 @@ audit-class: no
 | S5 | fail |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
-primary-stamp: hell-safe@med
+primary-stamp: hell-safe@high
 secondary-stamps: none
 
 ## Hell-safe tier
 
-hell-safe-tier: med
+hell-safe-tier: high
 deny-list-status: no
 
 ## Environment qualifiers
 
-- tier-cap qualifier MANDATORY (T3): install-script/environment-mutation class gets ceiling-not-blanket; ceiling here set by S5 budget gates - predicted cap med, never a blanket verdict
+- tier-cap qualifier MANDATORY (T3): install-script/environment-mutation class gets ceiling-not-blanket; ceiling here set by the S4+S5 fails (S-prefix S1-S3 => high under R1a), never a blanket verdict
 
 ## Notes
 
@@ -50,6 +50,8 @@ deny-list-status: no
 ## Notes (labeling pass)
 
 > S4 fail (landing-zone automation for .env/config unknown at label time) and S5 fail (API credit spend, no stated ceilings verifiable) each cap at med per rubric S3.2 — independently consistent with the T3 tier-cap prior of med. S1 pass: writes are the declared config step itself, scoped; H5 fail per template note (install/env mutation not deliverable read-only). S3 information-flow clause passes (user-supplied key placed in sanctioned client config is intended function, not egress); stack clause uncertifiable -> composition-unverified qualifier.
+>
+> TIER RE-DERIVED UNDER R1a: med -> high because the S-prefix is S1–S3 (S4 and S5 both fail and stop the run at three passing rows) and the R1a bijection derives @high directly — the old-grammar cap steps are abolished; two trailing fails land the skill exactly one rung below the xhigh ceiling.
 
 ## Known-miss cases
 

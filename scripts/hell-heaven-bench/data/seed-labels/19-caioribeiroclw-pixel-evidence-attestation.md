@@ -37,11 +37,11 @@ audit-class: yes
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: ultra-ready
-secondary-stamps: hell-safe@low
+secondary-stamps: hell-safe@xhigh
 
 ## Hell-safe tier
 
-hell-safe-tier: low
+hell-safe-tier: xhigh
 deny-list-status: no
 
 ## Environment qualifiers
@@ -50,8 +50,9 @@ deny-list-status: no
 
 ## Notes
 
-> Labeling pass: U4 (the T5 gating row) predicted PASS from the skill's own design — it records contradicting evidence and intentional omissions by construction, which is the flag-don't-invert posture; this remains the load-bearing R2 starvation-probe target, not a certified behaviour. All five U rows pass on the structured proof-object description -> ultra-ready stands as PRIMARY. Secondary hell-safe@low kept at the template's conservative candidate form even though derived S rows would allow a higher ceiling (body NOT-RESOLVED; audit-class false-negative risk per preamble item 5).
-> Cell T5. Seed set: ultra-ready + hell-safe candidate -> secondary hell-safe@low recorded as the candidate form.
+> Labeling pass: U4 (the T5 gating row) predicted PASS from the skill's own design — it records contradicting evidence and intentional omissions by construction, which is the flag-don't-invert posture; this remains the load-bearing R2 starvation-probe target, not a certified behaviour. All five U rows pass on the structured proof-object description -> ultra-ready stands as PRIMARY.
+>
+> TIER RE-DERIVED UNDER R1a: low -> xhigh because the S-prefix is S1–S5 and the R1a bijection derives the @xhigh CEILING directly (@max requires verified environment-gate evidence, unreachable with body NOT-RESOLVED). The prior `hell-safe@low` was kept as "the template's conservative candidate form" — a conservative downgrade of exactly the kind R1a abolishes; per R1b the recorded secondary must be the derivation's output, so it moves to @xhigh. Audit-class false-negative risk (preamble item 5) rides as an open measurement gap, not a tier cap. Cell T5. If the founder later rules audit-class labels cap at low pending known-miss ground truth, this worksheet re-reduces.
 
 ## Known-miss cases
 

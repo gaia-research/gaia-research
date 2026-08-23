@@ -37,11 +37,11 @@ audit-class: no
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: none-auto
-secondary-stamps: none
+secondary-stamps: hell-safe@xhigh
 
 ## Hell-safe tier
 
-hell-safe-tier: none
+hell-safe-tier: xhigh
 deny-list-status: no
 
 ## Environment qualifiers
@@ -54,9 +54,9 @@ deny-list-status: no
 
 > T7 dosing paradox anchor: H1 predicted FAIL (standing dose uneconomical every-session; truncation loses normative precision). H1 fail blocks heaven-native ONLY - never touches S/U rows. Whether standing dose should be weighted per surface is OPEN (escalated); paradox recorded, no hero picked. Expected verdict: none-auto / summon-floor.
 >
-> Derivation: heaven-native fails on H1 exactly as T7 predicts — the anchor cell works. All five S rows pass on the zero-write reference shape (read-only audit sweeps earn hell-safe trivially, rubric §3.2), so hell-safe@max/high IS derivable from the rows above; U2/U3 fail (no checkpoint semantics; whole-domain coverage, not one mergeable gap), so ultra-ready fails.
+> Derivation: heaven-native fails on H1 exactly as T7 predicts — the anchor cell works. All five S rows pass on the zero-write reference shape (read-only audit sweeps earn hell-safe trivially, rubric §3.2), so hell-safe@xhigh IS derivable from the rows above; U2/U3 fail (no checkpoint semantics; whole-domain coverage, not one mergeable gap), so ultra-ready fails.
 >
-> RECONCILIATION RECORDED for D9: primary stays none-auto and tier stays none per the slot's explicit seed-set call (summon-floor anchor), NOT because derivation withholds hell-safe — but because rendering a trivially-derived ceiling on a pure reference would dilute what the T7 anchor exists to show: a skill whose value is real yet carries no auto-stamp worth automating around. Whether trivial ceilings should render as secondaries on summon-floor references is a presentation convention question, escalated with the T7 weighting question rather than assumed here.
+> TIER RE-DERIVED UNDER R1a: none -> xhigh because the S-prefix is S1–S5 and the R1a bijection derives the @xhigh CEILING directly (@max requires verified environment-gate evidence; a pure reference carries no gate to verify). The prior reconciliation's open question — "whether trivial ceilings should render as secondaries on summon-floor references" — is ANSWERED by ruling R1b: secondary recording is MANDATORY whenever the derivation is non-empty, and band never excuses an unscored or unrecorded row. A carried-over template `none` while the scored rows derive a tier is a labeling defect per rubric §3.2 (R1b). Primary stays none-auto: the T7 anchor still shows a skill whose value is real yet earns NO auto-invoked stamp worth automating around — heaven-native fails on H1 and ultra-ready fails on U2/U3 — but the hell-safe ceiling now rides as data rather than being suppressed by presentation convention.
 
 ## Known-miss cases
 
