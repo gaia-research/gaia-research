@@ -29,24 +29,26 @@ audit-class: no
 | S5 | fail |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
-primary-stamp: hell-safe@med
+primary-stamp: hell-safe@xhigh
 secondary-stamps: none
 
 ## Hell-safe tier
 
-hell-safe-tier: med
+hell-safe-tier: xhigh
 deny-list-status: no
 
 ## Environment qualifiers
 
-- cost-ceiling qualifier MANDATORY (paid compute): batch media-gen without explicit spend/time ceilings fails S5 and caps at med per rubric S3.2
+- cost-ceiling qualifier MANDATORY (paid compute): batch media-gen without explicit spend/time ceilings fails S5 and stops the S-prefix at four passing rows; composition-unverified mandatory at xhigh
 
 ## Notes
 
 > STRUCTURAL DIMENSIONS ONLY (taste-dependent curation; rubric preamble item 6): H2/H4 deliberately unscored. Cost-containment cell S5 is the live question.
 >
-> Derivation delta vs template prior: canon checkout carries registry metadata only (SKILL.md body NOT-RESOLVED), so spend/time ceilings could not be verified -> S5 conservatively FAIL -> rubric S3.2 caps ceiling at med. Template's hell-safe@high downgraded to hell-safe@med; upgrades to high only if R2 pinning shows explicit ceilings.
+> Derivation delta vs template prior: canon checkout carries registry metadata only (SKILL.md body NOT-RESOLVED), so spend/time ceilings could not be verified -> S5 conservatively FAIL. Template's hell-safe@high re-read under the R1a bijection below; upgrades to max only if R2 pinning shows explicit ceilings AND verified environment-gate evidence.
 > S3 passes on the information-flow clause (no secret handling in media-gen genre); stack-degradation clause uncertifiable -> composition-unverified qualifier applies. S1/S2/S4 are prediction-from-inspection at low confidence.
+>
+> TIER RE-DERIVED UNDER R1a: med -> xhigh because the S-prefix is S1–S4 and the R1a bijection derives @xhigh directly — the old-grammar "S5 caps at med" step is abolished.
 
 ## Known-miss cases
 

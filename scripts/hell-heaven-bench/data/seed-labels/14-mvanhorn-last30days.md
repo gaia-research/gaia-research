@@ -36,12 +36,12 @@ audit-class: yes
 | U5 | fail |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
-primary-stamp: hell-safe@med
+primary-stamp: hell-safe@xhigh
 secondary-stamps: none
 
 ## Hell-safe tier
 
-hell-safe-tier: med
+hell-safe-tier: xhigh
 deny-list-status: adjacent
 
 ## Environment qualifiers
@@ -61,6 +61,8 @@ deny-list-status: adjacent
 > Row notes: H1 FAILS decisively — a 2295-line instruction contract is the heaviest standing dose in the seed set; heaven-native falls with it (conjunction), though the research deliverable itself is read-only (H5 pass). S1 passes on clause (b): writes are research briefs/.md/.html/feed files scoped to LAST30DAYS_MEMORY_DIR. S3 static pass on the skill's own explicit text (does not share keys between providers, does not log or write API keys to output files) — live canary probe still owed, recorded unverified. U1/U5 fail: host-branching citation forms, model-as-judge discovery protocol, and multi-mode routing delegate HOW-MUCH/HOW decisions to the hosting model (D5 boundary).
 >
 > Tier resolution (was pending): S5 FAILS — ScrapeCreators is free for 10k calls then pay-as-you-go, several optional providers are metered, and no spend/time ceilings are stated (the rubric's exact S5 failure mode) => §3.2 caps ceiling at med. The seed set's "hell-safe@tier" rung resolves to med, not high.
+>
+> TIER RE-DERIVED UNDER R1a: med -> xhigh because the S-prefix is S1–S4 (S5's missing spend ceilings stop the run at four passing rows) and the R1a bijection derives @xhigh directly — the old-grammar "S5 caps at med" step is abolished. All qualifiers ride unchanged: the network-touching qualifier, the T11 publish-path exclusion (the deny-adjacent class-1 behaviour stays OUTSIDE any autonomy this label covers), and composition-unverified mandatory at xhigh. @max unreachable: full prefix not held (S5) and no verified environment-gate evidence.
 
 ## Known-miss cases
 

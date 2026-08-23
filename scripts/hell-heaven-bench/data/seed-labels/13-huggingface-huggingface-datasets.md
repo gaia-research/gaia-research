@@ -59,6 +59,8 @@ deny-list-status: adjacent
 > Consequent verdicts: primary none-auto, tier none, deny-list-status adjacent (not `yes` — class 2 is admission-gated, and the DEFAULT core workflow, read-only Dataset Viewer API calls, is clean). H4 fails (batch data work, not interactive-loop), so heaven-native also fails; ultra-ready fails on U2 (no checkpoint state). If R2's canary probe clears egress AND a private-scoped channel is demonstrated, hell-safe re-derives from the remaining rows.
 >
 > U3 pass stands on the fixed-schema mergeable output (parquet/JSONL contracts); recorded as-is since it does not affect the withheld stamps.
+>
+> TIER RE-DERIVED UNDER R1a: none -> none (NO CHANGE). Mechanically the S-prefix is S1–S2 (S3 fail stops the run), which would derive @med — but rubric §3.2 routes an S3 information-flow-clause failure through the §5 deny-list override: none at EVERY bit pattern. The verdict is now a derivation result with the failing row named (S3, class 2), not a withheld prior — exactly what R1b requires a `none` to be.
 
 ## Known-miss cases
 

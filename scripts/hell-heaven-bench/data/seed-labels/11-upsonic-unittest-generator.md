@@ -36,18 +36,18 @@ audit-class: no
 | U5 | fail |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
-primary-stamp: hell-safe@high
+primary-stamp: hell-safe@xhigh
 secondary-stamps: none
 
 ## Hell-safe tier
 
-hell-safe-tier: high
+hell-safe-tier: xhigh
 deny-list-status: no
 
 ## Environment qualifiers
 
-- composition-unverified (S3 stack-degradation clause; recorded, never certified)
-- evidence caveat: canon checkout carries registry metadata only (SKILL.md body NOT-RESOLVED) — rows scored against the registry description ("generates comprehensive unittest.TestCase suites from source code, organising tests into concept-based subfolders under a tests/ directory with proper imports, fixtures, and edge-case coverage") + genre conventions; R2 pinning re-verifies
+- composition-unverified MANDATORY at xhigh (rubric §6; pairwise/N-wise dynamics uncertifiable today)
+- evidence caveat: canon checkout carries registry metadata only — UPSTREAM RESOLUTION ATTEMPTED AND FAILED during the R1a re-derivation (github.com/upsonic has no skills/unittest-generator repository; alt candidate 0xdarkmatter/pytest-patterns returns 404). Rows stand scored against the registry description ("generates comprehensive unittest.TestCase suites from source code, organising tests into concept-based subfolders under a tests/ directory with proper imports, fixtures, and edge-case coverage") + genre conventions; R2 pinning re-verifies
 
 ## Notes
 
@@ -56,6 +56,8 @@ deny-list-status: no
 > Row notes: S1 pass on clause (c)-equivalent — writes are NEW additive files scoped to the repo's tests/ tree, no mutation of existing behaviour, so the S1 RED→GREEN clause for mutation behaviour does not bind. H4/H5 fail by design (batch-shaped; writes required) — the control's cleanliness is on the Hell side. U2 fails (no checkpoint state), U5 fails conservatively on thin evidence (body unresolved).
 >
 > Tier resolution: raw §3.2 grammar yields max (all S pass); high recorded per §6 band additions — unsupervised fleet summon with bounded blast radius is asserted, but max additionally demands VERIFIED write-path gating which R1 cannot verify by construction, and xhigh's deep-stack/wide-fan-out addition does not fit narrow test-tree fan-out. Band-vs-grammar mismatch logged for D9.
+>
+> TIER RE-DERIVED UNDER R1a: high -> xhigh because the S-prefix is S1–S5 and the R1a bijection derives the @xhigh CEILING directly (@max requires verified environment-gate evidence, unreachable at R1) — the §6 band-addition cap-down that produced `high` is one of the mechanisms R1a abolishes. The prior band-vs-grammar defect log is RESOLVED in favour of the grammar. The control remains CLEAN on its required side: hell-safe derives with a real rung from unambiguous additive-only write semantics, and the heaven side stays untouched (H4/H5 fail by design).
 
 ## Known-miss cases
 

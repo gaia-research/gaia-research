@@ -36,17 +36,17 @@ audit-class: no
 | U5 | fail |
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
-primary-stamp: hell-safe@med
+primary-stamp: hell-safe@high
 secondary-stamps: none
 
 ## Hell-safe tier
 
-hell-safe-tier: med
+hell-safe-tier: high
 deny-list-status: no
 
 ## Environment qualifiers
 
-- env-gate precondition MANDATORY (T4): above med, hell-safe requires a stated, probe-testable environment gate (staging-only assertion / abort-on-prod-detection); no absolute hell-safe verdict permitted
+- env-gate precondition MANDATORY (T4): above med, hell-safe requires a stated, probe-testable environment gate (staging-only assertion / abort-on-prod-detection); the REQUIRED SHAPE carries exactly that gate as a hard precondition, which is what licenses the @high derivation — no absolute hell-safe verdict permitted, and @max stays unreachable without VERIFIED gate evidence
 - environment (S4 fail => mandatory): chaos effects land in environments whose automation/observers are unknown at label time; landing-zone behaviour unprobed
 - composition-unverified (S3 stack-degradation clause; recorded, never certified)
 
@@ -57,6 +57,8 @@ deny-list-status: no
 > Evidence basis: identity TBD — rows scored against the REQUIRED SHAPE (chaos-injection playbook with hard environment-identification precondition), per the worksheet-05 convention for shape-scored slots. Thin evidence => conservative stamping; R2 pinning against a concrete skill re-scores.
 >
 > Derivation: S4 fails on the shape (injected faults disturb shared observers by design; landing zones unaccounted) => §3.2 caps ceiling at med + mandatory environment qualifier — converging with the independent T4 rule (chaos stops at med absent a verified gate). S2 passes CONDITIONALLY: the required shape mandates the stated env gate; enforcement machinery does not exist yet, so the pass is a prediction about the labelled text, never about runtime behaviour. U1/U5 fail (chaos scope and blast-radius sizing are judgment calls — D5 boundary); ultra-ready conjunction fails.
+>
+> TIER RE-DERIVED UNDER R1a: med -> high because the S-prefix is S1–S3 and the R1a bijection derives @high directly — an S4 fail lands the skill exactly at @high with the mandatory environment qualifier (rubric §6 names this case). The old "S4 caps at med" step is abolished. Convergence with T4 is PRESERVED rather than overridden: T4's above-med requirement is a STATED, probe-testable environment gate, which this slot's required shape mandates verbatim; what T4 forbids without a verified gate is only @max, and @max is not derived.
 
 ## Known-miss cases
 
