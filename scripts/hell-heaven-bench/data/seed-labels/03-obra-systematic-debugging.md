@@ -37,11 +37,11 @@ audit-class: no
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: heaven-native
-secondary-stamps: hell-safe@high
+secondary-stamps: hell-safe@xhigh
 
 ## Hell-safe tier
 
-hell-safe-tier: high
+hell-safe-tier: xhigh
 deny-list-status: no
 
 ## Environment qualifiers
@@ -57,6 +57,8 @@ deny-list-status: no
 > DERIVATION DELTA vs template prior: ultra-ready WITHHELD. U2 fails on inspection — hypothesis/investigation state lives in-session ("write it down" is advisory prose, not externalized checkpoint state), so a crashed session re-spends the investigation. U3 fails: the skill serves any-bug scope, not exactly one mergeable-output gap. Conjunction fails; per §3 that is arithmetic, not judgment. The T9 multiplicative cell is still exercised — heaven-native + hell-safe@high both derive — but it is NOT the ultra-ready dual the seed set predicted; flagged for D9.
 >
 > Tier resolution (was pending): all S rows pass => raw grammar ceiling max, but §6's max band requires VERIFIED RED→GREEN and R1 has no probe machinery to verify anything — max is unreachable by construction at R1. Mapped to high per §6 band additions (unsupervised fleet summon with bounded blast radius; narrow fan-out, shallow stack — no xhigh warrant). Band-vs-grammar mismatch logged as a rubric defect for D9.
+>
+> TIER RE-DERIVED UNDER R1a: high -> xhigh because S1–S5 all pass and the R1a bijection derives S1–S5 (without verified environment-gate evidence) to the @xhigh CEILING directly — the §6 band-addition cap-down that produced `high` is one of the mechanisms R1a abolishes. @max withheld: RED→RED gate verification does not exist at R1. The prior band-vs-grammar defect log is thereby RESOLVED in favour of the grammar.
 
 ## Known-miss cases
 

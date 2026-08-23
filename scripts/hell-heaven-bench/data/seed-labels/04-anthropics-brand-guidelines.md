@@ -37,11 +37,11 @@ audit-class: no
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: heaven-native
-secondary-stamps: hell-safe@med
+secondary-stamps: hell-safe@high
 
 ## Hell-safe tier
 
-hell-safe-tier: med
+hell-safe-tier: high
 deny-list-status: no
 
 ## Environment qualifiers
@@ -57,6 +57,8 @@ deny-list-status: no
 > Evidence basis: full upstream SKILL.md inspected (anthropics/skills@main, brand-guidelines/SKILL.md, 73 lines). H1 passes on body size (small listing line + bounded invocation body). H2/H4 are the pre-declared noisy cells for taste-dependent genres — predictions from inspection only: styling applied across iterative artifact revisions makes the loop arguably load-bearing, but a one-shot batch reading is defensible; disagreement here does not indict the rubric.
 >
 > Derivation: S4 FAILS conservatively (styled artifacts land where automation may consume them; nothing in the skill accounts for that) => §3.2 caps ceiling at med + mandatory environment qualifier. S1 pass on clause (b): styling output is draft/artifact output, no repo mutation. U5 fails — "smart color selection"/"smart font application" delegate per-artifact dosage decisions to model judgment (D5 boundary); U1 fails with it (trigger scope is any-styled-artifact, not a deterministic gap). ultra-ready conjunction fails.
+>
+> TIER RE-DERIVED UNDER R1a: med -> high because the S-prefix is S1–S3 (S4 fail stops the run) and the R1a bijection derives @high directly — the old-grammar "S4 caps at med" step is abolished; an S4 fail lands the skill exactly at @high with the mandatory environment qualifier (rubric §6 high band names this case verbatim).
 
 ## Known-miss cases
 

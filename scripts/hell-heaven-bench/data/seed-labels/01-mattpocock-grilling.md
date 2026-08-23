@@ -37,16 +37,17 @@ audit-class: no
 ## Stamps (T9 multiplicative; exactly ONE primary)
 
 primary-stamp: heaven-native
-secondary-stamps: none
+secondary-stamps: hell-safe@xhigh
 
 ## Hell-safe tier
 
-hell-safe-tier: none
+hell-safe-tier: xhigh
 deny-list-status: no
 
 ## Environment qualifiers
 
-- loop-convergence criterion undefined today (rubric preamble item 3): T2 default = NO hell-safe stamp above low, recorded as an open measurement gap, not a safety conviction
+- composition-unverified MANDATORY at xhigh (rubric §6): pairwise/N-wise dynamics uncertifiable today
+- loop-convergence criterion undefined today (rubric preamble item 3): T2 records the griller convergence gap as an OPEN MEASUREMENT GAP, not a safety conviction — see changelog
 
 ## Notes
 
@@ -57,6 +58,8 @@ deny-list-status: no
 > Evidence basis: full upstream SKILL.md inspected (mattpocock/skills@main, skills/productivity/grilling/SKILL.md, 28 lines). Rounds/frontier protocol fully stated (U5), termination condition explicit (empty frontier), no write-path anywhere (H5/S-rows clean; fact-finding delegated to read-only sub-agents). Design tree lives in-session => U2/U3 fail; ultra-ready conjunction fails.
 >
 > RECONCILIATION RECORDED (rubric seam, resolution-order step 3): with all five S rows passing, §3.2's grammar derives a max ceiling — yet T2 caps grillers at `low` AND its default verdict for grillers under Hell is "no hell-safe stamp" (three mutually inconsistent readings of the same rubric: grammar=max / T2 cap=low / T2 default=none). Tier `none` is recorded per T2's default and the delta flagged for D9 arbitration rather than silently resolved.
+>
+> TIER RE-DERIVED UNDER R1a: none -> xhigh because S1–S5 all pass (read-only skill, no write-path anywhere on inspection) and the R1a bijection (rubric §3.2) derives directly from the S-prefix with NO cap-down walk — the T2 cap mechanism is exactly what R1a abolishes. @max withheld: no verified environment-gate evidence exists at R1 (and none is reachable for a read-only skill). T2's residual instruction — "a worksheet deriving more must show which row changed and why" — is answered: NO row changed; the rows were always all-pass on inspection, only the derivation grammar moved. The loop-convergence measurement gap stays open and rides the label as an open gap, not a tier cap. Still flagged for D9: if the founder rules grillers need a convergence criterion BEFORE xhigh autonomy, this re-derivation is the first thing to revisit.
 >
 > Second reconciliation: H3's own known-failure mode names grillers as failing, which makes heaven-native underivable for the genre §T2 says "may be heaven-native". Primary stays heaven-native per the seed-set/synthesis explicit call (the hypothesis under test); the H1–H5 row set above is recorded as-inspected and the contradiction is flagged for D9 alongside the T2 seam.
 
