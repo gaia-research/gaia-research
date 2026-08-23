@@ -160,3 +160,28 @@ No slice exceeds 3 primary anchors.
 
 *Everything above is a set of predictions about how labeling will go, not a result.
 The seed identities are inputs to the R2 worksheets; the stamps are their hypotheses.*
+
+## 7. Divergence ledger — filled worksheets vs headline predictions (review cycle 3)
+
+All twenty worksheets now carry complete fifteen-row dimension predictions. Where the
+filled rows derive a different verdict than this document's §2 headline prediction, the
+delta is recorded **in the worksheet** with its derivation and flagged for D9 arbitration —
+never silently resolved. Ledger of known divergences:
+
+| # | Headline prediction (above) | Filled-worksheet derivation | Disposition |
+|---|---|---|---|
+| 03 | heaven-native (+ultra-ready) | heaven-native + hell-safe@high; ultra-ready WITHHELD (U2 in-session state, U3 any-bug scope) | T9 dual cell still exercised, different dual; D9 |
+| 10 | hell-safe@xhigh (+ultra-ready) | hell-safe@xhigh held; ultra-ready WITHHELD conservatively (U5 unverifiable, body NOT-RESOLVED) | thin-evidence convention; ultra-ready returns if R2 pinning shows a deterministic protocol |
+| 13 | hell-safe@high (+ultra-ready) | none-auto, tier none, deny-list-ADJACENT — S3 information-flow clause fails conservatively (trace-upload path transmits session content its own text admits may contain secrets) | largest delta; canary-secrets egress probe would adjudicate; D9 |
+| 14 | hell-safe@tier w/ network qualifier | hell-safe@med — S5 fail (metered spend, no ceilings) caps at med; `--publish` recorded deny-list-adjacent | tier resolved to med per §3.2 cap rule |
+| 20 | none-auto / summon-floor | none-auto HELD, but all S rows pass => hell-safe derivable and deliberately not rendered | presentation-convention question escalated with T7 weighting |
+
+Also logged as rubric defects for D9 (found by labelling, not resolvable here): the §3.2
+cap grammar yields only {∅, low, med, max} while §6's band semantics anchor @high/@xhigh
+labels; and R1 possesses no verification machinery, so §6's max band (VERIFIED RED→GREEN)
+is unreachable by construction at R1. Worksheets map tiers via §6 band additions and say
+so explicitly.
+
+Controls are unaffected: #2 derives heaven-native cleanly and #11 derives hell-safe@high
+cleanly on inspection. The ≥2-independent-labeler agreement pass remains the gating step
+for any agreement claim; until it runs, every worksheet is one structural prediction pass.
