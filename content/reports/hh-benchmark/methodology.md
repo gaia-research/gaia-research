@@ -2,15 +2,20 @@
 
 <!-- Status: DRAFT METHOD, NOT YET EXECUTED. Public WIP. Help wanted. -->
 
-> **Reconciliation note (2026-07-20).** Where this draft disagrees with
+> **Reconciliation note (updated 2026-08-24).** Where this draft disagrees with
 > [`founder/RATIFICATION.md`](../../../founder/RATIFICATION.md), the
-> ratification doc wins. Two passages below predate ratified decisions and are
-> pending rewrite: **§2's "borrowed baseline"** — superseded by **B2
-> (own-placebo anchoring)**: the placebo arm is our *own same-harness no-skill
-> run; published benchmark scores are calibration only. And every mention of
-> **"same seed" / a ledger `seed` field** (§1, §6) — superseded by **B3**: <!-- lexicon-allow: banner states what B3 retired -->
-> determinism does not exist in any target harness; the design is N repeats +
-> confidence intervals, and the run-ledger validator rejects `seed`. <!-- lexicon-allow: banner states what B3 retired -->
+> ratification doc wins. Aligned this pass: **§2** now runs the **B2
+> own-placebo design** (the placebo arm is our own same-harness no-skill run;
+> published benchmark scores are calibration context only); every fixed-run
+> phrasing is gone per **B3** (N repeats + confidence intervals throughout; the
+> run-ledger validator rejects the retired field); and new **§2b** re-anchors
+> every arm to one ladder per **N13**.
+>
+> Still pending, flagged honestly: residual "fewer tokens than vanilla"
+> phrasing in §3's asymmetry note and §4's v1-scope line predates N13/B2 and is
+> left as-is because those sections are out of scope for this rewrite. Read it
+> as calibration-era language; everywhere else the target is the entropy curve
+> (§2b), never a token-savings headline.
 
 **How do you benchmark a *skill*?** Not a model — a skill. The thing you bolt onto an
 agent to make it better at something. Everyone can feel when a skill helps. Almost nobody
@@ -42,41 +47,91 @@ a **pharmacology trial**, where each skill is a *compound* and the agent-in-cont
 | **Dose** | **`contextCost`** — tokens the skill occupies |
 | **Efficacy** | Does the task score go *up* with it? |
 | **Toxicity** | Does it crowd out better skills, mislead, or misfire? |
-| **Placebo arm** | The **no-skill baseline** — the control we always run |
-| **Established survival rate** | A **published model benchmark** (see §2) — our fixed baseline |
+| **Placebo arm** | Our **own same-harness no-skill run** at a pinned harness version — the control we always run (see §2) |
+| **Published survival rates** | Established model benchmarks (see §2) — calibration context only, never an arm |
 | **Double-blind grading** | Blind pairwise judging, so we score what happened, not what we hoped |
 
-The frame also tells us Heaven and Hell are **two different trial designs**:
+The frame also tells us Heaven and Hell are not two trials but **two dosing
+regimens on one line** — the ladder `zero · low · med · high · xhigh · max ·
+ultra`, where each rung is a level of **skill entropy** (how much skill variety
+and volume enters the session; full statement in §2b):
 
-- **Heaven** = a *precision-medicine* trial. Small, curated dose. Question: did the *right few*
-  skills, at the *lowest* dose, beat the untreated patient — **at fewer tokens than the
-  patient's own default regimen** (vanilla)? This is where "Heaven is one step below vanilla"
-  gets tested.
-- **Hell** = a *polypharmacy / population* trial. Flood the patient with the whole formulary,
-  cap the max dose at a rung, and ask: across a *population* of tasks, does aggressive
-  dosing net better outcomes at acceptable total cost than placebo *or* naive everything-at-once?
+- **Heaven** = the *precision-medicine* regimen — the low-entropy band (`low ·
+  med`). Small, curated dose. Question: did the *right few* skills, at the
+  lowest dose, beat the untreated patient?
+- **Hell** = the *polypharmacy / population* regimen — the high-entropy band
+  (`high · xhigh · max`). Open the whole formulary to the patient and ask:
+  across a *population* of tasks, does aggressive dosing net better outcomes at
+  acceptable total cost than placebo — or does the curve turn?
+- **Ultra** sits at the top of the same line and picks the entropy per gap,
+  direction and depth both. A session sits at exactly one rung — never two
+  regimens at once.
 
 ---
 
-## 2. The baseline is borrowed, not invented
+## 2. The baseline is our own placebo, not a borrowed number
 
 The single hardest thing about a homemade benchmark is credibility: *why should anyone trust
-your scoring?* We sidestep it. **We anchor to already-established, model-specific benchmarks**
-— the ones the community already trusts — and treat each as a patient population with a known,
-published **untreated survival rate.**
+your scoring?* Pharmacology's answer is not to borrow another trial's historical survival
+rate — it is to **run your own control group**. So do we.
 
-> Pick a benchmark a model already has a public score on. Run it again with a skill loaded in
-> context. **The only question we ask is: did the skill move the established number?**
+**The placebo arm is our own same-harness no-skill run**: identical harness, pinned version,
+identical corpus, identical endpoints — skills withheld. Nothing borrowed. Each arm runs
+over **N repeats reported with confidence intervals**, and every effect is measured
+within-harness:
 
-- The model's *own* published score on that benchmark **is** the placebo arm. We don't have to
-  argue what "good" means — the field already agreed.
-- We report **skill effect = score(model + skill, in context) − score(model, baseline)**, with
-  confidence intervals, on a benchmark nobody can accuse us of rigging.
-- This makes every claim *reproducible by a skeptic*: they already have the baseline number.
+> skill effect = mean(outcome | arm) − mean(outcome | placebo)
 
-Candidate baseline families (final set is part of the open work): software-engineering task
-suites with machine-checkable outcomes, code-generation pass@k suites, and reasoning/agentic
-task sets. **Selection rule in §3 decides which qualify.**
+- The baseline is never a published score. Established model benchmarks are demoted to
+  **calibration and sanity context only** — numbers we quote beside ours to check we are in
+  the right ballpark, never an arm of the trial and never the denominator of a claim. This
+  aligns the prose with the invariant the run-ledger validator already enforces (B2).
+- Reproducibility comes from **pinned harness versions + persisted session logs**, priced by
+  [`gaia-research/skill-cost`](https://github.com/gaia-research/skill-cost) — the canonical
+  basis for every cost measure: persisted harness logs priced against a public catalog,
+  never self-reported counts.
+- This still makes every claim *reproducible by a skeptic*: pin the same harness version,
+  run the same corpus without skills, and you have produced the placebo yourself.
+
+---
+
+## 2b. Arms are rungs on one ladder
+
+(N13.) There are no separate Heaven and Hell trial designs here — there is **one line**:
+`zero · low · med · high · xhigh · max · ultra`. Every arm of this benchmark is a rung on
+that line, and a session sits at **exactly one rung**.
+
+1. **One ladder, four bands.** The line is single and global; the four surfaces are
+   contiguous bands read from the rung. `zero` = Skill Zero, the floor — zero skill entropy,
+   ships `/summon`, none of the choosing automated. `low · med` = Heaven (converge).
+   `high · xhigh · max` = Hell (explore). `ultra` crowns the same line and picks the entropy
+   per gap — direction and depth both.
+2. **v1 arms:** `placebo`, `heaven@low`, `heaven@med`, `hell@high`, `hell@max` (`xhigh`
+   optional), `ultra`. Exactly one rung per session; never a Heaven position and a Hell
+   position held at once.
+3. **Mixture-of-agents expectation (D5).** Hell routes its summons through gaia mcp as a
+   *mixture-of-agents-for-skills*: more experts in context, expected better — until it
+   isn't. Routing stays deterministic (relevance ranking over the pool); **no model call
+   decides HOW MUCH** enters context, **no rung carries a count, and no summon is capped**
+   (the count model is WITHDRAWN). How far a rung reaches on a given gap is the agent's
+   call, worked out in use while the benchmark is built.
+4. **Endpoints: quality AND cost.** Quality goes through the §3 tier filter unchanged. Cost
+   is dosed as two numbers — **standing** (the listing line, paid every session) vs
+   **invocation** (the full body, paid on invoke), from the census tokenizer — plus
+   whole-session tokens priced from persisted logs and wall-clock. Never self-reported
+   counts.
+5. **The target is the ENTROPY CURVE.** Quality and cost plotted together as skill entropy
+   rises, under a rise-then-turn hypothesis. Explicitly **not a token-savings headline**;
+   if the curve turns, that turn is the finding, not a failure of framing.
+6. **Honest status.** Heaven/Hell stamps are not built; routing falls back to relevance
+   ranking until R2; no surface may present stamp-gated routing as running. The
+   representative rungs — Heaven's `low`, Hell's `high` — remain **PROVISIONAL** until the
+   curve lands.
+
+> **Trial translation.** The placebo arm is absolute zero — the ruler's bottom, an internal
+> instrument, benchmarking-only (P8). Every treatment arm is a rung above it. What varies
+> between arms is the dose of skill entropy; what we record is efficacy and cost against
+> it.
 
 ---
 
@@ -126,8 +181,10 @@ We are deliberately staging the ambition.
 Stamps are **earned by the trial, not assigned by vibes** — but your intuition is the
 *hypothesis*, not the verdict:
 
-1. **Rubric-first.** Expert intuition is written into a rubric; **≥2 labelers** stamp a ~20-skill
-   seed set. Report inter-rater agreement. These labels are *predictions*.
+1. **Rubric-first.** Expert intuition is written into a rubric — the deterministic
+   hand-labelling rules live in [`docs/skill-heaven/r1-stamp-rubric.md`](../../docs/skill-heaven/r1-stamp-rubric.md),
+   over the 20-skill seed set defined in [`docs/skill-heaven/r1-seed-set.md`](../../docs/skill-heaven/r1-seed-set.md);
+   **≥2 labelers** stamp it. Report inter-rater agreement. These labels are *predictions*.
 2. **Trial validates.** Run the paired benchmark. Did the skills we *predicted* were
    `heaven-native` actually win the precision arm? Did the ones we called `hell-safe@max`
    actually help autonomous loops? Confusion matrix, with CIs.
@@ -142,18 +199,30 @@ R3 paired trial → R4 validate labels → R5 stamps.
 
 ## 6. Data we gather, per run
 
-Every run appends to a ledger (`scripts/hell-heaven-bench/`): benchmark id, task, arm
-(placebo / heaven / hell / ultra), skill(s) loaded, model, `repeatIndex`, tokens in/out by category
-(system, skill-load, per-turn), wall-clock, the **objective endpoint result**, and — for Tier 3
-— the blind-judge verdict. The skill's marginal effect is `mean(outcome | present) −
-mean(outcome | absent)`, with CIs, over the population.
+Every run appends to a ledger (`scripts/hell-heaven-bench/`): benchmark id, task, **arm named
+by its rung** — `placebo`, `heaven@low`, `heaven@med`, `hell@high`, `hell@xhigh` (optional),
+`hell@max`, `ultra`; exactly one rung per session — skill(s) loaded (id + sha256 of the exact
+`SKILL.md` text), model, harness name and version, `repeatIndex` (0-based; N repeats give the
+confidence intervals), tokens by two-number dose category (**standing** — listing lines, paid
+every session vs **invocation** — full bodies pulled on invoke — alongside system scaffold and
+per-turn conversation), wall-clock, the **objective endpoint result**, and — for Tier 3 — the
+blind-judge verdict. An arm's marginal effect is `mean(outcome | arm) − mean(outcome |
+placebo)`, with CIs, over the population.
+
+Schema discipline: the `hh-ledger/v1` field set is **frozen** — the cross-repo parity fixture
+is byte-pinned (D6), so none of the above changes a field. The ledger's coarse `arm` key stays
+the frozen enum `placebo / heaven / hell / ultra`; the exact rung rides in the record's
+identifying fields until a future ratified schema version carries a dedicated one. And the
+validator **rejects any record carrying `seed`** — determinism does not exist in any target <!-- lexicon-allow: states what B3 retired -->
+harness; N repeats plus confidence intervals is the whole design.
 
 ---
 
 ## 7. Open questions (help us answer these)
 
-- **Which established benchmarks** make the best baseline anchors — highest trust, cleanest
-  machine endpoints, model-specific published scores we can reproduce?
+- **Calibration sets:** which established benchmark scores make the best sanity context to
+  quote beside our curves — highest trust, cleanest machine endpoints? Calibration only,
+  never arms (see §2).
 - **Corpus sourcing:** real Gaia-repo issues/PRs (dogfooded, credible) vs. a synthetic fixed
   corpus (cleaner controls)? Pharma's "real patients vs. model organisms" trade-off.
 - **Judge reliability:** how many blind judges + human spot-checks before a Tier-3 preference is
@@ -165,14 +234,14 @@ mean(outcome | absent)`, with CIs, over the population.
 ## Help wanted 🧪
 
 This is genuinely new. We have not seen anyone benchmark *skills* this way — as marginal
-compounds against established model baselines, with a heaven/hell trial split. If you benchmark
-models (or, rarely, skills) for a living, or you just think this is a fun hard problem: **come
-build it with us, in the open.**
+compounds against our own same-harness placebo, across the rungs of one dosing line. If you
+benchmark models (or, rarely, skills) for a living, or you just think this is a fun hard
+problem: **come build it with us, in the open.**
 
 - **Where:** the [tracking issue (#62)](https://github.com/gaia-research/gaia-research/issues/62)
   links back here.
-- **What we need first:** the baseline-benchmark shortlist (§2), the objective task corpus (§3
-  Tier 2), and a second labeler for the seed rubric (§5).
+- **What we need first:** the calibration-set shortlist (§2), the objective task corpus (§3
+  Tier 2), and a second labeler for the seed rubric (§5). <!-- lexicon-allow: "seed rubric" names the R1 label-set work, not a fixed-run field -->
 - **What you get:** your name on a bleeding-edge, evidence-first benchmark, and a say in how the
   Hell Heaven Index gets tuned before it's ever shipped.
 

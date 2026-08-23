@@ -178,3 +178,32 @@ what made the previous log longer than the decisions themselves.
   survival are mutually exclusive, so the floor is launcher-locked. The claim
   had reached planning docs before it was caught. Evidence and full audit
   trail: matrix gate (a).
+
+## 9. R1 sprint rulings — stamp taxonomy shape (owner, live session 2026-08-23)
+
+Ruled during the R1 planning sprint (umbrella issue #185; synthesis
+`docs/skill-heaven/R1-STAMP-TAXONOMY-SYNTHESIS.md`). Per D9 these deltas ride
+the implementing PRs off `dev/r1-hh-benchmark`.
+
+| Id | Status | Ruling |
+|---|---|---|
+| T9 | **CURRENT** | **Stamps are MULTIPLICATIVE, with a primary-stamp convention.** A skill may hold `heaven-native`, `hell-safe@tier`, and `ultra-ready` simultaneously when it earns each independently; no stamp excludes another. Every stamped skill declares exactly one **primary stamp** (the surface affinity its best-evidenced behaviour supports), which is what single-slot consumers render. Dual/triple-stamp cells are expected output of the seed set, not anomalies — the tension patterns T1–T3 predicted them. |
+| T8 | **CURRENT** | **The publish-class deny-list is RUNG-INDEPENDENT.** Skills whose irreversible side effects cannot be gated by environment detection or verification gates (publish-to-external-channels, secret-bearing writes, destructive infra mutations without dry-run semantics) are excluded from autonomous summon at EVERY rung of the ladder — Hell's band included. N13(5)'s "nothing on the line refuses" governs reachability for the *user*; this list governs what the *benchmark will ever stamp* `hell-safe`. A deny-listed skill can still be summoned by explicit user command (`/summon`), which is not autonomy. |
+
+Still OPEN from the synthesis's six escalations: standing-dose weighting;
+probe-patch-as-mutation (synthesis T10); privacy/egress axis placement; D5's
+curation-vs-ranking boundary (existing open item 7).
+
+### 9.1 Delta — K1 repair rulings R1a/R1b (2026-08-23)
+
+Ruled by the orchestrator during the K1 control-gate repair of negative finding
+[#188](https://github.com/gaia-research/gaia-research/issues/188) — the R1 rubric v1's
+tier-codomain bug (no bit assignment could derive `high` or `xhigh`) and its
+underdetermined S-row applicability. **Orchestrator-applied during K1 repair,
+owner-vetoable, rides implementing PR per D9.** Labeling stays HALTED per K1 until the
+revision lands and the gate re-runs GREEN.
+
+| Id | Status | Ruling |
+|---|---|---|
+| R1a | **CURRENT** | **Hell-safe tier derivation is a BIJECTION from the S-row bits to tiers** — it replaces any cap-down walk in rubric §3.2. S1 fails → none · S1 only → `@low` · S1–S2 → `@med` · S1–S3 → `@high` · S1–S4 → `@xhigh` · S1–S5 **AND verified environment-gate evidence** → `@max`. Without that evidence S1–S5 derives `@xhigh` as ceiling. Deny-listed skills derive none at every bit pattern (T8 unchanged). Unique bit pattern to tier; no starting ceiling, no conservative downgrade. Orchestrator-applied during K1 repair, owner-vetoable, rides implementing PR per D9 (#188). |
+| R1b | **CURRENT** | **S-rows are scored for EVERY skill regardless of primary band; any non-empty derivation MUST be recorded as the secondary hell-safe stamp** (T9 multiplicative consistency). "None" is a derivation result, never a default or template prior. Orchestrator-applied during K1 repair, owner-vetoable, rides implementing PR per D9 (#188). |
