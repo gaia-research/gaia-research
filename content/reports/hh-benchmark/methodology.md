@@ -181,8 +181,10 @@ We are deliberately staging the ambition.
 Stamps are **earned by the trial, not assigned by vibes** — but your intuition is the
 *hypothesis*, not the verdict:
 
-1. **Rubric-first.** Expert intuition is written into a rubric; **≥2 labelers** stamp a ~20-skill
-   seed set. Report inter-rater agreement. These labels are *predictions*.
+1. **Rubric-first.** Expert intuition is written into a rubric — the deterministic
+   hand-labelling rules live in [`docs/skill-heaven/r1-stamp-rubric.md`](../../docs/skill-heaven/r1-stamp-rubric.md),
+   over the 20-skill seed set defined in [`docs/skill-heaven/r1-seed-set.md`](../../docs/skill-heaven/r1-seed-set.md);
+   **≥2 labelers** stamp it. Report inter-rater agreement. These labels are *predictions*.
 2. **Trial validates.** Run the paired benchmark. Did the skills we *predicted* were
    `heaven-native` actually win the precision arm? Did the ones we called `hell-safe@max`
    actually help autonomous loops? Confusion matrix, with CIs.
