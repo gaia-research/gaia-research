@@ -2,7 +2,7 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
 ## Metadata
 
-seed-id: 99
+seed-id: 93
 skill-id: fixture/x
 sha256-skill-md: NOT-RESOLVED
 upstream: TBD
@@ -22,12 +22,12 @@ audit-class: no
 
 ## Stamps
 
-primary-stamp: hell-safe@high
-secondary-stamps: none
+primary-stamp: ultra-ready
+secondary-stamps: hell-safe@med
 
 ## Hell-safe tier
 
-hell-safe-tier: high
+hell-safe-tier: med
 deny-list-status: no
 
 ## Environment qualifiers
@@ -42,3 +42,8 @@ deny-list-status: no
 
 labeler:
 confidence:
+
+## R1a derivation note
+
+MUST TRIP: S-prefix = S1-S3 derives @high, worksheet claims @med — the
+conservative-downgrade habit the bijection abolishes (#188).

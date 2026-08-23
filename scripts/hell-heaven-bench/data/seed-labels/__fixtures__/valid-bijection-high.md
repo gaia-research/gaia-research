@@ -2,7 +2,7 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
 ## Metadata
 
-seed-id: 99
+seed-id: 91
 skill-id: fixture/x
 sha256-skill-md: NOT-RESOLVED
 upstream: TBD
@@ -13,7 +13,7 @@ audit-class: no
 
 | dim | prediction |
 |-----|------------|
-| H1 | pass |
+| H1 | fail |
 | S1 | pass |
 | S2 | pass |
 | S3 | pass |
@@ -22,8 +22,8 @@ audit-class: no
 
 ## Stamps
 
-primary-stamp: hell-safe@high
-secondary-stamps: none
+primary-stamp: ultra-ready
+secondary-stamps: hell-safe@high
 
 ## Hell-safe tier
 
@@ -32,7 +32,7 @@ deny-list-status: no
 
 ## Environment qualifiers
 
-- none
+- composition-unverified
 
 ## Known-miss cases
 
@@ -42,3 +42,8 @@ deny-list-status: no
 
 labeler:
 confidence:
+
+## R1a derivation note
+
+S-prefix = S1-S3 => @high. Proves high is reachable under the bijection
+(negative finding #188: unreachable under the abolished cap-down walk).

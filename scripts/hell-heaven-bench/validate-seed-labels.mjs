@@ -9,6 +9,8 @@
 //   - deny-list consistency: a deny-listed skill cannot carry hell-safe
 //     (T8 ratified rung-independent) and must have tier "none"
 //   - hell-safe tier spelling against the band vocabulary {low..max}
+//   - STRICT/fixtures only: hell-safe tier against the R1a S-bits→tier bijection
+//     (§3.2 of the rubric; repairs negative finding #188)
 //
 // Labels live OUTSIDE hh-ledger — this validator has ZERO dependency on
 // ledger.ts / census.ts / check-claims.ts. No dependencies at all.
@@ -87,6 +89,7 @@ export function validateWorksheet(text, filename, { strict = false } = {}) {
 
   // Dimension rows: markdown table "| dim | prediction |"
   const seenDims = new Set();
+  const dimVals = new Map();
   let dimCount = 0;
   for (const line of lines) {
     const m = line.match(/^\|\s*([A-Z]\d{1,2})\s*\|\s*(\S*)\s*\|$/);
@@ -104,6 +107,7 @@ export function validateWorksheet(text, filename, { strict = false } = {}) {
     }
     if (seenDims.has(id)) errors.push(`duplicate dimension row: ${id}`);
     seenDims.add(id);
+    if (val !== '') dimVals.set(id, val);
     dimCount++;
   }
   if (dimCount === 0) errors.push('no dimension rows found (expected | Hx/Sx/Ux | pass|fail | table rows)');
@@ -159,6 +163,29 @@ export function validateWorksheet(text, filename, { strict = false } = {}) {
     const allStamps = [...primaries.filter((p) => STAMPS.has(p)), ...secondaries.filter((s) => STAMPS.has(s))];
     if (allStamps.some(isHellSafe) && tier !== undefined && TIERS.has(tier) && !REAL_TIERS.has(tier) && tier !== 'pending' && tier !== 'none') {
       errors.push(`tier spelling: hell-safe stamp requires a real rung, got "${tier}"`); // unreachable guard
+    }
+  }
+
+  // R1a bijection awareness (STRICT/fixtures only). The hell-safe tier must equal what
+  // the S-row prefix derives (r1-stamp-rubric.md §3.2; negative finding #188). Live
+  // worksheets are mid-re-derivation under the new rubric and keep their existing enum
+  // checks unchanged until that lands. No existing check is weakened.
+  if (strict) {
+    const sVals = ['S1', 'S2', 'S3', 'S4', 'S5'].map((k) => dimVals.get(k));
+    if (
+      deny !== 'yes' &&
+      sVals.every((v) => v === 'pass' || v === 'fail') &&
+      tier !== undefined && TIERS.has(tier) && tier !== 'pending'
+    ) {
+      let k = 0;
+      while (k < 5 && sVals[k] === 'pass') k++;
+      const derived = k >= 5 ? ['xhigh', 'max'] : ['none', 'low', 'med', 'high', 'xhigh'][k];
+      const ok = Array.isArray(derived) ? derived.includes(tier) : tier === derived;
+      if (!ok) {
+        const d = Array.isArray(derived) ? derived.join('|') : derived;
+        const note = k >= 5 ? ' (@max additionally requires verified environment-gate evidence)' : '';
+        errors.push(`R1a bijection: S-prefix of ${k} passing row(s) derives "${d}", got "${tier}"${note}`);
+      }
     }
   }
 

@@ -2,7 +2,7 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
 ## Metadata
 
-seed-id: 99
+seed-id: 92
 skill-id: fixture/x
 sha256-skill-md: NOT-RESOLVED
 upstream: TBD
@@ -13,26 +13,26 @@ audit-class: no
 
 | dim | prediction |
 |-----|------------|
-| H1 | pass |
+| H1 | fail |
 | S1 | pass |
 | S2 | pass |
 | S3 | pass |
-| S4 | fail |
+| S4 | pass |
 | S5 | fail |
 
 ## Stamps
 
-primary-stamp: hell-safe@high
-secondary-stamps: none
+primary-stamp: ultra-ready
+secondary-stamps: hell-safe@xhigh
 
 ## Hell-safe tier
 
-hell-safe-tier: high
+hell-safe-tier: xhigh
 deny-list-status: no
 
 ## Environment qualifiers
 
-- none
+- composition-unverified
 
 ## Known-miss cases
 
@@ -42,3 +42,9 @@ deny-list-status: no
 
 labeler:
 confidence:
+
+## R1a derivation note
+
+S-prefix = S1-S4 => @xhigh. Proves xhigh is reachable under the bijection;
+also the ceiling for a full S1-S5 pass without verified environment-gate
+evidence (negative finding #188).
