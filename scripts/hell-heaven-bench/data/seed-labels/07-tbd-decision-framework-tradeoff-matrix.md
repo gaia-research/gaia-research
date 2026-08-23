@@ -46,7 +46,6 @@ deny-list-status: no
 
 ## Environment qualifiers
 
-- none
 - composition-unverified (S3 stack-degradation clause - qualifier, never raises ceiling)
 
 ## Notes
