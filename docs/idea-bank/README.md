@@ -136,6 +136,13 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** Establishes an automated subscriber growth loop by pairing a sleek dark-themed Subscribe UI on the Next.js site with a Mailing MCP Server (Resend/Loops) connected directly to the `gaia-blog-post` skill for zero-friction post-publish broadcasts.
 - **Doc:** [`../plans/issue-blog-subscriber-email-pipeline.md`](../plans/issue-blog-subscriber-email-pipeline.md)
 
+## Rank 21 — Blog Idea: Skills API Adoption — Installable Procedural Intelligence
+- **Status:** In Ideation (unratified)
+- **Viability:** High
+- **Potential:** Very High
+- **Why now:** Anthropic's `/v1/skills` endpoints + agentskills.io open standard turn skills from hand-placed folders into versioned, registry-managed, CI-gated installable packages. Nobody is covering the adoption mechanics (install/version/validate/govern at scale) rather than the novelty angle — and every Skill Heaven harness door will consume exactly this lifecycle.
+- **Doc:** [`blog-idea-skills-api-adoption-installable-procedural-intelligence.md`](./blog-idea-skills-api-adoption-installable-procedural-intelligence.md)
+
 ## Rank 20 — Parallel Cheap-Scout Fan-Out: Cost-Performance Pareto Frontier
 - **Status:** Proposed Research / RFC -- **not ratified**
 - **Viability:** High (all models already accessible via Antigravity routing; pi-dynamic-workflows provides parallel dispatch; pi-cost provides telemetry)
