@@ -61,6 +61,8 @@ deny-list-status: adjacent
 > DERIVATION DELTA vs template prior: ultra-ready WITHHELD. U5 fails conservatively on thin evidence — whether the body self-describes deterministically (no "as needed" dosage) is unverifiable with the SKILL.md unresolved; per worksheet-15/17 precedent a conservative fail beats an unearned pass. U1/U2/U3/U4 pass on the required shape (staged steps, structured changelog/checkpoint outputs, single migration gap). If R2 pinning shows a deterministic protocol, ultra-ready returns.
 >
 > Tier note: raw §3.2 grammar yields max (all S pass); xhigh recorded per §6 band additions (wide target fan-out across a codebase => deep-stack risk; composition-unverified qualifier mandatory here) and because R1 has no machinery to VERIFY anything, which §6's max band requires. Band-vs-grammar mismatch logged for D9.
+>
+> TIER RE-DERIVED UNDER R1a: xhigh -> xhigh (NO CHANGE) because the S-prefix is S1–S5 and the R1a bijection derives the @xhigh CEILING directly (@max requires verified environment-gate evidence, unreachable at R1). The prior band-vs-grammar defect log is RESOLVED in favour of the grammar: the recorded tier and the derivation now agree by construction.
 
 ## Known-miss cases
 
