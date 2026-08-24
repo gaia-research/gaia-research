@@ -1,0 +1,10 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "02",
+  "outputs": [
+    {
+      "file": "output/DESIGN.md",
+      "content": "# Interface direction\n\n## Principles\n\n- Make system state visible.\n- Use one primary action per view.\n\n## Tokens\n\n- Accent: #38bdf8\n- Danger: #ef4444\n\n## Accessibility\n\nKeyboard focus remains visible and color is never the only signal.\n"
+    }
+  ]
+}

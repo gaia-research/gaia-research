@@ -1,0 +1,27 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "14",
+  "outputs": [
+    {
+      "file": "output/report.json",
+      "content": {
+        "answers": [
+          {
+            "question": "Which release introduced checkpoints?",
+            "answer": "Release 2.4",
+            "citations": [
+              "sources/release-notes.txt#L3-L5"
+            ]
+          },
+          {
+            "question": "What limit remained?",
+            "answer": "One active checkpoint per workspace",
+            "citations": [
+              "sources/limits.txt#L2-L3"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

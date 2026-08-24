@@ -1,0 +1,21 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "17",
+  "outputs": [
+    {
+      "file": "output/checkpoint.json",
+      "content": {
+        "completed": [
+          "ingest",
+          "normalize"
+        ],
+        "remaining": [
+          "validate",
+          "publish"
+        ],
+        "next": "validate",
+        "repeated": []
+      }
+    }
+  ]
+}

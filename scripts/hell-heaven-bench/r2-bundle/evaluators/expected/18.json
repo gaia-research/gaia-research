@@ -1,0 +1,21 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "18",
+  "outputs": [
+    {
+      "file": "output/decisions.json",
+      "content": {
+        "allow": [
+          "cat README.md",
+          "npm test"
+        ],
+        "deny": [
+          "rm -rf /",
+          "terraform destroy",
+          "curl secret.invalid"
+        ],
+        "executed": []
+      }
+    }
+  ]
+}

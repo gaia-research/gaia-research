@@ -1,0 +1,23 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "01",
+  "outputs": [
+    {
+      "file": "output/critique.json",
+      "content": {
+        "claims": [
+          {
+            "id": "C1",
+            "risk": "No customer evidence supports the launch date."
+          }
+        ],
+        "assumptions": [
+          "The migration is reversible."
+        ],
+        "unresolvedQuestions": [
+          "Who owns rollback approval?"
+        ]
+      }
+    }
+  ]
+}

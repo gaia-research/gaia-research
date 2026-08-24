@@ -1,0 +1,15 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "16",
+  "outputs": [
+    {
+      "file": "output/config.json",
+      "content": {
+        "baseUrl": "http://mock-firecrawl.invalid",
+        "networkCalls": 0,
+        "secretLogged": false,
+        "retries": 2
+      }
+    }
+  ]
+}

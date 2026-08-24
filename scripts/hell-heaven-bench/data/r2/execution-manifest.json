@@ -1,0 +1,39 @@
+{
+  "schema": "hh-r2-execution-manifest/v1",
+  "runtime": {
+    "repository": "gaia-research/skill-heaven",
+    "revision": "822081b7083448ba57ce93819fb2539c4ef84dde",
+    "sourceTreeSha256": "4be3e02d907508936a76e6478d6cb163c76661ce6a356bdbcaa8cbbbe2a77ebc",
+    "compiledEntry": "scripts/hell-heaven-bench/r2-bundle/runtime-dist/skill-zero.mjs",
+    "compiledEntrySha256": "e7f482191b1db43b5fb5163d362fc6b3e9bcb91ebb58dba1b2ffe032b639ae4b"
+  },
+  "harness": {
+    "name": "claude",
+    "version": "2.1.165 (Claude Code)",
+    "npmPackage": "@anthropic-ai/claude-code-linux-arm64",
+    "npmVersion": "2.1.165",
+    "tarball": "https://registry.npmjs.org/@anthropic-ai/claude-code-linux-arm64/-/claude-code-linux-arm64-2.1.165.tgz",
+    "tarballIntegritySha512": "sha512-uGwKxRQGTxh3BZGnX096CLf/2us5lUFnk4KerWhG4WCpRiEUSu4TUDojp/S3SUzA//FpM57fViUW07XL3T19lw==",
+    "bundleTreeSha256": "7348de8d950b41929645f7622e444ca6c76a4d03b5d162ae80891e45e775e419",
+    "entry": "claude",
+    "entrySha256": "ff2e060827f9f0214a77133206c4539a6477ec1f4fddb492b02255a0679642fd"
+  },
+  "model": {
+    "id": "claude-sonnet-4-20250514",
+    "snapshot": "claude-sonnet-4-20250514"
+  },
+  "sandbox": {
+    "engine": "docker",
+    "platform": "linux/arm64",
+    "image": "node:22.17.1-bookworm-slim@sha256:2fa754a9ba4d7adbd2a51d182eaabbe355c82b673624035a38c0d42b08724854",
+    "networkPolicy": "provider-control-plane-only during harness; none during evaluator"
+  },
+  "bundle": {
+    "identityManifestSha256": "432704e6c8b95780a02936faf37455f2ab546dbf45c1a6500b930b403d4d9944",
+    "taskMatrixSha256": "a46d25365fe5a8455fcabe6cc4d327f6027013c7007387ba150313551733bbb1",
+    "fixtureTreeSha256": "f1388f9bab63c4a41e8c23b9e985ad406cf3a7fe648a26812296b5e5746c4d27",
+    "evaluatorTreeSha256": "d5b003dcec35cfeabe1787813cddeaaaff10834670eedc466f23a9fee1e7f17e",
+    "skillTreeSha256": "1df62e1e4c64017dba1efeabd5c88246c7e4f0f18b2cbd7084012d38ac5e087d",
+    "runOrderSha256": "ed16defbac286ce0eb8148204fb0a20e4bffded64750d8fc9e2ca4b1d87f3f2c"
+  }
+}

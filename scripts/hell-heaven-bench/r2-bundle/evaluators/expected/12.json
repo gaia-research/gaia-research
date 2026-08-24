@@ -1,0 +1,19 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "12",
+  "outputs": [
+    {
+      "file": "output/experiment.json",
+      "content": {
+        "environment": "staging",
+        "execute": false,
+        "fault": "terminate one worker",
+        "steadyState": "queue lag below 30 seconds",
+        "abort": [
+          "error rate above 2%"
+        ],
+        "rollback": "restore worker replica count"
+      }
+    }
+  ]
+}

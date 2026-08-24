@@ -28,7 +28,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -114,7 +114,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -195,7 +195,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -278,7 +278,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -360,7 +360,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -445,7 +445,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -526,7 +526,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -612,7 +612,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -694,7 +694,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -779,7 +779,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -860,7 +860,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -943,7 +943,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -1025,7 +1025,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -1110,7 +1110,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -1192,7 +1192,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -1278,7 +1278,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -1359,7 +1359,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -1443,7 +1443,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -1523,7 +1523,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {
@@ -1605,7 +1605,7 @@
         {
           "id": "placebo",
           "arm": "placebo",
-          "rung": "zero",
+          "rung": "benchmark-floor",
           "skills": []
         },
         {

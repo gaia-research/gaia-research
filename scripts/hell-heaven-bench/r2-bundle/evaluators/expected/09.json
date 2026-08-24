@@ -1,0 +1,21 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "09",
+  "outputs": [
+    {
+      "file": "output/patch.json",
+      "content": {
+        "failingTestPreserved": "parses escaped delimiter",
+        "changedFiles": [
+          "src/parser.js",
+          "test/parser.test.js"
+        ],
+        "verification": "all tests pass"
+      }
+    },
+    {
+      "file": "output/transcript.txt",
+      "content": "RED: parses escaped delimiter failed\nGREEN: all parser tests passed\n"
+    }
+  ]
+}

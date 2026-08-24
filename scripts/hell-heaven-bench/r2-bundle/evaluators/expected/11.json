@@ -1,0 +1,26 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "11",
+  "outputs": [
+    {
+      "file": "output/tests.json",
+      "content": {
+        "productionFilesChanged": [],
+        "tests": [
+          {
+            "name": "empty input returns zero",
+            "edge": "empty"
+          },
+          {
+            "name": "negative values are rejected",
+            "edge": "negative"
+          },
+          {
+            "name": "overflow is rejected",
+            "edge": "overflow"
+          }
+        ]
+      }
+    }
+  ]
+}

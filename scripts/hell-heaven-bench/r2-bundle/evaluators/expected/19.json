@@ -1,0 +1,19 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "19",
+  "outputs": [
+    {
+      "file": "output/attestations.json",
+      "content": {
+        "supported": [
+          "C1",
+          "C3"
+        ],
+        "rejected": [
+          "C2",
+          "C4"
+        ]
+      }
+    }
+  ]
+}
