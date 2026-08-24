@@ -10,10 +10,12 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
 seed-id: 04
 skill-id: anthropics/brand-guidelines
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: https://github.com/anthropics/skills (brand-guideline-application bucket)
+sha256-skill-md: 1120b3769e2985cefb3d25be981b1f914abeba57ae079b83c20c666c164fa9fe
+upstream: https://raw.githubusercontent.com/anthropics/skills/3b3fad96af16a10759d930941b4520ba0c40edae/skills/brand-guidelines/SKILL.md
 band: heaven
 audit-class: no
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `anthropics/skills@3b3fad96af16a10759d930941b4520ba0c40edae` / `skills/brand-guidelines/SKILL.md`. Resolution: `canonical`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

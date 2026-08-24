@@ -1,0 +1,227 @@
+{
+  "schema": "hh-r2-content-identities/v1",
+  "pinnedAt": "2026-08-24",
+  "hashBasis": "sha256 of exact raw SKILL.md bytes; no newline normalization",
+  "skills": [
+    {
+      "slot": "01",
+      "skillId": "mattpocock/grilling",
+      "repository": "mattpocock/skills",
+      "commit": "5b15a47f2d7150f545fbcacbfe381787fc0230dc",
+      "path": "skills/productivity/grilling/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/mattpocock/skills/5b15a47f2d7150f545fbcacbfe381787fc0230dc/skills/productivity/grilling/SKILL.md",
+      "contentSha256": "10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2",
+      "bytes": 1987,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "02",
+      "skillId": "garrytan/design-consultation",
+      "repository": "garrytan/gstack",
+      "commit": "85fd9db554ae4aaaa6d356d2daf873121ee85bdd",
+      "path": "design-consultation/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/garrytan/gstack/85fd9db554ae4aaaa6d356d2daf873121ee85bdd/design-consultation/SKILL.md",
+      "contentSha256": "163871d97bbf1518b50bc2ac389d22b85d1cb1fb90d8880d9a0311cdef77f69b",
+      "bytes": 71021,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "03",
+      "skillId": "obra/systematic-debugging",
+      "repository": "obra/superpowers",
+      "commit": "b36e0829c6d0140e93cfef2ca599b1b07d4a7797",
+      "path": "skills/systematic-debugging/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/obra/superpowers/b36e0829c6d0140e93cfef2ca599b1b07d4a7797/skills/systematic-debugging/SKILL.md",
+      "contentSha256": "808fc5717aa88ad65efff312b11c186294d3e6ee301afb584e2f86599b137787",
+      "bytes": 9465,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "04",
+      "skillId": "anthropics/brand-guidelines",
+      "repository": "anthropics/skills",
+      "commit": "3b3fad96af16a10759d930941b4520ba0c40edae",
+      "path": "skills/brand-guidelines/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/anthropics/skills/3b3fad96af16a10759d930941b4520ba0c40edae/skills/brand-guidelines/SKILL.md",
+      "contentSha256": "1120b3769e2985cefb3d25be981b1f914abeba57ae079b83c20c666c164fa9fe",
+      "bytes": 2235,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "05",
+      "skillId": "lgbarn/terraform-plan-review",
+      "repository": "lgbarn/devops-skills",
+      "commit": "8a37cc3fe5983e7fa2b2dcaa98c94449d5356f06",
+      "path": "skills/terraform-plan-review/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/lgbarn/devops-skills/8a37cc3fe5983e7fa2b2dcaa98c94449d5356f06/skills/terraform-plan-review/SKILL.md",
+      "contentSha256": "a7f4b3079fb976267c195644233f3ca9bd0f3683a376ed4f6969247dd525d492",
+      "bytes": 5063,
+      "resolution": "r2-replacement"
+    },
+    {
+      "slot": "06",
+      "skillId": "mattpocock/teach",
+      "repository": "mattpocock/skills",
+      "commit": "5b15a47f2d7150f545fbcacbfe381787fc0230dc",
+      "path": "skills/productivity/teach/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/mattpocock/skills/5b15a47f2d7150f545fbcacbfe381787fc0230dc/skills/productivity/teach/SKILL.md",
+      "contentSha256": "a32df9dcdfc0c4fdc1c98e1ed3940c5f56b84c1aa90ff60346f32b8b53915b43",
+      "bytes": 9506,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "07",
+      "skillId": "microsoft/tradeoff-analysis",
+      "repository": "microsoft/amplifier-bundle-systems-design",
+      "commit": "1eff6a2bcebe7c42d5d8d4962e1937a3bb932b0c",
+      "path": "skills/tradeoff-analysis/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/amplifier-bundle-systems-design/1eff6a2bcebe7c42d5d8d4962e1937a3bb932b0c/skills/tradeoff-analysis/SKILL.md",
+      "contentSha256": "87265bdb56d3a35cb704ee3d30c9693fc51c19370655cc523d22231ec75832a6",
+      "bytes": 5117,
+      "resolution": "r2-replacement"
+    },
+    {
+      "slot": "08",
+      "skillId": "garrytan/cso",
+      "repository": "garrytan/gstack",
+      "commit": "85fd9db554ae4aaaa6d356d2daf873121ee85bdd",
+      "path": "cso/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/garrytan/gstack/85fd9db554ae4aaaa6d356d2daf873121ee85bdd/cso/SKILL.md",
+      "contentSha256": "be1359bd9299c4009c81d9a38f7714bef2733c3e3bc79ca56e064c7fcca658a8",
+      "bytes": 76911,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "09",
+      "skillId": "mattpocock/diagnosing-bugs",
+      "repository": "mattpocock/skills",
+      "commit": "5b15a47f2d7150f545fbcacbfe381787fc0230dc",
+      "path": "skills/engineering/diagnosing-bugs/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/mattpocock/skills/5b15a47f2d7150f545fbcacbfe381787fc0230dc/skills/engineering/diagnosing-bugs/SKILL.md",
+      "contentSha256": "77f3cf31bc99b2f49af943222526531fcc9fc41d047626d3640e875e85af3e84",
+      "bytes": 8529,
+      "resolution": "r2-replacement"
+    },
+    {
+      "slot": "10",
+      "skillId": "mattpocock/migrate-to-shoehorn",
+      "repository": "mattpocock/skills",
+      "commit": "5b15a47f2d7150f545fbcacbfe381787fc0230dc",
+      "path": "skills/misc/migrate-to-shoehorn/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/mattpocock/skills/5b15a47f2d7150f545fbcacbfe381787fc0230dc/skills/misc/migrate-to-shoehorn/SKILL.md",
+      "contentSha256": "de4da4c11d924fac79c924b2ee3d2db4a5cb98386eb490a599119463d036ae72",
+      "bytes": 2795,
+      "resolution": "r2-replacement"
+    },
+    {
+      "slot": "11",
+      "skillId": "curiouslearner/test-generator",
+      "repository": "curiouslearner/devkit",
+      "commit": "3fa45b7ab3438ce5982247348eeafb9206c78f3b",
+      "path": "skills/test-generator/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/curiouslearner/devkit/3fa45b7ab3438ce5982247348eeafb9206c78f3b/skills/test-generator/SKILL.md",
+      "contentSha256": "3ca988e1ad3b9fe301ed6f587e0743d6128242d0acac12279bc1cf3b373f1330",
+      "bytes": 2145,
+      "resolution": "r2-replacement"
+    },
+    {
+      "slot": "12",
+      "skillId": "alirezarezvani/chaos-engineering",
+      "repository": "alirezarezvani/claude-skills",
+      "commit": "98180dafc4f0bc9d629bd479fc6107674cfb3cf8",
+      "path": "engineering/skills/chaos-engineering/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/alirezarezvani/claude-skills/98180dafc4f0bc9d629bd479fc6107674cfb3cf8/engineering/skills/chaos-engineering/SKILL.md",
+      "contentSha256": "fde41aeb8b9977e85e33a69140c9d5aac099698f480bac6c89a9a5ef8baca8bc",
+      "bytes": 10690,
+      "resolution": "r2-replacement"
+    },
+    {
+      "slot": "13",
+      "skillId": "huggingface/huggingface-datasets",
+      "repository": "huggingface/skills",
+      "commit": "020194918dc4a27d5a5d9a154b6b56cc2bd21364",
+      "path": "skills/huggingface-datasets/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/huggingface/skills/020194918dc4a27d5a5d9a154b6b56cc2bd21364/skills/huggingface-datasets/SKILL.md",
+      "contentSha256": "eeca50adf211ea64a288b852938f85a5183b045c720dc696b62db9aa2ea8deb2",
+      "bytes": 4671,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "14",
+      "skillId": "mvanhorn/last30days",
+      "repository": "mvanhorn/last30days-skill",
+      "commit": "d05389d39b2ce09a13f71b01e68562f077c766df",
+      "path": "skills/last30days/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/mvanhorn/last30days-skill/d05389d39b2ce09a13f71b01e68562f077c766df/skills/last30days/SKILL.md",
+      "contentSha256": "cad0d0f0459f05692dddf14ec11d6d9ae9e8e5f1b3a1b7ddb132b4fc6967c5fe",
+      "bytes": 229086,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "15",
+      "skillId": "remotion-dev/remotion-multimedia",
+      "repository": "remotion-dev/skills",
+      "commit": "baf0b919ff90bc980e8d2b73eb65a124cd262a64",
+      "path": "skills/remotion-multimedia/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/remotion-dev/skills/baf0b919ff90bc980e8d2b73eb65a124cd262a64/skills/remotion-multimedia/SKILL.md",
+      "contentSha256": "60d164054b41417266362d829937064f428d82111e08ed2efab7906185abc671",
+      "bytes": 705,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "16",
+      "skillId": "firecrawl/firecrawl-build-onboarding",
+      "repository": "firecrawl/skills",
+      "commit": "8b18f3b161ff3081e8dc8417dcdc8cb24aa0fd9e",
+      "path": "skills/build/firecrawl-build-onboarding/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/firecrawl/skills/8b18f3b161ff3081e8dc8417dcdc8cb24aa0fd9e/skills/build/firecrawl-build-onboarding/SKILL.md",
+      "contentSha256": "cc8b77a25f924343f6363bacb2ac6f0fafa00780ea94165dac86ab83f688626c",
+      "bytes": 4579,
+      "resolution": "canonical-path-repair"
+    },
+    {
+      "slot": "17",
+      "skillId": "garrytan/context-save",
+      "repository": "garrytan/gstack",
+      "commit": "85fd9db554ae4aaaa6d356d2daf873121ee85bdd",
+      "path": "context-save/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/garrytan/gstack/85fd9db554ae4aaaa6d356d2daf873121ee85bdd/context-save/SKILL.md",
+      "contentSha256": "42eca38692de71a657c274d74a1e751482f7cdbf7e3f394ff8e3a03dc9be3b3c",
+      "bytes": 57877,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "18",
+      "skillId": "garrytan/guard",
+      "repository": "garrytan/gstack",
+      "commit": "85fd9db554ae4aaaa6d356d2daf873121ee85bdd",
+      "path": "guard/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/garrytan/gstack/85fd9db554ae4aaaa6d356d2daf873121ee85bdd/guard/SKILL.md",
+      "contentSha256": "ae1ec65c42568c760bfd0c2127c2b5a668bf04e808d731d2f234f4d65a94bf06",
+      "bytes": 3401,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "19",
+      "skillId": "caioribeiroclw-pixel/evidence-attestation",
+      "repository": "caioribeiroclw-pixel/pluribus",
+      "commit": "b15a1886284ffd392223d6cf6d71c8f7dafe0b45",
+      "path": "skills/evidence-attestation/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/caioribeiroclw-pixel/pluribus/b15a1886284ffd392223d6cf6d71c8f7dafe0b45/skills/evidence-attestation/SKILL.md",
+      "contentSha256": "886ca4c1299b1fe758cf11b83770bc8432095b778694114a2f575c859ecb7316",
+      "bytes": 4406,
+      "resolution": "canonical"
+    },
+    {
+      "slot": "20",
+      "skillId": "supabase/supabase-postgres-best-practices",
+      "repository": "supabase/agent-skills",
+      "commit": "8331f910845103c08d51f6ca1d86ebb7d1f745e3",
+      "path": "skills/supabase-postgres-best-practices/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/supabase/agent-skills/8331f910845103c08d51f6ca1d86ebb7d1f745e3/skills/supabase-postgres-best-practices/SKILL.md",
+      "contentSha256": "ad65e776f45e761bafc609d3f506c77c1032225aa65e0c4c02f241b8071e5855",
+      "bytes": 3231,
+      "resolution": "canonical-path-repair"
+    }
+  ]
+}

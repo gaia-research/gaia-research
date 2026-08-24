@@ -10,10 +10,12 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
 seed-id: 03
 skill-id: obra/systematic-debugging
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md
+sha256-skill-md: 808fc5717aa88ad65efff312b11c186294d3e6ee301afb584e2f86599b137787
+upstream: https://raw.githubusercontent.com/obra/superpowers/b36e0829c6d0140e93cfef2ca599b1b07d4a7797/skills/systematic-debugging/SKILL.md
 band: heaven
 audit-class: no
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `obra/superpowers@b36e0829c6d0140e93cfef2ca599b1b07d4a7797` / `skills/systematic-debugging/SKILL.md`. Resolution: `canonical`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

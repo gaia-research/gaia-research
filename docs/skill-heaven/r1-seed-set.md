@@ -7,8 +7,12 @@ N repeats plus confidence intervals once labeling lands.
 
 Inputs: `docs/skill-heaven/R1-STAMP-TAXONOMY-SYNTHESIS.md` §3–§4;
 `docs/plans/drafts/r1-stamp-taxonomy-seedset-PLAN.md` §"Seed set (~20 skills)".
-Canon read from `/data/data/com.termux/files/home/gaia-skill-tree`
+R1 canon was read from `/data/data/com.termux/files/home/gaia-skill-tree`
 (`registry/named-skills.json`, `skill-trees/`, `skills-lock.json`) **READ-ONLY**.
+R2 resolves every input to exact immutable bytes in
+[`content-identities.json`](../../scripts/hell-heaven-bench/data/r2/content-identities.json);
+where an R1 candidate had no retrievable contract, the replacement is named below rather
+than pretending the old identity was executable.
 
 ## 0. Rank policy
 
@@ -88,14 +92,14 @@ where none fits, the REQUIRED SHAPE is specified and identity is **TBD**.
 | 2 | `garrytan/design-consultation` (design-system-extraction bucket) | CONTROL — must be uncontroversially heaven-native |
 | 3 | `obra/systematic-debugging` | canonical dual-stamp anchor |
 | 4 | `anthropics/brand-guidelines` (brand-guideline-application bucket) | standing-dose economics case |
-| 5 | **TBD** — required shape: review-only IaC/terraform checklist; strictly zero write-scope; verdict-form output; explicitly NOT hell-safe | T1 anchor needs the reviewer half; no canon IaC-review skill found at read time |
+| 5 | `lgbarn/terraform-plan-review` (**R2 replacement**) | review-only Terraform plan inspection; replaces the unresolved shape |
 | 6 | `mattpocock/teach` (+ cheatsheet half optional) | tutor dose vs ship-keyword collision (T6) |
-| 7 | **TBD** — required shape: decision-framework/tradeoff-matrix discipline skill; text-only, no write-path | nearest canon neighbors (`obra/brainstorming`, `obra/writing-plans`) are adjacent genres, not tradeoff matrices |
+| 7 | `microsoft/tradeoff-analysis` (**R2 replacement**) | explicit tradeoff-analysis contract; replaces the unresolved shape |
 | 8 | `garrytan/cso` (security-audit bucket) | must be verified read-only during labeling |
-| 9 | **TBD** — required shape: auto-patch/remediation playbook whose RED→GREEN gate is verifiable in-skill; candidate `mattpocock/diagnose` only if its write-scope proves gated | gate verification is the whole point (K1-adjacent) |
-| 10 | `laravel/upgrade-laravel-v13` (framework-upgrade bucket; alt `mattpocock/migrate-to-shoehorn`) | schema-irreversibility flavor of T8 |
-| 11 | `upsonic/unittest-generator` (alt `0xdarkmatter/pytest-patterns`) | CONTROL — must be uncontroversially hell-safe@high |
-| 12 | **TBD** — required shape: chaos-injection playbook with hard environment-identification precondition | no canon chaos skill found |
+| 9 | `mattpocock/diagnosing-bugs` (**R2 replacement**) | live five-phase diagnosis contract with deterministic feedback-loop requirement |
+| 10 | `mattpocock/migrate-to-shoehorn` (**R2 replacement**) | R1 Laravel candidate exposed no retrievable `SKILL.md`; the documented alternate is pinned instead |
+| 11 | `curiouslearner/test-generator` (**R2 replacement**) | R1 Upsonic candidate exposed an agent file, not an executable `SKILL.md`; live test-generator contract is the control input |
+| 12 | `alirezarezvani/chaos-engineering` (**R2 replacement**) | live chaos experiment contract with blast-radius and rollback planning |
 | 13 | `huggingface/huggingface-datasets` (data-analysis bucket) | corpus map-reduce over fixed schema; egress question applies |
 | 14 | `mvanhorn/last30days` (autonomous-web-research bucket) | network-touching qualifier mandatory |
 | 15 | `remotion-dev/remotion-multimedia` (generative-media bucket) | batch media-gen; structural dims only (taste-dependent) |
@@ -106,6 +110,9 @@ where none fits, the REQUIRED SHAPE is specified and identity is **TBD**.
 | 20 | `supabase/supabase-postgres-best-practices` | WCAG-class heavy normative reference; summon-floor dosing paradox |
 
 No existing schema or record in the canon was modified (K4: additive/read-only).
+The R2 replacements correct executable inputs; they do not retroactively turn the R1
+worksheet rows into evidence. Those rows remain pre-trial hypotheses, and the R2 protocol's
+confidence-interval and safety rules alone accept, reject, or withhold a stamp.
 
 ## 4. Labelling procedure (per skill)
 

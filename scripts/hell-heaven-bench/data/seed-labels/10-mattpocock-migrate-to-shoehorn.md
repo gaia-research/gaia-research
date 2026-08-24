@@ -9,11 +9,13 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 ## Metadata
 
 seed-id: 10
-skill-id: laravel/upgrade-laravel-v13
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: https://github.com/laravel (framework-upgrade bucket)
+skill-id: mattpocock/migrate-to-shoehorn
+sha256-skill-md: de4da4c11d924fac79c924b2ee3d2db4a5cb98386eb490a599119463d036ae72
+upstream: https://raw.githubusercontent.com/mattpocock/skills/5b15a47f2d7150f545fbcacbfe381787fc0230dc/skills/misc/migrate-to-shoehorn/SKILL.md
 band: hell
 audit-class: no
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `mattpocock/skills@5b15a47f2d7150f545fbcacbfe381787fc0230dc` / `skills/misc/migrate-to-shoehorn/SKILL.md`. Resolution: `r2-replacement`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

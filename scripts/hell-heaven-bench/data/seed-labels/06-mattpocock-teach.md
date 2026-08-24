@@ -10,10 +10,12 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
 seed-id: 06
 skill-id: mattpocock/teach
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: https://github.com/mattpocock/skills/blob/main/skills/teach/SKILL.md
+sha256-skill-md: a32df9dcdfc0c4fdc1c98e1ed3940c5f56b84c1aa90ff60346f32b8b53915b43
+upstream: https://raw.githubusercontent.com/mattpocock/skills/5b15a47f2d7150f545fbcacbfe381787fc0230dc/skills/productivity/teach/SKILL.md
 band: heaven
 audit-class: no
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `mattpocock/skills@5b15a47f2d7150f545fbcacbfe381787fc0230dc` / `skills/productivity/teach/SKILL.md`. Resolution: `canonical`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

@@ -1,6 +1,6 @@
 R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
-# Seed 09: Auto-patch w/ RED->GREEN gate (identity TBD)
+# Seed 09: Diagnosing bugs (`mattpocock/diagnosing-bugs`)
 
 > Everything below is a hand-label PREDICTION to be tested by the R2 procedure.
 > This is not a benchmark record. Numbers trace to committed records or carry the
@@ -9,11 +9,13 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 ## Metadata
 
 seed-id: 09
-skill-id: TBD - required shape: auto-patch/remediation playbook whose RED->GREEN gate is verifiable in-skill (candidate mattpocock/diagnose only if its write-scope proves gated)
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: TBD
+skill-id: mattpocock/diagnosing-bugs
+sha256-skill-md: 77f3cf31bc99b2f49af943222526531fcc9fc41d047626d3640e875e85af3e84
+upstream: https://raw.githubusercontent.com/mattpocock/skills/5b15a47f2d7150f545fbcacbfe381787fc0230dc/skills/engineering/diagnosing-bugs/SKILL.md
 band: hell
 audit-class: yes
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `mattpocock/skills@5b15a47f2d7150f545fbcacbfe381787fc0230dc` / `skills/engineering/diagnosing-bugs/SKILL.md`. Resolution: `r2-replacement`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 
