@@ -1,4 +1,4 @@
-# R1 Seed Set — 20-skill composition, identities, labelling procedure
+# R1 Candidate Collection — 20-skill composition, identities, labelling procedure
 
 **Status:** PREDICTIONS ONLY. Every stamp, qualifier, and expected secondary below is a
 hand-label *prediction* to be tested by the R2 worksheet procedure — none of it is a
@@ -6,17 +6,17 @@ benchmark result (B4/B2/B3). Numbers appear nowhere here by design; the design l
 N repeats plus confidence intervals once labeling lands.
 
 Inputs: `docs/skill-heaven/R1-STAMP-TAXONOMY-SYNTHESIS.md` §3–§4;
-`docs/plans/drafts/r1-stamp-taxonomy-seedset-PLAN.md` §"Seed set (~20 skills)".
+`docs/plans/drafts/r1-stamp-taxonomy-seedset-PLAN.md` §"Candidate collection (~20 skills)".
 Canon read from `/data/data/com.termux/files/home/gaia-skill-tree`
 (`registry/named-skills.json`, `skill-trees/`, `skills-lock.json`) **READ-ONLY**.
 
 ## 0. Rank policy
 
-Arbor I selection of seeds is **rank-agnostic**: seed slots are chosen for raw capability
-fit to a tension cell, never for star level or trust grade. Where the canon registry carries
-a rank (`level` stars, evidence `trustNumber`), ranks are used **only to break ties between
-equally-fitting candidate skills**, so the seed set stays realistic against what users can
-actually install today.
+Arbor I selection of candidates is **rank-agnostic**: collection slots are chosen for raw
+capability fit to a tension cell, never for star level or trust grade. Where the canon registry
+carries a rank (`level` stars, evidence `trustNumber`), ranks are used **only to break ties
+between equally-fitting candidate skills**, so the candidate collection stays realistic against
+what users can actually install today.
 
 ## 1. Composition rules (from the synthesis)
 
@@ -30,7 +30,7 @@ actually install today.
 
 Genres, primary-stamp predictions, tension cells per the synthesis (§4 there), verbatim:
 
-| # | Seed skill (genre) | Band | Primary stamp prediction (+secondary) | Tension cells |
+| # | Candidate skill (genre) | Band | Primary stamp prediction (+secondary) | Tension cells |
 |---|--------------------|------|---------------------------------------|---------------|
 | 1 | Adversarial-critique/grilling playbook | A | heaven-native | T2, T9 |
 | 2 | Design-systems/visual style guide | A | heaven-native | control (Heaven) |
@@ -55,7 +55,7 @@ Genres, primary-stamp predictions, tension cells per the synthesis (§4 there), 
 
 ### 2b. Tension-cell coverage accounting (T1–T11)
 
-The table column above names each seed's *headline* cells; several cells are carried in
+The table column above names each candidate's *headline* cells; several cells are carried in
 the rubric's anchor assignments and the worksheets' qualifier fields rather than the
 column, so the full map is written out here to make the §1 claim checkable:
 
@@ -73,7 +73,7 @@ column, so the full map is written out here to make the §1 claim checkable:
 | T10 probe-patch-as-mutation (OPEN) | #9 — both readings recorded per the interim conservative rule | worksheet 09 environment-qualifiers field |
 | T11 scope-of-validity qualifiers | #4, #10 (rubric anchors); #20 adjacent | worksheets 04/10/20 qualifier fields |
 
-Every cell T1–T11 lands at least once. No cell relies on a seed outside the 20.
+Every cell T1–T11 lands at least once. No cell relies on a candidate outside the 20.
 
 ## 3. Concrete skill identities per slot
 
@@ -159,7 +159,7 @@ No slice exceeds 3 primary anchors.
 ---
 
 *Everything above is a set of predictions about how labeling will go, not a result.
-The seed identities are inputs to the R2 worksheets; the stamps are their hypotheses.*
+The candidate identities are inputs to the R2 worksheets; the stamps are their hypotheses.*
 
 ## 7. Divergence ledger — filled worksheets vs headline predictions (review cycle 3)
 

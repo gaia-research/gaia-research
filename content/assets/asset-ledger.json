@@ -1637,6 +1637,23 @@
       "derivatives": []
     },
     {
+      "id": "arbor-evidence-loop-editorial-thumbnail",
+      "path": "assets/generated/arbor-evidence-loop-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "Tiny pink-haired Milim sits beneath a monumental glowing Arbor tree in an indigo night garden.",
+      "sha256": "e97a94f545240545ee7a9f1a8827e8ea3a8573c0573d0c16a7f46baf041964a5",
+      "bytes": 94614,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
+    },
+    {
       "id": "chief-scout-hero",
       "path": "assets/generated/chief-scout-hero.png",
       "kind": "hero-illustration",
