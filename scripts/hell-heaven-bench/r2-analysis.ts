@@ -13,7 +13,14 @@ export function analyse(rs: LedgerRecord[], predictions: Record<string, boolean>
   for (const [arm, rows] of Object.entries(groups)) { const q = rows.flatMap(r => r.objectiveEndpoint.pass === null ? [] : [r.objectiveEndpoint.pass ? 1 : 0]); out.groups[arm] = { n: rows.length, quality: avg(q), qualityCi95: binomialCi(q.reduce((a, b) => a + b, 0), q.length), standing: avg(rows.flatMap(r => r.tokens.skillStanding === null ? [] : [r.tokens.skillStanding])), invocation: avg(rows.flatMap(r => r.tokens.skillInvocation === null ? [] : [r.tokens.skillInvocation])), wholeSession: avg(rows.flatMap(r => r.tokens.perTurn === null ? [] : [r.tokens.perTurn])), wallClockMs: avg(rows.map(r => r.wallClockMs)) }; }
   for (const rung of RUNGS) { const rows = rs.filter(r => rungOf(r, metadata?.rungs) === rung), q = rows.flatMap(r => r.objectiveEndpoint.pass === null ? [] : [r.objectiveEndpoint.pass ? 1 : 0]); const e = out.entropyCurve.find((x: any) => x.rung === rung); e.n = q.length; e.quality = avg(q); e.qualityCi95 = binomialCi(q.reduce((a, b) => a + b, 0), q.length); }
   const byPair = new Map<string, LedgerRecord[]>(); for (const r of rs) (byPair.get(`${r.task}:${r.repeatIndex}`) ?? (byPair.set(`${r.task}:${r.repeatIndex}`, []), byPair.get(`${r.task}:${r.repeatIndex}`)!)).push(r);
-  for (const [k, rows] of byPair) { const p = rows.find(r => r.arm === "placebo" && r.objectiveEndpoint.pass !== null), t = rows.find(r => r.arm !== "placebo" && r.objectiveEndpoint.pass !== null); if (!p || !t) continue; const rung = rungOf(t, metadata?.rungs); (out.pairedDeltas[rung] ??= []).push((t.objectiveEndpoint.pass ? 1 : 0) - (p.objectiveEndpoint.pass ? 1 : 0)); }
+  for (const [, rows] of byPair) {
+    const p = rows.find(r => r.arm === "placebo" && r.objectiveEndpoint.pass !== null);
+    if (!p) continue;
+    for (const t of rows.filter(r => r.arm !== "placebo" && r.objectiveEndpoint.pass !== null)) {
+      const rung = rungOf(t, metadata?.rungs);
+      (out.pairedDeltas[rung] ??= []).push((t.objectiveEndpoint.pass ? 1 : 0) - (p.objectiveEndpoint.pass ? 1 : 0));
+    }
+  }
   for (const rung of Object.keys(out.pairedDeltas)) { const d = out.pairedDeltas[rung]; out.pairedDeltas[rung] = { n: d.length, mean: avg(d), ci95: deltaCi(d) }; }
   const taskOutcomes = new Map<string, number[]>(); for (const r of rs) if (r.arm !== "placebo" && r.objectiveEndpoint.pass !== null) (taskOutcomes.get(r.task) ?? (taskOutcomes.set(r.task, []), taskOutcomes.get(r.task)!)).push(r.objectiveEndpoint.pass ? 1 : 0);
   const pairs = [...taskOutcomes].filter(([task]) => predictions[task] !== undefined).map(([task, ys]) => [predictions[task] ? 1 : 0, avg(ys)!]); out.correlation.n = pairs.length;

@@ -33,7 +33,7 @@ export function detectCells(attempts: Attempt[], expected: { taskId: string; loa
 export function blindAssignments(attempts: Attempt[], rubricVersion: string): JudgeAssignment[] {
   const valid = attempts.filter(a => a.status === "valid"); const used = new Set<string>(); const out: JudgeAssignment[] = [];
   for (const treatment of valid.filter(a => a.loadoutId !== "placebo")) {
-    const pairKey = `${treatment.taskId}\u0000${treatment.repeatIndex}`;
+    const pairKey = `${treatment.taskId}\u0000${treatment.loadoutId}\u0000${treatment.repeatIndex}`;
     if (used.has(pairKey)) continue;
     const placebo = valid.find(a => a.loadoutId === "placebo" && a.taskId === treatment.taskId && a.repeatIndex === treatment.repeatIndex);
     if (!placebo || placebo.artifactSha256 === treatment.artifactSha256) continue;
