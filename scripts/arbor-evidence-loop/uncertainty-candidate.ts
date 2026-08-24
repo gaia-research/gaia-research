@@ -11,9 +11,10 @@ try {
   if (!claim) throw new Error(`claim not found: ${claimId}`);
   const paths: string[] = [];
   for (let i = 0; i < args.length; i++) if (args[i] === "--telemetry") {
-    const path = args[++i];
-    if (!path) throw new Error("--telemetry requires a file");
+    const path = args[i + 1];
+    if (!path || path.startsWith("--")) throw new Error("--telemetry requires a file");
     paths.push(path);
+    i++;
   }
   const observations = loadObservations(paths);
   const skillObservations = observations.filter((observation) => observation.composition.loadedSkills.some((skill) => skill.id === declaration.skill.id && skill.contentSha256 === declaration.skill.contentSha256));

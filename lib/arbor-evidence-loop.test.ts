@@ -74,4 +74,38 @@ describe("Arbor evidence loop fixture path", () => {
     expect(candidate.signal).toBe("decision-block");
     expect(candidate.decisionBlockReason).toBe("operator blocked deployment approval");
   }, 30000);
+
+  it("never consumes a following flag as a value", () => {
+    const common = ["--declaration", fixture("declaration.json"), "--claim-id", "diagnose-human-led"];
+    expect(runFailure("uncertainty-candidate.ts", [...common, "--telemetry", "--decision-block", "reason"]))
+      .toContain("--telemetry requires a file");
+    expect(runFailure("uncertainty-candidate.ts", [...common, "--telemetry", fixture("telemetry-control.json"), "--decision-block", "--claim-id"]))
+      .toContain("--decision-block requires a non-empty reason");
+  }, 30000);
+
+  it.each([
+    ["unknown key", { unexpected: 1 }],
+    ["empty object", {}],
+    ["negative", { input: -1 }],
+    ["fractional", { input: 1.5 }],
+    ["unsafe", { input: Number.MAX_SAFE_INTEGER + 1 }],
+    ["null", { input: null }],
+    ["string", { input: "1" }],
+  ])("rejects malformed metrics.tokens (%s)", (_label, tokens) => {
+    const observation = JSON.parse(readFileSync(fixture("telemetry-control.json"), "utf8"));
+    observation.metrics.tokens = tokens;
+    const output = runFailure("uncertainty-candidate.ts", [
+      "--declaration", fixture("declaration.json"), "--claim-id", "diagnose-human-led", "--telemetry", temporaryJson(observation),
+    ]);
+    expect(output).toMatch(/metrics\.tokens/);
+  }, 30000);
+
+  it("accepts only known non-negative safe-integer token fields", () => {
+    const observation = JSON.parse(readFileSync(fixture("telemetry-control.json"), "utf8"));
+    observation.metrics.tokens = { input: 10, output: 20, cacheCreationInput: 0, cacheReadInput: 3, total: 33 };
+    const candidate = run("uncertainty-candidate.ts", [
+      "--declaration", fixture("declaration.json"), "--claim-id", "diagnose-human-led", "--telemetry", temporaryJson(observation),
+    ]);
+    expect(candidate).toBeNull();
+  }, 30000);
 });

@@ -49,7 +49,8 @@ export function validateDeclaration(value: unknown): asserts value is Declaratio
   for (const [i, item] of value.claims.entries()) { const claim = item; if (!isObject(claim)) throw new Error(`declaration.claims[${i}] must be an object`); keys(claim, ["id", "facet", "conditions", "rationale", "authority"], `declaration.claims[${i}]`); required(claim, ["id", "facet", "conditions", "rationale", "authority"], `declaration.claims[${i}]`); str(claim.id, `declaration.claims[${i}].id`); if (claim.facet !== "human-led" && claim.facet !== "model-led") throw new Error(`declaration.claims[${i}].facet is invalid`); str(claim.conditions, `declaration.claims[${i}].conditions`); str(claim.rationale, `declaration.claims[${i}].rationale`); const authority = claim.authority; if (!isObject(authority)) throw new Error(`declaration.claims[${i}].authority must be an object`); keys(authority, ["actor", "basis"], `declaration.claims[${i}].authority`); required(authority, ["actor", "basis"], `declaration.claims[${i}].authority`); str(authority.actor, "authority.actor"); str(authority.basis, "authority.basis"); }
 }
 
-export interface Observation { schema: string; sessionPseudonym: string; observedAt: string; harness: { name: string; version?: string }; model?: { id: string; version?: string }; composition: { posture: string; mechanism?: string; loadedSkills: Array<{ id: string; contentSha256: string; invocationObserved: true | null }> }; taskFamily?: string; signals: { outcome: { status: "succeeded" | "failed"; exitCode: number }; retryCount: number | null; recoveryObserved: boolean | null; churnCount: number | null }; metrics: { latencyMs: number; tokens?: Record<string, number> } }
+export interface TokenMetrics { input?: number; output?: number; cacheCreationInput?: number; cacheReadInput?: number; total?: number }
+export interface Observation { schema: string; sessionPseudonym: string; observedAt: string; harness: { name: string; version?: string }; model?: { id: string; version?: string }; composition: { posture: string; mechanism?: string; loadedSkills: Array<{ id: string; contentSha256: string; invocationObserved: true | null }> }; taskFamily?: string; signals: { outcome: { status: "succeeded" | "failed"; exitCode: number }; retryCount: number | null; recoveryObserved: boolean | null; churnCount: number | null }; metrics: { latencyMs: number; tokens?: TokenMetrics } }
 const localPathPatterns = [
   /(?:^|\s|["'(={])file:[^\s"'<>]+/i,
   /(?:^|\s|["'(={])[A-Za-z]:[\\/][^\s"'<>]*/,
@@ -82,11 +83,24 @@ export function validateObservation(value: unknown): asserts value is Observatio
   const signals = value.signals; if (!isObject(signals)) throw new Error("observation.signals must be an object"); keys(signals, ["outcome", "retryCount", "recoveryObserved", "churnCount"], "observation.signals"); required(signals, ["outcome", "retryCount", "recoveryObserved", "churnCount"], "observation.signals"); const outcome = signals.outcome; if (!isObject(outcome)) throw new Error("outcome must be an object"); keys(outcome, ["status", "exitCode"], "outcome"); if (outcome.status !== "succeeded" && outcome.status !== "failed") throw new Error("invalid outcome status"); if (!Number.isSafeInteger(outcome.exitCode) || Number(outcome.exitCode) < 0 || ((outcome.exitCode === 0) !== (outcome.status === "succeeded"))) throw new Error("outcome status/exitCode mismatch");
   for (const k of ["retryCount", "churnCount"]) if (signals[k] !== null && (!Number.isSafeInteger(signals[k]) || Number(signals[k]) < 0)) throw new Error(`${k} must be null or a non-negative integer`); if (signals.recoveryObserved !== null && typeof signals.recoveryObserved !== "boolean") throw new Error("recoveryObserved must be null or boolean");
   const metrics = value.metrics; if (!isObject(metrics)) throw new Error("observation.metrics must be an object"); keys(metrics, ["latencyMs", "tokens"], "observation.metrics"); required(metrics, ["latencyMs"], "observation.metrics"); if (!Number.isSafeInteger(metrics.latencyMs) || Number(metrics.latencyMs) < 0) throw new Error("latencyMs must be a non-negative integer");
+  if (metrics.tokens !== undefined) {
+    if (!isObject(metrics.tokens)) throw new Error("observation.metrics.tokens must be an object");
+    keys(metrics.tokens, ["input", "output", "cacheCreationInput", "cacheReadInput", "total"], "observation.metrics.tokens");
+    if (Object.keys(metrics.tokens).length === 0) throw new Error("observation.metrics.tokens must contain at least one known field");
+    for (const [field, tokenCount] of Object.entries(metrics.tokens)) {
+      if (!Number.isSafeInteger(tokenCount) || tokenCount < 0) throw new Error(`observation.metrics.tokens.${field} must be a non-negative safe integer`);
+    }
+  }
 }
 
 export function loadObservations(paths: string[]): Observation[] { if (!paths.length) throw new Error("at least one telemetry export is required"); const values = paths.map((p) => { const value = readJson(p); validateObservation(value); return value; }); return values.sort((a, b) => canonicalJson(a).localeCompare(canonicalJson(b))); }
 export function conditionKey(o: Observation): string { return canonicalJson({ harness: o.harness, model: o.model ?? null, posture: o.composition.posture, taskFamily: o.taskFamily ?? null }); }
 export function claimQuestion(declaration: Declaration, claim: Declaration["claims"][number]): string { return `Does skill ${declaration.skill.id} exhibit the ${claim.facet} claim under these stated conditions: ${claim.conditions}?`; }
-export function parseFlag(name: string, args: string[]): string | undefined { const i = args.indexOf(name); return i < 0 ? undefined : args[i + 1]; }
+export function parseFlag(name: string, args: string[]): string | undefined {
+  const i = args.indexOf(name);
+  if (i < 0) return undefined;
+  const value = args[i + 1];
+  return value && !value.startsWith("--") ? value : undefined;
+}
 export function requireFlag(name: string, args: string[]): string { const value = parseFlag(name, args); if (!value) throw new Error(`missing ${name}`); return value; }
 export function writeOutput(value: unknown): void { process.stdout.write(`${canonicalJson(value)}\n`); }
