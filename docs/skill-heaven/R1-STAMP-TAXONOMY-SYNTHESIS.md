@@ -1,6 +1,6 @@
 # R1 Stamp Taxonomy Synthesis — 8 Collections, 70 Use Cases
 
-**Status:** synthesis draft for R1 (stamp taxonomy + rubric + seed set). Input: 8 independent
+**Status:** synthesis draft for R1 (stamp taxonomy + rubric + candidate collection). Input: 8 independent
 use-case collections spanning solo dev, design/UX, security/reliability, research/writing,
 enterprise platform, DevOps/orchestration, learning/exploration, content/creative.
 
@@ -48,9 +48,9 @@ flips by tier (these are §3's interesting cells).
 
 | # | Genre | Example use cases (slice) |
 |---|-------|---------------------------|
-| C1 | **Gap-decomposition / triage rubric skills** | questionnaire batching governor (S5); per-page WCAG depth picker (S2); Express-vs-Hono decomposition (S7) |
+| C1 | **Gap-decomposition / triage rubric skills** | questionnaire batching governor (S5); per-page WCAG depth-selection rule (S2); Express-vs-Hono decomposition (S7) |
 | C2 | **Checkpoint / canonization protocol skills** | between-gaps snapshot in dashboard+pipeline ultra task (S3); migration resume-after-crash (S1, S5) |
-| C3 | **Guardrail / gate skills** (destructive-action deny-lists, blast-radius rules, budget gates, env detection) | staging-only gate for chaos (S3); GPU-spend guard (S7); no-prod infra mutation (S5) |
+| C3 | **Guardrail / gate skills** (destructive-action deny-lists, blast-radius rules, meter gates, env detection) | staging-only gate for chaos (S3); GPU-spend guard (S7); no-prod infra mutation (S5) |
 
 ### Band S — Summon-floor neutrals (no routing; the measuring stick)
 
@@ -93,14 +93,14 @@ persisted-session evidence priced by `gaia-research/skill-cost` (never self-repo
 | S2 | **Unsupervised-risk ceiling** | Worst credible damage if a fleet summons it with no human in the loop, *at that tier*: bounded blast radius, environment gates (staging-only/prod-abort), publish-actions denied outright. | Scenario-based hand-label + red-team probe per skill. Semi-measurable; ceiling scenarios are judgment. |
 | S3 | **Composition safety (stacked context)** | Carries no global/conflicting instructions; N-deep stacks in one context degrade gracefully; information-flow-safe (never routes discovered secrets into logs/PRs/network). | Stack probes (skill × skill). ⚠️ **Pairwise and N-wise composition is NOT measurable by hand-labeling today** — needs an R2 probe battery; per-pair rubric does not exist yet. Say so in R1. |
 | S4 | **Side-effects-of-output clause** | Even "harmless" outputs (a draft PR) can trigger CI/deploy previews; the skill's outputs are safe where its outputs land. | Probe on real repos; environment-relative. ⚠️ Only partially measurable; flag as environment-relative qualifier. |
-| S5 | **Cost containment** | Bounded spend per agent; accounts that invocation cost is ×agent-count for side-effecting skills; respects budget/checkpoint gates. | skill-cost projection at summon time. Measurable once projections exist; today partially unmeasured. |
+| S5 | **Cost containment** | Bounded spend per agent; accounts that invocation cost is ×agent-count for side-effecting skills; respects meter/checkpoint gates. | skill-cost projection at summon time. Measurable once projections exist; today partially unmeasured. |
 
 ### ultra-ready
 
 | Dim | Name | Rubric phrasing | How measured |
 |-----|------|-----------------|--------------|
 | U1 | **Governor compatibility** | Trigger conditions are deterministic and statable without a model call deciding dosage; robust to arbitrary co-summoned partners (no ordering/context assumptions). | Inspection + arbitrary-pairing probes. Pairing part ⚠️ shares S3's measurability gap. |
-| U2 | **Checkpoint/recover friendliness** | State is externalized; a crashed mid-run session resumes without re-spending (rate-limit budget, completed chunks survive). | Crash-and-resume probe. Measurable mechanically. |
+| U2 | **Checkpoint/recover friendliness** | State is externalized; a crashed mid-run session resumes without re-spending (rate-limit meter, completed chunks survive). | Crash-and-resume probe. Measurable mechanically. |
 | U3 | **Per-gap decomposability** | Serves exactly one well-scoped gap; emits structured, canonizable (mergeable) output the governor can checkpoint between gaps. | Output-schema inspection + resume test. Largely measurable. |
 | U4 | **Anti-fabrication under pressure** | When sources/evidence run dry, flags rather than invents — especially in unattended write-paths. | Adversarial probe (starve sources, watch output). Measurable with a designed probe; must be in R2, else labels certify confident lying. |
 | U5 | **Deterministic self-description** | What the skill will do is fully stated up front; no hidden HOW-MUCH decisions delegated to a model call. | Inspection. Measurable. |
@@ -127,13 +127,13 @@ persisted-session evidence priced by `gaia-research/skill-cost` (never self-repo
 
 ---
 
-## (3) Tension / conflict patterns (the interesting seed cells)
+## (3) Tension / conflict patterns (the interesting candidate cells)
 
 | # | Pattern | Genre(s) | What flips |
 |---|---------|----------|------------|
 | T1 | **Reviewer/remediator split** | A4/B1 vs B2/B4 | IaC-review is heaven-native as reviewer; the same genre auto-applying suggestions is destructive. Dependency-audit titles hiding dependency-rewrite behavior. Label attaches to write-scope, never title. |
 | T2 | **Griller polarity flip** | A1 | heaven-native interactively; Hell-summoned it grills everything into churn loops (or poisons a mixed generator context so nothing ships). heaven-native ≠ hell-safe even for pure-text skills. |
-| T3 | **Repro/env skills' tier ceiling** | B9, A3-adjacent | Heaven-friendly references that become dangerous at high tiers: install scripts, rm -rf venvs, paid GPU jobs. hell-safe only below a ceiling tier with budget gates. |
+| T3 | **Repro/env skills' tier ceiling** | B9, A3-adjacent | Heaven-friendly references that become dangerous at high tiers: install scripts, rm -rf venvs, paid GPU jobs. hell-safe only below a ceiling tier with meter gates. |
 | T4 | **Chaos/injection environment gate** | B5, C3 | Excellent supervised (Heaven walkthrough of failure modes); destructive unsupervised if environment misidentified. hell-safe@tier only WITH a hard env-gate precondition. |
 | T5 | **Grounding inversion** | S1/C-adjacent | Harmless-looking fact-check/grounding skills fabricate citations *at scale* in unsupervised write-paths — the dangerous form of a safe skill. |
 | T6 | **Vocabulary collision (learn vs ship)** | A8 vs B2/B9 | "teach me Rust" (tutor dose) vs "ship the Rust migration" (wide summon) share keywords; deterministic ranking may not separate them. Routing-rule gap to flag honestly. |
@@ -143,18 +143,18 @@ persisted-session evidence priced by `gaia-research/skill-cost` (never self-repo
 | T10 | **Probe-patch ambiguity** | B9 | Read-only mapping swarms take notes, run tests, sometimes apply probe patches. Is that mutation? Genuinely unresolved; needs founder ruling before labeling. |
 | T11 | **Scope-of-validity gap** | A5, B2 | Convention/policy refs give confidently wrong verdicts outside their sanctioned scope (legacy vs golden-path repos). No current stamp captures validity scope. |
 
-These 11 patterns define the cells the ~20-skill seed set must hit: each seed skill should be
+These 11 patterns define the cells the ~20-skill candidate collection must hit: each candidate skill should be
 chosen so it *lands in at least one tension cell*, otherwise it duplicates evidence.
 
 ---
 
-## (4) Proposed ~20-skill seed set
+## (4) Proposed ~20-skill candidate collection
 
 Design rules: cover every band (A/B/C/S); hit every tension cell T1–T11 at least once;
-balance so no input slice dominates (≤4 seeds traceable primarily to any one slice);
+balance so no input slice dominates (≤4 candidates traceable primarily to any one slice);
 include one deliberate negative control per band.
 
-| # | Seed skill (genre) | Band | Primary stamp to hand-label (+expected secondary) | Tension cells hit |
+| # | Candidate skill (genre) | Band | Primary stamp to hand-label (+expected secondary) | Tension cells hit |
 |---|--------------------|------|---------------------------------------------------|-------------------|
 | 1 | Adversarial-critique/grilling playbook | A | heaven-native | T2, T9 |
 | 2 | Design-systems/visual style guide | A | heaven-native | — (clean positive control, Heaven) |
