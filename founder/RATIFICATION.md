@@ -207,3 +207,10 @@ revision lands and the gate re-runs GREEN.
 |---|---|---|
 | R1a | **CURRENT** | **Hell-safe tier derivation is a BIJECTION from the S-row bits to tiers** — it replaces any cap-down walk in rubric §3.2. S1 fails → none · S1 only → `@low` · S1–S2 → `@med` · S1–S3 → `@high` · S1–S4 → `@xhigh` · S1–S5 **AND verified environment-gate evidence** → `@max`. Without that evidence S1–S5 derives `@xhigh` as ceiling. Deny-listed skills derive none at every bit pattern (T8 unchanged). Unique bit pattern to tier; no starting ceiling, no conservative downgrade. Orchestrator-applied during K1 repair, owner-vetoable, rides implementing PR per D9 (#188). |
 | R1b | **CURRENT** | **S-rows are scored for EVERY skill regardless of primary band; any non-empty derivation MUST be recorded as the secondary hell-safe stamp** (T9 multiplicative consistency). "None" is a derivation result, never a default or template prior. Orchestrator-applied during K1 repair, owner-vetoable, rides implementing PR per D9 (#188). |
+
+## 10. Arbor evidence-loop rulings (owner, 2026-08-24)
+
+| Id | Status | Ruling |
+|---|---|---|
+| A1 | **CURRENT** | **Arbor starts from Gaia expert operational declarations, never prestige.** `human-led` and `model-led` are independent, non-exclusive behavioral claims, so one skill may hold both under stated conditions. |
+| A2 | **CURRENT** | **Telemetry identifies uncertainty; a targeted benchmark receipt confirms, qualifies, revises, or leaves a declaration inconclusive.** Entropy curves emerge only from accumulated comparable runtime observations, never as a prerequisite bulk campaign. |
