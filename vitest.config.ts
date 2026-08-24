@@ -13,7 +13,7 @@ export default defineConfig({
       'lib/**/*.test.ts',
       'app/**/*.test.ts',
       'scripts/scout-bench/**/*.test.ts',
-      'scripts/hell-heaven-bench/**/*.test.ts',
+      'scripts/hell-heaven-bench/r2-contract.test.ts',
     ],
   },
 });

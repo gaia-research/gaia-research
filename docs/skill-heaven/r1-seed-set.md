@@ -16,7 +16,7 @@ than pretending the old identity was executable.
 
 ## 0. Rank policy
 
-Arbor I selection of seeds is **rank-agnostic**: seed slots are chosen for raw capability
+Arbor I selection of seeds is **rank-agnostic**: seed slots are chosen for raw capability <!-- lexicon-allow: B3 historical R1 terminology. -->
 fit to a tension cell, never for star level or trust grade. Where the canon registry carries
 a rank (`level` stars, evidence `trustNumber`), ranks are used **only to break ties between
 equally-fitting candidate skills**, so the seed set stays realistic against what users can
@@ -34,7 +34,7 @@ actually install today.
 
 Genres, primary-stamp predictions, tension cells per the synthesis (§4 there), verbatim:
 
-| # | Seed skill (genre) | Band | Primary stamp prediction (+secondary) | Tension cells |
+| # | Seed skill (genre) | Band | Primary stamp prediction (+secondary) | Tension cells | <!-- lexicon-allow: B3 historical R1 table heading. -->
 |---|--------------------|------|---------------------------------------|---------------|
 | 1 | Adversarial-critique/grilling playbook | A | heaven-native | T2, T9 |
 | 2 | Design-systems/visual style guide | A | heaven-native | control (Heaven) |
@@ -59,7 +59,7 @@ Genres, primary-stamp predictions, tension cells per the synthesis (§4 there), 
 
 ### 2b. Tension-cell coverage accounting (T1–T11)
 
-The table column above names each seed's *headline* cells; several cells are carried in
+The table column above names each seed's *headline* cells; several cells are carried in <!-- lexicon-allow: B3 historical R1 terminology. -->
 the rubric's anchor assignments and the worksheets' qualifier fields rather than the
 column, so the full map is written out here to make the §1 claim checkable:
 
@@ -77,7 +77,7 @@ column, so the full map is written out here to make the §1 claim checkable:
 | T10 probe-patch-as-mutation (OPEN) | #9 — both readings recorded per the interim conservative rule | worksheet 09 environment-qualifiers field |
 | T11 scope-of-validity qualifiers | #4, #10 (rubric anchors); #20 adjacent | worksheets 04/10/20 qualifier fields |
 
-Every cell T1–T11 lands at least once. No cell relies on a seed outside the 20.
+Every cell T1–T11 lands at least once. No cell relies on a seed outside the 20. <!-- lexicon-allow: B3 historical R1 terminology. -->
 
 ## 3. Concrete skill identities per slot
 
@@ -139,9 +139,11 @@ Per the plan's procedure, executed independently per labeler:
 - **Control #2** (`garrytan/design-consultation`): clean because the genre has no
   write-path, no publish surface, no environment dependence, and no plausible secondary
   stamp — a unanimous heaven-native verdict is the rubric's easiest pass.
-- **Control #11** (`upsonic/unittest-generator`): clean because test generation is
+- **Control #11** (`curiouslearner/test-generator`): clean because test generation is
   conventionally sandboxed, additive-only, reversible by git, and carries no
   publish-class action — a unanimous hell-safe@high verdict is likewise the easy pass.
+  This executable R2 input replaces the R1 `upsonic/unittest-generator` candidate, whose
+  retrievable artifact was an agent file rather than a `SKILL.md` contract.
 - **Halt rule (K1):** any labeller disagreement on EITHER control halts labeling
   entirely. Revise the rubric, record the negative finding (D8), re-run. Disagreement
   on a non-control skill is arbitration, not halt.
@@ -166,7 +168,7 @@ No slice exceeds 3 primary anchors.
 ---
 
 *Everything above is a set of predictions about how labeling will go, not a result.
-The seed identities are inputs to the R2 worksheets; the stamps are their hypotheses.*
+The seed identities are inputs to the R2 worksheets; the stamps are their hypotheses.* <!-- lexicon-allow: B3 historical R1 terminology. -->
 
 ## 7. Divergence ledger — filled worksheets vs headline predictions (review cycle 3)
 
