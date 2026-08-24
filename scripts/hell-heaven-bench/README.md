@@ -9,6 +9,7 @@ registry-proxy prototype — leave it alone.
 |---|---|---|
 | `census.ts` | **M1 / R0** | Two-part-dose census: standing (listing line) vs invocation (full `SKILL.md`) — never one number. Artifact: `content/reports/hh-benchmark/r0-census.md` + `data/r0-census.json`. |
 | `ledger.ts` | **M3 / R2 plumbing** | JSONL run ledger (methodology §6 + two-dose token categories). Always on: every run, manual or fleet, appends here. |
+| `r2-contract.ts` + `validate-r2.ts` | **R2 Workstream A** | Pre-registered twenty-identity/task/loadout matrix plus attempt and blind-judge companion validation. Exact rung metadata stays outside frozen `hh-ledger/v1`. |
 | `check-claims.ts` | **provenance gate** | Binds prose to committed evidence: every token number / sha in the gated docs must trace to a committed `ledger.jsonl` / `r0-census.json` record, or carry the `‡` sigil (= declared uncommitted context). Run before any docs PR. |
 | `demo-kc9-live.sh` | **KC9** | The three-minute demo: one task asked three ways (native / floor / curated) with a byte-identical prompt and a single shared objective endpoint. Emits `kc9-demo-transcript/v1` beats beside the `hh-ledger/v1` records; prints the append commands, never mutates the ledger. |
 | `render-kc9-replay.mjs` | **KC9** | Transcript -> one self-contained offline HTML replay page (no CDN, no build step). Output: `public/reports/hh-benchmark/kc9-demo-replay.html`. The page has two modes: the manual stepper, and `?autoplay=1` ("cinema") — a fixed 1080p stage that plays the run on a 180-second caption timeline. |
@@ -113,6 +114,24 @@ never 0 for "didn't measure"), wallClockMs, objectiveEndpoint, judgeVerdict (Tie
 is N repeats + confidence intervals. The validator rejects any record carrying `seed`.
 The placebo arm is always our own same-harness no-skill run (`skillsLoaded: []`) —
 published benchmark scores are calibration only.
+
+## R2 pre-registration
+
+```bash
+# Deterministic contract/fixture check used by CI (no provider calls):
+npx tsx scripts/hell-heaven-bench/validate-r2.ts
+npx vitest run scripts/hell-heaven-bench/r2-contract.test.ts
+
+# Acquisition-time check of all twenty immutable upstream byte hashes:
+npx tsx scripts/hell-heaven-bench/validate-r2.ts --verify-sources
+```
+
+The full protocol is [`docs/skill-heaven/r2-trial-protocol.md`](../../docs/skill-heaven/r2-trial-protocol.md).
+`data/r2/content-identities.json` pins twenty exact skill bodies;
+`data/r2/task-matrix.json` pins endpoints, planned repeats, and task-specific loadouts.
+The latter's loadout lengths are experimental manifests, never global rung counts/caps.
+Invalid attempts and blind judgments live in companion schemas so D6's frozen ledger
+field set remains untouched.
 
 ## First real paired run (M3 exit criterion)
 

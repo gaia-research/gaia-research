@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hh-r2-attempt/v1",
+  "title": "R2 run-attempt companion (outside hh-ledger/v1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "attemptId", "taskId", "loadoutId", "repeatIndex", "attemptIndex", "startedAt", "finishedAt", "status", "invalidReason", "artifactSha256", "ledgerRecordSha256"],
+  "properties": {
+    "schema": { "const": "hh-r2-attempt/v1" },
+    "attemptId": { "type": "string", "minLength": 1 },
+    "taskId": { "type": "string", "minLength": 1 },
+    "loadoutId": { "type": "string", "minLength": 1 },
+    "repeatIndex": { "type": "integer", "minimum": 0 },
+    "attemptIndex": { "type": "integer", "minimum": 0 },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "finishedAt": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["valid", "invalid"] },
+    "invalidReason": { "enum": [null, "harness-crash", "provider-outage", "rate-limit", "sandbox-setup", "capture-corrupt", "endpoint-infrastructure", "protocol-deviation"] },
+    "artifactSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "ledgerRecordSha256": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" }
+  },
+  "allOf": [
+    { "if": { "properties": { "status": { "const": "valid" } } }, "then": { "properties": { "invalidReason": { "const": null }, "ledgerRecordSha256": { "type": "string" } } } },
+    { "if": { "properties": { "status": { "const": "invalid" } } }, "then": { "properties": { "invalidReason": { "not": { "const": null } }, "ledgerRecordSha256": { "const": null } } } }
+  ]
+}
