@@ -18,6 +18,18 @@ const INVALID_REASONS = new Set([
   "harness-crash", "provider-outage", "rate-limit", "sandbox-setup",
   "capture-corrupt", "endpoint-infrastructure", "protocol-deviation",
 ]);
+export interface Attempt {
+  schema: "hh-r2-attempt/v1"; attemptId: string; taskId: string; loadoutId: string;
+  repeatIndex: number; attemptIndex: number; startedAt: string; finishedAt: string;
+  status: "valid" | "invalid"; invalidReason: string | null;
+  artifactSha256: string; ledgerRecordSha256: string | null;
+}
+export interface JudgeAssignment {
+  schema: "hh-r2-blind-judge/v1"; assignmentId: string; taskId: string; rubricVersion: string;
+  candidateAArtifactSha256: string; candidateBArtifactSha256: string;
+  verdict: "A" | "B" | "tie" | "invalid"; scores: Record<string, number>;
+  rationale: string; judgeIdPseudonym: string;
+}
 
 export function readJson(path: string): unknown {
   return JSON.parse(readFileSync(path, "utf8"));
@@ -91,7 +103,7 @@ export function validateTaskMatrix(raw: unknown, identities: ReturnType<typeof v
   return { taskIds };
 }
 
-export function validateAttempt(raw: unknown) {
+export function validateAttempt(raw: unknown): asserts raw is Attempt {
   const a = object(raw, "attempt");
   if (a.schema !== "hh-r2-attempt/v1") throw new Error("attempt: bad schema");
   const attemptKeys = new Set(["schema", "attemptId", "taskId", "loadoutId", "repeatIndex", "attemptIndex", "startedAt", "finishedAt", "status", "invalidReason", "artifactSha256", "ledgerRecordSha256"]);
@@ -109,15 +121,16 @@ export function validateAttempt(raw: unknown) {
     throw new Error("invalid attempt needs enumerated reason and no ledger record");
 }
 
-export function validateJudgeAssignment(raw: unknown) {
+export function validateJudgeAssignment(raw: unknown): asserts raw is JudgeAssignment {
   const j = object(raw, "judge assignment");
   if (j.schema !== "hh-r2-blind-judge/v1") throw new Error("judge: bad schema");
   const judgeKeys = new Set(["schema", "assignmentId", "taskId", "rubricVersion", "candidateAArtifactSha256", "candidateBArtifactSha256", "verdict", "scores", "rationale", "judgeIdPseudonym"]);
   for (const k of Object.keys(j)) if (!judgeKeys.has(k)) throw new Error(`judge assignment leaks treatment identity or has unknown field: ${k}`);
-  for (const k of ["assignmentId", "taskId", "rubricVersion", "candidateAArtifactSha256", "candidateBArtifactSha256", "rationale", "judgeIdPseudonym"])
-    if (!SHA.test(text(j[k], `judge.${k}`)) && k.endsWith("Sha256")) throw new Error(`judge.${k}: expected 64-hex`);
+  for (const k of ["assignmentId", "taskId", "rubricVersion", "rationale", "judgeIdPseudonym"]) text(j[k], `judge.${k}`);
+  for (const k of ["candidateAArtifactSha256", "candidateBArtifactSha256"])
+    if (!SHA.test(text(j[k], `judge.${k}`))) throw new Error(`judge.${k}: expected 64-hex`);
   if (!['A','B','tie','invalid'].includes(j.verdict as string)) throw new Error("judge.verdict invalid");
-  const scores = object(j.scores, "judge.scores");
+  const scores = object(j.scores, "judge.scores"); if (!Object.keys(scores).length) throw new Error("judge.scores must not be empty");
   for (const [k,v] of Object.entries(scores)) if (!Number.isInteger(v) || (v as number) < 1 || (v as number) > 5) throw new Error(`judge.scores.${k}: expected integer 1..5`);
 }
 

@@ -14,6 +14,7 @@ export default defineConfig({
       'app/**/*.test.ts',
       'scripts/scout-bench/**/*.test.ts',
       'scripts/hell-heaven-bench/r2-contract.test.ts',
+      'scripts/hell-heaven-bench/r2-workstream-d.test.ts',
     ],
   },
 });
