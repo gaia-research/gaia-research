@@ -1,4 +1,4 @@
-import { digestJson, loadObservations, readJson, validateDeclaration, claimQuestion, conditionKey, requireFlag, writeOutput, type Declaration } from "./common.js";
+import { digestJson, loadObservations, readJson, validateDeclaration, claimQuestion, conditionKey, parseFlag, requireFlag, writeOutput, type Declaration } from "./common.js";
 
 const args = process.argv.slice(2);
 try {
@@ -25,7 +25,9 @@ try {
   const withinConditionVariance = groupValues.some((group) => group.length > 1 && (new Set(group.map((o) => `${o.signals.outcome.status}:${o.metrics.latencyMs}:${o.metrics.tokens?.total ?? "na"}`))).size > 1);
   const acrossConditionMismatch = groupValues.length > 1 && new Set(groupValues.map((group) => group.some((o) => o.signals.outcome.status === "succeeded"))).size > 1;
   const decisionBlock = args.includes("--decision-block");
+  const decisionBlockReason = decisionBlock ? parseFlag("--decision-block", args) : undefined;
   if (!decisionBlock && !withinConditionVariance && !acrossConditionMismatch && outcomes.size < 2) { writeOutput(null); process.exit(0); }
+  if (decisionBlock && !decisionBlockReason?.trim()) throw new Error("--decision-block requires a non-empty reason");
   const signal = decisionBlock ? "decision-block" : acrossConditionMismatch || outcomes.size > 1 ? "mismatch" : "variance";
   const affectedConditions = groupValues.map((group) => JSON.parse(conditionKey(group[0]))).sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
   const telemetrySource = { schema: "gaia.research-arbor-telemetry-set/v1", observations: skillObservations };
@@ -36,6 +38,7 @@ try {
     question: claimQuestion(declaration, claim),
     affectedConditions,
     signal,
+    ...(decisionBlock ? { decisionBlockReason: decisionBlockReason!.trim() } : {}),
     telemetrySourceSha256: digestJson(telemetrySource),
     cheapestAdequateTargetedBenchmark: {
       type: "one-question-control-treatment",

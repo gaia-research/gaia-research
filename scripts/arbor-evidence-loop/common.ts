@@ -50,8 +50,26 @@ export function validateDeclaration(value: unknown): asserts value is Declaratio
 }
 
 export interface Observation { schema: string; sessionPseudonym: string; observedAt: string; harness: { name: string; version?: string }; model?: { id: string; version?: string }; composition: { posture: string; mechanism?: string; loadedSkills: Array<{ id: string; contentSha256: string; invocationObserved: true | null }> }; taskFamily?: string; signals: { outcome: { status: "succeeded" | "failed"; exitCode: number }; retryCount: number | null; recoveryObserved: boolean | null; churnCount: number | null }; metrics: { latencyMs: number; tokens?: Record<string, number> } }
+const localPathPatterns = [
+  /(?:^|\s|["'(={])file:[^\s"'<>]+/i,
+  /(?:^|\s|["'(={])[A-Za-z]:[\\/][^\s"'<>]*/,
+  /(?:^|\s|["'(={])\\[^\s"'<>]+/,
+  /(?:^|\s|["'(={])\/\/(?!\/)[^\s"'<>]+/,
+  /(?:^|\s|["'(={])\/(?![\/\s])[^\s"'<>]*/,
+];
+
+function rejectLocalPaths(value: unknown, at = "observation"): void {
+  if (typeof value === "string") {
+    if (localPathPatterns.some((pattern) => pattern.test(value))) throw new Error(`${at} contains an absolute local path`);
+    return;
+  }
+  if (Array.isArray(value)) { value.forEach((item, index) => rejectLocalPaths(item, `${at}[${index}]`)); return; }
+  if (isObject(value)) for (const [key, item] of Object.entries(value)) rejectLocalPaths(item, `${at}.${key}`);
+}
+
 export function validateObservation(value: unknown): asserts value is Observation {
   if (!isObject(value)) throw new Error("telemetry observation must be an object");
+  rejectLocalPaths(value);
   keys(value, ["schema", "sessionPseudonym", "observedAt", "harness", "model", "composition", "taskFamily", "signals", "metrics"], "observation"); required(value, ["schema", "sessionPseudonym", "observedAt", "harness", "composition", "signals", "metrics"], "observation");
   if (value.schema !== TELEMETRY_SCHEMA) throw new Error("unsupported telemetry schema");
   if (typeof value.sessionPseudonym !== "string" || !/^szs_[a-f0-9]{64}$/.test(value.sessionPseudonym)) throw new Error("invalid session pseudonym");
