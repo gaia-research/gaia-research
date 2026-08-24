@@ -1,0 +1,19 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "10",
+  "outputs": [
+    {
+      "file": "output/migration.json",
+      "content": {
+        "migrated": [
+          "src/a.ts",
+          "src/b.ts"
+        ],
+        "preservedLegacy": [
+          "src/legacy-exempt.ts"
+        ],
+        "tests": "pass"
+      }
+    }
+  ]
+}

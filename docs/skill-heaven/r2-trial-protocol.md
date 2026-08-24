@@ -47,8 +47,10 @@ endpoints, nonempty placebo loadouts, or treatment loadouts missing the target.
 
 The frozen ledger records only `placebo|heaven|hell|ultra`. Exact rung metadata stays
 in the R2 attempt companion record and task matrix, outside frozen ledger fields.
-The required matrix is `placebo@zero`, `heaven@low`, `heaven@med`, `hell@high`,
-`hell@xhigh`, and `hell@max` for every task.
+The required matrix is `placebo@benchmark-floor`, `heaven@low`, `heaven@med`,
+`hell@high`, `hell@xhigh`, and `hell@max` for every task. `zero` is the
+separate doorful product floor in the pinned runtime and cannot be used as the
+doorless placebo-of-record.
 
 The listed skills are **exact task-specific experimental treatments**. Their lengths
 are not global rung counts, product defaults, or caps. The contract rejects fields
@@ -62,8 +64,11 @@ must not substitute a newer upstream body.
    provider exposes one, container SHA, fixture-tree SHA, evaluator-tree SHA, and the
    task matrix SHA in an execution manifest. Any unavailable pin is a blocker, not a
    free-text approximation.
-2. Build a fresh sandbox for every attempt. Network is denied during the task and
-   evaluator. Source acquisition happens before the run and is hash-checked.
+2. Build a fresh sandbox for every attempt. General egress and all task-facing
+   network tools are denied; only the pinned harness's provider control-plane
+   transport may leave the sandbox while the model is running. The evaluator runs
+   with `--network none`. Source acquisition happens before the run and is
+   hash-checked. If the operator cannot enforce that allowlist, execution is blocked.
 3. Generate the complete run list, then randomize its order once with a cryptographic
    shuffle. Commit the ordered list and its SHA before the first run. This randomizes
    order; it is not a model seed and must never enter `hh-ledger/v1`. <!-- lexicon-allow: B3 audit trail; rejects the retired field. -->

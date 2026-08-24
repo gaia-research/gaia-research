@@ -1,0 +1,8 @@
+{
+  "skillId": "huggingface/huggingface-datasets",
+  "repository": "huggingface/skills",
+  "commit": "020194918dc4a27d5a5d9a154b6b56cc2bd21364",
+  "path": "skills/huggingface-datasets/SKILL.md",
+  "contentSha256": "eeca50adf211ea64a288b852938f85a5183b045c720dc696b62db9aa2ea8deb2",
+  "bytes": 4671
+}

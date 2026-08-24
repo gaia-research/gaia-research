@@ -1,0 +1,17 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "13",
+  "outputs": [
+    {
+      "file": "output/summary.json",
+      "content": {
+        "rows": 6,
+        "groups": {
+          "alpha": 3,
+          "beta": 3
+        },
+        "valueSum": 42
+      }
+    }
+  ]
+}

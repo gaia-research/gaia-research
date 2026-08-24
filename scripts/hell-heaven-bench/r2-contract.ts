@@ -9,9 +9,9 @@ import { ARMS } from "./ledger.ts";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "data", "r2");
 const SHA = /^[a-f0-9]{64}$/;
 const GIT_OID = /^[a-f0-9]{40}(?:[a-f0-9]{24})?$/;
-const RUNGS = new Set(["zero", "low", "med", "high", "xhigh", "max"]);
+const RUNGS = new Set(["benchmark-floor", "zero", "low", "med", "high", "xhigh", "max"]);
 const ARM_RUNG: Record<string, Set<string>> = {
-  placebo: new Set(["zero"]), heaven: new Set(["low", "med"]),
+  placebo: new Set(["benchmark-floor"]), heaven: new Set(["low", "med"]),
   hell: new Set(["high", "xhigh", "max"]), ultra: new Set(["ultra"]),
 };
 const INVALID_REASONS = new Set([

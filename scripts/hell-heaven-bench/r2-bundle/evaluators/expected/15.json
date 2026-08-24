@@ -1,0 +1,21 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "15",
+  "outputs": [
+    {
+      "file": "output/composition.json",
+      "content": {
+        "id": "R2Card",
+        "width": 1280,
+        "height": 720,
+        "fps": 30,
+        "durationInFrames": 150,
+        "frames": {
+          "0": "title",
+          "60": "metric",
+          "149": "end"
+        }
+      }
+    }
+  ]
+}

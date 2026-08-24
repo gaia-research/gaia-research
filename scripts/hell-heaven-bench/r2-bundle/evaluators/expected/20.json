@@ -1,0 +1,16 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "20",
+  "outputs": [
+    {
+      "file": "output/findings.json",
+      "content": {
+        "findingIds": [
+          "PG-NO-CONCURRENT-INDEX",
+          "PG-MISSING-RLS",
+          "PG-UNBOUNDED-TEXT"
+        ]
+      }
+    }
+  ]
+}

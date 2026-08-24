@@ -29,21 +29,33 @@ export function detectCells(attempts: Attempt[], expected: { taskId: string; loa
   return { duplicates, incomplete: [...expectedKeys].filter(k => !validKeys.has(k)), unexpected: [...validKeys].filter(k => !expectedKeys.has(k)), complete: duplicates.length === 0 && expectedKeys.size === validKeys.size && [...expectedKeys].every(k => validKeys.has(k)) };
 }
 
-/** Returns judge packets only; the random A/B mapping is deliberately not represented. */
-export function blindAssignments(attempts: Attempt[], rubricVersion: string): JudgeAssignment[] {
-  const valid = attempts.filter(a => a.status === "valid"); const used = new Set<string>(); const out: JudgeAssignment[] = [];
+export interface ConcealedBlindMapping {
+  assignmentId: string; taskId: string; loadoutId: string; repeatIndex: number;
+  candidateA: "placebo" | "treatment"; candidateB: "placebo" | "treatment";
+}
+/** Allocate public judge packets and a separate preservation record. Never put mappings in judge packets. */
+export function allocateBlind(attempts: Attempt[], rubricVersion: string): { packets: JudgeAssignment[]; concealed: ConcealedBlindMapping[] } {
+  const valid = attempts.filter(a => a.status === "valid"); const used = new Set<string>();
+  const packets: JudgeAssignment[] = []; const concealed: ConcealedBlindMapping[] = [];
   for (const treatment of valid.filter(a => a.loadoutId !== "placebo")) {
     const pairKey = `${treatment.taskId}\u0000${treatment.loadoutId}\u0000${treatment.repeatIndex}`;
     if (used.has(pairKey)) continue;
     const placebo = valid.find(a => a.loadoutId === "placebo" && a.taskId === treatment.taskId && a.repeatIndex === treatment.repeatIndex);
     if (!placebo || placebo.artifactSha256 === treatment.artifactSha256) continue;
     used.add(pairKey);
-    const isTreatmentA = randomBytes(1)[0] % 2 === 0;
-    const packet: JudgeAssignment = { schema: "hh-r2-blind-judge/v1", assignmentId: randomBytes(16).toString("hex"), taskId: treatment.taskId, rubricVersion,
+    const isTreatmentA = randomBytes(1)[0] % 2 === 0; const assignmentId = randomBytes(16).toString("hex");
+    const packet: JudgeAssignment = { schema: "hh-r2-blind-judge/v1", assignmentId, taskId: treatment.taskId, rubricVersion,
       candidateAArtifactSha256: isTreatmentA ? treatment.artifactSha256 : placebo.artifactSha256,
       candidateBArtifactSha256: isTreatmentA ? placebo.artifactSha256 : treatment.artifactSha256,
       verdict: "invalid", scores: { overall: 1 }, rationale: "Awaiting independent judgment.", judgeIdPseudonym: "unassigned" };
-    validateJudgeAssignment(packet); out.push(packet);
+    validateJudgeAssignment(packet); packets.push(packet);
+    concealed.push({ assignmentId, taskId: treatment.taskId, loadoutId: treatment.loadoutId,
+      repeatIndex: treatment.repeatIndex, candidateA: isTreatmentA ? "treatment" : "placebo",
+      candidateB: isTreatmentA ? "placebo" : "treatment" });
   }
-  return out;
+  return { packets, concealed };
+}
+/** Compatibility helper for callers that only write the public packet. */
+export function blindAssignments(attempts: Attempt[], rubricVersion: string): JudgeAssignment[] {
+  return allocateBlind(attempts, rubricVersion).packets;
 }

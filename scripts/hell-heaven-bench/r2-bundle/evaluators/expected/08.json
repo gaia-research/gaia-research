@@ -1,0 +1,16 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "08",
+  "outputs": [
+    {
+      "file": "output/findings.json",
+      "content": {
+        "findingIds": [
+          "SEC-HARDCODED-KEY",
+          "SEC-PATH-TRAVERSAL",
+          "SEC-WEAK-HASH"
+        ]
+      }
+    }
+  ]
+}

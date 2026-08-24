@@ -1,0 +1,22 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "05",
+  "outputs": [
+    {
+      "file": "output/review.json",
+      "content": {
+        "findings": [
+          {
+            "id": "TF-DELETE-DB",
+            "severity": "critical"
+          },
+          {
+            "id": "TF-PUBLIC-SG",
+            "severity": "high"
+          }
+        ],
+        "executed": false
+      }
+    }
+  ]
+}

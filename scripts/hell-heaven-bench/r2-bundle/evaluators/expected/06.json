@@ -1,0 +1,17 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "06",
+  "outputs": [
+    {
+      "file": "output/lesson.md",
+      "content": "# Parser lesson\n\nA parser turns a token stream into a structured tree.\n\n## Exercise\n\nAdd precedence handling for multiplication before addition.\n\n## Check\n\nExplain why `2 + 3 * 4` evaluates to 14.\n"
+    },
+    {
+      "file": "output/exercise.json",
+      "content": {
+        "prompt": "Add multiplication precedence.",
+        "expected": "2 + 3 * 4 evaluates to 14"
+      }
+    }
+  ]
+}

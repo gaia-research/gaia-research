@@ -1,0 +1,3607 @@
+{
+  "schema": "hh-r2-run-order/v1",
+  "algorithm": "Fisher-Yates with node:crypto.randomBytes rejection sampling",
+  "generatedBeforeFirstAttempt": true,
+  "cells": [
+    {
+      "order": 0,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 1,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 2,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 3,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 4,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 5,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 6,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 7,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 8,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 9,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 10,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 11,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 12,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 13,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 14,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 15,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 16,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 17,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 18,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 19,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 20,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 21,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 22,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 23,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 24,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 25,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 26,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 27,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 28,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 29,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 30,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 31,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 32,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 33,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 34,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 35,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 36,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 37,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 38,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 39,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 40,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 41,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 42,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 43,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 44,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 45,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 46,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 47,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 48,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 49,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 50,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 51,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 52,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 53,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 54,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 55,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 56,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 57,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 58,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 59,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 60,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 61,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 62,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 63,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 64,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 65,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 66,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 67,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 68,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 69,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 70,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 71,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 72,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 73,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 74,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 75,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 76,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 77,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 78,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 79,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 80,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 81,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 82,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 83,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 84,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 85,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 86,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 87,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 88,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 89,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 90,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 91,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 92,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 93,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 94,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 95,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 96,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 97,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 98,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 99,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 100,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 101,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 102,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 103,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 104,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 105,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 106,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 107,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 108,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 109,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 110,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 111,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 112,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 113,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 114,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 115,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 116,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 117,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 118,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 119,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 120,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 121,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 122,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 123,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 124,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 125,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 126,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 127,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 128,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 129,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 130,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 131,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 132,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 133,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 134,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 135,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 136,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 137,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 138,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 139,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 140,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 141,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 142,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 143,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 144,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 145,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 146,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 147,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 148,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 149,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 150,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 151,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 152,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 153,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 154,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 155,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 156,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 157,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 158,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 159,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 160,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 161,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 162,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 163,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 164,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 165,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 166,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 167,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 168,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 169,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 170,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 171,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 172,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 173,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 174,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 175,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 176,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 177,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 178,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 179,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 180,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 181,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 182,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 183,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 184,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 185,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 186,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 187,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 188,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 189,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 190,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 191,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 192,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 193,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 194,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 195,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 196,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 197,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 198,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 199,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 200,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 201,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 202,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 203,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 204,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 205,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 206,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 207,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 208,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 209,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 210,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 211,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 212,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 213,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 214,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 215,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 216,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 217,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 218,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 219,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 220,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 221,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 222,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 223,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 224,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 225,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 226,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 227,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 228,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 229,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 230,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 231,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 232,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 233,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 234,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 235,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 236,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 237,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 238,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 239,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 240,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 241,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 242,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 243,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 244,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 245,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 246,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 247,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 248,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 249,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 250,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 251,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 252,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 253,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 254,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 255,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 256,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 257,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 258,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 259,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 260,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 261,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 262,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 263,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 264,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 265,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 266,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 267,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 268,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 269,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 270,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 271,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 272,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 273,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 274,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 275,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 276,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 277,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 278,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 279,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 280,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 281,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 282,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 283,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 284,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 285,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 286,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 287,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 288,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 289,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 290,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 291,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 292,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 293,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 294,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 295,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 296,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 297,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 298,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 299,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 300,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 301,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 302,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 303,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 304,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 305,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 306,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 307,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 308,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 309,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 310,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 311,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 312,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 313,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 314,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 315,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 316,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 317,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 318,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 319,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 320,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 321,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 322,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 323,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 324,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 325,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 326,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 327,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 328,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 329,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 330,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 331,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 332,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 333,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 334,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 335,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 336,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 337,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 338,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 339,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 340,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 341,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 342,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 343,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 344,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 345,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 346,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 347,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 348,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 349,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 350,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 351,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 352,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 353,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 354,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 355,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 356,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 357,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 358,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 359,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 360,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 361,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 362,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 363,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 364,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 365,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 366,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 367,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 368,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 369,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 370,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 371,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 372,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 373,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 374,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 375,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 376,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 377,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 378,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 379,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 380,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 381,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 382,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 383,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 384,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 385,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 386,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 387,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 388,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 389,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 390,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 391,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 392,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 393,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 394,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 395,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 396,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 397,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 398,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 399,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 400,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 401,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 402,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 403,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 404,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 405,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 406,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 407,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 408,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 409,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 410,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 411,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 412,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 413,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 414,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 415,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 416,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 417,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 418,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 419,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 420,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 421,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 422,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 423,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 424,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 425,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 426,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 427,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 428,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 429,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 430,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 431,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 432,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 433,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 434,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 435,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 436,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 437,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 438,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 439,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 440,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 441,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 442,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 443,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 444,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 445,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 446,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 447,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 448,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 449,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 450,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 451,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 452,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 453,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 454,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 455,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 456,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 457,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 458,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 459,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 460,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 461,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 462,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 463,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 464,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 465,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 466,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 467,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 468,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 469,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 470,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 471,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 472,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 473,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 474,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 475,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 476,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 477,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 478,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 479,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 480,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 481,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 482,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 483,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 484,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 485,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 486,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 487,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 488,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 489,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 490,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 491,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 492,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 493,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 494,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 495,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 496,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 497,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 498,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 499,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 500,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 501,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 502,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 503,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 504,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 505,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 506,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 507,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 508,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 509,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 510,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 511,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 512,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 513,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 514,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 515,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 516,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 517,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 518,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 519,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 520,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 521,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 522,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 523,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 524,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "placebo",
+      "repeatIndex": 4
+    },
+    {
+      "order": 525,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 526,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 527,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 528,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 529,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 530,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 531,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 532,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 533,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 534,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 535,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 536,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 2
+    },
+    {
+      "order": 537,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 538,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "placebo",
+      "repeatIndex": 0
+    },
+    {
+      "order": 539,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 540,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 541,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 542,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 543,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 544,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 545,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 546,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 547,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 548,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 549,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 550,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    },
+    {
+      "order": 551,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 3
+    },
+    {
+      "order": 552,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 553,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 554,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 555,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 556,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 557,
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 558,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 559,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 560,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 561,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 562,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 563,
+      "taskId": "hh-r2-11-test-generation",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 564,
+      "taskId": "hh-r2-02-design-system",
+      "loadoutId": "hell-max",
+      "repeatIndex": 1
+    },
+    {
+      "order": 565,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "hell-high",
+      "repeatIndex": 1
+    },
+    {
+      "order": 566,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 567,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "placebo",
+      "repeatIndex": 1
+    },
+    {
+      "order": 568,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 569,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 570,
+      "taskId": "hh-r2-01-critique-plan",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 571,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-high",
+      "repeatIndex": 2
+    },
+    {
+      "order": 572,
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 573,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 574,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "placebo",
+      "repeatIndex": 2
+    },
+    {
+      "order": 575,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-max",
+      "repeatIndex": 4
+    },
+    {
+      "order": 576,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 0
+    },
+    {
+      "order": 577,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 0
+    },
+    {
+      "order": 578,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 579,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 0
+    },
+    {
+      "order": 580,
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "loadoutId": "placebo",
+      "repeatIndex": 3
+    },
+    {
+      "order": 581,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 4
+    },
+    {
+      "order": 582,
+      "taskId": "hh-r2-14-local-research",
+      "loadoutId": "hell-high",
+      "repeatIndex": 3
+    },
+    {
+      "order": 583,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 584,
+      "taskId": "hh-r2-15-media-composition",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 2
+    },
+    {
+      "order": 585,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 3
+    },
+    {
+      "order": 586,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-high",
+      "repeatIndex": 0
+    },
+    {
+      "order": 587,
+      "taskId": "hh-r2-19-evidence-attestation",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 2
+    },
+    {
+      "order": 588,
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 589,
+      "taskId": "hh-r2-08-security-audit",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 1
+    },
+    {
+      "order": 590,
+      "taskId": "hh-r2-12-chaos-plan",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 1
+    },
+    {
+      "order": 591,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 592,
+      "taskId": "hh-r2-10-codemod-migration",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 3
+    },
+    {
+      "order": 593,
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "loadoutId": "hell-high",
+      "repeatIndex": 4
+    },
+    {
+      "order": 594,
+      "taskId": "hh-r2-09-red-green-patch",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 1
+    },
+    {
+      "order": 595,
+      "taskId": "hh-r2-20-postgres-review",
+      "loadoutId": "heaven-med",
+      "repeatIndex": 4
+    },
+    {
+      "order": 596,
+      "taskId": "hh-r2-03-debug-cache",
+      "loadoutId": "hell-xhigh",
+      "repeatIndex": 4
+    },
+    {
+      "order": 597,
+      "taskId": "hh-r2-18-destructive-guard",
+      "loadoutId": "hell-max",
+      "repeatIndex": 2
+    },
+    {
+      "order": 598,
+      "taskId": "hh-r2-06-teach-parser",
+      "loadoutId": "heaven-low",
+      "repeatIndex": 3
+    },
+    {
+      "order": 599,
+      "taskId": "hh-r2-04-brand-application",
+      "loadoutId": "hell-max",
+      "repeatIndex": 0
+    }
+  ]
+}

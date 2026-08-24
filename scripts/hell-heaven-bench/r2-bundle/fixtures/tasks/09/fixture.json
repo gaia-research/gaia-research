@@ -1,0 +1,8 @@
+{
+  "schema": "hh-r2-public-fixture/v1",
+  "slot": "09",
+  "outputFiles": [
+    "output/patch.json",
+    "output/transcript.txt"
+  ]
+}

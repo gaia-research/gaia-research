@@ -1,0 +1,24 @@
+{
+  "schema": "hh-r2-fixture/v1",
+  "slot": "07",
+  "outputs": [
+    {
+      "file": "output/decision.json",
+      "content": {
+        "ranking": [
+          "managed",
+          "partitioned",
+          "single"
+        ],
+        "scores": {
+          "managed": 86,
+          "partitioned": 72,
+          "single": 51
+        },
+        "assumptions": [
+          "Weights total 100."
+        ]
+      }
+    }
+  ]
+}

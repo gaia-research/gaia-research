@@ -1,0 +1,25 @@
+{
+  "name": "skill-zero",
+  "version": "0.1.0",
+  "description": "Skill Zero launcher engine + research driver (the skill-zero bin: --print recipes, --record benchmark arms). The engine the per-harness doors are built on.",
+  "type": "module",
+  "bin": {
+    "skill-zero": "./bin/skill-zero.mjs"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "launcher": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "tsx": "^4.19.0"
+  }
+}
