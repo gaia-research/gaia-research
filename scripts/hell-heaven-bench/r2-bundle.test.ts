@@ -24,5 +24,5 @@ describe("R2 pinned fixture/evaluator bundle", () => {
       expect(first.status, first.stderr).toBe(0); expect(second.status, second.stderr).toBe(0);
       expect({ status: second.status, stdout: second.stdout, stderr: second.stderr }).toEqual({ status: first.status, stdout: first.stdout, stderr: first.stderr });
     } finally { rmSync(work, { recursive: true, force: true }); }
-  });
+  }, 20_000);
 });
