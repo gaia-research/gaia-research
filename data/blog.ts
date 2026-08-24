@@ -10,6 +10,7 @@ import yggdrasilIiThumbnailSrc from "@/assets/generated/yggdrasil-ii-editorial-t
 import ruminationIndexEditorialThumbnailSrc from "@/assets/generated/rumination-index-editorial-thumbnail.webp";
 import constrainedAutonomyEditorialThumbnailSrc from "@/assets/generated/constrained-autonomy-editorial-thumbnail.webp";
 import contextAblationEditorialThumbnailSrc from "@/assets/generated/context-ablation-editorial-thumbnail.webp";
+import arborEvidenceLoopEditorialThumbnailSrc from "@/assets/generated/arbor-evidence-loop-editorial-thumbnail.webp";
 
 export type BlogPost = {
   href: string;
@@ -81,9 +82,26 @@ export const contextAblationEditorialThumbnail = {
   alt: "Cheerful pink-haired Milim in a classic sailor uniform sweeps a sunlit classroom floor beside her school satchel.",
 } as const;
 
+export const arborEvidenceLoopEditorialThumbnail = {
+  src: arborEvidenceLoopEditorialThumbnailSrc,
+  alt: "Tiny pink-haired Milim sits beneath a monumental glowing Arbor tree in an indigo night garden.",
+} as const;
+
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/arbor-evidence-loop",
+    category: "Gaia Ecosystem",
+    tags: ["Arbor", "Benchmarks", "Skill Zero", "Evidence"],
+    date: "August 24, 2026",
+    readTime: "6 min read",
+    title: "Arbor Opens Its Evidence Loop for Review",
+    description:
+      "Gaia's proposed review-stage behavioral evidence loop starts with a clear claim, a bounded observation, and one inspectable question—not a leaderboard.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: arborEvidenceLoopEditorialThumbnail,
+  },
   {
     href: "/blog/parallel-cheap-scouting-frontier",
     category: "Agent Architecture",
