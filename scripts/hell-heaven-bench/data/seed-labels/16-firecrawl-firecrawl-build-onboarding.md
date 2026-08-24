@@ -10,10 +10,12 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
 seed-id: 16
 skill-id: firecrawl/firecrawl-build-onboarding
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: https://github.com/firecrawl (agent-environment-setup bucket)
+sha256-skill-md: cc8b77a25f924343f6363bacb2ac6f0fafa00780ea94165dac86ab83f688626c
+upstream: https://raw.githubusercontent.com/firecrawl/skills/8b18f3b161ff3081e8dc8417dcdc8cb24aa0fd9e/skills/build/firecrawl-build-onboarding/SKILL.md
 band: hell
 audit-class: no
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `firecrawl/skills@8b18f3b161ff3081e8dc8417dcdc8cb24aa0fd9e` / `skills/build/firecrawl-build-onboarding/SKILL.md`. Resolution: `canonical-path-repair`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

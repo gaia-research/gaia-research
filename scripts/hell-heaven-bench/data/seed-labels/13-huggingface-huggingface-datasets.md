@@ -10,10 +10,12 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
 seed-id: 13
 skill-id: huggingface/huggingface-datasets
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: https://huggingface.co/datasets (data-analysis bucket)
+sha256-skill-md: eeca50adf211ea64a288b852938f85a5183b045c720dc696b62db9aa2ea8deb2
+upstream: https://raw.githubusercontent.com/huggingface/skills/020194918dc4a27d5a5d9a154b6b56cc2bd21364/skills/huggingface-datasets/SKILL.md
 band: hell
 audit-class: no
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `huggingface/skills@020194918dc4a27d5a5d9a154b6b56cc2bd21364` / `skills/huggingface-datasets/SKILL.md`. Resolution: `canonical`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

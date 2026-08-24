@@ -1,6 +1,6 @@
 R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
-# Seed 05: IaC-plan REVIEW checklist (identity TBD)
+# Seed 05: Terraform plan review (`lgbarn/terraform-plan-review`)
 
 > Everything below is a hand-label PREDICTION to be tested by the R2 procedure.
 > This is not a benchmark record. Numbers trace to committed records or carry the
@@ -9,11 +9,13 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 ## Metadata
 
 seed-id: 05
-skill-id: TBD - required shape: review-only IaC/terraform checklist; strictly zero write-scope; verdict-form output
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: TBD
+skill-id: lgbarn/terraform-plan-review
+sha256-skill-md: a7f4b3079fb976267c195644233f3ca9bd0f3683a376ed4f6969247dd525d492
+upstream: https://raw.githubusercontent.com/lgbarn/devops-skills/8a37cc3fe5983e7fa2b2dcaa98c94449d5356f06/skills/terraform-plan-review/SKILL.md
 band: heaven
 audit-class: no
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `lgbarn/devops-skills@8a37cc3fe5983e7fa2b2dcaa98c94449d5356f06` / `skills/terraform-plan-review/SKILL.md`. Resolution: `r2-replacement`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

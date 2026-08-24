@@ -10,10 +10,12 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
 seed-id: 20
 skill-id: supabase/supabase-postgres-best-practices
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: https://github.com/supabase (postgres best-practices reference)
+sha256-skill-md: ad65e776f45e761bafc609d3f506c77c1032225aa65e0c4c02f241b8071e5855
+upstream: https://raw.githubusercontent.com/supabase/agent-skills/8331f910845103c08d51f6ca1d86ebb7d1f745e3/skills/supabase-postgres-best-practices/SKILL.md
 band: summon-floor
 audit-class: no
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `supabase/agent-skills@8331f910845103c08d51f6ca1d86ebb7d1f745e3` / `skills/supabase-postgres-best-practices/SKILL.md`. Resolution: `canonical-path-repair`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

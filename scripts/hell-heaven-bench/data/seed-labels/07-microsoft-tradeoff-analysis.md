@@ -1,6 +1,6 @@
 R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
-# Seed 07: Decision-framework/tradeoff matrix (identity TBD)
+# Seed 07: Tradeoff analysis (`microsoft/tradeoff-analysis`)
 
 > Everything below is a hand-label PREDICTION to be tested by the R2 procedure.
 > This is not a benchmark record. Numbers trace to committed records or carry the
@@ -9,11 +9,13 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 ## Metadata
 
 seed-id: 07
-skill-id: TBD - required shape: decision-framework/tradeoff-matrix discipline skill; text-only, no write-path
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: TBD
+skill-id: microsoft/tradeoff-analysis
+sha256-skill-md: 87265bdb56d3a35cb704ee3d30c9693fc51c19370655cc523d22231ec75832a6
+upstream: https://raw.githubusercontent.com/microsoft/amplifier-bundle-systems-design/1eff6a2bcebe7c42d5d8d4962e1937a3bb932b0c/skills/tradeoff-analysis/SKILL.md
 band: heaven
 audit-class: no
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `microsoft/amplifier-bundle-systems-design@1eff6a2bcebe7c42d5d8d4962e1937a3bb932b0c` / `skills/tradeoff-analysis/SKILL.md`. Resolution: `r2-replacement`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

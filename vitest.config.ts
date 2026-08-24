@@ -9,6 +9,11 @@ export default defineConfig({
   },
   test: {
     environment: 'node',
-    include: ['lib/**/*.test.ts', 'app/**/*.test.ts', 'scripts/scout-bench/**/*.test.ts'],
+    include: [
+      'lib/**/*.test.ts',
+      'app/**/*.test.ts',
+      'scripts/scout-bench/**/*.test.ts',
+      'scripts/hell-heaven-bench/r2-contract.test.ts',
+    ],
   },
 });

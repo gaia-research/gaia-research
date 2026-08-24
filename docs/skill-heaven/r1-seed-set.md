@@ -7,12 +7,16 @@ N repeats plus confidence intervals once labeling lands.
 
 Inputs: `docs/skill-heaven/R1-STAMP-TAXONOMY-SYNTHESIS.md` §3–§4;
 `docs/plans/drafts/r1-stamp-taxonomy-seedset-PLAN.md` §"Seed set (~20 skills)".
-Canon read from `/data/data/com.termux/files/home/gaia-skill-tree`
+R1 canon was read from `/data/data/com.termux/files/home/gaia-skill-tree`
 (`registry/named-skills.json`, `skill-trees/`, `skills-lock.json`) **READ-ONLY**.
+R2 resolves every input to exact immutable bytes in
+[`content-identities.json`](../../scripts/hell-heaven-bench/data/r2/content-identities.json);
+where an R1 candidate had no retrievable contract, the replacement is named below rather
+than pretending the old identity was executable.
 
 ## 0. Rank policy
 
-Arbor I selection of seeds is **rank-agnostic**: seed slots are chosen for raw capability
+Arbor I selection of seeds is **rank-agnostic**: seed slots are chosen for raw capability <!-- lexicon-allow: B3 historical R1 terminology. -->
 fit to a tension cell, never for star level or trust grade. Where the canon registry carries
 a rank (`level` stars, evidence `trustNumber`), ranks are used **only to break ties between
 equally-fitting candidate skills**, so the seed set stays realistic against what users can
@@ -30,7 +34,7 @@ actually install today.
 
 Genres, primary-stamp predictions, tension cells per the synthesis (§4 there), verbatim:
 
-| # | Seed skill (genre) | Band | Primary stamp prediction (+secondary) | Tension cells |
+| # | Seed skill (genre) | Band | Primary stamp prediction (+secondary) | Tension cells | <!-- lexicon-allow: B3 historical R1 table heading. -->
 |---|--------------------|------|---------------------------------------|---------------|
 | 1 | Adversarial-critique/grilling playbook | A | heaven-native | T2, T9 |
 | 2 | Design-systems/visual style guide | A | heaven-native | control (Heaven) |
@@ -55,7 +59,7 @@ Genres, primary-stamp predictions, tension cells per the synthesis (§4 there), 
 
 ### 2b. Tension-cell coverage accounting (T1–T11)
 
-The table column above names each seed's *headline* cells; several cells are carried in
+The table column above names each seed's *headline* cells; several cells are carried in <!-- lexicon-allow: B3 historical R1 terminology. -->
 the rubric's anchor assignments and the worksheets' qualifier fields rather than the
 column, so the full map is written out here to make the §1 claim checkable:
 
@@ -73,7 +77,7 @@ column, so the full map is written out here to make the §1 claim checkable:
 | T10 probe-patch-as-mutation (OPEN) | #9 — both readings recorded per the interim conservative rule | worksheet 09 environment-qualifiers field |
 | T11 scope-of-validity qualifiers | #4, #10 (rubric anchors); #20 adjacent | worksheets 04/10/20 qualifier fields |
 
-Every cell T1–T11 lands at least once. No cell relies on a seed outside the 20.
+Every cell T1–T11 lands at least once. No cell relies on a seed outside the 20. <!-- lexicon-allow: B3 historical R1 terminology. -->
 
 ## 3. Concrete skill identities per slot
 
@@ -88,14 +92,14 @@ where none fits, the REQUIRED SHAPE is specified and identity is **TBD**.
 | 2 | `garrytan/design-consultation` (design-system-extraction bucket) | CONTROL — must be uncontroversially heaven-native |
 | 3 | `obra/systematic-debugging` | canonical dual-stamp anchor |
 | 4 | `anthropics/brand-guidelines` (brand-guideline-application bucket) | standing-dose economics case |
-| 5 | **TBD** — required shape: review-only IaC/terraform checklist; strictly zero write-scope; verdict-form output; explicitly NOT hell-safe | T1 anchor needs the reviewer half; no canon IaC-review skill found at read time |
+| 5 | `lgbarn/terraform-plan-review` (**R2 replacement**) | review-only Terraform plan inspection; replaces the unresolved shape |
 | 6 | `mattpocock/teach` (+ cheatsheet half optional) | tutor dose vs ship-keyword collision (T6) |
-| 7 | **TBD** — required shape: decision-framework/tradeoff-matrix discipline skill; text-only, no write-path | nearest canon neighbors (`obra/brainstorming`, `obra/writing-plans`) are adjacent genres, not tradeoff matrices |
+| 7 | `microsoft/tradeoff-analysis` (**R2 replacement**) | explicit tradeoff-analysis contract; replaces the unresolved shape |
 | 8 | `garrytan/cso` (security-audit bucket) | must be verified read-only during labeling |
-| 9 | **TBD** — required shape: auto-patch/remediation playbook whose RED→GREEN gate is verifiable in-skill; candidate `mattpocock/diagnose` only if its write-scope proves gated | gate verification is the whole point (K1-adjacent) |
-| 10 | `laravel/upgrade-laravel-v13` (framework-upgrade bucket; alt `mattpocock/migrate-to-shoehorn`) | schema-irreversibility flavor of T8 |
-| 11 | `upsonic/unittest-generator` (alt `0xdarkmatter/pytest-patterns`) | CONTROL — must be uncontroversially hell-safe@high |
-| 12 | **TBD** — required shape: chaos-injection playbook with hard environment-identification precondition | no canon chaos skill found |
+| 9 | `mattpocock/diagnosing-bugs` (**R2 replacement**) | live five-phase diagnosis contract with deterministic feedback-loop requirement |
+| 10 | `mattpocock/migrate-to-shoehorn` (**R2 replacement**) | R1 Laravel candidate exposed no retrievable `SKILL.md`; the documented alternate is pinned instead |
+| 11 | `curiouslearner/test-generator` (**R2 replacement**) | R1 Upsonic candidate exposed an agent file, not an executable `SKILL.md`; live test-generator contract is the control input |
+| 12 | `alirezarezvani/chaos-engineering` (**R2 replacement**) | live chaos experiment contract with blast-radius and rollback planning |
 | 13 | `huggingface/huggingface-datasets` (data-analysis bucket) | corpus map-reduce over fixed schema; egress question applies |
 | 14 | `mvanhorn/last30days` (autonomous-web-research bucket) | network-touching qualifier mandatory |
 | 15 | `remotion-dev/remotion-multimedia` (generative-media bucket) | batch media-gen; structural dims only (taste-dependent) |
@@ -106,6 +110,9 @@ where none fits, the REQUIRED SHAPE is specified and identity is **TBD**.
 | 20 | `supabase/supabase-postgres-best-practices` | WCAG-class heavy normative reference; summon-floor dosing paradox |
 
 No existing schema or record in the canon was modified (K4: additive/read-only).
+The R2 replacements correct executable inputs; they do not retroactively turn the R1
+worksheet rows into evidence. Those rows remain pre-trial hypotheses, and the R2 protocol's
+confidence-interval and safety rules alone accept, reject, or withhold a stamp.
 
 ## 4. Labelling procedure (per skill)
 
@@ -132,9 +139,11 @@ Per the plan's procedure, executed independently per labeler:
 - **Control #2** (`garrytan/design-consultation`): clean because the genre has no
   write-path, no publish surface, no environment dependence, and no plausible secondary
   stamp — a unanimous heaven-native verdict is the rubric's easiest pass.
-- **Control #11** (`upsonic/unittest-generator`): clean because test generation is
+- **Control #11** (`curiouslearner/test-generator`): clean because test generation is
   conventionally sandboxed, additive-only, reversible by git, and carries no
   publish-class action — a unanimous hell-safe@high verdict is likewise the easy pass.
+  This executable R2 input replaces the R1 `upsonic/unittest-generator` candidate, whose
+  retrievable artifact was an agent file rather than a `SKILL.md` contract.
 - **Halt rule (K1):** any labeller disagreement on EITHER control halts labeling
   entirely. Revise the rubric, record the negative finding (D8), re-run. Disagreement
   on a non-control skill is arbitration, not halt.
@@ -159,7 +168,7 @@ No slice exceeds 3 primary anchors.
 ---
 
 *Everything above is a set of predictions about how labeling will go, not a result.
-The seed identities are inputs to the R2 worksheets; the stamps are their hypotheses.*
+The seed identities are inputs to the R2 worksheets; the stamps are their hypotheses.* <!-- lexicon-allow: B3 historical R1 terminology. -->
 
 ## 7. Divergence ledger — filled worksheets vs headline predictions (review cycle 3)
 

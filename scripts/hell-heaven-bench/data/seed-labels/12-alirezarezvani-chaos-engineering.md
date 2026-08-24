@@ -1,6 +1,6 @@
 R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
-# Seed 12: Chaos-injection playbook (identity TBD)
+# Seed 12: Chaos engineering (`alirezarezvani/chaos-engineering`)
 
 > Everything below is a hand-label PREDICTION to be tested by the R2 procedure.
 > This is not a benchmark record. Numbers trace to committed records or carry the
@@ -9,11 +9,13 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 ## Metadata
 
 seed-id: 12
-skill-id: TBD - required shape: chaos-injection playbook with hard environment-identification precondition
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: TBD
+skill-id: alirezarezvani/chaos-engineering
+sha256-skill-md: fde41aeb8b9977e85e33a69140c9d5aac099698f480bac6c89a9a5ef8baca8bc
+upstream: https://raw.githubusercontent.com/alirezarezvani/claude-skills/98180dafc4f0bc9d629bd479fc6107674cfb3cf8/engineering/skills/chaos-engineering/SKILL.md
 band: hell
 audit-class: no
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `alirezarezvani/claude-skills@98180dafc4f0bc9d629bd479fc6107674cfb3cf8` / `engineering/skills/chaos-engineering/SKILL.md`. Resolution: `r2-replacement`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

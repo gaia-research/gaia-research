@@ -10,10 +10,12 @@ R1 PREDICTION WORKSHEET - not a benchmark record (B4)
 
 seed-id: 08
 skill-id: garrytan/cso
-sha256-skill-md: NOT-RESOLVED (canon checkout at gaia-skill-tree carries registry metadata only; hash to be computed from upstream SKILL.md at R2 pinning)
-upstream: https://github.com/garrytan/gstack/blob/main/cso/SKILL.md
+sha256-skill-md: be1359bd9299c4009c81d9a38f7714bef2733c3e3bc79ca56e064c7fcca658a8
+upstream: https://raw.githubusercontent.com/garrytan/gstack/85fd9db554ae4aaaa6d356d2daf873121ee85bdd/cso/SKILL.md
 band: hell
 audit-class: yes
+
+> **R2 identity pin (2026-08-24):** exact source bytes are pinned at `garrytan/gstack@85fd9db554ae4aaaa6d356d2daf873121ee85bdd` / `cso/SKILL.md`. Resolution: `canonical`. R1 rows below remain pre-trial predictions; measured acceptance/rejection follows `docs/skill-heaven/r2-trial-protocol.md`, never this worksheet. Any `TBD`, `NOT-RESOLVED`, or thin-evidence note below is the preserved R1 evidence history; this pin supersedes its source-availability claim, not its prediction.
 
 ## Dimension scores (binary predictions; pass condition/evidence per r1-stamp-rubric.md S2)
 

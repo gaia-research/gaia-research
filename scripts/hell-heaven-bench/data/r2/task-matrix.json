@@ -1,0 +1,1691 @@
+{
+  "schema": "hh-r2-task-matrix/v1",
+  "benchmarkId": "hh-r2-seed-matrix",
+  "identityManifest": "content-identities.json",
+  "repeatIndices": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "note": "Exact per-task loadouts are pre-registered experimental treatments, not global rung definitions, counts, or caps.",
+  "tasks": [
+    {
+      "taskId": "hh-r2-01-critique-plan",
+      "slot": "01",
+      "targetSkillId": "mattpocock/grilling",
+      "taskPrompt": "Review a fixed product plan and emit critique.json with claims, assumptions, and unresolved questions.",
+      "fixture": "fixtures/tasks/01",
+      "endpoint": {
+        "tier": 3,
+        "kind": "json-contract",
+        "command": "node evaluators/critique-plan.mjs output/critique.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "mattpocock/grilling"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "mattpocock/grilling",
+            "microsoft/tradeoff-analysis",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "mattpocock/grilling",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "mattpocock/grilling",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "mattpocock/grilling",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days",
+            "garrytan/design-consultation",
+            "mattpocock/teach",
+            "lgbarn/terraform-plan-review",
+            "alirezarezvani/chaos-engineering"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-02-design-system",
+      "slot": "02",
+      "targetSkillId": "garrytan/design-consultation",
+      "taskPrompt": "Produce DESIGN.md from the fixed product brief and reference screenshots manifest.",
+      "fixture": "fixtures/tasks/02",
+      "endpoint": {
+        "tier": 3,
+        "kind": "artifact-plus-blind-judge",
+        "command": "node evaluators/design-system.mjs output/DESIGN.md",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "garrytan/design-consultation"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "garrytan/design-consultation",
+            "microsoft/tradeoff-analysis",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "garrytan/design-consultation",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "garrytan/design-consultation",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "garrytan/design-consultation",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "mattpocock/teach",
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-03-debug-cache",
+      "slot": "03",
+      "targetSkillId": "obra/systematic-debugging",
+      "taskPrompt": "Repair the deterministic cache invalidation defect without changing the public API.",
+      "fixture": "fixtures/tasks/03",
+      "endpoint": {
+        "tier": 2,
+        "kind": "command",
+        "command": "npm test -- --runInBand",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "obra/systematic-debugging"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "obra/systematic-debugging",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "lgbarn/terraform-plan-review",
+            "alirezarezvani/chaos-engineering"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-04-brand-application",
+      "slot": "04",
+      "targetSkillId": "anthropics/brand-guidelines",
+      "taskPrompt": "Apply the pinned brand rules to the supplied SVG and copy block.",
+      "fixture": "fixtures/tasks/04",
+      "endpoint": {
+        "tier": 2,
+        "kind": "command",
+        "command": "node evaluators/brand-application.mjs output/",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "anthropics/brand-guidelines"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "anthropics/brand-guidelines",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "anthropics/brand-guidelines",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "anthropics/brand-guidelines",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "anthropics/brand-guidelines",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-05-terraform-plan-review",
+      "slot": "05",
+      "targetSkillId": "lgbarn/terraform-plan-review",
+      "taskPrompt": "Review a saved Terraform plan; emit review.json and do not execute or alter infrastructure.",
+      "fixture": "fixtures/tasks/05",
+      "endpoint": {
+        "tier": 2,
+        "kind": "json-exact-findings",
+        "command": "node evaluators/terraform-plan-review.mjs output/review.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "lgbarn/terraform-plan-review"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "lgbarn/terraform-plan-review",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "lgbarn/terraform-plan-review",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "lgbarn/terraform-plan-review",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "lgbarn/terraform-plan-review",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "alirezarezvani/chaos-engineering"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-06-teach-parser",
+      "slot": "06",
+      "targetSkillId": "mattpocock/teach",
+      "taskPrompt": "Create a lesson and exercise for the supplied parser concept and learner state.",
+      "fixture": "fixtures/tasks/06",
+      "endpoint": {
+        "tier": 3,
+        "kind": "artifact-plus-blind-judge",
+        "command": "node evaluators/teach-parser.mjs output/",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "mattpocock/teach"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "mattpocock/teach",
+            "microsoft/tradeoff-analysis",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "mattpocock/teach",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "mattpocock/teach",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "mattpocock/teach",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "garrytan/design-consultation",
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-07-tradeoff-matrix",
+      "slot": "07",
+      "targetSkillId": "microsoft/tradeoff-analysis",
+      "taskPrompt": "Rank three queue designs using the supplied criteria and weights; preserve assumptions.",
+      "fixture": "fixtures/tasks/07",
+      "endpoint": {
+        "tier": 2,
+        "kind": "json-arithmetic",
+        "command": "node evaluators/tradeoff-matrix.mjs output/decision.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "microsoft/tradeoff-analysis",
+            "obra/systematic-debugging"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "microsoft/tradeoff-analysis",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "microsoft/tradeoff-analysis",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "microsoft/tradeoff-analysis",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "lgbarn/terraform-plan-review",
+            "alirezarezvani/chaos-engineering"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-08-security-audit",
+      "slot": "08",
+      "targetSkillId": "garrytan/cso",
+      "taskPrompt": "Audit the synthetic repository for the committed known-finding set; do not modify it.",
+      "fixture": "fixtures/tasks/08",
+      "endpoint": {
+        "tier": 2,
+        "kind": "set-equality",
+        "command": "node evaluators/security-audit.mjs output/findings.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "garrytan/cso",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "garrytan/cso",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "garrytan/cso",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "garrytan/cso",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-09-red-green-patch",
+      "slot": "09",
+      "targetSkillId": "mattpocock/diagnosing-bugs",
+      "taskPrompt": "Fix the parser regression only after preserving the failing test; leave a verification transcript.",
+      "fixture": "fixtures/tasks/09",
+      "endpoint": {
+        "tier": 2,
+        "kind": "command",
+        "command": "npm test && node evaluators/red-green-patch.mjs output/",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "mattpocock/diagnosing-bugs"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "mattpocock/diagnosing-bugs",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "mattpocock/diagnosing-bugs",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "mattpocock/diagnosing-bugs",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "mattpocock/diagnosing-bugs",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "lgbarn/terraform-plan-review",
+            "alirezarezvani/chaos-engineering"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-10-codemod-migration",
+      "slot": "10",
+      "targetSkillId": "mattpocock/migrate-to-shoehorn",
+      "taskPrompt": "Migrate the fixture API calls while preserving explicitly exempt legacy calls.",
+      "fixture": "fixtures/tasks/10",
+      "endpoint": {
+        "tier": 2,
+        "kind": "command",
+        "command": "npm test && node evaluators/codemod-migration.mjs output/",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "mattpocock/migrate-to-shoehorn"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "mattpocock/migrate-to-shoehorn",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "mattpocock/migrate-to-shoehorn",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "mattpocock/migrate-to-shoehorn",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "mattpocock/migrate-to-shoehorn",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days",
+            "mattpocock/diagnosing-bugs",
+            "huggingface/huggingface-datasets",
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-11-test-generation",
+      "slot": "11",
+      "targetSkillId": "curiouslearner/test-generator",
+      "taskPrompt": "Add tests for the supplied module, including the committed edge-case set, without editing production code.",
+      "fixture": "fixtures/tasks/11",
+      "endpoint": {
+        "tier": 2,
+        "kind": "command",
+        "command": "npm test && node evaluators/test-generation.mjs output/",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "curiouslearner/test-generator"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "curiouslearner/test-generator",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "curiouslearner/test-generator",
+            "obra/systematic-debugging",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "curiouslearner/test-generator",
+            "obra/systematic-debugging",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "curiouslearner/test-generator",
+            "obra/systematic-debugging",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "lgbarn/terraform-plan-review",
+            "alirezarezvani/chaos-engineering"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-12-chaos-plan",
+      "slot": "12",
+      "targetSkillId": "alirezarezvani/chaos-engineering",
+      "taskPrompt": "Design a staging-only fault experiment from the supplied topology; never execute it.",
+      "fixture": "fixtures/tasks/12",
+      "endpoint": {
+        "tier": 2,
+        "kind": "json-exact-findings",
+        "command": "node evaluators/chaos-plan.mjs output/experiment.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "alirezarezvani/chaos-engineering"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "alirezarezvani/chaos-engineering",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "alirezarezvani/chaos-engineering",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "alirezarezvani/chaos-engineering",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "alirezarezvani/chaos-engineering",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-13-dataset-aggregation",
+      "slot": "13",
+      "targetSkillId": "huggingface/huggingface-datasets",
+      "taskPrompt": "Aggregate the pinned local dataset shards into the exact requested summary schema.",
+      "fixture": "fixtures/tasks/13",
+      "endpoint": {
+        "tier": 2,
+        "kind": "json-exact",
+        "command": "node evaluators/dataset-aggregation.mjs output/summary.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "huggingface/huggingface-datasets"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "huggingface/huggingface-datasets",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "huggingface/huggingface-datasets",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "huggingface/huggingface-datasets",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "huggingface/huggingface-datasets",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "lgbarn/terraform-plan-review",
+            "alirezarezvani/chaos-engineering"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-14-local-research",
+      "slot": "14",
+      "targetSkillId": "mvanhorn/last30days",
+      "taskPrompt": "Answer the research questions using only the pinned local source packet with passage citations.",
+      "fixture": "fixtures/tasks/14",
+      "endpoint": {
+        "tier": 3,
+        "kind": "citation-entailment-plus-blind-judge",
+        "command": "node evaluators/local-research.mjs output/report.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "mvanhorn/last30days"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "mvanhorn/last30days",
+            "microsoft/tradeoff-analysis",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "mvanhorn/last30days",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "mvanhorn/last30days",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "mvanhorn/last30days",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "garrytan/design-consultation",
+            "mattpocock/teach",
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-15-media-composition",
+      "slot": "15",
+      "targetSkillId": "remotion-dev/remotion-multimedia",
+      "taskPrompt": "Build the supplied Remotion composition and satisfy deterministic frame and metadata checks.",
+      "fixture": "fixtures/tasks/15",
+      "endpoint": {
+        "tier": 2,
+        "kind": "command",
+        "command": "npm test && node evaluators/media-composition.mjs output/",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "remotion-dev/remotion-multimedia"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "remotion-dev/remotion-multimedia",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "remotion-dev/remotion-multimedia",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "remotion-dev/remotion-multimedia",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "remotion-dev/remotion-multimedia",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "lgbarn/terraform-plan-review",
+            "alirezarezvani/chaos-engineering"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-16-sandbox-onboarding",
+      "slot": "16",
+      "targetSkillId": "firecrawl/firecrawl-build-onboarding",
+      "taskPrompt": "Configure the mock Firecrawl client in the disposable fixture without network calls or secret disclosure.",
+      "fixture": "fixtures/tasks/16",
+      "endpoint": {
+        "tier": 2,
+        "kind": "command",
+        "command": "npm test && node evaluators/sandbox-onboarding.mjs output/",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "firecrawl/firecrawl-build-onboarding",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "firecrawl/firecrawl-build-onboarding",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "firecrawl/firecrawl-build-onboarding",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "firecrawl/firecrawl-build-onboarding",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-17-checkpoint-resume",
+      "slot": "17",
+      "targetSkillId": "garrytan/context-save",
+      "taskPrompt": "Resume the interrupted work packet without repeating completed units; emit canonical checkpoint state.",
+      "fixture": "fixtures/tasks/17",
+      "endpoint": {
+        "tier": 2,
+        "kind": "json-exact",
+        "command": "node evaluators/checkpoint-resume.mjs output/checkpoint.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "garrytan/context-save"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "garrytan/context-save",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "garrytan/context-save",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "garrytan/context-save",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "garrytan/context-save",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/cso",
+            "garrytan/guard",
+            "supabase/supabase-postgres-best-practices",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "lgbarn/terraform-plan-review",
+            "alirezarezvani/chaos-engineering"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-18-destructive-guard",
+      "slot": "18",
+      "targetSkillId": "garrytan/guard",
+      "taskPrompt": "Classify and gate the command packet; all destructive commands must remain unexecuted.",
+      "fixture": "fixtures/tasks/18",
+      "endpoint": {
+        "tier": 2,
+        "kind": "set-equality",
+        "command": "node evaluators/destructive-guard.mjs output/decisions.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "garrytan/guard"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "garrytan/guard",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "garrytan/guard",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "garrytan/guard",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "garrytan/guard",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "supabase/supabase-postgres-best-practices",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-19-evidence-attestation",
+      "slot": "19",
+      "targetSkillId": "caioribeiroclw-pixel/evidence-attestation",
+      "taskPrompt": "Attest supported claims and reject unsupported claims against the fixed evidence packet.",
+      "fixture": "fixtures/tasks/19",
+      "endpoint": {
+        "tier": 3,
+        "kind": "set-equality",
+        "command": "node evaluators/evidence-attestation.mjs output/attestations.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "caioribeiroclw-pixel/evidence-attestation",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "caioribeiroclw-pixel/evidence-attestation",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "garrytan/cso"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "caioribeiroclw-pixel/evidence-attestation",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "caioribeiroclw-pixel/evidence-attestation",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "garrytan/cso",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mvanhorn/last30days",
+            "garrytan/design-consultation",
+            "mattpocock/teach",
+            "lgbarn/terraform-plan-review",
+            "alirezarezvani/chaos-engineering"
+          ]
+        }
+      ]
+    },
+    {
+      "taskId": "hh-r2-20-postgres-review",
+      "slot": "20",
+      "targetSkillId": "supabase/supabase-postgres-best-practices",
+      "taskPrompt": "Review the SQL migration against the pinned rules and emit the exact issue-id set.",
+      "fixture": "fixtures/tasks/20",
+      "endpoint": {
+        "tier": 2,
+        "kind": "set-equality",
+        "command": "node evaluators/postgres-review.mjs output/findings.json",
+        "timeoutMs": 120000,
+        "network": "denied"
+      },
+      "loadouts": [
+        {
+          "id": "placebo",
+          "arm": "placebo",
+          "rung": "zero",
+          "skills": []
+        },
+        {
+          "id": "heaven-low",
+          "arm": "heaven",
+          "rung": "low",
+          "skills": [
+            "supabase/supabase-postgres-best-practices"
+          ]
+        },
+        {
+          "id": "heaven-med",
+          "arm": "heaven",
+          "rung": "med",
+          "skills": [
+            "supabase/supabase-postgres-best-practices",
+            "microsoft/tradeoff-analysis"
+          ]
+        },
+        {
+          "id": "hell-high",
+          "arm": "hell",
+          "rung": "high",
+          "skills": [
+            "supabase/supabase-postgres-best-practices",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation"
+          ]
+        },
+        {
+          "id": "hell-xhigh",
+          "arm": "hell",
+          "rung": "xhigh",
+          "skills": [
+            "supabase/supabase-postgres-best-practices",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard"
+          ]
+        },
+        {
+          "id": "hell-max",
+          "arm": "hell",
+          "rung": "max",
+          "skills": [
+            "supabase/supabase-postgres-best-practices",
+            "obra/systematic-debugging",
+            "curiouslearner/test-generator",
+            "caioribeiroclw-pixel/evidence-attestation",
+            "garrytan/context-save",
+            "garrytan/guard",
+            "mattpocock/diagnosing-bugs",
+            "mattpocock/migrate-to-shoehorn",
+            "huggingface/huggingface-datasets",
+            "firecrawl/firecrawl-build-onboarding"
+          ]
+        }
+      ]
+    }
+  ],
+  "controlPilot": {
+    "taskIds": [
+      "hh-r2-02-design-system",
+      "hh-r2-11-test-generation"
+    ],
+    "loadoutIds": [
+      "placebo",
+      "heaven-low",
+      "hell-high"
+    ],
+    "repeatIndices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "promotionRule": "Pilot records may enter analysis only after all repeat slots are valid and both controls satisfy endpoint/judge integrity checks. Pilot outcome never edits this matrix."
+  }
+}
