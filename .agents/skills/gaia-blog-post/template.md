@@ -1,125 +1,124 @@
-# Gaia Blog Post Templates
+# Gaia Blog Post — Templates
 
-This file provides the canonical boilerplate templates for authoring a Gaia Research blog post (`/blog/*`).
+Boilerplate for a Gaia Research blog post (`/blog/*`). **Phase 1 of `SKILL.md`
+must be complete before any of this is filled** — the source ledger comes first.
 
-**Before filling any template:** Phase 0 of `SKILL.md` must be complete. The source ledger must be filled with verified information before a single word of post content is written.
-
----
-
-## 0. Source Ledger (fill before writing)
-
-```
-Primary source: [paper title · authors · institution · year · arXiv/DOI URL]
-GitHub:         [URL or "none found"]
-Official video: [YouTube ID · title · verified via oEmbed — or "none found"]
-Real numbers:   [task names and exact figures copied from the paper]
-Mechanism:      [2-3 sentences from the methods section, not the abstract]
-Fabrication risks: [anything the post might invent — configs, paths, counts]
-```
+These skeletons are transcribed from the eleven live pages, not idealized. Where
+this file and a shipped page disagree, the shipped page wins and this file is the
+bug — fix it in the PR that found it.
 
 ---
 
-## 1. Markdown Source Template (`content/blog/<slug>/post.md`)
+## 1. `content/blog/<slug>/post.md`
 
-```markdown
+**Lines 1–4 are load-bearing.** `page.tsx` strips them with `.slice(4)`. An extra
+or missing blank line silently eats the first paragraph or duplicates the title.
+
+````markdown
 # [Title of the Post]
 
 *[Month DD, YYYY] · Field Note by Nova — Head Researcher, Gaia Research*
 
 ---
 
-> [Hook — one relatable observation the reader has personally encountered.
->  Not a summary of the post. Not "In this post, we will explore..."
->  The first sentence should make the reader want the second one.]
+> [Hook — one observation the reader has personally hit. Not a summary.
+>  Not "In this post, we will explore…". The first sentence earns the second.]
 
-<!-- YouTube embed: only if a real relevant video was verified in the source ledger.
-     Paste the verified ID below and uncomment. Never embed without oEmbed verification. -->
-<!--
 [[YOUTUBE_EMBED]]
--->
 
 ---
 
-## [Section title specific to this topic — not "Introduction" or "Background"]
+## [Section title specific to this topic — never "Introduction" or "Background"]
 
-[State the mechanism directly. What does it actually do, step by step?
- Use numbered steps for processes. Use plain English first, then technical terms.
- Every jargon term gets a one-line anchor before it is used alone.]
+[The mechanism, directly. Numbered steps for processes. Plain English first,
+ then the technical term. Every jargon term anchored in one line before it is
+ used alone.]
 
 [[SVG_FLOWCHART]]
 
 ---
 
-## [Contrast section title — what the reader recognises vs. what this changes]
-
-[Before/after code comparison. The "bad" example must be recognisably bad,
- not just longer. The "good" example must be concisely better.
- Let the code speak — do not narrate what the reader is already reading.]
+## [Contrast section title — what the reader recognises vs. what changes]
 
 ### [Label for the anti-pattern]
 
 ```[language]
-[anti-pattern code]
+[anti-pattern code — recognisably bad, not merely longer]
 ```
 
 ### [Label for the better pattern]
 
 ```[language]
-[better pattern code]
+[better pattern code — concisely better]
 ```
 
 ---
 
 ## [Results or evidence section title]
 
-[Real numbers from the source ledger. Cite the task name and baseline.
- If any number is illustrative and not from the paper, say so explicitly.]
+[Real numbers from the ledger, cited to task and baseline. Anything illustrative
+ is labelled illustrative inside the figure itself.]
 
-[[BAR_CHART_OR_TABLE]]
+[[BAR_CHART]]
 
 | [Column] | [Column] | [Column] |
 | :--- | :--- | :--- |
-| [value from paper] | [value from paper] | [value from paper] |
+| [from source] | [from source] | [from source] |
 
 ---
 
 ## [Closing section title — specific to this topic]
 
-[One concrete thing the reader can do differently today.
- Not a restatement of what the post said.
- Not "Time will tell." Not a hedging disclaimer.
- A specific next action.]
+[One concrete thing to do differently today. Not a restatement. Not "Time will
+ tell." No hedging disclaimer.]
 
 ---
 
-**Source:** [Authors], *[Paper Title]*, [Institution], [Year]. [[arXiv:XXXXXXX](https://arxiv.org/abs/XXXXXXX)] · [[GitHub](URL)] · [[Official Blog](URL)]
-```
+**Source:** [Authors], *[Title]*, [Institution], [Year]. [[arXiv:XXXXXXX](https://arxiv.org/abs/XXXXXXX)] · [[GitHub](URL)]
+````
 
 ---
 
-## 2. Next.js Page Route Template (`app/blog/[slug]/page.tsx`)
+## 2. `app/blog/<slug>/page.tsx`
+
+The real skeleton. Note what the previous version of this template got wrong and
+what every live page actually does:
+
+- **`remarkMath` + `rehypeKatex` are in 11/11 pages.** Keep them even with no math.
+- **`PostShareBar` is in 10/11 pages.** Keep it.
+- **Semantic class names, not Tailwind utilities.** Only 2/11 pages use utility
+  classes like `text-3xl font-extrabold text-slate-100`; the house style is
+  `blog-post-head`, `blog-post-meta`, `blog-post-summary`,
+  `blog-post-illustration`, `blog-post-body report-body`, `blog-post-foot`,
+  styled in `app/globals.css`.
+- **`keywords[]` is in 7/11 pages.** Include it; it is the SEO surface.
 
 ```tsx
 import Link from "next/link";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import novaAuthor from "@/content/authors/nova.json";
-import { [slug]EditorialThumbnail } from "@/data/blog";
-import postMd from "@/content/blog/[slug]/post.md";
+import PostShareBar from "@/components/PostShareBar";
+import { <camel>Thumbnail } from "@/data/blog";
+import postMd from "@/content/blog/<slug>/post.md";
 
 export const dynamic = "force-static";
 export const revalidate = false;
 
 const siteUrl = "https://research.gaiaskilltree.com";
-const articlePath = "/blog/[slug]";
+const articlePath = "/blog/<slug>";
 const articleUrl = `${siteUrl}${articlePath}`;
-const thumbnailUrl = `${siteUrl}${[slug]EditorialThumbnail.src.src}`;
-// Description: open with the primary keyword. 1-2 sentences, no hedging.
-const articleDescription = "[Primary keyword] [what it does in one sentence]. [One sentence of most interesting result or implication].";
+const thumbnailUrl = `${siteUrl}${<camel>Thumbnail.src.src}`;
+const articleTitle = "[Primary keyword]: [Subtitle]";
+// Opens with the primary keyword. One or two sentences. No hedging.
+const articleDescription =
+  "[Primary keyword] [what it does in one sentence]. [The most interesting result].";
 
 export const metadata = {
-  title: "[Primary keyword]: [Subtitle] — Gaia Research",
+  title: articleTitle,
   description: articleDescription,
   keywords: [
     "[primary keyword]",
@@ -132,24 +131,24 @@ export const metadata = {
   openGraph: {
     type: "article",
     url: articlePath,
-    title: "[Primary keyword]: [Subtitle]",
+    title: articleTitle,
     description: articleDescription,
     publishedTime: "[YYYY-MM-DD]T00:00:00+08:00",
     authors: [novaAuthor.display_name],
-    images: [{ url: [slug]EditorialThumbnail.src.src, width: 1600, height: 900, alt: [slug]EditorialThumbnail.alt }],
+    images: [{ url: <camel>Thumbnail.src.src, width: 1600, height: 900, alt: <camel>Thumbnail.alt }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "[Primary keyword]: [Subtitle]",
+    title: articleTitle,
     description: articleDescription,
-    images: [[slug]EditorialThumbnail.src.src],
+    images: [<camel>Thumbnail.src.src],
   },
 };
 
 const articleStructuredData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  headline: "[Primary keyword]: [Subtitle]",
+  headline: articleTitle,
   description: articleDescription,
   image: thumbnailUrl,
   url: articleUrl,
@@ -166,30 +165,8 @@ const articleStructuredData = {
   },
 };
 
-// Only include if a real relevant video was verified via oEmbed.
-// Delete this component entirely if no verified video exists.
-function YoutubeEmbed() {
-  return (
-    <figure className="blog-figure my-8 rounded-xl overflow-hidden border border-slate-800 shadow-lg">
-      <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
-        <iframe
-          className="absolute inset-0 w-full h-full"
-          src="https://www.youtube-nocookie.com/embed/[YOUTUBE_ID]"
-          title="[Video Title — exact title from oEmbed verification]"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-      <figcaption className="text-xs text-slate-500 px-4 py-2">
-        [Who made the video and what it covers — one sentence.]
-      </figcaption>
-    </figure>
-  );
-}
-
 function loadPost() {
-  // Slices the h1 title line, blank line, byline, and blank line (indices 0–3)
-  // so the page <h1> renders from metadata, not duplicated from the markdown.
+  // Strip H1 title & byline — the header below renders them.
   return postMd.split("\n").slice(4).join("\n").trim();
 }
 
@@ -199,47 +176,52 @@ export default function BlogPostPage() {
     <>
       <SiteHeader />
       <main id="main" className="blog-post-page">
+        <PostShareBar />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData).replace(/</g, "\\u003c") }}
         />
-        <header className="blog-post-head border-b border-slate-800/60 pb-8 mb-8">
-          <p className="blog-post-meta text-sm text-slate-400 mb-2">
+        <header className="blog-post-head">
+          <p className="blog-post-meta">
             <time dateTime="[YYYY-MM-DD]">[Month DD, YYYY]</time> · {" "}
-            <a href={novaAuthor.links.github} target="_blank" rel="noreferrer" className="text-sky-400 font-medium hover:underline">
+            <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">
               {novaAuthor.display_name}
-            </a>
+            </a>{" "}
+            · Head Researcher, Gaia Research
           </p>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100 my-3">
-            [Primary keyword]: [Subtitle]
-          </h1>
-          <p className="blog-post-summary text-lg text-slate-400">
-            [One sentence — the most interesting thing, stated directly. Not a summary of sections.]
+          <h1>{articleTitle}</h1>
+          <p className="blog-post-summary">
+            [One sentence — the most interesting thing, stated directly.]
           </p>
         </header>
 
-        <figure className="blog-post-illustration my-8 rounded-xl overflow-hidden border border-slate-800 shadow-xl">
+        <figure className="blog-post-illustration">
           <img
-            src={[slug]EditorialThumbnail.src.src}
-            width={[slug]EditorialThumbnail.src.width}
-            height={[slug]EditorialThumbnail.src.height}
-            alt={[slug]EditorialThumbnail.alt}
-            className="w-full h-auto object-cover"
+            src={<camel>Thumbnail.src.src}
+            width={<camel>Thumbnail.src.width}
+            height={<camel>Thumbnail.src.height}
+            alt={<camel>Thumbnail.alt}
           />
         </figure>
 
         <article className="blog-post-body report-body">
           <Markdown
-            remarkPlugins={[remarkGfm]}
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeKatex]}
             components={{
               p: ({ children, ...props }) => {
-                const text = Array.isArray(children) ? children.join("") : typeof children === "string" ? children : "";
-                // Add a case for each [[TOKEN]] used in the post.md
+                const childArray = Array.isArray(children) ? children : [children];
+                const text =
+                  childArray.length === 1 && typeof childArray[0] === "string" ? childArray[0] : null;
+
+                // One branch per [[TOKEN]] used in post.md.
+                if (text === "[[SVG_FLOWCHART]]") {
+                  return <SvgFlowchart />;
+                }
                 if (text === "[[YOUTUBE_EMBED]]") {
                   return <YoutubeEmbed />;
                 }
-                // if (text === "[[SVG_FLOWCHART]]") { return <MyFlowchart />; }
-                // if (text === "[[BAR_CHART]]") { return <MyBarChart />; }
+
                 return <p {...props}>{children}</p>;
               },
             }}
@@ -248,10 +230,8 @@ export default function BlogPostPage() {
           </Markdown>
         </article>
 
-        <footer className="blog-post-foot mt-16 pt-8 border-t border-slate-800">
-          <Link href="/blog" className="text-sky-400 font-medium hover:underline flex items-center gap-2">
-            ← Back to Blog
-          </Link>
+        <footer className="blog-post-foot">
+          <Link href="/blog">Back to Blog <span aria-hidden="true">→</span></Link>
         </footer>
       </main>
       <SiteFooter />
@@ -260,44 +240,188 @@ export default function BlogPostPage() {
 }
 ```
 
----
+### 2a. Inline SVG figure
 
-## 3. Data Registry Entry (`data/blog.ts`)
+Figures live inside `page.tsx`, not in separate component files. Every one needs
+all four of these — reviewers have caught each repeatedly:
 
-```ts
-import type { StaticImageData } from "next/image";
-import [slug]EditorialThumbnailSrc from "@/assets/generated/[slug]-editorial-thumbnail.webp";
+```tsx
+function SvgFlowchart() {
+  return (
+    <svg
+      viewBox="0 0 960 560"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-labelledby="flow-title flow-desc"
+      style={{ width: "100%", height: "auto", margin: "20px 0" }}
+    >
+      <title id="flow-title">[Short figure name]</title>
+      <desc id="flow-desc">[What the figure shows, one sentence, for screen readers.]</desc>
 
-export const [slug]EditorialThumbnail = {
-  src: [slug]EditorialThumbnailSrc,
-  alt: "[Detailed alt text: describe the quiet Milim slice-of-life scene specifically — setting, Milim's position and emotion, dominant colours]",
-} as const;
+      <rect width="960" height="560" rx="24" fill="#05060a" />
+      {/* Palette: #05060a canvas · #0b0e14 panel · #334155 rule ·
+          #38bdf8 Rimuru Blue · #ec4899 Milim Pink · #fbbf24 amber ·
+          #f4f1ea heading · #94a3b8 / #cbd5e1 body · #64748b caption */}
 
-// Add to the top of the blogPosts array (newest first):
-// {
-//   href: "/blog/[slug]",
-//   category: "[Category]",
-//   date: "[Month DD, YYYY]",
-//   readTime: "[X min read]",
-//   title: "[Primary keyword]: [Subtitle]",
-//   description: "[Same as articleDescription in page.tsx — opens with primary keyword]",
-//   author: "Nova · Head Researcher, Gaia Research",
-//   image: [slug]EditorialThumbnail,
-// },
+      {/* Provenance line — required whenever the figure is not measured data. */}
+      <text x="480" y="540" textAnchor="middle" fill="#64748b" fontSize="13">
+        Illustrative · not measured data
+      </text>
+    </svg>
+  );
+}
+```
+
+Check before committing: labels do not collide at 320px, the `viewBox` scales,
+`<title>`/`<desc>` are wired to `aria-labelledby`, and any non-measured chart
+says so *inside the figure*.
+
+### 2b. YouTube embed
+
+Only after the ID is oEmbed-verified (`SKILL.md` Phase 1.6). Delete the function
+entirely if there is no verified video — a filler embed is worse than none.
+
+```tsx
+function YoutubeEmbed() {
+  return (
+    <figure className="blog-video" style={{ margin: "20px 0" }}>
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/[VERIFIED_ID]"
+        title="[Exact title returned by oEmbed]"
+        width="960"
+        height="540"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        style={{ width: "100%", aspectRatio: "16 / 9", height: "auto" }}
+      />
+    </figure>
+  );
+}
 ```
 
 ---
 
-## 4. Sitemap & Redirect Entries
+## 3. `data/blog.ts` — three edits
+
+Use `<camel>Thumbnail`, not `<camel>EditorialThumbnail`. Both forms exist (7 vs
+4); the short one is the majority. Do not rename the existing four.
 
 ```ts
-// app/sitemap.ts — add:
-{ url: `${siteUrl}/blog/[slug]`, lastModified: new Date("[YYYY-MM-DD]"), changeFrequency: "monthly", priority: 0.7 },
+// a) with the other imports at the top.
+//    The asset basename need not equal the slug — match what you actually wrote.
+import <camel>ThumbnailSrc from "@/assets/generated/<asset>-editorial-thumbnail.webp";
 
-// next.config.mjs redirects() — add if slug doesn't match the primary keyword:
+// b) exported thumbnail object
+export const <camel>Thumbnail = {
+  src: <camel>ThumbnailSrc,
+  alt: "[The Milim scene specifically: setting, her position and emotion, dominant colours]",
+} as const;
+
+// c) newest-first in the blogPosts array
 {
-  source: "/blog/[primary-keyword]",
-  destination: "/blog/[slug]",
-  permanent: true,
+  href: "/blog/<slug>",
+  category: "[Category]",
+  tags: ["[Tag]", "[Tag]"],
+  date: "[Month DD, YYYY]",
+  readTime: "[N min read]",
+  title: "[Primary keyword]: [Subtitle]",
+  description: "[identical to articleDescription in page.tsx]",
+  author: "Nova · Head Researcher, Gaia Research",
+  image: <camel>Thumbnail,
 },
+```
+
+The blog index picks this up automatically via `<BlogArchive />`. Nothing else
+to edit there.
+
+---
+
+## 4. `content/blog/<slug>/THUMBNAIL.md`
+
+Current convention (`thumbnail-prompt.md` is the older handoff format, frozen).
+
+````markdown
+# Thumbnail — `/blog/<slug>`
+
+Generate via the **`milim-editorial-thumbnail`** skill
+(`.agents/skills/milim-editorial-thumbnail/SKILL.md`) — its prompt skeleton,
+scale and negative-space rules, and character guardrails are the authority.
+Model is **`gpt-image-2`** only (CLAUDE.md hard rule; never `nano-banana`,
+`nano-banana-2`, or `omniflash`).
+
+Topic: **[slice-of-life setting]**. Palette: [setting palette], single
+Milim-pink accent `#ec4899`.
+
+## Prompt
+
+```text
+Use case: illustration-story.
+Asset type: 16:9 Gaia Research blog thumbnail.
+Primary request: [Vast calm setting in detail]. A microscopic, tiny 8-year-old
+chibi girl (Milim Nova) placed [position], [quiet action]. Scale directive:
+Milim is about 5% of total image height; the setting occupies about 90% of the
+frame with huge calm negative space.
+Character details: very long, unbound bright pink hair (NO TWINTAILS), blue
+eyes, two yellow star hairpins in her bangs, black oversized hoodie with a cute
+white baby dragon print, thigh-high socks with pink stripes, chunky high-top
+sneakers.
+Style: flat editorial screenprint illustration; [palette] with a single
+Milim-pink accent #ec4899; broad flat shapes, subtle paper texture.
+Constraints: no world-trees, roots, branches, canopies, or forests; no readable
+text, letters, numbers, labels, logos, watermarks, UI, code, charts, graphs, or
+diagrams; not hyper-detailed rendering.
+```
+
+## Pipeline
+
+1. Candidate → `assets/workbench/generated/` (gitignored).
+2. Export **1600×900 WebP, quality 90, fit cover, position attention** to
+   **both** `assets/generated/<asset>-editorial-thumbnail.webp` and
+   `public/assets/<asset>-editorial-thumbnail.webp`.
+3. `npx tsx scripts/assets/sync-asset-ledger.ts`
+4. `npx tsx scripts/assets/check-asset-ledger.ts --strict`
+````
+
+---
+
+## 5. Sitemap & redirect
+
+```ts
+// app/sitemap.ts — add deliberately (see SKILL.md: 4 of 11 posts have one)
+{ url: `${siteUrl}/blog/<slug>`, lastModified: new Date("[YYYY-MM-DD]"), changeFrequency: "monthly", priority: 0.7 },
+
+// next.config.mjs redirects() — only when the slug ≠ the primary keyword
+{ source: "/blog/[primary-keyword]", destination: "/blog/<slug>", permanent: true },
+```
+
+---
+
+## 6. PR body
+
+```markdown
+## What
+[One to three sentences on the post's claim.]
+
+## Files
+- `content/blog/<slug>/post.md` — [purpose]
+- `app/blog/<slug>/page.tsx` — route, metadata, JSON-LD, [N] inline SVG figures
+- `data/blog.ts` — thumbnail import/export + registry entry
+- `assets/generated/…` + `public/assets/…` — 1600×900 editorial thumbnail
+- `content/assets/asset-ledger.json` — ledger sync
+
+## Draft status
+- [ ] [anything still missing, or "complete"]
+
+## Verification
+- `npm run lint` — [result]
+- `npm run build:next` — [result]
+- `check-asset-ledger.ts --strict` — [result]
+- `check-lexicon.ts` — [result]
+- `visual-audit.mjs` with `PAGES=/blog,/blog/<slug>` — [result]
+
+## Source ledger
+[pasted from SKILL.md Phase 1.2]
+
+## Review dimensions
+Content nuance · skill-file integrity · readability (CLAUDE.md § Blog Post Reviews)
 ```
