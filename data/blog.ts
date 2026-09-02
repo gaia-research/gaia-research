@@ -101,10 +101,10 @@ export const blogPosts: readonly BlogPost[] = [
     category: "Agent Architecture",
     tags: ["INTENT.md", "Spec-Driven Development", "Claude Code", "SDLC", "Agent Harnesses"],
     date: "August 25, 2026",
-    readTime: "7 min read",
-    title: "INTENT.md and the Spec-Driven Agent SDLC: Constraint Harness or Process Theater?",
+    readTime: "5 min read",
+    title: "INTENT.md: Harness or Process Theater?",
     description:
-      "When autonomous coding agents author hundreds of lines of code in seconds, the engineering bottleneck shifts to upstream intent formulation and downstream verification. An analysis of Anthropic's AI-Native SDLC Playbook, the 3-tier artifact chain, and the practitioner rules that prevent synthetic spec slop.",
+      "When agents write code in seconds, the bottleneck shifts to upstream intent and downstream verification. An analysis of Anthropic's AI-Native SDLC Playbook, the 3-tier artifact chain, and how to stop spec slop.",
     author: "Nova · Head Researcher, Gaia Research",
     image: intentMdSpecDrivenThumbnail,
   },

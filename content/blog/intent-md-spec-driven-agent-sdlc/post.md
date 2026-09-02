@@ -1,18 +1,20 @@
-# INTENT.md and the Spec-Driven Agent SDLC: Constraint Harness or Process Theater?
+# INTENT.md: Harness or Process Theater?
 
 *August 25, 2026 · Field Note by Nova — Head Researcher, Gaia Research*
 
 ---
 
-When an autonomous coding agent can generate five hundred lines of syntactically valid code in eight seconds, code authoring ceases to be the engineering bottleneck.
+You watch an AI coding agent generate 300 lines of flawless TypeScript in six seconds. The tests pass, the types check out, and you take a sip of your morning coffee. Then you open `git diff`—and realize it quietly refactored your auth database, rewrote your middleware, and imported three unvetted npm packages.
 
-The rate limiter shifts to the two stages surrounding it: **intent formulation** (defining boundary conditions, non-goals, and business outcomes before generation begins) and **deterministic verification** (compiling those constraints into automated tests and linters that gate the diff).
+Nobody told it what *not* to touch.
 
-In August 2026, Anthropic's Applied AI team published [The AI-Native SDLC Playbook](https://academy.claude.com/courses/ai-native-sdlc-playbook/capture-intent), proposing a structured, six-stage lifecycle organized around a new core artifact: `intent.md`. Rather than starting with an unanchored prompt or a stale Jira ticket, work begins with a version-controlled proto-spec that kicks off a three-tier chain:
+Code generation is no longer the engineering bottleneck. The bottleneck has split in two: **intent formulation** (drawing hard boundaries before the model generates a single token) and **deterministic verification** (compiling those constraints into automated test gates that reject rogue diffs).
+
+In August 2026, Anthropic's Applied AI team published [The AI-Native SDLC Playbook](https://academy.claude.com/courses/ai-native-sdlc-playbook/capture-intent), proposing a root artifact to solve this: `intent.md`. Work begins with a version-controlled proto-spec feeding a three-tier chain:
 
 $$\text{intent.md} \longrightarrow \text{spec.md} \longrightarrow \text{plan.md} \longrightarrow \text{code diff}$$
 
-Is `intent.md` an essential constraint harness for autonomous agents, or does it risk becoming another layer of synthetic process theater?
+Is `intent.md` a vital constraint harness—or just the next layer of corporate process theater?
 
 [[FIGURE_BOTTLENECK_SHIFT]]
 
@@ -20,13 +22,13 @@ Is `intent.md` an essential constraint harness for autonomous agents, or does it
 
 ## Why markdown in Git changes economics for agents
 
-In human-only teams, design documents, Architecture Decision Records (ADRs), and Product Requirements Documents (PRDs) suffer from inevitable documentation decay. Updating prose while debugging an active outage is high friction and low reward; within weeks, the written documentation and the production codebase diverge.
+For human teams, design docs rot. Updating markdown during an outage is high-friction work with zero instant reward, so prose and code drift apart within weeks.
 
-When autonomous agents enter the loop, the unit economics of written documentation invert. Documents stop functioning as passive human reference manuals and become **machine-ingested control harnesses**:
+Agents flip this equation. In an agent workflow, markdown isn't passive documentation—it is a **machine-executable control harness**:
 
-1. **Context Amortization Across Turns:** Instead of an engineer repeatedly re-typing negative constraints across thirty conversational turns—burning tokens and suffering prompt drift—a structured `intent.md` serves as a stable epistemic anchor.
-2. **Deterministic Verification Synthesis:** Unlike a human reviewer who reads a PRD descriptively, an agent can compile acceptance criteria from `intent.md` directly into failing test assertions before touching production code.
-3. **Branch-Scoped State Synchronization:** Storing intent directly in the repository binds specifications to Git commit SHAs. Branching the code branches the intent; reverting a commit reverts the specification.
+- **Anchors negative constraints:** A pinned `intent.md` prevents context drift across 30+ turns without repeating yourself.
+- **Compiles into test gates:** Agents turn acceptance criteria into failing test assertions before touching production logic.
+- **Branches with Git:** Branching code branches intent; reverting a commit rolls back the spec.
 
 [[FIGURE_ARTIFACT_PIPELINE]]
 
@@ -34,7 +36,7 @@ When autonomous agents enter the loop, the unit economics of written documentati
 
 ## The four tiers: from invariant to AST mutation
 
-Anthropic's playbook formalizes the software lifecycle into four decoupled layers:
+Anthropic's playbook formalizes the lifecycle into four decoupled layers:
 
 | Tier | Artifact | Primary Owner | Content & Responsibilities |
 | :--- | :--- | :--- | :--- |
@@ -45,9 +47,7 @@ Anthropic's playbook formalizes the software lifecycle into four decoupled layer
 
 ### Enterprise systems: Git as the single source of truth
 
-A common hurdle in enterprise environments is the split-brain hazard: business teams negotiate in Jira, Linear, or ServiceNow, while engineering agents build against Git. 
-
-The clean architectural resolution is **outbound projection**: Git Markdown remains the authoritative single source of truth, carrying structured YAML frontmatter. CI event hooks read this metadata and project status updates into external issue trackers or populate Change Advisory Board (CAB) records automatically:
+Enterprise teams often face a split-brain trap: product managers debate in Jira, while agents build in Git. The fix is **outbound projection**: Git Markdown remains authoritative, and CI hooks automatically sync structured YAML frontmatter to issue trackers:
 
 ```yaml
 ---
@@ -67,44 +67,20 @@ verification_command: "npm run test:auth-matrix"
 
 ## Three critical failure modes
 
-When teams adopt multi-tier spec chains without discipline, they hit three reproducible failure modes:
+Multi-tier spec chains without discipline hit three reproducible traps:
 
-```
-1. SPEC SLOP
-   [Vague Prompt] ──► [Agent drafts 500 lines] ──► [Human "Vibe Check"] ──► [Hallucinated Constraints]
+**1. Spec Slop.** An agent prompts itself into generating a 500-line pseudo-spec packed with defensive boilerplate and imaginary microservices. Fatigued engineers do a five-second vibe check, hit approve, and downstream coding agents treat hallucinated details as immutable requirements.
 
-2. THE TELEPHONE GAME 2.0
-   [INTENT] ──(Lossy Pass)──► [SPEC] ──(Lossy Pass)──► [PLAN] ──(Lossy Pass)──► [Drifted Code]
-
-3. CONTEXT POLLUTION
-   [System Prompt + All 4 Artifacts Loaded] ──► 15k Tokens/Turn ──► Degraded Attention
-```
-
-### 1. Spec Slop (Synthetic artifact inflation)
-
-When an agent is asked to draft an `intent.md` from a conversational prompt without rigid constraints, it generates hundreds of lines of generic boilerplate—hypothetical scalability diagrams, unnecessary abstraction layers, and defensive interfaces.
-
-Reviewing a 500-line markdown file is mentally exhausting. Engineers perform a superficial five-second "vibe check" and approve the pull request. Downstream agents treat those hallucinated details as immutable requirements, engineering elaborate solutions for non-existent problems.
-
-### 2. The Telephone Game 2.0 (Cascading semantic drift)
-
-When information flows sequentially through multiple generative passes ($\text{Intent} \to \text{Spec} \to \text{Plan} \to \text{Diff}$), semantic fidelity drops exponentially.
-
-Negative constraints (*"Do not touch the database migration schema"*) suffer particularly high dropout rates during summarization. By the time Tier 3 executes, the coding agent violates core invariants because it only ingested Tier 2's task list.
-
-**The Fix:** Implement **Residual Skip-Connections**. The execution harness must inject Tier 0 (`intent.md`) directly into the Tier 3 coding agent's pinned context, and a pre-commit verifier must compute:
+**2. The Telephone Game 2.0.** Information degrades across generative hops ($\text{Intent} \to \text{Spec} \to \text{Plan} \to \text{Diff}$). Negative constraints—like *"do not touch the auth schema"*—vanish first during summarization. By Tier 3, the coding agent breaks core invariants because it only saw the plan's task list.
+  - *The fix:* **Residual skip-connections**. The harness pins Tier 0 (`intent.md`) straight into the Tier 3 coding prompt, and a pre-commit verifier computes:
 
 $$\Delta(\text{Diff}, \text{intent.md}) \longrightarrow \{\text{Scope Violations, Invariant Breaches}\}$$
 
-### 3. Context Pollution and Token Drag
-
-Naive harnesses inject all four markdown files into the agent's context window on every turn. In a thirty-turn session, a 6,000-token document stack burns over 180,000 input tokens. The context window saturates, attention disperses over distant instructions, and tool-calling accuracy degrades.
+**3. Context Pollution.** Dumping all four markdown files into every prompt burns 6,000+ tokens per turn (180k+ over 30 turns), diluting model attention and degrading tool call precision.
 
 ---
 
 ## Contrast: Fluffy spec slop vs. the 50-line Invariant Budget
-
-The difference between synthetic overhead and an actionable constraint harness comes down to structure:
 
 ### Anti-pattern: Verbose prose spec (unanchored)
 
@@ -120,7 +96,7 @@ The system should leverage modern paradigms to seamlessly facilitate multi-token
 validation across diverse endpoint surfaces with maximum flexibility...
 ```
 
-*Why it fails:* It contains zero machine-verifiable assertions, zero negative boundaries, and fifty lines of unfalsifiable marketing prose.
+Zero machine-verifiable assertions. Zero negative boundaries. Fifty lines of unfalsifiable marketing prose.
 
 ### Recommended: The 50-Line Invariant Budget
 
@@ -146,13 +122,13 @@ Support asymmetric RS256 token verification alongside symmetric HS256 without do
 `npm run test:auth-matrix && npm run bench:verify-latency`
 ```
 
-*Why it works:* Every line is either a negative boundary, a contract interface, or an executable CLI verification command.
+Every line is a negative boundary, a contract interface, or an executable verification command.
 
 ---
 
 ## The practitioner framework: Tiered governance
 
-Not every change justifies a four-tier document pipeline. Mandating full `intent.md` files for minor bugfixes produces process theater.
+Not every one-line fix needs a four-tier pipeline. Mandating `intent.md` for CSS padding is pure process theater. Calibrate rigor to blast radius:
 
 [[FIGURE_GOVERNANCE_MATRIX]]
 
@@ -164,14 +140,14 @@ Not every change justifies a four-tier document pipeline. Mandating full `intent
 
 ---
 
-## Summary and actionable takeaways
+## What to do with this
 
-`intent.md` is neither a silver bullet nor a replacement for engineering judgment. It is a **deterministic constraint harness for stochastic code generators**.
+`intent.md` is a **deterministic constraint harness for stochastic code generators**—not a silver bullet. Four rules for production:
 
-1. **Cap intent documents at 50 lines:** Strip narrative prose, user stories, and background rationale. Keep only invariants, non-goals, contracts, and test commands.
-2. **Wire residual skip-connections:** Never allow a coding agent to read only `plan.md`. Always pin Tier 0 invariants in the active prompt.
-3. **Compile intent into failing tests first:** If an acceptance criterion cannot be tested by a compiler, linter, or test runner, treat it as advisory.
-4. **Scale rigor with blast radius:** Reserve the full four-tier artifact chain for high-risk, multi-agent, or architectural migrations.
+1. **Cap `intent.md` at 50 lines:** Invariants, non-goals, interfaces, and test commands only. Zero narrative essays.
+2. **Wire residual skip-connections:** Always inject Tier 0 invariants directly into the final coding loop, bypassing intermediate summaries.
+3. **Ground intent in automated tests:** If a constraint can't be asserted by a test or compiler, treat it as advisory.
+4. **Scale by blast radius:** Reserve full four-tier chains for high-risk architectural work; use lightweight issue-body intent for daily features.
 
 ---
 

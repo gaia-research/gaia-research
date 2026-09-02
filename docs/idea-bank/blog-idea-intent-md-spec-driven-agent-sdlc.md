@@ -1,4 +1,4 @@
-# Blog Idea: INTENT.md and the Spec-Driven Agent SDLC — Constraint Harness or Process Theater?
+# Blog Idea: INTENT.md: Harness or Process Theater?
 
 - **Type:** Technical Analysis / Architecture & Engineering Governance
 - **Status:** In Progress / Shipping

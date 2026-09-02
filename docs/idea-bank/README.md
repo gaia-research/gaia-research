@@ -150,7 +150,7 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** The cost gap between `gemini-3.5-flash-lite` (~$0.03/1M cache-read) and `gemini-3.7-flash` (~$0.075/1M cache-read) is 2.5x. For orchestration-heavy workflows where scouts are the highest-volume component, testing whether $K$ parallel cheap scouts can match or beat a single expensive scout's recall at lower total cost is the largest cost lever available. All infrastructure exists: pi-dynamic-workflows provides `parallel()` dispatch, pi-cost provides token/cost telemetry, and the HH Benchmark ledger pattern provides a proven append-only JSONL recording discipline.
 - **Doc:** [`parallel-cheap-scouting-cost-performance.md`](./parallel-cheap-scouting-cost-performance.md) · Plan: [`../plans/issue-parallel-cheap-scouting-bench.md`](../plans/issue-parallel-cheap-scouting-bench.md) · Receipt: [`../../content/reports/parallel-scouting-economics.md`](../../content/reports/parallel-scouting-economics.md)
 
-## Rank 22 — Blog Idea: INTENT.md and the Spec-Driven Agent SDLC
+## Rank 22 — Blog Idea: INTENT.md: Harness or Process Theater?
 - **Status:** In Progress / Shipping
 - **Viability:** Very High
 - **Potential:** Exceptional

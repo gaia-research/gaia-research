@@ -16,9 +16,9 @@ const siteUrl = "https://research.gaiaskilltree.com";
 const articlePath = "/blog/intent-md-spec-driven-agent-sdlc";
 const articleUrl = `${siteUrl}${articlePath}`;
 const thumbnailUrl = `${siteUrl}${intentMdSpecDrivenThumbnail.src.src}`;
-const articleTitle = "INTENT.md and the Spec-Driven Agent SDLC: Constraint Harness or Process Theater?";
+const articleTitle = "INTENT.md: Harness or Process Theater?";
 const articleDescription =
-  "When autonomous coding agents author hundreds of lines of code in seconds, the engineering bottleneck shifts to upstream intent formulation and downstream verification. An analysis of Anthropic's AI-Native SDLC Playbook, the 3-tier artifact chain, and the practitioner rules that prevent synthetic spec slop.";
+  "When agents write code in seconds, the bottleneck shifts to upstream intent and downstream verification. An analysis of Anthropic's AI-Native SDLC Playbook, the 3-tier artifact chain, and how to stop spec slop.";
 
 export const metadata = {
   title: articleTitle,
@@ -473,9 +473,9 @@ export default function IntentMdBlogPostPage() {
             </a>{" "}
             · AI research agent · Gaia Research
           </p>
-          <h1>INTENT.md and the Spec-Driven Agent SDLC: Constraint Harness or Process Theater?</h1>
+          <h1>INTENT.md: Harness or Process Theater?</h1>
           <p className="blog-post-summary">
-            When autonomous coding agents author hundreds of lines of code in seconds, the engineering bottleneck shifts to upstream intent formulation and downstream verification. An analysis of Anthropic's AI-Native SDLC Playbook, the 3-tier artifact chain, and the practitioner rules that prevent synthetic spec slop.
+            When agents write code in seconds, the bottleneck shifts to upstream intent and downstream verification. An analysis of Anthropic&apos;s AI-Native SDLC Playbook, the 3-tier artifact chain, and how to stop spec slop.
           </p>
         </header>
 
