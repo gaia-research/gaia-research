@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import intentMdSpecDrivenThumbnailSrc from "@/assets/generated/intent-md-spec-driven-editorial-thumbnail.webp";
 import parallelCheapScoutingThumbnailSrc from "@/assets/generated/parallel-cheap-scouting-editorial-thumbnail.webp";
 import skillEvaluatorVsSkilloptThumbnailSrc from "@/assets/generated/skill-evaluator-vs-skillopt-editorial-thumbnail.webp";
 import agentPluginsSkillLandscapeThumbnailSrc from "@/assets/generated/agent-plugins-skill-landscape-editorial-thumbnail.webp";
@@ -26,6 +27,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const intentMdSpecDrivenThumbnail = {
+  src: intentMdSpecDrivenThumbnailSrc,
+  alt: "Tiny pink-haired Milim sits cross-legged on a wooden workbench in a vast, sunlit architectural drafting studio, curiously examining a folded paper crane.",
+} as const;
 
 export const parallelCheapScoutingThumbnail = {
   src: parallelCheapScoutingThumbnailSrc,
@@ -90,6 +96,18 @@ export const arborEvidenceLoopEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/intent-md-spec-driven-agent-sdlc",
+    category: "Agent Architecture",
+    tags: ["INTENT.md", "Spec-Driven Development", "Claude Code", "SDLC", "Agent Harnesses"],
+    date: "August 25, 2026",
+    readTime: "5 min read",
+    title: "INTENT.md: Harness or Process Theater?",
+    description:
+      "When agents write code in seconds, the bottleneck shifts to upstream intent and downstream verification. An analysis of Anthropic's AI-Native SDLC Playbook, the 3-tier artifact chain, and how to stop spec slop.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: intentMdSpecDrivenThumbnail,
+  },
   {
     href: "/blog/arbor-evidence-loop",
     category: "Gaia Ecosystem",

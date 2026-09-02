@@ -2441,6 +2441,23 @@
       "derivatives": []
     },
     {
+      "id": "intent-md-spec-driven-editorial-thumbnail",
+      "path": "assets/generated/intent-md-spec-driven-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "78039a294f3d6d631e2da6619c86155ce0fbb50ee2868fb37af9b6d80dcfc048",
+      "bytes": 213982,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
+    },
+    {
       "id": "milim-take-root-final",
       "path": "assets/generated/milim-take-root-final.webp",
       "kind": "illustration",

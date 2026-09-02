@@ -149,3 +149,11 @@ Ranked by combined **viability** and **potential**.
 - **Potential:** Very High (directly applicable to every multi-agent orchestration pattern in the Gaia ecosystem)
 - **Why now:** The cost gap between `gemini-3.5-flash-lite` (~$0.03/1M cache-read) and `gemini-3.7-flash` (~$0.075/1M cache-read) is 2.5x. For orchestration-heavy workflows where scouts are the highest-volume component, testing whether $K$ parallel cheap scouts can match or beat a single expensive scout's recall at lower total cost is the largest cost lever available. All infrastructure exists: pi-dynamic-workflows provides `parallel()` dispatch, pi-cost provides token/cost telemetry, and the HH Benchmark ledger pattern provides a proven append-only JSONL recording discipline.
 - **Doc:** [`parallel-cheap-scouting-cost-performance.md`](./parallel-cheap-scouting-cost-performance.md) · Plan: [`../plans/issue-parallel-cheap-scouting-bench.md`](../plans/issue-parallel-cheap-scouting-bench.md) · Receipt: [`../../content/reports/parallel-scouting-economics.md`](../../content/reports/parallel-scouting-economics.md)
+
+## Rank 22 — Blog Idea: INTENT.md: Harness or Process Theater?
+- **Status:** In Progress / Shipping
+- **Viability:** Very High
+- **Potential:** Exceptional
+- **Why now:** Anthropic's Applied AI team published *The AI-Native SDLC Playbook* (August 2026), introducing `intent.md` as the root artifact of a 3-tier chain (`intent.md` -> `spec.md` -> `plan.md` -> code diff). Explores why machine-actionable artifacts in Git shift software development economics, breaks down the pros/cons, dissects the failure modes ("Spec Slop", the "Telephone Game 2.0", context pollution), and introduces the 50-line Invariant Budget and Tiered Governance framework for practitioners.
+- **Doc:** [`blog-idea-intent-md-spec-driven-agent-sdlc.md`](./blog-idea-intent-md-spec-driven-agent-sdlc.md)
+
