@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import dontMakeTheModelThinkHarderThumbnailSrc from "@/assets/generated/dont-make-the-model-think-harder-editorial-thumbnail.webp";
 import intentMdSpecDrivenThumbnailSrc from "@/assets/generated/intent-md-spec-driven-editorial-thumbnail.webp";
 import parallelCheapScoutingThumbnailSrc from "@/assets/generated/parallel-cheap-scouting-editorial-thumbnail.webp";
 import skillEvaluatorVsSkilloptThumbnailSrc from "@/assets/generated/skill-evaluator-vs-skillopt-editorial-thumbnail.webp";
@@ -27,6 +28,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const dontMakeTheModelThinkHarderThumbnail = {
+  src: dontMakeTheModelThinkHarderThumbnailSrc,
+  alt: "Tiny pink-haired Milim sits cross-legged on a massive oak drafting table in a vast, sunlit horology archive, peacefully examining a brass magnifying lens amid towering rolls of paper and hanging brass discs.",
+} as const;
 
 export const intentMdSpecDrivenThumbnail = {
   src: intentMdSpecDrivenThumbnailSrc,
@@ -96,6 +102,18 @@ export const arborEvidenceLoopEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/dont-make-the-model-think-harder",
+    category: "Agent Architecture",
+    tags: ["Reasoning Effort", "Test-Time Compute", "Search Budget", "Claude Code", "Agent Design"],
+    date: "September 04, 2026",
+    readTime: "7 min read",
+    title: "Don’t Make the Model Think Harder Than the Problem: Reasoning Effort Is a Search Budget, Not an Intelligence Slider",
+    description:
+      "Why reasoning effort is an exploratory search budget across frozen weights rather than an intelligence dial. The triad of facts, inference, and confidence, Sutton's Bitter Lesson in agents, and the Minimum Sufficient Deliberation sweet spot.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: dontMakeTheModelThinkHarderThumbnail,
+  },
   {
     href: "/blog/intent-md-spec-driven-agent-sdlc",
     category: "Agent Architecture",
