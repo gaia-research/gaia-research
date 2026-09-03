@@ -178,10 +178,49 @@ describe('POST /labs/infinite-skill-craft/api/fuse', () => {
     const data = await res.json();
 
     expect(data.tier).toBe('canonical');
+    expect(data.name).toBe('/scrape');
     expect(data.contributor).toBe('garrytan');
     expect(data.skillTreeUrl).toContain('garrytan');
     expect(data.skillTreeUrl).toContain('scrape');
     expect(data.experimental).toBe(false);
+  });
+
+  it('sets canonical registry slug on node when AI names a skill with alternative format (#163)', async () => {
+    const mockAiRun = vi.fn().mockResolvedValue({
+      response: JSON.stringify({
+        name: 'Scrape',
+        emoji: '✨',
+        blurb: 'Web extraction boss',
+        description: 'Extracts web data',
+        passesSkillCheck: true,
+      }),
+    });
+    const mockKv = {
+      get: vi.fn().mockResolvedValue(null),
+      put: vi.fn().mockResolvedValue(undefined),
+    };
+
+    vi.mocked(getCloudflareContext).mockResolvedValue({
+      env: {
+        AI: { run: mockAiRun },
+        CRAFT_KV: mockKv,
+      } as any,
+      cf: {} as any,
+      ctx: { waitUntil: vi.fn() } as any,
+    });
+
+    const req = new Request('http://localhost/api/fuse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ a: 'web', b: 'scrape' }),
+    });
+
+    const res = await POST(req);
+    const data = await res.json();
+
+    expect(data.tier).toBe('canonical');
+    expect(data.name).toBe('/scrape');
+    expect(data.contributor).toBe('garrytan');
   });
 
   it('does NOT promote to canonical when the AI invents a name absent from the registry', async () => {
