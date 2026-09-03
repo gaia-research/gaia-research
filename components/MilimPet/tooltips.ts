@@ -187,7 +187,7 @@ export const TOOLTIPS: Record<PageContext, Tooltip[]> = {
       text: "gaia_search finds the skill. gaia_inspect reads every field. summon brings the full skill directory into a session. gaia_status tells you what's online. Four tools, infinite power, boss!",
     },
     {
-      text: "Skill Heaven plugin tip! Install the unified Claude Code plugin via claude plugin install skill-heaven@gaia-skill-heaven — it bundles its own summon MCP server, boss!",
+      text: "Skill Heaven plugin tip! Install the unified Claude Code plugin via claude plugin install skill-heaven@gaia-skill-heaven — it bundles its own summon MCP server so you can use /summon directly, boss!",
     },
     {
       text: "skill-fuse over MCP is COMING, boss. Compose skills straight from your editor. Gaia's already vibrating with anticipation.",

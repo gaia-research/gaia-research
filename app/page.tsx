@@ -72,7 +72,7 @@ export default function Home() {
    <header className="hh-intro">
     <p className="signal"><span /> HELL HEAVEN INDEX · ARC I VERIFIED</p>
     <h2 id="hh-title">Stop <em>installing</em> skills.<br />Start <em>summoning</em> them.</h2>
-    <p className="hh-lede">Marketplaces make you install skills forever &mdash; bloat you never asked for, pinned to every repo. <b>Skill Zero</b> is the launcher that starts a harness with zero ambient skill debt. <b>Heaven</b> and <b>Hell</b> are the summon directions on the HH axis: Heaven converges toward the right few skills; Hell explores the evidenced world.</p>
+    <p className="hh-lede">Marketplaces make you install skills forever &mdash; bloat you never asked for, pinned to every repo. <b>Skill Zero</b> is the launcher that starts a harness with zero ambient skill debt. <b>Heaven</b> and <b>Hell</b> are the summon directions on the HH axis, sized by one <b>ladder</b> &mdash; <code>zero → ultra</code>: Heaven converges toward the right few skills; Hell explores the evidenced world.</p>
     <p className="hh-new-here">New to Gaia? Start with <Link href="/about">the three names</Link> &mdash; the Skill Tree, Research, and the Skill Heaven umbrella (housing Skill Zero and Skill Hell). The <b>HH Index</b> is in the works.</p>
    </header>
    <div className="hh-poles">
@@ -87,7 +87,7 @@ export default function Home() {
      <p>Summon every good skill in the evidenced world for autonomous fleets and long loops &mdash; bounded by the rung you picked. Unlocks only when the registry&rsquo;s trust-coverage clears a measured gate. Ludicrous mode ships with a seatbelt.</p>
     </article>
    </div>
-   <p className="hh-foot"><b>Skill Zero</b> is the usable launcher prototype. The <b>Hell Heaven (HH) Index</b> &mdash; a per-skill <code>hellHeaven</code> stamp over Heaven/Hell polarity &mdash; is the research now in the works (routing currently falls back to relevance ranking). Read the <Link href="/research/hh-benchmark">benchmark method &amp; receipts →</Link> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>.</p>
+   <p className="hh-foot"><b>Skill Zero</b> is the usable launcher prototype. The <b>Hell Heaven (HH) Index</b> &mdash; a per-skill <code>hellHeaven</code> stamp over Heaven/Hell polarity, actively in benchmark development (routing currently falls back to relevance ranking) &mdash; is the research now in the works. Read the <Link href="/research/hh-benchmark">benchmark method &amp; receipts →</Link> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/VISION.md" target="_blank" rel="noreferrer">Vision ↗</a> &middot; <a href="https://github.com/gaia-research/gaia-research/blob/main/docs/skill-heaven/MISSION.md" target="_blank" rel="noreferrer">Mission ↗</a>.</p>
    <style>{`
     .hh{padding:var(--space-dense) var(--gutter)}
     .hh-intro{max-width:64ch;margin:0 0 var(--space-tight)}
