@@ -73,7 +73,7 @@ export default function Home() {
     <p className="signal"><span /> HELL HEAVEN INDEX · ARC I VERIFIED</p>
     <h2 id="hh-title">Stop <em>installing</em> skills.<br />Start <em>summoning</em> them.</h2>
     <p className="hh-lede">Marketplaces make you install skills forever &mdash; bloat you never asked for, pinned to every repo. <b>Skill Zero</b> is the launcher that starts a harness with zero ambient skill debt. <b>Heaven</b> and <b>Hell</b> are the summon directions on the HH axis: Heaven converges toward the right few skills; Hell explores the evidenced world.</p>
-    <p className="hh-new-here">New to Gaia? Start with <Link href="/about">the three names</Link> &mdash; the Skill Tree, Research, and the Skill Heaven umbrella (housing Skill Zero and Skill Hell). The <b>HH Index</b> is in the works.</p>
+    <p className="hh-new-here">New to Gaia? Start with <Link href="/about">the three names</Link> &mdash; Gaia Skill Tree, Gaia Research, and Gaia Skill Heaven (housing Skill Zero and Skill Hell). The <b>HH Index</b> is in the works.</p>
    </header>
    <div className="hh-poles">
     <article className="hh-pole hh-heaven">
