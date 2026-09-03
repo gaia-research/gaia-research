@@ -719,7 +719,7 @@ export async function POST(request: Request): Promise<Response> {
         // promoted slug so the promoted skill reads as unmistakably real.
         const named = lookupNamedSkill(promotion.slug);
         result = {
-          name: raw.name,
+          name: `/${promotion.slug}`,
           emoji: raw.emoji,
           blurb: raw.blurb,
           description: named?.description || description,
