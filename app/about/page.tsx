@@ -50,10 +50,10 @@ export default function AboutPage() {
           </p>
           <h1 id="about-title">
             One system.<br />
-            <em>Four</em> names.
+            <em>Three</em> names.
           </h1>
           <p className="about-lede">
-            Gaia is an open capability control system for AI agents. It is built as four
+            Gaia is an open capability control system for AI agents. It is built as three
             named parts, and this page has exactly one job: tell you what each name is and
             how they relate. Every part keeps its own documentation — this page links to
             it and never repeats it.
@@ -93,17 +93,38 @@ export default function AboutPage() {
         <section className="about-names section-shell" aria-labelledby="about-names-title">
           <header className="about-names-intro">
             <p className="signal">
-              <span /> ONE HOUSE, THREE ROOMS
+              <span /> THE THREE NAMES
             </p>
             <h2 id="about-names-title">Who does what.</h2>
             <p className="about-names-sub" style={{ color: "var(--muted)", marginTop: "0.5rem" }}>
-              Research proves it, the registry records it, the launcher runs it. Each room keeps its own colour.
+              The registry records it, research proves it, the runtime houses it. Each room keeps its own colour.
             </p>
           </header>
 
+          <article className="about-card about-card-tree" aria-labelledby="name-tree" style={{ borderColor: "color-mix(in srgb, #d4a853 40%, var(--line))" }}>
+            <div className="about-card-head">
+              <span className="about-role" style={{ color: "#d4a853" }}>ROOM 01 · THE RECORD / REGISTRY</span>
+              <span className="chip act">ACT {statusText.ACT}</span>
+            </div>
+            <h3 id="name-tree">Gaia Skill Tree</h3>
+            <p>
+              The permanent public record and registry of what agent capabilities exist (Yggdrasil), who demonstrated
+              each one first, and what evidence stands behind it. A skill is not an entry in
+              a list — it is a record with a trail: its origin contributor, its evidence, its
+              stars, and a timeline of how it earned them.
+            </p>
+            <p className="about-want">
+              <b>You want this if</b> you are looking for a capability, checking whether one
+              is trustworthy, or putting your own work on the record.
+            </p>
+            <a className="about-go" href={TREE} target="_blank" rel="noreferrer" style={{ color: "#d4a853", borderColor: "#d4a853" }}>
+              Browse the Skill Tree <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+
           <article className="about-card about-card-research" aria-labelledby="name-research" style={{ borderColor: "color-mix(in srgb, var(--rimuru-blue) 40%, var(--line))" }}>
             <div className="about-card-head">
-              <span className="about-role" style={{ color: "var(--rimuru-blue)" }}>ROOM 01 · THE LABORATORY</span>
+              <span className="about-role" style={{ color: "var(--rimuru-blue)" }}>ROOM 02 · THE LABORATORY</span>
               <span className="chip act">ACT {statusText.ACT}</span>
             </div>
             <h3 id="name-research">Gaia Research</h3>
@@ -111,7 +132,7 @@ export default function AboutPage() {
               The open laboratory that measures what capabilities really cost and whether
               they help — what a skill costs while merely listed, what it costs when invoked,
               and how different harnesses behave — then publishes the method along with the
-              findings that went the other way. You are reading it right now.
+              findings that went the other way. The HH Index is currently in the works. You are reading it right now.
             </p>
             <p className="about-want">
               <b>You want this if</b> you want the numbers behind a claim, or the method to
@@ -127,27 +148,6 @@ export default function AboutPage() {
             </div>
           </article>
 
-          <article className="about-card about-card-tree" aria-labelledby="name-tree" style={{ borderColor: "color-mix(in srgb, #d4a853 40%, var(--line))" }}>
-            <div className="about-card-head">
-              <span className="about-role" style={{ color: "#d4a853" }}>ROOM 02 · THE RECORD</span>
-              <span className="chip act">ACT {statusText.ACT}</span>
-            </div>
-            <h3 id="name-tree">Gaia Skill Tree</h3>
-            <p>
-              The permanent public record of what agent capabilities exist, who demonstrated
-              each one first, and what evidence stands behind it. A skill is not an entry in
-              a list — it is a record with a trail: its origin contributor, its evidence, its
-              stars, and a timeline of how it earned them.
-            </p>
-            <p className="about-want">
-              <b>You want this if</b> you are looking for a capability, checking whether one
-              is trustworthy, or putting your own work on the record.
-            </p>
-            <a className="about-go" href={TREE} target="_blank" rel="noreferrer" style={{ color: "#d4a853", borderColor: "#d4a853" }}>
-              Browse the Skill Tree <span aria-hidden="true">↗</span>
-            </a>
-          </article>
-
           <article className="about-card about-card-heaven" aria-labelledby="name-heaven" style={{ borderColor: "color-mix(in srgb, #c084fc 40%, var(--line))" }}>
             <div className="about-card-head">
               <span className="about-role" style={{ color: "#c084fc" }}>ROOM 03 · THE RUNTIME UMBRELLA</span>
@@ -157,17 +157,18 @@ export default function AboutPage() {
             <p>
               The runtime umbrella that decides what enters an agent&rsquo;s session and how much of it.
               Where the Tree answers <em>what exists and why trust it</em>, Skill Heaven
-              answers <em>what should be in this context, right now</em> &mdash; housing four surfaces along the skill entropy line:
+              answers <em>what should be in this context, right now</em> &mdash; housing Skill Zero (the subtractive launcher)
+              and Skill Hell (the exploratory summon). Heaven is the converge summon direction; Ultra is the auto-switch:
             </p>
             <ul style={{ listStyle: "none", padding: 0, margin: "0.75rem 0 1rem", display: "grid", gap: "0.5rem" }}>
               <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
-                <b style={{ color: "var(--ink)" }}>Skill Zero:</b> The clean-slate launcher that starts your harness with zero ambient skill debt.
+                <b style={{ color: "var(--ink)" }}>Skill Zero:</b> The subtractive launcher that starts your harness with zero ambient skill debt.
               </li>
               <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
                 <b style={{ color: "var(--ink)" }}>Skill Heaven:</b> The converge summon direction for focused, curated session capabilities.
               </li>
               <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
-                <b style={{ color: "var(--ink)" }}>Skill Hell:</b> The explore summon direction for wide autonomous capability search.
+                <b style={{ color: "var(--ink)" }}>Skill Hell:</b> The exploratory summon direction for wide capability search across the evidenced world.
               </li>
               <li style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
                 <b style={{ color: "var(--ink)" }}>Skill Ultra:</b> The governor auto-switching entropy per gap at the crown of the line.
@@ -358,10 +359,22 @@ export default function AboutPage() {
               The three names <span className="about-date">2026-08-11</span>
             </h3>
             <p>
-              Gaia is told publicly as three names &mdash; the Skill Tree (the record), Research (the laboratory),
-              and Gaia Skill Heaven (the runtime umbrella). Skill Zero (the clean launcher), Skill Heaven (converge),
-              Skill Hell (explore), and Skill Ultra (governor) live under the Skill Heaven runtime umbrella rather
-              than as separate top-level ecosystem names.
+              Gaia is told publicly as three names &mdash; Gaia Skill Tree (the record / registry), Gaia Research (the laboratory),
+              and Gaia Skill Heaven (the runtime umbrella). Following the Skill Zero rename (RFC gaia-skill-tree#1509),
+              the ecosystem shifted from four names to three: Skill Zero (the subtractive launcher) and Skill Hell (the
+              exploratory summon) now live under the Skill Heaven runtime umbrella rather than standing as separate top-level ecosystem names.
+              Within the umbrella, Heaven represents the converge summon direction and Ultra is the auto-switch.
+            </p>
+          </article>
+
+          <article className="about-entry">
+            <h3>
+              The four names <span className="about-date">2026-07-28</span>
+            </h3>
+            <p>
+              Gaia was previously told publicly as four names &mdash; the Skill Tree, Research, Skill
+              Heaven, and Skill Hell. That framing was retired when runtime surfaces consolidated under
+              the Skill Heaven umbrella.
             </p>
           </article>
 
