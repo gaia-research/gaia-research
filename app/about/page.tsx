@@ -29,6 +29,21 @@ export const metadata: Metadata = {
     description:
       "The Skill Tree, Research, and Skill Heaven (housing Skill Zero and Skill Hell) — what each name is, how they relate, and which one you want right now.",
     type: "website",
+    images: [
+      {
+        url: "/assets/three-names.png",
+        width: 2056,
+        height: 765,
+        alt: "Gaia is Three Names: Gaia Research, Gaia Skill Tree, and Gaia Skill Heaven",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Gaia — one system, three names",
+    description:
+      "The Skill Tree, Research, and Skill Heaven (housing Skill Zero and Skill Hell) — what each name is, how they relate, and which one you want right now.",
+    images: ["/assets/three-names.png"],
   },
 };
 
@@ -58,6 +73,18 @@ export default function AboutPage() {
             how they relate. Every part keeps its own documentation — this page links to
             it and never repeats it.
           </p>
+          <figure className="about-figure">
+            <picture>
+              <source srcSet="/assets/three-names.webp" type="image/webp" />
+              <img
+                src="/assets/three-names.png"
+                alt="Gaia is Three Names: Gaia Research, Gaia Skill Tree, and Gaia Skill Heaven"
+                width={2056}
+                height={765}
+                className="about-figure-img"
+              />
+            </picture>
+          </figure>
         </section>
 
         {/* ── What is Gaia ──────────────────────────────────────────────── */}
@@ -422,7 +449,9 @@ export default function AboutPage() {
           .about-page section{padding:var(--space-dense) var(--gutter)}
           .about-hero{padding-top:var(--space-expansive)}
           .about-hero h1{margin:0 0 1.35rem;font-size:var(--type-display-2)}
-          .about-lede{max-width:60ch;color:var(--muted);font-size:1.0625rem;line-height:1.7;margin:0}
+          .about-lede{max-width:60ch;color:var(--muted);font-size:1.0625rem;line-height:1.7;margin:0 0 2rem}
+          .about-figure{margin:0;width:100%;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:rgba(11,12,19,.8)}
+          .about-figure-img{display:block;width:100%;height:auto;aspect-ratio:2056/765;object-fit:contain}
           .about-what h2,.about-names h2,.about-loop h2,.about-pick h2,.about-changed h2,.about-close h2{font-size:var(--type-display-3);margin:.4rem 0 1rem}
           .about-what p,.about-loop-note,.about-changed-lede,.about-close p{max-width:64ch;color:var(--muted);line-height:1.7}
           .about-questions{max-width:64ch;margin:1.5rem 0;padding:0 0 0 1.4rem;color:var(--muted)}
