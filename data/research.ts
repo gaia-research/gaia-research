@@ -59,6 +59,12 @@ const skills = [
     inTree: true,
     surface: { label: "Read the benchmark", href: "/research/parallel-scouting" },
   },
+  {
+    slug: "skill-image-tuner",
+    blurb: "Interactive bounding-box image positioning, zoom, and framing tuner with live coordinate and CSS export.",
+    status: "ACT",
+    inTree: false,
+  },
 ] as const satisfies readonly Skill[];
 
 // ── Derivations (never hard-code these downstream) ──────────────────────────
