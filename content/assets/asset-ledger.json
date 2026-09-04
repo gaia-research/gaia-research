@@ -702,6 +702,23 @@
       "derivatives": []
     },
     {
+      "id": "three-names",
+      "path": "assets/brand/three-names.png",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "brand",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "6775c442bfc9b4d804ad37456f621bfba7e50560caf194b6f780a649d7d790e8",
+      "bytes": 2308347,
+      "dimensions": {
+        "width": 2056,
+        "height": 765
+      },
+      "derivatives": []
+    },
+    {
       "id": "ui-badges-badge-pill",
       "path": "assets/brand/ui/badges/badge-pill.svg",
       "kind": "badge",
