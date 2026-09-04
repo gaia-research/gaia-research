@@ -8,24 +8,26 @@ Model is **`gpt-image-2`** / Antigravity image generation.
 - **Asset Filename:** `dont-make-the-model-think-harder-editorial-thumbnail.webp`
 - **Aspect Ratio:** 16:9 (1600×900)
 - **Output Targets:** `assets/generated/dont-make-the-model-think-harder-editorial-thumbnail.webp`, `public/assets/dont-make-the-model-think-harder-editorial-thumbnail.webp`
-- **Workbench Source:** `assets/workbench/generated/dont-make-the-model-think-harder-candidate-3.png`
+- **Workbench Source:** `assets/workbench/generated/milim-no-twintail-candidate-3.png`
 
-Topic: **Vast sunlit horology archive and drafting atelier**. Palette: warm oak wood, parchment cream, slate indigo shadows, morning sunlight, single Milim-pink accent `#ec4899`.
+Topic: **Vast sunlit horology archive and drafting cathedral**. Palette: warm oak wood, parchment cream, brass gold, morning sunlight, single Milim-pink accent `#ec4899`.
 
 ## Prompt
 
 ```text
-Use case: illustration-story.
-Asset type: 16:9 Gaia Research blog thumbnail.
-Primary request: A vast, monumental quiet sunlit drafting archive and horology atelier with enormous double-height arched glass windows casting soft morning sunlight across towering wooden blueprint racks, rolls of cream paper, and gigantic polished brass pendulum discs hanging in the peaceful distant background. In the lower-center foreground, a microscopic tiny 8-year-old chibi girl (Milim Nova) sits comfortably cross-legged on a massive oak drafting workbench, peacefully holding a small brass magnifying lens in her hands with a calm, curious smile. Scale directive: Milim is very small, approximately 5% of total image height; the expansive sunlit atelier occupies 90% of the frame with serene, vast uncluttered negative space and soft daylight.
-Character details: very long, completely loose unbound bright magenta-pink hair #ec4899 falling straight down her back (STRICTLY NO TWINTAILS, NO PONYTAILS, NO PIGTAILS, HAIR IS 100% UNBOUND AND LOOSE), bright blue eyes, two yellow star hairpins in her front bangs, black oversized hoodie with cute white baby dragon print, thigh-high socks with pink stripes, chunky sneakers.
-Style: flat editorial screenprint illustration; warm oak wood, soft parchment cream, slate indigo shadows, morning golden sunlight, and single Milim-pink accent (#ec4899); broad clean flat shapes, subtle print paper texture.
-Constraints: no tree-derived imagery, no world-trees or roots; no text, letters, numbers, UI, code, blueprints, charts, graphs, diagrams, logos, watermarks, or hyper-detailed 3D rendering.
+Extreme wide shot, grand architectural perspective.
+A colossal, vast neoclassical horology archive and architectural drafting cathedral: soaring three-story high neoclassical arched windows fill the background with warm morning sunlight streaming across the monumental hall in soft dusty rays. Towering wooden blueprint cabinets and drafting shelves reach up toward the distant ceiling. In the high vaulted air, giant polished brass pendulum discs hang from long slender wires. Rolls of drafting paper and architectural vellum sit on wooden workbenches. The monumental, serene architectural hall fills 95% of the frame, creating enormous calm negative space.
+
+Far away in the hall, sitting peacefully on a wooden bench on the lower-right side, is a truly microscopic, tiny 8-year-old anime chibi girl (occupying only 5% of the vertical frame height). She is holding a tiny brass magnifying glass.
+
+Her appearance: she has very long, perfectly straight, completely loose bright pink hair flowing down her back in a single unbroken drape, completely untied and flat against her back. She has neat straight bangs with two small yellow star clips, blue eyes, an oversized black hoodie with a cute white baby dragon doodle, striped black-and-pink thigh-high socks, and sneakers.
+
+Art style: Flat editorial screenprint illustration with clean graphic silhouettes and subtle paper grain texture. Harmonious palette of warm parchment, honey amber, brass gold, and charcoal gray, with a single bright pink accent on the tiny girl's hair. Serene, quiet, dramatic sense of scale. No twintails, no pigtails, no text, no watermark.
 ```
 
 ## Pipeline
 
-1. Candidate → `assets/workbench/generated/dont-make-the-model-think-harder-candidate-3.png`.
+1. Candidate → `assets/workbench/generated/milim-no-twintail-candidate-3.png`.
 2. Export **1600×900 WebP, quality 90, fit cover, position attention** to
    **both** `assets/generated/dont-make-the-model-think-harder-editorial-thumbnail.webp` and
    `public/assets/dont-make-the-model-think-harder-editorial-thumbnail.webp`.

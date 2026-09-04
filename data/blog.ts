@@ -31,7 +31,7 @@ export type BlogPost = {
 
 export const dontMakeTheModelThinkHarderThumbnail = {
   src: dontMakeTheModelThinkHarderThumbnailSrc,
-  alt: "Tiny pink-haired Milim sits cross-legged on a massive oak drafting table in a vast, sunlit horology archive, peacefully examining a brass magnifying lens amid towering rolls of paper and hanging brass discs.",
+  alt: "Tiny pink-haired Milim sits peacefully on a wooden bench in a vast, sunlit neoclassical drafting cathedral and horology archive, holding a brass magnifying lens amid blueprint tables and suspended brass pendulums.",
 } as const;
 
 export const intentMdSpecDrivenThumbnail = {
