@@ -26,10 +26,11 @@ const siteUrl = "https://research.gaiaskilltree.com";
 const articlePath = "/blog/dont-make-the-model-think-harder";
 const articleUrl = `${siteUrl}${articlePath}`;
 const thumbnailUrl = `${siteUrl}${dontMakeTheModelThinkHarderThumbnail.src.src}`;
-const articleTitle =
-  "Don’t Make the Model Think Harder Than the Problem: Reasoning Effort Is a Search Budget, Not an Intelligence Slider";
+const articleTitle = "Don’t Make the Model Think Harder Than the Problem";
+const articleSubtitle =
+  "Reasoning Effort Is a Search Budget, Not an Intelligence Slider";
 const articleDescription =
-  "Why reasoning effort is an exploratory search budget across frozen weights rather than an intelligence dial. The triad of facts, inference, and confidence, Sutton's Bitter Lesson in agents, and the Minimum Sufficient Deliberation sweet spot.";
+  "Reasoning effort is an exploratory search budget across frozen weights rather than an intelligence slider. The triad of facts, inference, and confidence, Sutton's Bitter Lesson in agents, and the Minimum Sufficient Deliberation sweet spot.";
 
 export const metadata = {
   title: articleTitle,
@@ -1993,7 +1994,7 @@ export default function BlogPostPage() {
           </p>
           <h1>{articleTitle}</h1>
           <p className="blog-post-summary">
-            Why reasoning effort is a test-time search budget across frozen weights rather than an intelligence dial.
+            {articleSubtitle}
           </p>
         </header>
 

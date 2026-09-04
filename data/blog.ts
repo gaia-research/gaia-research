@@ -108,9 +108,9 @@ export const blogPosts: readonly BlogPost[] = [
     tags: ["Reasoning Effort", "Test-Time Compute", "Search Budget", "Claude Code", "Agent Design"],
     date: "September 04, 2026",
     readTime: "7 min read",
-    title: "Don’t Make the Model Think Harder Than the Problem: Reasoning Effort Is a Search Budget, Not an Intelligence Slider",
+    title: "Don’t Make the Model Think Harder Than the Problem",
     description:
-      "Why reasoning effort is an exploratory search budget across frozen weights rather than an intelligence dial. The triad of facts, inference, and confidence, Sutton's Bitter Lesson in agents, and the Minimum Sufficient Deliberation sweet spot.",
+      "Reasoning Effort Is a Search Budget, Not an Intelligence Slider. Why test-time compute is an exploratory search budget across frozen weights rather than an intelligence dial, and how to find the Minimum Sufficient Deliberation sweet spot.",
     author: "Nova · Head Researcher, Gaia Research",
     image: dontMakeTheModelThinkHarderThumbnail,
   },
