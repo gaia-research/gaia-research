@@ -8,6 +8,7 @@ import novaAuthor from "@/content/authors/nova.json";
 import PostShareBar from "@/components/PostShareBar";
 import { intentMdSpecDrivenThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/intent-md-spec-driven-agent-sdlc/post.md";
+import { MobileFigureFourArtifacts } from "./mobile-figures";
 
 export const dynamic = "force-static";
 export const revalidate = false;
@@ -230,115 +231,120 @@ function BottleneckShiftSvg() {
 function ArtifactPipelineSvg() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <div style={{ background: "#0b0f19", padding: "20px", borderRadius: "12px", border: "1px solid #1e293b" }}>
-        <h3 style={{ margin: "0 0 6px 0", color: "#f8fafc", fontSize: "1.1rem", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
-          The 4-Tier Artifact Pipeline &amp; Residual Skip-Connection
-        </h3>
-        <p style={{ margin: "0 0 16px 0", color: "#94a3b8", fontSize: "0.85rem" }}>
-          Preventing the "Telephone Game 2.0": Tier 0 invariants are pinned directly into the coding agent context and evaluated by an adversarial pre-commit verifier.
-        </p>
-        <svg
-          viewBox="0 0 900 380"
-          role="img"
-          aria-labelledby="artifact-pipeline-title artifact-pipeline-desc"
-          style={{ width: "100%", height: "auto", display: "block" }}
-        >
-          <title id="artifact-pipeline-title">4-Tier Artifact Pipeline with Residual Skip-Connection</title>
-          <desc id="artifact-pipeline-desc">
-            Diagram illustrating intent.md flowing to spec.md, plan.md, and code diff, with a direct residual skip-connection from intent.md to the code executor and an automated verifier checking delta between diff and intent.
-          </desc>
-          <rect width="900" height="380" fill="#0f172a" rx="8" />
+      <div className="blog-svg-desktop">
+        <div style={{ background: "#0b0f19", padding: "20px", borderRadius: "12px", border: "1px solid #1e293b" }}>
+          <h3 style={{ margin: "0 0 6px 0", color: "#f8fafc", fontSize: "1.1rem", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>
+            The 4-Tier Artifact Pipeline &amp; Residual Skip-Connection
+          </h3>
+          <p style={{ margin: "0 0 16px 0", color: "#94a3b8", fontSize: "0.85rem" }}>
+            Preventing the &quot;Telephone Game 2.0&quot;: Tier 0 invariants are pinned directly into the coding agent context and evaluated by an adversarial pre-commit verifier.
+          </p>
+          <svg
+            viewBox="0 0 900 380"
+            role="img"
+            aria-labelledby="artifact-pipeline-title artifact-pipeline-desc"
+            style={{ width: "100%", height: "auto", display: "block" }}
+          >
+            <title id="artifact-pipeline-title">4-Tier Artifact Pipeline with Residual Skip-Connection</title>
+            <desc id="artifact-pipeline-desc">
+              Diagram illustrating intent.md flowing to spec.md, plan.md, and code diff, with a direct residual skip-connection from intent.md to the code executor and an automated verifier checking delta between diff and intent.
+            </desc>
+            <rect width="900" height="380" fill="#0f172a" rx="8" />
 
-          {/* Tier 0: intent.md */}
-          <g transform="translate(40, 40)">
-            <rect width="180" height="130" rx="8" fill="#1e293b" stroke="#38bdf8" strokeWidth="2" />
-            <rect width="180" height="30" rx="8" fill="#0284c7" />
-            <text x="90" y="20" fill="#ffffff" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="monospace">
-              Tier 0: intent.md
+            {/* Tier 0: intent.md */}
+            <g transform="translate(40, 40)">
+              <rect width="180" height="130" rx="8" fill="#1e293b" stroke="#38bdf8" strokeWidth="2" />
+              <rect width="180" height="30" rx="8" fill="#0284c7" />
+              <text x="90" y="20" fill="#ffffff" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="monospace">
+                Tier 0: intent.md
+              </text>
+              <text x="12" y="55" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Strategic outcome</text>
+              <text x="12" y="75" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Hard invariants</text>
+              <text x="12" y="95" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Explicit non-goals</text>
+              <text x="12" y="115" fill="#38bdf8" fontSize="11" fontFamily="system-ui, sans-serif">★ Human Ratified</text>
+            </g>
+
+            {/* Arrow Tier 0 -> Tier 1 */}
+            <path d="M 220 105 L 260 105" stroke="#64748b" strokeWidth="3" strokeDasharray="2,2" />
+            <polygon points="260,100 270,105 260,110" fill="#64748b" />
+
+            {/* Tier 1: spec.md */}
+            <g transform="translate(270, 40)">
+              <rect width="180" height="130" rx="8" fill="#1e293b" stroke="#a855f7" strokeWidth="2" />
+              <rect width="180" height="30" rx="8" fill="#7e22ce" />
+              <text x="90" y="20" fill="#ffffff" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="monospace">
+                Tier 1: spec.md
+              </text>
+              <text x="12" y="55" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Schema contracts</text>
+              <text x="12" y="75" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Security boundaries</text>
+              <text x="12" y="95" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Non-functional reqs</text>
+              <text x="12" y="115" fill="#c084fc" fontSize="11" fontFamily="system-ui, sans-serif">★ Skill Constrained</text>
+            </g>
+
+            {/* Arrow Tier 1 -> Tier 2 */}
+            <path d="M 450 105 L 490 105" stroke="#64748b" strokeWidth="3" strokeDasharray="2,2" />
+            <polygon points="490,100 500,105 490,110" fill="#64748b" />
+
+            {/* Tier 2: plan.md */}
+            <g transform="translate(500, 40)">
+              <rect width="180" height="130" rx="8" fill="#1e293b" stroke="#f59e0b" strokeWidth="2" />
+              <rect width="180" height="30" rx="8" fill="#d97706" />
+              <text x="90" y="20" fill="#ffffff" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="monospace">
+                Tier 2: plan.md
+              </text>
+              <text x="12" y="55" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• File change DAG</text>
+              <text x="12" y="75" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Execution order</text>
+              <text x="12" y="95" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Test assertions</text>
+              <text x="12" y="115" fill="#fbbf24" fontSize="11" fontFamily="system-ui, sans-serif">★ Plan Mode Gate</text>
+            </g>
+
+            {/* Arrow Tier 2 -> Tier 3 */}
+            <path d="M 680 105 L 720 105" stroke="#64748b" strokeWidth="3" strokeDasharray="2,2" />
+            <polygon points="720,100 730,105 720,110" fill="#64748b" />
+
+            {/* Tier 3: CODE DIFF */}
+            <g transform="translate(730, 40)">
+              <rect width="130" height="130" rx="8" fill="#1e293b" stroke="#10b981" strokeWidth="2" />
+              <rect width="130" height="30" rx="8" fill="#059669" />
+              <text x="65" y="20" fill="#ffffff" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="monospace">
+                Tier 3: DIFF
+              </text>
+              <text x="10" y="55" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• AST Edits</text>
+              <text x="10" y="75" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• New Tests</text>
+              <text x="10" y="95" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Clean Lint</text>
+              <text x="10" y="115" fill="#34d399" fontSize="11" fontFamily="system-ui, sans-serif">★ Code Gen</text>
+            </g>
+
+            {/* Residual Skip Connection (Pink curve) */}
+            <path
+              d="M 130 170 C 130 270, 795 270, 795 170"
+              fill="none"
+              stroke="#ec4899"
+              strokeWidth="3.5"
+              strokeDasharray="6,4"
+            />
+            <text x="450" y="260" fill="#ec4899" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="system-ui, sans-serif">
+              RESIDUAL SKIP-CONNECTION (Pinned Invariants &amp; Negative Constraints)
             </text>
-            <text x="12" y="55" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Strategic outcome</text>
-            <text x="12" y="75" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Hard invariants</text>
-            <text x="12" y="95" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Explicit non-goals</text>
-            <text x="12" y="115" fill="#38bdf8" fontSize="11" fontFamily="system-ui, sans-serif">★ Human Ratified</text>
-          </g>
 
-          {/* Arrow Tier 0 -> Tier 1 */}
-          <path d="M 220 105 L 260 105" stroke="#64748b" strokeWidth="3" strokeDasharray="2,2" />
-          <polygon points="260,100 270,105 260,110" fill="#64748b" />
+            {/* Verifier Box at bottom */}
+            <g transform="translate(250, 290)">
+              <rect width="400" height="60" rx="6" fill="#1e293b" stroke="#ec4899" strokeWidth="1.5" />
+              <text x="200" y="25" fill="#f472b6" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="system-ui, sans-serif">
+                CI Verifier: Δ(Code Diff, intent.md)
+              </text>
+              <text x="200" y="45" fill="#cbd5e1" fontSize="11" textAnchor="middle" fontFamily="monospace">
+                Enforce zero scope creep &amp; invariant violations
+              </text>
+            </g>
 
-          {/* Tier 1: spec.md */}
-          <g transform="translate(270, 40)">
-            <rect width="180" height="130" rx="8" fill="#1e293b" stroke="#a855f7" strokeWidth="2" />
-            <rect width="180" height="30" rx="8" fill="#7e22ce" />
-            <text x="90" y="20" fill="#ffffff" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="monospace">
-              Tier 1: spec.md
-            </text>
-            <text x="12" y="55" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Schema contracts</text>
-            <text x="12" y="75" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Security boundaries</text>
-            <text x="12" y="95" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Non-functional reqs</text>
-            <text x="12" y="115" fill="#c084fc" fontSize="11" fontFamily="system-ui, sans-serif">★ Skill Constrained</text>
-          </g>
-
-          {/* Arrow Tier 1 -> Tier 2 */}
-          <path d="M 450 105 L 490 105" stroke="#64748b" strokeWidth="3" strokeDasharray="2,2" />
-          <polygon points="490,100 500,105 490,110" fill="#64748b" />
-
-          {/* Tier 2: plan.md */}
-          <g transform="translate(500, 40)">
-            <rect width="180" height="130" rx="8" fill="#1e293b" stroke="#f59e0b" strokeWidth="2" />
-            <rect width="180" height="30" rx="8" fill="#d97706" />
-            <text x="90" y="20" fill="#ffffff" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="monospace">
-              Tier 2: plan.md
-            </text>
-            <text x="12" y="55" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• File change DAG</text>
-            <text x="12" y="75" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Execution order</text>
-            <text x="12" y="95" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Test assertions</text>
-            <text x="12" y="115" fill="#fbbf24" fontSize="11" fontFamily="system-ui, sans-serif">★ Plan Mode Gate</text>
-          </g>
-
-          {/* Arrow Tier 2 -> Tier 3 */}
-          <path d="M 680 105 L 720 105" stroke="#64748b" strokeWidth="3" strokeDasharray="2,2" />
-          <polygon points="720,100 730,105 720,110" fill="#64748b" />
-
-          {/* Tier 3: CODE DIFF */}
-          <g transform="translate(730, 40)">
-            <rect width="130" height="130" rx="8" fill="#1e293b" stroke="#10b981" strokeWidth="2" />
-            <rect width="130" height="30" rx="8" fill="#059669" />
-            <text x="65" y="20" fill="#ffffff" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="monospace">
-              Tier 3: DIFF
-            </text>
-            <text x="10" y="55" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• AST Edits</text>
-            <text x="10" y="75" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• New Tests</text>
-            <text x="10" y="95" fill="#cbd5e1" fontSize="11" fontFamily="system-ui, sans-serif">• Clean Lint</text>
-            <text x="10" y="115" fill="#34d399" fontSize="11" fontFamily="system-ui, sans-serif">★ Code Gen</text>
-          </g>
-
-          {/* Residual Skip Connection (Pink curve) */}
-          <path
-            d="M 130 170 C 130 270, 795 270, 795 170"
-            fill="none"
-            stroke="#ec4899"
-            strokeWidth="3.5"
-            strokeDasharray="6,4"
-          />
-          <text x="450" y="260" fill="#ec4899" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="system-ui, sans-serif">
-            RESIDUAL SKIP-CONNECTION (Pinned Invariants &amp; Negative Constraints)
-          </text>
-
-          {/* Verifier Box at bottom */}
-          <g transform="translate(250, 290)">
-            <rect width="400" height="60" rx="6" fill="#1e293b" stroke="#ec4899" strokeWidth="1.5" />
-            <text x="200" y="25" fill="#f472b6" fontSize="12" fontWeight="700" textAnchor="middle" fontFamily="system-ui, sans-serif">
-              CI Verifier: Δ(Code Diff, intent.md)
-            </text>
-            <text x="200" y="45" fill="#cbd5e1" fontSize="11" textAnchor="middle" fontFamily="monospace">
-              Enforce zero scope creep &amp; invariant violations
-            </text>
-          </g>
-
-          {/* Connect Diff to Verifier */}
-          <path d="M 795 170 L 795 320 L 650 320" fill="none" stroke="#10b981" strokeWidth="2" strokeDasharray="3,3" />
-        </svg>
+            {/* Connect Diff to Verifier */}
+            <path d="M 795 170 L 795 320 L 650 320" fill="none" stroke="#10b981" strokeWidth="2" strokeDasharray="3,3" />
+          </svg>
+        </div>
+      </div>
+      <div className="blog-svg-mobile">
+        <MobileFigureFourArtifacts />
       </div>
       <figcaption style={{ color: "#94a3b8", fontSize: "0.85rem", marginTop: "8px", textAlign: "center" }}>
         Residual Skip-Connection: Pinning Tier 0 invariants directly into Tier 3 prevents semantic dropout across the multi-tier LLM translation chain.
@@ -522,3 +528,4 @@ export default function IntentMdBlogPostPage() {
     </>
   );
 }
+

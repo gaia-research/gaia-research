@@ -8,6 +8,16 @@ import novaAuthor from "@/content/authors/nova.json";
 import PostShareBar from "@/components/PostShareBar";
 import { dontMakeTheModelThinkHarderThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/dont-make-the-model-think-harder/post.md";
+import {
+  MobileFigureEffortSpectrum,
+  MobileFigureWhatsMissing,
+  MobileFigureTwoEngines,
+  MobileFigureToolsVsThinking,
+  MobileFigureSweetSpotCurve,
+  MobileFigureEscalationLadder,
+  MobileFigureThreeAgents,
+  MobileFigureSummaryLoop,
+} from "./mobile-figures";
 
 export const dynamic = "force-static";
 export const revalidate = false;
@@ -83,8 +93,9 @@ const articleStructuredData = {
 function FigureEffortSpectrum() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <svg
-        viewBox="0 0 900 340"
+      <div className="blog-svg-desktop">
+        <svg
+          viewBox="0 0 900 340"
         role="img"
         aria-labelledby="effort-spectrum-title effort-spectrum-desc"
         style={{ width: "100%", height: "auto", display: "block" }}
@@ -328,6 +339,10 @@ function FigureEffortSpectrum() {
           Illustrative · Conceptual search depth analogues across test-time compute tiers over frozen parametric weights.
         </text>
       </svg>
+      </div>
+      <div className="blog-svg-mobile">
+        <MobileFigureEffortSpectrum />
+      </div>
     </figure>
   );
 }
@@ -335,8 +350,9 @@ function FigureEffortSpectrum() {
 function FigureWhatsMissing() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <svg
-        viewBox="0 0 900 380"
+      <div className="blog-svg-desktop">
+        <svg
+          viewBox="0 0 900 380"
         role="img"
         aria-labelledby="whats-missing-title whats-missing-desc"
         style={{ width: "100%", height: "auto", display: "block" }}
@@ -492,6 +508,10 @@ function FigureWhatsMissing() {
           Illustrative · conceptual framework for agent deliberation allocation
         </text>
       </svg>
+      </div>
+      <div className="blog-svg-mobile">
+        <MobileFigureWhatsMissing />
+      </div>
     </figure>
   );
 }
@@ -499,8 +519,9 @@ function FigureWhatsMissing() {
 function FigureTwoEngines() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <svg
-        viewBox="0 0 900 420"
+      <div className="blog-svg-desktop">
+        <svg
+          viewBox="0 0 900 420"
         role="img"
         aria-labelledby="two-engines-title two-engines-desc"
         style={{ width: "100%", height: "auto", display: "block" }}
@@ -675,6 +696,10 @@ function FigureTwoEngines() {
           Illustrative · conceptual framework for balancing parametric memory with test-time search
         </text>
       </svg>
+      </div>
+      <div className="blog-svg-mobile">
+        <MobileFigureTwoEngines />
+      </div>
     </figure>
   );
 }
@@ -682,8 +707,9 @@ function FigureTwoEngines() {
 function FigureToolsVsThinking() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <svg
-        viewBox="0 0 960 440"
+      <div className="blog-svg-desktop">
+        <svg
+          viewBox="0 0 960 440"
         role="img"
         aria-labelledby="tools-vs-thinking-title tools-vs-thinking-desc"
         style={{ width: "100%", height: "auto", display: "block" }}
@@ -846,6 +872,10 @@ function FigureToolsVsThinking() {
           Illustrative · scenario comparison between ungrounded internal deliberation and tool-augmented debugging
         </text>
       </svg>
+      </div>
+      <div className="blog-svg-mobile">
+        <MobileFigureToolsVsThinking />
+      </div>
     </figure>
   );
 }
@@ -853,8 +883,9 @@ function FigureToolsVsThinking() {
 function FigureSweetSpotCurve() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <svg
-        viewBox="0 0 960 480"
+      <div className="blog-svg-desktop">
+        <svg
+          viewBox="0 0 960 480"
         role="img"
         aria-labelledby="sweet-spot-title sweet-spot-desc"
         style={{ width: "100%", height: "auto", display: "block" }}
@@ -1178,6 +1209,10 @@ function FigureSweetSpotCurve() {
           Illustrative · Test-time compute scaling dynamics and reasoning saturation · Gaia Research
         </text>
       </svg>
+      </div>
+      <div className="blog-svg-mobile">
+        <MobileFigureSweetSpotCurve />
+      </div>
     </figure>
   );
 }
@@ -1185,8 +1220,9 @@ function FigureSweetSpotCurve() {
 function FigureEscalationLadder() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <svg
-        viewBox="0 0 900 460"
+      <div className="blog-svg-desktop">
+        <svg
+          viewBox="0 0 900 460"
         role="img"
         aria-labelledby="escalation-ladder-title escalation-ladder-desc"
         style={{ width: "100%", height: "auto", display: "block" }}
@@ -1428,6 +1464,10 @@ function FigureEscalationLadder() {
           Illustrative · Autonomous agent search budget escalation policy · Gaia Research
         </text>
       </svg>
+      </div>
+      <div className="blog-svg-mobile">
+        <MobileFigureEscalationLadder />
+      </div>
     </figure>
   );
 }
@@ -1435,8 +1475,9 @@ function FigureEscalationLadder() {
 function FigureThreeAgents() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <svg
-        viewBox="0 0 960 460"
+      <div className="blog-svg-desktop">
+        <svg
+          viewBox="0 0 960 460"
         role="img"
         aria-labelledby="three-agents-title three-agents-desc"
         style={{ width: "100%", height: "auto", display: "block" }}
@@ -1641,6 +1682,10 @@ function FigureThreeAgents() {
           Illustrative · Grounded retrieval vs. blind deliberation scaling scenario · Gaia Research
         </text>
       </svg>
+      </div>
+      <div className="blog-svg-mobile">
+        <MobileFigureThreeAgents />
+      </div>
     </figure>
   );
 }
@@ -1648,8 +1693,9 @@ function FigureThreeAgents() {
 function FigureSummaryLoop() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <svg
-        viewBox="0 0 900 380"
+      <div className="blog-svg-desktop">
+        <svg
+          viewBox="0 0 900 380"
         role="img"
         aria-labelledby="summary-loop-title summary-loop-desc"
         style={{ width: "100%", height: "auto", display: "block" }}
@@ -1911,6 +1957,10 @@ function FigureSummaryLoop() {
           Illustrative · Test-time compute allocation policy · Gaia Research
         </text>
       </svg>
+      </div>
+      <div className="blog-svg-mobile">
+        <MobileFigureSummaryLoop />
+      </div>
     </figure>
   );
 }

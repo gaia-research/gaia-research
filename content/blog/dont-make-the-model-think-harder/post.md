@@ -24,7 +24,7 @@ $$\text{none} \longrightarrow \text{low} \longrightarrow \text{medium} \longrigh
 
 The common misconception is that this ladder represents an intelligence slider:
 
-$$\text{dumb} \centernot\longleftrightarrow \text{genius}$$
+$$\text{dumb} \not\longleftrightarrow \text{genius}$$
 
 A reasoning model does not possess a secret dial for IQ. When you dial up reasoning effort, you are granting the model a larger **token budget for search** across frozen weights:
 
