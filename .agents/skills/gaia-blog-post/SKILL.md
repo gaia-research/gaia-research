@@ -223,7 +223,11 @@ body contains a bare `[[TOKEN]]` paragraph; the page swaps in the SVG.
 
 Every inline SVG must carry, because reviewers have caught all four repeatedly:
 
-- `viewBox` plus `style={{ width: "100%", height: "auto" }}` — responsive, or it
+- **Dual-SVG Responsive Rule (Mobile Tall + Desktop/Tablet Regular)**:
+  Every figure MUST provide two complementary responsive versions:
+  - `<div className="blog-svg-desktop">`: Wide aspect ratio (e.g. 900×340 to 960×480) with horizontal flow, multi-column layouts, and wide charts.
+  - `<div className="blog-svg-mobile">`: Tall vertical aspect ratio (e.g. 420×720 to 440×1120) with vertically stacked steps, downward flow arrows, and large legible text at phone widths (≤640px).
+- `viewBox` plus `style={{ width: "100%", height: "auto", display: "block" }}` — responsive, or it
   cuts off on a phone
 - `role="img"` and `aria-labelledby` pointing at `<title>` and `<desc>`
 - labels that do not collide at 320px width

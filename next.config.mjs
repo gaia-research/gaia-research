@@ -24,6 +24,11 @@ const nextConfig = {
         destination: "/blog/yggdrasil-ii",
         permanent: true,
       },
+      {
+        source: "/blog/reasoning-effort",
+        destination: "/blog/dont-make-the-model-think-harder",
+        permanent: true,
+      },
     ];
   },
   webpack: (config) => {

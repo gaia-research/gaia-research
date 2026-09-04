@@ -242,37 +242,58 @@ export default function BlogPostPage() {
 
 ### 2a. Inline SVG figure
 
-Figures live inside `page.tsx`, not in separate component files. Every one needs
-all four of these — reviewers have caught each repeatedly:
+Figures live inside `page.tsx`, not in separate component files. Every figure must provide
+**two responsive versions** (desktop wide vs mobile tall):
 
 ```tsx
 function SvgFlowchart() {
   return (
-    <svg
-      viewBox="0 0 960 560"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-labelledby="flow-title flow-desc"
-      style={{ width: "100%", height: "auto", margin: "20px 0" }}
-    >
-      <title id="flow-title">[Short figure name]</title>
-      <desc id="flow-desc">[What the figure shows, one sentence, for screen readers.]</desc>
+    <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
+      {/* Desktop & Tablet: Wide horizontal layout */}
+      <div className="blog-svg-desktop">
+        <svg
+          viewBox="0 0 960 480"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-labelledby="flow-desk-title flow-desk-desc"
+          style={{ width: "100%", height: "auto", display: "block" }}
+        >
+          <title id="flow-desk-title">[Figure Name]</title>
+          <desc id="flow-desk-desc">[What the desktop figure shows.]</desc>
 
-      <rect width="960" height="560" rx="24" fill="#05060a" />
-      {/* Palette: #05060a canvas · #0b0e14 panel · #334155 rule ·
-          #38bdf8 Rimuru Blue · #ec4899 Milim Pink · #fbbf24 amber ·
-          #f4f1ea heading · #94a3b8 / #cbd5e1 body · #64748b caption */}
+          <rect width="960" height="480" rx="16" fill="#05060a" stroke="#1e293b" strokeWidth="1.5" />
+          {/* Provenance line */}
+          <text x="480" y="460" textAnchor="middle" fill="#64748b" fontSize="11">
+            Illustrative · not measured data
+          </text>
+        </svg>
+      </div>
 
-      {/* Provenance line — required whenever the figure is not measured data. */}
-      <text x="480" y="540" textAnchor="middle" fill="#64748b" fontSize="13">
-        Illustrative · not measured data
-      </text>
-    </svg>
+      {/* Mobile: Tall vertical layout (<= 640px) */}
+      <div className="blog-svg-mobile">
+        <svg
+          viewBox="0 0 420 840"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-labelledby="flow-mob-title flow-mob-desc"
+          style={{ width: "100%", height: "auto", display: "block" }}
+        >
+          <title id="flow-mob-title">[Figure Name - Mobile]</title>
+          <desc id="flow-mob-desc">[What the mobile figure shows.]</desc>
+
+          <rect width="420" height="840" rx="16" fill="#05060a" stroke="#1e293b" strokeWidth="1.5" />
+          {/* Stacked cards, larger typography, downward connectors */}
+          <text x="210" y="820" textAnchor="middle" fill="#64748b" fontSize="11">
+            Illustrative · not measured data
+          </text>
+        </svg>
+      </div>
+    </figure>
   );
 }
 ```
 
-Check before committing: labels do not collide at 320px, the `viewBox` scales,
+Check before committing: both desktop and mobile versions are rendered, labels do not collide at 320px, the `viewBox` scales cleanly with `style={{ width: "100%", height: "auto", display: "block" }}`,
 `<title>`/`<desc>` are wired to `aria-labelledby`, and any non-measured chart
 says so *inside the figure*.
 

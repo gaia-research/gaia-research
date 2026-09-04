@@ -1880,6 +1880,23 @@
       "derivatives": []
     },
     {
+      "id": "dont-make-the-model-think-harder-editorial-thumbnail",
+      "path": "assets/generated/dont-make-the-model-think-harder-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "e6cdc5993beb67c07aec50007fb34c4d6838da8f10e44917372ed8bafc64258e",
+      "bytes": 184778,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
+    },
+    {
       "id": "chief-scout-hero-desktop-16-9-avif",
       "path": "assets/generated/exports/chief-scout-hero/chief-scout-hero-desktop-16-9.avif",
       "kind": "hero-illustration",
