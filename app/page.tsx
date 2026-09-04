@@ -18,11 +18,25 @@ export default function Home() {
   <section className="hero" aria-labelledby="hero-title">
    <Image className="lab-plate" src="/assets/north-star-live/north-star-live-lab-plate-v01.webp" alt="" fill priority sizes="100vw" />
    <div className="hero-layout">
-    <div className="hero-copy"><p className="signal"><span /> PUBLIC RESEARCH SIGNAL</p><h1 id="hero-title">Pushing the limits of <em>agent</em> capability.</h1><p className="hero-lede">Gaia Research is the open laboratory for evidence-first agent work. We observe, benchmark, verify, and publish the frontier &mdash; every claim links back to its receipts.</p><div className="actions"><Link className="button primary" href="/labs/infinite-skill-craft">Play Infinite Skill Craft <span>→</span></Link><a className="button secondary" href="#ledger">Read the ledger <span>→</span></a></div></div>
+    <div className="hero-copy"><p className="signal"><span /> PUBLIC RESEARCH SIGNAL</p><h1 id="hero-title">Pushing the limits of <em>agent</em> capability.</h1><p className="hero-lede">Gaia Research is the open laboratory for evidence-first agent work. We observe, benchmark, verify, and publish the frontier &mdash; every claim links back to its receipts.</p><div className="actions"><Link className="button primary" href="/blog">Read the Blog <span>→</span></Link><a className="button secondary" href="#ledger">Read the ledger <span>→</span></a></div></div>
     <MilimLive fallbackSrc="/assets/north-star-live/milim-live-full-body-sprite-v01.webp" fallbackAlt="Milim, Gaia Research's Chief Capability Scout, standing in a laboratory hoodie." width={1024} height={1536} sizes="(max-width: 700px) 88vw, (max-width: 1200px) 46vw, 34vw" caption="MILIM · CHIEF CAPABILITY SCOUT" enableTooltips />
     <aside className="status-rail" aria-label="Laboratory status"><p>LABORATORY STATUS</p><dl><div><dt>LABS LIVE</dt><dd>02</dd></div><div><dt>LEDGER</dt><dd>OPEN</dd></div><div><dt>SOURCE</dt><dd>PUBLIC</dd></div></dl><a href="#directives">READ THE DIRECTIVES →</a></aside>
    </div>
    <div className="hero-strip"><span><i /> VERIFIED EVIDENCE</span><span>TWO LABS, ZERO SIGN-UPS</span><span>BUILDING IN PUBLIC</span></div>
+  </section>
+
+  <section id="blog" className="blog-home section-shell" aria-labelledby="blog-home-title">
+   <header className="blog-home-intro">
+    <div>
+     <p className="signal"><span /> FROM THE BLOG</p>
+     <h2 id="blog-home-title">A little field research.</h2>
+     <p>Short, human-readable notes from the Gaia lab—where the work gets a little strange before it gets useful.</p>
+    </div>
+    <Link href="/blog">All blog posts <span aria-hidden="true">→</span></Link>
+   </header>
+   <div className="blog-home-list">
+    {blogPosts.slice(0, 3).map((post) => <BlogPostCard key={post.href} post={post} />)}
+   </div>
   </section>
 
   <section id="labs" className="labs-play section-shell" aria-labelledby="labs-play-title">
@@ -50,20 +64,6 @@ export default function Home() {
       <span className="play-go">Trim a prompt <span aria-hidden="true">→</span></span>
      </div>
     </Link>
-   </div>
-  </section>
-
-  <section id="blog" className="blog-home section-shell" aria-labelledby="blog-home-title">
-   <header className="blog-home-intro">
-    <div>
-     <p className="signal"><span /> FROM THE BLOG</p>
-     <h2 id="blog-home-title">A little field research.</h2>
-     <p>Short, human-readable notes from the Gaia lab—where the work gets a little strange before it gets useful.</p>
-    </div>
-    <Link href="/blog">All blog posts <span aria-hidden="true">→</span></Link>
-   </header>
-   <div className="blog-home-list">
-    {blogPosts.slice(0, 3).map((post) => <BlogPostCard key={post.href} post={post} />)}
    </div>
   </section>
 
