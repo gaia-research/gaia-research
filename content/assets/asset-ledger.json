@@ -1750,6 +1750,26 @@
       "notes": "User-approved for PR #153; generated with gpt-image-2 and exported as a 1600x900 WebP at quality 90."
     },
     {
+      "id": "context-compaction-curve-editorial-thumbnail",
+      "path": "assets/generated/context-compaction-curve-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "approved",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research · gpt-image-2 editorial commission",
+      "alt": "Tiny pink-haired Milim stands at the base of a monumental amber-lit utility meter in a vast slate industrial hallway, reaching toward its rising dial.",
+      "sha256": "afa0d8d06c9dee79b5048fd4519dc9c94fd28ad66ce66cbd13e7831448af12a5",
+      "bytes": 133804,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": [
+        "public/assets/context-compaction-curve-editorial-thumbnail.webp"
+      ],
+      "notes": "User-approved v6 source from assets/workbench/generated/context-compaction-curve-thumbnail-v6.png; exported as a 1600x900 WebP at quality 90."
+    },
+    {
       "id": "context-diet-empty-state",
       "path": "assets/generated/context-diet-empty-state.webp",
       "kind": "illustration",
