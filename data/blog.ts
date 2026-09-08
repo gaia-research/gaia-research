@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import contextCompactionCurveThumbnailSrc from "@/assets/generated/context-compaction-curve-editorial-thumbnail.webp";
 import dontMakeTheModelThinkHarderThumbnailSrc from "@/assets/generated/dont-make-the-model-think-harder-editorial-thumbnail.webp";
 import intentMdSpecDrivenThumbnailSrc from "@/assets/generated/intent-md-spec-driven-editorial-thumbnail.webp";
 import parallelCheapScoutingThumbnailSrc from "@/assets/generated/parallel-cheap-scouting-editorial-thumbnail.webp";
@@ -28,6 +29,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const contextCompactionCurveThumbnail = {
+  src: contextCompactionCurveThumbnailSrc,
+  alt: "Tiny pink-haired Milim stands at the base of a monumental amber-lit utility meter in a vast slate industrial hallway, reaching toward its rising dial.",
+} as const;
 
 export const dontMakeTheModelThinkHarderThumbnail = {
   src: dontMakeTheModelThinkHarderThumbnailSrc,
@@ -102,6 +108,18 @@ export const arborEvidenceLoopEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/context-compaction-curve",
+    category: "Agent Architecture",
+    tags: ["Context Compaction", "Prompt Caching", "Token Economics", "Claude Code", "Agent Context"],
+    date: "September 08, 2026",
+    readTime: "6 min read",
+    title: "The Context Compaction Curve",
+    description:
+      "You're at 100k tokens cold. Compact now or keep going? The cache-TTL economics, fresh-session alternatives, and the rule of thumb that should replace gut feel.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: contextCompactionCurveThumbnail,
+  },
   {
     href: "/blog/dont-make-the-model-think-harder",
     category: "Agent Architecture",

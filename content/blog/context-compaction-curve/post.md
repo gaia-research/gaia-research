@@ -20,13 +20,13 @@ The compaction decision is a caching decision. Compact too early and the agent r
 
 **Anthropic's prompt cache** stores a prefix of the conversation. Subsequent turns sharing that prefix read it at **0.10× base input price** — a 90% discount. But the cache has a **5-minute TTL**. If more than 5 minutes elapse between turns — a test run, a code review, a coffee break — the cache evicts. The next turn re-writes the prefix at **1.25× base price**.
 
-| Event | Cost multiplier | Example at 100k tokens (Sonnet 4.6, $3.00/M base) |
+| Event | Cost multiplier | Example at 100k tokens (Sonnet 4.6, \$3.00/M base) |
 | :--- | :---: | ---: |
-| Cache hit (Δt < 5 min) | 0.10× | $0.030 |
-| Normal input (no cache) | 1.00× | $0.300 |
-| Cache write (miss) | 1.25× | $0.375 |
+| Cache hit (Δt < 5 min) | 0.10× | \$0.030 |
+| Normal input (no cache) | 1.00× | \$0.300 |
+| Cache write (miss) | 1.25× | \$0.375 |
 
-The gap between a hit and a miss at 100k tokens is **$0.345 per turn**. At 200k it is $0.69. At 50k it is $0.17.
+The gap between a hit and a miss at 100k tokens is **\$0.345 per turn**. At 200k it is \$0.69. At 50k it is \$0.17.
 
 ---
 
@@ -46,13 +46,21 @@ $$200\text{k} \times 3.75 / 1\text{M} = \$0.750$$
 
 **Option B: Compact to 50k, then continue.**
 
-The compaction itself costs one cache write at 105k ($0.39) plus a summary output (~2,000 tokens at $15/M = $0.03). Total: **~$0.42**.
+The compaction itself costs one cache write at 105k (\$0.39) plus a summary output (~2,000 tokens at \$15/M = \$0.03). Total: **~\$0.42**.
 
 But every subsequent cache miss is now on 50k:
 
 $$50\text{k} \times 3.75 / 1\text{M} = \$0.188$$
 
-Turn 1 costs roughly $0.40 either way. The difference is what turns 2 through 10 cost. Each subsequent miss saves $0.21 after compaction. The compaction pays for itself after **two cache misses** — two turns where Δt > 5 minutes.
+**Option C: Start a fresh session.**
+
+A fresh session drops the old transcript completely. You pay a cold write only on the smaller startup prompt and whatever files the agent must reacquire. This can beat compaction when the old cache is already cold and the task has crossed a clean phase boundary. If the cache is still warm, it usually does not: you surrender a discounted prefix and force the agent to rebuild working context.
+
+**Option D: Create a `/handoff`, then start fresh.**
+
+Matt Pocock’s [`/handoff` skill](https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff) writes a concise brief for the next agent, pointing to existing specs, issues, and diffs rather than copying the whole session. That makes Option C safer and more convenient; it does not create a new performance advantage by itself. The same cache rule decides the economics: **cold cache, plausible win; warm cache, likely loss.** The handoff improves continuity, not the provider’s cache.
+
+Turn 1 costs roughly \$0.40 either way for A and B. The difference is what turns 2 through 10 cost. Each subsequent miss saves \$0.21 after compaction. The compaction pays for itself after **two cache misses** — two turns where Δt > 5 minutes. Options C and D can avoid carrying the 105k prefix at all, but their real cost includes reacquiring the files and decisions the new session still needs.
 
 ---
 
@@ -76,12 +84,12 @@ The cache penalty is the visible cost. The reasoning inflation is the hidden one
 
 When a prompt carries 150k+ tokens of stale terminal output and completed diffs, reasoning models (Claude with extended thinking, OpenAI o3/o4-mini, Gemini with thinking) expand their internal search tree to navigate the clutter. Extending the findings of Snell et al. (2024) — who showed test-time compute scales with task complexity — prompt bloat introduces distractors that widen the model's deliberation. You pay for that in output tokens, the most expensive category.
 
-| Context size | Est. thinking tokens/turn | Output cost at $15/M |
+| Context size | Est. thinking tokens/turn | Output cost at \$15/M |
 | :--- | ---: | ---: |
-| 30k (clean) | ~1,200 | $0.018 |
-| 50k (compact) | ~1,500 | $0.023 |
-| 100k (moderate) | ~4,000 | $0.060 |
-| 200k (bloated) | ~8,000 | $0.120 |
+| 30k (clean) | ~1,200 | \$0.018 |
+| 50k (compact) | ~1,500 | \$0.023 |
+| 100k (moderate) | ~4,000 | \$0.060 |
+| 200k (bloated) | ~8,000 | \$0.120 |
 
 *Illustrative projections from published pricing, not empirical measurements.*
 
@@ -99,7 +107,7 @@ The break-even is ~2 cache misses. Any session with human pauses, test runs, or 
 
 - You are mid-refactor and the agent is holding 6+ file paths and their interdependencies. Compaction loses the dependency graph; re-reading costs more than the cache misses.
 - Your next 5–10 turns will be rapid-fire (< 5 min each). The cache stays warm.
-- Context is already below 50k. Compacting 40k to 20k saves ~$0.08 per miss — not worth the reacquisition risk.
+- Context is already below 50k. Compacting 40k to 20k saves ~\$0.08 per miss — not worth the reacquisition risk.
 
 ---
 
@@ -120,3 +128,4 @@ The break-even is ~2 cache misses. Any session with human pauses, test runs, or 
 - **Anthropic.** *Prompt Caching.* Claude Platform Docs. [platform.claude.com/docs/en/build-with-claude/prompt-caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
 - **Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang, P.** (2024). *Lost in the Middle: How Language Models Use Long Contexts.* Transactions of the ACL, 12, 157–173. [arXiv:2307.03172](https://arxiv.org/abs/2307.03172) · [DOI:10.1162/tacl_a_00638](https://doi.org/10.1162/tacl_a_00638)
 - **Snell, C., Lee, J., Xu, K., & Kumar, A.** (2024). *Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters.* [arXiv:2408.03314](https://arxiv.org/abs/2408.03314)
+- **Pocock, M.** *handoff — Create a handoff document for continuing work in a fresh context.* [`mattpocock/skills`](https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff)

@@ -6,7 +6,7 @@ import rehypeKatex from "rehype-katex";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import novaAuthor from "@/content/authors/nova.json";
 import PostShareBar from "@/components/PostShareBar";
-// import { contextCompactionCurveThumbnail } from "@/data/blog";
+import { contextCompactionCurveThumbnail } from "@/data/blog";
 import postMd from "@/content/blog/context-compaction-curve/post.md";
 
 export const dynamic = "force-static";
@@ -15,11 +15,11 @@ export const revalidate = false;
 const siteUrl = "https://research.gaiaskilltree.com";
 const articlePath = "/blog/context-compaction-curve";
 const articleUrl = `${siteUrl}${articlePath}`;
-// const thumbnailUrl = `${siteUrl}${contextCompactionCurveThumbnail.src.src}`;
+const thumbnailUrl = `${siteUrl}${contextCompactionCurveThumbnail.src.src}`;
 const articleTitle =
   "The Context Compaction Curve";
 const articleDescription =
-  "You're at 100k tokens cold. Compact now or keep going? The cache-TTL economics, the reasoning token multiplier, and the rule of thumb that should replace gut feel.";
+  "You're at 100k tokens cold. Compact now or keep going? The cache-TTL economics, fresh-session alternatives, and the rule of thumb that should replace gut feel.";
 
 export const metadata = {
   title: articleTitle,
@@ -43,13 +43,13 @@ export const metadata = {
     description: articleDescription,
     publishedTime: "2026-09-08T00:00:00+08:00",
     authors: [novaAuthor.display_name],
-    // images: [{ url: contextCompactionCurveThumbnail.src.src, width: 1600, height: 900, alt: contextCompactionCurveThumbnail.alt }],
+    images: [{ url: contextCompactionCurveThumbnail.src.src, width: 1600, height: 900, alt: contextCompactionCurveThumbnail.alt }],
   },
   twitter: {
     card: "summary_large_image",
     title: articleTitle,
     description: articleDescription,
-    // images: [contextCompactionCurveThumbnail.src.src],
+    images: [contextCompactionCurveThumbnail.src.src],
   },
 };
 
@@ -58,7 +58,7 @@ const articleStructuredData = {
   "@type": "BlogPosting",
   headline: articleTitle,
   description: articleDescription,
-  // image: thumbnailUrl,
+  image: thumbnailUrl,
   url: articleUrl,
   datePublished: "2026-09-08T00:00:00+08:00",
   author: {
@@ -345,20 +345,18 @@ export default function ContextCompactionCurvePage() {
           <h1>{articleTitle}</h1>
           <p className="blog-post-summary">
             You&apos;re at 100k tokens cold. Compact now or keep going? The cache-TTL economics,
-            the reasoning token multiplier, and the rule of thumb that should replace gut feel.
+            fresh-session alternatives, and the rule of thumb that should replace gut feel.
           </p>
         </header>
 
-        {/* TODO: Uncomment when thumbnail is generated
         <figure className="blog-post-illustration">
           <img
             src={contextCompactionCurveThumbnail.src.src}
-            width={1600}
-            height={900}
+            width={contextCompactionCurveThumbnail.src.width}
+            height={contextCompactionCurveThumbnail.src.height}
             alt={contextCompactionCurveThumbnail.alt}
           />
         </figure>
-        */}
 
         <article className="blog-post-body report-body">
           <Markdown

@@ -62,6 +62,18 @@ economics — see issue #220.
 
 ---
 
+## Primary Source 4: Matt Pocock’s `handoff` Skill
+
+**Claim:** The skill prepares a concise handoff document for continuing work in a fresh context, references existing artifacts instead of duplicating them, and saves the result outside the repository.
+
+- **Repository:** https://github.com/mattpocock/skills
+- **Skill:** https://github.com/mattpocock/skills/tree/main/skills/productivity/handoff
+- **Author:** Matt Pocock
+
+**Mechanism:** The skill inspects the conversation and repository state, then writes a focused Markdown brief for the next session. It is a continuity aid, not a provider-side cache feature; any cost or performance effect comes from starting with less context and then reacquiring only what the new session needs.
+
+---
+
 ## Sources Deferred to Post 2 (#220)
 
 - **OpenAI long-context pricing** (272k cliff, 2× input / 1.5× output): verified but not used in Post 1.
