@@ -1,0 +1,230 @@
+{
+  "sessions": [
+    {
+      "harness": "pi",
+      "session_id": "01a08ed6-3470-720a-9fd6-b12a5104ad26",
+      "path": "/Users/marcotiongson/.pi/agent/sessions/--private-tmp-compaction-bench-A-50k-s4-scripts-compaction-bench-fixtures-feature-repo--/2026-09-11T04-59-57-936Z_01a08ed6-3470-720a-9fd6-b12a5104ad26.jsonl",
+      "cwd": "/private/tmp/compaction-bench-A-50k-s4/scripts/compaction-bench/fixtures/feature-repo",
+      "first_ts": "2026-09-11T04:59:57.936Z",
+      "last_ts": "2026-09-11T05:29:14.550Z",
+      "totals": {
+        "input": 2413759,
+        "output": 87054,
+        "cache_read": 4559911,
+        "cache_write": 0,
+        "total": 7060724,
+        "cost_usd": 2.478765
+      },
+      "compactions": [
+        {
+          "ts": "2026-09-11T05:11:38.348Z",
+          "tokens_before": 70578,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:11:50.300Z",
+          "tokens_before": 70859,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:19:10.459Z",
+          "tokens_before": 69782,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:19:34.387Z",
+          "tokens_before": 72979,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:19:48.896Z",
+          "tokens_before": 69873,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:20:04.292Z",
+          "tokens_before": 65922,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:20:21.381Z",
+          "tokens_before": 61817,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:20:50.430Z",
+          "tokens_before": 63751,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:21:47.231Z",
+          "tokens_before": 59623,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:22:02.506Z",
+          "tokens_before": 57791,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:22:23.286Z",
+          "tokens_before": 59647,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:22:38.336Z",
+          "tokens_before": 52427,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:22:54.810Z",
+          "tokens_before": 53386,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:23:06.978Z",
+          "tokens_before": 47576,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:23:12.938Z",
+          "tokens_before": 46937,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:23:25.054Z",
+          "tokens_before": 48241,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:23:44.639Z",
+          "tokens_before": 45742,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:24:10.261Z",
+          "tokens_before": 48185,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:24:25.137Z",
+          "tokens_before": 49167,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:24:38.825Z",
+          "tokens_before": 52851,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:25:01.593Z",
+          "tokens_before": 52308,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:25:17.589Z",
+          "tokens_before": 53021,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:25:51.553Z",
+          "tokens_before": 54526,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:26:08.159Z",
+          "tokens_before": 55286,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:26:23.419Z",
+          "tokens_before": 54783,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:26:33.919Z",
+          "tokens_before": 55128,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:26:43.982Z",
+          "tokens_before": 52804,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:26:55.222Z",
+          "tokens_before": 54067,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:27:08.151Z",
+          "tokens_before": 52776,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:27:21.258Z",
+          "tokens_before": 49841,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:27:38.733Z",
+          "tokens_before": 52960,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:28:01.885Z",
+          "tokens_before": 53547,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:28:06.030Z",
+          "tokens_before": 48548,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:28:36.700Z",
+          "tokens_before": 47984,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:28:43.243Z",
+          "tokens_before": 48361,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:28:56.070Z",
+          "tokens_before": 48961,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:29:07.954Z",
+          "tokens_before": 48629,
+          "from_hook": false
+        }
+      ],
+      "by_model": {
+        "gemini-3.8-flash": {
+          "input": 2413759,
+          "output": 87054,
+          "cache_read": 4559911,
+          "cache_write": 0,
+          "cost_usd": 2.478765,
+          "priced": true
+        }
+      },
+      "unpriced_models": []
+    }
+  ],
+  "grand_total_cost_usd": 2.478765,
+  "grand_total_tokens": 7060724,
+  "prices": {
+    "file": "/Users/marcotiongson/skill-cost/prices.json",
+    "model_count": 3216,
+    "source": "BerriAI/litellm model_prices_and_context_window.json",
+    "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "source_license": "MIT",
+    "fetched_at": "2026-09-06T16:53:13Z"
+  },
+  "powered_by": "gaia",
+  "attribution": "Prices from BerriAI/litellm (MIT). skill-cost by Gaia Research (https://gaiaskilltree.com)."
+}

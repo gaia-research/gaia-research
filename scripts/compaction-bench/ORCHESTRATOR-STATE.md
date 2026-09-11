@@ -82,8 +82,16 @@ Only when all turns of an arm are finished:
 
 - [x] Preflights verified (Herdr status, pi version, sandbox isolation, status-bar regex scraping, archive pane move).
 - [x] Draft PR #237 created and synchronized.
-- [ ] Fixture repos prepared (`fixtures/bugfix-repo`, `fixtures/feature-repo`, `fixtures/refactor-repo`).
-- [ ] Headline Scenario 4: Arms A-50k through A-disabled (8 runs).
+- [x] Fixture repos prepared (`fixtures/bugfix-repo`, `fixtures/feature-repo`, `fixtures/refactor-repo`).
+- [ ] Headline Scenario 4: Arms A-50k through A-disabled (8 runs):
+  - [x] **A-50k**: COMPLETED (25 turns). Cost: $2.478765 | Tokens: 7,060,724 | Compactions: 37 | Session: `01a08ed6-3470-720a-9fd6-b12a5104ad26`
+  - [ ] A-100k
+  - [ ] A-150k
+  - [ ] A-200k
+  - [ ] A-272k
+  - [ ] A-500k
+  - [ ] A-1M
+  - [ ] A-disabled
 - [ ] Scenario 1: Cache-Cold Return (8 runs).
 - [ ] Scenario 2: Always-Warm (8 runs).
 - [ ] Scenario 3: Reasoning Token Inflation (12 runs).
