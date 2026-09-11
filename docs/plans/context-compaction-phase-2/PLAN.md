@@ -210,7 +210,8 @@ Each scenario isolates one compaction variable. Scenarios run sequentially, not 
 **Question:** What is the empirically optimal compaction threshold?
 
 **Setup:**
-- Same 25-turn feature workload across ALL arms (A-50k through A-1M)
+- Same 25-turn subset of the 30-turn feature workload across ALL arms (A-50k through A-1M)
+- The orchestrator runs turns 1–25 only; turns 26–30 are skipped for this scenario
 - Mix of warm and cold turns: turns 8, 16 have 7-minute idles
 - Record cumulative cost at each turn for every arm
 
@@ -250,7 +251,7 @@ This is the "discoverable" gold. Three sub-measurements:
 
 Each workload is a scripted coding task the orchestrator sends to the agent turn by turn. Workloads live in `scripts/compaction-bench/workloads/`.
 
-### Workload A: Bugfix (15 turns)
+### Workload A: Bugfix (20 turns)
 
 A pre-broken TypeScript file with a failing test. The agent must:
 1. Read the failing test output
@@ -443,8 +444,9 @@ After all arms complete, run skill-cost for the authoritative totals:
 ```bash
 for session in scripts/compaction-bench/data/sessions/*.jsonl; do
   ARM=$(basename "$session" | sed 's/.*-arm-//' | sed 's/-.*//')
+  SESSION_ID=$(basename "$session" .jsonl | sed 's/.*_//')
   echo "=== Arm $ARM ==="
-  python3 ~/skill-cost/cost.py --session "$session" --json
+  python3 ~/skill-cost/cost.py --session "$SESSION_ID" --json
 done
 ```
 

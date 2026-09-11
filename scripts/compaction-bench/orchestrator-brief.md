@@ -67,7 +67,10 @@ WORKLOAD=<bugfix|feature|refactor|endurance>
 
 ```bash
 # Copy the arm's models.json into place
-cp scripts/compaction-bench/config/models-arm-${ARM#A-}.json ~/.pi/agent/models.json
+# For A-disabled, use the 1M config (compaction is disabled via settings.json below)
+ARM_CONFIG=${ARM#A-}
+if [ "$ARM_CONFIG" = "disabled" ]; then ARM_CONFIG="1M"; fi
+cp scripts/compaction-bench/config/models-arm-${ARM_CONFIG}.json ~/.pi/agent/models.json
 ```
 
 For the A-disabled arm, ALSO edit settings.json:
@@ -85,7 +88,7 @@ with open('$HOME/.pi/agent/settings.json','w') as f: json.dump(d, f, indent=2)
 
 ```bash
 BENCH_DIR="/tmp/compaction-bench-${ARM}-scenario-${SCENARIO}"
-git worktree add "$BENCH_DIR" -b "bench/${ARM}-s${SCENARIO}" --detach HEAD
+git worktree add "$BENCH_DIR" --detach HEAD
 ```
 
 #### Step 3 — Split a pane and start pi
@@ -112,12 +115,32 @@ If the window size is wrong, the models.json edit didn't take. Stop and fix.
 
 #### Step 5 — Run the workload turn by turn
 
-For each turn `T` in the workload file:
+Set `MAX_TURNS` per scenario before entering the loop:
+
+| Scenario | `MAX_TURNS` | Notes |
+|---|---|---|
+| 1 | 20 | Full bugfix workload |
+| 2 | 30 | Full feature workload |
+| 3 | varies | See Scenario 3 timing map |
+| 4 | 25 | First 25 of 30-turn feature workload |
+| 6 | 50 | Full endurance workload |
+
+For each turn `T` from 1 to `MAX_TURNS` in the workload file:
 
 ```bash
 # 5a. Read the turn prompt from the workload file
-PROMPT=$(sed -n "/^## Turn ${T}$/,/^## Turn /p" "scripts/compaction-bench/workloads/${WORKLOAD}.md" \
-  | head -n -1 | tail -n +2)
+# NOTE: Uses python3 instead of `head -n -1` (illegal on macOS BSD coreutils)
+# and handles the final turn correctly (no subsequent ## Turn header).
+PROMPT=$(python3 -c "
+import sys
+with open('scripts/compaction-bench/workloads/${WORKLOAD}.md') as f:
+    parts = f.read().split('## Turn ')
+for p in parts[1:]:
+    lines = p.strip().split('\\n')
+    if lines[0].strip() == '${T}':
+        print('\\n'.join(lines[1:]).strip())
+        break
+")
 
 # 5b. Check if this turn needs an idle delay (scenario-specific)
 case "$SCENARIO-$T" in
@@ -165,8 +188,11 @@ else:
 " 2>/dev/null)
 
 # 5h. Compute cumulative cost from skill-cost
-CUMULATIVE=$(python3 ~/skill-cost/cost.py --session "$SESSION_PATH" --json 2>/dev/null \
-  | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('total_cost', 0))" 2>/dev/null)
+# NOTE: cost.py --session matches against the session UUID, not a file path.
+# Extract the UUID from the JSONL filename, and read grand_total_cost_usd (not total_cost).
+SESSION_ID=$(basename "$SESSION_PATH" .jsonl | sed 's/.*_//')
+CUMULATIVE=$(python3 ~/skill-cost/cost.py --session "$SESSION_ID" --json 2>/dev/null \
+  | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('grand_total_cost_usd', 0))" 2>/dev/null)
 
 # 5i. Write the tick
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -188,13 +214,16 @@ echo "  ────────────────────────
 # Copy the session JSONL for archiving
 cp "$SESSION_PATH" "scripts/compaction-bench/data/sessions/session-${ARM}-s${SCENARIO}.jsonl"
 
+# Extract session UUID for skill-cost query
+SESSION_ID=$(basename "$SESSION_PATH" .jsonl | sed 's/.*_//')
+
 # Run skill-cost for the authoritative total
-python3 ~/skill-cost/cost.py --session "$SESSION_PATH" --json \
+python3 ~/skill-cost/cost.py --session "$SESSION_ID" --json \
   > "scripts/compaction-bench/data/summary/${ARM}-s${SCENARIO}-cost.json"
 
 # Print summary
 echo "=== ARM ${ARM} SCENARIO ${SCENARIO} COMPLETE ==="
-python3 ~/skill-cost/cost.py --session "$SESSION_PATH"
+python3 ~/skill-cost/cost.py --session "$SESSION_ID"
 ```
 
 #### Step 7 — Archive and cleanup
@@ -259,7 +288,7 @@ with open('$HOME/.pi/agent/settings.json','w') as f: json.dump(d, f, indent=2)
 - Run 3 repetitions per size. Record output token count (includes thinking tokens).
 
 ### Scenario 4: Compaction Curve (HEADLINE)
-- Workload: `feature` (25 turns)
+- Workload: `feature` (first 25 of 30 turns — set `MAX_TURNS=25`)
 - **Turn 8:** `sleep 420`
 - **Turn 16:** `sleep 420`
 - All other turns: no delay
