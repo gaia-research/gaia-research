@@ -21,15 +21,18 @@ herdr status
 pi --version
 # → record exact version in data/run-metadata.json
 
-# 3. Verify current models.json (the production default you'll restore later)
-cat ~/.pi/agent/models.json
-# → must show antigravity.modelOverrides.gemini-3.8-flash.contextWindow = 272000
+# 3. Verify current models.json has the providers you expect
+jq '.providers | keys[]' ~/.pi/agent/models.json
+# → should include antigravity, google-antigravity, and any local providers (lmstudio, etc.)
 
-# 4. Backup production config
-cp ~/.pi/agent/models.json scripts/compaction-bench/config/models-production-backup.json
+# 4. Verify jq is available (used by the sandbox script)
+jq --version
+# → must be jq-1.6 or later
 
-# 5. Backup production settings
-cp ~/.pi/agent/settings.json scripts/compaction-bench/config/settings-production-backup.json
+# 5. Verify sandbox script creates a valid sandbox
+source scripts/compaction-bench/sandbox/create-sandbox.sh A-test 100000
+echo "providers: $(jq '.providers | keys' "$SANDBOX_DIR/models.json")"
+rm -rf "$SANDBOX_DIR" && unset PI_CODING_AGENT_DIR SANDBOX_DIR
 
 # 6. Verify skill-cost is available
 python3 ~/skill-cost/cost.py --help
@@ -52,7 +55,10 @@ If step 7 shows "Quota reached", wait until tokens reset. Do not proceed with qu
 
 ## The Arm Loop
 
-You run ONE arm at a time. Never run two arms concurrently — `models.json` is global.
+You run ONE arm at a time. Each arm gets its own **sandbox** — an isolated
+`PI_CODING_AGENT_DIR` that symlinks everything from `~/.pi/agent` except
+`models.json` (patched with `jq`) and `settings.json` (patched for A-disabled).
+The production config is **never written to.**
 
 ### For each arm:
 
@@ -63,25 +69,29 @@ SCENARIO=<1-6>
 WORKLOAD=<bugfix|feature|refactor|endurance>
 ```
 
-#### Step 1 — Set the autocompact threshold
+The context-window values per arm:
+
+| Arm | `CONTEXT_WINDOW` |
+|---|---|
+| A-50k | 50000 |
+| A-100k | 100000 |
+| A-150k | 150000 |
+| A-200k | 200000 |
+| A-272k | 272000 |
+| A-500k | 500000 |
+| A-1M | 1048576 |
+| A-disabled | 1048576 |
+
+#### Step 1 — Create the sandbox
 
 ```bash
-# Copy the arm's models.json into place
-# For A-disabled, use the 1M config (compaction is disabled via settings.json below)
-ARM_CONFIG=${ARM#A-}
-if [ "$ARM_CONFIG" = "disabled" ]; then ARM_CONFIG="1M"; fi
-cp scripts/compaction-bench/config/models-arm-${ARM_CONFIG}.json ~/.pi/agent/models.json
-```
-
-For the A-disabled arm, ALSO edit settings.json:
-```bash
-# Disable compaction entirely
-python3 -c "
-import json
-with open('$HOME/.pi/agent/settings.json') as f: d = json.load(f)
-d['compaction']['enabled'] = False
-with open('$HOME/.pi/agent/settings.json','w') as f: json.dump(d, f, indent=2)
-"
+# Creates /tmp/compaction-bench-sandbox-${ARM} with:
+#   - symlinks to ~/.pi/agent/* (auth, skills, extensions, themes, etc.)
+#   - jq-patched models.json (only antigravity contextWindow changed; other providers like lmstudio preserved)
+#   - own settings.json (compaction.enabled=false for A-disabled, copied for all others)
+#   - own sessions/ directory (benchmark sessions stay isolated)
+# Exports PI_CODING_AGENT_DIR and SANDBOX_DIR.
+source scripts/compaction-bench/sandbox/create-sandbox.sh "$ARM" "$CONTEXT_WINDOW"
 ```
 
 #### Step 2 — Create a worktree
@@ -97,7 +107,8 @@ git worktree add "$BENCH_DIR" --detach HEAD
 ARM_PANE=$(herdr pane split --current --direction right --ratio 0.45 --cwd "$BENCH_DIR" --no-focus \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['result']['pane']['pane_id'])")
 
-herdr agent start "${ARM}-s${SCENARIO}" --kind pi --pane "$ARM_PANE" --timeout 120000 \
+PI_CODING_AGENT_DIR="$SANDBOX_DIR" \
+  herdr agent start "${ARM}-s${SCENARIO}" --kind pi --pane "$ARM_PANE" --timeout 120000 \
   -- --model antigravity/gemini-3.8-flash:high
 ```
 
@@ -111,7 +122,10 @@ herdr agent read "${ARM}-s${SCENARIO}" --source recent-unwrapped --lines 5 \
 # Expected: "0.0%/100k" for A-100k, "0.0%/272k" for A-272k, etc.
 ```
 
-If the window size is wrong, the models.json edit didn't take. Stop and fix.
+If the window size is wrong, the sandbox models.json didn't take. Verify:
+```bash
+jq '.providers.antigravity.modelOverrides["gemini-3.8-flash"].contextWindow' "$SANDBOX_DIR/models.json"
+```
 
 #### Step 5 — Run the workload turn by turn
 
@@ -252,16 +266,9 @@ herdr pane move "$ARM_PANE" --tab "$ARCHIVE_TAB" --split down --no-focus
 # Clean up worktree
 git worktree remove "$BENCH_DIR" --force 2>/dev/null
 
-# RESTORE models.json to production default
-cp scripts/compaction-bench/config/models-production-backup.json ~/.pi/agent/models.json
-
-# If A-disabled arm, restore compaction settings too
-python3 -c "
-import json
-with open('$HOME/.pi/agent/settings.json') as f: d = json.load(f)
-d['compaction']['enabled'] = True
-with open('$HOME/.pi/agent/settings.json','w') as f: json.dump(d, f, indent=2)
-"
+# Clean up sandbox (production ~/.pi/agent was never touched)
+rm -rf "$SANDBOX_DIR"
+unset PI_CODING_AGENT_DIR SANDBOX_DIR
 ```
 
 ---
@@ -369,7 +376,7 @@ done
 |---|---|
 | "Quota reached" mid-run | Pause. Note the turn number. Resume when tokens reset — pi sessions are resumable with `--continue` |
 | Agent gets stuck / blocked | `herdr agent send-keys <name> ctrl+c`, then re-prompt |
-| Wrong context window in TUI | Stop. Check `~/.pi/agent/models.json`. Re-copy the arm config. |
+| Wrong context window in TUI | Stop. Check `jq '.providers.antigravity' "$SANDBOX_DIR/models.json"`. Recreate the sandbox. |
 | Compaction event shows `(?%/xxxk)` | Normal. Wait for the next turn — the percentage resolves after the model responds. |
 | Pane is too narrow to read | `herdr pane resize $ARM_PANE --cols 100` or adjust ratio |
-| models.json not taking effect | Pi may need to be restarted. Close the pi session (`ctrl+c`) and start a new one. |
+| models.json not taking effect | Verify `PI_CODING_AGENT_DIR=$SANDBOX_DIR` was set when the agent started. Close and re-start with the env var. |

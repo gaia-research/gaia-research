@@ -145,9 +145,10 @@ Each arm changes ONLY `contextWindow`. All other settings (model, thinking level
 | A-disabled | 1,048,576 + `compaction.enabled: false` | Control: what if we never compact? |
 
 **The orchestrator must:**
-1. Edit `models.json` before each arm to set the target `contextWindow`
-2. Verify the change took effect by reading the context meter in the TUI (`X.X%/XXXk`)
-3. Restore the original after each arm
+1. Create an isolated sandbox via `create-sandbox.sh` (jq-patches `models.json`, preserves all other providers)
+2. Start the benchmark pi agent with `PI_CODING_AGENT_DIR` pointing to the sandbox
+3. Verify the change took effect by reading the context meter in the TUI (`X.X%/XXXk`)
+4. Remove the sandbox after each arm (production `~/.pi/agent` is never modified)
 
 ### Pricing research note — the 2027 cliff
 
@@ -337,21 +338,21 @@ The orchestrator is a pi (or claude) agent running in the **controlling pane** o
 ### Orchestrator loop (per arm)
 
 ```
-1. SET contextWindow in ~/.pi/agent/models.json
-2. CREATE worktree: git worktree add /tmp/bench-arm-XXk
+1. CREATE sandbox: source create-sandbox.sh $ARM $CONTEXT_WINDOW → PI_CODING_AGENT_DIR
+2. CREATE worktree: git worktree add /tmp/bench-arm-XXk --detach HEAD
 3. SPLIT pane: herdr pane split --current --direction right --cwd /tmp/bench-arm-XXk
-4. START agent: herdr agent start arm-XXk --kind pi --pane $PANE -- --model antigravity/gemini-3.8-flash:high
+4. START agent: PI_CODING_AGENT_DIR=$SANDBOX_DIR herdr agent start arm-XXk --kind pi ...
 5. VERIFY: herdr agent read arm-XXk → confirm context meter shows "X.X%/XXXk"
-6. FOR each turn in workload:
+6. FOR each turn T from 1 to MAX_TURNS:
    a. herdr agent prompt arm-XXk "<turn prompt>" --wait --timeout 300000
    b. herdr agent read arm-XXk → scrape signals (context %, compaction?, cache miss?)
    c. RECORD: { turn, timestamp, context_pct, tokens, cost, compaction_event, cache_miss }
    d. IF scenario requires idle: sleep $IDLE_SECONDS
-7. COLLECT session JSONL from pi's session directory
-8. RUN: python3 ~/skill-cost/cost.py --session <id> --json → authoritative cost
+7. COLLECT session JSONL from sandbox sessions/ directory
+8. RUN: python3 ~/skill-cost/cost.py --session <uuid> --json → authoritative cost
 9. ARCHIVE pane: herdr pane move $PANE --tab $ARCHIVE_TAB --split down
 10. CLEANUP worktree: git worktree remove /tmp/bench-arm-XXk
-11. RESTORE models.json to production default
+11. CLEANUP sandbox: rm -rf $SANDBOX_DIR (production ~/.pi/agent untouched)
 ```
 
 ### Timing control — simulating warm/cold caches
@@ -511,13 +512,16 @@ scripts/compaction-bench/
 │   └── refactor-repo/                 # 4-file module to refactor
 ├── orchestrator-brief.md              # THE dispatch brief for the orchestrator agent
 ├── config/
-│   ├── models-arm-50k.json            # models.json override for each arm
+│   ├── models-arm-50k.json            # Reference: models.json for each arm (documentation)
 │   ├── models-arm-100k.json
 │   ├── models-arm-150k.json
 │   ├── models-arm-200k.json
 │   ├── models-arm-272k.json
 │   ├── models-arm-500k.json
-│   └── models-arm-1M.json
+│   ├── models-arm-1M.json
+│   └── models-arm-disabled.json
+├── sandbox/
+│   └── create-sandbox.sh              # Creates isolated PI_CODING_AGENT_DIR per arm (jq patch)
 ├── data/
 │   ├── runs/                          # Per-run tick JSONL
 │   │   └── run-YYYY-MM-DD-arm-XXk-scenario-N.jsonl
