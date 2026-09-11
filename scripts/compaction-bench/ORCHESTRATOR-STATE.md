@@ -83,7 +83,7 @@ Only when all turns of an arm are finished:
 - [x] Preflights verified (Herdr status, pi version, sandbox isolation, status-bar regex scraping, archive pane move).
 - [x] Draft PR #237 created and synchronized.
 - [x] Fixture repos prepared (`fixtures/bugfix-repo`, `fixtures/feature-repo`, `fixtures/refactor-repo`).
-- [ ] Headline Scenario 4: Arms A-50k through A-disabled (8 runs):
+- [x] Headline Scenario 4: Arms A-50k through A-disabled (8 runs):
   - [x] **A-50k**: COMPLETED (25 turns). Cost: $2.478765 | Tokens: 7,060,724 | Compactions: 37 | Cache Read: 4.56M | Session: `01a08ed6-3470-720a-9fd6-b12a5104ad26`
   - [x] **A-100k**: COMPLETED (25 turns). Cost: $2.322057 | Tokens: 12,119,512 | Compactions: 6 | Cache Read: 10.29M | Session: `01a08efb-1ebd-75f8-816e-5296bf385143`
   - [x] **A-150k**: COMPLETED (25 turns). Cost: $2.557298 | Tokens: 15,152,459 | Compactions: 1 | Cache Read: 13.35M | Session: `01a08f27-ea2b-70be-a391-25f39c26c425`
@@ -91,7 +91,7 @@ Only when all turns of an arm are finished:
   - [x] **A-272k**: COMPLETED (25 turns). Cost: $2.089684 | Tokens: 12,517,001 | Compactions: 0 | Cache Read: 11.06M | Session: `01a08f8f-5745-73bf-82fe-568b5a057a8f`
   - [x] **A-500k**: COMPLETED (25 turns). Cost: $1.695274 | Tokens: 11,180,764 | Compactions: 0 | Cache Read: 10.25M | Session: `01a08fb1-e3b0-7765-9189-9e6c8be219f8`
   - [x] **A-1M**: COMPLETED (25 turns). Cost: $6.894384 | Tokens: 63,102,126 | Compactions: 0 | Cache Read: 60.34M | Session: `01a08fe9-9642-7354-a54d-ce4d53e1627f`
-  - [ ] **A-disabled**: NEXT
+  - [x] **A-disabled**: COMPLETED (25 turns). Cost: $1.597984 | Tokens: 9,798,025 | Compactions: 0 | Cache Read: 8.80M | Session: `01a09012-409e-7475-aea2-a63e9be30154`
 - [ ] Scenario 1: Cache-Cold Return (8 runs).
 - [ ] Scenario 2: Always-Warm (8 runs).
 - [ ] Scenario 3: Reasoning Token Inflation (12 runs).
