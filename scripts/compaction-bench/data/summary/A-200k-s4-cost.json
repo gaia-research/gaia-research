@@ -1,0 +1,50 @@
+{
+  "sessions": [
+    {
+      "harness": "pi",
+      "session_id": "01a08f62-f75e-749f-8f56-9db496f8c85e",
+      "path": "/Users/marcotiongson/.pi/agent/sessions/--private-tmp-compaction-bench-A-200k-s4-scripts-compaction-bench-fixtures-feature-repo--/2026-09-11T07-33-42-879Z_01a08f62-f75e-749f-8f56-9db496f8c85e.jsonl",
+      "cwd": "/private/tmp/compaction-bench-A-200k-s4/scripts/compaction-bench/fixtures/feature-repo",
+      "first_ts": "2026-09-11T07:33:42.879Z",
+      "last_ts": "2026-09-11T08:11:11.428Z",
+      "totals": {
+        "input": 2163235,
+        "output": 122418,
+        "cache_read": 20645266,
+        "cache_write": 0,
+        "total": 22930919,
+        "cost_usd": 3.629889
+      },
+      "compactions": [
+        {
+          "ts": "2026-09-11T08:07:55.008Z",
+          "tokens_before": 184971,
+          "from_hook": false
+        }
+      ],
+      "by_model": {
+        "gemini-3.8-flash": {
+          "input": 2163235,
+          "output": 122418,
+          "cache_read": 20645266,
+          "cache_write": 0,
+          "cost_usd": 3.629889,
+          "priced": true
+        }
+      },
+      "unpriced_models": []
+    }
+  ],
+  "grand_total_cost_usd": 3.629889,
+  "grand_total_tokens": 22930919,
+  "prices": {
+    "file": "/Users/marcotiongson/skill-cost/prices.json",
+    "model_count": 3216,
+    "source": "BerriAI/litellm model_prices_and_context_window.json",
+    "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "source_license": "MIT",
+    "fetched_at": "2026-09-06T16:53:13Z"
+  },
+  "powered_by": "gaia",
+  "attribution": "Prices from BerriAI/litellm (MIT). skill-cost by Gaia Research (https://gaiaskilltree.com)."
+}

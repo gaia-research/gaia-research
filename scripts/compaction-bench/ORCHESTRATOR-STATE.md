@@ -87,7 +87,7 @@ Only when all turns of an arm are finished:
   - [x] **A-50k**: COMPLETED (25 turns). Cost: $2.478765 | Tokens: 7,060,724 | Compactions: 37 | Cache Read: 4.56M | Session: `01a08ed6-3470-720a-9fd6-b12a5104ad26`
   - [x] **A-100k**: COMPLETED (25 turns). Cost: $2.322057 | Tokens: 12,119,512 | Compactions: 6 | Cache Read: 10.29M | Session: `01a08efb-1ebd-75f8-816e-5296bf385143`
   - [x] **A-150k**: COMPLETED (25 turns). Cost: $2.557298 | Tokens: 15,152,459 | Compactions: 1 | Cache Read: 13.35M | Session: `01a08f27-ea2b-70be-a391-25f39c26c425`
-  - [ ] A-200k
+  - [x] **A-200k**: COMPLETED (25 turns). Cost: $3.629889 | Tokens: 22,930,919 | Compactions: 1 | Cache Read: 20.65M | Session: `01a08f62-f75e-749f-8f56-9db496f8c85e`
   - [ ] A-272k
   - [ ] A-500k
   - [ ] A-1M
