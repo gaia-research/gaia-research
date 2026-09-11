@@ -84,8 +84,8 @@ Only when all turns of an arm are finished:
 - [x] Draft PR #237 created and synchronized.
 - [x] Fixture repos prepared (`fixtures/bugfix-repo`, `fixtures/feature-repo`, `fixtures/refactor-repo`).
 - [ ] Headline Scenario 4: Arms A-50k through A-disabled (8 runs):
-  - [x] **A-50k**: COMPLETED (25 turns). Cost: $2.478765 | Tokens: 7,060,724 | Compactions: 37 | Session: `01a08ed6-3470-720a-9fd6-b12a5104ad26`
-  - [ ] A-100k
+  - [x] **A-50k**: COMPLETED (25 turns). Cost: $2.478765 | Tokens: 7,060,724 | Compactions: 37 | Cache Read: 4.56M | Session: `01a08ed6-3470-720a-9fd6-b12a5104ad26`
+  - [x] **A-100k**: COMPLETED (25 turns). Cost: $2.322057 | Tokens: 12,119,512 | Compactions: 6 | Cache Read: 10.29M | Session: `01a08efb-1ebd-75f8-816e-5296bf385143`
   - [ ] A-150k
   - [ ] A-200k
   - [ ] A-272k

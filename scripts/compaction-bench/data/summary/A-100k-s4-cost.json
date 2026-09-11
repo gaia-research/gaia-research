@@ -1,0 +1,75 @@
+{
+  "sessions": [
+    {
+      "harness": "pi",
+      "session_id": "01a08efb-1ebd-75f8-816e-5296bf385143",
+      "path": "/Users/marcotiongson/.pi/agent/sessions/--private-tmp-compaction-bench-A-100k-s4-scripts-compaction-bench-fixtures-feature-repo--/2026-09-11T05-40-17-222Z_01a08efb-1ebd-75f8-816e-5296bf385143.jsonl",
+      "cwd": "/private/tmp/compaction-bench-A-100k-s4/scripts/compaction-bench/fixtures/feature-repo",
+      "first_ts": "2026-09-11T05:40:17.222Z",
+      "last_ts": "2026-09-11T06:19:26.140Z",
+      "totals": {
+        "input": 1772538,
+        "output": 58947,
+        "cache_read": 10288027,
+        "cache_write": 0,
+        "total": 12119512,
+        "cost_usd": 2.322057
+      },
+      "compactions": [
+        {
+          "ts": "2026-09-11T05:42:54.363Z",
+          "tokens_before": 89672,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:43:15.322Z",
+          "tokens_before": 99465,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:43:33.372Z",
+          "tokens_before": 97368,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:53:23.757Z",
+          "tokens_before": 83893,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T05:58:53.544Z",
+          "tokens_before": 83783,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T06:15:47.694Z",
+          "tokens_before": 84139,
+          "from_hook": false
+        }
+      ],
+      "by_model": {
+        "gemini-3.8-flash": {
+          "input": 1772538,
+          "output": 58947,
+          "cache_read": 10288027,
+          "cache_write": 0,
+          "cost_usd": 2.322057,
+          "priced": true
+        }
+      },
+      "unpriced_models": []
+    }
+  ],
+  "grand_total_cost_usd": 2.322057,
+  "grand_total_tokens": 12119512,
+  "prices": {
+    "file": "/Users/marcotiongson/skill-cost/prices.json",
+    "model_count": 3216,
+    "source": "BerriAI/litellm model_prices_and_context_window.json",
+    "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "source_license": "MIT",
+    "fetched_at": "2026-09-06T16:53:13Z"
+  },
+  "powered_by": "gaia",
+  "attribution": "Prices from BerriAI/litellm (MIT). skill-cost by Gaia Research (https://gaiaskilltree.com)."
+}
