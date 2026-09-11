@@ -1,0 +1,24 @@
+{
+  "providers": {
+    "antigravity": {
+      "modelOverrides": {
+        "gemini-3.8-flash": {
+          "contextWindow": 500000
+        },
+        "gemini-3.7-flash": {
+          "contextWindow": 500000
+        }
+      }
+    },
+    "google-antigravity": {
+      "modelOverrides": {
+        "gemini-3.8-flash": {
+          "contextWindow": 500000
+        },
+        "gemini-3.7-flash": {
+          "contextWindow": 500000
+        }
+      }
+    }
+  }
+}
