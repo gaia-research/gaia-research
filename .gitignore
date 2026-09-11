@@ -51,3 +51,5 @@ scripts/.visual-audit/
 scripts/.hh-demo/
 .office/
 scripts/compaction-bench/__pycache__/
+scripts/compaction-bench/data/watchdog.log
+scripts/compaction-bench/data/cron-scenario-2.log
