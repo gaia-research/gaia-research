@@ -101,8 +101,6 @@ Only when all turns of an arm are finished:
   - [ ] **A-500k**: PAUSED / NEXT (Launch after quota reset: `scripts/compaction-bench/runner.py --scenario 2 --arm A-500k`)
   - [ ] A-1M
   - [ ] A-disabled
-  - [ ] A-1M
-  - [ ] A-disabled
 - [ ] Scenario 1: Cache-Cold Return (8 runs).
 - [ ] Scenario 3: Reasoning Token Inflation (12 runs).
 - [ ] Scenario 6: 1M Endurance (1 run).
