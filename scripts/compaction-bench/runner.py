@@ -127,7 +127,17 @@ def wait_until_idle(agent_name: str, max_wait_sec: int = 60):
     return False
 
 
-def run_arm(scenario: int, arm: str, max_turns: int | None = None, skip_idle: bool = False):
+def run_arm(
+    scenario: int,
+    arm: str,
+    max_turns: int | None = None,
+    skip_idle: bool = False,
+    resume_turn: int | None = None,
+    resume_pane: str | None = None,
+    resume_agent: str | None = None,
+    resume_sandbox: str | None = None,
+    resume_worktree: str | None = None,
+):
     sc_info = SCENARIO_WORKLOADS[scenario]
     arm_info = ARM_CONFIGS[arm]
     window = arm_info["window"]
@@ -143,91 +153,100 @@ def run_arm(scenario: int, arm: str, max_turns: int | None = None, skip_idle: bo
     os.makedirs(os.path.dirname(run_log_path), exist_ok=True)
 
     log(f"==================================================")
-    log(f"Starting Scenario {scenario}, Arm {arm}")
+    log(f"Starting Scenario {scenario}, Arm {arm}" + (f" (Resuming at Turn {resume_turn})" if resume_turn else ""))
     log(f"Context Window: {window} | Compaction: {'DISABLED' if arm_info['disabled'] else 'ENABLED'}")
     log(f"Workload: {sc_info['file']} ({total_turns} turns)")
     log(f"Logging ticks to: {run_log_path}")
     log(f"==================================================")
 
-    # 1. Create Sandbox
-    sandbox_script = os.path.join(REPO_ROOT, "scripts/compaction-bench/sandbox/create-sandbox.sh")
-    sandbox_out = subprocess.check_output(
-        ["bash", "-c", f"source '{sandbox_script}' '{arm}' {window} && echo SANDBOX_DIR=$SANDBOX_DIR"]
-    ).decode("utf-8")
-    m_sb = re.search(r"SANDBOX_DIR=(.*)", sandbox_out)
-    if not m_sb:
-        raise RuntimeError("Failed to resolve SANDBOX_DIR from create-sandbox.sh")
-    sandbox_dir = m_sb.group(1).strip()
-    log(f"Sandbox created at {sandbox_dir}")
+    if resume_turn and resume_pane and resume_agent:
+        pane_id = resume_pane
+        agent_name = resume_agent
+        sandbox_dir = resume_sandbox or f"/tmp/compaction-bench-sandbox-{arm}"
+        worktree_dir = resume_worktree or f"/tmp/compaction-bench-{arm}-s{scenario}"
+        log(f"Resuming with existing pane {pane_id} and agent {agent_name}")
+    else:
+        # 1. Create Sandbox
+        sandbox_script = os.path.join(REPO_ROOT, "scripts/compaction-bench/sandbox/create-sandbox.sh")
+        sandbox_out = subprocess.check_output(
+            ["bash", "-c", f"source '{sandbox_script}' '{arm}' {window} && echo SANDBOX_DIR=$SANDBOX_DIR"]
+        ).decode("utf-8")
+        m_sb = re.search(r"SANDBOX_DIR=(.*)", sandbox_out)
+        if not m_sb:
+            raise RuntimeError("Failed to resolve SANDBOX_DIR from create-sandbox.sh")
+        sandbox_dir = m_sb.group(1).strip()
+        log(f"Sandbox created at {sandbox_dir}")
 
-    # 2. Create git worktree
-    worktree_dir = f"/tmp/compaction-bench-{arm}-s{scenario}"
-    if os.path.exists(worktree_dir):
-        subprocess.run(["git", "worktree", "remove", worktree_dir, "--force"], stderr=subprocess.DEVNULL)
-        shutil.rmtree(worktree_dir, ignore_errors=True)
+        # 2. Create git worktree
+        worktree_dir = f"/tmp/compaction-bench-{arm}-s{scenario}"
+        if os.path.exists(worktree_dir):
+            subprocess.run(["git", "worktree", "remove", worktree_dir, "--force"], stderr=subprocess.DEVNULL)
+            shutil.rmtree(worktree_dir, ignore_errors=True)
 
-    subprocess.check_call(["git", "worktree", "add", worktree_dir, "--detach", "HEAD"])
-    # Symlink node_modules
-    wt_node_modules = os.path.join(worktree_dir, "node_modules")
-    if not os.path.exists(wt_node_modules):
-        os.symlink(os.path.join(REPO_ROOT, "node_modules"), wt_node_modules)
+        subprocess.check_call(["git", "worktree", "add", worktree_dir, "--detach", "HEAD"])
+        # Symlink node_modules
+        wt_node_modules = os.path.join(worktree_dir, "node_modules")
+        if not os.path.exists(wt_node_modules):
+            os.symlink(os.path.join(REPO_ROOT, "node_modules"), wt_node_modules)
 
-    fixture_dir = os.path.join(worktree_dir, "scripts/compaction-bench/fixtures", sc_info["fixture"])
-    log(f"Worktree prepared at {fixture_dir}")
+        fixture_dir = os.path.join(worktree_dir, "scripts/compaction-bench/fixtures", sc_info["fixture"])
+        log(f"Worktree prepared at {fixture_dir}")
 
-    # 3. Split Herdr pane
-    split_res = json.loads(
-        subprocess.check_output(
-            [
-                "herdr",
-                "pane",
-                "split",
-                "--current",
-                "--direction",
-                "right",
-                "--ratio",
-                "0.45",
-                "--cwd",
-                fixture_dir,
-                "--env",
-                f"PI_CODING_AGENT_DIR={sandbox_dir}",
-                "--no-focus",
-            ]
+        # 3. Split Herdr pane
+        split_res = json.loads(
+            subprocess.check_output(
+                [
+                    "herdr",
+                    "pane",
+                    "split",
+                    "--current",
+                    "--direction",
+                    "right",
+                    "--ratio",
+                    "0.45",
+                    "--cwd",
+                    fixture_dir,
+                    "--env",
+                    f"PI_CODING_AGENT_DIR={sandbox_dir}",
+                    "--no-focus",
+                ]
+            )
         )
-    )
-    pane_id = split_res["result"]["pane"]["pane_id"]
-    log(f"Created Herdr pane {pane_id}")
+        pane_id = split_res["result"]["pane"]["pane_id"]
+        log(f"Created Herdr pane {pane_id}")
 
-    # Safety export in pane
-    subprocess.run(["herdr", "pane", "run", pane_id, f'export PI_CODING_AGENT_DIR="{sandbox_dir}"'], check=True)
-    time.sleep(1)
+        # Safety export in pane
+        subprocess.run(["herdr", "pane", "run", pane_id, f'export PI_CODING_AGENT_DIR="{sandbox_dir}"'], check=True)
+        time.sleep(1)
 
-    agent_name = f"{arm.lower()}-s{scenario}-{int(time.time()) % 10000}"
+        agent_name = f"{arm.lower()}-s{scenario}-{int(time.time()) % 10000}"
+
     session_id = None
     session_path = None
 
     try:
-        # 4. Start agent
-        log(f"Starting agent {agent_name}...")
-        start_res = json.loads(
-            subprocess.check_output(
-                [
-                    "herdr",
-                    "agent",
-                    "start",
-                    agent_name,
-                    "--kind",
-                    "pi",
-                    "--pane",
-                    pane_id,
-                    "--timeout",
-                    "120000",
-                    "--",
-                    "--model",
-                    "antigravity/gemini-3.8-flash:high",
-                ]
+        if not resume_turn:
+            # 4. Start agent
+            log(f"Starting agent {agent_name}...")
+            start_res = json.loads(
+                subprocess.check_output(
+                    [
+                        "herdr",
+                        "agent",
+                        "start",
+                        agent_name,
+                        "--kind",
+                        "pi",
+                        "--pane",
+                        pane_id,
+                        "--timeout",
+                        "120000",
+                        "--",
+                        "--model",
+                        "antigravity/gemini-3.8-flash:high",
+                    ]
+                )
             )
-        )
         # Wait up to 15 seconds for herdr to discover agent_session
         for _ in range(15):
             try:
@@ -260,7 +279,8 @@ def run_arm(scenario: int, arm: str, max_turns: int | None = None, skip_idle: bo
         log(f"Initial context meter: {initial_scrape.get('context_pct', 'unknown')}")
 
         # 5. Execute turns
-        for t in range(1, total_turns + 1):
+        start_turn = resume_turn if resume_turn else 1
+        for t in range(start_turn, total_turns + 1):
             prompt = turns_dict.get(t)
             if not prompt:
                 log(f"Turn {t} prompt not found in workload file. Stopping.")
@@ -379,6 +399,11 @@ def main():
     )
     parser.add_argument("--turns", type=int, default=None)
     parser.add_argument("--skip-idle", action="store_true")
+    parser.add_argument("--resume-turn", type=int, default=None)
+    parser.add_argument("--resume-pane", type=str, default=None)
+    parser.add_argument("--resume-agent", type=str, default=None)
+    parser.add_argument("--resume-sandbox", type=str, default=None)
+    parser.add_argument("--resume-worktree", type=str, default=None)
     args = parser.parse_args()
 
     arms = (
@@ -388,7 +413,17 @@ def main():
     )
 
     for i, arm in enumerate(arms):
-        run_arm(args.scenario, arm, max_turns=args.turns, skip_idle=args.skip_idle)
+        run_arm(
+            args.scenario,
+            arm,
+            max_turns=args.turns,
+            skip_idle=args.skip_idle,
+            resume_turn=args.resume_turn,
+            resume_pane=args.resume_pane,
+            resume_agent=args.resume_agent,
+            resume_sandbox=args.resume_sandbox,
+            resume_worktree=args.resume_worktree,
+        )
         if i < len(arms) - 1:
             log("Waiting 600s (10m) between arms for complete cache isolation...")
             time.sleep(600)
