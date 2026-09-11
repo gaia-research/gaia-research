@@ -92,7 +92,7 @@ Only when all turns of an arm are finished:
   - [x] **A-500k**: COMPLETED (25 turns). Cost: $1.695274 | Tokens: 11,180,764 | Compactions: 0 | Cache Read: 10.25M | Session: `01a08fb1-e3b0-7765-9189-9e6c8be219f8`
   - [x] **A-1M**: COMPLETED (25 turns). Cost: $6.894384 | Tokens: 63,102,126 | Compactions: 0 | Cache Read: 60.34M | Session: `01a08fe9-9642-7354-a54d-ce4d53e1627f`
   - [x] **A-disabled**: COMPLETED (25 turns). Cost: $1.597984 | Tokens: 9,798,025 | Compactions: 0 | Cache Read: 8.80M | Session: `01a09012-409e-7475-aea2-a63e9be30154`
-- [ ] Scenario 2: Always-Warm (8 runs):
+- [x] Scenario 2: Always-Warm (8 runs):
   - [x] **A-50k**: COMPLETED (30 turns). Cost: $4.486300 | Tokens: 13,552,970 | Compactions: 101 | Cache Read: 8.99M | Session: `01a090f3-d342-75e2-bd12-b21fc21c3913`
   - [x] **A-100k**: COMPLETED (30 turns). Cost: $2.697593 | Tokens: 14,775,257 | Compactions: 11 | Cache Read: 12.77M | Session: `01a09118-b7e6-76a5-8d3b-1f3faf8a3ca0`
   - [x] **A-150k**: COMPLETED (30 turns). Cost: $3.392501 | Tokens: 22,953,974 | Compactions: 3 | Cache Read: 21.02M | Session: `01a0912f-dfdf-75a4-8553-6440b0a64eb1`
@@ -100,7 +100,7 @@ Only when all turns of an arm are finished:
   - [x] **A-272k**: COMPLETED (30 turns). Cost: $3.130127 | Tokens: 25,874,342 | Compactions: 0 | Cache Read: 24.43M | Session: `01a0915c-1817-713d-b8b4-226154c5944c`
   - [x] **A-500k**: COMPLETED (30 turns). Cost: $2.588619 | Tokens: 22,628,932 | Compactions: 0 | Cache Read: 21.64M | Session: `01a09202-5d41-77ca-9b2a-ed93ac0dabf9`
   - [x] **A-1M**: COMPLETED (30 turns). Cost: $3.710361 | Tokens: 37,005,809 | Compactions: 0 | Cache Read: 35.91M | Session: `01a09230-634b-71a7-9627-bb3016d7135d`
-  - [ ] **A-disabled**: NEXT (Ready to launch after cache cooldown: `scripts/compaction-bench/runner.py --scenario 2 --arm A-disabled`)
+  - [x] **A-disabled**: COMPLETED (30 turns). Cost: $2.538364 | Tokens: 20,600,971 | Compactions: 0 | Cache Read: 19.56M | Session: `01a09242-fd6b-74a5-9595-e0a2692c945b`
 - [ ] Scenario 1: Cache-Cold Return (8 runs).
 - [ ] Scenario 3: Reasoning Token Inflation (12 runs).
 - [ ] Scenario 6: 1M Endurance (1 run).
