@@ -202,7 +202,7 @@ def run_arm(scenario: int, arm: str, max_turns: int | None = None, skip_idle: bo
     subprocess.run(["herdr", "pane", "run", pane_id, f'export PI_CODING_AGENT_DIR="{sandbox_dir}"'], check=True)
     time.sleep(1)
 
-    agent_name = f"{arm.lower()}-s{scenario}"
+    agent_name = f"{arm.lower()}-s{scenario}-{int(time.time()) % 10000}"
     session_id = None
     session_path = None
 
