@@ -1,0 +1,550 @@
+{
+  "sessions": [
+    {
+      "harness": "pi",
+      "session_id": "01a090f3-d342-75e2-bd12-b21fc21c3913",
+      "path": "/Users/marcotiongson/.pi/agent/sessions/--private-tmp-compaction-bench-A-50k-s2-scripts-compaction-bench-fixtures-feature-repo--/2026-09-11T14-51-33-570Z_01a090f3-d342-75e2-bd12-b21fc21c3913.jsonl",
+      "cwd": "/private/tmp/compaction-bench-A-50k-s2/scripts/compaction-bench/fixtures/feature-repo",
+      "first_ts": "2026-09-11T14:51:33.570Z",
+      "last_ts": "2026-09-11T15:21:14.863Z",
+      "totals": {
+        "input": 4430693,
+        "output": 130370,
+        "cache_read": 8991907,
+        "cache_write": 0,
+        "total": 13552970,
+        "cost_usd": 4.4863
+      },
+      "compactions": [
+        {
+          "ts": "2026-09-11T14:55:05.952Z",
+          "tokens_before": 69504,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:55:19.071Z",
+          "tokens_before": 69198,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:55:30.117Z",
+          "tokens_before": 69357,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:55:39.016Z",
+          "tokens_before": 68643,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:55:48.349Z",
+          "tokens_before": 67263,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:56:00.393Z",
+          "tokens_before": 68041,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:56:38.683Z",
+          "tokens_before": 64807,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:57:37.445Z",
+          "tokens_before": 64326,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:58:01.680Z",
+          "tokens_before": 63532,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:58:14.464Z",
+          "tokens_before": 63518,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:58:24.855Z",
+          "tokens_before": 57399,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:58:44.784Z",
+          "tokens_before": 59822,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:59:03.748Z",
+          "tokens_before": 59053,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:59:16.860Z",
+          "tokens_before": 57018,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:59:37.299Z",
+          "tokens_before": 49331,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T14:59:49.250Z",
+          "tokens_before": 49000,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:00:04.367Z",
+          "tokens_before": 48879,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:00:42.741Z",
+          "tokens_before": 48138,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:00:57.015Z",
+          "tokens_before": 45439,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:01:09.308Z",
+          "tokens_before": 44769,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:01:15.362Z",
+          "tokens_before": 46098,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:01:23.314Z",
+          "tokens_before": 43922,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:01:42.151Z",
+          "tokens_before": 43291,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:02:06.525Z",
+          "tokens_before": 46278,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:02:59.865Z",
+          "tokens_before": 47326,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:03:13.171Z",
+          "tokens_before": 49613,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:03:18.502Z",
+          "tokens_before": 48251,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:03:38.783Z",
+          "tokens_before": 59178,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:03:47.905Z",
+          "tokens_before": 52593,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:03:58.692Z",
+          "tokens_before": 53868,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:04:06.911Z",
+          "tokens_before": 52425,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:04:16.179Z",
+          "tokens_before": 53614,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:04:24.507Z",
+          "tokens_before": 52193,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:04:34.747Z",
+          "tokens_before": 52055,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:06:32.462Z",
+          "tokens_before": 58263,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:06:41.631Z",
+          "tokens_before": 59777,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:06:50.803Z",
+          "tokens_before": 59921,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:07:01.673Z",
+          "tokens_before": 59651,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:07:16.774Z",
+          "tokens_before": 59027,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:07:26.587Z",
+          "tokens_before": 58881,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:07:31.790Z",
+          "tokens_before": 59875,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:07:59.312Z",
+          "tokens_before": 60546,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:08:08.253Z",
+          "tokens_before": 55108,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:08:44.950Z",
+          "tokens_before": 57554,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:08:55.777Z",
+          "tokens_before": 53668,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:09:07.440Z",
+          "tokens_before": 53213,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:09:19.552Z",
+          "tokens_before": 55207,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:09:31.771Z",
+          "tokens_before": 48424,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:09:40.729Z",
+          "tokens_before": 48428,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:09:50.811Z",
+          "tokens_before": 48183,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:10:03.360Z",
+          "tokens_before": 49822,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:10:11.769Z",
+          "tokens_before": 49281,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:10:22.257Z",
+          "tokens_before": 49113,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:10:29.978Z",
+          "tokens_before": 49181,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:10:44.353Z",
+          "tokens_before": 52046,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:10:53.812Z",
+          "tokens_before": 50808,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:11:08.137Z",
+          "tokens_before": 51415,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:11:18.599Z",
+          "tokens_before": 49841,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:11:29.552Z",
+          "tokens_before": 49885,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:11:40.778Z",
+          "tokens_before": 47709,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:11:48.073Z",
+          "tokens_before": 49309,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:11:58.700Z",
+          "tokens_before": 47071,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:12:12.965Z",
+          "tokens_before": 46725,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:12:30.467Z",
+          "tokens_before": 45001,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:12:37.385Z",
+          "tokens_before": 45260,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:12:59.146Z",
+          "tokens_before": 48984,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:13:07.915Z",
+          "tokens_before": 46737,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:13:21.621Z",
+          "tokens_before": 47200,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:13:40.194Z",
+          "tokens_before": 49460,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:14:00.115Z",
+          "tokens_before": 52883,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:14:22.111Z",
+          "tokens_before": 53035,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:14:35.847Z",
+          "tokens_before": 54360,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:14:45.463Z",
+          "tokens_before": 55063,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:15:05.213Z",
+          "tokens_before": 55480,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:15:14.706Z",
+          "tokens_before": 53287,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:15:25.095Z",
+          "tokens_before": 53969,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:15:39.906Z",
+          "tokens_before": 54531,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:15:50.407Z",
+          "tokens_before": 52247,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:16:00.170Z",
+          "tokens_before": 52182,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:16:29.277Z",
+          "tokens_before": 57389,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:16:41.143Z",
+          "tokens_before": 49355,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:16:59.283Z",
+          "tokens_before": 51479,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:17:11.084Z",
+          "tokens_before": 47133,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:17:19.699Z",
+          "tokens_before": 47372,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:17:27.246Z",
+          "tokens_before": 47586,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:17:41.886Z",
+          "tokens_before": 47175,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:17:49.169Z",
+          "tokens_before": 47105,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:18:03.090Z",
+          "tokens_before": 47482,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:18:35.256Z",
+          "tokens_before": 53766,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:18:55.290Z",
+          "tokens_before": 47849,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:19:11.071Z",
+          "tokens_before": 50491,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:19:31.008Z",
+          "tokens_before": 49631,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:19:40.184Z",
+          "tokens_before": 49103,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:19:56.855Z",
+          "tokens_before": 51207,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:20:06.320Z",
+          "tokens_before": 49297,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:20:19.971Z",
+          "tokens_before": 50824,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:20:29.521Z",
+          "tokens_before": 49150,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:20:37.554Z",
+          "tokens_before": 49016,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:20:47.648Z",
+          "tokens_before": 47669,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:21:03.130Z",
+          "tokens_before": 49102,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T15:21:14.863Z",
+          "tokens_before": 46822,
+          "from_hook": false
+        }
+      ],
+      "by_model": {
+        "gemini-3.8-flash": {
+          "input": 4430693,
+          "output": 130370,
+          "cache_read": 8991907,
+          "cache_write": 0,
+          "cost_usd": 4.4863,
+          "priced": true
+        }
+      },
+      "unpriced_models": []
+    }
+  ],
+  "grand_total_cost_usd": 4.4863,
+  "grand_total_tokens": 13552970,
+  "prices": {
+    "file": "/Users/marcotiongson/skill-cost/prices.json",
+    "model_count": 3216,
+    "source": "BerriAI/litellm model_prices_and_context_window.json",
+    "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "source_license": "MIT",
+    "fetched_at": "2026-09-06T16:53:13Z"
+  },
+  "powered_by": "gaia",
+  "attribution": "Prices from BerriAI/litellm (MIT). skill-cost by Gaia Research (https://gaiaskilltree.com)."
+}
