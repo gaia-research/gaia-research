@@ -323,7 +323,7 @@ The orchestrator is a pi (or claude) agent running in the **controlling pane** o
 │   ORCHESTRATOR          │   BENCHMARK ARM          │
 │   (this agent)          │   pi → gemini-3.8-flash  │
 │                         │   :high                  │
-│   - edits models.json   │                          │
+│   - creates sandbox     │                          │
 │   - sends workload      │   (observable TUI:       │
 │     turns               │    context meter,        │
 │   - scrapes signals     │    compaction events,    │
@@ -333,7 +333,7 @@ The orchestrator is a pi (or claude) agent running in the **controlling pane** o
 └─────────────────────────┴──────────────────────────┘
 ```
 
-**Only one arm runs at a time.** Two concurrent arms would confuse the `models.json` setting (it's global). Arms are sequential.
+**Only one arm runs at a time.** Arms run sequentially to prevent Gemini API quota throttling and to ensure cache isolation (preventing cross-arm cache contamination).
 
 ### Orchestrator loop (per arm)
 
@@ -341,14 +341,14 @@ The orchestrator is a pi (or claude) agent running in the **controlling pane** o
 1. CREATE sandbox: source create-sandbox.sh $ARM $CONTEXT_WINDOW → PI_CODING_AGENT_DIR
 2. CREATE worktree: git worktree add /tmp/bench-arm-XXk --detach HEAD
 3. SPLIT pane: herdr pane split --current --direction right --cwd /tmp/bench-arm-XXk
-4. START agent: PI_CODING_AGENT_DIR=$SANDBOX_DIR herdr agent start arm-XXk --kind pi ...
+4. START agent: export PI_CODING_AGENT_DIR="$SANDBOX_DIR" in pane, then herdr agent start arm-XXk --kind pi ...
 5. VERIFY: herdr agent read arm-XXk → confirm context meter shows "X.X%/XXXk"
 6. FOR each turn T from 1 to MAX_TURNS:
    a. herdr agent prompt arm-XXk "<turn prompt>" --wait --timeout 300000
    b. herdr agent read arm-XXk → scrape signals (context %, compaction?, cache miss?)
    c. RECORD: { turn, timestamp, context_pct, tokens, cost, compaction_event, cache_miss }
    d. IF scenario requires idle: sleep $IDLE_SECONDS
-7. COLLECT session JSONL from sandbox sessions/ directory
+7. COLLECT session JSONL from agent metadata path and archive to data/sessions/
 8. RUN: python3 ~/skill-cost/cost.py --session <uuid> --json → authoritative cost
 9. ARCHIVE pane: herdr pane move $PANE --tab $ARCHIVE_TAB --split down
 10. CLEANUP worktree: git worktree remove /tmp/bench-arm-XXk
@@ -554,9 +554,9 @@ docs/plans/context-compaction-phase-2/
 
 The orchestrator agent picks up `scripts/compaction-bench/orchestrator-brief.md`. That document is the **executable dispatch brief** — it contains:
 
-1. Pre-flight checklist (verify herdr, verify pi version, verify models.json backup)
+1. Pre-flight checklist (verify herdr, verify pi version, verify sandbox creation)
 2. For each scenario × arm combination:
-   - Exact `models.json` to write
+   - Exact sandbox contextWindow to set
    - Exact workload file to use
    - Exact timing (which turns get idle delays)
    - Exact scraping commands to run after each turn
