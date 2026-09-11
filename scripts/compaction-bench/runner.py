@@ -228,8 +228,30 @@ def run_arm(scenario: int, arm: str, max_turns: int | None = None, skip_idle: bo
                 ]
             )
         )
-        session_path = start_res["result"]["agent"]["agent_session"]["value"]
-        session_id = os.path.basename(session_path).replace(".jsonl", "").split("_")[-1]
+        # Wait up to 15 seconds for herdr to discover agent_session
+        for _ in range(15):
+            try:
+                agent_meta = json.loads(subprocess.check_output(["herdr", "agent", "get", agent_name]))
+                sess = agent_meta.get("result", {}).get("agent", {}).get("agent_session")
+                if sess and isinstance(sess, dict) and sess.get("value"):
+                    session_path = sess["value"]
+                    session_id = os.path.basename(session_path).replace(".jsonl", "").split("_")[-1]
+                    break
+            except Exception:
+                pass
+            time.sleep(1)
+
+        if not session_path:
+            # Fallback: scan sandbox directory
+            sessions_dir = os.path.join(sandbox_dir, "sessions")
+            if os.path.exists(sessions_dir):
+                for root, _, files in os.walk(sessions_dir):
+                    for f in files:
+                        if f.endswith(".jsonl"):
+                            session_path = os.path.join(root, f)
+                            session_id = os.path.basename(f).replace(".jsonl", "").split("_")[-1]
+                            break
+
         log(f"Agent started. Session ID: {session_id}")
 
         # Wait for initial prompt readiness
