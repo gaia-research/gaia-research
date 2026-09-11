@@ -1,0 +1,74 @@
+{
+  "A-50k": {
+    "session_id": "01a090f3-d342-75e2-bd12-b21fc21c3913",
+    "cost_usd": 4.4863,
+    "total_tokens": 13552970,
+    "input_tokens": 4430693,
+    "output_tokens": 130370,
+    "cache_read_tokens": 8991907,
+    "compactions": 101
+  },
+  "A-100k": {
+    "session_id": "01a09118-b7e6-76a5-8d3b-1f3faf8a3ca0",
+    "cost_usd": 2.697593,
+    "total_tokens": 14775257,
+    "input_tokens": 1929675,
+    "output_tokens": 78073,
+    "cache_read_tokens": 12767509,
+    "compactions": 11
+  },
+  "A-150k": {
+    "session_id": "01a0912f-dfdf-75a4-8553-6440b0a64eb1",
+    "cost_usd": 3.392501,
+    "total_tokens": 22953974,
+    "input_tokens": 1813191,
+    "output_tokens": 121646,
+    "cache_read_tokens": 21019137,
+    "compactions": 3
+  },
+  "A-200k": {
+    "session_id": "01a09149-0f0d-716b-b238-0d0cd80affc6",
+    "cost_usd": 2.269342,
+    "total_tokens": 18474666,
+    "input_tokens": 968159,
+    "output_tokens": 62649,
+    "cache_read_tokens": 17443858,
+    "compactions": 1
+  },
+  "A-272k": {
+    "session_id": "01a0915c-1817-713d-b8b4-226154c5944c",
+    "cost_usd": 3.130127,
+    "total_tokens": 25874342,
+    "input_tokens": 1369994,
+    "output_tokens": 72056,
+    "cache_read_tokens": 24432292,
+    "compactions": 0
+  },
+  "A-500k": {
+    "session_id": "01a09202-5d41-77ca-9b2a-ed93ac0dabf9",
+    "cost_usd": 2.588619,
+    "total_tokens": 22628932,
+    "input_tokens": 908690,
+    "output_tokens": 75669,
+    "cache_read_tokens": 21644573,
+    "compactions": 0
+  },
+  "A-1M": {
+    "session_id": "01a09230-634b-71a7-9627-bb3016d7135d",
+    "cost_usd": 3.710361,
+    "total_tokens": 37005809,
+    "input_tokens": 1031066,
+    "output_tokens": 65022,
+    "cache_read_tokens": 35909721,
+    "compactions": 0
+  },
+  "A-disabled": {
+    "session_id": "01a09242-fd6b-74a5-9595-e0a2692c945b",
+    "cost_usd": 2.538364,
+    "total_tokens": 20600971,
+    "input_tokens": 948004,
+    "output_tokens": 96160,
+    "cache_read_tokens": 19556807,
+    "compactions": 0
+  }
+}
