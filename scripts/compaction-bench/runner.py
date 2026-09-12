@@ -40,7 +40,55 @@ SCENARIO_WORKLOADS = {
     6: {"file": "workloads/endurance.md", "fixture": "feature-repo", "turns": 50, "idles": {}},
 }
 
-ARCHIVE_TAB = "w7:t8"
+def check_agy_usage():
+    try:
+        out = subprocess.check_output(["agy", "-p", "/usage"], stderr=subprocess.DEVNULL).decode("utf-8")
+        clean = re.sub(r"\x1b\[[0-9;]*m", "", out)
+        five_hour, weekly = None, None
+        in_gemini = False
+        for line in clean.splitlines():
+            if "Gemini Models" in line:
+                in_gemini = True
+            elif "Claude & GPT Models" in line:
+                in_gemini = False
+            if in_gemini:
+                m_5h = re.search(r"Five-Hour Limit:\s*([0-9.]+)%", line)
+                if m_5h:
+                    five_hour = float(m_5h.group(1))
+                m_wk = re.search(r"Weekly Limit:\s*([0-9.]+)%", line)
+                if m_wk:
+                    weekly = float(m_wk.group(1))
+        return five_hour, weekly
+    except Exception:
+        return None, None
+
+
+def extract_last_turn_usage(session_path: str) -> dict:
+    if not os.path.exists(session_path):
+        return {}
+    last_assistant_msg = None
+    with open(session_path, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                evt = json.loads(line)
+                if evt.get("type") == "message" and evt.get("message", {}).get("role") == "assistant":
+                    last_assistant_msg = evt["message"]
+            except Exception:
+                pass
+
+    if last_assistant_msg:
+        usage = last_assistant_msg.get("usage", {})
+        return {
+            "input": usage.get("input", 0),
+            "output": usage.get("output", 0),
+            "cacheRead": usage.get("cacheRead", 0),
+            "reasoning": usage.get("reasoning", 0),
+        }
+    return {}
+
 
 
 def log(msg: str):
@@ -388,15 +436,236 @@ def run_arm(
     log(f"Arm {arm} for Scenario {scenario} complete.")
 
 
+WARMUP_COUNTS = {
+    "20k": 0,
+    "80k": 8,
+    "180k": 18,
+    "272k": 28,
+}
+
+MEASUREMENT_PROMPT = (
+    "Refactor src/data-pipeline/pipeline.ts from callback hell to modern async/await with typed errors. "
+    "Create src/data-pipeline/types.ts with PipelineError, FetchResult, TransformResult, and LoadResult. "
+    "Update pipeline.ts to return a Promise and wrap async calls in structured try/catch blocks. "
+    "Run npx tsc --noEmit to verify no type errors."
+)
+
+
+def run_scenario_3(size: str, rep: int) -> dict:
+    label = f"{size}-rep{rep}"
+    log(f"==================================================")
+    log(f"Starting Scenario 3, Run: {label} (Size: {size}, Rep: {rep})")
+    log(f"Model: antigravity/gemini-3.8-flash:high")
+    log(f"==================================================")
+
+    # 1. Quota Check
+    five_hour, weekly = check_agy_usage()
+    log(f"Gemini Models Quota: 5-Hour: {five_hour}% | Weekly: {weekly}%")
+    if five_hour is not None and five_hour < 10:
+        log(f"CRITICAL: 5-hour quota remaining ({five_hour}%) < 10%. Pausing before {label}.")
+        sys.exit(1)
+    if weekly is not None and weekly < 2:
+        log(f"CRITICAL: Weekly quota remaining ({weekly}%) < 2%. Pausing before {label}.")
+        sys.exit(1)
+
+    # 2. Setup Sandbox & Worktree
+    sandbox_script = os.path.join(REPO_ROOT, "scripts/compaction-bench/sandbox/create-sandbox.sh")
+    sandbox_out = subprocess.check_output(
+        ["bash", "-c", f"source '{sandbox_script}' 'A-272k' 272000 && echo SANDBOX_DIR=$SANDBOX_DIR"]
+    ).decode("utf-8")
+    m_sb = re.search(r"SANDBOX_DIR=(.*)", sandbox_out)
+    if not m_sb:
+        raise RuntimeError("Failed to resolve SANDBOX_DIR from create-sandbox.sh")
+    sandbox_dir = m_sb.group(1).strip()
+    log(f"Sandbox created at {sandbox_dir}")
+
+    worktree_dir = f"/tmp/compaction-bench-s3-{size}-r{rep}"
+    if os.path.exists(worktree_dir):
+        subprocess.run(["git", "worktree", "remove", worktree_dir, "--force"], stderr=subprocess.DEVNULL)
+        shutil.rmtree(worktree_dir, ignore_errors=True)
+
+    subprocess.check_call(["git", "worktree", "add", worktree_dir, "--detach", "HEAD"])
+    wt_node_modules = os.path.join(worktree_dir, "node_modules")
+    if not os.path.exists(wt_node_modules):
+        os.symlink(os.path.join(REPO_ROOT, "node_modules"), wt_node_modules)
+
+    fixture_dir = os.path.join(worktree_dir, "scripts/compaction-bench/fixtures/refactor-repo")
+
+    # 3. Create Herdr Pane (Explicitly split from w7:p3 in w7:t3)
+    res_pane = json.loads(
+        subprocess.check_output(
+            [
+                "herdr",
+                "pane",
+                "split",
+                "--pane",
+                "w7:p3",
+                "--direction",
+                "right",
+                "--ratio",
+                "0.45",
+                "--cwd",
+                fixture_dir,
+                "--env",
+                f"PI_CODING_AGENT_DIR={sandbox_dir}",
+            ]
+        )
+    )
+    pane_id = res_pane["result"]["pane"]["pane_id"]
+    log(f"Created visible Herdr pane {pane_id} in tab w7:t3")
+    subprocess.run(["herdr", "pane", "run", pane_id, f'export PI_CODING_AGENT_DIR="{sandbox_dir}"'], check=True)
+    time.sleep(1)
+
+    agent_name = f"s3-{size.lower()}-r{rep}-{int(time.time()) % 10000}"
+
+    # 4. Start Agent
+    log(f"Starting agent {agent_name} in visible pane {pane_id}...")
+    subprocess.run(
+        [
+            "herdr",
+            "agent",
+            "start",
+            agent_name,
+            "--kind",
+            "pi",
+            "--pane",
+            pane_id,
+            "--timeout",
+            "120000",
+            "--",
+            "--model",
+            "antigravity/gemini-3.8-flash:high",
+        ],
+        check=True,
+    )
+
+    session_path = None
+    for _ in range(15):
+        try:
+            agent_meta = json.loads(subprocess.check_output(["herdr", "agent", "get", agent_name]))
+            sess = agent_meta.get("result", {}).get("agent", {}).get("agent_session")
+            if sess and isinstance(sess, dict) and sess.get("value"):
+                session_path = sess["value"]
+                break
+        except Exception:
+            pass
+        time.sleep(1)
+
+    log(f"Agent running. Session path: {session_path}")
+    time.sleep(2)
+
+    try:
+        # 5. Warmup turns (if needed)
+        warmup_workload = parse_workload_turns(
+            os.path.join(REPO_ROOT, "scripts/compaction-bench/workloads/refactor.md")
+        )
+        warmup_count = WARMUP_COUNTS.get(size, 0)
+        for w_idx in range(1, warmup_count + 1):
+            w_prompt = warmup_workload.get(w_idx, f"Inspect codebase files and summarize structure step {w_idx}.")
+            log(f"[Warm-up {w_idx}/{warmup_count}] Sending prompt: {w_prompt[:60]}...")
+            wait_until_idle(agent_name)
+            subprocess.run(
+                ["herdr", "agent", "prompt", agent_name, w_prompt, "--wait", "--timeout", "300000"],
+                check=True,
+            )
+            sig = scrape_status_bar(agent_name)
+            log(
+                f"[Warm-up {w_idx}/{warmup_count}] Done | Context: {sig.get('context_pct')} | "
+                f"Tokens: ↑{sig.get('tokens_in')} ↓{sig.get('tokens_out')}"
+            )
+
+        # 6. Measurement turn
+        log(f"*** ISSUING MEASUREMENT TASK for {label} ***")
+        wait_until_idle(agent_name)
+        t_start = time.time()
+        subprocess.run(
+            ["herdr", "agent", "prompt", agent_name, MEASUREMENT_PROMPT, "--wait", "--timeout", "420000"],
+            check=True,
+        )
+        duration_sec = round(time.time() - t_start, 2)
+        signals = scrape_status_bar(agent_name)
+
+        time.sleep(2)
+        # Extract usage from session JSONL
+        if not session_path:
+            try:
+                agent_meta = json.loads(subprocess.check_output(["herdr", "agent", "get", agent_name]))
+                sess = agent_meta.get("result", {}).get("agent", {}).get("agent_session")
+                if sess and isinstance(sess, dict) and sess.get("value"):
+                    session_path = sess["value"]
+            except Exception:
+                pass
+
+        usage = extract_last_turn_usage(session_path) if session_path else {}
+        input_tokens = usage.get("input", 0)
+        cache_read = usage.get("cacheRead", 0)
+        total_context = input_tokens + cache_read
+        output_tokens = usage.get("output", 0)
+        reasoning_tokens = usage.get("reasoning", 0)
+        turn_cost = signals.get("turn_cost", 0.0)
+
+        log(
+            f"Measurement turn complete in {duration_sec}s! "
+            f"Context: {total_context:,} ({signals.get('context_pct')}) | "
+            f"Reasoning Tokens: {reasoning_tokens:,} | Output Tokens: {output_tokens:,} | Cost: ${turn_cost}"
+        )
+
+        # 7. Save incremental result and session file
+        archived_session = os.path.join(
+            REPO_ROOT, f"scripts/compaction-bench/data/sessions/session-s3-{size}-rep{rep}.jsonl"
+        )
+        if session_path and os.path.exists(session_path):
+            shutil.copyfile(session_path, archived_session)
+
+        run_result = {
+            "label": label,
+            "size": size,
+            "rep": rep,
+            "context_tokens": total_context,
+            "context_pct": signals.get("context_pct"),
+            "reasoning_tokens": reasoning_tokens,
+            "output_tokens": output_tokens,
+            "turn_cost": turn_cost,
+            "duration_sec": duration_sec,
+            "session_file": os.path.basename(archived_session),
+        }
+        inc_file = os.path.join(
+            REPO_ROOT, f"scripts/compaction-bench/data/runs/run-2026-09-13-s3-{size}-rep{rep}.json"
+        )
+        with open(inc_file, "w") as f:
+            json.dump(run_result, f, indent=2)
+
+        return run_result
+
+    finally:
+        # Move pane to archive
+        log(f"Moving completed pane {pane_id} to Archive tab {ARCHIVE_TAB}...")
+        try:
+            subprocess.run(
+                ["herdr", "pane", "move", pane_id, "--tab", ARCHIVE_TAB, "--split", "down", "--no-focus"],
+                check=True,
+            )
+        except Exception as e:
+            log(f"Warning moving pane {pane_id}: {e}")
+
+        # Cleanup worktree & sandbox
+        log("Cleaning up worktree and sandbox...")
+        subprocess.run(["git", "worktree", "remove", worktree_dir, "--force"], stderr=subprocess.DEVNULL)
+        shutil.rmtree(worktree_dir, ignore_errors=True)
+        shutil.rmtree(sandbox_dir, ignore_errors=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Context Compaction Phase 2 Runner")
     parser.add_argument("--scenario", type=int, required=True, choices=[1, 2, 3, 4, 6])
     parser.add_argument(
         "--arm",
         type=str,
-        required=True,
+        default="A-272k",
         choices=["A-50k", "A-100k", "A-150k", "A-200k", "A-272k", "A-500k", "A-1M", "A-disabled", "all"],
     )
+    parser.add_argument("--size", type=str, choices=["20k", "80k", "180k", "272k"])
+    parser.add_argument("--rep", type=int, choices=[1, 2, 3])
     parser.add_argument("--turns", type=int, default=None)
     parser.add_argument("--skip-idle", action="store_true")
     parser.add_argument("--resume-turn", type=int, default=None)
@@ -405,6 +674,15 @@ def main():
     parser.add_argument("--resume-sandbox", type=str, default=None)
     parser.add_argument("--resume-worktree", type=str, default=None)
     args = parser.parse_args()
+
+    if args.scenario == 3:
+        if args.size and args.rep:
+            run_scenario_3(args.size, args.rep)
+            return
+        else:
+            log("Scenario 3 requires --size and --rep (e.g. --size 20k --rep 2)")
+            sys.exit(1)
+
 
     arms = (
         ["A-50k", "A-100k", "A-150k", "A-200k", "A-272k", "A-500k", "A-1M", "A-disabled"]
