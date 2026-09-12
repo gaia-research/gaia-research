@@ -1,0 +1,12 @@
+{
+  "label": "180k-rep2",
+  "size": "180k",
+  "rep": 2,
+  "context_tokens": 171275,
+  "context_pct": "63.5%/272k",
+  "reasoning_tokens": 287,
+  "output_tokens": 1362,
+  "turn_cost": 0.373,
+  "duration_sec": 48.02,
+  "session_file": "session-s3-180k-rep2.jsonl"
+}
