@@ -47,22 +47,42 @@ def check_agy_usage():
         out = subprocess.check_output(["agy", "-p", "/usage"], stderr=subprocess.DEVNULL).decode("utf-8")
         clean = re.sub(r"\x1b\[[0-9;]*m", "", out)
         five_hour, weekly = None, None
-        in_gemini = False
+        reset_time_5h = None
         for line in clean.splitlines():
-            if "Gemini Models" in line:
-                in_gemini = True
-            elif "Claude & GPT Models" in line:
-                in_gemini = False
-            if in_gemini:
-                m_5h = re.search(r"Five-Hour Limit:\s*([0-9.]+)%", line)
-                if m_5h:
-                    five_hour = float(m_5h.group(1))
-                m_wk = re.search(r"Weekly Limit:\s*([0-9.]+)%", line)
-                if m_wk:
-                    weekly = float(m_wk.group(1))
-        return five_hour, weekly
+            parts = [p.strip() for p in line.split("\t") if p.strip()]
+            if len(parts) >= 3 and parts[0] == "Gemini Models":
+                if "Five Hour Limit" in parts[1]:
+                    five_hour = float(parts[2].replace("%", ""))
+                    if len(parts) >= 4:
+                        reset_time_5h = parts[3]
+                elif "Weekly Limit" in parts[1]:
+                    weekly = float(parts[2].replace("%", ""))
+        return five_hour, weekly, reset_time_5h
     except Exception:
-        return None, None
+        return None, None, None
+
+
+def schedule_replenishment_cron(reset_time_str: str):
+    if not reset_time_str:
+        log("No reset time string available to schedule cron.")
+        return
+    try:
+        reset_dt = datetime.datetime.fromisoformat(reset_time_str.replace("Z", "+00:00"))
+        local_dt = reset_dt.astimezone()
+        # Schedule cron 1 minute after reset time to ensure quota is active
+        fire_dt = local_dt + datetime.timedelta(minutes=1)
+        cron_expr = f"{fire_dt.minute} {fire_dt.hour} {fire_dt.day} {fire_dt.month} * /Users/marcotiongson/gaia-research/scripts/compaction-bench/resume-scenario3.sh"
+
+        cron_file = "/tmp/compaction-bench-replenish.cron"
+        with open(cron_file, "w") as f:
+            f.write(f"# Replenishment cron for Context Compaction Scenario 3\n{cron_expr}\n")
+
+        subprocess.run(["crontab", cron_file], check=True)
+        log(f"Replenishment cron successfully scheduled: {cron_expr}")
+        log(f"Scheduled fire time: {fire_dt.strftime('%Y-%m-%d %H:%M:%S %Z')}")
+    except Exception as e:
+        log(f"Failed to schedule replenishment cron: {e}")
+
 
 
 def extract_last_turn_usage(session_path: str) -> dict:
@@ -483,14 +503,16 @@ def run_scenario_3(size: str, rep: int) -> dict:
     log(f"==================================================")
 
     # 1. Quota Check
-    five_hour, weekly = check_agy_usage()
-    log(f"Gemini Models Quota: 5-Hour: {five_hour}% | Weekly: {weekly}%")
-    if five_hour is not None and five_hour < 10:
-        log(f"CRITICAL: 5-hour quota remaining ({five_hour}%) < 10%. Pausing before {label}.")
-        sys.exit(1)
-    if weekly is not None and weekly < 2:
-        log(f"CRITICAL: Weekly quota remaining ({weekly}%) < 2%. Pausing before {label}.")
-        sys.exit(1)
+    five_hour, weekly, reset_time = check_agy_usage()
+    log(f"Gemini Models Quota: 5-Hour: {five_hour}% | Weekly: {weekly}% | Reset: {reset_time}")
+    if five_hour is not None and five_hour < 7.0:
+        log(f"CRITICAL: 5-hour quota remaining ({five_hour}%) < 7%. Scheduling replenishment cron and pausing.")
+        schedule_replenishment_cron(reset_time)
+        sys.exit(0)
+    if weekly is not None and weekly < 7.0:
+        log(f"CRITICAL: Weekly quota remaining ({weekly}%) < 7%. Scheduling replenishment cron and pausing.")
+        schedule_replenishment_cron(reset_time)
+        sys.exit(0)
 
     # 2. Setup Sandbox & Worktree
     sandbox_script = os.path.join(REPO_ROOT, "scripts/compaction-bench/sandbox/create-sandbox.sh")
@@ -672,8 +694,110 @@ def run_scenario_3(size: str, rep: int) -> dict:
         shutil.rmtree(sandbox_dir, ignore_errors=True)
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Context Compaction Phase 2 Runner")
+ALL_S3_RUNS = [
+    ("20k", 1), ("20k", 2), ("20k", 3),
+    ("80k", 1), ("80k", 2), ("80k", 3),
+    ("180k", 1), ("180k", 2), ("180k", 3),
+    ("272k", 1), ("272k", 2), ("272k", 3),
+]
+
+
+def fit_reasoning_scaling_curve():
+    import numpy as np
+    log("Fitting reasoning token power law curve: T = a * L^beta ...")
+    data_points = []
+    summary_results = []
+    for size, rep in ALL_S3_RUNS:
+        inc_file = os.path.join(
+            REPO_ROOT, f"scripts/compaction-bench/data/runs/run-2026-09-13-s3-{size}-rep{rep}.json"
+        )
+        if os.path.exists(inc_file):
+            with open(inc_file) as f:
+                d = json.load(f)
+                summary_results.append(d)
+                L = d["context_tokens"]
+                T = max(1, d["reasoning_tokens"])
+                data_points.append((L, T))
+
+    if len(data_points) >= 4:
+        log_L = np.log([p[0] for p in data_points])
+        log_T = np.log([p[1] for p in data_points])
+        poly = np.polyfit(log_L, log_T, 1)
+        beta = float(poly[0])
+        a = float(np.exp(poly[1]))
+        log(f"Fitted Power Law: T = {a:.4f} * L^{beta:.4f}")
+    else:
+        beta = None
+        a = None
+
+    summary_out = {
+        "scenario": 3,
+        "description": "Reasoning Token Inflation across Context Lengths",
+        "model": "antigravity/gemini-3.8-flash:high",
+        "power_law_fit": {
+            "equation": "T = a * L^beta",
+            "a": a,
+            "beta": beta,
+        },
+        "runs": summary_results,
+    }
+    out_file = os.path.join(REPO_ROOT, "scripts/compaction-bench/data/summary/reasoning-tokens.json")
+    with open(out_file, "w") as f:
+        json.dump(summary_out, f, indent=2)
+    log(f"Saved reasoning tokens summary to {out_file}")
+
+
+def run_scenario_3_remaining():
+    log("Checking remaining Scenario 3 runs...")
+    completed = []
+    to_run = []
+    for size, rep in ALL_S3_RUNS:
+        inc_file = os.path.join(
+            REPO_ROOT, f"scripts/compaction-bench/data/runs/run-2026-09-13-s3-{size}-rep{rep}.json"
+        )
+        if os.path.exists(inc_file):
+            completed.append(f"{size}-rep{rep}")
+        else:
+            to_run.append((size, rep))
+
+    log(f"Completed runs ({len(completed)}/12): {', '.join(completed)}")
+    log(f"Remaining runs ({len(to_run)}/12): {[f'{s}-rep{r}' for s, r in to_run]}")
+
+    if not to_run:
+        log("All 12 runs of Scenario 3 are complete!")
+        fit_reasoning_scaling_curve()
+        return
+
+    for idx, (size, rep) in enumerate(to_run):
+        # 1. Quota check
+        five_hour, weekly, reset_time = check_agy_usage()
+        log(f"Pre-flight Quota Check: 5-Hour: {five_hour}% | Weekly: {weekly}% | Reset: {reset_time}")
+        if (five_hour is not None and five_hour < 7.0) or (weekly is not None and weekly < 7.0):
+            log(f"Quota threshold reached (<7%). Pausing and scheduling replenishment cron for {reset_time}.")
+            schedule_replenishment_cron(reset_time)
+            return
+
+        # 2. Run the arm
+        run_scenario_3(size, rep)
+
+        # 3. Check if more runs remain, sleep 300s cooldown
+        if idx < len(to_run) - 1:
+            log("Sleeping 300s cache isolation cooldown before next run...")
+            time.sleep(300)
+
+    # Check if all runs are now complete
+    all_done = True
+    for size, rep in ALL_S3_RUNS:
+        inc_file = os.path.join(
+            REPO_ROOT, f"scripts/compaction-bench/data/runs/run-2026-09-13-s3-{size}-rep{rep}.json"
+        )
+        if not os.path.exists(inc_file):
+            all_done = False
+            break
+
+    if all_done:
+        fit_reasoning_scaling_curve()
+
     parser.add_argument("--scenario", type=int, required=True, choices=[1, 2, 3, 4, 6])
     parser.add_argument(
         "--arm",
@@ -690,15 +814,20 @@ def main():
     parser.add_argument("--resume-agent", type=str, default=None)
     parser.add_argument("--resume-sandbox", type=str, default=None)
     parser.add_argument("--resume-worktree", type=str, default=None)
+    parser.add_argument("--auto-remaining", action="store_true")
     args = parser.parse_args()
 
     if args.scenario == 3:
-        if args.size and args.rep:
+        if args.auto_remaining:
+            run_scenario_3_remaining()
+            return
+        elif args.size and args.rep:
             run_scenario_3(args.size, args.rep)
             return
         else:
-            log("Scenario 3 requires --size and --rep (e.g. --size 20k --rep 2)")
+            log("Scenario 3 requires --size and --rep or --auto-remaining")
             sys.exit(1)
+
 
 
     arms = (

@@ -117,9 +117,9 @@ Only when all turns of an arm are finished:
   - [x] **80k-rep1**: COMPLETED. Context: 80.2k | Reasoning Tokens: 127 | Total Output: 1,123 | Cost: $0.111
   - [x] **80k-rep2**: COMPLETED. Context: 55.8k | Reasoning Tokens: 22 | Total Output: 292 | Cost: $0.084
   - [x] **80k-rep3**: COMPLETED. Context: 82.0k | Reasoning Tokens: 19 | Total Output: 409 | Cost: $0.111
-  - [ ] **180k-rep1**: NEXT (Ready to launch)
-  - [ ] 180k-rep2
-  - [ ] 180k-rep3
+  - [x] **180k-rep1**: COMPLETED. Context: 152.4k | Reasoning Tokens: 242 | Total Output: 1,337 | Cost: $0.334
+  - [x] **180k-rep2**: COMPLETED. Context: 171.3k | Reasoning Tokens: 287 | Total Output: 1,362 | Cost: $0.373
+  - [ ] **180k-rep3**: NEXT (Ready to launch)
   - [ ] 272k-rep1
   - [ ] 272k-rep2
   - [ ] 272k-rep3
