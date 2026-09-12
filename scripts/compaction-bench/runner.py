@@ -40,6 +40,8 @@ SCENARIO_WORKLOADS = {
     6: {"file": "workloads/endurance.md", "fixture": "feature-repo", "turns": 50, "idles": {}},
 }
 
+ARCHIVE_TAB = "w7:t8"
+
 def check_agy_usage():
     try:
         out = subprocess.check_output(["agy", "-p", "/usage"], stderr=subprocess.DEVNULL).decode("utf-8")
