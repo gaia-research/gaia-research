@@ -104,8 +104,8 @@ Only when all turns of an arm are finished:
 - [ ] Scenario 1: Cache-Cold Return (8 runs):
   - [x] **A-50k**: COMPLETED (20 turns). Cost: $1.253571 | Tokens: 3,774,556 | Compactions: 15 | Cache Read: 2.52M | Session: `01a094cb-5a6f-7096-9cc5-51457135d5e0`
   - [x] **A-100k**: COMPLETED (20 turns). Cost: $0.847080 | Tokens: 3,957,431 | Compactions: 1 | Cache Read: 3.28M | Session: `01a094f8-36e8-76b5-ac3e-96510db0aac2`
-  - [ ] **A-150k**: NEXT (Ready to launch after cache cooldown: `scripts/compaction-bench/runner.py --scenario 1 --arm A-150k`)
-  - [ ] A-200k
+  - [x] **A-150k**: COMPLETED (20 turns). Cost: $0.806749 | Tokens: 3,915,425 | Compactions: 0 | Cache Read: 3.25M | Session: `01a09524-c9cd-72bd-b61a-cad1ac281691`
+  - [ ] **A-200k**: NEXT (Ready to launch after cache cooldown: `scripts/compaction-bench/runner.py --scenario 1 --arm A-200k`)
   - [ ] A-272k
   - [ ] A-500k
   - [ ] A-1M
