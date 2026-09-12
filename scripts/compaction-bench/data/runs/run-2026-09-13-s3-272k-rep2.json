@@ -1,0 +1,12 @@
+{
+  "label": "272k-rep2",
+  "size": "272k",
+  "rep": 2,
+  "context_tokens": 145926,
+  "context_pct": "54.3%/272k",
+  "reasoning_tokens": 170,
+  "output_tokens": 1739,
+  "turn_cost": 0.427,
+  "duration_sec": 17.0,
+  "session_file": "session-s3-272k-rep2.jsonl"
+}
