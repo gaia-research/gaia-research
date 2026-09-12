@@ -408,13 +408,26 @@ def main():
         log(f">>> Executing Run: {label} (Size: {size}, Rep: {rep}) <<<")
 
         # 2. Setup Sandbox & Worktree
-        sandbox_dir = f"/tmp/compaction-bench-sandbox-s3-{size}-r{rep}"
+        sandbox_script = os.path.join(REPO_ROOT, "scripts/compaction-bench/sandbox/create-sandbox.sh")
+        sandbox_out = subprocess.check_output(
+            ["bash", "-c", f"source '{sandbox_script}' 'A-272k' 272000 && echo SANDBOX_DIR=$SANDBOX_DIR"]
+        ).decode("utf-8")
+        m_sb = re.search(r"SANDBOX_DIR=(.*)", sandbox_out)
+        if not m_sb:
+            raise RuntimeError("Failed to resolve SANDBOX_DIR from create-sandbox.sh")
+        sandbox_dir = m_sb.group(1).strip()
+        log(f"Sandbox created at {sandbox_dir}")
+
         worktree_dir = f"/tmp/compaction-bench-s3-{size}-r{rep}"
+        if os.path.exists(worktree_dir):
+            subprocess.run(["git", "worktree", "remove", worktree_dir, "--force"], stderr=subprocess.DEVNULL)
+            shutil.rmtree(worktree_dir, ignore_errors=True)
 
-        create_sb_script = os.path.join(REPO_ROOT, "scripts/compaction-bench/sandbox/create-sandbox.sh")
-        run_cmd([create_sb_script, "A-272k", sandbox_dir])
+        subprocess.check_call(["git", "worktree", "add", worktree_dir, "--detach", "HEAD"])
+        wt_node_modules = os.path.join(worktree_dir, "node_modules")
+        if not os.path.exists(wt_node_modules):
+            os.symlink(os.path.join(REPO_ROOT, "node_modules"), wt_node_modules)
 
-        run_cmd(["git", "worktree", "add", worktree_dir, "--detach", "HEAD"])
         target_fixture = os.path.join(worktree_dir, "scripts/compaction-bench/fixtures/refactor-repo")
 
         # 3. Create Herdr Pane
@@ -515,7 +528,24 @@ def main():
 
         # 7. Extract Exact Usage & Reasoning Tokens
         time.sleep(2)
-        usage = extract_last_turn_usage(session_path)
+        if not session_path:
+            try:
+                agent_meta = json.loads(subprocess.check_output(["herdr", "agent", "get", agent_name]))
+                sess = agent_meta.get("result", {}).get("agent", {}).get("agent_session")
+                if sess and isinstance(sess, dict) and sess.get("value"):
+                    session_path = sess["value"]
+            except Exception:
+                pass
+        if not session_path:
+            sessions_dir = os.path.join(sandbox_dir, "sessions")
+            if os.path.exists(sessions_dir):
+                for root, _, files in os.walk(sessions_dir):
+                    for f in files:
+                        if f.endswith(".jsonl"):
+                            session_path = os.path.join(root, f)
+                            break
+        log(f"Extracting usage from session: {session_path}")
+        usage = extract_last_turn_usage(session_path) if session_path else {}
         input_tokens = usage.get("input", 0)
         cache_read = usage.get("cacheRead", 0)
         total_context = input_tokens + cache_read
