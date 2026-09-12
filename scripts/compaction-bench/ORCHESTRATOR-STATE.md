@@ -113,8 +113,8 @@ Only when all turns of an arm are finished:
 - [ ] Scenario 3: Reasoning Token Inflation (12 runs: 4 sizes × 3 reps):
   - [x] **20k-rep1**: COMPLETED. Context: 90.7k | Reasoning Tokens: 47 | Total Output: 548 | Cost: $0.109
   - [x] **20k-rep2**: COMPLETED. Context: 60.5k | Reasoning Tokens: 27 | Total Output: 467 | Cost: $0.063
-  - [ ] **20k-rep3**: NEXT (Ready to launch)
-  - [ ] 80k-rep1
+  - [x] **20k-rep3**: COMPLETED. Context: 111.8k | Reasoning Tokens: 295 | Total Output: 776 | Cost: $0.075
+  - [ ] **80k-rep1**: NEXT (Ready to launch)
   - [ ] 80k-rep2
   - [ ] 80k-rep3
   - [ ] 180k-rep1
