@@ -53,3 +53,4 @@ scripts/.hh-demo/
 scripts/compaction-bench/__pycache__/
 scripts/compaction-bench/data/watchdog.log
 scripts/compaction-bench/data/cron-scenario-2.log
+scripts/compaction-bench/data/scenario-1.log
