@@ -798,6 +798,9 @@ def run_scenario_3_remaining():
     if all_done:
         fit_reasoning_scaling_curve()
 
+
+def main():
+    parser = argparse.ArgumentParser(description="Context Compaction Phase 2 Runner")
     parser.add_argument("--scenario", type=int, required=True, choices=[1, 2, 3, 4, 6])
     parser.add_argument(
         "--arm",
