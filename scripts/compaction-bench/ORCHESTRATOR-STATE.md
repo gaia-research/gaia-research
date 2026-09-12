@@ -122,7 +122,15 @@ Only when all turns of an arm are finished:
   - [x] **180k-rep3**: COMPLETED. Context: 169.4k | Reasoning Tokens: 38 | Total Output: 1,549 | Cost: $0.444
   - [x] **272k-rep1**: COMPLETED. Context: 254.8k | Reasoning Tokens: 224 | Total Output: 2,335 | Cost: $0.661
   - [x] **272k-rep2**: COMPLETED. Context: 145.9k | Reasoning Tokens: 170 | Total Output: 1,739 | Cost: $0.427
-  - [ ] **272k-rep3**: NEXT (Ready to launch)
+  - [x] **272k-rep3**: COMPLETED. Context: 219.5k | Reasoning Tokens: 183 | Total Output: 2,151 | Cost: $0.551
+
+**Scenario 3 Complete!** Power Law Fit: $T = 2.525 \times 10^{-6} \cdot L^{1.4897}$ ($\beta \approx 1.49$). Summary: `scripts/compaction-bench/data/summary/reasoning-tokens.json`.
+
+---
+
+## Next Action
+Launch **Scenario 6 (1M Endurance)** across target arms or close sub-issue #228.
+
   - [ ] 272k-rep2
   - [ ] 272k-rep3
 - [ ] Scenario 6: 1M Endurance (1 run).
