@@ -129,9 +129,7 @@ Only when all turns of an arm are finished:
 ---
 
 ## Next Action
-Launch **Scenario 6 (1M Endurance)** across target arms or close sub-issue #228.
-
-  - [ ] 272k-rep2
-  - [ ] 272k-rep3
-- [ ] Scenario 6: 1M Endurance (1 run).
+Launch **Scenario 6 (1M Endurance)**:
+- [x] Crontab scheduled for `07:39 AM` (September 13, 2026, +2h 56m after quota reset) executing `scripts/compaction-bench/run-scenario6.sh`.
+- [ ] Scenario 6 execution & verification (50 turns, `A-disabled`, 1M window).
 - [ ] Post-hoc Scenario 5 & Analysis (`analyze.ts`).
