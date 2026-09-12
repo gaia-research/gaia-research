@@ -111,8 +111,8 @@ Only when all turns of an arm are finished:
   - [x] **A-1M**: COMPLETED (20 turns). Cost: $0.814173 | Tokens: 3,903,396 | Compactions: 0 | Cache Read: 3.26M | Session: `01a095d4-9f41-7581-aa2f-db6c4441b3d3`
   - [x] **A-disabled**: COMPLETED (20 turns). Cost: $0.788504 | Tokens: 4,425,631 | Compactions: 0 | Cache Read: 3.92M | Session: `01a09601-5985-7108-9e30-412286dd9ccb`
 - [ ] Scenario 3: Reasoning Token Inflation (12 runs: 4 sizes × 3 reps):
-  - [ ] **20k-rep1**: NEXT (Ready to launch)
-  - [ ] 20k-rep2
+  - [x] **20k-rep1**: COMPLETED. Context: 90.7k | Reasoning Tokens: 47 | Total Output: 548
+  - [ ] **20k-rep2**: NEXT (Ready to launch)
   - [ ] 20k-rep3
   - [ ] 80k-rep1
   - [ ] 80k-rep2
