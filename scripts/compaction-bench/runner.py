@@ -177,10 +177,10 @@ def wait_until_idle(agent_name: str, max_wait_sec: int = 60):
     return False
 
 
-def prompt_agent_with_retry(agent_name: str, prompt: str, timeout_sec: int = 300, max_retries: int = 3):
+def prompt_agent_with_retry(agent_name: str, prompt: str, timeout_sec: int = 300, max_retries: int = 5):
     for attempt in range(1, max_retries + 1):
         wait_until_idle(agent_name)
-        time.sleep(1.5)
+        time.sleep(3)
         try:
             res = subprocess.check_output(
                 ["herdr", "agent", "prompt", agent_name, prompt, "--wait", "--timeout", str(timeout_sec * 1000)],
@@ -190,11 +190,12 @@ def prompt_agent_with_retry(agent_name: str, prompt: str, timeout_sec: int = 300
         except subprocess.CalledProcessError as e:
             err_msg = e.output.decode("utf-8", errors="replace")
             log(f"Prompt attempt {attempt} failed: {err_msg.strip()}")
-            if ("agent_prompt_stalled" in err_msg or "timed out" in err_msg) and attempt < max_retries:
-                log("Retrying prompt in 3s...")
-                time.sleep(3)
+            if attempt < max_retries:
+                log("Sleeping 5s for terminal to settle before retry...")
+                time.sleep(5)
                 continue
             raise
+
 
 
 
@@ -592,6 +593,7 @@ def run_scenario_3(size: str, rep: int) -> dict:
                 f"[Warm-up {w_idx}/{warmup_count}] Done | Context: {sig.get('context_pct')} | "
                 f"Tokens: ↑{sig.get('tokens_in')} ↓{sig.get('tokens_out')}"
             )
+            time.sleep(3)
 
         # 6. Measurement turn
         log(f"*** ISSUING MEASUREMENT TASK for {label} ***")
