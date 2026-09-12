@@ -67,13 +67,7 @@ WARMUP_PROMPTS = [
     "Draft a comprehensive summary of best practices for resilient, high-throughput TypeScript data pipelines.",
 ]
 
-MEASUREMENT_PROMPT = """Refactor `src/data-pipeline/pipeline.ts` from callback hell to modern async/await in TypeScript.
-Specifically:
-1. Create `src/data-pipeline/types.ts` containing `PipelineError`, `FetchResult`, `TransformResult`, and `LoadResult`.
-2. Refactor `pipeline.ts` so that `runPipeline(config, callback)` becomes `async function runPipeline(config: PipelineConfig): Promise<PipelineResult>`.
-3. Wrap all asynchronous operations in structured try/catch blocks with custom typed error instances.
-4. Implement the changes directly in the codebase and verify the implementation with `npx tsc --noEmit`.
-5. Summarize your reasoning and verify that no callback patterns remain."""
+MEASUREMENT_PROMPT = "Refactor src/data-pipeline/pipeline.ts from callback hell to modern async/await with typed errors. Create src/data-pipeline/types.ts with PipelineError, FetchResult, TransformResult, and LoadResult. Update pipeline.ts to return a Promise and wrap async calls in structured try/catch blocks. Run npx tsc --noEmit to verify no type errors."
 
 
 def log(msg: str):
@@ -112,13 +106,13 @@ def check_agy_usage() -> dict:
     return res
 
 
-def wait_until_idle(agent_name: str, timeout_sec: int = 300) -> bool:
+def wait_until_idle(agent_name: str, timeout_sec: int = 60) -> bool:
     t0 = time.time()
     while time.time() - t0 < timeout_sec:
         try:
             out = subprocess.check_output(["herdr", "agent", "get", agent_name])
             data = json.loads(out)
-            status = data.get("result", {}).get("agent", {}).get("status")
+            status = data.get("result", {}).get("agent", {}).get("agent_status")
             if status in ("idle", "waiting"):
                 return True
         except Exception:
