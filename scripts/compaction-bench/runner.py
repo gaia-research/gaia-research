@@ -171,10 +171,31 @@ def wait_until_idle(agent_name: str, max_wait_sec: int = 60):
     while time.time() - start < max_wait_sec:
         out = json.loads(subprocess.check_output(["herdr", "agent", "get", agent_name]))
         status = out.get("result", {}).get("agent", {}).get("agent_status")
-        if status == "idle":
+        if status in ("idle", "done"):
             return True
         time.sleep(1)
     return False
+
+
+def prompt_agent_with_retry(agent_name: str, prompt: str, timeout_sec: int = 300, max_retries: int = 3):
+    for attempt in range(1, max_retries + 1):
+        wait_until_idle(agent_name)
+        time.sleep(1.5)
+        try:
+            res = subprocess.check_output(
+                ["herdr", "agent", "prompt", agent_name, prompt, "--wait", "--timeout", str(timeout_sec * 1000)],
+                stderr=subprocess.STDOUT,
+            )
+            return res
+        except subprocess.CalledProcessError as e:
+            err_msg = e.output.decode("utf-8", errors="replace")
+            log(f"Prompt attempt {attempt} failed: {err_msg.strip()}")
+            if ("agent_prompt_stalled" in err_msg or "timed out" in err_msg) and attempt < max_retries:
+                log("Retrying prompt in 3s...")
+                time.sleep(3)
+                continue
+            raise
+
 
 
 def run_arm(
@@ -565,11 +586,7 @@ def run_scenario_3(size: str, rep: int) -> dict:
         for w_idx in range(1, warmup_count + 1):
             w_prompt = warmup_workload.get(w_idx, f"Inspect codebase files and summarize structure step {w_idx}.")
             log(f"[Warm-up {w_idx}/{warmup_count}] Sending prompt: {w_prompt[:60]}...")
-            wait_until_idle(agent_name)
-            subprocess.run(
-                ["herdr", "agent", "prompt", agent_name, w_prompt, "--wait", "--timeout", "300000"],
-                check=True,
-            )
+            prompt_agent_with_retry(agent_name, w_prompt, timeout_sec=300)
             sig = scrape_status_bar(agent_name)
             log(
                 f"[Warm-up {w_idx}/{warmup_count}] Done | Context: {sig.get('context_pct')} | "
@@ -578,12 +595,8 @@ def run_scenario_3(size: str, rep: int) -> dict:
 
         # 6. Measurement turn
         log(f"*** ISSUING MEASUREMENT TASK for {label} ***")
-        wait_until_idle(agent_name)
         t_start = time.time()
-        subprocess.run(
-            ["herdr", "agent", "prompt", agent_name, MEASUREMENT_PROMPT, "--wait", "--timeout", "420000"],
-            check=True,
-        )
+        prompt_agent_with_retry(agent_name, MEASUREMENT_PROMPT, timeout_sec=420)
         duration_sec = round(time.time() - t_start, 2)
         signals = scrape_status_bar(agent_name)
 
