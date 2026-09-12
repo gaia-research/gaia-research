@@ -32,15 +32,19 @@
     "sharp": "^0.35.3"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/js-yaml": "^4.0.9",
     "@types/katex": "^0.16.8",
     "@types/node": "^22.15.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
+    "@types/supertest": "^7.2.1",
     "esbuild": "^0.28.1",
     "js-yaml": "^5.2.1",
+    "supertest": "^7.2.2",
     "typescript": "^5.8.0",
     "vitest": "^4.1.10",
-    "wrangler": "^4.110.0"
+    "wrangler": "^4.110.0",
+    "zod": "^4.6.2"
   }
 }
