@@ -101,7 +101,7 @@ Only when all turns of an arm are finished:
   - [x] **A-500k**: COMPLETED (30 turns). Cost: $2.588619 | Tokens: 22,628,932 | Compactions: 0 | Cache Read: 21.64M | Session: `01a09202-5d41-77ca-9b2a-ed93ac0dabf9`
   - [x] **A-1M**: COMPLETED (30 turns). Cost: $3.710361 | Tokens: 37,005,809 | Compactions: 0 | Cache Read: 35.91M | Session: `01a09230-634b-71a7-9627-bb3016d7135d`
   - [x] **A-disabled**: COMPLETED (30 turns). Cost: $2.538364 | Tokens: 20,600,971 | Compactions: 0 | Cache Read: 19.56M | Session: `01a09242-fd6b-74a5-9595-e0a2692c945b`
-- [ ] Scenario 1: Cache-Cold Return (8 runs):
+- [x] Scenario 1: Cache-Cold Return (8 runs):
   - [x] **A-50k**: COMPLETED (20 turns). Cost: $1.253571 | Tokens: 3,774,556 | Compactions: 15 | Cache Read: 2.52M | Session: `01a094cb-5a6f-7096-9cc5-51457135d5e0`
   - [x] **A-100k**: COMPLETED (20 turns). Cost: $0.847080 | Tokens: 3,957,431 | Compactions: 1 | Cache Read: 3.28M | Session: `01a094f8-36e8-76b5-ac3e-96510db0aac2`
   - [x] **A-150k**: COMPLETED (20 turns). Cost: $0.806749 | Tokens: 3,915,425 | Compactions: 0 | Cache Read: 3.25M | Session: `01a09524-c9cd-72bd-b61a-cad1ac281691`
@@ -109,7 +109,7 @@ Only when all turns of an arm are finished:
   - [x] **A-272k**: COMPLETED (20 turns). Cost: $0.764701 | Tokens: 3,864,491 | Compactions: 0 | Cache Read: 3.26M | Session: `01a0957c-0483-76d7-beaf-de97bfd88863`
   - [x] **A-500k**: COMPLETED (20 turns). Cost: $0.912749 | Tokens: 4,104,948 | Compactions: 0 | Cache Read: 3.33M | Session: `01a095a8-62ef-71b5-a006-86198adcb860`
   - [x] **A-1M**: COMPLETED (20 turns). Cost: $0.814173 | Tokens: 3,903,396 | Compactions: 0 | Cache Read: 3.26M | Session: `01a095d4-9f41-7581-aa2f-db6c4441b3d3`
-  - [ ] **A-disabled**: NEXT (Ready to launch after cache cooldown: `scripts/compaction-bench/runner.py --scenario 1 --arm A-disabled`)
+  - [x] **A-disabled**: COMPLETED (20 turns). Cost: $0.788504 | Tokens: 4,425,631 | Compactions: 0 | Cache Read: 3.92M | Session: `01a09601-5985-7108-9e30-412286dd9ccb`
 - [ ] Scenario 3: Reasoning Token Inflation (12 runs).
 - [ ] Scenario 6: 1M Endurance (1 run).
 - [ ] Post-hoc Scenario 5 & Analysis (`analyze.ts`).
