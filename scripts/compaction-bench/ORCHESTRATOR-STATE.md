@@ -110,6 +110,18 @@ Only when all turns of an arm are finished:
   - [x] **A-500k**: COMPLETED (20 turns). Cost: $0.912749 | Tokens: 4,104,948 | Compactions: 0 | Cache Read: 3.33M | Session: `01a095a8-62ef-71b5-a006-86198adcb860`
   - [x] **A-1M**: COMPLETED (20 turns). Cost: $0.814173 | Tokens: 3,903,396 | Compactions: 0 | Cache Read: 3.26M | Session: `01a095d4-9f41-7581-aa2f-db6c4441b3d3`
   - [x] **A-disabled**: COMPLETED (20 turns). Cost: $0.788504 | Tokens: 4,425,631 | Compactions: 0 | Cache Read: 3.92M | Session: `01a09601-5985-7108-9e30-412286dd9ccb`
-- [ ] Scenario 3: Reasoning Token Inflation (12 runs).
+- [ ] Scenario 3: Reasoning Token Inflation (12 runs: 4 sizes × 3 reps):
+  - [ ] **20k-rep1**: NEXT (Ready to launch)
+  - [ ] 20k-rep2
+  - [ ] 20k-rep3
+  - [ ] 80k-rep1
+  - [ ] 80k-rep2
+  - [ ] 80k-rep3
+  - [ ] 180k-rep1
+  - [ ] 180k-rep2
+  - [ ] 180k-rep3
+  - [ ] 272k-rep1
+  - [ ] 272k-rep2
+  - [ ] 272k-rep3
 - [ ] Scenario 6: 1M Endurance (1 run).
 - [ ] Post-hoc Scenario 5 & Analysis (`analyze.ts`).
