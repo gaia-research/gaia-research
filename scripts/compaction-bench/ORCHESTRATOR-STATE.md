@@ -107,8 +107,8 @@ Only when all turns of an arm are finished:
   - [x] **A-150k**: COMPLETED (20 turns). Cost: $0.806749 | Tokens: 3,915,425 | Compactions: 0 | Cache Read: 3.25M | Session: `01a09524-c9cd-72bd-b61a-cad1ac281691`
   - [x] **A-200k**: COMPLETED (20 turns). Cost: $0.690534 | Tokens: 3,272,386 | Compactions: 0 | Cache Read: 2.71M | Session: `01a09550-7ce0-7344-91eb-1cf334762723`
   - [x] **A-272k**: COMPLETED (20 turns). Cost: $0.764701 | Tokens: 3,864,491 | Compactions: 0 | Cache Read: 3.26M | Session: `01a0957c-0483-76d7-beaf-de97bfd88863`
-  - [ ] **A-500k**: NEXT (Ready to launch after cache cooldown: `scripts/compaction-bench/runner.py --scenario 1 --arm A-500k`)
-  - [ ] A-1M
+  - [x] **A-500k**: COMPLETED (20 turns). Cost: $0.912749 | Tokens: 4,104,948 | Compactions: 0 | Cache Read: 3.33M | Session: `01a095a8-62ef-71b5-a006-86198adcb860`
+  - [ ] **A-1M**: NEXT (Ready to launch after cache cooldown: `scripts/compaction-bench/runner.py --scenario 1 --arm A-1M`)
   - [ ] A-disabled
 - [ ] Scenario 3: Reasoning Token Inflation (12 runs).
 - [ ] Scenario 6: 1M Endurance (1 run).
