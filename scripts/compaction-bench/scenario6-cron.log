@@ -1,0 +1,177 @@
+[2026-09-13 07:39:01] Scenario 6 cron triggered. Starting 1M Endurance Test...
+[2026-09-13 07:39:01] ==================================================
+[2026-09-13 07:39:01] Starting Scenario 6, Arm A-disabled
+[2026-09-13 07:39:01] Context Window: 1048576 | Compaction: DISABLED
+[2026-09-13 07:39:01] Workload: workloads/endurance.md (50 turns)
+[2026-09-13 07:39:01] Logging ticks to: /Users/marcotiongson/gaia-research/scripts/compaction-bench/data/runs/run-2026-09-13-A-disabled-scenario-6.jsonl
+[2026-09-13 07:39:01] ==================================================
+[2026-09-13 07:39:01] Sandbox created at /tmp/compaction-bench-sandbox-A-disabled
+Preparing worktree (detached HEAD bc7d256)
+Updating files:  28% (343/1219)Updating files:  29% (354/1219)Updating files:  30% (366/1219)Updating files:  31% (378/1219)Updating files:  32% (391/1219)Updating files:  33% (403/1219)Updating files:  34% (415/1219)Updating files:  35% (427/1219)Updating files:  36% (439/1219)Updating files:  37% (452/1219)Updating files:  38% (464/1219)Updating files:  39% (476/1219)Updating files:  40% (488/1219)Updating files:  41% (500/1219)Updating files:  42% (512/1219)Updating files:  43% (525/1219)Updating files:  44% (537/1219)Updating files:  45% (549/1219)Updating files:  46% (561/1219)Updating files:  47% (573/1219)Updating files:  48% (586/1219)Updating files:  49% (598/1219)Updating files:  50% (610/1219)Updating files:  51% (622/1219)Updating files:  52% (634/1219)Updating files:  53% (647/1219)Updating files:  54% (659/1219)Updating files:  55% (671/1219)Updating files:  56% (683/1219)Updating files:  57% (695/1219)Updating files:  58% (708/1219)Updating files:  59% (720/1219)Updating files:  60% (732/1219)Updating files:  61% (744/1219)Updating files:  62% (756/1219)Updating files:  63% (768/1219)Updating files:  64% (781/1219)Updating files:  65% (793/1219)Updating files:  66% (805/1219)Updating files:  67% (817/1219)Updating files:  68% (829/1219)Updating files:  69% (842/1219)Updating files:  70% (854/1219)Updating files:  71% (866/1219)Updating files:  72% (878/1219)Updating files:  72% (882/1219)Updating files:  73% (890/1219)Updating files:  74% (903/1219)Updating files:  75% (915/1219)Updating files:  76% (927/1219)Updating files:  77% (939/1219)Updating files:  78% (951/1219)Updating files:  79% (964/1219)Updating files:  80% (976/1219)Updating files:  81% (988/1219)Updating files:  82% (1000/1219)Updating files:  83% (1012/1219)Updating files:  84% (1024/1219)Updating files:  85% (1037/1219)Updating files:  86% (1049/1219)Updating files:  87% (1061/1219)Updating files:  88% (1073/1219)Updating files:  89% (1085/1219)Updating files:  90% (1098/1219)Updating files:  91% (1110/1219)Updating files:  92% (1122/1219)Updating files:  93% (1134/1219)Updating files:  94% (1146/1219)Updating files:  95% (1159/1219)Updating files:  96% (1171/1219)Updating files:  97% (1183/1219)Updating files:  98% (1195/1219)Updating files:  99% (1207/1219)Updating files: 100% (1219/1219)Updating files: 100% (1219/1219), done.
+HEAD is now at bc7d256 docs(bench): update orchestrator state with Scenario 6 cron schedule
+[2026-09-13 07:39:05] Worktree prepared at /tmp/compaction-bench-A-disabled-s6/scripts/compaction-bench/fixtures/feature-repo
+[2026-09-13 07:39:05] Created Herdr pane w7:p3J
+[2026-09-13 07:39:07] Starting agent a-disabled-s6-6347...
+[2026-09-13 07:39:10] Agent started. Session ID: 01a097fd-31a0-757a-9f60-561c5f687975
+[2026-09-13 07:39:12] Initial context meter: 0.0%/1
+[2026-09-13 07:39:12] --- Turn 1/50 ---
+[2026-09-13 07:39:12] Prompt (179 chars): Read the project structure. You are building a **Task Queue system** — an in-mem...
+[2026-09-13 07:39:39] Turn 1 completed in 26.92s | Ctx: 2.7%/1 | In: 68k | Out: 3.3k | Cost: $0.013
+[2026-09-13 07:39:39] --- Turn 2/50 ---
+[2026-09-13 07:39:39] Prompt (256 chars): Create `src/queue/types.ts` with these types: `Task`, `TaskStatus`, `TaskPriorit...
+[2026-09-13 07:40:21] Turn 2 completed in 41.76s | Ctx: 6.0%/1 | In: 129k | Out: 9.5k | Cost: $0.034
+[2026-09-13 07:40:21] --- Turn 3/50 ---
+[2026-09-13 07:40:21] Prompt (184 chars): Create `src/queue/task-queue.ts` — the core priority queue. Implement `enqueue(t...
+[2026-09-13 07:40:39] Turn 3 completed in 18.07s | Ctx: 6.5%/1 | In: 143k | Out: 14k | Cost: $0.042
+[2026-09-13 07:40:39] --- Turn 4/50 ---
+[2026-09-13 07:40:39] Prompt (99 chars): Write tests for the task queue: enqueue/dequeue order, priority ordering, empty ...
+[2026-09-13 07:40:56] Turn 4 completed in 17.18s | Ctx: 6.9%/1 | In: 170k | Out: 17k | Cost: $0.056
+[2026-09-13 07:40:56] --- Turn 5/50 ---
+[2026-09-13 07:40:56] Prompt (24 chars): Run tests. Fix failures....
+[2026-09-13 07:41:02] Turn 5 completed in 6.0s | Ctx: 6.9%/1 | In: 183k | Out: 17k | Cost: $0.062
+[2026-09-13 07:41:02] --- Turn 6/50 ---
+[2026-09-13 07:41:02] Prompt (165 chars): Create `src/queue/worker.ts` — a Worker that processes tasks. It takes a `handle...
+[2026-09-13 07:41:19] Turn 6 completed in 17.07s | Ctx: 7.3%/1 | In: 202k | Out: 21k | Cost: $0.073
+[2026-09-13 07:41:19] --- Turn 7/50 ---
+[2026-09-13 07:41:19] Prompt (122 chars): Add retry logic to the Worker: if a task fails and `attempts < maxAttempts`, re-...
+[2026-09-13 07:41:40] Turn 7 completed in 20.54s | Ctx: 7.9%/1 | In: 224k | Out: 26k | Cost: $0.084
+[2026-09-13 07:41:40] --- Turn 8/50 ---
+[2026-09-13 07:41:40] Prompt (111 chars): Write tests for the Worker: successful processing, retry on failure, give up aft...
+[2026-09-13 07:41:57] Turn 8 completed in 16.91s | Ctx: 8.3%/1 | In: 248k | Out: 30k | Cost: $0.096
+[2026-09-13 07:41:57] --- Turn 9/50 ---
+[2026-09-13 07:41:57] Prompt (24 chars): Run tests. Fix failures....
+[2026-09-13 07:42:04] Turn 9 completed in 6.89s | Ctx: 8.4%/1 | In: 258k | Out: 30k | Cost: $0.104
+[2026-09-13 07:42:04] --- Turn 10/50 ---
+[2026-09-13 07:42:04] Prompt (130 chars): Create `src/queue/worker-pool.ts` — a WorkerPool that manages N workers. Impleme...
+[2026-09-13 07:42:28] Turn 10 completed in 23.92s | Ctx: 9.1%/1 | In: 279k | Out: 37k | Cost: $0.117
+[2026-09-13 07:42:28] --- Turn 11/50 ---
+[2026-09-13 07:42:28] Prompt (86 chars): Write tests for WorkerPool: start 3 workers, scale up to 5, scale down to 2, sto...
+[2026-09-13 07:42:49] Turn 11 completed in 21.19s | Ctx: 9.5%/1 | In: 305k | Out: 39k | Cost: $0.137
+[2026-09-13 07:42:49] --- Turn 12/50 ---
+[2026-09-13 07:42:49] Prompt (24 chars): Run tests. Fix failures....
+[2026-09-13 07:42:56] Turn 12 completed in 7.2s | Ctx: 9.5%/1 | In: 319k | Out: 40k | Cost: $0.146
+[2026-09-13 07:42:56] --- Turn 13/50 ---
+[2026-09-13 07:42:56] Prompt (154 chars): Create `src/queue/dead-letter-queue.ts` — tasks that exceeded maxAttempts go her...
+[2026-09-13 07:43:15] Turn 13 completed in 19.03s | Ctx: 10.0%/1 | In: 338k | Out: 44k | Cost: $0.159
+[2026-09-13 07:43:15] --- Turn 14/50 ---
+[2026-09-13 07:43:15] Prompt (119 chars): Wire the dead-letter queue into the Worker: when a task exceeds maxAttempts, mov...
+[2026-09-13 07:43:39] Turn 14 completed in 23.47s | Ctx: 10.5%/1 | In: 364k | Out: 48k | Cost: $0.177
+[2026-09-13 07:43:39] --- Turn 15/50 ---
+[2026-09-13 07:43:39] Prompt (105 chars): Write tests for DLQ integration: task fails 3 times → appears in DLQ → retry mov...
+[2026-09-13 07:43:53] Turn 15 completed in 14.44s | Ctx: 10.8%/1 | In: 384k | Out: 51k | Cost: $0.19
+[2026-09-13 07:43:53] --- Turn 16/50 ---
+[2026-09-13 07:43:53] Prompt (28 chars): Run all tests. Fix failures....
+[2026-09-13 07:44:01] Turn 16 completed in 7.17s | Ctx: 10.8%/1 | In: 400k | Out: 51k | Cost: $0.2
+[2026-09-13 07:44:01] --- Turn 17/50 ---
+[2026-09-13 07:44:01] Prompt (188 chars): Create `src/routes/queue-api.ts` — REST API:
+- `POST /api/v1/tasks` — enqueue a ...
+[2026-09-13 07:44:33] Turn 17 completed in 32.33s | Ctx: 11.5%/1 | In: 436k | Out: 57k | Cost: $0.232
+[2026-09-13 07:44:33] --- Turn 18/50 ---
+[2026-09-13 07:44:33] Prompt (242 chars): Add more API routes:
+- `GET /api/v1/queue/stats` — queue depth, active workers, ...
+[2026-09-13 07:44:58] Turn 18 completed in 24.77s | Ctx: 12.3%/1 | In: 467k | Out: 64k | Cost: $0.253
+[2026-09-13 07:44:58] --- Turn 19/50 ---
+[2026-09-13 07:44:58] Prompt (91 chars): Write integration tests for the REST API: enqueue a task, poll for completion, c...
+[2026-09-13 07:45:19] Turn 19 completed in 21.48s | Ctx: 12.8%/1 | In: 481k | Out: 68k | Cost: $0.269
+[2026-09-13 07:45:19] --- Turn 20/50 ---
+[2026-09-13 07:45:19] Prompt (28 chars): Run all tests. Fix failures....
+[2026-09-13 07:45:27] Turn 20 completed in 7.46s | Ctx: 12.8%/1 | In: 491k | Out: 68k | Cost: $0.28
+[2026-09-13 07:45:27] --- Turn 21/50 ---
+[2026-09-13 07:45:27] Prompt (142 chars): Add task scheduling: `POST /api/v1/tasks` accepts an optional `scheduledAt` time...
+[2026-09-13 07:45:56] Turn 21 completed in 28.72s | Ctx: 13.7%/1 | In: 516k | Out: 76k | Cost: $0.302
+[2026-09-13 07:45:56] --- Turn 22/50 ---
+[2026-09-13 07:45:56] Prompt (102 chars): Implement a `Scheduler` class that checks for due tasks every second and moves t...
+[2026-09-13 07:46:10] Turn 22 completed in 14.31s | Ctx: 13.9%/1 | In: 531k | Out: 78k | Cost: $0.315
+[2026-09-13 07:46:10] --- Turn 23/50 ---
+[2026-09-13 07:46:10] Prompt (141 chars): Write tests for scheduling: schedule a task 2 seconds in the future, verify it's...
+[2026-09-13 07:46:34] Turn 23 completed in 23.59s | Ctx: 14.3%/1 | In: 560k | Out: 82k | Cost: $0.341
+[2026-09-13 07:46:34] --- Turn 24/50 ---
+[2026-09-13 07:46:34] Prompt (28 chars): Run all tests. Fix failures....
+[2026-09-13 07:46:44] Turn 24 completed in 9.79s | Ctx: 14.3%/1 | In: 577k | Out: 82k | Cost: $0.353
+[2026-09-13 07:46:44] --- Turn 25/50 ---
+[2026-09-13 07:46:44] Prompt (139 chars): Add task dependencies: a task can declare `dependsOn: string[]` (task IDs). It s...
+[2026-09-13 07:47:06] Turn 25 completed in 22.61s | Ctx: 14.8%/1 | In: 606k | Out: 85k | Cost: $0.376
+[2026-09-13 07:47:06] --- Turn 26/50 ---
+[2026-09-13 07:47:06] Prompt (97 chars): Write tests for task dependencies: task B depends on task A, B is not dequeued u...
+[2026-09-13 07:47:25] Turn 26 completed in 18.73s | Ctx: 15.1%/1 | In: 625k | Out: 88k | Cost: $0.394
+[2026-09-13 07:47:25] --- Turn 27/50 ---
+[2026-09-13 07:47:25] Prompt (28 chars): Run all tests. Fix failures....
+[2026-09-13 07:47:35] Turn 27 completed in 10.04s | Ctx: 15.1%/1 | In: 641k | Out: 88k | Cost: $0.407
+[2026-09-13 07:47:35] --- Turn 28/50 ---
+[2026-09-13 07:47:35] Prompt (153 chars): Add metrics: track `tasksProcessed`, `tasksFailed`, `avgProcessingTimeMs`, `queu...
+[2026-09-13 07:48:24] Turn 28 completed in 48.76s | Ctx: 16.3%/1 | In: 700k | Out: 97k | Cost: $0.47
+[2026-09-13 07:48:24] --- Turn 29/50 ---
+[2026-09-13 07:48:24] Prompt (69 chars): Write tests for metrics: process 5 tasks, verify counts and avg time....
+[2026-09-13 07:48:42] Turn 29 completed in 17.67s | Ctx: 16.6%/1 | In: 714k | Out: 100k | Cost: $0.489
+[2026-09-13 07:48:42] --- Turn 30/50 ---
+[2026-09-13 07:48:42] Prompt (48 chars): Run all tests. Report total count and pass rate....
+[2026-09-13 07:48:51] Turn 30 completed in 9.6s | Ctx: 16.7%/1 | In: 725k | Out: 100k | Cost: $0.503
+[2026-09-13 07:48:51] --- Turn 31/50 ---
+[2026-09-13 07:48:51] Prompt (91 chars): Add rate limiting to the API: max 100 requests per minute per IP. Return 429 whe...
+[2026-09-13 07:49:14] Turn 31 completed in 23.08s | Ctx: 17.1%/1 | In: 749k | Out: 103k | Cost: $0.533
+[2026-09-13 07:49:14] --- Turn 32/50 ---
+[2026-09-13 07:49:14] Prompt (30 chars): Write tests for rate limiting....
+[2026-09-13 07:49:48] Turn 32 completed in 33.48s | Ctx: 17.5%/1 | In: 786k | Out: 107k | Cost: $0.578
+[2026-09-13 07:49:48] --- Turn 33/50 ---
+[2026-09-13 07:49:48] Prompt (28 chars): Run all tests. Fix failures....
+[2026-09-13 07:49:59] Turn 33 completed in 11.36s | Ctx: 17.5%/1 | In: 799k | Out: 107k | Cost: $0.593
+[2026-09-13 07:49:59] --- Turn 34/50 ---
+[2026-09-13 07:49:59] Prompt (165 chars): Refactor: extract the in-memory storage into a `TaskStore` interface. Create `In...
+[2026-09-13 07:50:21] Turn 34 completed in 21.46s | Ctx: 18.0%/1 | In: 817k | Out: 111k | Cost: $0.615
+[2026-09-13 07:50:21] --- Turn 35/50 ---
+[2026-09-13 07:50:21] Prompt (74 chars): Update all code to use `TaskStore` interface instead of direct Map access....
+[2026-09-13 07:50:49] Turn 35 completed in 28.4s | Ctx: 18.6%/1 | In: 848k | Out: 115k | Cost: $0.652
+[2026-09-13 07:50:49] --- Turn 36/50 ---
+[2026-09-13 07:50:49] Prompt (36 chars): Run all tests. Verify nothing broke....
+[2026-09-13 07:51:00] Turn 36 completed in 10.21s | Ctx: 18.7%/1 | In: 856k | Out: 115k | Cost: $0.668
+[2026-09-13 07:51:00] --- Turn 37/50 ---
+[2026-09-13 07:51:00] Prompt (132 chars): Add graceful shutdown: `WorkerPool.stop()` should wait for in-progress tasks to ...
+[2026-09-13 07:51:26] Turn 37 completed in 26.52s | Ctx: 19.1%/1 | In: 879k | Out: 118k | Cost: $0.705
+[2026-09-13 07:51:26] --- Turn 38/50 ---
+[2026-09-13 07:51:26] Prompt (113 chars): Write tests for graceful shutdown: start a slow task, call stop(), verify the ta...
+[2026-09-13 07:51:44] Turn 38 completed in 17.52s | Ctx: 19.4%/1 | In: 901k | Out: 121k | Cost: $0.728
+[2026-09-13 07:51:44] --- Turn 39/50 ---
+[2026-09-13 07:51:44] Prompt (28 chars): Run all tests. Fix failures....
+[2026-09-13 07:51:55] Turn 39 completed in 10.94s | Ctx: 19.5%/1 | In: 908k | Out: 121k | Cost: $0.744
+[2026-09-13 07:51:55] --- Turn 40/50 ---
+[2026-09-13 07:51:55] Prompt (49 chars): Add JSDoc to all public APIs in the queue system....
+[2026-09-13 07:53:18] Turn 40 completed in 83.33s | Ctx: 21.4%/1 | In: 1.0M | Out: 134k | Cost: $0.875
+[2026-09-13 07:53:18] --- Turn 41/50 ---
+[2026-09-13 07:53:18] Prompt (36 chars): Add JSDoc to all API route handlers....
+[2026-09-13 07:53:58] Turn 41 completed in 40.1s | Ctx: 22.3%/1 | In: 1.0M | Out: 140k | Cost: $0.937
+[2026-09-13 07:53:58] --- Turn 42/50 ---
+[2026-09-13 07:53:58] Prompt (44 chars): Run `npx tsc --noEmit`. Fix any type errors....
+[2026-09-13 07:54:11] Turn 42 completed in 12.5s | Ctx: 22.3%/1 | In: 1.1M | Out: 140k | Cost: $0.956
+[2026-09-13 07:54:11] --- Turn 43/50 ---
+[2026-09-13 07:54:11] Prompt (117 chars): Write a comprehensive README documenting the Task Queue system: architecture, AP...
+[2026-09-13 07:54:39] Turn 43 completed in 28.04s | Ctx: 22.8%/1 | In: 1.1M | Out: 145k | Cost: $0.989
+[2026-09-13 07:54:39] --- Turn 44/50 ---
+[2026-09-13 07:54:39] Prompt (84 chars): Review the entire codebase. List 5 improvements you would make if you had more t...
+[2026-09-13 07:54:48] Turn 44 completed in 8.66s | Ctx: 23.0%/1 | In: 1.1M | Out: 147k | Cost: $0.997
+[2026-09-13 07:54:48] --- Turn 45/50 ---
+[2026-09-13 07:54:48] Prompt (85 chars): Are there any files with more than 200 lines? If so, split them into smaller mod...
+[2026-09-13 07:56:51] Turn 45 completed in 123.38s | Ctx: 24.9%/1 | In: 1.2M | Out: 164k | Cost: $1.182
+[2026-09-13 07:56:51] --- Turn 46/50 ---
+[2026-09-13 07:56:51] Prompt (53 chars): Run all tests one final time. Report the total count....
+[2026-09-13 07:57:05] Turn 46 completed in 13.39s | Ctx: 25.0%/1 | In: 1.2M | Out: 164k | Cost: $1.203
+[2026-09-13 07:57:05] --- Turn 47/50 ---
+[2026-09-13 07:57:05] Prompt (77 chars): Generate a dependency graph: which files import which other files? List them....
+[2026-09-13 07:57:20] Turn 47 completed in 15.04s | Ctx: 25.3%/1 | In: 1.2M | Out: 166k | Cost: $1.217
+[2026-09-13 07:57:20] --- Turn 48/50 ---
+[2026-09-13 07:57:20] Prompt (137 chars): Write a migration guide: if someone wanted to replace `InMemoryTaskStore` with a...
+[2026-09-13 07:57:32] Turn 48 completed in 12.31s | Ctx: 25.6%/1 | In: 1.2M | Out: 170k | Cost: $1.226
+[2026-09-13 07:57:32] --- Turn 49/50 ---
+[2026-09-13 07:57:32] Prompt (74 chars): List every file you created or modified in this session, with line counts....
+[2026-09-13 07:57:47] Turn 49 completed in 14.94s | Ctx: 25.9%/1 | In: 1.2M | Out: 172k | Cost: $1.248
+[2026-09-13 07:57:47] --- Turn 50/50 ---
+[2026-09-13 07:57:47] Prompt (42 chars): Say "BENCHMARK COMPLETE" and nothing else....
+[2026-09-13 07:57:50] Turn 50 completed in 3.2s | Ctx: 25.9%/1 | In: 1.3M | Out: 172k | Cost: $1.255
+[2026-09-13 07:57:50] All 50 turns completed for A-disabled-s6.
+[2026-09-13 07:57:50] Archiving session and calculating authoritative cost...
+[2026-09-13 07:57:50] Copied session to /Users/marcotiongson/gaia-research/scripts/compaction-bench/data/sessions/session-A-disabled-s6.jsonl
+[2026-09-13 07:58:43] Authoritative Cost: $4.766416 | Tokens: 43,870,789
+[2026-09-13 07:58:43] Moving worker pane w7:p3J to Archive tab w7:t8...
+{"id":"cli:pane:move","result":{"move_result":{"changed":true,"focused_pane_id":"w7:p3C","pane":{"agent":"pi","agent_session":{"agent":"pi","kind":"path","source":"herdr:pi","value":"/tmp/compaction-bench-sandbox-A-disabled/sessions/--private-tmp-compaction-bench-A-disabled-s6-scripts-compaction-bench-fixtures-feature-repo--/2026-09-12T23-39-08-065Z_01a097fd-31a0-757a-9f60-561c5f687975.jsonl"},"agent_status":"done","cwd":"/private/tmp/compaction-bench-A-disabled-s6/scripts/compaction-bench/fixtures/feature-repo","focused":false,"foreground_cwd":"/private/tmp/compaction-bench-A-disabled-s6/scripts/compaction-bench/fixtures/feature-repo","pane_id":"w7:p3J","revision":1,"scroll":{"max_offset_from_bottom":0,"offset_from_bottom":0,"viewport_rows":41},"tab_id":"w7:t8","terminal_id":"term_65b51b4e7c2da82","terminal_title":"π - feature-repo","terminal_title_stripped":"π - feature-repo","workspace_id":"w7"},"previous_pane_id":"w7:p3J","previous_tab_id":"w7:t3","previous_workspace_id":"w7","source_layout":{"area":{"height":43,"width":143,"x":34,"y":1},"focused_pane_id":"w7:p3","panes":[{"focused":true,"pane_id":"w7:p3","rect":{"height":43,"width":143,"x":34,"y":1}}],"splits":[],"tab_id":"w7:t3","workspace_id":"w7","zoomed":false},"target_layout":{"area":{"height":43,"width":143,"x":34,"y":1},"focused_pane_id":"w7:p3C","panes":[{"focused":false,"pane_id":"w7:pR","rect":{"height":1,"width":143,"x":34,"y":1}},{"focused":false,"pane_id":"w7:p2Y","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2X","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2W","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2V","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2T","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":true,"pane_id":"w7:p3C","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p3J","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p3H","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p3F","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p39","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p3A","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p34","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p37","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p35","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2Z","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2Q","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2N","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2J","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2H","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2G","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2F","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2E","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2D","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2C","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p2B","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p29","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p14","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p28","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p27","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p26","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p25","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p24","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p23","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p22","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p21","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p10","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p1Z","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p1Y","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p1X","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p1W","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p1V","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p1T","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p1R","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p1M","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p13","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p12","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p0","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:p11","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:pZ","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:pY","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:pX","rect":{"height":0,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:pP","rect":{"height":1,"width":143,"x":34,"y":2}},{"focused":false,"pane_id":"w7:pS","rect":{"height":1,"width":143,"x":34,"y":3}},{"focused":false,"pane_id":"w7:pW","rect":{"height":3,"width":143,"x":34,"y":4}},{"focused":false,"pane_id":"w7:pT","rect":{"height":5,"width":143,"x":34,"y":7}},{"focused":false,"pane_id":"w7:pV","rect":{"height":11,"width":143,"x":34,"y":12}},{"focused":false,"pane_id":"w7:pQ","rect":{"height":21,"width":143,"x":34,"y":23}}],"splits":[{"direction":"down","id":"split_0_root","ratio":0.5,"rect":{"height":43,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_1_0","ratio":0.5,"rect":{"height":22,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_2_00","ratio":0.5,"rect":{"height":11,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_3_000","ratio":0.5,"rect":{"height":6,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_4_0000","ratio":0.5,"rect":{"height":3,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_5_00000","ratio":0.5,"rect":{"height":2,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_6_000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_7_0000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_8_00000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_9_000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_10_0000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_11_00000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_12_000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_13_0000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_14_00000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_15_000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_16_0000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_17_00000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_18_000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_19_0000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_20_00000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_21_000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_22_0000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_23_00000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_24_000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_25_0000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_26_00000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_27_000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_28_0000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_29_00000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_30_000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_31_0000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_32_00000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_33_000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_34_0000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_35_00000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_36_000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_37_0000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_38_00000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_39_000000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_40_0000000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_41_00000000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_42_000000000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_43_0000000000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_44_00000000000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_45_000000000000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_46_0000000000000000000000000000000000000000000000","ratio":0.5,"rect":{"height":1,"width":143,"x":34,"y":1}},{"direction":"down","id":"split_47_0000000000000000000000000000000000000000001","ratio":0.5,"rect":{"height":0,"width":143,"x":34,"y":2}},{"direction":"down","id":"split_48_00000000000000000000000000000000000000000010","ratio":0.5,"rect":{"height":0,"width":143,"x":34,"y":2}},{"direction":"down","id":"split_49_000000000000000000000000000000000000000000100","ratio":0.5,"rect":{"height":0,"width":143,"x":34,"y":2}},{"direction":"down","id":"split_50_0000000000000000000000000000000000000000001000","ratio":0.5,"rect":{"height":0,"width":143,"x":34,"y":2}},{"direction":"down","id":"split_51_00000000000000000000000000000000000000000010000","ratio":0.5,"rect":{"height":0,"width":143,"x":34,"y":2}},{"direction":"down","id":"split_52_000000000000000000000000000000000000000000100000","ratio":0.5,"rect":{"height":0,"width":143,"x":34,"y":2}},{"direction":"down","id":"split_53_0000000000000000000000000000000000000000001000000","ratio":0.5,"rect":{"height":0,"width":143,"x":34,"y":2}},{"direction":"down","id":"split_54_00000000000000000000000000000000000000000010000001","ratio":0.5,"rect":{"height":0,"width":143,"x":34,"y":2}},{"direction":"down","id":"split_55_000000000000000000000000000000000000000000100000010","ratio":0.5,"rect":{"height":0,"width":143,"x":34,"y":2}},{"direction":"down","id":"split_56_0000000000000000000000000000000000000000001000000100","ratio":0.5,"rect":{"height":0,"width":143,"x":34,"y":2}}],"tab_id":"w7:t8","workspace_id":"w7","zoomed":false}},"type":"pane_move"}}
+[2026-09-13 07:58:43] Cleaning up worktree /tmp/compaction-bench-A-disabled-s6...
+[2026-09-13 07:58:45] Cleaning up sandbox /tmp/compaction-bench-sandbox-A-disabled...
+[2026-09-13 07:58:45] Arm A-disabled for Scenario 6 complete.
