@@ -103,6 +103,15 @@ export default function ContextCompactionPhase2Page() {
           </div>
 
           <nav className="latex-paper-links" aria-label="Preprint references and links">
+            <a
+              href="/reports/context-compaction-phase-2/gaia-tr-2026-09-02.pdf"
+              download="GAIA-TR-2026-09-02-Context-Compaction.pdf"
+              target="_blank"
+              rel="noreferrer"
+              style={{ borderColor: "var(--pink)", color: "var(--pink)", fontWeight: 600 }}
+            >
+              Download Official A4 PDF (Tectonic) ↓
+            </a>
             <Link href="/blog/context-compaction-phase-2">Read Executive Blog Post →</Link>
             <Link href="/research">← Back to Research Ledger</Link>
             <a
