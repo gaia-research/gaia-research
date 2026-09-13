@@ -1091,8 +1091,8 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
 
 .latex-pdf-frame {
   width: 100%;
-  max-width: 210mm;
-  height: 960px;
+  max-width: 100%;
+  height: 1100px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 4px;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
@@ -1483,14 +1483,25 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
 }
 
 /* ─── Web View (Single Column) Styles ─── */
+.web-single-column-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.web-single-column-container .report-body,
 .web-single-column .report-body {
-  max-width: 76ch;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
   columns: 1 !important;
   column-rule: none !important;
   text-align: left;
 }
 
+.web-single-column-container .report-body h2,
+.web-single-column-container .report-body h3,
+.web-single-column-container .report-body h4,
 .web-single-column .report-body h2,
 .web-single-column .report-body h3,
 .web-single-column .report-body h4 {
@@ -1498,13 +1509,26 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
   break-inside: avoid;
 }
 
+.web-single-column-container .report-body p,
 .web-single-column .report-body p {
-  margin: 0 0 1.05rem;
-  font-size: 0.95rem;
-  line-height: 1.72;
+  margin: 0 0 1.15rem;
+  font-size: 1rem;
+  line-height: 1.75;
   color: #e2e8f0;
+  max-width: 88ch;
 }
 
+.web-single-column-container .report-body ul,
+.web-single-column-container .report-body ol,
+.web-single-column .report-body ul,
+.web-single-column .report-body ol {
+  max-width: 88ch;
+  margin: 0.75rem 0 1.25rem 1.5rem;
+  color: #cbd5e1;
+  line-height: 1.65;
+}
+
+.web-single-column-container .report-body h2,
 .web-single-column .report-body h2 {
   font-family: var(--display), sans-serif;
   font-size: 1.45rem;
@@ -1512,19 +1536,82 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #f8fafc;
-  margin: 2.25rem 0 0.85rem;
-  padding-top: 1.25rem;
+  margin: 2.5rem 0 0.85rem;
+  padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.web-single-column-container .report-body h3,
 .web-single-column .report-body h3 {
   font-family: var(--mono), monospace;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--blue);
-  margin: 1.75rem 0 0.65rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.web-single-column-container .academic-table-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 2rem 0;
+  overflow-x: auto;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(11, 12, 19, 0.85);
+  -webkit-overflow-scrolling: touch;
+}
+
+.web-single-column-container .report-body table,
+.web-single-column-container .academic-paper-table {
+  width: max-content !important;
+  min-width: 100% !important;
+  table-layout: auto !important;
+  border-collapse: collapse;
+  font-family: var(--mono), monospace;
+  font-size: 0.82rem;
+  background: transparent;
+  border: none;
+  margin: 0;
+}
+
+.web-single-column-container .academic-paper-table th,
+.web-single-column-container .report-body th {
+  background: rgba(15, 23, 42, 0.95);
+  color: #f1f5f9;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.85rem 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap !important;
+  text-align: left;
+}
+
+.web-single-column-container .academic-paper-table th:last-child,
+.web-single-column-container .report-body th:last-child {
+  border-right: none;
+}
+
+.web-single-column-container .academic-paper-table td,
+.web-single-column-container .report-body td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0.75rem 1.15rem;
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.web-single-column-container .academic-paper-table td:last-child,
+.web-single-column-container .report-body td:last-child {
+  border-right: none;
+}
+
+.web-single-column-container .academic-paper-table tr:hover td,
+.web-single-column-container .report-body tr:hover td {
+  background: rgba(56, 189, 248, 0.06);
+  color: #f8fafc;
 }
 
 /* ─── Elements Spanning Full Width (column-span: all) ─── */

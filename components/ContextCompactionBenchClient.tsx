@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, type ReactNode, type AnchorHTMLAttributes, type HTMLAttributes } from "react";
+import { useState, useEffect, type ReactNode, type AnchorHTMLAttributes, type HTMLAttributes } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -12,7 +12,7 @@ interface ContextCompactionBenchClientProps {
 }
 
 type ActiveTab = "methodology" | "receipts" | "both";
-type ViewMode = "all-pages" | "single-page" | "pdf-embed" | "web-view";
+type ViewMode = "pdf-embed" | "web-view";
 
 const METHODOLOGY_SECTIONS = [
   { id: "sec-abstract", label: "Abstract" },
@@ -34,13 +34,6 @@ const RECEIPTS_SECTIONS = [
   { id: "rec-s5", label: "6. S5: Quality & Retention" },
   { id: "rec-s6", label: "7. S6: 1M Endurance" },
   { id: "rec-provenance", label: "8. Session Manifest" },
-];
-
-const PAPER_PAGES = [
-  { num: 1, label: "1. Title, Abstract & Methodology", headerRight: "PREPRINT · SEPTEMBER 2026" },
-  { num: 2, label: "2. Results: S1–S3 & Reasoning", headerRight: "PREPRINT · SEPTEMBER 2026" },
-  { num: 3, label: "3. Results: S4–S6 & Endurance", headerRight: "PREPRINT · SEPTEMBER 2026" },
-  { num: 4, label: "4. Conclusions & References", headerRight: "PREPRINT · SEPTEMBER 2026" },
 ];
 
 function slugify(text: string): string {
@@ -79,174 +72,120 @@ function getHeadingId(text: string): string {
   return slugify(text);
 }
 
-function partitionMethodology(text: string) {
-  const lines = text.split("\n");
-  let abstractRaw = "";
-  let sec1Idx = -1;
-  let sec3_1Idx = -1;
-  let sec3_4Idx = -1;
-  let sec4Idx = -1;
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    if (line.startsWith("## 1. Introduction") || line.startsWith("## Section 1") || line.startsWith("## 1.")) {
-      sec1Idx = i;
-    }
-    if (line.includes("3.1 Scenario 1") || line.includes("Scenario 1:")) {
-      sec3_1Idx = i;
-    }
-    if (line.includes("3.4 Scenario 4") || line.includes("Scenario 4:")) {
-      sec3_4Idx = i;
-    }
-    if (line.startsWith("## 4. Discussion") || line.startsWith("## Section 4") || line.startsWith("## 4.")) {
-      sec4Idx = i;
-    }
-  }
-
-  const absStart = lines.findIndex((l) => l.includes("> ### Abstract") || l.includes("### Abstract"));
-  if (absStart !== -1) {
-    const absEnd = lines.findIndex((l, idx) => idx > absStart && (l.startsWith("---") || l.startsWith("## ")));
-    if (absEnd !== -1) {
-      abstractRaw = lines.slice(absStart, absEnd).join("\n");
-    }
-  }
-
-  const p1End = sec3_1Idx !== -1 ? sec3_1Idx : lines.length;
-  const p2Start = sec3_1Idx !== -1 ? sec3_1Idx : 0;
-  const p2End = sec3_4Idx !== -1 ? sec3_4Idx : lines.length;
-  const p3Start = sec3_4Idx !== -1 ? sec3_4Idx : 0;
-  const p3End = sec4Idx !== -1 ? sec4Idx : lines.length;
-  const p4Start = sec4Idx !== -1 ? sec4Idx : 0;
-
-  let page1 = lines.slice(sec1Idx !== -1 ? sec1Idx : 0, p1End).join("\n");
-  if (!page1.trim()) page1 = text;
-
-  const page2 = lines.slice(p2Start, p2End).join("\n");
-  const page3 = lines.slice(p3Start, p3End).join("\n");
-  const page4 = lines.slice(p4Start).join("\n");
-
-  return {
-    abstractRaw,
-    page1,
-    page2,
-    page3,
-    page4,
-  };
-}
-
-/* ── Academic Vector Figures (LaTeX Paper Styled) ── */
+/* ── High-Contrast Academic Figures ── */
 
 function AcademicFigure1() {
   return (
-    <figure className="latex-paper-figure" style={{ margin: "16px 0", breakInside: "avoid" }}>
-      <div style={{ maxWidth: "100%", margin: "0 auto", background: "#ffffff", padding: "8px" }}>
+    <figure className="academic-visual-figure" style={{ margin: "24px 0", breakInside: "avoid" }}>
+      <div style={{ maxWidth: "100%", margin: "0 auto", background: "#0b0f19", padding: "16px", borderRadius: "6px", border: "1px solid rgba(255,255,255,0.12)" }}>
         <svg
-          viewBox="0 0 680 340"
+          viewBox="0 0 720 360"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{ width: "100%", height: "auto", display: "block" }}
         >
-          <rect width="680" height="340" fill="#ffffff" stroke="#111827" strokeWidth="1.2" />
+          {/* Background */}
+          <rect width="720" height="360" fill="#080c16" rx="4" />
 
           {/* Title */}
-          <text x="340" y="24" fill="#111827" fontSize="13" fontWeight="700" fontFamily="Times New Roman, serif" textAnchor="middle">
-            FIG. 1. TURN COST (\$) VS. AUTOCOMPACTION THRESHOLD ACROSS SCENARIOS
+          <text x="360" y="28" fill="#f8fafc" fontSize="14" fontWeight="700" fontFamily="var(--mono), monospace" textAnchor="middle" letterSpacing="0.05em">
+            FIG. 1. MEASURED TURN COST ($) VS. AUTOCOMPACTION THRESHOLD
           </text>
-          <text x="340" y="40" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">
+          <text x="360" y="46" fill="#94a3b8" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">
             Scenario 4 Pareto Sweep (8 autocompaction arms, 37 total suite runs on Gemini 3.8 Flash)
           </text>
 
           {/* Grid lines */}
-          <line x1="70" y1="60" x2="620" y2="60" stroke="#e5e7eb" strokeDasharray="2 2" />
-          <line x1="70" y1="115" x2="620" y2="115" stroke="#e5e7eb" strokeDasharray="2 2" />
-          <line x1="70" y1="170" x2="620" y2="170" stroke="#e5e7eb" strokeDasharray="2 2" />
-          <line x1="70" y1="225" x2="620" y2="225" stroke="#e5e7eb" strokeDasharray="2 2" />
-          <line x1="70" y1="280" x2="620" y2="280" stroke="#111827" strokeWidth="1" />
+          <line x1="80" y1="70" x2="660" y2="70" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <line x1="80" y1="125" x2="660" y2="125" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <line x1="80" y1="180" x2="660" y2="180" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <line x1="80" y1="235" x2="660" y2="235" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <line x1="80" y1="290" x2="660" y2="290" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
 
-          {/* Y Axis Left: Cost per turn ($) */}
-          <text x="25" y="170" fill="#111827" fontSize="10" fontFamily="Times New Roman, serif" fontWeight="700" transform="rotate(-90 25 170)" textAnchor="middle">
-            Total Session Cost (\$)
+          {/* Y Axis Left */}
+          <text x="28" y="180" fill="#cbd5e1" fontSize="10" fontFamily="var(--mono), monospace" fontWeight="600" transform="rotate(-90 28 180)" textAnchor="middle">
+            Total Session Cost ($)
           </text>
-          <text x="62" y="64" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="end">\$7.00</text>
-          <text x="62" y="119" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="end">\$5.25</text>
-          <text x="62" y="174" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="end">\$3.50</text>
-          <text x="62" y="229" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="end">\$1.75</text>
-          <text x="62" y="284" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="end">\$0.00</text>
+          <text x="70" y="74" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="end">$7.00</text>
+          <text x="70" y="129" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="end">$5.25</text>
+          <text x="70" y="184" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="end">$3.50</text>
+          <text x="70" y="239" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="end">$1.75</text>
+          <text x="70" y="294" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="end">$0.00</text>
 
           {/* Sweet Spot Highlight Zone */}
-          <rect x="250" y="55" width="165" height="225" fill="#f3f4f6" stroke="#d1d5db" strokeDasharray="2 2" />
-          <text x="332" y="72" fill="#111827" fontSize="9" fontWeight="700" fontFamily="Times New Roman, serif" textAnchor="middle">
-            OPTIMAL REGION (150k–272k)
+          <rect x="270" y="65" width="180" height="225" fill="rgba(56, 189, 248, 0.08)" stroke="rgba(56, 189, 248, 0.4)" strokeDasharray="4 4" rx="2" />
+          <text x="360" y="84" fill="#38bdf8" fontSize="10" fontWeight="700" fontFamily="var(--mono), monospace" textAnchor="middle" letterSpacing="0.06em">
+            PARETO SWEET SPOT (150k–272k)
           </text>
 
-          {/* S4 Cost Curve (Black Solid) */}
+          {/* S4 Cost Curve (Pink Solid) */}
           <path
-            d="M 110 202 L 180 207 L 250 200 L 320 166 L 390 214 L 460 227 L 530 63 L 600 230"
+            d="M 120 212 L 195 217 L 270 209 L 345 176 L 420 224 L 495 237 L 570 73 L 640 240"
             fill="none"
-            stroke="#111827"
-            strokeWidth="2.2"
+            stroke="#ec4899"
+            strokeWidth="3"
           />
 
           {/* S4 Points */}
-          <circle cx="110" cy="202" r="4" fill="#111827" />
-          <text x="110" y="194" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif" textAnchor="middle">\$2.48</text>
+          <circle cx="120" cy="212" r="4.5" fill="#ec4899" />
+          <text x="120" y="202" fill="#f472b6" fontSize="9" fontFamily="var(--mono), monospace" textAnchor="middle">$2.48</text>
 
-          <circle cx="180" cy="207" r="4" fill="#111827" />
-          <text x="180" y="199" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif" textAnchor="middle">\$2.32</text>
+          <circle cx="195" cy="217" r="4.5" fill="#ec4899" />
+          <text x="195" y="207" fill="#f472b6" fontSize="9" fontFamily="var(--mono), monospace" textAnchor="middle">$2.32</text>
 
-          <circle cx="250" cy="200" r="4" fill="#111827" />
-          <text x="250" y="192" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif" textAnchor="middle">\$2.56</text>
+          <circle cx="270" cy="209" r="4.5" fill="#ec4899" />
+          <text x="270" y="199" fill="#f472b6" fontSize="9" fontFamily="var(--mono), monospace" textAnchor="middle">$2.56</text>
 
-          <circle cx="320" cy="166" r="4" fill="#111827" />
-          <text x="320" y="158" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif" textAnchor="middle">\$3.63</text>
+          <circle cx="345" cy="176" r="4.5" fill="#ec4899" />
+          <text x="345" y="166" fill="#f472b6" fontSize="9" fontFamily="var(--mono), monospace" textAnchor="middle">$3.63</text>
 
-          <circle cx="390" cy="214" r="5" fill="#ffffff" stroke="#111827" strokeWidth="2" />
-          <text x="390" y="206" fill="#111827" fontSize="9" fontWeight="700" fontFamily="Times New Roman, serif" textAnchor="middle">★ \$2.09</text>
+          <circle cx="420" cy="224" r="6" fill="#38bdf8" stroke="#ffffff" strokeWidth="2" />
+          <text x="420" y="214" fill="#38bdf8" fontSize="10" fontWeight="700" fontFamily="var(--mono), monospace" textAnchor="middle">★ $2.09</text>
 
-          <circle cx="460" cy="227" r="4" fill="#111827" />
-          <text x="460" y="219" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif" textAnchor="middle">\$1.70</text>
+          <circle cx="495" cy="237" r="4.5" fill="#ec4899" />
+          <text x="495" y="227" fill="#f472b6" fontSize="9" fontFamily="var(--mono), monospace" textAnchor="middle">$1.70</text>
 
-          <circle cx="530" cy="63" r="4" fill="#111827" />
-          <text x="530" y="55" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif" textAnchor="middle">\$6.89</text>
+          <circle cx="570" cy="73" r="4.5" fill="#ec4899" />
+          <text x="570" y="63" fill="#f472b6" fontSize="9" fontFamily="var(--mono), monospace" textAnchor="middle">$6.89</text>
 
-          <circle cx="600" cy="230" r="4" fill="#111827" />
-          <text x="600" y="222" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif" textAnchor="middle">\$1.60</text>
+          <circle cx="640" cy="240" r="4.5" fill="#ec4899" />
+          <text x="640" y="230" fill="#f472b6" fontSize="9" fontFamily="var(--mono), monospace" textAnchor="middle">$1.60</text>
 
-          {/* S2 Cost Curve (Dashed line) */}
+          {/* S2 Cost Curve (Blue Dashed) */}
           <path
-            d="M 110 139 L 180 195 L 250 173 L 320 208 L 390 181 L 460 198 L 530 163 L 600 200"
+            d="M 120 149 L 195 205 L 270 183 L 345 218 L 420 191 L 495 208 L 570 173 L 640 210"
             fill="none"
-            stroke="#6b7280"
-            strokeWidth="1.8"
-            strokeDasharray="4 3"
+            stroke="#38bdf8"
+            strokeWidth="2"
+            strokeDasharray="5 4"
           />
 
           {/* X Axis Labels */}
-          <text x="110" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">50k</text>
-          <text x="180" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">100k</text>
-          <text x="250" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">150k</text>
-          <text x="320" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">200k</text>
-          <text x="390" y="296" fill="#111827" fontSize="9" fontWeight="700" fontFamily="Times New Roman, serif" textAnchor="middle">272k</text>
-          <text x="460" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">500k</text>
-          <text x="530" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">1M</text>
-          <text x="600" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">Disabled</text>
+          <text x="120" y="308" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">50k</text>
+          <text x="195" y="308" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">100k</text>
+          <text x="270" y="308" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">150k</text>
+          <text x="345" y="308" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">200k</text>
+          <text x="420" y="308" fill="#38bdf8" fontSize="10" fontWeight="700" fontFamily="var(--mono), monospace" textAnchor="middle">272k</text>
+          <text x="495" y="308" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">500k</text>
+          <text x="570" y="308" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">1M</text>
+          <text x="640" y="308" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">Disabled</text>
 
-          <text x="350" y="318" fill="#111827" fontSize="10" fontWeight="700" fontFamily="Times New Roman, serif" textAnchor="middle">
+          <text x="360" y="332" fill="#cbd5e1" fontSize="11" fontWeight="700" fontFamily="var(--mono), monospace" textAnchor="middle">
             Autocompaction Context Threshold (L_thresh)
           </text>
 
           {/* Legend */}
-          <g transform="translate(190, 328)">
-            <line x1="0" y1="5" x2="24" y2="5" stroke="#111827" strokeWidth="2.2" />
-            <circle cx="12" cy="5" r="3" fill="#111827" />
-            <text x="30" y="8" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif">Scenario 4 (Pareto Sweep, 25 Turns)</text>
+          <g transform="translate(180, 344)">
+            <line x1="0" y1="5" x2="24" y2="5" stroke="#ec4899" strokeWidth="3" />
+            <circle cx="12" cy="5" r="3" fill="#ec4899" />
+            <text x="30" y="8" fill="#e2e8f0" fontSize="9" fontFamily="var(--mono), monospace">Scenario 4 (Pareto Sweep, 25 Turns)</text>
 
-            <line x1="200" y1="5" x2="224" y2="5" stroke="#6b7280" strokeWidth="1.8" strokeDasharray="4 3" />
-            <text x="230" y="8" fill="#4b5563" fontSize="8" fontFamily="Times New Roman, serif">Scenario 2 (Always-Warm, 30 Turns)</text>
+            <line x1="240" y1="5" x2="264" y2="5" stroke="#38bdf8" strokeWidth="2" strokeDasharray="5 4" />
+            <text x="270" y="8" fill="#e2e8f0" fontSize="9" fontFamily="var(--mono), monospace">Scenario 2 (Always-Warm, 30 Turns)</text>
           </g>
         </svg>
       </div>
-      <figcaption style={{ color: "#374151", fontSize: "0.78rem", fontStyle: "italic", textAlign: "center", marginTop: "6px" }}>
+      <figcaption style={{ color: "var(--muted)", fontSize: "0.85rem", textAlign: "center", marginTop: "8px", fontFamily: "var(--mono), monospace" }}>
         Fig. 1. Measured turn cost ($) vs autocompaction threshold across Scenarios 2 and 4. Compacting below 100k triggers reacquisition thrashing, while 150k–272k minimizes total monetary spend.
       </figcaption>
     </figure>
@@ -255,86 +194,87 @@ function AcademicFigure1() {
 
 function AcademicFigure2() {
   return (
-    <figure className="latex-paper-figure" style={{ margin: "16px 0", breakInside: "avoid" }}>
-      <div style={{ maxWidth: "100%", margin: "0 auto", background: "#ffffff", padding: "8px" }}>
+    <figure className="academic-visual-figure" style={{ margin: "24px 0", breakInside: "avoid" }}>
+      <div style={{ maxWidth: "100%", margin: "0 auto", background: "#0b0f19", padding: "16px", borderRadius: "6px", border: "1px solid rgba(255,255,255,0.12)" }}>
         <svg
-          viewBox="0 0 680 340"
+          viewBox="0 0 720 360"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{ width: "100%", height: "auto", display: "block" }}
         >
-          <rect width="680" height="340" fill="#ffffff" stroke="#111827" strokeWidth="1.2" />
+          {/* Background */}
+          <rect width="720" height="360" fill="#080c16" rx="4" />
 
           {/* Title */}
-          <text x="340" y="24" fill="#111827" fontSize="13" fontWeight="700" fontFamily="Times New Roman, serif" textAnchor="middle">
+          <text x="360" y="28" fill="#f8fafc" fontSize="14" fontWeight="700" fontFamily="var(--mono), monospace" textAnchor="middle" letterSpacing="0.05em">
             FIG. 2. REASONING TOKEN SCALING VS. CONTEXT LENGTH (SCENARIO 3)
           </text>
-          <text x="340" y="40" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">
+          <text x="360" y="46" fill="#94a3b8" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">
             Empirical power law fit: T = 2.525 × 10⁻⁶ · L¹·⁴⁹ (R² = 0.988) across 12 controlled runs
           </text>
 
           {/* Grid lines */}
-          <line x1="80" y1="60" x2="620" y2="60" stroke="#e5e7eb" strokeDasharray="2 2" />
-          <line x1="80" y1="115" x2="620" y2="115" stroke="#e5e7eb" strokeDasharray="2 2" />
-          <line x1="80" y1="170" x2="620" y2="170" stroke="#e5e7eb" strokeDasharray="2 2" />
-          <line x1="80" y1="225" x2="620" y2="225" stroke="#e5e7eb" strokeDasharray="2 2" />
-          <line x1="80" y1="280" x2="620" y2="280" stroke="#111827" strokeWidth="1" />
+          <line x1="80" y1="70" x2="660" y2="70" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <line x1="80" y1="125" x2="660" y2="125" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <line x1="80" y1="180" x2="660" y2="180" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <line x1="80" y1="235" x2="660" y2="235" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <line x1="80" y1="290" x2="660" y2="290" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
 
-          {/* Y Axis: Reasoning Tokens T */}
-          <text x="25" y="170" fill="#111827" fontSize="10" fontFamily="Times New Roman, serif" fontWeight="700" transform="rotate(-90 25 170)" textAnchor="middle">
-            Thinking Tokens ($T$)
+          {/* Y Axis Left */}
+          <text x="28" y="180" fill="#cbd5e1" fontSize="10" fontFamily="var(--mono), monospace" fontWeight="600" transform="rotate(-90 28 180)" textAnchor="middle">
+            Deliberation Tokens (T)
           </text>
-          <text x="72" y="64" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="end">3,000</text>
-          <text x="72" y="119" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="end">2,250</text>
-          <text x="72" y="174" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="end">1,500</text>
-          <text x="72" y="229" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="end">750</text>
-          <text x="72" y="284" fill="#374151" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="end">0</text>
+          <text x="70" y="74" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="end">3,000</text>
+          <text x="70" y="129" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="end">2,250</text>
+          <text x="70" y="184" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="end">1,500</text>
+          <text x="70" y="239" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="end">750</text>
+          <text x="70" y="294" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="end">0</text>
 
           {/* Linear Reference Line (Gray dashed) */}
-          <line x1="80" y1="280" x2="620" y2="215" stroke="#9ca3af" strokeDasharray="4 4" strokeWidth="1.2" />
-          <text x="590" y="208" fill="#6b7280" fontSize="8" fontFamily="Times New Roman, serif">Linear baseline (β = 1.0)</text>
+          <line x1="90" y1="290" x2="650" y2="220" stroke="rgba(255,255,255,0.25)" strokeDasharray="4 4" strokeWidth="1.2" />
+          <text x="610" y="212" fill="#94a3b8" fontSize="9" fontFamily="var(--mono), monospace">Linear baseline (β = 1.0)</text>
 
           {/* Fitted Power Curve: T = 2.525e-6 * L^1.4897 */}
           <path
-            d="M 80 280 C 180 278, 280 268, 420 225 C 500 190, 560 145, 610 85"
+            d="M 90 290 C 200 288, 300 278, 440 230 C 520 195, 590 145, 650 80"
             fill="none"
-            stroke="#111827"
-            strokeWidth="2.5"
+            stroke="#38bdf8"
+            strokeWidth="3"
           />
 
-          {/* Measured Points with Error Bars / Annotations */}
-          <circle cx="150" cy="272" r="4" fill="#111827" />
-          <circle cx="170" cy="276" r="4" fill="#111827" />
-          <circle cx="190" cy="268" r="4" fill="#111827" />
-          <text x="170" y="258" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif" textAnchor="middle">20k Tier</text>
+          {/* Measured Points with Annotations */}
+          <circle cx="160" cy="282" r="4.5" fill="#38bdf8" />
+          <circle cx="180" cy="286" r="4.5" fill="#38bdf8" />
+          <circle cx="200" cy="278" r="4.5" fill="#38bdf8" />
+          <text x="180" y="268" fill="#e2e8f0" fontSize="9" fontFamily="var(--mono), monospace" textAnchor="middle">20k Tier</text>
 
-          <circle cx="270" cy="274" r="4" fill="#111827" />
-          <circle cx="290" cy="278" r="4" fill="#111827" />
-          <circle cx="310" cy="266" r="4" fill="#111827" />
-          <text x="290" y="254" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif" textAnchor="middle">80k Tier</text>
+          <circle cx="280" cy="284" r="4.5" fill="#38bdf8" />
+          <circle cx="300" cy="288" r="4.5" fill="#38bdf8" />
+          <circle cx="320" cy="276" r="4.5" fill="#38bdf8" />
+          <text x="300" y="264" fill="#e2e8f0" fontSize="9" fontFamily="var(--mono), monospace" textAnchor="middle">80k Tier</text>
 
-          <circle cx="410" cy="235" r="4" fill="#111827" />
-          <circle cx="425" cy="232" r="4" fill="#111827" />
-          <circle cx="440" cy="226" r="4" fill="#111827" />
-          <text x="425" y="216" fill="#111827" fontSize="8" fontFamily="Times New Roman, serif" textAnchor="middle">180k Tier</text>
+          <circle cx="430" cy="245" r="4.5" fill="#38bdf8" />
+          <circle cx="445" cy="242" r="4.5" fill="#38bdf8" />
+          <circle cx="460" cy="236" r="4.5" fill="#38bdf8" />
+          <text x="445" y="226" fill="#e2e8f0" fontSize="9" fontFamily="var(--mono), monospace" textAnchor="middle">180k Tier</text>
 
-          <circle cx="530" cy="115" r="5" fill="#111827" />
-          <circle cx="545" cy="153" r="5" fill="#111827" />
-          <circle cx="560" cy="122" r="5" fill="#111827" />
-          <text x="545" y="98" fill="#111827" fontSize="9" fontWeight="700" fontFamily="Times New Roman, serif" textAnchor="middle">272k Tier (22.4× Deliberation)</text>
+          <circle cx="560" cy="115" r="6" fill="#ec4899" stroke="#ffffff" strokeWidth="1.5" />
+          <circle cx="575" cy="153" r="6" fill="#ec4899" stroke="#ffffff" strokeWidth="1.5" />
+          <circle cx="590" cy="122" r="6" fill="#ec4899" stroke="#ffffff" strokeWidth="1.5" />
+          <text x="575" y="94" fill="#f472b6" fontSize="10" fontWeight="700" fontFamily="var(--mono), monospace" textAnchor="middle">272k Tier (22.4× Deliberation)</text>
 
           {/* X Axis */}
-          <text x="170" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">20k</text>
-          <text x="290" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">80k</text>
-          <text x="425" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">180k</text>
-          <text x="545" y="296" fill="#111827" fontSize="9" fontFamily="Times New Roman, serif" textAnchor="middle">272k</text>
+          <text x="180" y="308" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">20k</text>
+          <text x="300" y="308" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">80k</text>
+          <text x="445" y="308" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">180k</text>
+          <text x="575" y="308" fill="#38bdf8" fontSize="10" fontWeight="700" fontFamily="var(--mono), monospace" textAnchor="middle">272k</text>
 
-          <text x="350" y="318" fill="#111827" fontSize="10" fontWeight="700" fontFamily="Times New Roman, serif" textAnchor="middle">
-            Context Window Depth ($L$)
+          <text x="360" y="332" fill="#cbd5e1" fontSize="11" fontWeight="700" fontFamily="var(--mono), monospace" textAnchor="middle">
+            Context Window Depth (L)
           </text>
         </svg>
       </div>
-      <figcaption style={{ color: "#374151", fontSize: "0.78rem", fontStyle: "italic", textAlign: "center", marginTop: "6px" }}>
+      <figcaption style={{ color: "var(--muted)", fontSize: "0.85rem", textAlign: "center", marginTop: "8px", fontFamily: "var(--mono), monospace" }}>
         Fig. 2. Reasoning deliberation ($T$) vs context length ($L$). Expanding context from 50k to 400k tokens triggers a 22.4$\times$ increase in thinking tokens ($\beta \approx 1.49$).
       </figcaption>
     </figure>
@@ -346,56 +286,23 @@ export default function ContextCompactionBenchClient({
   receipts,
 }: ContextCompactionBenchClientProps) {
   const [activeTab, setActiveTab] = useState<ActiveTab>("methodology");
-  const [viewMode, setViewMode] = useState<ViewMode>("all-pages");
-  const [activeSinglePage, setActiveSinglePage] = useState<number>(1);
-  const deskRef = useRef<HTMLElement>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>("pdf-embed");
 
   const sanitizedMethodology = methodology.replace(/(?<![\$\\])\$(?=\d)/g, "\\$");
   const sanitizedReceipts = receipts.replace(/(?<![\$\\])\$(?=\d)/g, "\\$");
-
-  const pages = partitionMethodology(sanitizedMethodology);
 
   useEffect(() => {
     const hash = window.location.hash.toLowerCase();
     if (hash === "#receipts" || hash.startsWith("#rec-")) {
       setActiveTab("receipts");
       setViewMode("web-view");
-    } else if (hash === "#both" || hash === "#all") {
+    } else if (hash === "#both" || hash === "#all" || hash === "#web") {
       setActiveTab("both");
       setViewMode("web-view");
-    } else if (hash === "#pdf" || hash === "#pdf-embed") {
+    } else if (hash === "#pdf" || hash === "#dossier") {
       setViewMode("pdf-embed");
-    } else if (hash.startsWith("#page-")) {
-      const p = parseInt(hash.replace("#page-", ""), 10);
-      if (p >= 1 && p <= 4) {
-        scrollToPage(p);
-      }
     }
   }, []);
-
-  const scrollToPage = (pageNum: number) => {
-    if (typeof window !== "undefined") {
-      const el = document.getElementById(`paper-page-${pageNum}`);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        window.history.replaceState(null, "", `#page-${pageNum}`);
-      }
-    }
-  };
-
-  const handlePageSelect = (num: number) => {
-    setActiveSinglePage(num);
-    if (viewMode === "all-pages") {
-      scrollToPage(num);
-    } else {
-      if (typeof window !== "undefined") {
-        window.history.replaceState(null, "", `#page-${num}`);
-        if (deskRef.current) {
-          deskRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }
-    }
-  };
 
   const handleTabChange = (tab: ActiveTab) => {
     setActiveTab(tab);
@@ -502,108 +409,22 @@ export default function ContextCompactionBenchClient({
     },
   };
 
-  const renderPaperPage = (pageNum: number) => {
-    const pageMeta = PAPER_PAGES[pageNum - 1];
-
-    return (
-      <article
-        key={pageNum}
-        id={`paper-page-${pageNum}`}
-        className="latex-paper-sheet"
-        aria-label={`Academic Paper Page ${pageNum} of 4`}
-      >
-        {/* Running Header */}
-        <header className="latex-sheet-running-header">
-          <span className="latex-sheet-running-title">GAIA RESEARCH TECHNICAL REPORT GAIA-TR-2026-09-02</span>
-          <span className="latex-sheet-running-meta">{pageMeta.headerRight}</span>
-        </header>
-
-        {/* Sheet 1 Title & Masthead */}
-        {pageNum === 1 && (
-          <>
-            <div className="latex-sheet-masthead">
-              <h1 className="latex-sheet-paper-title">
-                Empirical Context Compaction in Autonomous Coding Agents:
-                <br />
-                Architectural Dynamics, Cache Economics, and the Pareto Frontier
-              </h1>
-              <div className="latex-sheet-authors">
-                <div className="latex-sheet-author">
-                  <span className="latex-sheet-author-name">Nova</span>
-                  <span className="latex-sheet-author-role">Head Researcher, Gaia Research</span>
-                </div>
-                <div className="latex-sheet-author">
-                  <span className="latex-sheet-author-name">Marcus Rafael B. Tiongson</span>
-                  <span className="latex-sheet-author-role">Founder, Gaia Research</span>
-                </div>
-              </div>
-              <div className="latex-sheet-affiliation">
-                Gaia Research Laboratory · Technical Report GAIA-TR-2026-09-02
-              </div>
-            </div>
-
-            {/* Abstract Block on Sheet 1 */}
-            {pages.abstractRaw && (
-              <div className="latex-sheet-abstract-block">
-                <div className="latex-sheet-abstract-rule" />
-                <div className="latex-sheet-abstract-text">
-                  <Markdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]} components={markdownComponents}>
-                    {pages.abstractRaw}
-                  </Markdown>
-                </div>
-                <div className="latex-sheet-abstract-rule" />
-              </div>
-            )}
-          </>
-        )}
-
-        {/* 2-Column Content Body */}
-        <div className="latex-sheet-columns">
-          <Markdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]} components={markdownComponents}>
-            {pageNum === 1 ? pages.page1 : pageNum === 2 ? pages.page2 : pageNum === 3 ? pages.page3 : pages.page4}
-          </Markdown>
-        </div>
-
-        {/* Running Footer */}
-        <footer className="latex-sheet-running-footer">
-          <span className="latex-sheet-running-footer-left">CONFERENCE PREPRINT · GAIA RESEARCH</span>
-          <span className="latex-sheet-page-counter">Page {pageNum} of 4</span>
-        </footer>
-      </article>
-    );
-  };
-
   return (
     <div className="compaction-client-container">
-      {/* ── Format & Layout Toolbar ── */}
+      {/* ── Format & Layout Toolbar (PDF Embed, Web View, Download PDF) ── */}
       <div className="paper-format-toolbar">
         <div className="paper-format-info">
-          <span className="paper-format-badge">A4 PREPRINT</span>
-          <span className="paper-format-desc">Official 2-Column Conference Paper (GAIA-TR-2026-09-02)</span>
+          <span className="paper-format-badge">TECHNICAL REPORT</span>
+          <span className="paper-format-desc">Preprint Dossier (GAIA-TR-2026-09-02)</span>
         </div>
 
-        <div className="paper-format-toggles" role="group" aria-label="Paper Layout Mode">
-          <button
-            type="button"
-            className={`paper-format-btn ${viewMode === "all-pages" ? "active" : ""}`}
-            onClick={() => setViewMode("all-pages")}
-          >
-            <span>All 4 A4 Pages (Scrollable)</span>
-            <span className="paper-format-pill">DEFAULT</span>
-          </button>
-          <button
-            type="button"
-            className={`paper-format-btn ${viewMode === "single-page" ? "active" : ""}`}
-            onClick={() => setViewMode("single-page")}
-          >
-            <span>Single Page</span>
-          </button>
+        <div className="paper-format-toggles" role="group" aria-label="Report View Mode">
           <button
             type="button"
             className={`paper-format-btn ${viewMode === "pdf-embed" ? "active" : ""}`}
             onClick={() => setViewMode("pdf-embed")}
           >
-            <span>PDF Document Embed</span>
+            <span>PDF Document</span>
           </button>
           <button
             type="button"
@@ -619,112 +440,44 @@ export default function ContextCompactionBenchClient({
             target="_blank"
             rel="noreferrer"
           >
-            <span>Download PDF (A4) ↓</span>
+            <span>Download PDF ↓</span>
           </a>
         </div>
       </div>
 
-      {/* ── View Mode 1: All 4 Pages Scrollable on Desk (Default) ── */}
-      {viewMode === "all-pages" && (
-        <section className="latex-paper-desk" ref={deskRef} aria-label="Academic Paper Sheets Desk">
-          {/* Quick Page Jump Pill Bar */}
-          <nav className="latex-pagination-bar" aria-label="Page Quick Navigation">
-            <div className="latex-pagination-nav">
-              <span className="latex-page-jump-title">JUMP TO SHEET:</span>
-              <div className="latex-page-pills" role="tablist">
-                {PAPER_PAGES.map((page) => (
-                  <button
-                    key={page.num}
-                    type="button"
-                    className="latex-page-pill"
-                    onClick={() => scrollToPage(page.num)}
-                  >
-                    <span className="latex-page-pill-num">{page.num}</span>
-                    <span className="latex-page-pill-label">{page.label}</span>
-                  </button>
-                ))}
-              </div>
-              <span className="latex-page-counter">All 4 Pages Scrollable to Bottom (A4)</span>
-            </div>
-          </nav>
-
-          {/* All 4 A4 Sheets Cascading Vertically with Real Margins */}
-          <div className="latex-continuous-stack">
-            {[1, 2, 3, 4].map((num) => renderPaperPage(num))}
-          </div>
-        </section>
-      )}
-
-      {/* ── View Mode 2: Single Page View ── */}
-      {viewMode === "single-page" && (
-        <section className="latex-paper-desk" ref={deskRef} aria-label="Academic Paper Sheets Desk">
-          <nav className="latex-pagination-bar" aria-label="Academic Paper Pagination Controls">
-            <div className="latex-pagination-nav">
-              <button
-                type="button"
-                className="latex-page-arrow"
-                onClick={() => handlePageSelect(Math.max(1, activeSinglePage - 1))}
-                disabled={activeSinglePage === 1}
-              >
-                ← Previous Page
-              </button>
-
-              <div className="latex-page-pills" role="tablist">
-                {PAPER_PAGES.map((page) => (
-                  <button
-                    key={page.num}
-                    type="button"
-                    className={`latex-page-pill ${activeSinglePage === page.num ? "active" : ""}`}
-                    onClick={() => handlePageSelect(page.num)}
-                  >
-                    <span className="latex-page-pill-num">{page.num}</span>
-                    <span className="latex-page-pill-label">{page.label}</span>
-                  </button>
-                ))}
-              </div>
-
-              <button
-                type="button"
-                className="latex-page-arrow"
-                onClick={() => handlePageSelect(Math.min(4, activeSinglePage + 1))}
-                disabled={activeSinglePage === 4}
-              >
-                Next Page →
-              </button>
-            </div>
-          </nav>
-
-          {renderPaperPage(activeSinglePage)}
-        </section>
-      )}
-
-      {/* ── View Mode 3: Native PDF Document Embed ── */}
+      {/* ── Mode 1: PDF Document Embed (Default) ── */}
       {viewMode === "pdf-embed" && (
-        <section className="latex-paper-desk" aria-label="Native PDF Document Viewer">
-          <div className="latex-pdf-container" style={{ margin: "0 auto", maxWidth: "210mm" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-              <span style={{ fontFamily: "var(--mono)", fontSize: "0.85rem", color: "var(--blue)" }}>
-                COMPILED VIA TECTONIC (A4 · 4 PAGES · EXACT LATEX ENGINE OUTPUT)
-              </span>
-              <a
-                href="/reports/context-compaction-phase-2/gaia-tr-2026-09-02.pdf"
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: "var(--pink)", fontFamily: "var(--mono)", fontSize: "0.85rem" }}
-              >
-                Open in Fullscreen Tab ↗
-              </a>
-            </div>
-            <iframe
-              src="/reports/context-compaction-phase-2/gaia-tr-2026-09-02.pdf"
-              className="latex-pdf-frame"
-              title="Official GAIA-TR-2026-09-02 PDF"
-            />
+        <section className="pdf-embed-wrapper" aria-label="Technical Report PDF Viewer">
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.85rem", padding: "0 4px" }}>
+            <span style={{ fontFamily: "var(--mono)", fontSize: "0.82rem", color: "var(--muted)", letterSpacing: "0.04em" }}>
+              37 LIVE DEVELOPER SESSIONS · GEMINI 3.8 FLASH · LITELLM RECORDED
+            </span>
+            <a
+              href="/reports/context-compaction-phase-2/gaia-tr-2026-09-02.pdf"
+              target="_blank"
+              rel="noreferrer"
+              style={{ color: "var(--blue)", fontFamily: "var(--mono)", fontSize: "0.82rem", textDecoration: "none" }}
+            >
+              Open Fullscreen Tab ↗
+            </a>
           </div>
+          <iframe
+            src="/reports/context-compaction-phase-2/gaia-tr-2026-09-02.pdf"
+            className="latex-pdf-frame"
+            title="Context Compaction Technical Report (GAIA-TR-2026-09-02)"
+            style={{
+              width: "100%",
+              height: "1050px",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+              borderRadius: "6px",
+              backgroundColor: "#ffffff",
+              display: "block",
+            }}
+          />
         </section>
       )}
 
-      {/* ── View Mode 4: Web View (Single Column Fallback Mode) ── */}
+      {/* ── Mode 2: Web View ── */}
       {viewMode === "web-view" && (
         <div className="web-single-column-container">
           {/* Key Metrics Snapshot Grid */}
