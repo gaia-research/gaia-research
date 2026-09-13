@@ -128,8 +128,30 @@ Only when all turns of an arm are finished:
 
 ---
 
+## 3. Scenario 6 (1M Window Endurance Test) — COMPLETED
+
+- **Arm:** `A-disabled` (`contextWindow: 1048576`, `compaction.enabled: false`)
+- **Workload:** `workloads/endurance.md` (50 turns full feature lifecycle: priority queue, worker pool, DLQ, API, scheduler, dependencies, metrics, refactor, JSDoc, tests)
+- **Session ID:** `01a097fd-31a0-757a-9f60-561c5f687975`
+- **Total Tokens:** 43,870,789 tokens (Input: 1.25M, Output: 171.7k, Cache read: 42.45M)
+- **Authoritative Cost:** **$4.766416**
+- **Compactions:** 0 (zero compactions)
+- **Execution Time:** ~18.7 minutes
+- **Key Findings:**
+  - Gemini 3.8 Flash sustained all 50 turns without degradation or hallucinations.
+  - Final tests passed: 17/17 vitest unit tests passing, strict `tsc --noEmit` 0 errors.
+  - Context reached 25.9% of 1M window (~260k tokens).
+  - Per-turn cost grew smoothly from $0.013 (turn 1) to $1.255 (turn 50) as cumulative input history expanded.
+  - Receipts: `data/runs/run-2026-09-13-A-disabled-scenario-6.jsonl`, `data/sessions/session-A-disabled-s6.jsonl`, `data/summary/A-disabled-s6-cost.json`.
+
+---
+
 ## Next Action
-Launch **Scenario 6 (1M Endurance)**:
-- [x] Crontab scheduled for `07:39 AM` (September 13, 2026, +2h 56m after quota reset) executing `scripts/compaction-bench/run-scenario6.sh`.
-- [ ] Scenario 6 execution & verification (50 turns, `A-disabled`, 1M window).
-- [ ] Post-hoc Scenario 5 & Analysis (`analyze.ts`).
+Proceed to **Scenario 5 & Empirical Synthesis / Report** (#230, #232):
+- [x] Scenario 1: Cache-Cold Return (8 arms, 160 turns) — CLOSED (#226)
+- [x] Scenario 2: Always-Warm Cache (8 arms, 240 turns) — CLOSED (#227)
+- [x] Scenario 3: Reasoning Tokens Scaling (12 runs, 4 context tiers) — CLOSED (#228)
+- [x] Scenario 4: Pareto Frontier & Compaction Curve (8 arms, 200 turns) — CLOSED (#229)
+- [x] Scenario 6: 1M Endurance Test (50 turns, A-disabled) — CLOSED (#231)
+- [ ] Scenario 5: Empirical Synthesis & Cross-Scenario Analysis (#230)
+- [ ] Phase 2 Empirical Report & Ratification (#232, #233)
