@@ -1,0 +1,168 @@
+{
+  "schema": "gaia.research.review-provenance-preparation/v1",
+  "status": "draft-preparation-only",
+  "preregistered": false,
+  "experimentExecuted": false,
+  "acceptedSupport": false,
+  "selection": {
+    "skillId": "obra/receiving-code-review",
+    "reason": "Central-selected historically exposed review-application scope defect; Tree fusion selection is context only, not behavioral evidence.",
+    "tree": {
+      "repository": "https://github.com/gaia-research/gaia-skill-tree",
+      "commit": "fb6a79700062b7addab3d9e05450316050d96e0b",
+      "sources": [
+        {
+          "path": "registry/nodes/fusion/receiving-code-review.json",
+          "sha256": "c4f96c059fda89a3bd5e3ce5160122f145debf237bd9b472ec69a35fa9ba435d"
+        },
+        {
+          "path": "registry/named/obra/receiving-code-review.md",
+          "sha256": "4c59202e1d414d1b1c274e6b350032e538c9b05807125a5bfd383b134fc8250a"
+        }
+      ]
+    }
+  },
+  "candidateClaim": {
+    "status": "candidate-not-admitted",
+    "facet": "model-led",
+    "question": "Does supplying obra/receiving-code-review help an agent verify and correctly apply plausible review feedback containing a provenance-scope trap, compared with the same task without that supplied skill?"
+  },
+  "sources": {
+    "task": {
+      "repository": "https://github.com/gaia-research/gaia-skill-heaven",
+      "commit": "fef1daf53a6a04960f88141426dfc74340416ffa",
+      "path": "packages/core/src/retrieval/installability.ts",
+      "sha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+      "exposure": "historically-exposed-development-failure-not-a-fresh-holdout",
+      "fixtureCopy": {
+        "path": "experiments/review-provenance/task/installability.ts",
+        "sha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641"
+      },
+      "prompt": {
+        "path": "experiments/review-provenance/task/prompt.md",
+        "sha256": "349385361379a7c267c2d8c51bd467be61f7686e4b8348f26998e32485b5fe06"
+      }
+    },
+    "fixedReference": {
+      "repository": "https://github.com/gaia-research/gaia-skill-heaven",
+      "commit": "7601d86a4d45f58d65e26640ab2305762512d544",
+      "path": "packages/core/src/retrieval/installability.ts",
+      "sha256": "a71d50789a42f7891e9bdf51135508f2134eb0d3b360ce50037f18d37c3412c2",
+      "use": "read-only fixture/oracle reference"
+    },
+    "treatment": {
+      "namedSkill": "obra/receiving-code-review",
+      "repository": "https://github.com/obra/superpowers",
+      "commit": "b36e0829c6d0140e93cfef2ca599b1b07d4a7797",
+      "path": "skills/receiving-code-review/SKILL.md",
+      "gitBlobSha": "950da7b74bf6dbed6b8726d12ddadd65a9f5fda7",
+      "sha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438",
+      "license": {
+        "status": "checked",
+        "spdx": "MIT",
+        "path": "LICENSE",
+        "capturedBodyIncluded": false
+      },
+      "delivery": "caller-supplied-asset; not copied into this repository"
+    }
+  },
+  "artifacts": {
+    "fixture": {
+      "path": "experiments/review-provenance/fixture.json",
+      "sha256": "cce7739df54723945142e5a26e6d5ea97e38fb4422b295b1b90b1cc89e2836df"
+    },
+    "evaluator": {
+      "path": "experiments/review-provenance/evaluator.mjs",
+      "sha256": "93c88a4bebac3845bb45c1ca0bfb1bfb3835efc6c76ef02035c5351eceddc0d2"
+    }
+  },
+  "oracle": {
+    "evaluator": {
+      "path": "experiments/review-provenance/evaluator.mjs",
+      "runtime": "Node v22.23.1 with --experimental-strip-types",
+      "baselineCommand": "NODE_NO_WARNINGS=1 node --experimental-strip-types experiments/review-provenance/evaluator.mjs --task experiments/review-provenance/task/installability.ts",
+      "fixedReferenceCommand": "git show 7601d86a4d45f58d65e26640ab2305762512d544:packages/core/src/retrieval/installability.ts > $TMPDIR/review-provenance-installability.ts && NODE_NO_WARNINGS=1 node --experimental-strip-types experiments/review-provenance/evaluator.mjs --task $TMPDIR/review-provenance-installability.ts"
+    },
+    "surface": [
+      "assertInstallabilityAssessment",
+      "withInstallability / safeAssessment",
+      "assessInstallability"
+    ],
+    "checks": [
+      "verified negative missing observationDigest fails closed to effective unknown",
+      "verified negative missing observedAt fails closed to effective unknown",
+      "verified no-source preserves legitimate null fields",
+      "verified intrinsic-content-failure preserves legitimate null fields",
+      "valid materializable record remains valid",
+      "unknown or malformed evidence is not upgraded into a negative"
+    ],
+    "baseline": {
+      "taskSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+      "expectedExit": 1,
+      "expectedFailedChecks": [
+        "verified-negative-missing-observationDigest",
+        "verified-negative-missing-observedAt"
+      ]
+    },
+    "fixedReference": {
+      "taskSha256": "a71d50789a42f7891e9bdf51135508f2134eb0d3b360ce50037f18d37c3412c2",
+      "expectedExit": 0,
+      "expectedFailedChecks": []
+    },
+    "noScoresOrThresholds": true
+  },
+  "contracts": {
+    "declaration": "gaia.arbor-expert-declaration/v1",
+    "uncertaintyCandidate": "gaia.research-arbor-uncertainty-candidate/v1",
+    "targetedReceipt": "gaia.arbor-benchmark-receipt/v1",
+    "instantiated": false
+  },
+  "authorization": {
+    "status": "incomplete",
+    "actor": null,
+    "basis": null
+  },
+  "exposure": {
+    "status": "incomplete",
+    "requiredBeforePreregistration": true,
+    "signalsRequired": [
+      "hard harness listing/discovery signal for treatment exposure",
+      "hard suppression signal for control",
+      "byte/content identity for the delivered treatment"
+    ],
+    "observed": null
+  },
+  "harnessEnvironment": {
+    "status": "incomplete",
+    "planned": {
+      "harness": "pi",
+      "version": "0.85.1",
+      "model": "openai-codex/gpt-5.6-luna",
+      "effort": "xhigh"
+    },
+    "observed": null,
+    "costSource": "canonical gaia-research/skill-cost from actual logs only"
+  },
+  "futureDesign": {
+    "status": "blocked-pending-preflight-and-approval",
+    "replications": 2,
+    "arms": 4,
+    "order": [
+      ["control", "treatment"],
+      ["treatment", "control"]
+    ],
+    "sameTaskEnvironmentAndLimits": true,
+    "successRetries": 0,
+    "promptSweep": false,
+    "skillSweep": false,
+    "treatmentDifference": "supply only obra/receiving-code-review"
+  },
+  "observations": [],
+  "receipts": [],
+  "limitations": [
+    "one historically exposed case",
+    "four planned arms",
+    "no general-effect conclusion",
+    "no interaction conclusion"
+  ]
+}
