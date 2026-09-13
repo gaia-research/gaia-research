@@ -16,6 +16,7 @@ const siteUrl = "https://research.gaiaskilltree.com";
 const articlePath = "/blog/context-compaction-phase-2";
 const articleUrl = `${siteUrl}${articlePath}`;
 const thumbnailUrl = `${siteUrl}${contextCompactionPhase2Thumbnail.src.src}`;
+const humanAuthorName = novaAuthor.editorial.human_editorial_reviewer.name;
 const articleTitle =
   "We Ran 37 Agent Sessions to Find the Real Compaction Sweet Spot";
 const articleDescription =
@@ -44,7 +45,7 @@ export const metadata = {
     title: articleTitle,
     description: articleDescription,
     publishedTime: "2026-09-13T00:00:00+08:00",
-    authors: [novaAuthor.display_name],
+    authors: [novaAuthor.display_name, humanAuthorName],
     images: [
       {
         url: contextCompactionPhase2Thumbnail.src.src,
@@ -70,11 +71,18 @@ const articleStructuredData = {
   image: thumbnailUrl,
   url: articleUrl,
   datePublished: "2026-09-13T00:00:00+08:00",
-  author: {
-    "@type": "Person",
-    name: novaAuthor.display_name,
-    url: novaAuthor.links.github,
-  },
+  author: [
+    {
+      "@type": "Person",
+      name: novaAuthor.display_name,
+      url: novaAuthor.links.github,
+    },
+    {
+      "@type": "Person",
+      name: humanAuthorName,
+      jobTitle: novaAuthor.editorial.human_editorial_reviewer.role,
+    },
+  ],
   publisher: {
     "@type": "Organization",
     name: "Gaia Research",
@@ -97,46 +105,46 @@ function CompactionCurveFigureSvg() {
           style={{ width: "100%", height: "auto", display: "block" }}
         >
           <title id="fig1-t">Total session cost by autocompaction ceiling</title>
-          <desc id="fig1-d">Gemini 3.8 Flash · one run per arm · 30-turn warm sweep and 25-turn cold-gap sweep</desc>
+          <desc id="fig1-d">Gemini 3.8 Flash · one run per arm · 30-turn warm sweep, 25-turn cold-gap sweep</desc>
           <rect width="600" height="450" rx="8" fill="#0c1222" stroke="#1e293b" />
           <text x="300" y="32" fill="#f8fafc" fontSize="21" fontWeight="600" textAnchor="middle">Total session cost by autocompaction ceiling</text>
-          <text x="300" y="54" fill="#94a3b8" fontSize="13" textAnchor="middle">Gemini 3.8 Flash · one run per arm · 30-turn warm sweep and 25-turn cold-gap sweep</text>
+          <text x="300" y="54" fill="#94a3b8" fontSize="13" textAnchor="middle">Gemini 3.8 Flash · one run per arm · 30-turn warm sweep, 25-turn cold-gap sweep</text>
 
-          <line x1="92" y1="88" x2="92" y2="390" stroke="#334155" strokeDasharray="0" />
-          <text x="92" y="408" fill="#64748b" fontSize="15" textAnchor="middle">$0</text>
-          <line x1="222" y1="88" x2="222" y2="390" stroke="#1e293b" strokeDasharray="3 4" />
-          <text x="222" y="408" fill="#64748b" fontSize="15" textAnchor="middle">$2</text>
-          <line x1="353" y1="88" x2="353" y2="390" stroke="#1e293b" strokeDasharray="3 4" />
-          <text x="353" y="408" fill="#64748b" fontSize="15" textAnchor="middle">$4</text>
-          <line x1="483" y1="88" x2="483" y2="390" stroke="#1e293b" strokeDasharray="3 4" />
-          <text x="483" y="408" fill="#64748b" fontSize="15" textAnchor="middle">$6</text>
-          <text x="82" y="117" fill="#f8fafc" fontSize="19" fontWeight="600" textAnchor="end">50k</text>
-          <rect x="92" y="98" width="292" height="15" fill="#38bdf8" fillOpacity="1.0" />
-          <rect x="92" y="115" width="161" height="12" fill="#ec4899" fillOpacity="1.0" />
-          <text x="82" y="154" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">100k</text>
-          <rect x="92" y="135" width="176" height="15" fill="#38bdf8" fillOpacity="0.7" />
-          <rect x="92" y="152" width="151" height="12" fill="#ec4899" fillOpacity="0.7" />
-          <text x="82" y="191" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">150k</text>
-          <rect x="92" y="172" width="221" height="15" fill="#38bdf8" fillOpacity="0.7" />
-          <rect x="92" y="189" width="167" height="12" fill="#ec4899" fillOpacity="0.7" />
-          <text x="82" y="228" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">200k</text>
-          <rect x="92" y="209" width="148" height="15" fill="#38bdf8" fillOpacity="0.7" />
-          <rect x="92" y="226" width="236" height="12" fill="#ec4899" fillOpacity="0.7" />
-          <text x="82" y="265" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">272k</text>
-          <rect x="92" y="246" width="204" height="15" fill="#38bdf8" fillOpacity="0.7" />
-          <rect x="92" y="263" width="136" height="12" fill="#ec4899" fillOpacity="0.7" />
-          <text x="82" y="302" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">500k</text>
-          <rect x="92" y="283" width="169" height="15" fill="#38bdf8" fillOpacity="0.7" />
-          <rect x="92" y="300" width="110" height="12" fill="#ec4899" fillOpacity="0.7" />
-          <text x="82" y="339" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">1M</text>
-          <rect x="92" y="320" width="242" height="15" fill="#38bdf8" fillOpacity="0.7" />
-          <rect x="92" y="337" width="449" height="12" fill="#ec4899" fillOpacity="0.7" />
-          <text x="82" y="376" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">off</text>
-          <rect x="92" y="357" width="165" height="15" fill="#38bdf8" fillOpacity="0.7" />
-          <rect x="92" y="374" width="104" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <line x1="92" y1="80" x2="92" y2="358" stroke="#334155" strokeDasharray="0" />
+          <text x="92" y="376" fill="#64748b" fontSize="15" textAnchor="middle">$0</text>
+          <line x1="222" y1="80" x2="222" y2="358" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="222" y="376" fill="#64748b" fontSize="15" textAnchor="middle">$2</text>
+          <line x1="353" y1="80" x2="353" y2="358" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="353" y="376" fill="#64748b" fontSize="15" textAnchor="middle">$4</text>
+          <line x1="483" y1="80" x2="483" y2="358" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="483" y="376" fill="#64748b" fontSize="15" textAnchor="middle">$6</text>
+          <text x="82" y="109" fill="#f8fafc" fontSize="19" fontWeight="600" textAnchor="end">50k</text>
+          <rect x="92" y="90" width="292" height="15" fill="#38bdf8" fillOpacity="1.0" />
+          <rect x="92" y="107" width="161" height="12" fill="#ec4899" fillOpacity="1.0" />
+          <text x="82" y="143" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">100k</text>
+          <rect x="92" y="124" width="176" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="141" width="151" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="177" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">150k</text>
+          <rect x="92" y="158" width="221" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="175" width="167" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="211" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">200k</text>
+          <rect x="92" y="192" width="148" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="209" width="236" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="245" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">272k</text>
+          <rect x="92" y="226" width="204" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="243" width="136" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="279" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">500k</text>
+          <rect x="92" y="260" width="169" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="277" width="110" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="313" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">1M</text>
+          <rect x="92" y="294" width="242" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="311" width="449" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="347" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">off</text>
+          <rect x="92" y="328" width="165" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="345" width="104" height="12" fill="#ec4899" fillOpacity="0.7" />
 
-          <text x="300" y="430" fill="#94a3b8" fontSize="14" textAnchor="middle">Autocompaction ceiling · total billed session cost (USD)</text>
-          <g transform="translate(150, 444)">
+          <text x="300" y="398" fill="#94a3b8" fontSize="14" textAnchor="middle">Autocompaction ceiling · total billed session cost (USD)</text>
+          <g transform="translate(150, 412)">
             <rect x="0" y="0" width="16" height="13" fill="#38bdf8" fillOpacity="0.85" />
             <text x="23" y="12" fill="#bae6fd" fontSize="14">Scenario 2 · warm</text>
             <rect x="165" y="0" width="16" height="13" fill="#ec4899" fillOpacity="0.85" />
@@ -147,8 +155,8 @@ function CompactionCurveFigureSvg() {
       <figcaption style={{ color: "#94a3b8", fontSize: "0.85rem", marginTop: "10px", textAlign: "center" }}>
         Figure 1: Total billed cost per arm, both sweeps. The 50k ceiling is worst or near-worst in
         both and is the only arm that thrashes (101 and 37 compactions). Above 150k the arms scatter
-        within single-run noise — the penalty is at the low end, not the high end. Exact figures in
-        the table above.
+        within single-run noise. The penalty sits at the low end, not the high end. Exact figures
+        are in the table above.
       </figcaption>
     </figure>
   );
@@ -167,17 +175,17 @@ function ReasoningScalingFigureSvg() {
           style={{ width: "100%", height: "auto", display: "block" }}
         >
           <title id="fig2-t">Reasoning tokens vs context length</title>
-          <desc id="fig2-d">Scenario 3 · 12 runs, identical refactor task · log–log axes</desc>
+          <desc id="fig2-d">Scenario 3 · 12 runs, identical refactor task · log-log axes · fit exponent β = 1.49</desc>
           <rect width="600" height="450" rx="8" fill="#0c1222" stroke="#1e293b" />
           <text x="300" y="32" fill="#f8fafc" fontSize="21" fontWeight="600" textAnchor="middle">Reasoning tokens vs context length</text>
-          <text x="300" y="54" fill="#94a3b8" fontSize="13" textAnchor="middle">Scenario 3 · 12 runs, identical refactor task · log–log axes</text>
+          <text x="300" y="54" fill="#94a3b8" fontSize="13" textAnchor="middle">Scenario 3 · 12 runs, identical refactor task · log-log axes · fit exponent β = 1.49</text>
 
           <line x1="96" y1="350" x2="556" y2="350" stroke="#1e293b" strokeDasharray="3 4" />
-          <text x="86" y="355" fill="#64748b" fontSize="15" textAnchor="end">10</text>
+          <text x="84" y="355" fill="#64748b" fontSize="15" textAnchor="end">10</text>
           <line x1="96" y1="225" x2="556" y2="225" stroke="#1e293b" strokeDasharray="3 4" />
-          <text x="86" y="230" fill="#64748b" fontSize="15" textAnchor="end">100</text>
+          <text x="84" y="230" fill="#64748b" fontSize="15" textAnchor="end">100</text>
           <line x1="96" y1="100" x2="556" y2="100" stroke="#1e293b" strokeDasharray="3 4" />
-          <text x="86" y="105" fill="#64748b" fontSize="15" textAnchor="end">1,000</text>
+          <text x="84" y="105" fill="#64748b" fontSize="15" textAnchor="end">1,000</text>
           <line x1="96" y1="300" x2="556" y2="155" stroke="#f59e0b" strokeWidth="3" />
           <circle cx="249" cy="266" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
           <circle cx="145" cy="296" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
@@ -191,24 +199,21 @@ function ReasoningScalingFigureSvg() {
           <circle cx="514" cy="181" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
           <circle cx="371" cy="196" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
           <circle cx="476" cy="192" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
-          <text x="96" y="374" fill="#94a3b8" fontSize="15" textAnchor="middle">50k</text>
-          <text x="274" y="374" fill="#94a3b8" fontSize="15" textAnchor="middle">100k</text>
-          <text x="452" y="374" fill="#94a3b8" fontSize="15" textAnchor="middle">200k</text>
-          <text x="556" y="374" fill="#94a3b8" fontSize="15" textAnchor="middle">300k</text>
+          <text x="96" y="378" fill="#94a3b8" fontSize="15" textAnchor="middle">50k</text>
+          <text x="274" y="378" fill="#94a3b8" fontSize="15" textAnchor="middle">100k</text>
+          <text x="452" y="378" fill="#94a3b8" fontSize="15" textAnchor="middle">200k</text>
+          <text x="556" y="378" fill="#94a3b8" fontSize="15" textAnchor="middle">300k</text>
 
-          <text x="326" y="398" fill="#94a3b8" fontSize="14" textAnchor="middle">Measured context length (L)</text>
+          <text x="326" y="402" fill="#94a3b8" fontSize="14" textAnchor="middle">Measured context length (L)</text>
           <text x="26" y="225" fill="#f59e0b" fontSize="14" fontWeight="600" transform="rotate(-90 26 225)" textAnchor="middle">Reasoning tokens (T)</text>
-          <g transform="translate(150, 400)">
-            <rect x="0" y="0" width="300" height="34" rx="5" fill="#0f172a" fillOpacity="0.9" stroke="#f59e0b" />
-            <text x="150" y="15" fill="#fbbf24" fontSize="15" fontWeight="600" textAnchor="middle">Super-linear exponent β = 1.49</text>
-            <text x="150" y="29" fill="#cbd5e1" fontSize="13" textAnchor="middle">2× the context → ≈2.8× the thinking</text>
-          </g>
+          <text x="300" y="432" fill="#fbbf24" fontSize="16" fontWeight="600" textAnchor="middle">Double the context, roughly 2.8× the thinking</text>
+
         </svg>
       </div>
       <figcaption style={{ color: "#94a3b8", fontSize: "0.85rem", marginTop: "10px", textAlign: "center" }}>
         Figure 2: Every dot is one of the 12 measured Scenario 3 runs; the line is the fitted power
-        law. Run-to-run spread is wide at fixed context length — the exponent describes the trend,
-        not any single turn. Full per-run receipts are in the{" "}
+        law. Run-to-run spread is wide at any fixed context length, so the exponent describes the
+        trend rather than any single turn. Full per-run receipts are in the{" "}
         <Link href="/research/context-compaction-phase-2">Phase 2 Methodology &amp; Receipts Report</Link>.
       </figcaption>
     </figure>
@@ -308,8 +313,9 @@ export default function ContextCompactionPhase2Page() {
             <time dateTime="2026-09-13">September 13, 2026</time> ·{" "}
             <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">
               {novaAuthor.display_name}
-            </a>{" "}
-            · Head Researcher, Gaia Research
+            </a>
+            , {novaAuthor.role} · {humanAuthorName},{" "}
+            {novaAuthor.editorial.human_editorial_reviewer.role}
           </p>
           <h1>{articleTitle}</h1>
           <p className="blog-post-summary">
@@ -352,6 +358,12 @@ export default function ContextCompactionPhase2Page() {
                 if (text === "[[MODEL_PRICING_FIGURE]]") {
                   return <ModelPricingFigureSvg />;
                 }
+                if (text === "[[MODEL_PRICING_FIGURE]]") {
+                  return <ModelPricingFigureSvg />;
+                }
+                if (text === "[[MODEL_PRICING_FIGURE]]") {
+                  return <ModelPricingFigureSvg />;
+                }
 
                 return <p {...props}>{children}</p>;
               },
@@ -360,6 +372,22 @@ export default function ContextCompactionPhase2Page() {
             {body}
           </Markdown>
         </article>
+
+        <aside
+          className="blog-post-research-cta"
+          aria-label="Read the full research record"
+        >
+          <span className="blog-post-research-cta-eyebrow">For the advanced reader</span>
+          <p className="blog-post-research-cta-lede">
+            Every number in this post is reproducible. The research record carries the full
+            protocol, all 37 run receipts, per-turn telemetry for each of the eight arms, and
+            the power-law derivation behind &beta; = 1.49.
+          </p>
+          <Link className="blog-post-research-cta-link" href="/research/context-compaction-phase-2">
+            Read the Phase 2 Methodology &amp; Receipts Report{" "}
+            <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </aside>
 
         <footer className="blog-post-foot">
           <Link href="/blog">

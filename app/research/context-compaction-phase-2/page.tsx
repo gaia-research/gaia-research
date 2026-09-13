@@ -8,12 +8,12 @@ import methodologyMd from "@/content/reports/context-compaction-phase-2/methodol
 import receiptsMd from "@/content/reports/context-compaction-phase-2/receipts.md";
 
 export const metadata = {
-  title: "Context Compaction Phase 2 Empirical Benchmark",
+  title: "Context Compaction in Autonomous Coding Agents: Empirical Benchmark & Academic Preprint (GAIA-TR-2026-09-02)",
   description:
-    "Empirical study across 37 live agent sessions (25 across S1/S2/S4/S6 + 12 across S3) and 8 autocompaction thresholds on Gemini 3.8 Flash: Pareto frontier, prompt-cache amplification, reacquisition thrashing, and super-linear reasoning scaling.",
+    "Formal academic preprint: Empirical study across 37 live agent sessions and 8 autocompaction thresholds on Gemini 3.8 Flash. Pareto frontier, prompt-cache amplification, reacquisition thrashing, and super-linear reasoning scaling.",
   authors: [
-    { name: marcusAuthor.display_name, url: marcusAuthor.links.github },
     { name: novaAuthor.display_name, url: novaAuthor.links.github },
+    { name: marcusAuthor.display_name, url: marcusAuthor.links.github },
   ],
 };
 
@@ -21,7 +21,10 @@ export const dynamic = "force-static";
 export const revalidate = false;
 
 function cleanMarkdown(raw: string) {
-  return raw
+  // If there is an Abstract block, start from the Abstract block to avoid duplicating the header masthead
+  const abstractIndex = raw.indexOf("> ### Abstract");
+  const content = abstractIndex !== -1 ? raw.slice(abstractIndex) : raw;
+  return content
     .split("\n")
     .filter((line: string) => !line.startsWith("# ") && !line.trim().startsWith("<!--"))
     .join("\n")
@@ -37,46 +40,84 @@ export default function ContextCompactionPhase2Page() {
     <>
       <SiteHeader />
       <main id="main" className="report-page">
-        <header className="report-head">
-          <p className="signal"><span /> RESEARCH · RECEIPT · BENCHMARK</p>
-          <h1>Context Compaction<br />Empirical Benchmark</h1>
-          <p className="report-sub">
-            Empirical study across 37 live agent sessions (25 across S1/S2/S4/S6 + 12 across S3) and 8 autocompaction thresholds on Gemini 3.8 Flash: Pareto frontier, prompt-cache amplification, reacquisition thrashing, and super-linear reasoning scaling.
-          </p>
-          <dl className="report-meta">
-            <div>
-              <dt>Authors</dt>
-              <dd>
-                <a href={marcusAuthor.links.github} target="_blank" rel="noreferrer">
-                  {marcusAuthor.display_name}
-                </a>{" "}
-                &amp;{" "}
+        {/* ── Prominent Academic Preprint Masthead ── */}
+        <header className="latex-preprint-header">
+          <div className="latex-preprint-banner">
+            <span className="latex-preprint-org">GAIA RESEARCH LABORATORY · TECHNICAL REPORT</span>
+            <span className="latex-preprint-id">GAIA-TR-2026-09-02</span>
+            <span className="latex-preprint-date">SEPTEMBER 2026</span>
+          </div>
+
+          <h1 className="latex-paper-title">
+            Empirical Context Compaction in Autonomous Coding Agents:
+            <br />
+            Architectural Dynamics, Cache Economics, and the Pareto Frontier
+          </h1>
+
+          <div className="latex-author-block">
+            <div className="latex-author-item">
+              <span className="latex-author-name">
                 <a href={novaAuthor.links.github} target="_blank" rel="noreferrer">
                   {novaAuthor.display_name}
                 </a>
-              </dd>
+              </span>
+              <span className="latex-author-role">Head Researcher</span>
+              <span className="latex-author-affil">Gaia Research</span>
             </div>
-            <div><dt>Origin</dt><dd>Gaia Research · Issue #222</dd></div>
-            <div><dt>Model</dt><dd>Gemini 3.8 Flash (<code>:high</code>)</dd></div>
-            <div><dt>Runs</dt><dd>37 live sessions (25 across S1/S2/S4/S6 + 12 across S3)</dd></div>
-            <div><dt>Status</dt><dd><span className="chip vrf">VRF · EMPIRICALLY VERIFIED</span></dd></div>
-          </dl>
-          <div className="report-links">
-            <Link href="/blog/context-compaction-phase-2">Read the blog post →</Link>
-            <Link href="/research">← Back to Research</Link>
+            <div className="latex-author-item">
+              <span className="latex-author-name">
+                <a href={marcusAuthor.links.github} target="_blank" rel="noreferrer">
+                  {marcusAuthor.display_name}
+                </a>
+              </span>
+              <span className="latex-author-role">Founder</span>
+              <span className="latex-author-affil">Gaia Research</span>
+            </div>
+          </div>
+
+          <p className="latex-paper-institution">
+            Gaia Research Laboratory · Technical Report GAIA-TR-2026-09-02
+          </p>
+
+          <div className="latex-metadata-grid">
+            <div className="latex-metadata-item">
+              <span className="latex-metadata-label">Report Identifier</span>
+              <span className="latex-metadata-value"><code>GAIA-TR-2026-09-02</code></span>
+            </div>
+            <div className="latex-metadata-item">
+              <span className="latex-metadata-label">Target Architecture</span>
+              <span className="latex-metadata-value">Gemini 3.8 Flash (<code>:high</code>)</span>
+            </div>
+            <div className="latex-metadata-item">
+              <span className="latex-metadata-label">Empirical Scale</span>
+              <span className="latex-metadata-value">37 Live Agent Runs</span>
+            </div>
+            <div className="latex-metadata-item">
+              <span className="latex-metadata-label">Pricing Topology</span>
+              <span className="latex-metadata-value">Flat 1M / 10× Cache Discount</span>
+            </div>
+            <div className="latex-metadata-item">
+              <span className="latex-metadata-label">Peer Verification</span>
+              <span className="latex-metadata-value"><span className="chip vrf">VRF · EMPIRICALLY VERIFIED</span></span>
+            </div>
+          </div>
+
+          <nav className="latex-paper-links" aria-label="Preprint references and links">
+            <Link href="/blog/context-compaction-phase-2">Read Executive Blog Post →</Link>
+            <Link href="/research">← Back to Research Ledger</Link>
             <a
               href="https://github.com/gaia-research/gaia-research/issues/222"
               target="_blank"
               rel="noreferrer"
             >
-              Issue #222 ↗
+              GitHub Issue #222 ↗
             </a>
             <a
               href="https://github.com/gaia-research/gaia-research/pull/237"
               target="_blank"
               rel="noreferrer"
             >
-              PR #237 ↗
+              Benchmark PR #237 ↗
             </a>
             <a
               href="https://github.com/gaia-research/gaia-research/blob/main/scripts/compaction-bench/data/summary/consolidated-receipts.json"
@@ -85,7 +126,7 @@ export default function ContextCompactionPhase2Page() {
             >
               Consolidated Receipts JSON ↗
             </a>
-          </div>
+          </nav>
         </header>
 
         <ContextCompactionBenchClient

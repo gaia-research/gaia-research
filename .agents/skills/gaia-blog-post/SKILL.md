@@ -147,6 +147,34 @@ Do not proceed until every line is filled with verified information.
 
 ---
 
+### 1.3 Cross-model re-pricing (when the post reports cost)
+
+A benchmark run on one cheap model answers "what does this cost me?" for almost
+nobody. If the post has a dollar figure, carry it onto the models readers actually
+run. The method is a **re-pricing, never a simulation**:
+
+1. Take the **measured token counts** from the ledger (fresh input / cache read /
+   output, per arm). Never a modelled token count.
+2. Pull rates from the `cost` skill's catalog, which is LiteLLM's and is the same
+   source the ledger already cites:
+   `python3 ~/.claude/skills/cost/cost.py --refresh-prices`, then read
+   `~/.claude/skills/cost/prices.json`. Quote the `fetched_at` date in the post.
+3. **Validate the method against the measured model first.** Re-price the benchmarked
+   model's own token counts and confirm you reproduce its ledger cost to the cent.
+   If that fails, the arithmetic is wrong and every other row is too.
+4. State the load-bearing assumption in the post, in plain words: the agent is assumed
+   to behave identically under a different model, which is exactly the thing that was
+   not tested. Label the section as arithmetic, not measurement, and add a line to the
+   limitations section saying so.
+5. Say which components are **omitted** and which direction that biases the result.
+   Gemini's card has no cache-write price, so a Gemini-derived receipt carries no
+   cache-write column, and omitting it understates any penalty paid by a compacting arm.
+
+The interesting output is usually the **ratio**, not the dollars. Penalty percentages
+are often governed by one number on the rate card, which is portable; the dollar
+figures inherit the benchmarked model's behaviour and are the weakest numbers in the
+post. Lead with whichever one is actually load-bearing.
+
 ## Phase 2 — Write `post.md`
 
 ### 2.1 The invisible line contract
@@ -223,10 +251,37 @@ body contains a bare `[[TOKEN]]` paragraph; the page swaps in the SVG.
 
 Every inline SVG must carry, because reviewers have caught all four repeatedly:
 
-- **Dual-SVG Responsive Rule (Mobile Tall + Desktop/Tablet Regular)**:
-  Every figure MUST provide two complementary responsive versions:
-  - `<div className="blog-svg-desktop">`: Wide aspect ratio (e.g. 900×340 to 960×480) with horizontal flow, multi-column layouts, and wide charts.
-  - `<div className="blog-svg-mobile">`: Tall vertical aspect ratio (e.g. 420×720 to 440×1120) with vertically stacked steps, downward flow arrows, and large legible text at phone widths (≤640px).
+- **4:3 Mobile-First Rule (founder ruling, 2026-09-13).** One SVG per figure, at a
+  **4:3 aspect ratio** (`viewBox="0 0 600 450"` is the reference size), wrapped in
+  `<div style={{ maxWidth: "560px", margin: "0 auto" }}>`. This replaces the old
+  dual-SVG (tall-mobile + wide-desktop) rule: two SVGs per figure meant two things to
+  keep in sync, and they drifted.
+
+  **The type-size arithmetic is the whole trick.** A figure renders at ~320px on the
+  narrowest phone. With a 600-unit-wide viewBox the scale factor is 0.53, so a
+  `fontSize="10"` label lands at 5px and is unreadable. Work backwards from the phone:
+
+  | Element | viewBox fontSize | Renders at 320px |
+  |---|---|---|
+  | Chart title | 21 | ~11px |
+  | Subtitle / provenance | 13 | ~7px |
+  | Category + axis labels | 15–19 | ~8–10px |
+  | In-figure callout | 16 | ~8.5px |
+
+  Nothing below `fontSize="13"`. If a label does not fit at that size, the chart has
+  too many series — cut one, or move the exact numbers to the table above the figure
+  and let the chart carry only the shape.
+
+  **Prefer horizontal bars to vertical** for any categorical comparison. Eight vertical
+  bars at phone width collide; eight horizontal rows with short left-hand labels
+  (`50k`, `200k`, `off`) stay legible and fit the 4:3 box.
+
+  Verify with the real thing, never by eye:
+  `BASE_URL=http://localhost:3010 PAGES=/blog/<slug> LABEL=figs node scripts/visual-audit.mjs`,
+  then crop the figure out of the 320px and 390px screenshots and actually look at it.
+  Watch for elements that run past the viewBox height — legends and axis titles placed
+  below the last row are the usual offenders, and the audit will not catch them because
+  SVG overflow is clipped, not scrolled.
 - `viewBox` plus `style={{ width: "100%", height: "auto", display: "block" }}` — responsive, or it
   cuts off on a phone
 - `role="img"` and `aria-labelledby` pointing at `<title>` and `<desc>`
@@ -410,6 +465,12 @@ failure signal."
 
 ### Never
 
+- **Em dashes (`—`).** Founder ruling, 2026-09-13: they are the single loudest
+  AI-writing tell, and Nova does not use them. This covers post body, figure labels,
+  figure captions, and `articleDescription`. Recast with a period, a comma, a colon,
+  or parentheses; the sentence is almost always better for it. Gate before shipping:
+  `grep -n '—' content/blog/<slug>/post.md app/blog/<slug>/page.tsx` must return nothing.
+  En dashes in numeric ranges (`40k–65k`, `157–173`) are fine and stay.
 - "delve", "dive deep", "unpack", "explore", "journey", "exciting", "powerful",
   "robust", "seamless", "game-changing", "paradigm shift", "unlock", or
   "leverage" as a verb
