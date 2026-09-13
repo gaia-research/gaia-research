@@ -205,24 +205,7 @@ $$
 
   With scaling exponent $\beta = 1.4897 \approx 1.49$, output tokens grow super-linearly with context depth ($\beta > 1.0$). When context increases by 8× (from 50k to 400k tokens), internal thinking expands by **22.4×** (from 233 to 5,210 tokens). Prompt clutter forces the model's internal deliberation graph to navigate historical noise, compounding cost at the highest pricing tier ($3.75/1M output).
 
-```
-REASONING TOKEN INFLATION (SCENARIO 3)
-Power Law Fit: T = 2.525e-6 * L^1.49 (Beta = 1.49)
-Output Tokens
-  2500 ┼                                                  ● (272k-rep1: 2335)
-       │                                            ● (272k-rep3: 2151)
-  2000 ┼                                      ● (272k-rep2: 1739)
-       │                              ● (180k-rep3: 1549)
-  1500 ┼                      ● (180k-rep2: 1362)
-       │              ● (180k-rep1: 1337)
-  1000 ┼       ● (80k-rep1: 1123)
-       │ ● (20k-rep3: 776)
-   500 ┼ ● (20k-rep1: 548)    ● (80k-rep3: 409)
-       │ ● (20k-rep2: 467)    ● (80k-rep2: 292)
-     0 ┼───────┬──────────────┬──────────────┬──────────────┬──────────────
-       0      50k            100k           150k           200k           250k
-                               Context Tokens (L)
-```
+[[REASONING_SCALING_FIGURE]]
 
 ### 3.4 Scenario 4: The Compaction Curve & Pareto Frontier
 * **Objective:** Map the empirical relationship between compaction ceiling and total cost under realistic operating conditions featuring intermittent human pauses.
@@ -239,21 +222,7 @@ Output Tokens
 | `A-1M` | 1,048,576 | 0 | 2,664,051 | 60,339,166 | 63,102,126 | **$6.8944** | $13.7888 | 1.00× | 80.0% | 100.0% | `01a09467-f705-728b-b8df-9cb60144fbb6` |
 | `A-disabled`| 1,048,576 | 0 | 939,983 | 8,795,826 | 9,798,025 | **$1.5980** | $3.1960 | 1.00× | 74.3% | 100.0% | `01a09495-9b2f-7771-be9b-9860b7190db9` |
 
-```
-THE COMPACTION CURVE (SCENARIO 4: 25 TURNS, MIXED WARM/COLD)
-Total Cost ($)
-  $7.00 ┼                                                    ● A-1M ($6.89)
-  $6.00 ┼
-  $5.00 ┼
-  $4.00 ┼                                  ● A-200k ($3.63)
-  $3.00 ┼            ● A-150k ($2.56)
-        │ ● A-50k ($2.48)
-  $2.00 ┼     ● A-100k ($2.32)      ● A-272k ($2.09)
-  $1.00 ┼                                        ● A-500k ($1.70)  ● A-disabled ($1.60)
-  $0.00 ┼───────┬──────────────┬──────────────┬──────────────┬──────────────┬──────────
-       0       100k           200k           300k           500k           1M
-                                 Compaction Ceiling
-```
+[[COMPACTION_CURVE_FIGURE]]
 
 * **Analysis of the Pareto Frontier:**
   1. **Left-Side Thrashing (50k–100k):** `A-50k` costs $2.4788 and suffers 37 compactions with a **4.95× reacquisition multiplier**, continuously converting cheap cache reads into fresh input tokens.
@@ -313,6 +282,8 @@ On January 1, 2027, Google's introductory API rates are scheduled to double to s
 - Cache Read: $0.075 → **$0.15 per 1M**
 
 Because the ratio between cache reads and input remains constant (1:10), the relative topology of the compaction curve will persist. However, the **absolute dollar penalties will double**. The thrashing debt observed in Scenario 2 (`A-50k`) will jump from $4.49 to **$8.97**, while `A-200k` will rise from $2.27 to **$4.54**. In enterprise environments executing millions of agent turns monthly, incorrect compaction tuning represents an unforced 50%+ cost waste.
+
+[[MODEL_PRICING_FIGURE]]
 
 ### 4.4 Synthesis of Key Empirical Takeaways
 1. **The Rightward Shift:** Never compact below 150k tokens on flat-pricing, high-cache-discount architectures.

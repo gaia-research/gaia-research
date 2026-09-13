@@ -275,7 +275,85 @@ function AcademicFigure2() {
         </svg>
       </div>
       <figcaption style={{ color: "var(--muted)", fontSize: "0.85rem", textAlign: "center", marginTop: "8px", fontFamily: "var(--mono), monospace" }}>
-        Fig. 2. Reasoning deliberation ($T$) vs context length ($L$). Expanding context from 50k to 400k tokens triggers a 22.4$\times$ increase in thinking tokens ($\beta \approx 1.49$).
+        Fig. 2. Reasoning deliberation (T) vs context length (L). Expanding context from 50k to 400k tokens triggers a 22.4× increase in thinking tokens (β ≈ 1.49).
+      </figcaption>
+    </figure>
+  );
+}
+
+function AcademicFigure3() {
+  return (
+    <figure className="academic-visual-figure" style={{ margin: "24px 0", breakInside: "avoid" }}>
+      <div style={{ maxWidth: "100%", margin: "0 auto", background: "#0b0f19", padding: "16px", borderRadius: "6px", border: "1px solid rgba(255,255,255,0.12)" }}>
+        <svg
+          viewBox="0 0 720 360"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ width: "100%", height: "auto", display: "block" }}
+        >
+          <rect width="720" height="360" fill="#080c16" rx="4" />
+
+          {/* Title */}
+          <text x="360" y="28" fill="#f8fafc" fontSize="14" fontWeight="700" fontFamily="var(--mono), monospace" textAnchor="middle" letterSpacing="0.05em">
+            FIG. 3. IDENTICAL 25-TURN BUILD PRICED ACROSS FOUR FRONTIER MODELS
+          </text>
+          <text x="360" y="46" fill="#94a3b8" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">
+            Compacting at 50k (pink) vs. Never Compacting (blue) across differential rate cards
+          </text>
+
+          {/* Grid lines */}
+          <line x1="160" y1="70" x2="660" y2="70" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <line x1="260" y1="70" x2="260" y2="290" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <text x="260" y="308" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">$10</text>
+          <line x1="360" y1="70" x2="360" y2="290" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <text x="360" y="308" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">$20</text>
+          <line x1="460" y1="70" x2="460" y2="290" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <text x="460" y="308" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">$30</text>
+          <line x1="560" y1="70" x2="560" y2="290" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+          <text x="560" y="308" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">$40</text>
+          <line x1="160" y1="70" x2="160" y2="290" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+          <text x="160" y="308" fill="#64748b" fontSize="10" fontFamily="var(--mono), monospace" textAnchor="middle">$0</text>
+
+          {/* Row 1: Gemini 3.8 Flash */}
+          <text x="145" y="98" fill="#e2e8f0" fontSize="11" fontFamily="var(--mono), monospace" textAnchor="end">Gemini Flash</text>
+          <rect x="160" y="82" width="25" height="13" fill="#ec4899" rx="2" />
+          <rect x="160" y="98" width="16" height="13" fill="#38bdf8" rx="2" />
+          <text x="560" y="92" fill="#38bdf8" fontSize="10" fontWeight="600" fontFamily="var(--mono), monospace">+$0.88 (+55%)</text>
+          <text x="560" y="106" fill="#94a3b8" fontSize="9" fontFamily="var(--mono), monospace">10× cache read discount</text>
+
+          {/* Row 2: GPT-5.6 Sol */}
+          <text x="145" y="148" fill="#e2e8f0" fontSize="11" fontFamily="var(--mono), monospace" textAnchor="end">GPT-5.6 Sol</text>
+          <rect x="160" y="132" width="132" height="13" fill="#ec4899" rx="2" />
+          <rect x="160" y="148" width="85" height="13" fill="#38bdf8" rx="2" />
+          <text x="560" y="142" fill="#38bdf8" fontSize="10" fontWeight="600" fontFamily="var(--mono), monospace">+$4.70 (+55%)</text>
+          <text x="560" y="156" fill="#94a3b8" fontSize="9" fontFamily="var(--mono), monospace">50% cache read discount</text>
+
+          {/* Row 3: Claude Opus 5 */}
+          <text x="145" y="198" fill="#e2e8f0" fontSize="11" fontFamily="var(--mono), monospace" textAnchor="end">Opus 5</text>
+          <rect x="160" y="182" width="165" height="13" fill="#ec4899" rx="2" />
+          <rect x="160" y="198" width="106" height="13" fill="#38bdf8" rx="2" />
+          <text x="560" y="192" fill="#38bdf8" fontSize="10" fontWeight="600" fontFamily="var(--mono), monospace">+$5.88 (+55%)</text>
+          <text x="560" y="206" fill="#94a3b8" fontSize="9" fontFamily="var(--mono), monospace">90% cache read discount</text>
+
+          {/* Row 4: Claude Sonnet 4.6 */}
+          <text x="145" y="248" fill="#e2e8f0" fontSize="11" fontFamily="var(--mono), monospace" textAnchor="end">Sonnet 4.6</text>
+          <rect x="160" y="232" width="55" height="13" fill="#ec4899" rx="2" />
+          <rect x="160" y="248" width="35" height="13" fill="#38bdf8" rx="2" />
+          <text x="560" y="242" fill="#38bdf8" fontSize="10" fontWeight="600" fontFamily="var(--mono), monospace">+$1.96 (+55%)</text>
+          <text x="560" y="256" fill="#94a3b8" fontSize="9" fontFamily="var(--mono), monospace">90% cache read discount</text>
+
+          {/* Legend */}
+          <g transform="translate(190, 332)">
+            <rect x="0" y="0" width="14" height="10" fill="#ec4899" rx="2" />
+            <text x="20" y="9" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace">Compacting at 50k (Thrashing)</text>
+
+            <rect x="240" y="0" width="14" height="10" fill="#38bdf8" rx="2" />
+            <text x="260" y="9" fill="#e2e8f0" fontSize="10" fontFamily="var(--mono), monospace">Uncompacted (Cache Continuity)</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption style={{ color: "var(--muted)", fontSize: "0.85rem", textAlign: "center", marginTop: "8px", fontFamily: "var(--mono), monospace" }}>
+        Fig. 3. Simulated session cost on identical 25-turn workload across four frontier models. Regardless of base rate card, premature compaction incurs a constant ~55% thrashing surcharge.
       </figcaption>
     </figure>
   );
@@ -338,6 +416,9 @@ export default function ContextCompactionBenchClient({
       if (text === "[[REASONING_SCALING_FIGURE]]" || text === "[[REASONING_SCALING]]") {
         return <AcademicFigure2 />;
       }
+      if (text === "[[MODEL_PRICING_FIGURE]]" || text === "[[MODEL_PRICING]]") {
+        return <AcademicFigure3 />;
+      }
       return <p {...props}>{children}</p>;
     },
     table: ({ children }: { children?: ReactNode }) => (
@@ -359,28 +440,37 @@ export default function ContextCompactionBenchClient({
         {children}
       </code>
     ),
-    pre: ({ children, style, ...props }: HTMLAttributes<HTMLPreElement>) => (
-      <div
-        className="pre-scroll-container academic-code-block"
-        style={{
-          overflowX: "auto",
-          maxWidth: "100%",
-          WebkitOverflowScrolling: "touch",
-        }}
-      >
-        <pre
+    pre: ({ children, style, ...props }: HTMLAttributes<HTMLPreElement>) => {
+      const text = extractText(children);
+      if (text.includes("THE COMPACTION CURVE (SCENARIO 4")) {
+        return <AcademicFigure1 />;
+      }
+      if (text.includes("REASONING TOKEN INFLATION (SCENARIO 3)")) {
+        return <AcademicFigure2 />;
+      }
+      return (
+        <div
+          className="pre-scroll-container academic-code-block"
           style={{
             overflowX: "auto",
             maxWidth: "100%",
             WebkitOverflowScrolling: "touch",
-            ...style,
           }}
-          {...props}
         >
-          {children}
-        </pre>
-      </div>
-    ),
+          <pre
+            style={{
+              overflowX: "auto",
+              maxWidth: "100%",
+              WebkitOverflowScrolling: "touch",
+              ...style,
+            }}
+            {...props}
+          >
+            {children}
+          </pre>
+        </div>
+      );
+    },
     h2: ({ children }: { children?: ReactNode }) => {
       const text = extractText(children);
       const id = getHeadingId(text);
