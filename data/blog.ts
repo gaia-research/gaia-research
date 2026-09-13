@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import orchestratorTaxColdCacheThumbnailSrc from "@/assets/generated/orchestrator-tax-cold-cache-editorial-thumbnail.webp";
 import contextCompactionPhase2ThumbnailSrc from "@/assets/generated/context-compaction-phase-2-editorial-thumbnail.webp";
 import contextCompactionCurveThumbnailSrc from "@/assets/generated/context-compaction-curve-editorial-thumbnail.webp";
 import dontMakeTheModelThinkHarderThumbnailSrc from "@/assets/generated/dont-make-the-model-think-harder-editorial-thumbnail.webp";
@@ -30,6 +31,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const orchestratorTaxColdCacheThumbnail = {
+  src: orchestratorTaxColdCacheThumbnailSrc,
+  alt: "Tiny pink-haired Milim sits peacefully on a massive polished oak dispatcher bench in a vast, vaulted railway dispatch concourse with soaring arched windows and a monumental brass clock.",
+} as const;
 
 export const contextCompactionPhase2Thumbnail = {
   src: contextCompactionPhase2ThumbnailSrc,
@@ -114,6 +120,24 @@ export const arborEvidenceLoopEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/orchestrator-tax-cold-cache",
+    category: "Token Economics",
+    tags: [
+      "Orchestrator Tax",
+      "KV Cache",
+      "Prompt Caching",
+      "Cold Reentry",
+      "Multi-Agent",
+    ],
+    date: "September 14, 2026",
+    readTime: "9 min read",
+    title: "The Orchestrator Tax: Cold-Cache Reentries and the 30-Minute KV Cache Solution",
+    description:
+      "Why multi-agent orchestration costs 5x to 10x more than single-agent runs: subagent execution times breach ephemeral cache TTLs, turning orchestrator wakeups into a 12.5x cache-write billing trap.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: orchestratorTaxColdCacheThumbnail,
+  },
   {
     href: "/blog/context-compaction-phase-2",
     category: "Agent Architecture",

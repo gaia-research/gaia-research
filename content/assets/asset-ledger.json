@@ -2614,6 +2614,26 @@
       "derivatives": []
     },
     {
+      "id": "orchestrator-tax-cold-cache-editorial-thumbnail",
+      "path": "assets/generated/orchestrator-tax-cold-cache-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "approved",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research · gpt-image-2 editorial commission",
+      "alt": "Tiny pink-haired Milim sits peacefully on a massive polished oak dispatcher bench in a vast, vaulted railway dispatch concourse with soaring arched windows and a monumental brass clock.",
+      "sha256": "cd4c4cdc1c31f558bb3c5a75a9201aa175d089f6e2ee180d310879ec851f9b33",
+      "bytes": 401208,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": [
+        "public/assets/orchestrator-tax-cold-cache-editorial-thumbnail.webp"
+      ],
+      "notes": "Candidate source from assets/workbench/generated/orchestrator-tax-cold-cache-thumbnail-candidate.png; exported as a 1600x900 WebP at quality 90."
+    },
+    {
       "id": "parallel-cheap-scouting-editorial-thumbnail",
       "path": "assets/generated/parallel-cheap-scouting-editorial-thumbnail.webp",
       "kind": "illustration",
