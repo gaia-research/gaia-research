@@ -507,3 +507,108 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
   .mcp-tool-params div{grid-template-columns:1fr;gap:.15rem}
   .mcp-tabs{flex-wrap:wrap}
 }
+
+/* ── Context Compaction & Report Tabs Navigation ──────────────────────── */
+.report-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.5rem;
+  margin: 2rem 0 1rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.85rem;
+}
+.report-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--dim);
+  font: var(--type-compact) var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.65rem 1.15rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  border-radius: 4px;
+}
+.report-tab-btn:hover {
+  border-color: var(--blue);
+  color: var(--ink);
+  background: var(--surface-raised);
+}
+.report-tab-btn.active {
+  background: var(--surface-raised);
+  border-color: var(--pink);
+  color: var(--ink);
+  box-shadow: 0 0 12px rgba(236, 72, 153, 0.2);
+}
+.report-tab-badge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--dim);
+  letter-spacing: 0.04em;
+}
+.report-tab-btn.active .report-tab-badge {
+  background: rgba(236, 72, 153, 0.18);
+  color: var(--pink);
+}
+.report-jump-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+  margin: 0 0 2rem;
+  padding: 0.9rem 1.2rem;
+  background: rgba(11, 12, 19, 0.65);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.report-jump-label {
+  font: var(--type-compact) var(--mono);
+  color: var(--dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-right: 0.4rem;
+}
+.report-jump-pill {
+  font: var(--type-compact) var(--mono);
+  color: var(--blue);
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 0.28rem 0.6rem;
+  border-radius: 3px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.report-jump-pill:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: var(--blue);
+  color: var(--ink);
+}
+.report-h2-anchor,
+.report-h3-anchor {
+  scroll-margin-top: 5rem;
+}
+.report-section-divider {
+  margin: 3.5rem 0 2.5rem;
+  border-top: 2px dashed var(--line);
+  position: relative;
+  text-align: center;
+}
+.report-section-divider span {
+  position: relative;
+  top: -0.75rem;
+  background: var(--bg);
+  padding: 0 1rem;
+  font: var(--type-compact) var(--mono);
+  color: var(--pink);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+

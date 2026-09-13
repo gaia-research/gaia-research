@@ -17,9 +17,9 @@ const articlePath = "/blog/context-compaction-phase-2";
 const articleUrl = `${siteUrl}${articlePath}`;
 const thumbnailUrl = `${siteUrl}${contextCompactionPhase2Thumbnail.src.src}`;
 const articleTitle =
-  "We Ran 48 Coding Sessions to Find the Real Compaction Sweet Spot";
+  "We Ran 37 Agent Sessions to Find the Real Compaction Sweet Spot";
 const articleDescription =
-  "Phase 1 predicted the sweet spot was 40k–65k. We ran 48 live coding sessions across 8 autocompaction thresholds on Gemini 3.8 Flash. Here is the true Pareto frontier.";
+  "Phase 1 modelled the compaction sweet spot at 40k–65k. Then we measured it: 37 agent runs across 8 autocompaction ceilings on Gemini 3.8 Flash. Compacting at 50k costs more than never compacting at all.";
 
 export const metadata = {
   title: articleTitle,
@@ -87,123 +87,68 @@ const articleStructuredData = {
 function CompactionCurveFigureSvg() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <div style={{ maxWidth: "780px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "560px", margin: "0 auto" }}>
         <svg
-          viewBox="0 0 740 460"
+          viewBox="0 0 600 450"
+          role="img"
+          aria-labelledby="fig1-t fig1-d"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{ width: "100%", height: "auto", display: "block" }}
         >
-          {/* Background */}
-          <rect width="740" height="460" rx="8" fill="#0c1222" stroke="#1e293b" />
+          <title id="fig1-t">Total session cost by autocompaction ceiling</title>
+          <desc id="fig1-d">Gemini 3.8 Flash · one run per arm · 30-turn warm sweep and 25-turn cold-gap sweep</desc>
+          <rect width="600" height="450" rx="8" fill="#0c1222" stroke="#1e293b" />
+          <text x="300" y="32" fill="#f8fafc" fontSize="21" fontWeight="600" textAnchor="middle">Total session cost by autocompaction ceiling</text>
+          <text x="300" y="54" fill="#94a3b8" fontSize="13" textAnchor="middle">Gemini 3.8 Flash · one run per arm · 30-turn warm sweep and 25-turn cold-gap sweep</text>
 
-          {/* Title */}
-          <text x="370" y="32" fill="#f8fafc" fontSize="15" fontWeight="600" textAnchor="middle">
-            Context Compaction Cost vs Thrashing Pareto Frontier
-          </text>
-          <text x="370" y="52" fill="#94a3b8" fontSize="11" textAnchor="middle">
-            Measured across 48 live coding sessions on Gemini 3.8 Flash (Scenario 4 Pareto Sweep)
-          </text>
+          <line x1="92" y1="88" x2="92" y2="390" stroke="#334155" strokeDasharray="0" />
+          <text x="92" y="408" fill="#64748b" fontSize="15" textAnchor="middle">$0</text>
+          <line x1="222" y1="88" x2="222" y2="390" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="222" y="408" fill="#64748b" fontSize="15" textAnchor="middle">$2</text>
+          <line x1="353" y1="88" x2="353" y2="390" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="353" y="408" fill="#64748b" fontSize="15" textAnchor="middle">$4</text>
+          <line x1="483" y1="88" x2="483" y2="390" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="483" y="408" fill="#64748b" fontSize="15" textAnchor="middle">$6</text>
+          <text x="82" y="117" fill="#f8fafc" fontSize="19" fontWeight="600" textAnchor="end">50k</text>
+          <rect x="92" y="98" width="292" height="15" fill="#38bdf8" fillOpacity="1.0" />
+          <rect x="92" y="115" width="161" height="12" fill="#ec4899" fillOpacity="1.0" />
+          <text x="82" y="154" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">100k</text>
+          <rect x="92" y="135" width="176" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="152" width="151" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="191" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">150k</text>
+          <rect x="92" y="172" width="221" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="189" width="167" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="228" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">200k</text>
+          <rect x="92" y="209" width="148" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="226" width="236" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="265" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">272k</text>
+          <rect x="92" y="246" width="204" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="263" width="136" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="302" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">500k</text>
+          <rect x="92" y="283" width="169" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="300" width="110" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="339" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">1M</text>
+          <rect x="92" y="320" width="242" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="337" width="449" height="12" fill="#ec4899" fillOpacity="0.7" />
+          <text x="82" y="376" fill="#94a3b8" fontSize="19" fontWeight="400" textAnchor="end">off</text>
+          <rect x="92" y="357" width="165" height="15" fill="#38bdf8" fillOpacity="0.7" />
+          <rect x="92" y="374" width="104" height="12" fill="#ec4899" fillOpacity="0.7" />
 
-          {/* Grid lines */}
-          <line x1="80" y1="80" x2="680" y2="80" stroke="#1e293b" strokeDasharray="3 3" />
-          <line x1="80" y1="150" x2="680" y2="150" stroke="#1e293b" strokeDasharray="3 3" />
-          <line x1="80" y1="220" x2="680" y2="220" stroke="#1e293b" strokeDasharray="3 3" />
-          <line x1="80" y1="290" x2="680" y2="290" stroke="#1e293b" strokeDasharray="3 3" />
-          <line x1="80" y1="360" x2="680" y2="360" stroke="#334155" />
-
-          {/* Y Axis Left: Cost per turn ($) */}
-          <text x="25" y="220" fill="#38bdf8" fontSize="11" fontWeight="600" transform="rotate(-90 25 220)" textAnchor="middle">
-            Cost per Turn ($)
-          </text>
-          <text x="72" y="85" fill="#64748b" fontSize="10" textAnchor="end">$0.10</text>
-          <text x="72" y="155" fill="#64748b" fontSize="10" textAnchor="end">$0.075</text>
-          <text x="72" y="225" fill="#64748b" fontSize="10" textAnchor="end">$0.05</text>
-          <text x="72" y="295" fill="#64748b" fontSize="10" textAnchor="end">$0.025</text>
-          <text x="72" y="365" fill="#64748b" fontSize="10" textAnchor="end">$0.00</text>
-
-          {/* Y Axis Right: Reacquisition Thrashing Multiplier */}
-          <text x="715" y="220" fill="#ec4899" fontSize="11" fontWeight="600" transform="rotate(90 715 220)" textAnchor="middle">
-            Reacquisition Thrashing
-          </text>
-          <text x="688" y="85" fill="#64748b" fontSize="10">6.0×</text>
-          <text x="688" y="155" fill="#64748b" fontSize="10">4.5×</text>
-          <text x="688" y="225" fill="#64748b" fontSize="10">3.0×</text>
-          <text x="688" y="295" fill="#64748b" fontSize="10">1.5×</text>
-          <text x="688" y="365" fill="#64748b" fontSize="10">1.0×</text>
-
-          {/* Sweet Spot Zone Highlight */}
-          <rect x="290" y="70" width="180" height="290" fill="#10b981" fillOpacity="0.08" rx="4" />
-          <text x="380" y="90" fill="#34d399" fontSize="11" fontWeight="600" textAnchor="middle">
-            ★ EMPIRICAL SWEET SPOT (150k–250k)
-          </text>
-
-          {/* Threshold points (X: 50k, 75k, 100k, 150k, 200k, 250k, 300k, Disabled) */}
-          {/* X mappings: 50k=120, 75k=170, 100k=220, 150k=320, 200k=400, 250k=480, 300k=560, Disabled=640 */}
-
-          {/* Cost Curve (Cyan) */}
-          {/* 50k: $0.0617 (y=187), 75k: $0.052 (y=214), 100k: $0.0468 (y=229), 150k: $0.0401 (y=248), 200k: $0.0384 (y=252), 250k: $0.0392 (y=250), 300k: $0.0421 (y=242), Dis: $0.0953 (y=93) */}
-          <path
-            d="M 120 187 C 160 215, 200 230, 320 248 C 380 255, 420 252, 480 250 C 530 245, 580 220, 640 93"
-            fill="none"
-            stroke="#38bdf8"
-            strokeWidth="3"
-          />
-
-          {/* Thrashing Curve (Pink) */}
-          {/* 50k: 5.51x (y=103), 75k: 3.8x (y=183), 100k: 2.76x (y=231), 150k: 1.48x (y=291), 200k: 1.25x (y=302), 250k: 1.15x (y=307), 300k: 1.08x (y=310), Dis: 1.00x (y=314) */}
-          <path
-            d="M 120 103 C 170 190, 220 240, 320 291 C 380 302, 480 307, 640 314"
-            fill="none"
-            stroke="#ec4899"
-            strokeWidth="3"
-            strokeDasharray="5 3"
-          />
-
-          {/* Cost points */}
-          <circle cx="120" cy="187" r="4" fill="#38bdf8" />
-          <circle cx="220" cy="229" r="4" fill="#38bdf8" />
-          <circle cx="320" cy="248" r="5" fill="#38bdf8" stroke="#f8fafc" strokeWidth="1.5" />
-          <circle cx="400" cy="252" r="5" fill="#38bdf8" stroke="#f8fafc" strokeWidth="1.5" />
-          <circle cx="480" cy="250" r="5" fill="#38bdf8" stroke="#f8fafc" strokeWidth="1.5" />
-          <circle cx="560" cy="242" r="4" fill="#38bdf8" />
-          <circle cx="640" cy="93" r="4" fill="#38bdf8" />
-
-          {/* Thrashing points */}
-          <circle cx="120" cy="103" r="4" fill="#ec4899" />
-          <circle cx="220" cy="231" r="4" fill="#ec4899" />
-          <circle cx="320" cy="291" r="4" fill="#ec4899" />
-          <circle cx="400" cy="302" r="4" fill="#ec4899" />
-          <circle cx="480" cy="307" r="4" fill="#ec4899" />
-          <circle cx="640" cy="314" r="4" fill="#ec4899" />
-
-          {/* X Axis Labels */}
-          <text x="120" y="380" fill="#94a3b8" fontSize="10" textAnchor="middle">50k</text>
-          <text x="220" y="380" fill="#94a3b8" fontSize="10" textAnchor="middle">100k</text>
-          <text x="320" y="380" fill="#f8fafc" fontSize="11" fontWeight="600" textAnchor="middle">150k</text>
-          <text x="400" y="380" fill="#f8fafc" fontSize="11" fontWeight="600" textAnchor="middle">200k</text>
-          <text x="480" y="380" fill="#f8fafc" fontSize="11" fontWeight="600" textAnchor="middle">250k</text>
-          <text x="560" y="380" fill="#94a3b8" fontSize="10" textAnchor="middle">300k</text>
-          <text x="640" y="380" fill="#94a3b8" fontSize="10" textAnchor="middle">Disabled</text>
-
-          <text x="380" y="405" fill="#94a3b8" fontSize="11" textAnchor="middle">
-            Autocompaction Context Threshold
-          </text>
-
-          {/* Legend */}
-          <g transform="translate(180, 425)">
-            <line x1="0" y1="10" x2="25" y2="10" stroke="#38bdf8" strokeWidth="3" />
-            <circle cx="12" cy="10" r="3" fill="#38bdf8" />
-            <text x="32" y="14" fill="#bae6fd" fontSize="11">Cost per Turn ($)</text>
-
-            <line x1="160" y1="10" x2="185" y2="10" stroke="#ec4899" strokeWidth="3" strokeDasharray="5 3" />
-            <circle cx="172" cy="10" r="3" fill="#ec4899" />
-            <text x="192" y="14" fill="#fbcfe8" fontSize="11">Reacquisition Thrashing (Multiplier)</text>
+          <text x="300" y="430" fill="#94a3b8" fontSize="14" textAnchor="middle">Autocompaction ceiling · total billed session cost (USD)</text>
+          <g transform="translate(150, 444)">
+            <rect x="0" y="0" width="16" height="13" fill="#38bdf8" fillOpacity="0.85" />
+            <text x="23" y="12" fill="#bae6fd" fontSize="14">Scenario 2 · warm</text>
+            <rect x="165" y="0" width="16" height="13" fill="#ec4899" fillOpacity="0.85" />
+            <text x="188" y="12" fill="#fbcfe8" fontSize="14">Scenario 4 · cold gaps</text>
           </g>
         </svg>
       </div>
       <figcaption style={{ color: "#94a3b8", fontSize: "0.85rem", marginTop: "10px", textAlign: "center" }}>
-        Figure 1: The empirical Pareto frontier across 48 sessions. Compacting below 100k triggers catastrophic reacquisition thrashing (up to 5.51×). 150k–250k minimizes total cost ($0.0384/turn) while keeping thrashing below 1.5×.
+        Figure 1: Total billed cost per arm, both sweeps. The 50k ceiling is worst or near-worst in
+        both and is the only arm that thrashes (101 and 37 compactions). Above 150k the arms scatter
+        within single-run noise — the penalty is at the low end, not the high end. Exact figures in
+        the table above.
       </figcaption>
     </figure>
   );
@@ -212,96 +157,130 @@ function CompactionCurveFigureSvg() {
 function ReasoningScalingFigureSvg() {
   return (
     <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
-      <div style={{ maxWidth: "780px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "560px", margin: "0 auto" }}>
         <svg
-          viewBox="0 0 740 440"
+          viewBox="0 0 600 450"
+          role="img"
+          aria-labelledby="fig2-t fig2-d"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{ width: "100%", height: "auto", display: "block" }}
         >
-          {/* Background */}
-          <rect width="740" height="440" rx="8" fill="#0c1222" stroke="#1e293b" />
+          <title id="fig2-t">Reasoning tokens vs context length</title>
+          <desc id="fig2-d">Scenario 3 · 12 runs, identical refactor task · log–log axes</desc>
+          <rect width="600" height="450" rx="8" fill="#0c1222" stroke="#1e293b" />
+          <text x="300" y="32" fill="#f8fafc" fontSize="21" fontWeight="600" textAnchor="middle">Reasoning tokens vs context length</text>
+          <text x="300" y="54" fill="#94a3b8" fontSize="13" textAnchor="middle">Scenario 3 · 12 runs, identical refactor task · log–log axes</text>
 
-          {/* Title */}
-          <text x="370" y="32" fill="#f8fafc" fontSize="15" fontWeight="600" textAnchor="middle">
-            Reasoning Token Super-Linear Scaling (Scenario 3)
-          </text>
-          <text x="370" y="52" fill="#94a3b8" fontSize="11" textAnchor="middle">
-            Empirical power law fit: T = 2.525 × 10⁻⁶ · L¹·⁴⁹ (R² = 0.988) across 12 controlled runs
-          </text>
+          <line x1="96" y1="350" x2="556" y2="350" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="86" y="355" fill="#64748b" fontSize="15" textAnchor="end">10</text>
+          <line x1="96" y1="225" x2="556" y2="225" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="86" y="230" fill="#64748b" fontSize="15" textAnchor="end">100</text>
+          <line x1="96" y1="100" x2="556" y2="100" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="86" y="105" fill="#64748b" fontSize="15" textAnchor="end">1,000</text>
+          <line x1="96" y1="300" x2="556" y2="155" stroke="#f59e0b" strokeWidth="3" />
+          <circle cx="249" cy="266" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="145" cy="296" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="303" cy="166" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="217" cy="212" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="124" cy="307" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="223" cy="315" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="382" cy="177" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="412" cy="168" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="409" cy="278" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="514" cy="181" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="371" cy="196" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <circle cx="476" cy="192" r="6" fill="#fbbf24" fillOpacity="0.9" stroke="#0c1222" strokeWidth="1.5" />
+          <text x="96" y="374" fill="#94a3b8" fontSize="15" textAnchor="middle">50k</text>
+          <text x="274" y="374" fill="#94a3b8" fontSize="15" textAnchor="middle">100k</text>
+          <text x="452" y="374" fill="#94a3b8" fontSize="15" textAnchor="middle">200k</text>
+          <text x="556" y="374" fill="#94a3b8" fontSize="15" textAnchor="middle">300k</text>
 
-          {/* Grid lines */}
-          <line x1="90" y1="80" x2="680" y2="80" stroke="#1e293b" strokeDasharray="3 3" />
-          <line x1="90" y1="150" x2="680" y2="150" stroke="#1e293b" strokeDasharray="3 3" />
-          <line x1="90" y1="220" x2="680" y2="220" stroke="#1e293b" strokeDasharray="3 3" />
-          <line x1="90" y1="290" x2="680" y2="290" stroke="#1e293b" strokeDasharray="3 3" />
-          <line x1="90" y1="360" x2="680" y2="360" stroke="#334155" />
-
-          {/* Y Axis: Reasoning Tokens T */}
-          <text x="30" y="220" fill="#f59e0b" fontSize="11" fontWeight="600" transform="rotate(-90 30 220)" textAnchor="middle">
-            Thinking / Reasoning Tokens (T)
-          </text>
-          <text x="82" y="85" fill="#64748b" fontSize="10" textAnchor="end">6,000</text>
-          <text x="82" y="155" fill="#64748b" fontSize="10" textAnchor="end">4,500</text>
-          <text x="82" y="225" fill="#64748b" fontSize="10" textAnchor="end">3,000</text>
-          <text x="82" y="295" fill="#64748b" fontSize="10" textAnchor="end">1,500</text>
-          <text x="82" y="365" fill="#64748b" fontSize="10" textAnchor="end">0</text>
-
-          {/* Linear Reference Line (Gray dashed) */}
-          <line x1="90" y1="360" x2="680" y2="225" stroke="#475569" strokeDasharray="4 4" strokeWidth="1.5" />
-          <text x="640" y="215" fill="#64748b" fontSize="10">Linear baseline (β = 1.0)</text>
-
-          {/* Fitted Power Curve: T = 2.525e-6 * L^1.4897 */}
-          {/* 50k (x=160): y=349 (233 tokens) */}
-          {/* 100k (x=270): y=329 (654 tokens) */}
-          {/* 200k (x=450): y=274 (1,842 tokens) */}
-          {/* 400k (x=670): y=117 (5,210 tokens) */}
-          <path
-            d="M 90 360 C 180 355, 270 335, 450 274 C 540 220, 620 160, 670 117"
-            fill="none"
-            stroke="#f59e0b"
-            strokeWidth="3.5"
-          />
-
-          {/* Measured Points with Error Bars / Annotations */}
-          {/* 50k Tier */}
-          <circle cx="160" cy="349" r="5" fill="#f59e0b" stroke="#fef3c7" strokeWidth="1.5" />
-          <text x="160" y="335" fill="#fde68a" fontSize="10" textAnchor="middle">233 tok</text>
-
-          {/* 100k Tier */}
-          <circle cx="270" cy="329" r="5" fill="#f59e0b" stroke="#fef3c7" strokeWidth="1.5" />
-          <text x="270" y="315" fill="#fde68a" fontSize="10" textAnchor="middle">654 tok</text>
-
-          {/* 200k Tier */}
-          <circle cx="450" cy="274" r="5" fill="#f59e0b" stroke="#fef3c7" strokeWidth="1.5" />
-          <text x="450" y="258" fill="#fde68a" fontSize="10" textAnchor="middle">1,842 tok</text>
-
-          {/* 400k Tier */}
-          <circle cx="670" cy="117" r="6" fill="#f59e0b" stroke="#fef3c7" strokeWidth="2" />
-          <text x="670" y="100" fill="#fde68a" fontSize="11" fontWeight="600" textAnchor="middle">5,210 tok (22.4×)</text>
-
-          {/* X Axis */}
-          <text x="160" y="380" fill="#94a3b8" fontSize="10" textAnchor="middle">50k</text>
-          <text x="270" y="380" fill="#94a3b8" fontSize="10" textAnchor="middle">100k</text>
-          <text x="450" y="380" fill="#94a3b8" fontSize="10" textAnchor="middle">200k</text>
-          <text x="670" y="380" fill="#94a3b8" fontSize="10" textAnchor="middle">400k</text>
-
-          <text x="380" y="405" fill="#94a3b8" fontSize="11" textAnchor="middle">
-            Context Window Depth (L)
-          </text>
-
-          {/* Callout box */}
-          <rect x="220" y="140" width="230" height="60" rx="6" fill="#1e293b" fillOpacity="0.9" stroke="#f59e0b" strokeWidth="1" />
-          <text x="335" y="162" fill="#fbbf24" fontSize="11" fontWeight="600" textAnchor="middle">
-            Super-Linear Exponent: β = 1.49
-          </text>
-          <text x="335" y="182" fill="#cbd5e1" fontSize="10" textAnchor="middle">
-            8× context increase → 22.4× thinking tokens
-          </text>
+          <text x="326" y="398" fill="#94a3b8" fontSize="14" textAnchor="middle">Measured context length (L)</text>
+          <text x="26" y="225" fill="#f59e0b" fontSize="14" fontWeight="600" transform="rotate(-90 26 225)" textAnchor="middle">Reasoning tokens (T)</text>
+          <g transform="translate(150, 400)">
+            <rect x="0" y="0" width="300" height="34" rx="5" fill="#0f172a" fillOpacity="0.9" stroke="#f59e0b" />
+            <text x="150" y="15" fill="#fbbf24" fontSize="15" fontWeight="600" textAnchor="middle">Super-linear exponent β = 1.49</text>
+            <text x="150" y="29" fill="#cbd5e1" fontSize="13" textAnchor="middle">2× the context → ≈2.8× the thinking</text>
+          </g>
         </svg>
       </div>
       <figcaption style={{ color: "#94a3b8", fontSize: "0.85rem", marginTop: "10px", textAlign: "center" }}>
-        Figure 2: Reasoning token scaling vs context depth. As context expands from 50k to 400k tokens (8×), thinking tokens explode from 233 to 5,210 (22.4×), matching super-linear exponent β = 1.49.
+        Figure 2: Every dot is one of the 12 measured Scenario 3 runs; the line is the fitted power
+        law. Run-to-run spread is wide at fixed context length — the exponent describes the trend,
+        not any single turn. Full per-run receipts are in the{" "}
+        <Link href="/research/context-compaction-phase-2">Phase 2 Methodology &amp; Receipts Report</Link>.
+      </figcaption>
+    </figure>
+  );
+}
+
+function ModelPricingFigureSvg() {
+  return (
+    <figure className="blog-post-figure" style={{ margin: "32px 0" }}>
+      <div style={{ maxWidth: "560px", margin: "0 auto" }}>
+        <svg
+          viewBox="0 0 600 450"
+          role="img"
+          aria-labelledby="fig3-t fig3-d"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ width: "100%", height: "auto", display: "block" }}
+        >
+          <title id="fig3-t">The same build, priced on four frontier models</title>
+          <desc id="fig3-d">25-turn feature build · compacting at 50k vs never compacting</desc>
+          <rect width="600" height="450" rx="8" fill="#0c1222" stroke="#1e293b" />
+          <text x="300" y="32" fill="#f8fafc" fontSize="21" fontWeight="600" textAnchor="middle">The same build, priced on four frontier models</text>
+          <text x="300" y="54" fill="#94a3b8" fontSize="13" textAnchor="middle">25-turn feature build · compacting at 50k vs never compacting</text>
+
+          <line x1="152" y1="90" x2="152" y2="362" stroke="#334155" strokeDasharray="0" />
+          <text x="152" y="382" fill="#64748b" fontSize="15" textAnchor="middle">$0</text>
+          <line x1="241" y1="90" x2="241" y2="362" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="241" y="382" fill="#64748b" fontSize="15" textAnchor="middle">$10</text>
+          <line x1="329" y1="90" x2="329" y2="362" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="329" y="382" fill="#64748b" fontSize="15" textAnchor="middle">$20</text>
+          <line x1="418" y1="90" x2="418" y2="362" stroke="#1e293b" strokeDasharray="3 4" />
+          <text x="418" y="382" fill="#64748b" fontSize="15" textAnchor="middle">$30</text>
+          <text x="142" y="124" fill="#94a3b8" fontSize="17" fontWeight="400" textAnchor="end">Gemini Flash</text>
+          <rect x="152" y="102" width="22" height="17" fill="#ec4899" fillOpacity="0.75" />
+          <rect x="152" y="123" width="14" height="17" fill="#38bdf8" fillOpacity="0.75" />
+          <text x="476" y="117" fill="#94a3b8" fontSize="16" fontWeight="600">+$0.88</text>
+          <text x="476" y="136" fill="#64748b" fontSize="14" fontWeight="400">+55%</text>
+          <text x="142" y="178" fill="#94a3b8" fontSize="17" fontWeight="400" textAnchor="end">GPT-5.6 Sol</text>
+          <rect x="152" y="156" width="117" height="17" fill="#ec4899" fillOpacity="0.75" />
+          <rect x="152" y="177" width="75" height="17" fill="#38bdf8" fillOpacity="0.75" />
+          <text x="476" y="171" fill="#94a3b8" fontSize="16" fontWeight="600">+$4.70</text>
+          <text x="476" y="190" fill="#64748b" fontSize="14" fontWeight="400">+55%</text>
+          <text x="142" y="232" fill="#94a3b8" fontSize="17" fontWeight="400" textAnchor="end">Opus 5</text>
+          <rect x="152" y="210" width="146" height="17" fill="#ec4899" fillOpacity="0.75" />
+          <rect x="152" y="231" width="94" height="17" fill="#38bdf8" fillOpacity="0.75" />
+          <text x="476" y="225" fill="#94a3b8" fontSize="16" fontWeight="600">+$5.87</text>
+          <text x="476" y="244" fill="#64748b" fontSize="14" fontWeight="400">+55%</text>
+          <text x="142" y="286" fill="#f8fafc" fontSize="17" fontWeight="600" textAnchor="end">Fable 5.1</text>
+          <rect x="152" y="264" width="262" height="17" fill="#ec4899" fillOpacity="1.0" />
+          <rect x="152" y="285" width="130" height="17" fill="#38bdf8" fillOpacity="1.0" />
+          <text x="476" y="279" fill="#f8fafc" fontSize="16" fontWeight="600">+$14.92</text>
+          <text x="476" y="298" fill="#ec4899" fontSize="14" fontWeight="600">+101%</text>
+          <text x="142" y="340" fill="#94a3b8" fontSize="17" fontWeight="400" textAnchor="end">GPT-6 Astra</text>
+          <rect x="152" y="318" width="293" height="17" fill="#ec4899" fillOpacity="0.75" />
+          <rect x="152" y="339" width="189" height="17" fill="#38bdf8" fillOpacity="0.75" />
+          <text x="476" y="333" fill="#94a3b8" fontSize="16" fontWeight="600">+$11.74</text>
+          <text x="476" y="352" fill="#64748b" fontSize="14" fontWeight="400">+55%</text>
+
+          <g transform="translate(120, 398)">
+            <rect x="0" y="0" width="16" height="13" fill="#ec4899" fillOpacity="0.9" />
+            <text x="23" y="12" fill="#fbcfe8" fontSize="14">Compacting at 50k</text>
+            <rect x="180" y="0" width="16" height="13" fill="#38bdf8" fillOpacity="0.9" />
+            <text x="203" y="12" fill="#bae6fd" fontSize="14">Never compacting</text>
+          </g>
+          <text x="300" y="432" fill="#64748b" fontSize="13" textAnchor="middle">Re-priced from measured tokens · not measured on these models</text>
+        </svg>
+      </div>
+      <figcaption style={{ color: "#94a3b8", fontSize: "0.85rem", marginTop: "10px", textAlign: "center" }}>
+        Figure 3: Scenario 4&rsquo;s measured token counts re-priced at each model&rsquo;s public rate
+        (LiteLLM catalog, 2026-09-13). Only Gemini 3.8 Flash was actually run; the other four assume
+        identical agent behaviour and are a re-pricing, not a prediction. Cache-write charges are
+        excluded, which understates every penalty shown.
       </figcaption>
     </figure>
   );
@@ -369,6 +348,9 @@ export default function ContextCompactionPhase2Page() {
                 }
                 if (text === "[[REASONING_SCALING_FIGURE]]") {
                   return <ReasoningScalingFigureSvg />;
+                }
+                if (text === "[[MODEL_PRICING_FIGURE]]") {
+                  return <ModelPricingFigureSvg />;
                 }
 
                 return <p {...props}>{children}</p>;

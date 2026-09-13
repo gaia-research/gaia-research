@@ -4,171 +4,220 @@
 
 ---
 
-Every developer building with coding agents assumes the same rule of thumb: keep your context window lean. Trim the transcript, summarize early, and prevent prompt bloat before token costs compound.
+Six days ago we published [The Context Compaction Curve](/blog/context-compaction-curve) and modelled the compaction sweet spot at **40k–65k tokens**. That number came from pricing arithmetic, not from a running agent. We said so at the time, and then we went and measured it.
 
-When we put that intuition to the test across eight context ceilings and 450+ controlled benchmark turns on Gemini 3.8 Flash, the empirical receipts showed the exact opposite: aggressive autocompaction at a 50,000-token threshold cost **55% more** than completely disabling compaction (\&#36;2.48 vs. \&#36;1.60 for a 25-turn feature build).
+We were wrong — not by a little, and not in the direction anyone expects.
 
-The intuition that smaller prompts are always cheaper collapses the moment modern prompt caching enters the equation. Autocompaction is not a free cleanup routine; it is a cache-invalidation event that blows away your 90% prefix discount and triggers a costly file reacquisition storm. The golden rule of agent caching: **never compact when warm**.
+Across 37 benchmark runs on Gemini 3.8 Flash — eight autocompaction ceilings, 450+ controlled turns — the cheapest configuration in the entire sweep was the one with autocompaction **switched off**. On a 25-turn feature build, compacting at a 50,000-token ceiling billed **\$2.48**. Never compacting at all billed **\$1.60**. Being disciplined about context cost 55% more than being lazy about it.
 
----
-
-## The Intuition Trap
-
-Gut feel says compact early. Every token in your context window must be processed on every turn, so an agent carrying 200,000 tokens should cost roughly four times as much as an agent holding 50,000 tokens. When a session starts feeling sluggish or heavy, the developer instinct is to trigger compaction or configure aggressive autocompaction thresholds.
-
-Modern KV prompt caching shatters this linear intuition.
-
-Frontier providers price input tokens on a two-tier basis: full-price cache writes (or base input) and heavily discounted cache reads. On Gemini 3.8 Flash, the base input rate is \&#36;0.75 per million tokens, while cached prefix reads cost \&#36;0.075 per million tokens—a 90% discount.
-
-When an agent works in an active, continuous loop, almost the entire conversation history is served directly from the prompt cache. Consider what actually happens on Turn 20 when context has grown to 180,000 tokens:
-
-| Architecture State | Mechanism | Token Math (Turn 20) | Turn Cost |
-| :--- | :--- | :--- | :---: |
-| **Uncompacted (Warm Prefix)** | 178k tokens read from cache + 2k fresh input delta | \&#36;178\text{k} \times \\&#36;0.075/\text{M} + 2\text{k} \times \\&#36;0.75/\text{M}$ | **\&#36;0.0149** |
-| **Aggressively Compacted (50k ceiling)** | Summarize 50k history + re-establish prefix + re-read files | \&#36;50\text{k} \text{ write} + 2\text{k} \text{ summary} + \text{file re-reads}$ | **\&#36;0.0465** |
-
-The uncompacted turn costs less than a penny and a half. The compacted turn triggers a triple tax:
-1. **Summary generation burn:** The harness calls the model to summarize conversation history, generating expensive output tokens (\&#36;3.75/M).
-2. **Prefix cache invalidation:** The newly generated summary replaces the conversation history. The provider's cached KV prefix is now invalid. The next turn must write the new prompt as fresh input at the full \&#36;0.75/M rate.
-3. **Working memory eviction:** The summary discards exact line numbers, AST fragments, and test traces. The agent must immediately re-read files from disk.
+> **The one-line version.** Compaction is not a cleanup routine. It is a **cache-invalidation event**. It throws away a 90% prefix discount you were already getting for free, then charges you full price to re-read the files it just forgot. Never compact while your cache is warm.
 
 ---
 
-## Never Compact When Warm
+## What to change tomorrow morning
 
-To test how this compounding tax behaves under continuous development, Scenario 2 subjected all eight context arms to an identical 30-turn workload (`workloads/feature.md`) with zero idle delays between turns. Every turn executed back-to-back, keeping the provider's KV cache completely warm.
+Before the receipts, here is the whole finding in the form you can act on:
 
-The results inverted the conventional wisdom:
+- **Set your default threshold to 150k–200k — never 50k.** Below roughly 100k the agent falls into a compact → forget → re-read → compact loop it cannot climb out of.
+- **Working continuously (turns less than ~5 minutes apart)? Let context run.** Over 90% of your prompt is billing at the cached rate, which is 10× cheaper than re-establishing a prefix from scratch.
+- **Mid-refactor with several files open? Suppress compaction entirely.** Compacting here triggered a **4.95×** surge in file re-reads, peaking at 6.08×.
+- **Back from a coffee break with 100k+ of context? Compact once, before you type.** The cache has already evicted, so you are paying cold-read prices either way — summarize first and pay for fewer of them.
+- **On a frontier model, this stops being pocket change.** The same 25-turn build costs \$5.87 more on Opus 5 and \$14.92 more on Fable 5.1 when you compact at 50k — per build, per developer.
+- **Crossing from planning into implementation? Compact, or hand off to a fresh session.** Dead architectural debate is pure reasoning drag, and a clean boundary resets it.
 
-| Arm | Context Ceiling | Autocompact | Compactions | Input Tokens | Cache Read Tokens | Authoritative Cost (USD) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **A-50k** | 50,000 | Yes | **101** | 4,430,693 | 8,991,907 | **\&#36;4.4863** |
-| **A-100k** | 100,000 | Yes | 11 | 1,929,675 | 12,767,509 | \&#36;2.6976 |
-| **A-150k** | 150,000 | Yes | 3 | 1,813,191 | 21,019,137 | \&#36;3.3925 |
-| **A-200k** | 200,000 | Yes | **1** | 968,159 | 17,443,858 | **\&#36;2.2693** |
-| **A-272k** | 272,000 | Yes | 0 | 1,369,994 | 24,432,292 | \&#36;3.1301 |
-| **A-500k** | 500,000 | Yes | 0 | 908,690 | 21,644,573 | \&#36;2.5886 |
-| **A-1M** | 1,048,576 | Yes | 0 | 1,031,066 | 35,909,721 | \&#36;3.7104 |
-| **A-disabled** | 1,048,576 | **No** | **0** | 948,004 | 19,556,807 | **\&#36;2.5384** |
+The rest of this post is why each of those lines is true, and where the data is thinner than we would like. The full methodology, every arm's raw telemetry, and the power-law derivation live in the [Phase 2 Methodology & Receipts Report](/research/context-compaction-phase-2).
 
-Arm `A-50k` compacted **101 times across 30 turns**—an average of 3.37 compactions per turn. It fell into a pathological compaction loop: edit code $\rightarrow$ exceed 50k $\rightarrow$ compact $\rightarrow$ lose variable references $\rightarrow$ re-read file $\rightarrow$ exceed 50k $\rightarrow$ compact again.
+---
 
-The financial penalty was severe: `A-50k` cost **\&#36;4.49**, compared to **\&#36;2.27** for `A-200k`. Compacting aggressively to "save money" produced a **97.7% cost surcharge**.
+## The intuition trap
+
+Gut feel says compact early. Every token in the window is processed on every turn, so an agent carrying 200,000 tokens should cost roughly four times as much as one carrying 50,000. When a session starts feeling heavy, the instinct is to trim it.
+
+Modern KV prompt caching breaks that arithmetic completely.
+
+Frontier providers bill input on two tiers: full-price fresh input, and heavily discounted reads of an already-cached prefix. On Gemini 3.8 Flash, fresh input is **\$0.75 per million tokens**; a cached prefix read is **\$0.075 per million** — a 90% discount.
+
+In an active loop, nearly your entire conversation history is served from that cache. Here is Turn 20, with context grown to 180,000 tokens:
+
+| State | What gets billed | Turn cost |
+| :--- | :--- | :---: |
+| **Uncompacted, warm** | 178k cached + 2k fresh | **\$0.0149** |
+| **Compacted at 50k** | Summary + 50k fresh write + re-reads | **\$0.0465** |
+
+The uncompacted turn costs less than a penny and a half. The compacted turn pays a **triple tax**:
+
+1. **Summary burn.** The harness calls the model to summarize history, generating output tokens at \$3.75/M — the most expensive token you can buy.
+2. **Prefix invalidation.** The summary replaces the history, so the provider's cached KV prefix no longer matches. The next turn writes the whole prompt as fresh input at \$0.75/M.
+3. **Working-memory eviction.** The summary drops exact line numbers, AST fragments, and test traces. The agent has to go back to disk.
+
+Tax 3 is the one nobody prices in, and it is the one that compounds.
+
+---
+
+## Never compact when warm
+
+Scenario 2 ran all eight ceilings through an identical 30-turn workload (`workloads/feature.md`) with **zero idle time between turns** — every turn back-to-back, cache warm throughout. This is the shape of a real afternoon of pair-programming with an agent.
+
+| Arm | Ceiling | Compactions | Total cost (30 turns) |
+| :--- | :---: | :---: | :---: |
+| **A-50k** | 50,000 | **101** | **\$4.49** |
+| A-100k | 100,000 | 11 | \$2.70 |
+| A-150k | 150,000 | 3 | \$3.39 |
+| **A-200k** | 200,000 | **1** | **\$2.27** |
+| A-272k | 272,000 | 0 | \$3.13 |
+| A-500k | 500,000 | 0 | \$2.59 |
+| A-1M | 1,048,576 | 0 | \$3.71 |
+| **A-disabled** | — (off) | **0** | **\$2.54** |
+
+`A-50k` compacted **101 times in 30 turns** — an average of 3.37 compactions *per turn*. It was not managing context; it was stuck in a loop: edit code → exceed 50k → compact → lose the variable references it just wrote → re-read the file → exceed 50k → compact again.
+
+The bill: **\$4.49 for `A-50k` against \$2.27 for `A-200k`**. Compacting aggressively "to save money" carried a **97.7% surcharge**.
 
 [[COMPACTION_CURVE_FIGURE]]
 
-In Scenario 4 (a 25-turn feature build with intermittent coffee breaks and cache expirations), `A-50k` suffered 37 compactions and billed at **\&#36;2.48**. Leaving compaction completely disabled (`A-disabled`) billed at **\&#36;1.60**. Aggressive autocompaction at 50k cost 55% more than letting context accumulate uncompacted.
+Scenario 4 repeated the sweep over a 25-turn build with deliberate cold spells — seven-minute idle gaps at turns 8 and 16, simulating the coffee breaks and meetings that let a cache expire. `A-50k` took 37 compactions and billed **\$2.48**; `A-disabled` billed **\$1.60**. Same 55% penalty, different route to it.
+
+Read the two tables together and the honest shape of the result appears: **the penalty lives at the low end, not the high end.** Above roughly 150k, the arms scatter within run-to-run noise — 200k wins Scenario 2 and loses Scenario 4. Below 100k, every arm loses, in every scenario, by a lot. That asymmetry is the finding. "Set it high" is a safe bet; "set it low" is a reliably expensive one.
 
 ---
 
-## The Reacquisition Multiplier
+## The reacquisition multiplier
 
-Why does compaction cost so much? Because summarized context forces agents into defensive disk re-reading.
+Why does compaction cost so much more than the summary itself? Because a summarized agent becomes a paranoid one.
 
-Scenario 5 measured the behavioral fallout across all runs: specifically, tool calls to `read`, `grep`, and `find` in the three turns immediately following a compaction event versus baseline execution.
+Scenario 5 counted `read`, `grep`, and `find` calls in the three turns immediately after each compaction, against that arm's own baseline.
 
-| Evaluation Metric | Arm A-50k (50k ceiling) | Arm A-200k (200k ceiling) | Arm A-disabled (Uncompacted) |
+| Metric | A-50k | A-200k | A-disabled |
 | :--- | :---: | :---: | :---: |
-| **Baseline Reads per Turn** | 0.65 | 2.35 | 2.08 |
-| **Post-Compaction Reads per Turn** | 3.22 | 1.67 | 0.00 (no compactions) |
-| **Reacquisition Multiplier (S4)** | **4.95× (peak 6.08×)** | 0.71× | 1.00× |
-| **Reacquisition Multiplier (S2)** | **2.65× (peak 3.03×)** | 0.33× | 1.00× |
-| **Instruction Adherence Rate** | 100.0% (0 violations) | 100.0% (0 violations) | 100.0% (0 violations) |
-| **Final Test Suite Health** | 100% pass (0 regressions) | 100% pass (0 regressions) | 100% pass (0 regressions) |
+| Baseline reads per turn | 0.65 | 2.35 | 2.08 |
+| Post-compaction reads per turn | 3.22 | 1.67 | — (no compactions) |
+| **Reacquisition multiplier (Scenario 4)** | **4.95× (peak 6.08×)** | 0.71× | 1.00× |
+| **Reacquisition multiplier (Scenario 2)** | **2.65× (peak 3.03×)** | 0.33× | 1.00× |
+| Planted-directive violations | 0 | 0 | 0 |
+| Final test suite | 100% pass | 100% pass | 100% pass |
 
-In Scenario 4, when compaction fired mid-derivation, the agent exhibited a **4.95× surge** in file inspection calls over the next three turns, peaking at **6.08×**.
+When compaction fired mid-derivation in Scenario 4, file inspection surged **4.95×** over the next three turns, peaking at **6.08×**.
 
-Compaction summaries are lossy by design. While planted architectural directives (such as strict TypeScript flags and forbidding `any`) achieved 100% retention across all arms, fine-grained working memory vanished. The model lost exact function signatures, export interfaces, and mock payloads.
+The interesting part is *what* survives a summary and what does not. Planted architectural directives — strict TypeScript, no `any` — were retained perfectly: **zero violations across every arm** in Scenarios 2, 4, and 6. Summaries are good at keeping rules. What they lose is fine-grained working memory: exact function signatures, export interfaces, mock payloads. The agent knows the constraints and has forgotten the code.
 
-Recognizing that its working memory was gone, the agent immediately re-read the target files from disk. But because the cache prefix was wiped by the summary, every single re-read byte was ingested as fresh, full-price input tokens.
+So it re-reads. And because the summary already invalidated the prefix, every re-read byte arrives as **fresh, full-price input**. That is the tax: you pay to forget, then you pay again to remember, at ten times the rate you were paying to simply not forget.
 
 ---
 
-## Thinking Gets Harder: Reasoning Token Scaling
+## The other direction: thinking gets more expensive
 
-If keeping context uncompacted preserves cache hits and eliminates reacquisition storms, why not keep millions of tokens forever?
+If uncompacted context preserves cache hits and avoids reacquisition storms, why not carry a million tokens forever?
 
-Because of the hidden tax: **reasoning token inflation**.
+Because there is a tax at the top end too — it just isn't an input-token tax. It is **reasoning inflation**.
 
-In Scenario 3, we isolated this dynamic across 12 controlled runs (four context history tiers: 20k, 80k, 180k, and 272k, each repeated across three independent runs) executing an identical refactor task (`workloads/refactor.md`).
+Scenario 3 held the task fixed (`workloads/refactor.md`) and varied only the history the agent carried into it: four tiers (20k, 80k, 180k, 272k), three runs each, twelve runs total.
 
-Fitting the empirical data yielded a strict power-law scaling relationship:
+| History tier | Measured context (L) | Total output tokens | Turn cost |
+| :--- | :---: | :---: | :---: |
+| 20k (clean) | 60k – 112k | 467 – 776 | \$0.063 – \$0.109 |
+| 80k (moderate) | 56k – 82k | 292 – 1,123 | \$0.084 – \$0.111 |
+| 180k (heavy) | 152k – 171k | 1,337 – 1,549 | \$0.334 – \$0.444 |
+| 272k (bloated) | 146k – 255k | 1,739 – 2,335 | \$0.427 – \$0.661 |
 
-$$T = 2.525 \times 10^{-6} \cdot L^{1.49}$$
-
-where $T$ represents the number of reasoning tokens generated during deliberation and $L$ is the context length in tokens.
-
-| Context History Tier | Measured Context Length ($L$) | Reasoning Tokens ($T$) | Total Output Tokens | Measured Turn Cost |
-| :--- | :---: | :---: | :---: | :---: |
-| **20k (Clean)** | 60,511 - 111,808 | 27 - 295 | 467 - 776 | &#36;0.063 to &#36;0.109 |
-| **80k (Moderate)** | 55,823 - 82,010 | 19 - 127 | 292 - 1,123 | &#36;0.084 to &#36;0.111 |
-| **180k (Heavy)** | 152,357 - 171,275 | 38 - 287 | 1,337 - 1,549 | &#36;0.334 to &#36;0.444 |
-| **272k (Bloated)** | 145,926 - 254,829 | 170 - 224 | 1,739 - 2,335 | &#36;0.427 to &#36;0.661 |
+Identical task. Same model. **Ten times the cost per turn** at the bloated end.
 
 [[REASONING_SCALING_FIGURE]]
 
-The scaling exponent $\beta = 1.49$ is super-linear. When context doubles, the reasoning deliberation required to navigate that context increases by a factor of &#36;2^{1.49} \approx 2.81\times$.
+Fitting reasoning tokens against context length gives a power law with an exponent of **β ≈ 1.49** — super-linear. In plain terms: **double your context and the model thinks roughly 2.8× as hard** to get through it, whether or not the extra context is relevant.
 
-Stale terminal logs, outdated compiler errors, and discarded diffs act as cognitive friction. Reasoning models inspect their conversation prefix during chain-of-thought search; extraneous history widens the branching factor of deliberation. At 272k tokens, total output tokens averaged 2,075 per turn—quadruple the output volume of a clean 20k context—driving turn costs up to &#36;0.66.
+The mechanism is mundane. Stale terminal logs, superseded compiler errors, abandoned diffs — reasoning models read their own prefix while searching, and dead history widens the search. At the 272k tier, total output averaged 2,075 tokens per turn, quadruple a clean 20k context, pushing single turns to **\$0.66**.
 
----
-
-## The 1M Endurance Test
-
-To test whether the super-linear reasoning tax eventually breaks long-context execution, Scenario 6 subjected Arm `A-disabled` to a massive 50-turn full feature lifecycle (`workloads/endurance.md`).
-
-The agent was tasked with building an asynchronous job orchestration system from scratch:
-- Priority queue with FIFO tie-breaking and backpressure controls
-- Concurrency-limited worker pool with graceful drain
-- Dead-letter queue with exponential backoff and replay mechanisms
-- REST API routing with payload validation
-- DAG-based task scheduler resolving topological dependencies
-- Prometheus execution metrics collector
-- Full architectural refactor, strict JSDoc typing, and vitest unit suites
-
-Session `01a097fd-31a0-757a-9f60-561c5f687975` ran uncompacted from Turn 1 to Turn 50:
-
-- **Total turns:** 50
-- **Total tokens billed:** 43,870,789
-- **Cache read tokens:** 42,446,862 (**96.8% cache hit rate**)
-- **Fresh input tokens:** 1,252,275
-- **Output tokens:** 171,652
-- **Authoritative cost:** **\&#36;4.7664**
-- **Compactions:** **0**
-- **Execution duration:** 18.7 minutes
-- **Final correctness:** **17/17 vitest unit tests passing**, strict `tsc --noEmit` 0 errors
-
-Context reached 25.9% of the 1M window (~260,000 tokens) by Turn 50. Per-turn cost scaled smoothly from \&#36;0.013 on Turn 1 to \&#36;1.255 on Turn 50.
-
-Crucially, the agent suffered zero hallucinations, zero instruction drift, and zero task degradation across the entire 18.7-minute run.
-
-Compare the economics: Arm `A-50k` in Scenario 2 cost **\&#36;4.49 for 30 turns** while thrashing through 101 compactions. Arm `A-disabled` ran **50 turns**—completing an enterprise-grade queue engine with 17 passing tests—for **\&#36;4.77**. Disabling compaction yielded 67% more productive work for virtually the same dollar spend.
+*The full fit, per-run receipts, and the derivation live in the [Phase 2 Methodology & Receipts Report](/research/context-compaction-phase-2); they are not repeated here.*
 
 ---
 
-## The New Rule of Thumb
+## Fifty turns without compacting once
 
-The Phase 2 benchmark data establishes clear boundary conditions for agent compaction.
+Does the reasoning tax eventually break long-context execution outright? Scenario 6 pushed one arm — `A-disabled` — through a 50-turn full feature lifecycle (`workloads/endurance.md`): a priority queue with backpressure, a concurrency-limited worker pool with graceful drain, a dead-letter queue with exponential backoff, REST routing with payload validation, a DAG scheduler, a Prometheus metrics collector, then a full refactor with strict JSDoc and vitest suites.
 
-| Operational Scenario | Action | Technical Reason |
-| :--- | :--- | :--- |
-| **Rapid Iteration ($\Delta t < 5\text{ min}$)** | **Let context run (No compaction)** | 90%+ KV cache hit rate makes tokens 10× cheaper than re-establishing prefix. |
-| **Mid-Refactor / Multi-File Edits** | **Pin context (Suppress compaction)** | Prevents 4.95×-6.08× reacquisition storm of disk re-reads. |
-| **Cold Return ($\Delta t > 5\text{ min}$, Context $> 100\text{k}$)** | **Compact once before prompting** | When cache has evicted, re-warming 150k+ cold tokens costs more than summarizing. |
-| **Phase Boundary (Planning $\rightarrow$ Implementation)** | **Compact or clean handoff** | Discards dead architectural debate; resets reasoning token scaling ($L^{1.49}$). |
+Session `01a097fd` ran from Turn 1 to Turn 50 with the compactor off:
 
-### Recommendations for Harness Builders
+- **Cache hit rate: 96.8%** (42.4M of 43.9M tokens)
+- **Compactions: 0**
+- **Cost: \$4.77** across 18.7 minutes
+- **Final state: 17/17 vitest tests passing**, `tsc --noEmit` clean
+- Context peaked at ~260k tokens — **25.9%** of the 1M window
 
-1. **Raise the default autocompaction floor:** Setting autocompaction at 50k tokens is an anti-pattern. On modern frontier models with 200k+ native windows, set the lower threshold to at least 150k-200k.
-2. **Implement cache-aware compaction gating:** Never trigger autocompaction during back-to-back tool execution loops. Inspect timestamp delta $\Delta t$; if the cache prefix is warm, defer compaction until an idle pause occurs.
-3. **Pin file working sets across compaction:** If compaction must occur, preserve open file buffers and recent AST symbols verbatim rather than summarizing them into narrative text.
-4. **Use explicit phase handoffs over reactive autocompaction:** When transitioning from planning to execution, write an atomic `/handoff` brief and spawn a clean session rather than letting an autocompactor summarize mid-step.
+Zero hallucinations, zero instruction drift, zero degradation across the run. Per-turn cost rose smoothly from \$0.013 on Turn 1 to \$1.255 on Turn 50 — the reasoning tax is real and visible, and it never became a correctness problem.
+
+Now compare the two ends of the sweep. `A-50k` spent **\$4.49 on 30 turns** while thrashing through 101 compactions. `A-disabled` spent **\$4.77 on 50 turns** and shipped a working queue engine with a green test suite. Nearly the same money; **67% more work done**.
+
+---
+
+## What this costs on the model you actually use
+
+We benchmarked Gemini 3.8 Flash because it is cheap enough to run 37 sessions without a budget conversation. You are probably not running Gemini 3.8 Flash.
+
+So here is the same result priced onto four frontier models. The method is deliberately narrow: we take the **measured token counts** from Scenario 4 — `A-50k` at 2.41M fresh input / 4.56M cache reads / 87k output, `A-disabled` at 0.94M / 8.80M / 62k — and re-price those exact counts at each model's public rate card. Nothing about the agent's behaviour is modelled; only the invoice changes. Rates come from the [LiteLLM catalog](https://github.com/BerriAI/litellm) fetched 2026-09-13, and the method reproduces the Gemini receipts to the cent.
+
+| Model | Compacting at 50k | Never compacting | You lose | Penalty |
+| :--- | :---: | :---: | :---: | :---: |
+| Gemini 3.8 Flash *(measured)* | \$2.48 | \$1.60 | \$0.88 | +55% |
+| GPT-5.6 Sol | \$13.22 | \$8.52 | \$4.70 | +55% |
+| Claude Opus 5 | \$16.53 | \$10.65 | \$5.87 | +55% |
+| Claude Fable 5.1 | \$29.63 | \$14.71 | **\$14.92** | **+101%** |
+| GPT-6 Astra | \$33.05 | \$21.31 | \$11.74 | +55% |
+
+That is **one 25-turn feature build**. Run four a day across 21 working days and the compaction tax is \$395/month on Sol, \$493 on Opus 5, \$986 on Astra, and \$1,253 on Fable 5.1 — per developer. Pick your own volume; the per-build number is the one we measured.
+
+[[MODEL_PRICING_FIGURE]]
+
+### Why four of the five land on exactly +55%
+
+That is not a rounding coincidence, and it is the most portable thing in this post. The penalty percentage is governed by a single number on the rate card: **the ratio of cache-read price to fresh-input price.**
+
+Gemini, Sol, Opus 5, and Astra all discount cache reads 10:1, so they all pay the same 55% surcharge for compacting at 50k. Fable 5.1 discounts them **40:1** — \$0.25 per million read against \$10.00 fresh — and its penalty doubles to **+101%**.
+
+The conclusion runs against instinct and is worth saying slowly: **the better your provider's cache deal, the more compaction costs you.** A deep cache discount is not insurance against a bloated context. It is precisely what makes throwing that context away expensive, because it widens the gap between the token you were paying for and the token you replaced it with.
+
+If your provider ever announces a deeper cache discount, your autocompaction threshold should go *up*, not down.
+
+### Two honest caveats
+
+**We did not run these models.** Token counts are behavioural, and a different model will read a different number of files after a compaction, think for a different number of tokens, and possibly compact a different number of times. Treat the table as *"what the invoice would have said if this model behaved exactly like the one we measured"* — a re-pricing, not a prediction. The mechanism should hold anywhere there is a discounted prefix cache; the exact dollars will not.
+
+**These figures understate the penalty.** Gemini's rate card has no separate cache-write price, so our measured receipts carry no cache-write column and the re-pricing above omits it entirely. Every one of `A-50k`'s 37 compactions forces a fresh prefix write, and on all four frontier cards a cache write costs 1.25× fresh input. Charging `A-50k`'s 2.41M fresh input tokens at cache-write rates instead would push the penalty from +55% to roughly **+83%** on Sol, Opus 5, and Astra, and from +101% to **+142%** on Fable 5.1. The omitted cost falls almost entirely on the compacting arm, so every number in the table is a floor.
+
+---
+
+## Where this is thin
+
+Three limits worth stating plainly, because they bound how far you should carry this:
+
+- **One run per arm per scenario.** The high-ceiling arms scatter enough between Scenario 2 and Scenario 4 that we will not name a single optimal number. The 50k penalty is large and consistent; the difference between 200k and 500k is not.
+- **One model, one harness.** Gemini 3.8 Flash under `pi` v0.85.1. The mechanism — cache invalidation plus reacquisition — should generalize to any provider with a discounted prefix cache, but the break-even points will move with the price ratio.
+- **The cross-model table is arithmetic, not measurement.** We re-priced measured token counts; we did not re-run the benchmark on Opus 5, Fable 5.1, Sol, or Astra. The +55% / +101% split is a property of the rate cards and is solid. The dollar figures inherit Gemini's behaviour and are the weakest numbers in this post.
+- **Summary quality was not varied.** A harness that preserves open file buffers verbatim would likely blunt the reacquisition multiplier considerably. Nobody has built that yet, which is partly the point.
+
+---
+
+## The new rule of thumb
+
+- **Rapid iteration**, gaps under 5 minutes → *let context run, no compaction.* A 90%+ cache hit rate makes old tokens 10× cheaper than a new prefix.
+- **Mid-refactor or multi-file edits** → *pin context, suppress compaction.* This is where the 4.95×–6.08× re-read storm lives.
+- **Cold return**, gap over 5 minutes with context above 100k → *compact once, before prompting.* The cache has evicted; re-warming 150k cold tokens costs more than summarizing them.
+- **Phase boundary**, planning into building → *compact, or hand off to a clean session.* Drops dead debate and resets reasoning-token scaling.
+
+### If you build harnesses
+
+1. **Raise the autocompaction floor.** A 50k default is an anti-pattern on models with 200k+ native windows. Start at 150k–200k.
+2. **Gate compaction on cache warmth, not token count alone.** Check the time since the last turn. If the prefix is warm, defer — compacting into a warm cache is strictly value-destroying.
+3. **Pin the working set across compaction.** If you must compact, carry open file buffers and recent symbols through verbatim instead of narrating them into prose. That is where the 4.95× comes from.
+4. **Prefer explicit handoffs to reactive autocompaction.** At a phase boundary, write a `/handoff` brief and start clean. An autocompactor firing mid-step is the worst of both.
+
+The headline is small enough to keep in your head: **compaction is a cache event, not a hygiene routine.** Pay it when the cache is already cold. Never pay it when it's warm.
 
 ---
 
 ## Sources
 
-- **Gaia Research.** *Compaction Bench Phase 2 Primary Dataset.* `scripts/compaction-bench/data/summary/` (Scenario 1, 2, 3, 4, 5, and 6 receipts).
-- **BerriAI/litellm.** *Model Prices and Context Window Catalog.* [github.com/BerriAI/litellm](https://github.com/BerriAI/litellm) (Gemini 3.8 Flash base rates: \&#36;0.75 input, \&#36;3.75 output, \&#36;0.075 cache read per 1M).
+- **Gaia Research.** *Compaction Bench Phase 2 Primary Dataset.* [Methodology & Receipts](/research/context-compaction-phase-2) (`scripts/compaction-bench/data/summary/`); Scenarios 1–6 receipts.
+- **Gaia Research.** [*The Context Compaction Curve*](/blog/context-compaction-curve) (Phase 1, September 8, 2026) — the modelled 40k–65k prediction this benchmark falsified.
+- **BerriAI/litellm.** *Model Prices and Context Window Catalog.* [github.com/BerriAI/litellm](https://github.com/BerriAI/litellm) — Gemini 3.8 Flash rates: \$0.75 input, \$3.75 output, \$0.075 cache read per 1M.
 - **Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang, P.** (2024). *Lost in the Middle: How Language Models Use Long Contexts.* Transactions of the ACL, 12, 157–173. [arXiv:2307.03172](https://arxiv.org/abs/2307.03172)
 - **Snell, C., Lee, J., Xu, K., & Kumar, A.** (2024). *Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters.* [arXiv:2408.03314](https://arxiv.org/abs/2408.03314)

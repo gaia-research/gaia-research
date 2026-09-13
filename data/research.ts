@@ -154,6 +154,15 @@ export const researchEntries: readonly ResearchEntry[] = [
     href: "/research/hh-benchmark",
     action: "Read the benchmark & receipts",
   },
+  {
+    title: "Context Compaction Phase 2 Empirical Benchmark",
+    shortName: "Context Compaction Bench",
+    type: "BENCHMARK",
+    status: "VRF",
+    description: "Empirical study across 37 live agent sessions (25 across S1/S2/S4/S6 + 12 across S3) and 8 autocompaction thresholds on Gemini 3.8 Flash: Pareto frontier, prompt-cache amplification, reacquisition thrashing, and super-linear reasoning scaling.",
+    href: "/research/context-compaction-phase-2",
+    action: "Read the methodology & receipts",
+  },
 ] as const;
 
 export const ledger = researchEntries.map((e) => [
