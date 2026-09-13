@@ -507,3 +507,1079 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
   .mcp-tool-params div{grid-template-columns:1fr;gap:.15rem}
   .mcp-tabs{flex-wrap:wrap}
 }
+
+/* ── Context Compaction & Report Tabs Navigation ──────────────────────── */
+.report-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.5rem;
+  margin: 2rem 0 1rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.85rem;
+}
+.report-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--dim);
+  font: var(--type-compact) var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.65rem 1.15rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  border-radius: 4px;
+}
+.report-tab-btn:hover {
+  border-color: var(--blue);
+  color: var(--ink);
+  background: var(--surface-raised);
+}
+.report-tab-btn.active {
+  background: var(--surface-raised);
+  border-color: var(--pink);
+  color: var(--ink);
+  box-shadow: 0 0 12px rgba(236, 72, 153, 0.2);
+}
+.report-tab-badge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--dim);
+  letter-spacing: 0.04em;
+}
+.report-tab-btn.active .report-tab-badge {
+  background: rgba(236, 72, 153, 0.18);
+  color: var(--pink);
+}
+.report-jump-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+  margin: 0 0 2rem;
+  padding: 0.9rem 1.2rem;
+  background: rgba(11, 12, 19, 0.65);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.report-jump-label {
+  font: var(--type-compact) var(--mono);
+  color: var(--dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-right: 0.4rem;
+}
+.report-jump-pill {
+  font: var(--type-compact) var(--mono);
+  color: var(--blue);
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 0.28rem 0.6rem;
+  border-radius: 3px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.report-jump-pill:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: var(--blue);
+  color: var(--ink);
+}
+.report-h2-anchor,
+.report-h3-anchor {
+  scroll-margin-top: 5rem;
+}
+.report-section-divider {
+  margin: 3.5rem 0 2.5rem;
+  border-top: 2px dashed var(--line);
+  position: relative;
+  text-align: center;
+}
+.report-section-divider span {
+  position: relative;
+  top: -0.75rem;
+  background: var(--bg);
+  padding: 0 1rem;
+  font: var(--type-compact) var(--mono);
+  color: var(--pink);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+/* Research-lane CTA on blog posts */
+.blog-post-research-cta{max-width:42rem;margin:clamp(3rem,6vw,4.5rem) auto 0;padding:clamp(1.25rem,3vw,1.75rem);border:1px solid rgba(236,72,153,.34);background:rgba(236,72,153,.07)}
+.blog-post-research-cta-eyebrow{display:block;color:var(--pink);font:.75rem var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.blog-post-research-cta-lede{margin:.75rem 0 1.15rem;color:var(--muted);font-family:var(--body);font-size:clamp(.95rem,1.6vw,1.05rem);line-height:1.65;text-wrap:pretty}
+.blog-post-research-cta-link{display:inline-block;color:var(--ink);font:600 clamp(1rem,2vw,1.15rem)/1.4 var(--body);border-bottom:2px solid var(--pink)}
+.blog-post-research-cta-link:hover{color:var(--pink)}
+.blog-post-research-cta-link:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ─── LaTeX Academic Preprint 2-Column Styles ─── */
+
+.latex-preprint-header {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.18);
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+
+.latex-preprint-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font: var(--type-compact) var(--mono);
+  letter-spacing: 0.08em;
+  color: var(--dim);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.latex-preprint-org {
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.latex-preprint-id {
+  color: var(--pink);
+  font-weight: 600;
+}
+
+.latex-paper-title {
+  font-family: var(--display), sans-serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #f8fafc;
+  margin: 0.5rem 0 1.5rem;
+  text-align: center;
+}
+
+.latex-author-block {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem 3.5rem;
+  margin: 1.25rem 0;
+  text-align: center;
+}
+
+.latex-author-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.latex-author-name {
+  font-family: var(--body), sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.latex-author-name a {
+  color: inherit;
+  border-bottom: 1px solid transparent;
+}
+
+.latex-author-name a:hover {
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+.latex-author-affil {
+  font-family: var(--body), sans-serif;
+  font-size: 0.92rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.latex-author-role {
+  font-family: var(--mono), monospace;
+  font-size: 0.75rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.latex-paper-institution {
+  text-align: center;
+  font-family: var(--mono), monospace;
+  font-size: 0.85rem;
+  color: var(--dim);
+  margin: 0.5rem 0 1.5rem;
+  letter-spacing: 0.03em;
+}
+
+.latex-metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem 1.5rem;
+  padding: 1.25rem;
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  margin: 1.5rem 0 1rem;
+}
+
+.latex-metadata-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.latex-metadata-label {
+  font: var(--type-compact) var(--mono);
+  color: var(--dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.latex-metadata-value {
+  font-family: var(--mono), monospace;
+  font-size: 0.85rem;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.latex-paper-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.75rem;
+  margin-top: 1.5rem;
+  font: var(--type-compact) var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.latex-paper-links a {
+  color: var(--blue);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+}
+
+.latex-paper-links a:hover {
+  color: var(--pink);
+  border-color: var(--pink);
+}
+
+/* ─── Format Toggle Toolbar ─── */
+.paper-format-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  margin: 1.5rem 0 2rem;
+}
+
+.paper-format-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--mono), monospace;
+  font-size: 0.82rem;
+}
+
+.paper-format-badge {
+  padding: 0.2rem 0.5rem;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: var(--blue);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-radius: 3px;
+}
+
+.paper-format-desc {
+  color: var(--muted);
+}
+
+.paper-format-toggles {
+  display: inline-flex;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #05060a;
+}
+
+.paper-format-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.95rem;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--mono), monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.paper-format-btn:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.paper-format-btn.active {
+  background: var(--surface-raised);
+  color: var(--blue);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--blue);
+}
+
+.paper-format-pill {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.35rem;
+  background: rgba(56, 189, 248, 0.2);
+  color: var(--blue);
+  border-radius: 2px;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Two-Column vs Single-Column Layouts ─── */
+
+.latex-paper-desk {
+  background: #080c16;
+  background-image: radial-gradient(circle at 50% 0%, #151d30 0%, #080c16 75%);
+  padding: 2.25rem 1rem 4rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 1.5rem 0 3rem;
+  min-height: 800px;
+}
+
+/* ─── Interactive Academic Pagination Bar ─── */
+.latex-pagination-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 0.85rem 1.25rem;
+  margin: 0 auto 2.25rem;
+  max-width: 980px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.latex-pagination-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.latex-page-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.95rem;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: #e2e8f0;
+  font-family: var(--mono), monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.latex-page-arrow:hover:not(:disabled) {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.latex-page-arrow:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.latex-page-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.latex-page-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  color: #94a3b8;
+  font-family: var(--body), sans-serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.latex-page-pill:hover {
+  color: #f1f5f9;
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(30, 41, 59, 0.5);
+}
+
+.latex-page-pill.active {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: var(--blue);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+}
+
+.latex-page-pill-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  font-family: var(--mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: inherit;
+}
+
+.latex-page-pill.active .latex-page-pill-num {
+  background: var(--blue);
+  color: #030712;
+}
+
+.latex-pagination-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.65rem;
+  gap: 0.75rem;
+}
+
+.latex-continuous-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: #cbd5e1;
+  font-family: var(--mono), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.latex-continuous-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.latex-continuous-btn.active {
+  background: rgba(236, 72, 153, 0.15);
+  border-color: var(--pink);
+  color: #f472b6;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.2);
+}
+
+.latex-page-counter {
+  font-family: var(--mono), monospace;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ─── Physical White Paper Sheets ─── */
+
+.latex-paper-sheet {
+  background: #ffffff;
+  color: #111827;
+  max-width: 980px;
+  margin: 0 auto 3.5rem;
+  padding: 56px 64px 48px;
+  border-radius: 2px;
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.12);
+  outline: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+  font-family: "Times New Roman", Times, "Computer Modern Serif", "Nimbus Roman", Georgia, serif;
+  box-sizing: border-box;
+}
+
+.latex-paper-sheet:last-child {
+  margin-bottom: 0;
+}
+
+/* Running Header */
+.latex-sheet-running-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid #d1d5db;
+  padding-bottom: 6px;
+  margin-bottom: 24px;
+  font-family: "Times New Roman", Times, "Computer Modern Serif", "Nimbus Roman", Georgia, serif;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4b5563;
+}
+
+.latex-sheet-running-title {
+  font-weight: 700;
+  color: #111827;
+}
+
+.latex-sheet-running-meta {
+  color: #6b7280;
+}
+
+/* Running Footer */
+.latex-sheet-running-footer {
+  border-top: 1px solid #d1d5db;
+  padding-top: 10px;
+  margin-top: 36px;
+  text-align: center;
+  font-family: "Times New Roman", Times, "Computer Modern Serif", "Nimbus Roman", Georgia, serif;
+  font-size: 11px;
+  color: #6b7280;
+  letter-spacing: 0.05em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.latex-sheet-footer-inst {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+}
+
+.latex-sheet-page-num {
+  font-weight: 700;
+  color: #111827;
+}
+
+/* 2-Column Physical Sheet Body */
+.latex-sheet-columns {
+  column-count: 2;
+  column-gap: 24px;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  font-family: "Times New Roman", Times, "Computer Modern Serif", "Nimbus Roman", Georgia, serif;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #111827;
+}
+
+/* Sheet 1 Title & Masthead */
+.latex-sheet-masthead {
+  column-span: all;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.latex-sheet-paper-title {
+  font-family: "Times New Roman", Times, "Computer Modern Serif", "Nimbus Roman", Georgia, serif;
+  font-size: clamp(18px, 2.8vw, 24px);
+  font-weight: 700;
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: #111827;
+  margin: 0 0 16px;
+  letter-spacing: 0.02em;
+}
+
+.latex-sheet-authors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 3.5rem;
+  margin-bottom: 12px;
+}
+
+.latex-sheet-author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.latex-sheet-author-name {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.latex-sheet-author-role {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
+  font-style: italic;
+  color: #374151;
+}
+
+.latex-sheet-affiliation {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11.5px;
+  color: #4b5563;
+  margin-top: 6px;
+  letter-spacing: 0.02em;
+}
+
+/* Abstract on Sheet 1 */
+.latex-sheet-abstract-block {
+  column-span: all;
+  max-width: 96%;
+  margin: 14px auto 22px;
+  padding: 0 8px;
+}
+
+.latex-sheet-abstract-rule {
+  height: 1px;
+  background: #111827;
+  margin: 10px 0;
+}
+
+.latex-sheet-abstract-text {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11.5px;
+  line-height: 1.45;
+  text-align: justify;
+  text-justify: inter-word;
+  color: #1f2937;
+}
+
+.latex-sheet-abstract-text p {
+  margin: 0 0 8px;
+}
+
+/* Headings & Typography inside Sheet Columns */
+.latex-sheet-columns h2 {
+  font-family: "Times New Roman", Times, "Computer Modern Serif", "Nimbus Roman", Georgia, serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: #111827;
+  margin: 18px 0 8px;
+  padding-top: 8px;
+  break-after: avoid;
+  break-inside: avoid;
+}
+
+.latex-sheet-columns h3 {
+  font-family: "Times New Roman", Times, "Computer Modern Serif", "Nimbus Roman", Georgia, serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  font-style: italic;
+  text-align: left;
+  color: #111827;
+  margin: 14px 0 6px;
+  break-after: avoid;
+  break-inside: avoid;
+}
+
+.latex-sheet-columns p {
+  margin: 0 0 8px;
+  text-align: justify;
+  text-justify: inter-word;
+  color: #111827;
+  line-height: 1.45;
+}
+
+.latex-sheet-columns ul,
+.latex-sheet-columns ol {
+  margin: 6px 0 10px;
+  padding-left: 18px;
+  color: #111827;
+}
+
+.latex-sheet-columns li {
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.latex-sheet-columns blockquote {
+  margin: 10px 0;
+  padding: 6px 12px;
+  border-left: 2px solid #111827;
+  background: #f8fafc;
+  font-style: italic;
+  font-size: 12px;
+  color: #1e293b;
+  break-inside: avoid;
+}
+
+.latex-sheet-columns code {
+  font-family: var(--mono), monospace;
+  font-size: 11px;
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 1px 4px;
+  border-radius: 2px;
+  border: 1px solid #e2e8f0;
+}
+
+.latex-sheet-columns pre {
+  margin: 10px 0;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 2px;
+  font-family: var(--mono), monospace;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: #0f172a;
+  overflow-x: auto;
+  break-inside: avoid;
+}
+
+.latex-sheet-columns a {
+  color: #1d4ed8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.latex-sheet-columns hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 16px 0;
+}
+
+/* Booktabs Tables in Paper Mode */
+.latex-booktabs-container {
+  margin: 16px 0;
+  column-span: all;
+  break-inside: avoid;
+  overflow-x: auto;
+}
+
+.latex-booktabs-caption {
+  text-align: center;
+  font-family: "Times New Roman", Times, "Computer Modern Serif", "Nimbus Roman", Georgia, serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.latex-booktabs-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 2px solid #111827;
+  border-bottom: 2px solid #111827;
+  font-family: "Times New Roman", Times, "Computer Modern Serif", "Nimbus Roman", Georgia, serif;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: #111827;
+  background: transparent;
+}
+
+.latex-booktabs-table th {
+  border-top: none;
+  border-bottom: 1px solid #111827;
+  border-left: none;
+  border-right: none;
+  padding: 6px 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: #111827;
+  background: transparent;
+  text-align: left;
+}
+
+.latex-booktabs-table td {
+  border: none;
+  padding: 5px 8px;
+  color: #111827;
+  background: transparent;
+}
+
+.latex-booktabs-table tr:hover td {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* Figures in Paper Mode */
+.latex-paper-figure {
+  margin: 18px 0;
+  column-span: all;
+  break-inside: avoid;
+  text-align: center;
+}
+
+.latex-paper-figure-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  border: 1px solid #cbd5e1;
+  border-radius: 2px;
+  background: #ffffff;
+  padding: 6px;
+}
+
+.latex-paper-fig-caption {
+  margin-top: 8px;
+  font-family: "Times New Roman", Times, "Computer Modern Serif", "Nimbus Roman", Georgia, serif;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: #1f2937;
+  text-align: justify;
+  text-justify: inter-word;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.latex-paper-fig-caption strong {
+  font-weight: 700;
+  color: #111827;
+}
+
+/* KaTeX in Paper Sheet */
+.latex-paper-sheet .katex-display,
+.latex-sheet-columns .katex-display,
+.latex-paper-mode .latex-paper-sheet .katex-display {
+  margin: 12px 0 !important;
+  padding: 6px 0 !important;
+  background: transparent !important;
+  border: none !important;
+  overflow-x: auto !important;
+  color: #111827 !important;
+  break-inside: avoid !important;
+}
+
+.latex-paper-sheet .katex,
+.latex-sheet-columns .katex,
+.latex-paper-mode .latex-paper-sheet .katex {
+  color: #111827 !important;
+}
+
+/* Mobile & Tablet Fallback (<850px) */
+@media (max-width: 850px) {
+  .latex-sheet-columns {
+    column-count: 1 !important;
+    column-gap: 0 !important;
+    text-align: left !important;
+    hyphens: none !important;
+  }
+  .latex-paper-sheet {
+    padding: 24px 18px !important;
+    margin: 0 auto 1.5rem !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  }
+  .latex-pagination-nav {
+    justify-content: center;
+  }
+  .latex-page-pills {
+    justify-content: center;
+  }
+  .latex-sheet-authors {
+    gap: 1rem 1.5rem;
+  }
+}
+
+/* ─── Web View (Single Column) Styles ─── */
+.web-single-column .report-body {
+  max-width: 76ch;
+  margin: 0 auto;
+  columns: 1 !important;
+  column-rule: none !important;
+  text-align: left;
+}
+
+.web-single-column .report-body h2,
+.web-single-column .report-body h3,
+.web-single-column .report-body h4 {
+  break-after: avoid;
+  break-inside: avoid;
+}
+
+.web-single-column .report-body p {
+  margin: 0 0 1.05rem;
+  font-size: 0.95rem;
+  line-height: 1.72;
+  color: #e2e8f0;
+}
+
+.web-single-column .report-body h2 {
+  font-family: var(--display), sans-serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f8fafc;
+  margin: 2.25rem 0 0.85rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.web-single-column .report-body h3 {
+  font-family: var(--mono), monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 1.75rem 0 0.65rem;
+}
+
+/* ─── Elements Spanning Full Width (column-span: all) ─── */
+
+.latex-abstract-wrapper {
+  column-span: all;
+  max-width: 94%;
+  margin: 1.5rem auto 2.75rem;
+  padding: 0;
+  clear: both;
+}
+
+.latex-abstract-rule {
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.25);
+  margin: 1.25rem 0;
+}
+
+.latex-abstract-inner {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: #e2e8f0;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.latex-abstract-inner h3 {
+  text-align: center;
+  font-family: var(--mono), monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #f8fafc;
+  margin: 0 0 1rem;
+}
+
+.latex-abstract-inner p {
+  margin-bottom: 0.85rem;
+}
+
+.latex-abstract-inner em {
+  font-style: italic;
+  color: #cbd5e1;
+}
+
+.latex-abstract-inner strong {
+  color: #f8fafc;
+}
+
+.latex-paper-mode .report-body h2,
+.latex-paper-mode .latex-abstract-wrapper,
+.latex-paper-mode .academic-table-container,
+.latex-paper-mode .academic-code-block,
+.latex-paper-mode .blog-post-figure,
+.latex-paper-mode figure,
+.latex-paper-mode .claim-accordion,
+.latex-paper-mode .report-section-divider,
+.latex-paper-mode .fig-stats {
+  column-span: all;
+  break-inside: avoid;
+}
+
+.academic-table-container {
+  margin: 2rem 0;
+}
+
+.academic-paper-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono), monospace;
+  font-size: 0.85rem;
+  background: rgba(11, 12, 19, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.academic-paper-table th {
+  background: rgba(15, 23, 42, 0.9);
+  color: #f1f5f9;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.18);
+  padding: 0.75rem 0.85rem;
+  text-align: left;
+}
+
+.academic-paper-table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 0.65rem 0.85rem;
+}
+
+.academic-callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--blue);
+  background: rgba(56, 189, 248, 0.04);
+  border-radius: 0 4px 4px 0;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  break-inside: avoid;
+}
+
+.latex-paper-mode .katex-display {
+  margin: 1.25rem 0;
+  padding: 0.75rem 0.5rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow-x: auto;
+  break-inside: avoid;
+}
+
+/* Blog-post tables: let them wrap instead of cropping behind a scrollbar on phones.
+   The shared .table-scroll-container rule pins min-width:580px + white-space:nowrap,
+   which hides 110-265px of every table below ~610px viewports. Scoped to
+   .blog-post-body so the report/research lane keeps its own behaviour. */
+@media(max-width:700px){
+  .blog-post-body .table-scroll-container table{min-width:0;table-layout:fixed!important}
+  .blog-post-body .table-scroll-container th,
+  .blog-post-body .table-scroll-container td{white-space:normal;overflow-wrap:anywhere;padding:.5rem .5rem;font-size:.78rem}
+  .blog-post-body .table-scroll-container th{font-size:.68rem;letter-spacing:.02em}
+}

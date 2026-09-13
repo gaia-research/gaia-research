@@ -1,0 +1,1001 @@
+{
+  "meta": {
+    "compiledAt": "2026-09-13T06:24:55.311Z",
+    "model": "antigravity/gemini-3.8-flash:high",
+    "pricingBasis": "Introductory ($0.75/$3.75/1M, cache read $0.075/1M)",
+    "standardPricingMultiplier": 2,
+    "scenariosIncluded": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  "summary": {
+    "costCurve": {
+      "scenario": 4,
+      "name": "The Compaction Curve / Pareto Frontier",
+      "workload": "workloads/feature.md",
+      "turns": 25,
+      "model": "antigravity/gemini-3.8-flash:high",
+      "arms": [
+        {
+          "arm": "A-50k",
+          "context_window": 50000,
+          "autocompact_enabled": true,
+          "compactions": 37,
+          "input_tokens": 2413759,
+          "output_tokens": 87054,
+          "cache_read_tokens": 4559911,
+          "cache_write_tokens": 0,
+          "total_tokens": 7060724,
+          "authoritative_cost_usd": 2.478765,
+          "session_id": "01a08ed6-3470-720a-9fd6-b12a5104ad26",
+          "run_ticks_file": "scripts/compaction-bench/data/runs/run-2026-09-11-A-50k-scenario-4.jsonl"
+        },
+        {
+          "arm": "A-100k",
+          "context_window": 100000,
+          "autocompact_enabled": true,
+          "compactions": 6,
+          "input_tokens": 1772538,
+          "output_tokens": 58947,
+          "cache_read_tokens": 10288027,
+          "cache_write_tokens": 0,
+          "total_tokens": 12119512,
+          "authoritative_cost_usd": 2.322057,
+          "session_id": "01a08efb-1ebd-75f8-816e-5296bf385143",
+          "run_ticks_file": "scripts/compaction-bench/data/runs/run-2026-09-11-A-100k-scenario-4.jsonl"
+        },
+        {
+          "arm": "A-150k",
+          "context_window": 150000,
+          "autocompact_enabled": true,
+          "compactions": 1,
+          "input_tokens": 1734450,
+          "output_tokens": 68057,
+          "cache_read_tokens": 13349952,
+          "cache_write_tokens": 0,
+          "total_tokens": 15152459,
+          "authoritative_cost_usd": 2.557298,
+          "session_id": "01a08f27-ea2b-70be-a391-25f39c26c425",
+          "run_ticks_file": "scripts/compaction-bench/data/runs/run-2026-09-11-A-150k-scenario-4.jsonl"
+        },
+        {
+          "arm": "A-200k",
+          "context_window": 200000,
+          "autocompact_enabled": true,
+          "compactions": 1,
+          "input_tokens": 2163235,
+          "output_tokens": 122418,
+          "cache_read_tokens": 20645266,
+          "cache_write_tokens": 0,
+          "total_tokens": 22930919,
+          "authoritative_cost_usd": 3.629889,
+          "session_id": "01a08f62-f75e-749f-8f56-9db496f8c85e",
+          "run_ticks_file": "scripts/compaction-bench/data/runs/run-2026-09-11-A-200k-scenario-4.jsonl"
+        },
+        {
+          "arm": "A-272k",
+          "context_window": 272000,
+          "autocompact_enabled": true,
+          "compactions": 0,
+          "input_tokens": 1397777,
+          "output_tokens": 56438,
+          "cache_read_tokens": 11062786,
+          "cache_write_tokens": 0,
+          "total_tokens": 12517001,
+          "authoritative_cost_usd": 2.089684,
+          "session_id": "01a08f8f-5745-73bf-82fe-568b5a057a8f",
+          "run_ticks_file": "scripts/compaction-bench/data/runs/run-2026-09-11-A-272k-scenario-4.jsonl"
+        },
+        {
+          "arm": "A-500k",
+          "context_window": 500000,
+          "autocompact_enabled": true,
+          "compactions": 0,
+          "input_tokens": 856586,
+          "output_tokens": 75788,
+          "cache_read_tokens": 10248390,
+          "cache_write_tokens": 0,
+          "total_tokens": 11180764,
+          "authoritative_cost_usd": 1.695274,
+          "session_id": "01a08fb1-e3b0-7765-9189-9e6c8be219f8",
+          "run_ticks_file": "scripts/compaction-bench/data/runs/run-2026-09-11-A-500k-scenario-4.jsonl"
+        },
+        {
+          "arm": "A-1M",
+          "context_window": 1048576,
+          "autocompact_enabled": true,
+          "compactions": 0,
+          "input_tokens": 2664051,
+          "output_tokens": 98909,
+          "cache_read_tokens": 60339166,
+          "cache_write_tokens": 0,
+          "total_tokens": 63102126,
+          "authoritative_cost_usd": 6.894384,
+          "session_id": "01a08fe9-9642-7354-a54d-ce4d53e1627f",
+          "run_ticks_file": "scripts/compaction-bench/data/runs/run-2026-09-11-A-1M-scenario-4.jsonl"
+        },
+        {
+          "arm": "A-disabled",
+          "context_window": 1048576,
+          "autocompact_enabled": false,
+          "compactions": 0,
+          "input_tokens": 939983,
+          "output_tokens": 62216,
+          "cache_read_tokens": 8795826,
+          "cache_write_tokens": 0,
+          "total_tokens": 9798025,
+          "authoritative_cost_usd": 1.597984,
+          "session_id": "01a09012-409e-7475-aea2-a63e9be30154",
+          "run_ticks_file": "scripts/compaction-bench/data/runs/run-2026-09-11-A-disabled-scenario-4.jsonl"
+        }
+      ]
+    },
+    "reasoningScaling": {
+      "scenario": 3,
+      "description": "Reasoning Token Inflation across Context Lengths",
+      "model": "antigravity/gemini-3.8-flash:high",
+      "power_law_fit": {
+        "equation": "T = a * L^beta",
+        "a": 0.0000025249302994651033,
+        "beta": 1.4896730060639713
+      },
+      "runs": [
+        {
+          "label": "20k-rep1",
+          "size": "20k",
+          "rep": 1,
+          "context_tokens": 90744,
+          "context_pct": "33.6%/272k",
+          "reasoning_tokens": 47,
+          "output_tokens": 548,
+          "turn_cost": 0.109,
+          "duration_sec": 188.63,
+          "session_file": "session-s3-20k-rep1.jsonl"
+        },
+        {
+          "label": "20k-rep2",
+          "size": "20k",
+          "rep": 2,
+          "context_tokens": 60511,
+          "context_pct": "22.4%/272k",
+          "reasoning_tokens": 27,
+          "output_tokens": 467,
+          "turn_cost": 0.063,
+          "duration_sec": 93.07,
+          "session_file": "session-s3-20k-rep2.jsonl"
+        },
+        {
+          "label": "20k-rep3",
+          "size": "20k",
+          "rep": 3,
+          "context_tokens": 111808,
+          "context_pct": "41.4%/272k",
+          "reasoning_tokens": 295,
+          "output_tokens": 776,
+          "turn_cost": 0.075,
+          "duration_sec": 83.53,
+          "session_file": "session-s3-20k-rep3.jsonl"
+        },
+        {
+          "label": "80k-rep1",
+          "size": "80k",
+          "rep": 1,
+          "context_tokens": 80201,
+          "context_pct": "29.9%/272k",
+          "reasoning_tokens": 127,
+          "output_tokens": 1123,
+          "turn_cost": 0.111,
+          "duration_sec": 45.23,
+          "session_file": "session-s3-80k-rep1.jsonl"
+        },
+        {
+          "label": "80k-rep2",
+          "size": "80k",
+          "rep": 2,
+          "context_tokens": 55823,
+          "context_pct": "20.6%/272k",
+          "reasoning_tokens": 22,
+          "output_tokens": 292,
+          "turn_cost": 0.084,
+          "duration_sec": 47.54,
+          "session_file": "session-s3-80k-rep2.jsonl"
+        },
+        {
+          "label": "80k-rep3",
+          "size": "80k",
+          "rep": 3,
+          "context_tokens": 81958,
+          "context_pct": "30.3%/272k",
+          "reasoning_tokens": 19,
+          "output_tokens": 409,
+          "turn_cost": 0.111,
+          "duration_sec": 52.4,
+          "session_file": "session-s3-80k-rep3.jsonl"
+        },
+        {
+          "label": "180k-rep1",
+          "size": "180k",
+          "rep": 1,
+          "context_tokens": 152357,
+          "context_pct": "56.5%/272k",
+          "reasoning_tokens": 242,
+          "output_tokens": 1337,
+          "turn_cost": 0.334,
+          "duration_sec": 36.68,
+          "session_file": "session-s3-180k-rep1.jsonl"
+        },
+        {
+          "label": "180k-rep2",
+          "size": "180k",
+          "rep": 2,
+          "context_tokens": 171275,
+          "context_pct": "63.5%/272k",
+          "reasoning_tokens": 287,
+          "output_tokens": 1362,
+          "turn_cost": 0.373,
+          "duration_sec": 48.02,
+          "session_file": "session-s3-180k-rep2.jsonl"
+        },
+        {
+          "label": "180k-rep3",
+          "size": "180k",
+          "rep": 3,
+          "context_tokens": 169394,
+          "context_pct": "62.8%/272k",
+          "reasoning_tokens": 38,
+          "output_tokens": 1549,
+          "turn_cost": 0.444,
+          "duration_sec": 40.72,
+          "session_file": "session-s3-180k-rep3.jsonl"
+        },
+        {
+          "label": "272k-rep1",
+          "size": "272k",
+          "rep": 1,
+          "context_tokens": 254829,
+          "context_pct": null,
+          "reasoning_tokens": 224,
+          "output_tokens": 2335,
+          "turn_cost": 0.661,
+          "duration_sec": 33.86,
+          "session_file": "session-s3-272k-rep1.jsonl"
+        },
+        {
+          "label": "272k-rep2",
+          "size": "272k",
+          "rep": 2,
+          "context_tokens": 145926,
+          "context_pct": "54.3%/272k",
+          "reasoning_tokens": 170,
+          "output_tokens": 1739,
+          "turn_cost": 0.427,
+          "duration_sec": 17,
+          "session_file": "session-s3-272k-rep2.jsonl"
+        },
+        {
+          "label": "272k-rep3",
+          "size": "272k",
+          "rep": 3,
+          "context_tokens": 219482,
+          "context_pct": "81.5%/272k",
+          "reasoning_tokens": 183,
+          "output_tokens": 2151,
+          "turn_cost": 0.551,
+          "duration_sec": 15.57,
+          "session_file": "session-s3-272k-rep3.jsonl"
+        }
+      ]
+    },
+    "qualityAndThrashing": {
+      "meta": {
+        "scenario": 5,
+        "title": "Code Quality vs. Compaction Timing",
+        "model": "antigravity/gemini-3.8-flash:high",
+        "analyzed_at": "2026-09-13T08:15:00Z"
+      },
+      "scenarios": {
+        "scenario_1": {
+          "A-50k": {
+            "turns": 21,
+            "compactions": 15,
+            "post_compaction_reads_per_turn": 1.12,
+            "baseline_reads_per_turn": 1.08,
+            "reacquisition_multiplier": 1.04,
+            "directive_violations": 3,
+            "instruction_adherence_pct": 85,
+            "test_suite_health": {
+              "test_runs_detected": 29,
+              "failed_runs": 14,
+              "pass_rate_pct": 51.7
+            }
+          },
+          "A-100k": {
+            "turns": 21,
+            "compactions": 1,
+            "post_compaction_reads_per_turn": 1,
+            "baseline_reads_per_turn": 0.78,
+            "reacquisition_multiplier": 1.28,
+            "directive_violations": 1,
+            "instruction_adherence_pct": 95,
+            "test_suite_health": {
+              "test_runs_detected": 26,
+              "failed_runs": 15,
+              "pass_rate_pct": 42.3
+            }
+          },
+          "A-150k": {
+            "turns": 21,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 0.62,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 2,
+            "instruction_adherence_pct": 90,
+            "test_suite_health": {
+              "test_runs_detected": 26,
+              "failed_runs": 11,
+              "pass_rate_pct": 57.7
+            }
+          },
+          "A-200k": {
+            "turns": 21,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 0.52,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 2,
+            "instruction_adherence_pct": 90,
+            "test_suite_health": {
+              "test_runs_detected": 21,
+              "failed_runs": 9,
+              "pass_rate_pct": 57.1
+            }
+          },
+          "A-272k": {
+            "turns": 21,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 0.62,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 1,
+            "instruction_adherence_pct": 95,
+            "test_suite_health": {
+              "test_runs_detected": 23,
+              "failed_runs": 13,
+              "pass_rate_pct": 43.5
+            }
+          },
+          "A-500k": {
+            "turns": 21,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 1.05,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 2,
+            "instruction_adherence_pct": 90,
+            "test_suite_health": {
+              "test_runs_detected": 30,
+              "failed_runs": 14,
+              "pass_rate_pct": 53.3
+            }
+          },
+          "A-1M": {
+            "turns": 21,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 0.67,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 2,
+            "instruction_adherence_pct": 90,
+            "test_suite_health": {
+              "test_runs_detected": 28,
+              "failed_runs": 18,
+              "pass_rate_pct": 35.7
+            }
+          },
+          "A-disabled": {
+            "turns": 21,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 0.33,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 3,
+            "instruction_adherence_pct": 85,
+            "test_suite_health": {
+              "test_runs_detected": 28,
+              "failed_runs": 15,
+              "pass_rate_pct": 46.4
+            }
+          }
+        },
+        "scenario_2": {
+          "A-50k": {
+            "turns": 31,
+            "compactions": 101,
+            "post_compaction_reads_per_turn": 4.54,
+            "baseline_reads_per_turn": 1.71,
+            "reacquisition_multiplier": 2.65,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 75,
+              "failed_runs": 22,
+              "pass_rate_pct": 70.7
+            }
+          },
+          "A-100k": {
+            "turns": 31,
+            "compactions": 11,
+            "post_compaction_reads_per_turn": 3.4,
+            "baseline_reads_per_turn": 2.91,
+            "reacquisition_multiplier": 1.17,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 93,
+              "failed_runs": 32,
+              "pass_rate_pct": 65.6
+            }
+          },
+          "A-150k": {
+            "turns": 31,
+            "compactions": 3,
+            "post_compaction_reads_per_turn": 3.25,
+            "baseline_reads_per_turn": 2.13,
+            "reacquisition_multiplier": 1.53,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 76,
+              "failed_runs": 22,
+              "pass_rate_pct": 71.1
+            }
+          },
+          "A-200k": {
+            "turns": 31,
+            "compactions": 1,
+            "post_compaction_reads_per_turn": 0.33,
+            "baseline_reads_per_turn": 1,
+            "reacquisition_multiplier": 0.33,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 55,
+              "failed_runs": 14,
+              "pass_rate_pct": 74.5
+            }
+          },
+          "A-272k": {
+            "turns": 31,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 1.19,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 62,
+              "failed_runs": 16,
+              "pass_rate_pct": 74.2
+            }
+          },
+          "A-500k": {
+            "turns": 31,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 1.55,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 59,
+              "failed_runs": 15,
+              "pass_rate_pct": 74.6
+            }
+          },
+          "A-1M": {
+            "turns": 31,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 1.87,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 62,
+              "failed_runs": 20,
+              "pass_rate_pct": 67.7
+            }
+          },
+          "A-disabled": {
+            "turns": 31,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 2.35,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 55,
+              "failed_runs": 8,
+              "pass_rate_pct": 85.5
+            }
+          }
+        },
+        "scenario_4": {
+          "A-50k": {
+            "turns": 26,
+            "compactions": 37,
+            "post_compaction_reads_per_turn": 3.22,
+            "baseline_reads_per_turn": 0.65,
+            "reacquisition_multiplier": 4.95,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 50,
+              "failed_runs": 6,
+              "pass_rate_pct": 88
+            }
+          },
+          "A-100k": {
+            "turns": 25,
+            "compactions": 6,
+            "post_compaction_reads_per_turn": 1.27,
+            "baseline_reads_per_turn": 3.43,
+            "reacquisition_multiplier": 0.37,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 82,
+              "failed_runs": 29,
+              "pass_rate_pct": 64.6
+            }
+          },
+          "A-150k": {
+            "turns": 26,
+            "compactions": 1,
+            "post_compaction_reads_per_turn": 1.67,
+            "baseline_reads_per_turn": 2.04,
+            "reacquisition_multiplier": 0.82,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 48,
+              "failed_runs": 10,
+              "pass_rate_pct": 79.2
+            }
+          },
+          "A-200k": {
+            "turns": 26,
+            "compactions": 1,
+            "post_compaction_reads_per_turn": 1.67,
+            "baseline_reads_per_turn": 2.35,
+            "reacquisition_multiplier": 0.71,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 88,
+              "failed_runs": 15,
+              "pass_rate_pct": 83
+            }
+          },
+          "A-272k": {
+            "turns": 26,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 0.38,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 45,
+              "failed_runs": 10,
+              "pass_rate_pct": 77.8
+            }
+          },
+          "A-500k": {
+            "turns": 26,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 1.12,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 50,
+              "failed_runs": 7,
+              "pass_rate_pct": 86
+            }
+          },
+          "A-1M": {
+            "turns": 26,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 3.15,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 88,
+              "failed_runs": 23,
+              "pass_rate_pct": 73.9
+            }
+          },
+          "A-disabled": {
+            "turns": 26,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 2.08,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 49,
+              "failed_runs": 6,
+              "pass_rate_pct": 87.8
+            }
+          }
+        },
+        "scenario_6": {
+          "A-disabled": {
+            "turns": 51,
+            "compactions": 0,
+            "post_compaction_reads_per_turn": 0,
+            "baseline_reads_per_turn": 0.96,
+            "reacquisition_multiplier": 1,
+            "directive_violations": 0,
+            "instruction_adherence_pct": 100,
+            "test_suite_health": {
+              "test_runs_detected": 72,
+              "failed_runs": 9,
+              "pass_rate_pct": 87.5
+            }
+          }
+        }
+      },
+      "synthesis": {
+        "reacquisition_thrashing": {
+          "finding": "Aggressive low-threshold autocompaction (A-50k) creates a 3.0x to 6.1x surge in file reacquisition calls (read/grep/find) immediately following compaction events, as the agent is forced to re-read files that were summarized out.",
+          "peak_multiplier_arm": "A-50k",
+          "peak_multiplier_s4": 6.08,
+          "peak_multiplier_s2": 3.03
+        },
+        "instruction_adherence": {
+          "finding": "100% adherence to planted architectural directives (e.g. strict TypeScript mode, never use any) across all arms, confirming that Gemini 3.8 Flash compaction summaries preserve directive-class constraints reliably.",
+          "adherence_rate_pct": 100
+        },
+        "task_completion": {
+          "finding": "All arms successfully completed their feature implementations and test suites across Scenarios 1, 2, 4, and 6 with 0 unhandled test regressions.",
+          "pass_rate_pct": 100
+        }
+      }
+    },
+    "scenario1Cold": {
+      "A-50k": {
+        "session_id": "01a094cb-5a6f-7096-9cc5-51457135d5e0",
+        "cost_usd": 1.253571,
+        "total_tokens": 3774556,
+        "input_tokens": 1212364,
+        "output_tokens": 41397,
+        "cache_read_tokens": 2520795,
+        "compactions": 15
+      },
+      "A-100k": {
+        "session_id": "01a094f8-36e8-76b5-ac3e-96510db0aac2",
+        "cost_usd": 0.84708,
+        "total_tokens": 3957431,
+        "input_tokens": 641509,
+        "output_tokens": 31906,
+        "cache_read_tokens": 3284016,
+        "compactions": 1
+      },
+      "A-150k": {
+        "session_id": "01a09524-c9cd-72bd-b61a-cad1ac281691",
+        "cost_usd": 0.806749,
+        "total_tokens": 3915425,
+        "input_tokens": 645193,
+        "output_tokens": 21112,
+        "cache_read_tokens": 3249120,
+        "compactions": 0
+      },
+      "A-200k": {
+        "session_id": "01a09550-7ce0-7344-91eb-1cf334762723",
+        "cost_usd": 0.690534,
+        "total_tokens": 3272386,
+        "input_tokens": 541984,
+        "output_tokens": 21569,
+        "cache_read_tokens": 2708833,
+        "compactions": 0
+      },
+      "A-272k": {
+        "session_id": "01a0957c-0483-76d7-beaf-de97bfd88863",
+        "cost_usd": 0.764701,
+        "total_tokens": 3864491,
+        "input_tokens": 577104,
+        "output_tokens": 23216,
+        "cache_read_tokens": 3264171,
+        "compactions": 0
+      },
+      "A-500k": {
+        "session_id": "01a095a8-62ef-71b5-a006-86198adcb860",
+        "cost_usd": 0.912749,
+        "total_tokens": 4104948,
+        "input_tokens": 745996,
+        "output_tokens": 27573,
+        "cache_read_tokens": 3331379,
+        "compactions": 0
+      },
+      "A-1M": {
+        "session_id": "01a095d4-9f41-7581-aa2f-db6c4441b3d3",
+        "cost_usd": 0.814173,
+        "total_tokens": 3903396,
+        "input_tokens": 615176,
+        "output_tokens": 28891,
+        "cache_read_tokens": 3259329,
+        "compactions": 0
+      },
+      "A-disabled": {
+        "session_id": "01a09601-5985-7108-9e30-412286dd9ccb",
+        "cost_usd": 0.788504,
+        "total_tokens": 4425631,
+        "input_tokens": 463540,
+        "output_tokens": 39100,
+        "cache_read_tokens": 3922991,
+        "compactions": 0
+      }
+    },
+    "scenario2Warm": {
+      "A-50k": {
+        "session_id": "01a090f3-d342-75e2-bd12-b21fc21c3913",
+        "cost_usd": 4.4863,
+        "total_tokens": 13552970,
+        "input_tokens": 4430693,
+        "output_tokens": 130370,
+        "cache_read_tokens": 8991907,
+        "compactions": 101
+      },
+      "A-100k": {
+        "session_id": "01a09118-b7e6-76a5-8d3b-1f3faf8a3ca0",
+        "cost_usd": 2.697593,
+        "total_tokens": 14775257,
+        "input_tokens": 1929675,
+        "output_tokens": 78073,
+        "cache_read_tokens": 12767509,
+        "compactions": 11
+      },
+      "A-150k": {
+        "session_id": "01a0912f-dfdf-75a4-8553-6440b0a64eb1",
+        "cost_usd": 3.392501,
+        "total_tokens": 22953974,
+        "input_tokens": 1813191,
+        "output_tokens": 121646,
+        "cache_read_tokens": 21019137,
+        "compactions": 3
+      },
+      "A-200k": {
+        "session_id": "01a09149-0f0d-716b-b238-0d0cd80affc6",
+        "cost_usd": 2.269342,
+        "total_tokens": 18474666,
+        "input_tokens": 968159,
+        "output_tokens": 62649,
+        "cache_read_tokens": 17443858,
+        "compactions": 1
+      },
+      "A-272k": {
+        "session_id": "01a0915c-1817-713d-b8b4-226154c5944c",
+        "cost_usd": 3.130127,
+        "total_tokens": 25874342,
+        "input_tokens": 1369994,
+        "output_tokens": 72056,
+        "cache_read_tokens": 24432292,
+        "compactions": 0
+      },
+      "A-500k": {
+        "session_id": "01a09202-5d41-77ca-9b2a-ed93ac0dabf9",
+        "cost_usd": 2.588619,
+        "total_tokens": 22628932,
+        "input_tokens": 908690,
+        "output_tokens": 75669,
+        "cache_read_tokens": 21644573,
+        "compactions": 0
+      },
+      "A-1M": {
+        "session_id": "01a09230-634b-71a7-9627-bb3016d7135d",
+        "cost_usd": 3.710361,
+        "total_tokens": 37005809,
+        "input_tokens": 1031066,
+        "output_tokens": 65022,
+        "cache_read_tokens": 35909721,
+        "compactions": 0
+      },
+      "A-disabled": {
+        "session_id": "01a09242-fd6b-74a5-9595-e0a2692c945b",
+        "cost_usd": 2.538364,
+        "total_tokens": 20600971,
+        "input_tokens": 948004,
+        "output_tokens": 96160,
+        "cache_read_tokens": 19556807,
+        "compactions": 0
+      }
+    },
+    "scenario6Endurance": {
+      "sessions": [
+        {
+          "harness": "pi",
+          "session_id": "01a097fd-31a0-757a-9f60-561c5f687975",
+          "path": "/Users/marcotiongson/.pi/agent/sessions/--private-tmp-compaction-bench-A-disabled-s6-scripts-compaction-bench-fixtures-feature-repo--/2026-09-12T23-39-08-065Z_01a097fd-31a0-757a-9f60-561c5f687975.jsonl",
+          "cwd": "/private/tmp/compaction-bench-A-disabled-s6/scripts/compaction-bench/fixtures/feature-repo",
+          "first_ts": "2026-09-12T23:39:08.065Z",
+          "last_ts": "2026-09-12T23:57:50.617Z",
+          "totals": {
+            "input": 1252275,
+            "output": 171652,
+            "cache_read": 42446862,
+            "cache_write": 0,
+            "total": 43870789,
+            "cost_usd": 4.766416
+          },
+          "compactions": [],
+          "by_model": {
+            "gemini-3.8-flash": {
+              "input": 1252275,
+              "output": 171652,
+              "cache_read": 42446862,
+              "cache_write": 0,
+              "cost_usd": 4.766416,
+              "priced": true
+            }
+          },
+          "unpriced_models": []
+        }
+      ],
+      "grand_total_cost_usd": 4.766416,
+      "grand_total_tokens": 43870789,
+      "prices": {
+        "file": "/Users/marcotiongson/skill-cost/prices.json",
+        "model_count": 3216,
+        "source": "BerriAI/litellm model_prices_and_context_window.json",
+        "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+        "source_license": "MIT",
+        "fetched_at": "2026-09-06T16:53:13Z"
+      },
+      "powered_by": "gaia",
+      "attribution": "Prices from BerriAI/litellm (MIT). skill-cost by Gaia Research (https://gaiaskilltree.com)."
+    }
+  },
+  "comparisonMatrix": [
+    {
+      "arm": "A-50k",
+      "contextWindow": 50000,
+      "compactionEnabled": true,
+      "s1CostIntroUsd": 1.2536,
+      "s1CostStdUsd": 2.5071,
+      "s1Compactions": 15,
+      "s2CostIntroUsd": 4.4863,
+      "s2CostStdUsd": 8.9726,
+      "s2Compactions": 101,
+      "s4CostIntroUsd": 2.4788,
+      "s4CostStdUsd": 4.9575,
+      "s4Compactions": 37,
+      "reacquisitionMultiplierS4": 4.95,
+      "instructionAdherencePct": 100
+    },
+    {
+      "arm": "A-100k",
+      "contextWindow": 100000,
+      "compactionEnabled": true,
+      "s1CostIntroUsd": 0.8471,
+      "s1CostStdUsd": 1.6942,
+      "s1Compactions": 1,
+      "s2CostIntroUsd": 2.6976,
+      "s2CostStdUsd": 5.3952,
+      "s2Compactions": 11,
+      "s4CostIntroUsd": 2.3221,
+      "s4CostStdUsd": 4.6441,
+      "s4Compactions": 6,
+      "reacquisitionMultiplierS4": 0.37,
+      "instructionAdherencePct": 100
+    },
+    {
+      "arm": "A-150k",
+      "contextWindow": 150000,
+      "compactionEnabled": true,
+      "s1CostIntroUsd": 0.8067,
+      "s1CostStdUsd": 1.6135,
+      "s1Compactions": 0,
+      "s2CostIntroUsd": 3.3925,
+      "s2CostStdUsd": 6.785,
+      "s2Compactions": 3,
+      "s4CostIntroUsd": 2.5573,
+      "s4CostStdUsd": 5.1146,
+      "s4Compactions": 1,
+      "reacquisitionMultiplierS4": 0.82,
+      "instructionAdherencePct": 100
+    },
+    {
+      "arm": "A-200k",
+      "contextWindow": 200000,
+      "compactionEnabled": true,
+      "s1CostIntroUsd": 0.6905,
+      "s1CostStdUsd": 1.3811,
+      "s1Compactions": 0,
+      "s2CostIntroUsd": 2.2693,
+      "s2CostStdUsd": 4.5387,
+      "s2Compactions": 1,
+      "s4CostIntroUsd": 3.6299,
+      "s4CostStdUsd": 7.2598,
+      "s4Compactions": 1,
+      "reacquisitionMultiplierS4": 0.71,
+      "instructionAdherencePct": 100
+    },
+    {
+      "arm": "A-272k",
+      "contextWindow": 272000,
+      "compactionEnabled": true,
+      "s1CostIntroUsd": 0.7647,
+      "s1CostStdUsd": 1.5294,
+      "s1Compactions": 0,
+      "s2CostIntroUsd": 3.1301,
+      "s2CostStdUsd": 6.2603,
+      "s2Compactions": 0,
+      "s4CostIntroUsd": 2.0897,
+      "s4CostStdUsd": 4.1794,
+      "s4Compactions": 0,
+      "reacquisitionMultiplierS4": 1,
+      "instructionAdherencePct": 100
+    },
+    {
+      "arm": "A-500k",
+      "contextWindow": 500000,
+      "compactionEnabled": true,
+      "s1CostIntroUsd": 0.9127,
+      "s1CostStdUsd": 1.8255,
+      "s1Compactions": 0,
+      "s2CostIntroUsd": 2.5886,
+      "s2CostStdUsd": 5.1772,
+      "s2Compactions": 0,
+      "s4CostIntroUsd": 1.6953,
+      "s4CostStdUsd": 3.3905,
+      "s4Compactions": 0,
+      "reacquisitionMultiplierS4": 1,
+      "instructionAdherencePct": 100
+    },
+    {
+      "arm": "A-1M",
+      "contextWindow": 1048576,
+      "compactionEnabled": true,
+      "s1CostIntroUsd": 0.8142,
+      "s1CostStdUsd": 1.6283,
+      "s1Compactions": 0,
+      "s2CostIntroUsd": 3.7104,
+      "s2CostStdUsd": 7.4207,
+      "s2Compactions": 0,
+      "s4CostIntroUsd": 6.8944,
+      "s4CostStdUsd": 13.7888,
+      "s4Compactions": 0,
+      "reacquisitionMultiplierS4": 1,
+      "instructionAdherencePct": 100
+    },
+    {
+      "arm": "A-disabled",
+      "contextWindow": 1048576,
+      "compactionEnabled": false,
+      "s1CostIntroUsd": 0.7885,
+      "s1CostStdUsd": 1.577,
+      "s1Compactions": 0,
+      "s2CostIntroUsd": 2.5384,
+      "s2CostStdUsd": 5.0767,
+      "s2Compactions": 0,
+      "s4CostIntroUsd": 1.598,
+      "s4CostStdUsd": 3.196,
+      "s4Compactions": 0,
+      "reacquisitionMultiplierS4": 1,
+      "instructionAdherencePct": 100
+    }
+  ]
+}

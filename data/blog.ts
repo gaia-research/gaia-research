@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import contextCompactionPhase2ThumbnailSrc from "@/assets/generated/context-compaction-phase-2-editorial-thumbnail.webp";
 import contextCompactionCurveThumbnailSrc from "@/assets/generated/context-compaction-curve-editorial-thumbnail.webp";
 import dontMakeTheModelThinkHarderThumbnailSrc from "@/assets/generated/dont-make-the-model-think-harder-editorial-thumbnail.webp";
 import intentMdSpecDrivenThumbnailSrc from "@/assets/generated/intent-md-spec-driven-editorial-thumbnail.webp";
@@ -29,6 +30,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const contextCompactionPhase2Thumbnail = {
+  src: contextCompactionPhase2ThumbnailSrc,
+  alt: "Tiny pink-haired Milim sits calmly on a massive brass pipe flange in a vast cathedral-like steam manifold hall with morning light filtering through soaring arched windows.",
+} as const;
 
 export const contextCompactionCurveThumbnail = {
   src: contextCompactionCurveThumbnailSrc,
@@ -108,6 +114,25 @@ export const arborEvidenceLoopEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/context-compaction-phase-2",
+    category: "Agent Architecture",
+    tags: [
+      "Context Compaction",
+      "Empirical Benchmark",
+      "Pareto Frontier",
+      "Prompt Caching",
+      "Reasoning Tokens",
+      "Gemini 3.8 Flash",
+    ],
+    date: "September 13, 2026",
+    readTime: "8 min read",
+    title: "We Ran 48 Coding Sessions to Find the Real Compaction Sweet Spot",
+    description:
+      "Phase 1 predicted the sweet spot was 40k–65k. We ran 48 live coding sessions across 8 autocompaction thresholds on Gemini 3.8 Flash. Here is the true Pareto frontier.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: contextCompactionPhase2Thumbnail,
+  },
   {
     href: "/blog/context-compaction-curve",
     category: "Agent Architecture",

@@ -1770,6 +1770,23 @@
       "notes": "User-approved v6 source from assets/workbench/generated/context-compaction-curve-thumbnail-v6.png; exported as a 1600x900 WebP at quality 90."
     },
     {
+      "id": "context-compaction-phase-2-editorial-thumbnail",
+      "path": "assets/generated/context-compaction-phase-2-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "e15d5b4e3f92eb45fcf2d46661ccd005c9a69fb890683f4a34d9ffde96d96b15",
+      "bytes": 353592,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": []
+    },
+    {
       "id": "context-diet-empty-state",
       "path": "assets/generated/context-diet-empty-state.webp",
       "kind": "illustration",

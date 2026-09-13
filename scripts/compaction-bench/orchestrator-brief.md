@@ -88,8 +88,8 @@ The context-window values per arm:
 # Creates /tmp/compaction-bench-sandbox-${ARM} with:
 #   - symlinks to ~/.pi/agent/* (auth, skills, extensions, themes, etc.)
 #   - jq-patched models.json (only antigravity contextWindow changed; other providers like lmstudio preserved)
-#   - own settings.json (compaction.enabled=false for A-disabled, copied for all others)
-#   - own sessions/ directory (benchmark sessions stay isolated)
+#   - own settings.json (compaction.enabled=false for A-disabled, enabled for all others)
+#   - symlinks ~/.pi/agent/sessions so skill-cost discovers sessions natively
 # Exports PI_CODING_AGENT_DIR and SANDBOX_DIR.
 source scripts/compaction-bench/sandbox/create-sandbox.sh "$ARM" "$CONTEXT_WINDOW"
 ```
@@ -107,8 +107,11 @@ git worktree add "$BENCH_DIR" --detach HEAD
 ARM_PANE=$(herdr pane split --current --direction right --ratio 0.45 --cwd "$BENCH_DIR" --no-focus \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['result']['pane']['pane_id'])")
 
-PI_CODING_AGENT_DIR="$SANDBOX_DIR" \
-  herdr agent start "${ARM}-s${SCENARIO}" --kind pi --pane "$ARM_PANE" --timeout 120000 \
+# Export the sandbox directory in the target pane's shell before starting the agent
+herdr pane send-text "$ARM_PANE" "export PI_CODING_AGENT_DIR=\"$SANDBOX_DIR\"\n"
+sleep 1
+
+herdr agent start "${ARM}-s${SCENARIO}" --kind pi --pane "$ARM_PANE" --timeout 120000 \
   -- --model antigravity/gemini-3.8-flash:high
 ```
 
@@ -363,7 +366,7 @@ npx tsx scripts/compaction-bench/analyze.ts
 # Or manual inspection:
 for f in scripts/compaction-bench/data/summary/*-cost.json; do
   ARM=$(basename "$f" | sed 's/-cost.json//')
-  COST=$(python3 -c "import json; d=json.load(open('$f')); print(f'${ARM}: \${d.get(\"total_cost\",0):.4f}')")
+  COST=$(python3 -c "import json; d=json.load(open('$f')); print(f'${ARM}: \${d.get(\"grand_total_cost_usd\",0):.4f}')")
   echo "$COST"
 done
 ```
@@ -379,4 +382,4 @@ done
 | Wrong context window in TUI | Stop. Check `jq '.providers.antigravity' "$SANDBOX_DIR/models.json"`. Recreate the sandbox. |
 | Compaction event shows `(?%/xxxk)` | Normal. Wait for the next turn — the percentage resolves after the model responds. |
 | Pane is too narrow to read | `herdr pane resize $ARM_PANE --cols 100` or adjust ratio |
-| models.json not taking effect | Verify `PI_CODING_AGENT_DIR=$SANDBOX_DIR` was set when the agent started. Close and re-start with the env var. |
+| models.json not taking effect | Verify `PI_CODING_AGENT_DIR=$SANDBOX_DIR` was exported in the pane before starting the agent. Close and re-start with the env var. |
