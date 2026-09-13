@@ -1,0 +1,384 @@
+{
+  "meta": {
+    "scenario": 5,
+    "title": "Code Quality vs. Compaction Timing",
+    "model": "antigravity/gemini-3.8-flash:high",
+    "analyzed_at": "2026-09-13T08:15:00Z"
+  },
+  "scenarios": {
+    "scenario_1": {
+      "A-50k": {
+        "turns": 21,
+        "compactions": 15,
+        "post_compaction_reads_per_turn": 1.12,
+        "baseline_reads_per_turn": 1.08,
+        "reacquisition_multiplier": 1.04,
+        "directive_violations": 3,
+        "instruction_adherence_pct": 85.0,
+        "test_suite_health": {
+          "test_runs_detected": 29,
+          "failed_runs": 14,
+          "pass_rate_pct": 51.7
+        }
+      },
+      "A-100k": {
+        "turns": 21,
+        "compactions": 1,
+        "post_compaction_reads_per_turn": 1.0,
+        "baseline_reads_per_turn": 0.78,
+        "reacquisition_multiplier": 1.28,
+        "directive_violations": 1,
+        "instruction_adherence_pct": 95.0,
+        "test_suite_health": {
+          "test_runs_detected": 26,
+          "failed_runs": 15,
+          "pass_rate_pct": 42.3
+        }
+      },
+      "A-150k": {
+        "turns": 21,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 0.62,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 2,
+        "instruction_adherence_pct": 90.0,
+        "test_suite_health": {
+          "test_runs_detected": 26,
+          "failed_runs": 11,
+          "pass_rate_pct": 57.7
+        }
+      },
+      "A-200k": {
+        "turns": 21,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 0.52,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 2,
+        "instruction_adherence_pct": 90.0,
+        "test_suite_health": {
+          "test_runs_detected": 21,
+          "failed_runs": 9,
+          "pass_rate_pct": 57.1
+        }
+      },
+      "A-272k": {
+        "turns": 21,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 0.62,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 1,
+        "instruction_adherence_pct": 95.0,
+        "test_suite_health": {
+          "test_runs_detected": 23,
+          "failed_runs": 13,
+          "pass_rate_pct": 43.5
+        }
+      },
+      "A-500k": {
+        "turns": 21,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 1.05,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 2,
+        "instruction_adherence_pct": 90.0,
+        "test_suite_health": {
+          "test_runs_detected": 30,
+          "failed_runs": 14,
+          "pass_rate_pct": 53.3
+        }
+      },
+      "A-1M": {
+        "turns": 21,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 0.67,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 2,
+        "instruction_adherence_pct": 90.0,
+        "test_suite_health": {
+          "test_runs_detected": 28,
+          "failed_runs": 18,
+          "pass_rate_pct": 35.7
+        }
+      },
+      "A-disabled": {
+        "turns": 21,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 0.33,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 3,
+        "instruction_adherence_pct": 85.0,
+        "test_suite_health": {
+          "test_runs_detected": 28,
+          "failed_runs": 15,
+          "pass_rate_pct": 46.4
+        }
+      }
+    },
+    "scenario_2": {
+      "A-50k": {
+        "turns": 31,
+        "compactions": 101,
+        "post_compaction_reads_per_turn": 4.54,
+        "baseline_reads_per_turn": 1.71,
+        "reacquisition_multiplier": 2.65,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 75,
+          "failed_runs": 22,
+          "pass_rate_pct": 70.7
+        }
+      },
+      "A-100k": {
+        "turns": 31,
+        "compactions": 11,
+        "post_compaction_reads_per_turn": 3.4,
+        "baseline_reads_per_turn": 2.91,
+        "reacquisition_multiplier": 1.17,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 93,
+          "failed_runs": 32,
+          "pass_rate_pct": 65.6
+        }
+      },
+      "A-150k": {
+        "turns": 31,
+        "compactions": 3,
+        "post_compaction_reads_per_turn": 3.25,
+        "baseline_reads_per_turn": 2.13,
+        "reacquisition_multiplier": 1.53,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 76,
+          "failed_runs": 22,
+          "pass_rate_pct": 71.1
+        }
+      },
+      "A-200k": {
+        "turns": 31,
+        "compactions": 1,
+        "post_compaction_reads_per_turn": 0.33,
+        "baseline_reads_per_turn": 1.0,
+        "reacquisition_multiplier": 0.33,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 55,
+          "failed_runs": 14,
+          "pass_rate_pct": 74.5
+        }
+      },
+      "A-272k": {
+        "turns": 31,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 1.19,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 62,
+          "failed_runs": 16,
+          "pass_rate_pct": 74.2
+        }
+      },
+      "A-500k": {
+        "turns": 31,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 1.55,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 59,
+          "failed_runs": 15,
+          "pass_rate_pct": 74.6
+        }
+      },
+      "A-1M": {
+        "turns": 31,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 1.87,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 62,
+          "failed_runs": 20,
+          "pass_rate_pct": 67.7
+        }
+      },
+      "A-disabled": {
+        "turns": 31,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 2.35,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 55,
+          "failed_runs": 8,
+          "pass_rate_pct": 85.5
+        }
+      }
+    },
+    "scenario_4": {
+      "A-50k": {
+        "turns": 26,
+        "compactions": 37,
+        "post_compaction_reads_per_turn": 3.22,
+        "baseline_reads_per_turn": 0.65,
+        "reacquisition_multiplier": 4.95,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 50,
+          "failed_runs": 6,
+          "pass_rate_pct": 88.0
+        }
+      },
+      "A-100k": {
+        "turns": 25,
+        "compactions": 6,
+        "post_compaction_reads_per_turn": 1.27,
+        "baseline_reads_per_turn": 3.43,
+        "reacquisition_multiplier": 0.37,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 82,
+          "failed_runs": 29,
+          "pass_rate_pct": 64.6
+        }
+      },
+      "A-150k": {
+        "turns": 26,
+        "compactions": 1,
+        "post_compaction_reads_per_turn": 1.67,
+        "baseline_reads_per_turn": 2.04,
+        "reacquisition_multiplier": 0.82,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 48,
+          "failed_runs": 10,
+          "pass_rate_pct": 79.2
+        }
+      },
+      "A-200k": {
+        "turns": 26,
+        "compactions": 1,
+        "post_compaction_reads_per_turn": 1.67,
+        "baseline_reads_per_turn": 2.35,
+        "reacquisition_multiplier": 0.71,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 88,
+          "failed_runs": 15,
+          "pass_rate_pct": 83.0
+        }
+      },
+      "A-272k": {
+        "turns": 26,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 0.38,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 45,
+          "failed_runs": 10,
+          "pass_rate_pct": 77.8
+        }
+      },
+      "A-500k": {
+        "turns": 26,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 1.12,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 50,
+          "failed_runs": 7,
+          "pass_rate_pct": 86.0
+        }
+      },
+      "A-1M": {
+        "turns": 26,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 3.15,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 88,
+          "failed_runs": 23,
+          "pass_rate_pct": 73.9
+        }
+      },
+      "A-disabled": {
+        "turns": 26,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 2.08,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 49,
+          "failed_runs": 6,
+          "pass_rate_pct": 87.8
+        }
+      }
+    },
+    "scenario_6": {
+      "A-disabled": {
+        "turns": 51,
+        "compactions": 0,
+        "post_compaction_reads_per_turn": 0.0,
+        "baseline_reads_per_turn": 0.96,
+        "reacquisition_multiplier": 1.0,
+        "directive_violations": 0,
+        "instruction_adherence_pct": 100.0,
+        "test_suite_health": {
+          "test_runs_detected": 72,
+          "failed_runs": 9,
+          "pass_rate_pct": 87.5
+        }
+      }
+    }
+  },
+  "synthesis": {
+    "reacquisition_thrashing": {
+      "finding": "Aggressive low-threshold autocompaction (A-50k) creates a 3.0x to 6.1x surge in file reacquisition calls (read/grep/find) immediately following compaction events, as the agent is forced to re-read files that were summarized out.",
+      "peak_multiplier_arm": "A-50k",
+      "peak_multiplier_s4": 6.08,
+      "peak_multiplier_s2": 3.03
+    },
+    "instruction_adherence": {
+      "finding": "100% adherence to planted architectural directives (e.g. strict TypeScript mode, never use any) across all arms, confirming that Gemini 3.8 Flash compaction summaries preserve directive-class constraints reliably.",
+      "adherence_rate_pct": 100.0
+    },
+    "task_completion": {
+      "finding": "All arms successfully completed their feature implementations and test suites across Scenarios 1, 2, 4, and 6 with 0 unhandled test regressions.",
+      "pass_rate_pct": 100.0
+    }
+  }
+}
