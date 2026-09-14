@@ -103,6 +103,16 @@ export type ResearchEntry = {
 
 export const researchEntries: readonly ResearchEntry[] = [
   {
+    title: "The Orchestration Guide",
+    shortName: "Orchestration Guide",
+    type: "GUIDE",
+    status: "WIP",
+    description:
+      "Step-by-step, plain-English orchestration playbook: when not to orchestrate, the one-fast-lane rule, receipts over raw output, and keeping the planner's cache warm. Experience-based — no control study yet.",
+    href: "/research/orchestration-guide",
+    action: "Read the guide",
+  },
+  {
     title: "Context Diet",
     shortName: "Context Diet",
     type: "LAB",

@@ -34,7 +34,7 @@ export type BlogPost = {
 
 export const orchestratorTaxColdCacheThumbnail = {
   src: orchestratorTaxColdCacheThumbnailSrc,
-  alt: "Tiny pink-haired Milim sits peacefully on a massive polished oak dispatcher bench in a vast, vaulted railway dispatch concourse with soaring arched windows and a monumental brass clock.",
+  alt: "Tiny pink-haired Milim plays mountain ring-toss as the leftmost member of a centered group of four original chibi friends, surrounded by a vast sunlit alpine meadow and layered blue-green peaks."
 } as const;
 
 export const contextCompactionPhase2Thumbnail = {

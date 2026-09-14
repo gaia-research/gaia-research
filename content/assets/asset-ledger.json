@@ -2427,6 +2427,26 @@
       "derivatives": []
     },
     {
+      "id": "fast-workers-diagram",
+      "path": "assets/generated/fast-workers-diagram.png",
+      "kind": "illustration",
+      "status": "approved",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research · nano-banana-2 diagram commission (founder-directed fallback, 2026-09-14)",
+      "alt": "Architecture diagram. Left column, Orchestrator: smart, multi-context, stays in session — heavy tier (Opus 5, Fable 5.1, Sol, Astra 6) above a sweet spot of Sonnet 5 and GPT-5.6 Terra, held to 15–20k context via pointer manifests. Right column, Fast Workers: under 4 minutes wall-clock — Gemini 3.8 Flash, DeepSeek V4.1 Flash, Opus 5 /fast, Sol /ultrafast — each returning a JSON receipt at a cache-hit cost of $0.050 per turn. Luna is marked as the wrong pick for this fast lane: cheap but slow. Bottom band: cold wakeups over 5 minutes cost $0.625 per turn and $5.00 across eight, versus $0.050 and $0.40 warm — a 12.5× difference.",
+      "sha256": "2e39e92b1f1622edf742d9b438caac0b6686a9a191daf5c82fbd40875dbf54ab",
+      "bytes": 616881,
+      "dimensions": {
+        "width": 896,
+        "height": 1200
+      },
+      "derivatives": [
+        "public/assets/fast-workers-diagram.png"
+      ],
+      "notes": "Candidate source assets/workbench/fast-workers-diagram-v3.png. gpt-image-2.5 was attempted first; founder directed a nano-banana-2 fallback in-session on 2026-09-14, overriding the CLAUDE.md image-model default for this asset only."
+    },
+    {
       "id": "gateway-benchmarks-panel",
       "path": "assets/generated/gateway-benchmarks-panel.webp",
       "kind": "illustration",
@@ -2639,8 +2659,8 @@
       "license": "internal-review-required",
       "credit": "Gaia Research · gpt-image-2 editorial commission",
       "alt": "Tiny pink-haired Milim sits peacefully on a massive polished oak dispatcher bench in a vast, vaulted railway dispatch concourse with soaring arched windows and a monumental brass clock.",
-      "sha256": "698fe697300fe075d6b63b6d35d02def215ef154f7e2fb4dcb1379e595f7fab0",
-      "bytes": 368924,
+      "sha256": "a82f374d540626d1f47029e0f343ff205a3e670f134d95a870f86ff415be6b67",
+      "bytes": 346438,
       "dimensions": {
         "width": 1600,
         "height": 900

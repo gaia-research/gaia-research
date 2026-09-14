@@ -71,12 +71,33 @@ The post includes an actual orchestration session screenshot supplied for this f
 
 ---
 
-## Primary Source 5: Test-Time Compute & Deliberation Under Context Noise
+## Primary Source 5: OpenAI GPT-5.6 Luna Pricing
+
+**Verified:** ✅ YES — from [OpenAI's GPT-5.6 pricing announcement](https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/) (July 30, 2026).
+- GPT-5.6 Luna: **$0.20 / 1M input tokens** and **$1.20 / 1M output tokens**.
+- The current `skill-cost` LiteLLM catalog lists **$0.02 / 1M cached input tokens** for `gpt-5.6-luna`.
+
+## Primary Source 6: DeepSeek V4.1 Flash Pricing
+
+**Verified:** ✅ YES — from [DeepSeek's Models & Pricing](https://api-docs.deepseek.com/quick_start/pricing/).
+- DeepSeek-V4.1-Flash peak: **$0.30 / 1M cache-miss input**, **$0.006 / 1M cache-hit input**, and **$1.20 / 1M output**.
+- Off-peak rates are half: **$0.15 / 1M cache-miss input**, **$0.003 / 1M cache-hit input**, and **$0.60 / 1M output**.
+
+## Primary Source 7: Grok 4.6 Pricing
+
+**Verified:** ✅ YES — from [xAI's Grok 4.6 model page](https://docs.x.ai/developers/models/grok-4.6).
+- Grok 4.6: **$2.00 / 1M input**, **$0.50 / 1M cached input**, and **$6.00 / 1M output** below the higher-context pricing threshold.
+
+## Primary Source 8: Test-Time Compute & Deliberation Under Context Noise
 
 - **Citation:** Snell, C., Lee, J., Xu, K., & Kumar, A. (DeepMind, 2024). *Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters.* arXiv:2408.03314.
 - **Mechanism:** Demonstrates that reasoning tokens scale with input complexity. Bloated orchestrator contexts with accumulated worker traces widen internal search trees, driving up output token consumption.
 
 ---
+
+## Price Catalog Cross-Check
+
+The `/cost` source was refreshed from the LiteLLM model-price catalog on September 15, 2026. It lists these base rates used for model selection in the post: GPT-5.6 Sol **$4 / 1M input, $20 / 1M output**; GPT-5.6 Terra **$2 / $12**; Claude Fable 5.1 **$10 / $50**; and Astra 6 (catalog id `gpt-6-astra`) **$10 / $50**. The catalog is maintained in [gaia-research/skill-cost](https://github.com/gaia-research/skill-cost).
 
 ## Mathematical Model & Worked Calculations
 
@@ -84,19 +105,23 @@ The post includes an actual orchestration session screenshot supplied for this f
 - $L_{\text{orch}} = 100,000$ tokens (orchestrator working context)
 - $K = 8$ worker dispatches
 - $\Delta t_{\text{worker}} = 8\text{ minutes} = 480\text{s} > T_{\text{TTL}} = 300\text{s}$
-- Base input price $P_{\text{in}} = \$3.00 / 1\text{M}$ (Sonnet 4.6)
-- Cache write $P_{\text{write}} = 1.25 \times \$3.00 = \$3.75 / 1\text{M}$
-- Cache read $P_{\text{read}} = 0.10 \times \$3.00 = \$0.30 / 1\text{M}$
+- Base input price $P_{\text{in}} = \$5.00 / 1\text{M}$ (Opus 5)
+- Cache write $P_{\text{write}} = 1.25 \times \$5.00 = \$6.25 / 1\text{M}$
+- Cache read $P_{\text{read}} = 0.10 \times \$5.00 = \$0.50 / 1\text{M}$
+
+### Opus 5 Re-pricing Used in the Article
+
+Anthropic's official Opus 5 announcement ([anthropic.com/news/claude-opus-5](https://www.anthropic.com/news/claude-opus-5), July 24, 2026) lists **$5.00 / 1M input tokens** and **$25.00 / 1M output tokens**. Anthropic's prompt-caching price table lists **$6.25 / 1M** for a 5-minute cache write and **$0.50 / 1M** for a cache hit. The article's Opus 5 worked example uses these published rates; it is arithmetic, not a measured Opus 5 run. The measured benchmark ledger below remains the Sonnet 4.6 reference.
 
 ### Cost Comparisons
 1. **Cold Reentries (Every turn misses):**
-   $$C_{\text{prefill, cold}} = 8 \times (100\text{k} \times \$3.75 / 1\text{M}) = \$3.00$$
+   $$C_{\text{prefill, cold}} = 8 \times (100\text{k} \times \$6.25 / 1\text{M}) = \$5.00$$
 2. **Warm Execution ($\Delta t < 5\text{m}$ hypothetical):**
-   $$C_{\text{prefill, warm}} = 1 \times \$0.375 + 7 \times (100\text{k} \times \$0.30 / 1\text{M}) = \$0.375 + \$0.210 = \$0.585$$
+   $$C_{\text{prefill, warm}} = 1 \times \$0.625 + 7 \times (100\text{k} \times \$0.50 / 1\text{M}) = \$0.625 + \$0.350 = \$0.975$$
 3. **Long Cache Lease (30–60 min TTL with storage rent):**
-   $$C_{\text{prefill, lease}} = \$0.375 + \$0.210 + \$0.10\text{ (lease rent)} = \$0.685\text{ (77% savings vs cold)}$$
+   $$C_{\text{prefill, lease}} = \$0.625 + \$0.350 + \$0.10\text{ (illustrative lease rent)} = \$1.075\text{ (78.5% savings vs cold)}$$
 4. **Context-Decoupled Pointer Architecture ($L_{\text{orch}} = 15\text{k}$):**
-   $$C_{\text{prefill, pointer}} = 8 \times (15\text{k} \times \$3.75 / 1\text{M}) = \$0.45\text{ (85% savings vs 100k cold)}$$
+   $$C_{\text{prefill, pointer}} = 8 \times (15\text{k} \times \$6.25 / 1\text{M}) = \$0.75\text{ (85% savings vs 100k cold)}$$
 
 ---
 
