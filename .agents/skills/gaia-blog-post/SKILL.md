@@ -306,16 +306,19 @@ Write the spec to `content/blog/<slug>/THUMBNAIL.md` (the current convention;
 `.agents/skills/milim-editorial-thumbnail/SKILL.md` — its prompt skeleton,
 scale and negative-space rules, and character guardrails are the authority.
 
-**Model: `gpt-image-2` only.** `CLAUDE.md` is the source of truth and it
-overrides any alternate-model line in a downstream skill: never `nano-banana`,
-`nano-banana-2`, or `omniflash` for a production asset.
+**Model: prefer `image-gen-2.5`**, falling back to `nano-banana-2` or
+`gemini-3-pro-image`. `CLAUDE.md` is the source of truth and it overrides any
+alternate-model line in a downstream skill: never `nano-banana` (v1) for a
+production asset. Record the model actually used in the ledger `credit`.
 
-> **Known conflict, unresolved.** `scripts/assets/generate-scout-fleet-thumbnail.mjs`
-> pins `model: 'gemini-3.1-flash-image' // nano-banana-2` and writes straight to
-> `assets/generated/` and `public/assets/` (lines 106–113) — production paths,
-> not the workbench. It contradicts the rule above. Do not copy that script as a
-> pattern, and do not "fix" it as a side effect of shipping a post; it needs a
-> founder ruling of its own.
+> **Model conflict resolved (founder ruling, 2026-09-15).**
+> `scripts/assets/generate-scout-fleet-thumbnail.mjs` pins
+> `model: 'gemini-3.1-flash-image' // nano-banana-2`. That model choice is now a
+> permitted fallback, so it no longer contradicts the rule above.
+> **Still open:** the script writes straight to `assets/generated/` and
+> `public/assets/` (lines 106–113), skipping the workbench-then-promote step. Do
+> not copy that path as a pattern, and do not "fix" it as a side effect of
+> shipping a post.
 
 Pipeline:
 

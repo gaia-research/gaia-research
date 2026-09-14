@@ -9,9 +9,9 @@ Use this skill whenever the user asks for generated images, image iteration, ass
 
 ## Hard rule: model selection (CLAUDE.md is the source of truth)
 
-- **Production assets: `gpt-image-2` only.** Never use `nano-banana` or `nano-banana-2` for Gaia Research production assets. If a tool's active default model cannot be confirmed as image gen 2, ask before generating.
+- **Production assets: prefer `image-gen-2.5`**, falling back to `nano-banana-2` or `gemini-3-pro-image` when it is unavailable. Never use `nano-banana` (v1). `gpt-image-2` remains acceptable but is no longer the mandated default. If a tool's active model cannot be confirmed, ask before generating, and record the model actually used in the asset ledger `credit` field.
 - For Milim Editorial Thumbnails, follow `.agents/skills/milim-editorial-thumbnail/SKILL.md` with full character prompt injection from `../marketing-tasks/MILIM.md`.
-- The Termux Antigravity harness below targets `nano-banana-2` and is therefore **non-production only**: throwaway workbench experiments and comparisons. Its outputs stay in `assets/workbench/` and must never be promoted, ledgered as masters, or shipped.
+- The Termux Antigravity harness below targets `nano-banana-2`, which is now a permitted production fallback. Still start every generation in `assets/workbench/` and promote only after review, recording the model in the ledger `credit`.
 
 ## Prefer the free path first
 
