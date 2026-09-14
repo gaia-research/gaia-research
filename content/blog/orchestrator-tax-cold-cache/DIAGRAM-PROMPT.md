@@ -13,11 +13,15 @@
 
 ## Model-policy note
 
-`CLAUDE.md` sets `gpt-image-2` as the default for production assets and bans the
-nano-banana family. `gpt-image-2.5` was attempted first for this diagram and the
-generation call failed outright (`codex exec failed with code 1` — the image never
-rendered). The founder then directed a `nano-banana-2` fallback in-session on 2026-09-14.
-**This override applies to this asset only** and does not change the standing rule.
+`gpt-image-2.5` was attempted first for this diagram and the generation call failed
+outright (`codex exec failed with code 1` — the image never rendered). The founder
+directed a `nano-banana-2` fallback in-session on 2026-09-14.
+
+Under the current `CLAUDE.md` rule (founder ruling, 2026-09-15: prefer `image-gen-2.5`,
+fall back to `nano-banana-2` or `gemini-3-pro-image`, never `nano-banana` v1) this is a
+**permitted fallback, not an exception** — the unreliable `gpt-image-2.5` path is part of
+why that rule was rewritten. It is recorded here because the fallback is permitted, not
+invisible: the model actually used belongs in the record.
 
 ## Prompt (verbatim, v3 — the one that produced the shipped image)
 

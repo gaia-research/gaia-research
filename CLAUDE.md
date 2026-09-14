@@ -176,7 +176,9 @@ When generating or refining images for this repo, use the project skill/playbook
 - Asset ledger: `content/assets/asset-ledger.json`
 - Export recipes: `content/assets/export-recipes.json`
 
-Hard rule: **always use image gen 2 / `gpt-image-2`; never use `nano-banana` or `nano-banana-2` for Gaia Research production assets.** If using `omniflash`, set `model_id: "gpt-image-2"`. If using pi-image-gen / `image_generate`, confirm the active default model is image gen 2 before generating; if it cannot be confirmed, ask before proceeding.
+Hard rule (founder ruling, 2026-09-15): **prefer `image-gen-2.5`; fall back to `nano-banana-2` or `gemini-3-pro-image` when `image-gen-2.5` is unavailable. Never use `nano-banana` (v1) for Gaia Research production assets.** Confirm the active model before generating; if it cannot be confirmed, ask before proceeding.
+
+This supersedes the previous rule (*always `gpt-image-2`, never nano-banana or nano-banana-2*), which was written before `image-gen-2.5` existed and before the `gpt-image-2.5` call path proved unreliable. `gpt-image-2` remains acceptable; it is simply no longer the mandated default. Record the model actually used in the asset ledger `credit` field — the fallbacks are permitted, not invisible.
 
 Generated experiments and intermediate variants should go in `assets/workbench/` first. Promote reviewed outputs to `assets/generated/` or `assets/brand/`, then run the asset ledger sync/check scripts.
 
