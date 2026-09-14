@@ -1,0 +1,60 @@
+{
+  "sessions": [
+    {
+      "harness": "pi",
+      "session_id": "01a0912f-dfdf-75a4-8553-6440b0a64eb1",
+      "path": "/Users/marcotiongson/.pi/agent/sessions/--private-tmp-compaction-bench-A-150k-s2-scripts-compaction-bench-fixtures-feature-repo--/2026-09-11T15-57-08-960Z_01a0912f-dfdf-75a4-8553-6440b0a64eb1.jsonl",
+      "cwd": "/private/tmp/compaction-bench-A-150k-s2/scripts/compaction-bench/fixtures/feature-repo",
+      "first_ts": "2026-09-11T15:57:08.960Z",
+      "last_ts": "2026-09-11T16:14:04.650Z",
+      "totals": {
+        "input": 1813191,
+        "output": 121646,
+        "cache_read": 21019137,
+        "cache_write": 0,
+        "total": 22953974,
+        "cost_usd": 3.392501
+      },
+      "compactions": [
+        {
+          "ts": "2026-09-11T16:05:11.047Z",
+          "tokens_before": 134602,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T16:08:13.371Z",
+          "tokens_before": 135660,
+          "from_hook": false
+        },
+        {
+          "ts": "2026-09-11T16:11:10.455Z",
+          "tokens_before": 134036,
+          "from_hook": false
+        }
+      ],
+      "by_model": {
+        "gemini-3.8-flash": {
+          "input": 1813191,
+          "output": 121646,
+          "cache_read": 21019137,
+          "cache_write": 0,
+          "cost_usd": 3.392501,
+          "priced": true
+        }
+      },
+      "unpriced_models": []
+    }
+  ],
+  "grand_total_cost_usd": 3.392501,
+  "grand_total_tokens": 22953974,
+  "prices": {
+    "file": "/Users/marcotiongson/skill-cost/prices.json",
+    "model_count": 3216,
+    "source": "BerriAI/litellm model_prices_and_context_window.json",
+    "source_url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "source_license": "MIT",
+    "fetched_at": "2026-09-06T16:53:13Z"
+  },
+  "powered_by": "gaia",
+  "attribution": "Prices from BerriAI/litellm (MIT). skill-cost by Gaia Research (https://gaiaskilltree.com)."
+}

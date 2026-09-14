@@ -16,7 +16,7 @@ Create an authentic everyday slice-of-life editorial moment, not a product illus
 ## Guardrails
 
 - Read `../marketing-tasks/MILIM.md` before depicting Milim; it is the character authority. Keep her childlike (8-to-10-year-old chibi proportions), long-haired, unbound, and **never give her twintails**. Ensure she wears two yellow star hairpins in her bangs and her mascot outfit (black dragonoid hoodie, thigh-high socks with pink stripes, chunky sneakers).
-- **Model selection (CLAUDE.md hard rule)**: Always use image gen 2 / `gpt-image-2` (or `gemini-3-pro-image`). Never use `nano-banana` or `nano-banana-2` for Gaia Research production assets per CLAUDE.md.
+- **Model selection (CLAUDE.md hard rule)**: Prefer `image-gen-2.5` (Codex). Fallback to `nano-banana-2` or `gemini-3-pro-image` if `image-gen-2.5` is unavailable. Never use `nano-banana` for Gaia Research production assets.
 - Start every generation in `assets/workbench/generated/`. Keep approved source art there; promote a production derivative to `assets/generated/` and `public/assets/` after review.
 - Use 16:9 landscape (1600×900 WebP) for blog cards and inline editorial images.
 - Do not use trees, roots, branches, canopies, forests, or tree-derived imagery as the primary subject.
@@ -54,6 +54,6 @@ Constraints: no tree-derived imagery; no text, UI, code, charts, graphs, diagram
 
 ## Production Workflow
 
-1. Generate candidate into `assets/workbench/generated/` using `gemini-3.1-flash-image` or `gpt-image-2`.
+1. Generate candidate into `assets/workbench/generated/` using `image-gen-2.5` (preferred), `nano-banana-2`, or `gemini-3-pro-image`.
 2. Export 1600×900 WebP derivative to `assets/generated/` and `public/assets/`.
 3. Run `npx tsx scripts/assets/sync-asset-ledger.ts` and `npx tsx scripts/assets/check-asset-ledger.ts --strict`.

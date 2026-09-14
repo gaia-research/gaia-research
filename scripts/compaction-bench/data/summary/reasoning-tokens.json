@@ -1,0 +1,156 @@
+{
+  "scenario": 3,
+  "description": "Reasoning Token Inflation across Context Lengths",
+  "model": "antigravity/gemini-3.8-flash:high",
+  "power_law_fit": {
+    "equation": "T = a * L^beta",
+    "a": 2.5249302994651033e-06,
+    "beta": 1.4896730060639713
+  },
+  "runs": [
+    {
+      "label": "20k-rep1",
+      "size": "20k",
+      "rep": 1,
+      "context_tokens": 90744,
+      "context_pct": "33.6%/272k",
+      "reasoning_tokens": 47,
+      "output_tokens": 548,
+      "turn_cost": 0.109,
+      "duration_sec": 188.63,
+      "session_file": "session-s3-20k-rep1.jsonl"
+    },
+    {
+      "label": "20k-rep2",
+      "size": "20k",
+      "rep": 2,
+      "context_tokens": 60511,
+      "context_pct": "22.4%/272k",
+      "reasoning_tokens": 27,
+      "output_tokens": 467,
+      "turn_cost": 0.063,
+      "duration_sec": 93.07,
+      "session_file": "session-s3-20k-rep2.jsonl"
+    },
+    {
+      "label": "20k-rep3",
+      "size": "20k",
+      "rep": 3,
+      "context_tokens": 111808,
+      "context_pct": "41.4%/272k",
+      "reasoning_tokens": 295,
+      "output_tokens": 776,
+      "turn_cost": 0.075,
+      "duration_sec": 83.53,
+      "session_file": "session-s3-20k-rep3.jsonl"
+    },
+    {
+      "label": "80k-rep1",
+      "size": "80k",
+      "rep": 1,
+      "context_tokens": 80201,
+      "context_pct": "29.9%/272k",
+      "reasoning_tokens": 127,
+      "output_tokens": 1123,
+      "turn_cost": 0.111,
+      "duration_sec": 45.23,
+      "session_file": "session-s3-80k-rep1.jsonl"
+    },
+    {
+      "label": "80k-rep2",
+      "size": "80k",
+      "rep": 2,
+      "context_tokens": 55823,
+      "context_pct": "20.6%/272k",
+      "reasoning_tokens": 22,
+      "output_tokens": 292,
+      "turn_cost": 0.084,
+      "duration_sec": 47.54,
+      "session_file": "session-s3-80k-rep2.jsonl"
+    },
+    {
+      "label": "80k-rep3",
+      "size": "80k",
+      "rep": 3,
+      "context_tokens": 81958,
+      "context_pct": "30.3%/272k",
+      "reasoning_tokens": 19,
+      "output_tokens": 409,
+      "turn_cost": 0.111,
+      "duration_sec": 52.4,
+      "session_file": "session-s3-80k-rep3.jsonl"
+    },
+    {
+      "label": "180k-rep1",
+      "size": "180k",
+      "rep": 1,
+      "context_tokens": 152357,
+      "context_pct": "56.5%/272k",
+      "reasoning_tokens": 242,
+      "output_tokens": 1337,
+      "turn_cost": 0.334,
+      "duration_sec": 36.68,
+      "session_file": "session-s3-180k-rep1.jsonl"
+    },
+    {
+      "label": "180k-rep2",
+      "size": "180k",
+      "rep": 2,
+      "context_tokens": 171275,
+      "context_pct": "63.5%/272k",
+      "reasoning_tokens": 287,
+      "output_tokens": 1362,
+      "turn_cost": 0.373,
+      "duration_sec": 48.02,
+      "session_file": "session-s3-180k-rep2.jsonl"
+    },
+    {
+      "label": "180k-rep3",
+      "size": "180k",
+      "rep": 3,
+      "context_tokens": 169394,
+      "context_pct": "62.8%/272k",
+      "reasoning_tokens": 38,
+      "output_tokens": 1549,
+      "turn_cost": 0.444,
+      "duration_sec": 40.72,
+      "session_file": "session-s3-180k-rep3.jsonl"
+    },
+    {
+      "label": "272k-rep1",
+      "size": "272k",
+      "rep": 1,
+      "context_tokens": 254829,
+      "context_pct": null,
+      "reasoning_tokens": 224,
+      "output_tokens": 2335,
+      "turn_cost": 0.661,
+      "duration_sec": 33.86,
+      "session_file": "session-s3-272k-rep1.jsonl"
+    },
+    {
+      "label": "272k-rep2",
+      "size": "272k",
+      "rep": 2,
+      "context_tokens": 145926,
+      "context_pct": "54.3%/272k",
+      "reasoning_tokens": 170,
+      "output_tokens": 1739,
+      "turn_cost": 0.427,
+      "duration_sec": 17.0,
+      "session_file": "session-s3-272k-rep2.jsonl"
+    },
+    {
+      "label": "272k-rep3",
+      "size": "272k",
+      "rep": 3,
+      "context_tokens": 219482,
+      "context_pct": "81.5%/272k",
+      "reasoning_tokens": 183,
+      "output_tokens": 2151,
+      "turn_cost": 0.551,
+      "duration_sec": 15.57,
+      "session_file": "session-s3-272k-rep3.jsonl"
+    }
+  ]
+}

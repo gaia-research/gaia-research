@@ -103,6 +103,16 @@ export type ResearchEntry = {
 
 export const researchEntries: readonly ResearchEntry[] = [
   {
+    title: "The Orchestration Guide",
+    shortName: "Orchestration Guide",
+    type: "GUIDE",
+    status: "WIP",
+    description:
+      "Step-by-step, plain-English orchestration playbook: when not to orchestrate, the one-fast-lane rule, receipts over raw output, and keeping the planner's cache warm. Experience-based — no control study yet.",
+    href: "/research/orchestration-guide",
+    action: "Read the guide",
+  },
+  {
     title: "Context Diet",
     shortName: "Context Diet",
     type: "LAB",
@@ -153,6 +163,15 @@ export const researchEntries: readonly ResearchEntry[] = [
     description: "Drug-trial method for scoring skills by marginal efficacy against model baselines. Arc I verified: baseline floor pricing, census, and machine-gated claim index.",
     href: "/research/hh-benchmark",
     action: "Read the benchmark & receipts",
+  },
+  {
+    title: "Context Compaction Phase 2 Empirical Benchmark",
+    shortName: "Context Compaction Bench",
+    type: "BENCHMARK",
+    status: "VRF",
+    description: "Empirical study across 37 live agent sessions (25 across S1/S2/S4/S6 + 12 across S3) and 8 autocompaction thresholds on Gemini 3.8 Flash: Pareto frontier, prompt-cache amplification, reacquisition thrashing, and super-linear reasoning scaling.",
+    href: "/research/context-compaction-phase-2",
+    action: "Read the methodology & receipts",
   },
 ] as const;
 

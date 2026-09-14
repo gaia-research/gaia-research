@@ -1,0 +1,12 @@
+{
+  "label": "180k-rep3",
+  "size": "180k",
+  "rep": 3,
+  "context_tokens": 169394,
+  "context_pct": "62.8%/272k",
+  "reasoning_tokens": 38,
+  "output_tokens": 1549,
+  "turn_cost": 0.444,
+  "duration_sec": 40.72,
+  "session_file": "session-s3-180k-rep3.jsonl"
+}

@@ -1,0 +1,74 @@
+{
+  "A-50k": {
+    "session_id": "01a094cb-5a6f-7096-9cc5-51457135d5e0",
+    "cost_usd": 1.253571,
+    "total_tokens": 3774556,
+    "input_tokens": 1212364,
+    "output_tokens": 41397,
+    "cache_read_tokens": 2520795,
+    "compactions": 15
+  },
+  "A-100k": {
+    "session_id": "01a094f8-36e8-76b5-ac3e-96510db0aac2",
+    "cost_usd": 0.84708,
+    "total_tokens": 3957431,
+    "input_tokens": 641509,
+    "output_tokens": 31906,
+    "cache_read_tokens": 3284016,
+    "compactions": 1
+  },
+  "A-150k": {
+    "session_id": "01a09524-c9cd-72bd-b61a-cad1ac281691",
+    "cost_usd": 0.806749,
+    "total_tokens": 3915425,
+    "input_tokens": 645193,
+    "output_tokens": 21112,
+    "cache_read_tokens": 3249120,
+    "compactions": 0
+  },
+  "A-200k": {
+    "session_id": "01a09550-7ce0-7344-91eb-1cf334762723",
+    "cost_usd": 0.690534,
+    "total_tokens": 3272386,
+    "input_tokens": 541984,
+    "output_tokens": 21569,
+    "cache_read_tokens": 2708833,
+    "compactions": 0
+  },
+  "A-272k": {
+    "session_id": "01a0957c-0483-76d7-beaf-de97bfd88863",
+    "cost_usd": 0.764701,
+    "total_tokens": 3864491,
+    "input_tokens": 577104,
+    "output_tokens": 23216,
+    "cache_read_tokens": 3264171,
+    "compactions": 0
+  },
+  "A-500k": {
+    "session_id": "01a095a8-62ef-71b5-a006-86198adcb860",
+    "cost_usd": 0.912749,
+    "total_tokens": 4104948,
+    "input_tokens": 745996,
+    "output_tokens": 27573,
+    "cache_read_tokens": 3331379,
+    "compactions": 0
+  },
+  "A-1M": {
+    "session_id": "01a095d4-9f41-7581-aa2f-db6c4441b3d3",
+    "cost_usd": 0.814173,
+    "total_tokens": 3903396,
+    "input_tokens": 615176,
+    "output_tokens": 28891,
+    "cache_read_tokens": 3259329,
+    "compactions": 0
+  },
+  "A-disabled": {
+    "session_id": "01a09601-5985-7108-9e30-412286dd9ccb",
+    "cost_usd": 0.788504,
+    "total_tokens": 4425631,
+    "input_tokens": 463540,
+    "output_tokens": 39100,
+    "cache_read_tokens": 3922991,
+    "compactions": 0
+  }
+}

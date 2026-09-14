@@ -367,8 +367,8 @@ Current convention (`thumbnail-prompt.md` is the older handoff format, frozen).
 Generate via the **`milim-editorial-thumbnail`** skill
 (`.agents/skills/milim-editorial-thumbnail/SKILL.md`) — its prompt skeleton,
 scale and negative-space rules, and character guardrails are the authority.
-Model is **`gpt-image-2`** only (CLAUDE.md hard rule; never `nano-banana`,
-`nano-banana-2`, or `omniflash`).
+Model is **`image-gen-2.5`** preferred, with `nano-banana-2` or
+`gemini-3-pro-image` as fallbacks (CLAUDE.md hard rule; never `nano-banana` v1).
 
 Topic: **[slice-of-life setting]**. Palette: [setting palette], single
 Milim-pink accent `#ec4899`.
