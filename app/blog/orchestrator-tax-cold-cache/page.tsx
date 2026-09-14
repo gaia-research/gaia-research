@@ -7,6 +7,7 @@ import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import novaAuthor from "@/content/authors/nova.json";
 import PostShareBar from "@/components/PostShareBar";
 import { orchestratorTaxColdCacheThumbnail } from "@/data/blog";
+import orchestrationRunEvidenceSrc from "@/assets/generated/orchestrator-tax-cold-cache-actual-run.webp";
 import postMd from "@/content/blog/orchestrator-tax-cold-cache/post.md";
 
 export const dynamic = "force-static";
@@ -295,6 +296,23 @@ function SingleVsMultiSvg() {
   );
 }
 
+function ActualOrchestrationScreenshot() {
+  return (
+    <figure className="blog-post-illustration" style={{ margin: "32px 0" }}>
+      <img
+        src={orchestrationRunEvidenceSrc.src}
+        width={orchestrationRunEvidenceSrc.width}
+        height={orchestrationRunEvidenceSrc.height}
+        alt="Actual orchestration session showing multiple agent panes, model usage, token counts, and subagent cost telemetry."
+        loading="lazy"
+      />
+      <figcaption style={{ color: "#94a3b8", fontSize: "0.85rem", marginTop: "10px" }}>
+        Actual orchestration session screenshot supplied for this field note. The highlighted telemetry shows the cost and token accounting that ordinary invoices hide.
+      </figcaption>
+    </figure>
+  );
+}
+
 function loadPost() {
   return postMd.split("\n").slice(4).join("\n").trim();
 }
@@ -329,13 +347,27 @@ export default function OrchestratorTaxColdCachePage() {
           </p>
         </header>
 
-        <div className="blog-post-content prose prose-invert">
-          <article>
-            <Markdown
+        <figure className="blog-post-illustration">
+          <img
+            src={orchestratorTaxColdCacheThumbnail.src.src}
+            width={orchestratorTaxColdCacheThumbnail.src.width}
+            height={orchestratorTaxColdCacheThumbnail.src.height}
+            alt={orchestratorTaxColdCacheThumbnail.alt}
+          />
+        </figure>
+
+        <article className="blog-post-body report-body">
+          <Markdown
               remarkPlugins={[remarkGfm, remarkMath]}
               rehypePlugins={[rehypeKatex]}
               components={{
                 p: ({ children }) => {
+                  if (
+                    typeof children === "string" &&
+                    children.trim() === "[[ORCHESTRATION_SCREENSHOT]]"
+                  ) {
+                    return <ActualOrchestrationScreenshot />;
+                  }
                   if (
                     typeof children === "string" &&
                     children.trim() === "[[SVG_INVOICE_BREAKDOWN]]"
@@ -360,8 +392,7 @@ export default function OrchestratorTaxColdCachePage() {
             >
               {body}
             </Markdown>
-          </article>
-        </div>
+        </article>
 
         <section className="blog-post-next-read">
           <h2>More from Gaia Research</h2>

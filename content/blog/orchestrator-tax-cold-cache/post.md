@@ -14,6 +14,8 @@ Every developer running multi-agent orchestration hits the same wall. The pitch 
 
 The usual suspects (more agents = more tokens) do not explain it. The real culprit is invisible on most platforms. On pi, it is not: when a subagent takes longer than 5 minutes, you can see the orchestrator's cache go cold in the session log. That is where the money goes.
 
+[[ORCHESTRATION_SCREENSHOT]]
+
 Here is the mechanism, and it is simple:
 
 1. **Your orchestrator carries weight.** Repository maps, architecture specs, tool schemas, system prompts, progress notes. In a real coding harness, this context sits between 60k and 150k tokens.

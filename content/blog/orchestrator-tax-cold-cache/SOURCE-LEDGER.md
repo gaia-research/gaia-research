@@ -6,6 +6,12 @@ Idea bank brief: [`docs/idea-bank/blog-idea-orchestrator-tax-cold-cache-reentry.
 
 ---
 
+## Field Evidence Screenshot
+
+The post includes an actual orchestration session screenshot supplied for this field note. It shows multiple agent panes alongside token and cost telemetry. It is contextual evidence from one session, not a controlled benchmark and not used to produce the article's worked calculations.
+
+---
+
 ## Primary Source 1: Anthropic Prompt Caching Specifications & Ephemeral TTL
 
 **Claim:** Anthropic's prompt cache defaults to a 5-minute ephemeral TTL; cache writes cost 1.25× base input price; cache reads cost 0.10× base input price (a 90% discount). When turn intervals exceed 5 minutes, the cache evicts and must be rewritten at 1.25×.

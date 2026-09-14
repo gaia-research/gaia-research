@@ -2614,6 +2614,23 @@
       "derivatives": []
     },
     {
+      "id": "orchestrator-tax-cold-cache-actual-run",
+      "path": "assets/generated/orchestrator-tax-cold-cache-actual-run.webp",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Gaia Research asset workflow",
+      "alt": "",
+      "sha256": "cc787aae26fa65cfc2973c7c407d94632f1ae20cec95e05b7db301a3fc6a249a",
+      "bytes": 290932,
+      "dimensions": {
+        "width": 1600,
+        "height": 1197
+      },
+      "derivatives": []
+    },
+    {
       "id": "orchestrator-tax-cold-cache-editorial-thumbnail",
       "path": "assets/generated/orchestrator-tax-cold-cache-editorial-thumbnail.webp",
       "kind": "illustration",
