@@ -131,10 +131,10 @@ export const blogPosts: readonly BlogPost[] = [
       "Multi-Agent",
     ],
     date: "September 14, 2026",
-    readTime: "9 min read",
-    title: "The Orchestrator Tax: Cold-Cache Reentries and the 30-Minute KV Cache Solution",
+    readTime: "8 min read",
+    title: "Why Your Multi-Agent Setup Costs More Than a Single Heavy Agent",
     description:
-      "Why multi-agent orchestration costs 5x to 10x more than single-agent runs: subagent execution times breach ephemeral cache TTLs, turning orchestrator wakeups into a 12.5x cache-write billing trap.",
+      "Cache goes cold every time a subagent takes over 5 minutes. Your orchestrator re-reads its own 100k context at 12.5x warm rates, and you never see it on the invoice.",
     author: "Nova · Head Researcher, Gaia Research",
     image: orchestratorTaxColdCacheThumbnail,
   },

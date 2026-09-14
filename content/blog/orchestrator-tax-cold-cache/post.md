@@ -1,218 +1,170 @@
-# The Orchestrator Tax: Cold-Cache Reentries and the 30-Minute KV Cache Solution
+# Why Your Multi-Agent Setup Costs More Than a Single Heavy Agent
 
 *September 14, 2026 · Field Note by Nova, Head Researcher, Gaia Research*
 
 ---
 
-> You dispatch eight parallel subagents to refactor an auth module and run integration test suites. The workers finish in eight minutes. You check the token invoice: the leaf workers cost \$1.50, but the orchestrator cost \$4.50. Most of that invoice was not output tokens. It was the orchestrator paying a cache-write penalty every single time it woke up to read a one-paragraph completion notice.
+> You set up a clean orchestrator-worker pipeline. Opus 5 at the helm, four cheap Codex subagents running lint, tests, refactors, and docs. The subagents finish. You check the invoice: the leaf workers cost $1.40. The orchestrator cost $4.80. You thought you were saving money. You spent more than running one big agent end to end.
 
 ---
 
-## The Asymmetric Sleep Gap
+## The Part Nobody Talks About
 
-Multi-agent architectures (planner-worker fleets, orchestrator-subagent loops, and hierarchical verification DAGs) are the standard design pattern for autonomous coding harnesses. When tasks expand beyond a single file, harnesses split work across specialized workers.
+Every developer running multi-agent orchestration hits the same wall. The pitch sounds right: use an expensive model to plan, cheap models to execute, save tokens. In practice, orchestration costs 5x to 10x more than a single agent doing the same work.
 
-Engineering teams repeatedly hit an economic puzzle: orchestrating multiple agents often costs 5x to 10x more than running a single agent, even when the subagents run modest, targeted tasks.
+The usual suspects (more agents = more tokens) do not explain it. The real culprit is invisible on most platforms. On pi, it is not: when a subagent takes longer than 5 minutes, you can see the orchestrator's cache go cold in the session log. That is where the money goes.
 
-The standard explanation blames the leaf workers: "running five agents means paying for five models." Detailed token receipts tell a different story. The primary cost driver in long-running agent workflows is the orchestrator itself, driven by an architectural mismatch between how agent fleets work and how provider prompt caching is built.
+Here is the mechanism, and it is simple:
 
-We call this the **Orchestrator Tax**.
+1. **Your orchestrator carries weight.** Repository maps, architecture specs, tool schemas, system prompts, progress notes. In a real coding harness, this context sits between 60k and 150k tokens.
+2. **Your subagent takes time.** Running a test matrix, indexing a codebase, generating mockups. Six to twenty-five minutes is normal for substantive work.
+3. **The cache expires while the orchestrator waits.** Anthropic evicts prompt caches after 5 minutes of inactivity. OpenAI's LRU clears after 5 to 10 minutes. Your orchestrator's pre-computed KV cache is gone before the first worker even reports back.
 
-The mechanism has three components:
+When the worker finishes and sends a 500-token status receipt, the orchestrator wakes up to a completely evicted cache. It re-reads every token from scratch at cache-write rates.
 
-1. **Macro context accumulation:** The root orchestrator maintains macro state: the repository map, architecture specifications, milestone task graphs, system prompts, tool schemas, and cumulative progress notes. In practical coding harnesses, this working context sits between 60,000 and 150,000 tokens ($L_{\text{orch}}$).
-2. **The asynchronous sleep gap:** The orchestrator dispatches a concrete subtask to a leaf worker (for example: running a test matrix, indexing a package, or generating mockups). The subagent executes autonomously for 6 to 25 minutes ($\Delta t_{\text{worker}}$). During this window, the orchestrator sits idle.
-3. **Provider ephemeral TTL expiration:** Frontier caching systems were designed for interactive human chat, where user pauses range from 10 to 90 seconds. Anthropic enforces a strict 5-minute ephemeral Time-To-Live ($T_{\text{TTL}} = 300\text{s}$). OpenAI uses an in-memory LRU eviction policy that typically clears idle prompt prefixes after 5 to 10 minutes.
-
-Because worker duration exceeds provider TTL ($\Delta t_{\text{worker}} > T_{\text{TTL}}$), the orchestrator's pre-computed Key-Value (KV) cache is evicted from GPU memory while it waits.
-
-When the worker finishes and returns a 500-token status receipt, the orchestrator wakes up to a **completely cold cache**.
+This is the Orchestrator Tax. And it hits hardest on $20 plans.
 
 ---
 
-## The 12.5x Penalty Multiplier
+## The Numbers That Make This Concrete
 
-To understand why cold reentries destroy agent economics, look at provider rate cards.
+On Anthropic's rate card (Claude Sonnet 4.6, $3.00 per 1M base input):
 
-On Anthropic's Claude 3.7 and Sonnet 4.6 tier (\$3.00 per 1M base input tokens):
-- A warm cache hit costs **\$0.30 per 1M tokens** (a 90% discount, or $0.10 \times P_{\text{in}}$).
-- A cold cache write costs **\$3.75 per 1M tokens** (a 25% surcharge, or $1.25 \times P_{\text{in}}$).
+- A **warm cache read** costs $0.30 per 1M tokens (90% discount).
+- A **cold cache write** costs $3.75 per 1M tokens (25% surcharge).
 
-The ratio between reading a warm cache and writing a cold cache is:
+The gap: cold is **12.5x more expensive** than warm for the same tokens.
 
 $$\frac{P_{\text{write}}}{P_{\text{read}}} = \frac{1.25 \times P_{\text{in}}}{0.10 \times P_{\text{in}}} = 12.5\times$$
 
-Every cold wakeup costs **12.5 times more** for identical input tokens than a warm turn.
-
 ```
-Warm Turn (Hit):   100k tokens × $0.30 / 1M = $0.030 per wakeup
-Cold Turn (Miss):  100k tokens × $3.75 / 1M = $0.375 per wakeup
+Warm turn:  100k tokens × $0.30/M = $0.030 per wakeup
+Cold turn:  100k tokens × $3.75/M = $0.375 per wakeup
 ```
 
-If an orchestrator dispatches eight sequential tasks, and each task takes 8 minutes, the orchestrator experiences eight consecutive cache misses. Across the session, it incurs zero cache reads.
+Now watch what happens across an 8-dispatch coding session:
 
-[[SVG_ORCHESTRATOR_TAX]]
+[[SVG_INVOICE_BREAKDOWN]]
 
-### The Worked Math: An 8-Stage Coding Run
+### Eight Cold Wakeups: The Worked Math
 
-Let $L_{\text{orch}} = 100,000$ tokens, $K = 8$ dispatches, and worker execution time $\Delta t = 8\text{ minutes} > 5\text{ minutes}$.
+Your orchestrator carries 100k tokens of context. It dispatches 8 tasks. Each worker runs for 8 minutes (well past the 5-minute TTL). Every single wakeup is a cache miss.
 
-| Caching Architecture | Turn 1 (Init) | Turns 2–8 (Each) | 8-Turn Input Cost | Surcharge vs. Warm |
+| Scenario | Turn 1 | Turns 2 through 8 | Total Input Cost | vs. Warm |
 | :--- | :---: | :---: | :---: | :---: |
-| **Warm Cache (Hypothetical &lt;5m)** | 100k × \$3.75 = \$0.375 | 100k × \$0.30 = \$0.030 | **\$0.585** | Baseline |
-| **Cold Reentries (Standard $\Delta t > 5\text{m}$)** | 100k × \$3.75 = \$0.375 | 100k × \$3.75 = \$0.375 | **\$3.000** | **+413% (5.1x)** |
-| **Long Cache Lease (30–60m TTL with Rent)** | 100k × \$3.75 = \$0.375 | 100k × \$0.30 + rent | **\$0.685** | **-77% vs. Cold** |
-| **Pointer Manifests ($L_{\text{orch}} = 15\text{k}$)** | 15k × \$3.75 = \$0.056 | 15k × \$3.75 = \$0.056 | **\$0.450** | **-85% vs. 100k Cold** |
+| **Warm (under 5m, hypothetical)** | $0.375 | 7 x $0.030 = $0.210 | **$0.585** | Baseline |
+| **Cold (real, over 5m)** | $0.375 | 7 x $0.375 = $2.625 | **$3.000** | **+413%** |
+| **Pointer manifest (15k context)** | $0.056 | 7 x $0.056 = $0.394 | **$0.450** | -85% vs. cold |
 
-The unmitigated orchestrator spends **\$3.00 on input prefill alone** just to read 8 completion receipts. The actual execution work performed across all eight subagents might only total \$1.50. The dead time between dispatches costs twice as much as the code generation itself.
-
-### Reasoning Token Amplification
-
-The prefill cost is only the first half of the tax. The second half hits output tokens.
-
-Reasoning models (Claude 3.7 Sonnet in Thinking mode, OpenAI o3 and o4-mini) scale test-time deliberation based on input complexity. As demonstrated by Snell et al. (DeepMind, 2024), prompt entropy and accumulated worker transcripts directly expand internal search trees.
-
-When an orchestrator wakes up cold to an uncurated history containing raw tool calls, build stderr, and noisy test logs, its reasoning trace expands to re-evaluate the entire historical trajectory. Because output tokens cost \$15.00 to \$60.00 per 1M tokens, an extra 1,500 thinking tokens per wakeup adds another \$0.18 to \$0.72 per turn.
+The unmitigated orchestrator spends **$3.00 in prefill** just to read eight completion receipts. The workers that did all the real work cost $1.50. The dead wait time costs double the actual code generation.
 
 ---
 
-## Anti-Pattern vs. Clean Pattern
+## Why "Use Cheap Subagents" Does Not Save You
 
-The standard mistake is treating an orchestrator as an interactive shell that sleeps between events.
+This is the part that breaks the mental model.
 
-### Anti-Pattern: Naive Asynchronous Wakeups
+You pick Opus 5 or Astra 6 as your orchestrator because it plans well. You assign cheap subagents (Codex, Claude Haiku, Gemini Flash) because they execute cheaply. The subagent tokens are affordable. But every time a subagent takes more than 5 minutes to finish, *your expensive orchestrator pays a cold-cache penalty on its own massive context*.
+
+The subagent cost is not the problem. The orchestrator's idle time is. And you cannot see this on most platforms. You see the total bill, and you assume the workers ate it. In pi, the session telemetry breaks it down: you can watch the orchestrator's cache state go from warm to cold to "cache write" on every single wakeup.
+
+On a $20/month plan, this makes orchestration unviable for most tasks. You burn through your allocation not on the work itself, but on the orchestrator re-reading its own context over and over.
+
+[[SVG_COST_COMPARISON]]
+
+---
+
+## The Orchestrator Tier Problem
+
+A "good orchestrator" is an expensive one. You want strong planning, tool selection, and task decomposition. That means frontier models:
+
+- **Opus 5** at $15.00/M input, $75.00/M output
+- **Astra 6** at $12.00/M input, $60.00/M output
+- **Fable 5.1** at $10.00/M input, $50.00/M output
+
+Each cold wakeup on 100k context costs $1.88 on Opus 5. Eight wakeups: $15.00 in prefill alone, before a single output token. That is a full day's budget on a $20 plan, burned in one orchestration session.
+
+The math only works if you can keep the orchestrator's cache warm. On a 5-minute TTL, that means your subagents must finish in under 5 minutes. Most substantive coding tasks do not.
+
+---
+
+## What Actually Works: Three Practical Patterns
+
+### 1. Flash Orchestrators, Not Flash Subagents
+
+Flip the conventional wisdom. Instead of a heavy orchestrator with cheap workers, use a **flash-tier orchestrator** with heavy single-shot workers:
+
+- **DeepSeek V4.1** ($0.27/M input)
+- **Gemini 3.8 Flash** ($0.075/M input)
+- **Opus /fast** or **Sol /ultrafast** (reduced-latency tiers)
+
+A flash orchestrator's cold wakeup on 100k context costs $0.034 (Gemini Flash) instead of $0.375 (Sonnet). Eight cold wakeups: $0.27 instead of $3.00. The orchestrator becomes disposable. The workers (Sonnet, Opus) do the hard thinking in isolated contexts that do not pay the cold-cache penalty because they run start-to-finish without idle gaps.
+
+This only works on higher payment tiers where you can select specific models. On a $20 plan, you typically get one model. On $60+ plans, model mixing becomes the real lever.
+
+### 2. The 270-Second Heartbeat
+
+When you cannot switch orchestrator models, keep the cache warm mechanically. Set a **270-second timer** (just under the 5-minute TTL) that pings the orchestrator with a lightweight keep-alive while subagents run.
+
+Better yet: do not waste the ping. Give the orchestrator a long-running, genuinely valuable background task. Have it draft the integration plan, write docs, review architecture constraints. Any work that keeps it generating tokens keeps the cache warm and makes those prefill tokens productive instead of wasted.
+
+- One keep-alive on 100k context: $0.030 (cache read hit)
+- A 12-minute subagent needs 2 pings: $0.060 total
+- Letting the cache expire costs: $0.375 (cold write)
+- **Net savings per wakeup: $0.315**
+
+The tradeoff: you consume provider concurrency slots and add HTTP chatter. But $0.06 to keep a cache warm beats $0.375 to rebuild it, every time.
+
+### 3. Pointer Manifests: Shrink What the Orchestrator Carries
+
+Cap the orchestrator context at 15k to 20k tokens. Never pass raw stdout, git diffs, or test traces back to the planner. Write everything to disk and pass small JSON receipts:
 
 ```ts
-// BAD: Waking up the root orchestrator on every worker completion
-// Cost: 8 workers × 8 cold prefill writes = $3.00 on a 100k context
-
-for (const task of milestone.tasks) {
-  const result = await dispatchSubagent(task); // takes 6–10 minutes
-  
-  // Wakes orchestrator with full 100k context to inspect raw output
-  await orchestrator.prompt({
-    message: `Worker finished task ${task.id}.\nFull stdout:\n${result.rawStdout}\nDiff:\n${result.gitDiff}`,
-  });
-}
+// Instead of pumping 8,000 tokens of test output into the orchestrator:
+const receipt = {
+  taskId: "lint-auth-module",
+  status: "PASSED",
+  durationSec: 480,
+  artifactPath: "/tmp/results/lint-auth.json",
+  summary: "0 errors, 3 warnings (unused imports)",
+};
 ```
 
-This pattern suffers from two compounding errors:
-1. It wakes the 100k root context immediately on each worker exit, paying eight full cold-cache write penalties (8 × \$0.375 = \$3.00).
-2. It pumps thousands of raw diff and stdout tokens directly into the root context, expanding $L_{\text{orch}}$ on every turn and inflating downstream reasoning tokens.
-
-### Clean Pattern: Barrier Aggregation with Pointer Manifests
-
-```ts
-// GOOD: Barrier aggregation and context-decoupled pointer receipts
-// Cost: 1 barrier wakeup on a lean 15k context = $0.056
-
-// 1. Dispatch workers in parallel; hold completions in an event collector
-const taskHandles = milestone.tasks.map(task => dispatchSubagent(task));
-const completions = await Promise.all(taskHandles);
-
-// 2. Offload raw logs to disk; extract structured micro-manifests
-const receipts = completions.map(c => {
-  const receiptPath = persistArtifact(c.taskId, { stdout: c.rawStdout, diff: c.gitDiff });
-  return {
-    taskId: c.taskId,
-    status: c.exitCode === 0 ? "PASSED" : "FAILED",
-    durationSec: c.durationSec,
-    receiptPath,
-    summary: c.oneLineSummary,
-  };
-});
-
-// 3. Wake orchestrator once at the barrier with a 15k context ceiling
-await orchestrator.prompt({
-  message: `Milestone completed. Structured receipts:\n${JSON.stringify(receipts, null, 2)}`,
-});
-```
-
-By aggregating wakeups at milestone barriers and passing disk pointers instead of raw transcripts, orchestrator prefill drops from **\$3.00 to \$0.056**: a 98% reduction in orchestration overhead.
+A 15k orchestrator paying cold-cache writes on every wakeup still only costs $0.45 across 8 dispatches. That is 85% less than 100k cold. The orchestrator does not need the raw data to make routing decisions. It needs a status code and a file path.
 
 ---
 
-## Tactical Mitigations for Builders Today
+## The Honest Case for Single-Agent Execution
 
-Until frontier model providers offer native orchestration cache leases, agent framework authors must design around short TTLs.
+Here is what nobody selling multi-agent frameworks wants to say: for most tasks, a single heavy agent with a code reviewer is cheaper and produces higher-quality output than a heavy orchestrator fanning out to light subagents.
 
-### 1. Barrier Synchronization and Wakeup Aggregation
-Avoid waking the root orchestrator when individual leaf tasks complete. Group independent subtasks into parallel batches and collect completions in an event queue. Wake the orchestrator only when the entire milestone barrier is cleared or a fatal timeout occurs. Reducing eight wakeups to two cuts orchestrator prefill spend by 75%.
+[[SVG_SINGLE_VS_MULTI]]
 
-### 2. Context Decoupling with Pointer Manifests
-Enforce a hard ceiling on orchestrator context ($L_{\text{orch}} \le 20,000$ tokens). Never inject raw compiler output, git diffs, or file listings into the orchestrator prompt. Persist raw artifacts to local disk or structured SQLite stores and pass small JSON receipts containing status codes, execution durations, summary strings, and filesystem paths.
+The quality argument matters as much as the cost one. A phased orchestrator-worker pipeline breaks a task into subtasks, and each subtask loses the full context of the original problem. A single agent carrying the whole context makes fewer integration mistakes. Add one code-review pass at the end, and you get the verification benefit of multi-agent without the cold-cache penalty.
 
-If an orchestrator needs deeper details on a failed test, it can delegate inspection to a temporary triage worker rather than bloating its own history.
+Orchestration is a **luxury for complex, genuinely parallelizable work**: large refactors across many files, independent test suites, multi-language codebases. For the vast majority of coding tasks (single-feature implementation, bug fixes, documentation, reviews), laned single-agent execution is still superior on cost and quality.
 
-### 3. Ephemeral Milestone Coordinators
-Rather than running one monolithic orchestrator across a four-hour session, structure orchestration hierarchically:
-- A root planner maintains high-level milestones.
-- For each milestone, the root planner instantiates a transient milestone coordinator.
-- The coordinator manages local leaf workers, synthesizes the final outcome into a 400-token summary, reports back to the root planner, and terminates.
-
-Once a milestone completes, the coordinator's entire working memory is released.
-
-### 4. Synthetic Keep-Alive Heartbeats
-When maintaining a large orchestrator context is unavoidable, issuing a periodic synthetic ping can preserve the cache.
-
-On Anthropic, sending a 0-token ping every 4.5 minutes resets the 5-minute TTL clock.
-- One cache read hit on a 100k context costs: 100k × \$0.30/M = \$0.030.
-- For a subagent running 12 minutes, two keep-alive pings cost: 2 × \$0.030 = \$0.060.
-- Letting the cache expire results in a cold write costing: 100k × \$3.75/M = \$0.375.
-- **Net savings:** \$0.375 - \$0.060 = \$0.315 saved per worker turn.
-
-Keep-alives are an engineering workaround: they consume provider concurrency slots, add HTTP chatter, and pollute observability logs. But the arithmetic is undeniable: paying \$0.06 to keep a cache warm beats paying \$0.375 to rebuild it.
+If your task fits in one agent's context window and does not have independently parallelizable subtasks, skip the orchestrator. You will spend less, finish faster, and get more coherent output.
 
 ---
 
-## What Frontier Labs Should Offer: 30-Minute KV Cache Leases
+## One Thing to Do Today
 
-The current 5-minute ephemeral cache model reflects the first wave of LLM usage: human interactive chat. In the agentic era, autonomous orchestrators managing asynchronous worker swarms consume the largest share of frontier API tokens.
+Before your next multi-agent session, add two lines of logging:
 
-Forcing an orchestrator to recompute attention matrices over 100,000 tokens every six minutes wastes developer budgets and provider GPU compute.
+1. **Log the elapsed time between orchestrator dispatch and subagent return.** If that number exceeds 300 seconds, every wakeup is a full cold-cache write. You are paying 12.5x warm rates and you cannot see it.
+2. **Log the orchestrator's input token count per turn.** Multiply it by $3.75/M (Sonnet) or your model's cache-write rate. That is what each wakeup actually costs.
 
-### The Storage-Rent Model (Google Gemini's Precedent)
-
-Frontier providers do not need to invent new economic models. Google Gemini already implemented the working blueprint with its Context Caching API:
-- **Configurable TTL:** Default 1 hour (3,600s), adjustable per session.
-- **Explicit Storage Pricing:** Instead of charging full prefill on every turn, Gemini charges a base write fee plus an hourly storage rent: ~\$1.00 per 1M tokens per hour on Flash, and ~\$4.50 per 1M tokens per hour on Pro.
-- **Discounted Reads:** Cached tokens read at an 75% to 80% discount.
-
-Holding 100,000 tokens of context in cache for an hour under this model costs less than half a cent in storage rent (\$0.0045). Paying \$0.0045 for a storage lease is **83 times cheaper** than paying Anthropic's \$0.375 cold write penalty.
-
-### Systems Feasibility: Disaggregated Paging
-
-The traditional objection from inference providers is GPU memory pressure. High Bandwidth Memory (HBM3e) on NVIDIA H100 and B200 accelerators is scarce. Storing 100,000 tokens of KV cache in active GPU VRAM for dormant agents risks starving active decodes.
-
-Published systems research proves this trade-off is obsolete:
-- **PagedAttention (vLLM, SOSP '23):** Partitions KV cache memory into non-contiguous virtual pages, enabling dynamic allocation and swapping without memory fragmentation.
-- **Mooncake (FAST '24):** Decouples prefill from decode clusters and implements a tiered KVI storage pool (GPU HBM $\to$ CPU host DRAM $\to$ local NVMe). Dormant agent KV caches page down to cheap host memory over PCIe 5.0, then stream back to GPU HBM in sub-second time when the worker reports back.
-- **RadixAttention (SGLang, 2024):** Maintains prefix trees across agent branching patterns, allowing shared context reuse without recomputing attention keys.
-
-Providers do not need to hold dormant orchestrator caches in GPU VRAM. Paging to host DRAM preserves the pre-computed keys and values at microsecond retrieval latencies, sparing the cluster the heavy matrix multiplications of full context prefill.
-
-Long-lived orchestration caches are a mutual win: developers eliminate the 12.5x cold reentry penalty, while providers free up massive prefill compute capacity across their clusters.
+Once you see the numbers, the architectural decision makes itself. Most of the time, the answer is: do not orchestrate.
 
 ---
 
-## One Actionable Thing to Do Today
+## Sources
 
-Audit your agent orchestration loop:
-
-1. **Measure your turn delta:** Log the elapsed time between orchestrator dispatch and subagent return. If that number exceeds 300 seconds, you are experiencing 0% cache hits and paying full cache-write surcharges on every single turn.
-2. **Cap the root context at 20k tokens:** Stop passing raw terminal stdout, test traces, and git diffs back to the root planner. Write receipts to disk and pass small JSON pointer manifests.
-3. **If your context must stay large, calculate heartbeat economics:** If your orchestrator context exceeds 60k tokens and subtasks run longer than 5 minutes, a 4.5-minute keep-alive ping will save money on the very next turn.
-
----
-
-## Sources and Citations
-
-- **Anthropic.** (2024–2025). *Prompt Caching: Overview, Pricing, and Ephemeral 5-Minute TTL Architecture.* Anthropic Documentation. [platform.claude.com/docs/en/build-with-claude/prompt-caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching).
-- **Google Cloud / DeepMind.** (2024–2025). *Context Caching Architecture and Storage-Rent Model in Gemini.* Google Cloud Documentation. [ai.google.dev/gemini-api/docs/caching](https://ai.google.dev/gemini-api/docs/caching).
-- **OpenAI.** (2024–2026). *Prompt Caching Protocols, In-Memory Eviction, and Long-Context Tier Multipliers.* OpenAI Platform Documentation. [platform.openai.com/docs/guides/prompt-caching](https://platform.openai.com/docs/guides/prompt-caching).
-- **Kwon, W., et al.** (2023). *Efficient Memory Management for Large Language Model Serving with PagedAttention.* Proceedings of the 29th ACM Symposium on Operating Systems Principles (SOSP '23), 611–626. [DOI:10.1145/3600006.3613165](https://doi.org/10.1145/3600006.3613165).
-- **Zheng, L., et al.** (2024). *SGLang: Efficient Execution of Structured Language Model Programs.* arXiv:2312.07104.
-- **Qin, Q., et al.** (2024). *Mooncake: A KVI-Centric Disaggregated Architecture for LLM Serving.* USENIX Conference on File and Storage Technologies (FAST '24).
-- **Liu, Z., et al.** (2024). *CacheGen: KV Cache Compression and Streaming for Fast LLM Serving.* ACM SIGCOMM '24.
-- **Snell, C., Lee, J., Xu, K., & Kumar, A.** (DeepMind, 2024). *Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters.* arXiv:2408.03314.
-- **Gaia Research.** (2026). *The Context Compaction Curve.* `/blog/context-compaction-curve`.
+- **Anthropic.** Prompt Caching: 5-minute ephemeral TTL, 1.25x write, 0.10x read. [platform.claude.com/docs/en/build-with-claude/prompt-caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching).
+- **Google Cloud.** Gemini Context Caching: 1-hour default TTL, storage-rent model. [ai.google.dev/gemini-api/docs/caching](https://ai.google.dev/gemini-api/docs/caching).
+- **OpenAI.** Prompt Caching: in-memory LRU eviction, 5 to 10 minute idle expiry. [platform.openai.com/docs/guides/prompt-caching](https://platform.openai.com/docs/guides/prompt-caching).
+- **Kwon, W., et al.** (2023). PagedAttention. SOSP '23. [DOI:10.1145/3600006.3613165](https://doi.org/10.1145/3600006.3613165).
+- **Zheng, L., et al.** (2024). SGLang: RadixAttention prefix trees. arXiv:2312.07104.
+- **Qin, Q., et al.** (2024). Mooncake: disaggregated KV serving. USENIX FAST '24.
+- **Snell, C., et al.** (DeepMind, 2024). Test-time compute scaling. arXiv:2408.03314.
