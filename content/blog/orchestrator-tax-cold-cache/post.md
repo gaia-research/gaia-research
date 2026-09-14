@@ -4,7 +4,7 @@
 
 ---
 
-> You set up a clean orchestrator-worker pipeline. Opus 5 at the helm, four cheap Codex subagents running lint, tests, refactors, and docs. The subagents finish. You check the invoice: the leaf workers cost \$1.40. The orchestrator cost \$5.00 in cold prefill alone. You thought you were saving money. You spent more than running one big agent end to end.
+> You set up a clean orchestrator-worker pipeline. Opus 5 at the helm, four cheap Codex subagents running lint, tests, refactors, and docs. The subagents finish. You check the invoice: the leaf workers cost \$1.50. The orchestrator cost \$5.00 in cold prefill alone. You thought you were saving money. You spent more than running one big agent end to end.
 
 ---
 

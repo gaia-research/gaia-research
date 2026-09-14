@@ -1,10 +1,13 @@
 # Thumbnail — `/blog/orchestrator-tax-cold-cache`
 
-Generate via the **`milim-thumbnail`** skill
-(`.pi/skills/milim-thumbnail/SKILL.md`) — its prompt skeleton,
+Generate via the **`milim-editorial-thumbnail`** skill
+(`.agents/skills/milim-editorial-thumbnail/SKILL.md`) — its prompt skeleton,
 scale and negative-space rules, and character guardrails are the authority.
-Model is **`image-gen-2.5`** preferred, with `nano-banana-2` or
-`gemini-3-pro-image` as fallbacks.
+
+**Model:** `gpt-image-2` (or `gemini-3-pro-image`), per the CLAUDE.md hard rule.
+`nano-banana` / `nano-banana-2` are not permitted for Gaia Research production
+assets. CLAUDE.md is the source of truth here — a skill file or a page note
+cannot relax it; only a founder ruling recorded in CLAUDE.md can.
 
 Topic: **The Orchestrator Tax, cold-cache reentries, and long-idle execution gaps.**
 Setting: A vast, calm alpine mountain meadow on a high ridge, with layered
