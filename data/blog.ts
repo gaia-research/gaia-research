@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import orchestratorTaxColdCacheThumbnailSrc from "@/assets/generated/orchestrator-tax-cold-cache-editorial-thumbnail.webp";
 import contextCompactionPhase2ThumbnailSrc from "@/assets/generated/context-compaction-phase-2-editorial-thumbnail.webp";
 import contextCompactionCurveThumbnailSrc from "@/assets/generated/context-compaction-curve-editorial-thumbnail.webp";
 import dontMakeTheModelThinkHarderThumbnailSrc from "@/assets/generated/dont-make-the-model-think-harder-editorial-thumbnail.webp";
@@ -30,6 +31,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const orchestratorTaxColdCacheThumbnail = {
+  src: orchestratorTaxColdCacheThumbnailSrc,
+  alt: "Tiny pink-haired Milim plays mountain ring-toss as the leftmost member of a centered group of four original chibi friends, surrounded by a vast sunlit alpine meadow and layered blue-green peaks."
+} as const;
 
 export const contextCompactionPhase2Thumbnail = {
   src: contextCompactionPhase2ThumbnailSrc,
@@ -114,6 +120,24 @@ export const arborEvidenceLoopEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/orchestrator-tax-cold-cache",
+    category: "Token Economics",
+    tags: [
+      "Orchestrator Tax",
+      "KV Cache",
+      "Prompt Caching",
+      "Cold Reentry",
+      "Multi-Agent",
+    ],
+    date: "September 14, 2026",
+    readTime: "8 min read",
+    title: "Why Your Multi-Agent Setup Costs More Than a Single Heavy Agent",
+    description:
+      "Cache goes cold every time a subagent takes over 5 minutes. Your orchestrator re-reads its own 100k context at 12.5x warm rates, and you never see it on the invoice.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: orchestratorTaxColdCacheThumbnail,
+  },
   {
     href: "/blog/context-compaction-phase-2",
     category: "Agent Architecture",

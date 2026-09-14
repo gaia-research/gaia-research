@@ -620,6 +620,7 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
 .blog-post-research-cta-link{display:inline-block;color:var(--ink);font:600 clamp(1rem,2vw,1.15rem)/1.4 var(--body);border-bottom:2px solid var(--pink)}
 .blog-post-research-cta-link:hover{color:var(--pink)}
 .blog-post-research-cta-link:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.blog-post-next-read{max-width:42rem;margin:clamp(3.5rem,7vw,5.5rem) auto 0;padding-top:1.75rem;border-top:1px solid var(--line)}.blog-post-next-read h2{margin:0 0 1.5rem;font:600 .6875rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}.blog-post-next-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1rem}.blog-post-next-card{display:flex;flex-direction:column;gap:.5rem;padding:1.1rem 1.25rem;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:inherit;transition:border-color .18s,background .18s}.blog-post-next-card:hover{border-color:var(--blue);background:rgba(56,189,248,.04)}.blog-post-next-card h3{margin:0;font:600 clamp(.9rem,1.4vw,1rem)/1.35 var(--body);color:var(--ink);text-wrap:balance}.blog-post-next-card p{margin:0;font-size:.875rem;line-height:1.6;color:var(--muted)}.blog-post-next-meta{font:.6875rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--pink)}
 
 /* ─── LaTeX Academic Preprint 2-Column Styles ─── */
 
@@ -1738,3 +1739,18 @@ a{color:inherit;text-decoration:none} a:focus-visible,button:focus-visible,texta
   .blog-post-body .table-scroll-container td{white-space:normal;overflow-wrap:anywhere;padding:.5rem .5rem;font-size:.78rem}
   .blog-post-body .table-scroll-container th{font-size:.68rem;letter-spacing:.02em}
 }
+
+/* Companion-link variant of .blog-post-rule: the right-hand slot holds a link
+   rather than a static statement, so it has to read as clickable. */
+.blog-post-rule a{color:var(--blue);border-bottom:1px solid var(--blue);transition:color .18s cubic-bezier(.16,1,.3,1),border-color .18s cubic-bezier(.16,1,.3,1)}
+.blog-post-rule a:hover{color:var(--pink);border-color:var(--pink)}
+.blog-post-rule a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* "Copy page" affordance on long-form guides — invites readers to paste the
+   page into their own agent and build a skill from it. */
+.copy-page{margin:clamp(1.5rem,3vw,2rem) 0 0;max-width:46rem}
+.copy-page-btn{display:inline-flex;align-items:center;min-height:44px;padding:.65rem 1rem;cursor:pointer;border:1px solid var(--pink);background:var(--pink-bg);color:var(--pink);font:var(--type-compact) var(--mono);letter-spacing:.05em;text-transform:uppercase;transition:color .18s cubic-bezier(.16,1,.3,1),background-color .18s cubic-bezier(.16,1,.3,1),border-color .18s cubic-bezier(.16,1,.3,1)}
+.copy-page-btn:hover{color:var(--ink);background:rgba(236,72,153,.2)}
+.copy-page-btn[data-copied=true]{color:var(--blue);border-color:var(--blue);background:rgba(56,189,248,.13)}
+.copy-page-btn:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.copy-page-hint{margin:.85rem 0 0;max-width:52ch;color:var(--muted);font-size:.9375rem;line-height:1.65;text-wrap:pretty}
