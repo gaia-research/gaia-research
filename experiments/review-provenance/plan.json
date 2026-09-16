@@ -69,11 +69,11 @@
   "artifacts": {
     "fixture": {
       "path": "experiments/review-provenance/fixture.json",
-      "sha256": "cce7739df54723945142e5a26e6d5ea97e38fb4422b295b1b90b1cc89e2836df"
+      "sha256": "b7bbec96797202b7fc007606df0029f47fe68cb4a7fc2ee4abc55d1446ec93c9"
     },
     "evaluator": {
       "path": "experiments/review-provenance/evaluator.mjs",
-      "sha256": "76823342ef0442be8c0344fe7bcd23923d6c14785a52d67d77bad3eb8c2c1aa0"
+      "sha256": "13f5eb6eacc8c83c289ff771a2e3d47038439620da1c68318b7e9338809ac95c"
     }
   },
   "oracle": {
@@ -91,17 +91,28 @@
     "checks": [
       "verified negative missing observationDigest fails closed to effective unknown",
       "verified negative missing observedAt fails closed to effective unknown",
+      "verified no-source missing observationDigest fails closed to effective unknown",
+      "verified no-source missing observedAt fails closed to effective unknown",
+      "verified materializable missing observationDigest fails closed to effective unknown",
+      "verified materializable missing observedAt fails closed to effective unknown",
       "verified no-source preserves legitimate null fields",
       "verified intrinsic-content-failure preserves legitimate null fields",
       "valid materializable record remains valid",
-      "unknown or malformed evidence is not upgraded into a negative"
+      "malformed negative fails closed",
+      "missing candidate yields invalid-context",
+      "malformed evidence is not upgraded into a negative",
+      "valid materializable assessment can be matched"
     ],
     "baseline": {
       "taskSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
       "expectedExit": 1,
       "expectedFailedChecks": [
         "verified-negative-missing-observationDigest",
-        "verified-negative-missing-observedAt"
+        "verified-negative-missing-observedAt",
+        "verified-no-source-missing-observationDigest",
+        "verified-no-source-missing-observedAt",
+        "verified-materializable-missing-observationDigest",
+        "verified-materializable-missing-observedAt"
       ]
     },
     "fixedReference": {

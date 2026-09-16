@@ -85,6 +85,30 @@
       "resolvedRevision": null,
       "deliveredContentSha256": null
     },
+    "verifiedNoSourceMissingDigest": {
+      "state": "not-materializable",
+      "reason": "no-source",
+      "observationDigest": null,
+      "observedAt": "2026-09-13T00:00:00.000Z",
+      "currentSourceRoute": null,
+      "currentSkillContentSha256": null,
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
+    "verifiedNoSourceMissingObservedAt": {
+      "state": "not-materializable",
+      "reason": "no-source",
+      "observationDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "observedAt": null,
+      "currentSourceRoute": null,
+      "currentSkillContentSha256": null,
+      "observedSourceRoute": null,
+      "observedSkillContentSha256": null,
+      "resolvedRevision": null,
+      "deliveredContentSha256": null
+    },
     "verifiedIntrinsicFailure": {
       "state": "not-materializable",
       "reason": "intrinsic-content-failure",
@@ -118,6 +142,62 @@
       "reason": "gaia-materialized",
       "observationDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
       "observedAt": "2026-09-13T00:00:00.000Z",
+      "currentSourceRoute": {
+        "url": "https://fixture.invalid/review-provenance",
+        "owner": "fixture",
+        "repo": "review-provenance",
+        "ref": "fixture-ref",
+        "subpath": "skills/review-provenance",
+        "entrypoint": "SKILL.md",
+        "installSubpath": "."
+      },
+      "currentSkillContentSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "observedSourceRoute": {
+        "url": "https://fixture.invalid/review-provenance",
+        "owner": "fixture",
+        "repo": "review-provenance",
+        "ref": "fixture-ref",
+        "subpath": "skills/review-provenance",
+        "entrypoint": "SKILL.md",
+        "installSubpath": "."
+      },
+      "observedSkillContentSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "resolvedRevision": "0000000000000000000000000000000000000000",
+      "deliveredContentSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "verifiedMaterializableMissingDigest": {
+      "state": "materializable",
+      "reason": "gaia-materialized",
+      "observationDigest": null,
+      "observedAt": "2026-09-13T00:00:00.000Z",
+      "currentSourceRoute": {
+        "url": "https://fixture.invalid/review-provenance",
+        "owner": "fixture",
+        "repo": "review-provenance",
+        "ref": "fixture-ref",
+        "subpath": "skills/review-provenance",
+        "entrypoint": "SKILL.md",
+        "installSubpath": "."
+      },
+      "currentSkillContentSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "observedSourceRoute": {
+        "url": "https://fixture.invalid/review-provenance",
+        "owner": "fixture",
+        "repo": "review-provenance",
+        "ref": "fixture-ref",
+        "subpath": "skills/review-provenance",
+        "entrypoint": "SKILL.md",
+        "installSubpath": "."
+      },
+      "observedSkillContentSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "resolvedRevision": "0000000000000000000000000000000000000000",
+      "deliveredContentSha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "verifiedMaterializableMissingObservedAt": {
+      "state": "materializable",
+      "reason": "gaia-materialized",
+      "observationDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "observedAt": null,
       "currentSourceRoute": {
         "url": "https://fixture.invalid/review-provenance",
         "owner": "fixture",
