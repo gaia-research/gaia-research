@@ -73,7 +73,7 @@
     },
     "evaluator": {
       "path": "experiments/review-provenance/evaluator.mjs",
-      "sha256": "93c88a4bebac3845bb45c1ca0bfb1bfb3835efc6c76ef02035c5351eceddc0d2"
+      "sha256": "76823342ef0442be8c0344fe7bcd23923d6c14785a52d67d77bad3eb8c2c1aa0"
     }
   },
   "oracle": {
