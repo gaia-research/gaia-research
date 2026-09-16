@@ -81,7 +81,7 @@
       "path": "experiments/review-provenance/evaluator.mjs",
       "runtime": "Node v22.23.1 with --experimental-strip-types",
       "baselineCommand": "NODE_NO_WARNINGS=1 node --experimental-strip-types experiments/review-provenance/evaluator.mjs --task experiments/review-provenance/task/installability.ts",
-      "fixedReferenceCommand": "git show 7601d86a4d45f58d65e26640ab2305762512d544:packages/core/src/retrieval/installability.ts > $TMPDIR/review-provenance-installability.ts && NODE_NO_WARNINGS=1 node --experimental-strip-types experiments/review-provenance/evaluator.mjs --task $TMPDIR/review-provenance-installability.ts"
+      "fixedReferenceCommand": "git -C <gaia-skill-heaven checkout> show 7601d86a4d45f58d65e26640ab2305762512d544:packages/core/src/retrieval/installability.ts > $TMPDIR/review-provenance-installability.ts && NODE_NO_WARNINGS=1 node --experimental-strip-types experiments/review-provenance/evaluator.mjs --task $TMPDIR/review-provenance-installability.ts"
     },
     "surface": [
       "assertInstallabilityAssessment",
