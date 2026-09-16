@@ -271,7 +271,8 @@
       "primaryOutcome": "same as v1/v2 plus finalStopReason and treatment bodyReadInSession",
       "runner": "runner/pair-interactive.sh + runner/finish.py",
       "stoppingRule": "exactly 2 pairs; no retries; no further variants without a new preregistration commit",
-      "preregisteredBeforeViewing": "v2 results"
+      "preregisteredBeforeViewing": "v2 results",
+      "infrastructureAbortRule": "A pair interrupted by provider quota or authentication failure (no model-ended turn, no evaluation) is rerun in full from fresh task roots; the aborted attempt is kept under runs/aborted-quota. Model-ended attempts (stop/length) are outcomes and are never rerun. Added after v3 pair 2 attempt 1 hit the Antigravity quota and before any pair 2 outcome existed."
     }
   ]
 }
