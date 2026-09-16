@@ -245,6 +245,33 @@
       "exposureProbe": "required: v2 probe control/treatment before arms",
       "primaryOutcome": "same as v1; additionally report finalStopReason per arm",
       "stoppingRule": "run exactly these 4 arms; no further variants without a new preregistration commit"
+    },
+    {
+      "id": "v3",
+      "status": "preregistered",
+      "effort": "medium",
+      "harnessMode": "interactive pi via the pi-zero door (Skill Heaven main 358be74), each arm in its own visible herdr pane at the owner's request",
+      "arms": {
+        "control": "pi-zero --level zero",
+        "treatment": "pi-zero --level low --skill <treatment dir> (native skill listing; body read on demand)"
+      },
+      "sharedPiArgs": [
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-approve",
+        "--tools read,edit,write",
+        "--session-dir <run>/session"
+      ],
+      "symmetryNote": "pi-zero --level low omits --no-context-files/--no-prompt-templates that --level zero sets; v3 passes both to both arms. Recorded as a door finding.",
+      "prompt": "task/prompt.md whitespace-flattened to one line (sha256 recorded per run) so it submits as a single interactive message",
+      "concurrency": "control and treatment of a pair start simultaneously in two panes; pairs run sequentially",
+      "replications": 2,
+      "completion": "an arm is finished when the pane agent is idle for 20s after having worked",
+      "exposureSignal": "treatment: native listing present (first-turn input token delta vs control) and whether the session contains a read of the treatment SKILL.md; no read is recorded as listed-but-not-loaded, not as exposure",
+      "primaryOutcome": "same as v1/v2 plus finalStopReason and treatment bodyReadInSession",
+      "runner": "runner/pair-interactive.sh + runner/finish.py",
+      "stoppingRule": "exactly 2 pairs; no retries; no further variants without a new preregistration commit",
+      "preregisteredBeforeViewing": "v2 results"
     }
   ]
 }
