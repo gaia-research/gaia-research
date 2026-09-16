@@ -1,5 +1,5 @@
 {
-  "schema": "gaia.research.review-provenance-fixture/v1",
+  "schema": "gaia.research-arbor-review-provenance-fixture/v1",
   "skillId": "fixture/review-provenance-installability",
   "projectionIndexPath": "fixture://review-provenance/installability-index.json",
   "observation": {

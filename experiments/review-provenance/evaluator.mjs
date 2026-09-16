@@ -30,7 +30,7 @@ function sha256(bytes) {
 }
 
 function assertFixture(fixture) {
-  if (fixture.schema !== "gaia.research.review-provenance-fixture/v1") {
+  if (fixture.schema !== "gaia.research-arbor-review-provenance-fixture/v1") {
     throw new Error("unsupported fixture schema");
   }
   if (typeof fixture.skillId !== "string" || !fixture.skillId) {
@@ -354,7 +354,7 @@ try {
   const task = await import(pathToFileURL(taskPath).href);
   const results = run(task, fixture);
   const report = {
-    schema: "gaia.research.review-provenance-oracle/v1",
+    schema: "gaia.research-arbor-review-provenance-oracle/v1",
     kind: "fixture-oracle-check",
     taskSha256: sha256(readFileSync(taskPath)),
     fixtureSha256: sha256(readFileSync(fixturePath)),
