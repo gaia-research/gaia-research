@@ -1,0 +1,58 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-results/v1",
+  "variant": "v3",
+  "preregistration": [
+    "df14d7e",
+    "4aeb427",
+    "4bc7e2c",
+    "99c8e67"
+  ],
+  "status": "partial-observed-not-interpreted",
+  "acceptedSupport": false,
+  "runs": [
+    {
+      "id": "v3-run-rep1-control",
+      "arm": "control",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "turns": 14,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1335,
+      "treatmentBodyRead": null,
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "observedThinkingLevel": "medium"
+    },
+    {
+      "id": "v3-run-rep1-treatment",
+      "arm": "treatment",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "turns": 21,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1520,
+      "treatmentBodyRead": true,
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "observedThinkingLevel": "medium"
+    }
+  ],
+  "summary": {
+    "scoredPairs": 1,
+    "plannedPairs": 5,
+    "controlPassed": "1/1",
+    "treatmentPassed": "1/1"
+  },
+  "excluded": [
+    {
+      "what": "rep2 attempt 1",
+      "why": "provider quota mid-run; aborted before evaluation (infrastructureAbortRule)"
+    },
+    {
+      "what": "batch 2: rep2 attempt 2, rep3, rep4, rep5 (8 concurrent arms)",
+      "why": "stopped by owner on suspected Antigravity instability; widespread single-turn length stops at 65532 tokens; classification pending owner ruling; not scored"
+    }
+  ],
+  "centralObservations": [
+    "rep1: both arms ended normally and passed 13/13; treatment read the skill body first (hard read in session log); listing delta +185 first-turn input tokens."
+  ],
+  "interpretation": null
+}

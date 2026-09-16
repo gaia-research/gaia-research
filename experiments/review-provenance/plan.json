@@ -1,0 +1,287 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-preparation/v1",
+  "status": "preregistered",
+  "preregistered": true,
+  "experimentExecuted": false,
+  "acceptedSupport": false,
+  "selection": {
+    "skillId": "obra/receiving-code-review",
+    "reason": "Central-selected historically exposed review-application scope defect; Tree fusion selection is context only, not behavioral evidence.",
+    "tree": {
+      "repository": "https://github.com/gaia-research/gaia-skill-tree",
+      "commit": "fb6a79700062b7addab3d9e05450316050d96e0b",
+      "sources": [
+        {
+          "path": "registry/nodes/fusion/receiving-code-review.json",
+          "sha256": "c4f96c059fda89a3bd5e3ce5160122f145debf237bd9b472ec69a35fa9ba435d"
+        },
+        {
+          "path": "registry/named/obra/receiving-code-review.md",
+          "sha256": "4c59202e1d414d1b1c274e6b350032e538c9b05807125a5bfd383b134fc8250a"
+        }
+      ]
+    }
+  },
+  "candidateClaim": {
+    "status": "candidate-not-admitted",
+    "facet": "model-led",
+    "question": "Does supplying obra/receiving-code-review help an agent verify and correctly apply plausible review feedback containing a provenance-scope trap, compared with the same task without that supplied skill?"
+  },
+  "sources": {
+    "task": {
+      "repository": "https://github.com/gaia-research/gaia-skill-heaven",
+      "commit": "fef1daf53a6a04960f88141426dfc74340416ffa",
+      "path": "packages/core/src/retrieval/installability.ts",
+      "sha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+      "exposure": "historically-exposed-development-failure-not-a-fresh-holdout",
+      "fixtureCopy": {
+        "path": "experiments/review-provenance/task/installability.ts",
+        "sha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641"
+      },
+      "prompt": {
+        "path": "experiments/review-provenance/task/prompt.md",
+        "sha256": "dbe504b9d556a822955ab4e65a53304428e2dd6c231551f9f17f561b7f872071"
+      }
+    },
+    "fixedReference": {
+      "repository": "https://github.com/gaia-research/gaia-skill-heaven",
+      "commit": "7601d86a4d45f58d65e26640ab2305762512d544",
+      "path": "packages/core/src/retrieval/installability.ts",
+      "sha256": "a71d50789a42f7891e9bdf51135508f2134eb0d3b360ce50037f18d37c3412c2",
+      "use": "read-only fixture/oracle reference"
+    },
+    "treatment": {
+      "namedSkill": "obra/receiving-code-review",
+      "repository": "https://github.com/obra/superpowers",
+      "commit": "b36e0829c6d0140e93cfef2ca599b1b07d4a7797",
+      "path": "skills/receiving-code-review/SKILL.md",
+      "gitBlobSha": "950da7b74bf6dbed6b8726d12ddadd65a9f5fda7",
+      "sha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438",
+      "license": {
+        "status": "checked",
+        "spdx": "MIT",
+        "path": "LICENSE",
+        "capturedBodyIncluded": false
+      },
+      "delivery": "caller-supplied-asset; not copied into this repository"
+    }
+  },
+  "artifacts": {
+    "fixture": {
+      "path": "experiments/review-provenance/fixture.json",
+      "sha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+    },
+    "evaluator": {
+      "path": "experiments/review-provenance/evaluator.mjs",
+      "sha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a"
+    }
+  },
+  "oracle": {
+    "evaluator": {
+      "path": "experiments/review-provenance/evaluator.mjs",
+      "runtime": "Node v22.23.1 with --experimental-strip-types",
+      "baselineCommand": "NODE_NO_WARNINGS=1 node --experimental-strip-types experiments/review-provenance/evaluator.mjs --task experiments/review-provenance/task/installability.ts",
+      "fixedReferenceCommand": "git -C <gaia-skill-heaven checkout> show 7601d86a4d45f58d65e26640ab2305762512d544:packages/core/src/retrieval/installability.ts > $TMPDIR/review-provenance-installability.ts && NODE_NO_WARNINGS=1 node --experimental-strip-types experiments/review-provenance/evaluator.mjs --task $TMPDIR/review-provenance-installability.ts"
+    },
+    "surface": [
+      "assertInstallabilityAssessment",
+      "withInstallability / safeAssessment",
+      "assessInstallability"
+    ],
+    "checks": [
+      "verified negative missing observationDigest fails closed to effective unknown",
+      "verified negative missing observedAt fails closed to effective unknown",
+      "verified no-source missing observationDigest fails closed to effective unknown",
+      "verified no-source missing observedAt fails closed to effective unknown",
+      "verified materializable missing observationDigest fails closed to effective unknown",
+      "verified materializable missing observedAt fails closed to effective unknown",
+      "verified no-source preserves legitimate null fields",
+      "verified intrinsic-content-failure preserves legitimate null fields",
+      "valid materializable record remains valid",
+      "malformed negative fails closed",
+      "missing candidate yields invalid-context",
+      "malformed evidence is not upgraded into a negative",
+      "valid materializable assessment can be matched"
+    ],
+    "baseline": {
+      "taskSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+      "expectedExit": 1,
+      "expectedFailedChecks": [
+        "verified-negative-missing-observationDigest",
+        "verified-negative-missing-observedAt",
+        "verified-no-source-missing-observationDigest",
+        "verified-no-source-missing-observedAt",
+        "verified-materializable-missing-observationDigest",
+        "verified-materializable-missing-observedAt"
+      ]
+    },
+    "fixedReference": {
+      "taskSha256": "a71d50789a42f7891e9bdf51135508f2134eb0d3b360ce50037f18d37c3412c2",
+      "expectedExit": 0,
+      "expectedFailedChecks": []
+    },
+    "noScoresOrThresholds": true
+  },
+  "contracts": {
+    "declaration": "gaia.arbor-expert-declaration/v1",
+    "uncertaintyCandidate": "gaia.research-arbor-uncertainty-candidate/v1",
+    "targetedReceipt": "gaia.arbor-benchmark-receipt/v1",
+    "instantiated": false
+  },
+  "authorization": {
+    "status": "complete",
+    "actor": "project owner (mbtiongson1)",
+    "basis": "Owner ruling 2026-09-17: all Lane E experiment runs authorized provided each run is logged as a receipt; roster set by owner (Luna unavailable; Gemini 3.8 Flash high)."
+  },
+  "exposure": {
+    "status": "pinned",
+    "requiredBeforePreregistration": true,
+    "method": "Treatment body delivered byte-identically via --append-system-prompt (summon semantics: one skill body into context). Skill discovery, context files, prompt templates and non-provider extensions disabled in both arms; tool allowlist read,edit,write excludes extension tools.",
+    "observed": {
+      "probePrompt": "Reply with exactly the word OK.",
+      "controlFirstTurnInputTokens": 1164,
+      "treatmentFirstTurnInputTokens": 2703,
+      "deltaTokens": 1539,
+      "treatmentBytes": 6203,
+      "treatmentSha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438",
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "observedAt": "2026-09-16T20:41:40Z",
+      "interpretation": "Delta (~bytes/4) is consistent with the full body in the system prompt and absent from control. pi session logs do not persist the system prompt, so this token delta is the hard signal."
+    }
+  },
+  "harnessEnvironment": {
+    "status": "pinned",
+    "planned": {
+      "harness": "pi",
+      "version": "0.85.1",
+      "model": "antigravity/gemini-3.8-flash",
+      "effort": "high",
+      "argv": [
+        "--no-skills",
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-themes",
+        "--no-extensions",
+        "-e <pi-antigravity extension>",
+        "--no-approve",
+        "--tools read,edit,write",
+        "--session-dir <run>/session",
+        "--print <task/prompt.md>"
+      ],
+      "treatmentOnlyArgs": [
+        "--append-system-prompt <treatment SKILL.md sha256 091df162\u2026>"
+      ],
+      "cwd": "fresh mktemp task root containing only installability.ts"
+    },
+    "observed": "per-run record.json (model_change event in session log)",
+    "costSource": "canonical skill-cost from actual pi session logs; lane total reported at close"
+  },
+  "futureDesign": {
+    "status": "preregistered",
+    "replications": 2,
+    "arms": 4,
+    "order": [
+      [
+        "control",
+        "treatment"
+      ],
+      [
+        "treatment",
+        "control"
+      ]
+    ],
+    "sameTaskEnvironmentAndLimits": true,
+    "successRetries": 0,
+    "promptSweep": false,
+    "skillSweep": false,
+    "treatmentDifference": "supply only obra/receiving-code-review",
+    "primaryOutcome": "Per arm: evaluator exit code (0 = all 13 checks pass) and the set of failed check ids. Reported per replication pair; no pooled effect size, no significance test (n=2 pairs).",
+    "secondaryOutcomes": [
+      "task root contains only installability.ts after the run",
+      "pi exit code",
+      "turn count and token usage (descriptive only)"
+    ],
+    "runner": "runner/arm.sh (central-held; argv printed in a visible herdr pane); runs refuse to overwrite an existing run id",
+    "interpretationLimits": [
+      "one historically exposed case; the model may have seen the public fix",
+      "n=2 pairs cannot establish a general effect",
+      "a null or mixed result is recorded as such",
+      "evaluator sandboxing is not enforced; the agent's tools can read absolute paths"
+    ]
+  },
+  "observations": [],
+  "receipts": [],
+  "limitations": [
+    "evaluator not sandboxed from the agent's read tool",
+    "four planned arms",
+    "no general-effect conclusion",
+    "no interaction conclusion",
+    "one historically exposed case"
+  ],
+  "variants": [
+    {
+      "id": "v1",
+      "preregistered": "2d5b266",
+      "effort": "high",
+      "status": "run; results in results/results.json (confounded by output-cap termination in 3/4 arms)"
+    },
+    {
+      "id": "v2",
+      "status": "preregistered",
+      "effort": "medium",
+      "rationale": "v1 was dominated by single-turn output-cap termination (stopReason=length) independent of treatment. v2 repeats the identical design, exposure method, prompt, task, evaluator and order with EFFORT=medium to reduce that confound. It is a separate experiment, not a re-run or retry of v1; v1 results stand as recorded.",
+      "invocation": "EFFORT=medium VARIANT=v2 runner/arm.sh <arm> <rep>",
+      "order": [
+        [
+          "control",
+          "treatment"
+        ],
+        [
+          "treatment",
+          "control"
+        ]
+      ],
+      "replications": 2,
+      "exposureProbe": "required: v2 probe control/treatment before arms",
+      "primaryOutcome": "same as v1; additionally report finalStopReason per arm",
+      "stoppingRule": "run exactly these 4 arms; no further variants without a new preregistration commit"
+    },
+    {
+      "id": "v3",
+      "status": "closed-partial",
+      "effort": "medium",
+      "harnessMode": "interactive pi via the pi-zero door (Skill Heaven main 358be74), each arm in its own visible herdr pane at the owner's request",
+      "arms": {
+        "control": "pi-zero --level zero",
+        "treatment": "pi-zero --level low --skill <treatment dir> (native skill listing; body read on demand)"
+      },
+      "sharedPiArgs": [
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-approve",
+        "--tools read,edit,write",
+        "--session-dir <run>/session"
+      ],
+      "symmetryNote": "pi-zero --level low omits --no-context-files/--no-prompt-templates that --level zero sets; v3 passes both to both arms. Recorded as a door finding.",
+      "prompt": "task/prompt.md whitespace-flattened to one line (sha256 recorded per run) so it submits as a single interactive message",
+      "concurrency": "control and treatment of a pair start simultaneously in two panes; pairs run sequentially",
+      "replications": 5,
+      "completion": "an arm is finished when the pane agent is idle for 20s after having worked",
+      "exposureSignal": "treatment: native listing present (first-turn input token delta vs control) and whether the session contains a read of the treatment SKILL.md; no read is recorded as listed-but-not-loaded, not as exposure",
+      "primaryOutcome": "same as v1/v2 plus finalStopReason and treatment bodyReadInSession",
+      "runner": "runner/pair-interactive.sh + runner/finish.py",
+      "stoppingRule": "exactly 5 pairs (rep1..rep5); no retries except under infrastructureAbortRule; no further variants without a new preregistration commit",
+      "preregisteredBeforeViewing": "v2 results",
+      "infrastructureAbortRule": "A pair interrupted by provider quota or authentication failure (no model-ended turn, no evaluation) is rerun in full from fresh task roots; the aborted attempt is kept under runs/aborted-quota. Model-ended attempts (stop/length) are outcomes and are never rerun. Added after v3 pair 2 attempt 1 hit the Antigravity quota and before any pair 2 outcome existed.",
+      "replicationAmendment": "Owner raised visible-pane concurrency to 8. Replications extended from 2 to 5 of the identical v3 design (ids v3-run-rep3..rep5), run concurrently with the pair 2 rerun (4 pairs, 8 panes). Committed before any rep2-rep5 outcome exists; rep1 outcomes (both arms passed) were already known. Reported per pair and in total; rep1 remains included, not replaced.",
+      "ownerRuling": "2026-09-17: Antigravity (pi provider and agy harness) judged unstable in this environment. Batch 2 (rep2 attempt 2, rep3-rep5) is an infrastructure failure: excluded, never scored. v3 closes with 1 scored pair. The test will be redone as a new variant with Luna agents when that roster is available."
+    },
+    {
+      "id": "v4",
+      "status": "planned-not-preregistered",
+      "model": "openai-codex/gpt-5.6-luna (effort to be fixed at preregistration)",
+      "trigger": "owner announces Luna availability",
+      "design": "reuse the v3 interactive pi-zero design (runner/pair-interactive.sh with the model parameterized); preregister model, effort, replications and concurrency before any run"
+    }
+  ]
+}

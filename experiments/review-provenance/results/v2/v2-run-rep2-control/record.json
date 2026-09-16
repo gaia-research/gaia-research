@@ -1,0 +1,164 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-run/v1",
+  "id": "v2-run-rep2-control",
+  "mode": "run",
+  "arm": "control",
+  "replication": 2,
+  "startedAt": "2026-09-16T21:11:00Z",
+  "endedAt": "2026-09-16T21:15:57Z",
+  "harness": {
+    "name": "pi",
+    "version": "0.85.1",
+    "extensionsLoaded": [
+      "pi-antigravity"
+    ],
+    "tools": [
+      "read",
+      "edit",
+      "write"
+    ],
+    "skillsDiscovery": false,
+    "contextFiles": false
+  },
+  "model": {
+    "requested": "antigravity/gemini-3.8-flash:medium",
+    "observedInSession": "antigravity/gemini-3.8-flash",
+    "observedThinkingLevel": "medium"
+  },
+  "treatmentDelivery": null,
+  "sessionFiles": [
+    "session/2026-09-16T21-11-01-166Z_01a0ac0f-072c-76ae-97ba-a652118a03e8.jsonl"
+  ],
+  "assistantUsage": [
+    {
+      "input": 1338,
+      "output": 113,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 1451
+    },
+    {
+      "input": 6520,
+      "output": 51,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 6571
+    },
+    {
+      "input": 6640,
+      "output": 62943,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 69583
+    },
+    {
+      "input": 78067,
+      "output": 58,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 78125
+    },
+    {
+      "input": 6296,
+      "output": 45,
+      "cacheRead": 72811,
+      "cacheWrite": 0,
+      "totalTokens": 79152
+    },
+    {
+      "input": 3140,
+      "output": 42,
+      "cacheRead": 77218,
+      "cacheWrite": 0,
+      "totalTokens": 80400
+    },
+    {
+      "input": 3884,
+      "output": 53541,
+      "cacheRead": 77139,
+      "cacheWrite": 0,
+      "totalTokens": 134564
+    },
+    {
+      "input": 64380,
+      "output": 49,
+      "cacheRead": 78273,
+      "cacheWrite": 0,
+      "totalTokens": 142702
+    },
+    {
+      "input": 4743,
+      "output": 49,
+      "cacheRead": 138096,
+      "cacheWrite": 0,
+      "totalTokens": 142888
+    },
+    {
+      "input": 5246,
+      "output": 49,
+      "cacheRead": 138033,
+      "cacheWrite": 0,
+      "totalTokens": 143328
+    },
+    {
+      "input": 143913,
+      "output": 44,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 143957
+    },
+    {
+      "input": 6334,
+      "output": 2600,
+      "cacheRead": 137899,
+      "cacheWrite": 0,
+      "totalTokens": 146833
+    },
+    {
+      "input": 4690,
+      "output": 53,
+      "cacheRead": 142363,
+      "cacheWrite": 0,
+      "totalTokens": 147106
+    },
+    {
+      "input": 5084,
+      "output": 44,
+      "cacheRead": 142312,
+      "cacheWrite": 0,
+      "totalTokens": 147440
+    },
+    {
+      "input": 5729,
+      "output": 50,
+      "cacheRead": 142235,
+      "cacheWrite": 0,
+      "totalTokens": 148014
+    },
+    {
+      "input": 6645,
+      "output": 906,
+      "cacheRead": 142131,
+      "cacheWrite": 0,
+      "totalTokens": 149682
+    }
+  ],
+  "piExit": 0,
+  "taskRootFiles": [
+    "./installability.ts"
+  ],
+  "artifacts": {
+    "taskInSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "resultSha256": "a840b9388ee365e89e84bb8631963a5af696f0a7da8300282c705074a2cbd025",
+    "promptSha256": "dbe504b9d556a822955ab4e65a53304428e2dd6c231551f9f17f561b7f872071",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+  },
+  "evaluation": {
+    "exit": 1,
+    "failedChecks": [
+      "verified-no-source-preserves-legitimate-null-fields",
+      "verified-intrinsic-failure-preserves-legitimate-null-fields"
+    ]
+  }
+}
