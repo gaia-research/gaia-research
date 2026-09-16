@@ -55,6 +55,7 @@ for s in sessions:
         if m.get("role") == "assistant" and m.get("usage"):
             u = m["usage"]; usage.append({k: u.get(k) for k in ("input","output","cacheRead","cacheWrite","totalTokens")})
         if o.get("type") == "model_change": model_seen = f'{o.get("provider")}/{o.get("modelId")}'
+        if o.get("type") == "thinking_level_change": thinking_seen = o.get("thinkingLevel")
 ev_out = None
 if evexit != "null":
     try: ev_out = json.load(open(f"{run}/eval.json"))
@@ -70,7 +71,7 @@ rec = {
   "harness": {"name": "pi", "version": subprocess.run(["pi","--version"],capture_output=True,text=True).stdout.strip(),
               "extensionsLoaded": ["pi-antigravity"], "tools": ["read","edit","write"],
               "skillsDiscovery": False, "contextFiles": False},
-  "model": {"requested": model, "observedInSession": locals().get("model_seen")},
+  "model": {"requested": model, "observedInSession": locals().get("model_seen"), "observedThinkingLevel": locals().get("thinking_seen")},
   "treatmentDelivery": ({"method": "append-system-prompt", "sha256": sha(treat), "bytes": os.path.getsize(treat)} if arm == "treatment" else None),
   "sessionFiles": [os.path.relpath(s, run) for s in sessions],
   "assistantUsage": usage,
