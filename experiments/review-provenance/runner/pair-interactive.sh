@@ -32,7 +32,7 @@ start_arm() {  # arm pane
 }
 
 wait_ready() {  # pane
-  for _ in $(seq 1 45); do herdr pane read "$1" 2>/dev/null | grep -q "gemini-3.8-flash" && { sleep 3; return 0; }; sleep 2; done
+  for _ in $(seq 1 45); do herdr pane read "$1" 2>/dev/null | grep -qF "(antigravity) gemini-3.8-flash" && { sleep 3; return 0; }; sleep 2; done
   echo "pane $1 never showed the model footer"; return 1
 }
 
