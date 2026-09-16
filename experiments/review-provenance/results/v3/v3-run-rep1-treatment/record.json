@@ -1,0 +1,254 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-run/v1",
+  "id": "v3-run-rep1-treatment",
+  "mode": "interactive",
+  "arm": "treatment",
+  "replication": 1,
+  "startedAt": "2026-09-16T21:16:29Z",
+  "endedAt": "2026-09-16T21:22:51Z",
+  "harness": {
+    "name": "pi",
+    "door": "pi-zero",
+    "version": "0.85.1",
+    "launch": {
+      "doorCommit": "358be74b9481d21bca80e3480a18d36defad912b",
+      "level": [
+        "--level",
+        "low"
+      ],
+      "piArgs": [
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-approve",
+        "--tools",
+        "read,edit,write",
+        "--session-dir",
+        "<run>/session"
+      ]
+    }
+  },
+  "model": {
+    "requested": "antigravity/gemini-3.8-flash:medium",
+    "observedInSession": "antigravity/gemini-3.8-flash",
+    "observedThinkingLevel": "medium"
+  },
+  "treatmentDelivery": {
+    "method": "pi-zero --level low --skill (native listing, body read on demand)",
+    "sha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438",
+    "bytes": 6203,
+    "bodyReadInSession": true
+  },
+  "sessionFiles": [
+    "session/2026-09-16T21-16-30-112Z_01a0ac14-0c1b-754b-8958-66687ffa28b2.jsonl"
+  ],
+  "sessionLogSha256": [
+    "9c670909bc9a1e3bcf251849678839b06af9107522a2245b8d2d55daf2d36dee"
+  ],
+  "assistantUsage": [
+    {
+      "input": 1520,
+      "output": 67,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 1587
+    },
+    {
+      "input": 3136,
+      "output": 233,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 3369
+    },
+    {
+      "input": 8438,
+      "output": 43,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 8481
+    },
+    {
+      "input": 8552,
+      "output": 62941,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 71493
+    },
+    {
+      "input": 80573,
+      "output": 54,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 80627
+    },
+    {
+      "input": 4451,
+      "output": 41,
+      "cacheRead": 77158,
+      "cacheWrite": 0,
+      "totalTokens": 81650
+    },
+    {
+      "input": 6214,
+      "output": 40,
+      "cacheRead": 76989,
+      "cacheWrite": 0,
+      "totalTokens": 83243
+    },
+    {
+      "input": 6685,
+      "output": 62943,
+      "cacheRead": 76938,
+      "cacheWrite": 0,
+      "totalTokens": 146566
+    },
+    {
+      "input": 72590,
+      "output": 48,
+      "cacheRead": 82119,
+      "cacheWrite": 0,
+      "totalTokens": 154757
+    },
+    {
+      "input": 4580,
+      "output": 44,
+      "cacheRead": 150501,
+      "cacheWrite": 0,
+      "totalTokens": 155125
+    },
+    {
+      "input": 4923,
+      "output": 56,
+      "cacheRead": 150457,
+      "cacheWrite": 0,
+      "totalTokens": 155436
+    },
+    {
+      "input": 5487,
+      "output": 44,
+      "cacheRead": 150392,
+      "cacheWrite": 0,
+      "totalTokens": 155923
+    },
+    {
+      "input": 6201,
+      "output": 44,
+      "cacheRead": 150313,
+      "cacheWrite": 0,
+      "totalTokens": 156558
+    },
+    {
+      "input": 2662,
+      "output": 14603,
+      "cacheRead": 154757,
+      "cacheWrite": 0,
+      "totalTokens": 172022
+    },
+    {
+      "input": 19402,
+      "output": 42,
+      "cacheRead": 156349,
+      "cacheWrite": 0,
+      "totalTokens": 175793
+    },
+    {
+      "input": 6068,
+      "output": 42,
+      "cacheRead": 170086,
+      "cacheWrite": 0,
+      "totalTokens": 176196
+    },
+    {
+      "input": 6813,
+      "output": 1265,
+      "cacheRead": 169998,
+      "cacheWrite": 0,
+      "totalTokens": 178076
+    },
+    {
+      "input": 3673,
+      "output": 42,
+      "cacheRead": 174428,
+      "cacheWrite": 0,
+      "totalTokens": 178143
+    },
+    {
+      "input": 4680,
+      "output": 48,
+      "cacheRead": 174312,
+      "cacheWrite": 0,
+      "totalTokens": 179040
+    },
+    {
+      "input": 6054,
+      "output": 43,
+      "cacheRead": 174160,
+      "cacheWrite": 0,
+      "totalTokens": 180257
+    },
+    {
+      "input": 2609,
+      "output": 1029,
+      "cacheRead": 178614,
+      "cacheWrite": 0,
+      "totalTokens": 182252
+    }
+  ],
+  "stopReasons": [
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "stop"
+  ],
+  "readTargets": [
+    "TREATMENT_SKILL",
+    "installability.ts",
+    "package.json",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts"
+  ],
+  "taskRootFiles": [
+    "installability.ts"
+  ],
+  "artifacts": {
+    "taskInSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "resultSha256": "944cd09067f82e9e365599199f45d2cd5d7bc89c5b41167cb5cd4402ab402eb6",
+    "promptSha256": "7a64491fd3be6f4d5792dd9bdf59f72d2f49846e2385b49e80fdb8c31e6b09c6",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+  },
+  "evaluation": {
+    "exit": 0,
+    "failedChecks": []
+  }
+}
