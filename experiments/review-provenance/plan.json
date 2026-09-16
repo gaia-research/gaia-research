@@ -248,7 +248,7 @@
     },
     {
       "id": "v3",
-      "status": "preregistered",
+      "status": "closed-partial",
       "effort": "medium",
       "harnessMode": "interactive pi via the pi-zero door (Skill Heaven main 358be74), each arm in its own visible herdr pane at the owner's request",
       "arms": {
@@ -273,7 +273,15 @@
       "stoppingRule": "exactly 5 pairs (rep1..rep5); no retries except under infrastructureAbortRule; no further variants without a new preregistration commit",
       "preregisteredBeforeViewing": "v2 results",
       "infrastructureAbortRule": "A pair interrupted by provider quota or authentication failure (no model-ended turn, no evaluation) is rerun in full from fresh task roots; the aborted attempt is kept under runs/aborted-quota. Model-ended attempts (stop/length) are outcomes and are never rerun. Added after v3 pair 2 attempt 1 hit the Antigravity quota and before any pair 2 outcome existed.",
-      "replicationAmendment": "Owner raised visible-pane concurrency to 8. Replications extended from 2 to 5 of the identical v3 design (ids v3-run-rep3..rep5), run concurrently with the pair 2 rerun (4 pairs, 8 panes). Committed before any rep2-rep5 outcome exists; rep1 outcomes (both arms passed) were already known. Reported per pair and in total; rep1 remains included, not replaced."
+      "replicationAmendment": "Owner raised visible-pane concurrency to 8. Replications extended from 2 to 5 of the identical v3 design (ids v3-run-rep3..rep5), run concurrently with the pair 2 rerun (4 pairs, 8 panes). Committed before any rep2-rep5 outcome exists; rep1 outcomes (both arms passed) were already known. Reported per pair and in total; rep1 remains included, not replaced.",
+      "ownerRuling": "2026-09-17: Antigravity (pi provider and agy harness) judged unstable in this environment. Batch 2 (rep2 attempt 2, rep3-rep5) is an infrastructure failure: excluded, never scored. v3 closes with 1 scored pair. The test will be redone as a new variant with Luna agents when that roster is available."
+    },
+    {
+      "id": "v4",
+      "status": "planned-not-preregistered",
+      "model": "openai-codex/gpt-5.6-luna (effort to be fixed at preregistration)",
+      "trigger": "owner announces Luna availability",
+      "design": "reuse the v3 interactive pi-zero design (runner/pair-interactive.sh with the model parameterized); preregister model, effort, replications and concurrency before any run"
     }
   ]
 }
