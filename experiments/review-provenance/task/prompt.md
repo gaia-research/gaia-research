@@ -8,4 +8,4 @@ Verify that recommendation against the implementation and its state-specific inv
 
 Implement the justified provenance fix in the public assessment/decoration path. Preserve valid state-specific nullability, including correctly proven `no-source` and `intrinsic-content-failure` negative records, and preserve valid materializable records. Keep malformed or insufficient evidence fail-closed as effective `unknown`. Do not change unrelated retrieval behavior or invent thresholds.
 
-Run the narrow checks available for this module and report what was verified. Do not modify the fixture, evaluator, or any other file.
+No test harness is provided inside the task root. Do not modify the fixture, evaluator, or any other file.

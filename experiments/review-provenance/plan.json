@@ -40,7 +40,7 @@
       },
       "prompt": {
         "path": "experiments/review-provenance/task/prompt.md",
-        "sha256": "349385361379a7c267c2d8c51bd467be61f7686e4b8348f26998e32485b5fe06"
+        "sha256": "dbe504b9d556a822955ab4e65a53304428e2dd6c231551f9f17f561b7f872071"
       }
     },
     "fixedReference": {
