@@ -265,14 +265,15 @@
       "symmetryNote": "pi-zero --level low omits --no-context-files/--no-prompt-templates that --level zero sets; v3 passes both to both arms. Recorded as a door finding.",
       "prompt": "task/prompt.md whitespace-flattened to one line (sha256 recorded per run) so it submits as a single interactive message",
       "concurrency": "control and treatment of a pair start simultaneously in two panes; pairs run sequentially",
-      "replications": 2,
+      "replications": 5,
       "completion": "an arm is finished when the pane agent is idle for 20s after having worked",
       "exposureSignal": "treatment: native listing present (first-turn input token delta vs control) and whether the session contains a read of the treatment SKILL.md; no read is recorded as listed-but-not-loaded, not as exposure",
       "primaryOutcome": "same as v1/v2 plus finalStopReason and treatment bodyReadInSession",
       "runner": "runner/pair-interactive.sh + runner/finish.py",
-      "stoppingRule": "exactly 2 pairs; no retries; no further variants without a new preregistration commit",
+      "stoppingRule": "exactly 5 pairs (rep1..rep5); no retries except under infrastructureAbortRule; no further variants without a new preregistration commit",
       "preregisteredBeforeViewing": "v2 results",
-      "infrastructureAbortRule": "A pair interrupted by provider quota or authentication failure (no model-ended turn, no evaluation) is rerun in full from fresh task roots; the aborted attempt is kept under runs/aborted-quota. Model-ended attempts (stop/length) are outcomes and are never rerun. Added after v3 pair 2 attempt 1 hit the Antigravity quota and before any pair 2 outcome existed."
+      "infrastructureAbortRule": "A pair interrupted by provider quota or authentication failure (no model-ended turn, no evaluation) is rerun in full from fresh task roots; the aborted attempt is kept under runs/aborted-quota. Model-ended attempts (stop/length) are outcomes and are never rerun. Added after v3 pair 2 attempt 1 hit the Antigravity quota and before any pair 2 outcome existed.",
+      "replicationAmendment": "Owner raised visible-pane concurrency to 8. Replications extended from 2 to 5 of the identical v3 design (ids v3-run-rep3..rep5), run concurrently with the pair 2 rerun (4 pairs, 8 panes). Committed before any rep2-rep5 outcome exists; rep1 outcomes (both arms passed) were already known. Reported per pair and in total; rep1 remains included, not replaced."
     }
   ]
 }
