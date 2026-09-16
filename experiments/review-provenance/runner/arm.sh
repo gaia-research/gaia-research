@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 # One arm of the review-provenance experiment. Usage: arm.sh <control|treatment> <rep> [probe]
 # probe mode: same argv and environment, trivial prompt, no evaluation (exposure signal only).
+# Env: EFFORT (default high), VARIANT (default empty = v1 ids; e.g. v2 -> ids prefixed v2-).
 set -uo pipefail
 ARM="$1"; REP="$2"; MODE="${3:-run}"
 X="$HOME/.local/state/skill-heaven/issue-116/experiments/review-provenance"
 EV="$HOME/.local/state/skill-heaven/issue-116/worktrees/research-e-case/experiments/review-provenance"
 TREAT="$X/treatment/SKILL.md"
 EXT="$HOME/.pi/agent/npm/node_modules/pi-antigravity/src/index.ts"
-MODEL="antigravity/gemini-3.8-flash:high"
-ID="${MODE}-rep${REP}-${ARM}"
+EFFORT="${EFFORT:-high}"; VARIANT="${VARIANT:-}"
+MODEL="antigravity/gemini-3.8-flash:${EFFORT}"
+ID="${VARIANT:+${VARIANT}-}${MODE}-rep${REP}-${ARM}"
 RUN="$X/runs/$ID"
 [ -e "$RUN" ] && { echo "refusing: $RUN exists (no retries)"; exit 2; }
 mkdir -p "$RUN/session"

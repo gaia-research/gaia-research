@@ -217,5 +217,34 @@
     "no general-effect conclusion",
     "no interaction conclusion",
     "one historically exposed case"
+  ],
+  "variants": [
+    {
+      "id": "v1",
+      "preregistered": "2d5b266",
+      "effort": "high",
+      "status": "run; results in results/results.json (confounded by output-cap termination in 3/4 arms)"
+    },
+    {
+      "id": "v2",
+      "status": "preregistered",
+      "effort": "medium",
+      "rationale": "v1 was dominated by single-turn output-cap termination (stopReason=length) independent of treatment. v2 repeats the identical design, exposure method, prompt, task, evaluator and order with EFFORT=medium to reduce that confound. It is a separate experiment, not a re-run or retry of v1; v1 results stand as recorded.",
+      "invocation": "EFFORT=medium VARIANT=v2 runner/arm.sh <arm> <rep>",
+      "order": [
+        [
+          "control",
+          "treatment"
+        ],
+        [
+          "treatment",
+          "control"
+        ]
+      ],
+      "replications": 2,
+      "exposureProbe": "required: v2 probe control/treatment before arms",
+      "primaryOutcome": "same as v1; additionally report finalStopReason per arm",
+      "stoppingRule": "run exactly these 4 arms; no further variants without a new preregistration commit"
+    }
   ]
 }
