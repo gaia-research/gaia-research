@@ -1,7 +1,7 @@
 {
   "schema": "gaia.research-arbor-review-provenance-preparation/v1",
-  "status": "draft-preparation-only",
-  "preregistered": false,
+  "status": "preregistered",
+  "preregistered": true,
   "experimentExecuted": false,
   "acceptedSupport": false,
   "selection": {
@@ -129,51 +129,93 @@
     "instantiated": false
   },
   "authorization": {
-    "status": "incomplete",
-    "actor": null,
-    "basis": null
+    "status": "complete",
+    "actor": "project owner (mbtiongson1)",
+    "basis": "Owner ruling 2026-09-17: all Lane E experiment runs authorized provided each run is logged as a receipt; roster set by owner (Luna unavailable; Gemini 3.8 Flash high)."
   },
   "exposure": {
-    "status": "incomplete",
+    "status": "pinned",
     "requiredBeforePreregistration": true,
-    "signalsRequired": [
-      "hard harness listing/discovery signal for treatment exposure",
-      "hard suppression signal for control",
-      "byte/content identity for the delivered treatment"
-    ],
-    "observed": null
+    "method": "Treatment body delivered byte-identically via --append-system-prompt (summon semantics: one skill body into context). Skill discovery, context files, prompt templates and non-provider extensions disabled in both arms; tool allowlist read,edit,write excludes extension tools.",
+    "observed": {
+      "probePrompt": "Reply with exactly the word OK.",
+      "controlFirstTurnInputTokens": 1164,
+      "treatmentFirstTurnInputTokens": 2703,
+      "deltaTokens": 1539,
+      "treatmentBytes": 6203,
+      "treatmentSha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438",
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "observedAt": "2026-09-16T20:41:40Z",
+      "interpretation": "Delta (~bytes/4) is consistent with the full body in the system prompt and absent from control. pi session logs do not persist the system prompt, so this token delta is the hard signal."
+    }
   },
   "harnessEnvironment": {
-    "status": "incomplete",
+    "status": "pinned",
     "planned": {
       "harness": "pi",
       "version": "0.85.1",
-      "model": "openai-codex/gpt-5.6-luna",
-      "effort": "xhigh"
+      "model": "antigravity/gemini-3.8-flash",
+      "effort": "high",
+      "argv": [
+        "--no-skills",
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-themes",
+        "--no-extensions",
+        "-e <pi-antigravity extension>",
+        "--no-approve",
+        "--tools read,edit,write",
+        "--session-dir <run>/session",
+        "--print <task/prompt.md>"
+      ],
+      "treatmentOnlyArgs": [
+        "--append-system-prompt <treatment SKILL.md sha256 091df162\u2026>"
+      ],
+      "cwd": "fresh mktemp task root containing only installability.ts"
     },
-    "observed": null,
-    "costSource": "canonical gaia-research/skill-cost from actual logs only"
+    "observed": "per-run record.json (model_change event in session log)",
+    "costSource": "canonical skill-cost from actual pi session logs; lane total reported at close"
   },
   "futureDesign": {
-    "status": "blocked-pending-preflight-and-approval",
+    "status": "preregistered",
     "replications": 2,
     "arms": 4,
     "order": [
-      ["control", "treatment"],
-      ["treatment", "control"]
+      [
+        "control",
+        "treatment"
+      ],
+      [
+        "treatment",
+        "control"
+      ]
     ],
     "sameTaskEnvironmentAndLimits": true,
     "successRetries": 0,
     "promptSweep": false,
     "skillSweep": false,
-    "treatmentDifference": "supply only obra/receiving-code-review"
+    "treatmentDifference": "supply only obra/receiving-code-review",
+    "primaryOutcome": "Per arm: evaluator exit code (0 = all 13 checks pass) and the set of failed check ids. Reported per replication pair; no pooled effect size, no significance test (n=2 pairs).",
+    "secondaryOutcomes": [
+      "task root contains only installability.ts after the run",
+      "pi exit code",
+      "turn count and token usage (descriptive only)"
+    ],
+    "runner": "runner/arm.sh (central-held; argv printed in a visible herdr pane); runs refuse to overwrite an existing run id",
+    "interpretationLimits": [
+      "one historically exposed case; the model may have seen the public fix",
+      "n=2 pairs cannot establish a general effect",
+      "a null or mixed result is recorded as such",
+      "evaluator sandboxing is not enforced; the agent's tools can read absolute paths"
+    ]
   },
   "observations": [],
   "receipts": [],
   "limitations": [
-    "one historically exposed case",
+    "evaluator not sandboxed from the agent's read tool",
     "four planned arms",
     "no general-effect conclusion",
-    "no interaction conclusion"
+    "no interaction conclusion",
+    "one historically exposed case"
   ]
 }
