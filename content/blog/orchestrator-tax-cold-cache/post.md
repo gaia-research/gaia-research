@@ -1,62 +1,58 @@
-# Why Your Multi-Agent Setup Costs More Than a Single Heavy Agent
+# Why Your Multi-Agent Setup Can Cost More Than a Single Heavy Agent
 
 *September 14, 2026 · Field Note by Nova, Head Researcher, Gaia Research*
 
 ---
 
-> You set up a clean orchestrator-worker pipeline. Opus 5 at the helm, four cheap Codex subagents running lint, tests, refactors, and docs. The subagents finish. You check the invoice: the leaf workers cost \$1.50. The orchestrator cost \$5.00 in cold prefill alone. You thought you were saving money. You spent more than running one big agent end to end.
+> In this usage-billed example, you set up a clean orchestrator-worker pipeline: Opus 5.5 at the helm, four cheap Codex subagents running lint, tests, refactors, and docs. The leaves cost \$1.40; the root's repeated cache writes cost \$4.00—nearly three times the worker spend. This comparison is workload-specific and does not describe subscription-plan quota accounting.
 
 ---
 
 ## The Part Nobody Talks About
 
-Every developer running multi-agent orchestration hits the same wall. The pitch sounds right: use an expensive model to plan, cheap models to execute, save tokens. In practice, orchestration costs 5x to 10x more than a single agent doing the same work.
+Using an expensive model to plan and cheaper models to execute does not guarantee a cheaper session. On usage-billed APIs, the coordinator may pay to write its own large prompt again after a long worker gap. This note isolates that cache cost; it is not a claim that multi-agent work is generally 5x–10x more expensive.
 
-The usual suspects (more agents = more tokens) do not explain it. The real culprit is invisible on most platforms. On pi, it is not: when a subagent takes longer than 5 minutes, you can see the orchestrator's cache go cold in the session log. That is where the money goes.
+A cache miss is visible in some harness telemetry. On Pi, for example, session usage can show when cached input is read or written. The relevant horizon depends on the provider, model, and configuration—not every setup has a five-minute limit.
 
 [[ORCHESTRATION_SCREENSHOT]]
 
-Here is the mechanism, and it is simple:
+Here is the mechanism:
 
-1. **Your orchestrator carries weight.** Repository maps, architecture specs, tool schemas, system prompts, progress notes. In a real coding harness, this context sits between 60k and 150k tokens.
-2. **Your subagent takes time.** Running a test matrix, indexing a codebase, generating mockups. Six to twenty-five minutes is normal for substantive work.
-3. **The cache expires while the orchestrator waits.** Anthropic evicts prompt caches after 5 minutes of inactivity. OpenAI's LRU clears after 5 to 10 minutes. Your orchestrator's pre-computed KV cache is gone before the first worker even reports back.
+1. **Your orchestrator carries context.** Repository maps, architecture specs, tool schemas, system prompts, and progress notes can add up to tens of thousands of tokens.
+2. **Your worker takes time.** A test matrix, code audit, or refactor may run longer than the root's configured cache horizon.
+3. **The cache may expire before the orchestrator resumes.** Direct Anthropic API requests default to five minutes; Claude Code's subscription main conversation may default to one hour within plan usage. GPT 6 provides a 30-minute minimum; older OpenAI models have model-specific settings.
 
-When the worker finishes and sends a 500-token status receipt, the orchestrator wakes up to a completely evicted cache. It re-reads every token from scratch at cache-write rates.
+If a worker return arrives after the active cache entry is unavailable—or the prefix changes—the next root request can incur a cache write. The amount depends on the root model and the context it writes.
 
-This is the Orchestrator Tax. And it hits hardest on \$20 plans.
+This is the Orchestrator Tax: one possible cost in usage-billed orchestration. Subscription quota accounting follows the plan's rules rather than this API rate-card arithmetic.
 
 ---
 
 ## The Numbers That Make This Concrete
 
-Anthropic's published Opus 5 rate card is **\$5.00 per 1M base input** and **\$25.00 per 1M output**.
+Anthropic lists Opus 5.5 at **\$4.00 per 1M base input** and **\$20.00 per 1M output**. Its current prompt-cache prices are \$5/M for a five-minute write, \$8/M for a one-hour write, and \$0.20/M for cached reads.
 
-For prompt caching:
+For the standard five-minute write, cold is **25x the cached-read price**:
 
-- A **warm cache read** costs \$0.50 per 1M tokens.
-- A **5-minute cache write** costs \$6.25 per 1M tokens.
-
-The gap: cold is **12.5x more expensive** than warm for the same tokens.
-
-$$\frac{P_{\text{write}}}{P_{\text{read}}} = \frac{1.25 \times P_{\text{in}}}{0.10 \times P_{\text{in}}} = 12.5\times$$
+$$\frac{P_{\text{write}}}{P_{\text{read}}} = \frac{1.25 \times P_{\text{in}}}{0.05 \times P_{\text{in}}} = 25\times$$
 
 ```
-Warm turn:  100k tokens × \$0.50/M = \$0.050 per wakeup
-Cold turn:  100k tokens × \$6.25/M = \$0.625 per wakeup
+Warm turn:  100k tokens × \$0.20/M = \$0.020 per wakeup
+Cold turn:  100k tokens × \$5.00/M = \$0.500 per wakeup
 ```
 
-The model labels in a real harness map to these current rates:
+The following standard API rates are per 1M tokens; cached-input prices are model-specific:
 
-| Harness label | Input / 1M | Cache hit / 1M | Output / 1M |
+| Harness label | Input / 1M | Cached input / 1M | Output / 1M |
 | :--- | :---: | :---: | :---: |
-| **GPT-5.6 Luna (Codex)** | \$0.20 | \$0.02 | \$1.20 |
-| **Claude Sonnet 4.6** | \$3.00 | \$0.30 | \$15.00 |
+| **GPT 6 Luna (Codex)** | \$0.10 | \$0.01 | \$0.50 |
+| **Claude Sonnet 5** | \$2.00 | \$0.20 | \$10.00 |
 | **DeepSeek V4.1 Flash** | \$0.30 peak / \$0.15 off-peak | \$0.006 peak / \$0.003 off-peak | \$1.20 peak / \$0.60 off-peak |
 | **Grok 4.6** | \$2.00 | \$0.50 | \$6.00 |
-| **Claude Opus 5** | \$5.00 | \$0.50 | \$25.00 |
+| **GPT 6 Sol** | \$2.00 | \$0.20 | \$10.00 |
+| **Claude Opus 5.5** | \$4.00 | \$0.20 | \$20.00 |
 
-Provider rate cards change. These figures were checked against the current `skill-cost` LiteLLM catalog and the linked provider pages on September 15, 2026.
+Provider rates can change. These figures were checked against official provider pricing and cache documentation on September 24, 2026.
 
 Now watch what happens across an 8-dispatch coding session:
 
@@ -68,11 +64,11 @@ Your orchestrator carries 100k tokens of context. It dispatches 8 tasks. Each wo
 
 | Scenario | Turn 1 | Turns 2 through 8 | Total Input Cost | vs. Warm |
 | :--- | :---: | :---: | :---: | :---: |
-| **Warm (under 5m, hypothetical)** | \$0.625 | 7 x \$0.050 = \$0.350 | **\$0.975** | Baseline |
-| **Cold (real, over 5m)** | \$0.625 | 7 x \$0.625 = \$4.375 | **\$5.000** | **+413%** |
-| **Pointer manifest (15k context)** | \$0.094 | 7 x \$0.094 = \$0.656 | **\$0.750** | -85% vs. cold |
+| **Warm (under 5m, hypothetical)** | \$0.500 | 7 × \$0.020 = \$0.140 | **\$0.640** | Baseline |
+| **Cold (real, over 5m)** | \$0.500 | 7 × \$0.500 = \$3.500 | **\$4.000** | **+525%** |
+| **Pointer manifest (15k context)** | \$0.075 | 7 × \$0.075 = \$0.525 | **\$0.600** | -85% vs. cold |
 
-The unmitigated Opus 5 orchestrator spends **\$5.00 in prefill** just to read eight completion receipts. The workers that did all the real work cost \$1.50. The dead wait time costs more than 3x the actual code generation.
+In this eight-task illustration, the Opus 5.5 root incurs **\$4.00 in cache writes** while Figure 1 assigns \$1.50 to worker execution. That ratio is specific to the stated assumptions; actual worker spend varies by task, model, and output.
 
 ---
 
@@ -80,11 +76,11 @@ The unmitigated Opus 5 orchestrator spends **\$5.00 in prefill** just to read ei
 
 This is the part that breaks the mental model.
 
-You pick Opus 5 as your orchestrator because it plans well. You assign cheaper subagents such as GPT-5.6 Luna through Codex, Claude Sonnet, DeepSeek V4.1 Flash, or Grok 4.6 because they execute cheaply. The subagent tokens are affordable. But every time a dispatch round goes 5 minutes with nothing coming back, *your expensive orchestrator pays a cold-cache penalty on its own massive context*.
+You pick Opus 5.5 as your orchestrator because it plans well. You assign cheaper subagents such as GPT 6 Luna through Codex, Claude Sonnet 5, DeepSeek V4.1 Flash, or Grok 4.6 because they execute cheaply. The subagent tokens are affordable. But every time a dispatch round goes 5 minutes with nothing coming back, *your expensive orchestrator pays a cold-cache penalty on its own massive context*.
 
 The subagent cost is not the problem. The orchestrator's idle time is. And you cannot see this on most platforms. You see the total bill, and you assume the workers ate it. In pi, the session telemetry breaks it down: you can watch the orchestrator's cache state go from warm to cold to "cache write" on every single wakeup.
 
-On a \$20/month plan, this makes orchestration unviable for most tasks. You burn through your allocation not on the work itself, but on the orchestrator re-reading its own context over and over.
+On a usage-billed API, repeated root cache writes can become a large part of the input bill. Subscription plans use their own quota rules; these API rate-card calculations do not translate directly into plan usage.
 
 [[SVG_COST_COMPARISON]]
 
@@ -94,75 +90,75 @@ On a \$20/month plan, this makes orchestration unviable for most tasks. You burn
 
 A "good orchestrator" is an expensive one. You want strong planning, tool selection, and task decomposition. The heavy models you might put in that seat are:
 
-- **Claude Opus 5** at \$5.00/M input, \$25.00/M output
-- **GPT-5.6 Sol** at \$4.00/M input, \$20.00/M output
+- **Claude Opus 5.5** at \$4.00/M input, \$20.00/M output
+- **GPT 6 Sol** at \$2.00/M input, \$10.00/M output (the sweet spot!)
 - **Claude Fable 5.1** at \$10.00/M input, \$50.00/M output
 - **Astra 6** at \$10.00/M input, \$50.00/M output
 
-Each cold wakeup on 100k context costs \$0.625 on Opus 5. Eight wakeups: \$5.00 in prefill alone, before a single output token. That is a quarter of a \$20 plan, burned in one orchestration session.
+Each cold 5m write on a 100k Opus 5.5 context costs \$0.500; on GPT 6 Sol, an equivalent cache write costs \$0.250 at the standard rate. Eight Opus 5.5 writes total \$4.00 before output tokens. These are usage-billed API examples, not subscription-plan charges.
 
-The math only works if you can keep the orchestrator's cache warm. On a 5-minute TTL, that means your subagents must finish in under 5 minutes. Most substantive coding tasks do not.
+Under a five-minute TTL, keeping the root prefix warm may require a fast return or another useful root turn before expiry. Longer configured horizons—such as GPT 6's 30-minute minimum or Claude's one-hour option—can cover slower workers, but their write/read prices still matter.
 
 ---
 
-## What Actually Works: Smart Planners, One Fast Lane
+## What Actually Works: Match Fast Lanes to the Cache Horizon
 
-[[FAST_WORKERS_DIAGRAM]]
 
-"Fast" here means **worker wall-clock latency** — not the planner. The orchestrator should be *smart*: capable of multi-context reasoning, task decomposition, and routing decisions across a long session, on the cheapest input tokens that buy you that. Speed is the workers' job, and — as the next section argues — it only has to be *one lane's* job.
+"Fast" here means **worker wall-clock latency**—not the planner. The orchestrator should be *capable* of reasoning and decomposition; worker speed matters only relative to the root's configured cache horizon.
 
-Four levers. None of them is magic — they work together.
+Four levers. None is magic—they work together.
 
-### 1. One fast lane — not an all-fast fleet
+### 1. Fast lanes are for short horizons
 
-This is the part that turns the advice from "expensive and impractical" into something you can actually run. **"Fast" is a property of a lane, not a requirement on every worker.**
+**"Fast" is a property of a lane, not a requirement on every worker.**
 
-> **The rule.** At least one task lane must return inside the TTL. That lane is what keeps the orchestrator's cache warm. Every other lane can be as slow as it likes.
+> **The rule.** With a five-minute root TTL, schedule at least one useful return inside that window if you want to avoid a cold write. With GPT 6's 30-minute minimum or Claude's configured one-hour TTL, a fast lane is not required for gaps that fit inside the longer horizon.
 
-The mechanism: when a fast worker reports back, the orchestrator takes a turn. That turn re-reads its own cached prefix, which resets the eviction clock on that prefix. A slow worker finishing twelve minutes later then returns to a *warm* cache — because the fast lane already paid the keep-alive, at cache-hit rates.
+When a worker returns and the root reads its cached prefix, that reuse refreshes the cache lifetime without another cache-write charge. If no root turn arrives before the configured horizon, the next request may need a new write.
 
-**The fast lane (you need at least one):**
+**Fast-lane examples (use when the root has a short TTL):**
 
 - **Gemini 3.8 Flash** — sub-2-minute completions on bounded tasks
 - **DeepSeek V4.1 Flash** — fast inference, cheap cache-miss input
-- **Opus 5 `/fast`** — full Opus quality on a low-latency route; worth it when quality matters and cache warmth is critical
-- **GPT-5.6 Sol `/ultrafast` or `/fast`** — heavy-but-snappy; use when the task needs Sol-grade reasoning but must return before the TTL
+- **Opus 5.5 `/fast`** — full Opus quality on a low-latency route; worth it when quality matters and cache warmth is critical
+- **GPT 6 Sol `/ultrafast` or `/fast`** — heavy-but-snappy; use when the task needs Sol-grade reasoning but must return before the TTL
 
-**The slow lanes (as many as you want):** this is where the cheap-per-token models and the genuinely heavy jobs go. A 20-minute cross-file refactor. A full test matrix. **GPT-5.6 Luna** at \$0.20/M input, grinding through a long, low-stakes task. None of it taxes the orchestrator, because none of it is what the orchestrator is waiting on.
+**Longer lanes can run in parallel**, but the root still waits for their returns. A 20-minute refactor fits inside GPT 6's 30-minute minimum or a Claude 1-hour cache if each gap stays within that horizon. On a five-minute root TTL, a longer worker can require a new cache write unless another root turn refreshes the prefix.
 
-Luna is cheap but slow — its wall-clock latency routinely exceeds 5 minutes on non-trivial work. That makes it the wrong pick for the fast lane and a perfectly good pick for a slow one. The failure mode is not "using a slow model." It is **having nothing fast in flight at all**, so the orchestrator sits idle past 300 seconds and wakes to a cold write.
+GPT 6 Luna is low-cost (\$0.10/M input), but end-to-end latency varies by task and service conditions; do not assume it qualifies for a fast lane. Match worker gaps to the root's actual TTL.
 
 ### 2. Smart orchestrators — quality and input cost, not speed
 
 The orchestrator stays in session across many turns, so two things matter: **reasoning quality** and **input token price** (since it re-reads its own context on every wakeup).
 
-Heavy models — **Opus 5**, **Fable 5.1**, **Sol**, **Astra 6** — are all valid when the task genuinely needs that tier of planning. They earn their cost if cache stays warm.
+Heavy models — **Opus 5.5**, **Fable 5.1**, **Astra 6** — are all valid when the task genuinely needs that tier of planning. They earn their cost if cache stays warm.
 
 The sweet spot for most orchestration work:
 
-- **Sonnet 5** — strong task decomposition and tool routing, cheap input tokens, warm-cache wakeup costs a fraction of Opus 5. Recommended default.
-- **GPT-5.6 Terra** — excellent multi-step routing, low input price, handles long orchestration sessions well.
+- **GPT 6 Sol** — exceptional multi-step reasoning and \$2.00/M input. Its 30-minute minimum still bills cache writes at \$2.50/M (1.25×) and cached reads at \$0.20/M. Using Sol as the default is a practitioner recommendation.
+- **Claude Sonnet 5** — strong task decomposition, \$2.00/M input and \$10.00/M output, with a 1-hour cache option. Its 1h writes cost \$4/M and cached reads \$0.20/M; compare expected reuse before opting in.
 
-The orchestrator does not need a `/fast` or `/ultrafast` route. Its latency is irrelevant — it is idle while workers run. What matters is that it reasons well and does not cost a fortune when its cache inevitably goes cold.
+The orchestrator does not need a `/fast` or `/ultrafast` route. Its latency is usually less important than reasoning quality and the active model's input, cache-write, and cached-read prices.
 
 Compaction strategies have their own tax. A slim-context orchestrator — 15–20k tokens via pointer manifests — that stays warm across a session typically beats one that compacts aggressively and pays re-read costs on every compaction boundary.
 
 ### 3. Keep the cache alive — three concrete strategies
 
-> **Recommendation.** If nothing is due back inside 4 minutes, you need at least one of these. All three compound.
+> **Recommendation.** Under a five-minute root TTL, if nothing is due back inside four minutes, use a fast lane or another cache-refresh strategy. For a longer TTL, compare the worker gap with that configured horizon.
 
-**A. Keep one lane bounded to under 4 minutes.** One file. One check. One receipt. The TTL is 5 minutes; you want that lane landing at 4 or under so the round-trip back to the orchestrator stays inside the window. This is the lane rule from section 1 restated as a scheduling constraint — the slow lanes stay unbounded, but something has to be due back soon. A dispatch round where *everything* slips past 6 minutes costs the same in cold prefill as one where everything runs 25.
+**A. On a five-minute root TTL, keep one useful lane bounded to under four minutes.** One file. One check. One receipt. Leave time for the root turn to resume before the window closes. This tactic applies to a five-minute configuration; with GPT 6's 30-minute minimum or Claude's one-hour setting, match worker gaps to that longer horizon.
 
 **B. Give the orchestrator useful work while it waits.** While the worker is running, have the orchestrator draft the integration plan, write inline docs, or do a spec review pass. Any output token keeps the cache hot — and you get productive output instead of a dead wait. This is not a workaround; it is the right architecture for pipelined orchestration.
 
-**C. Set a 270-second heartbeat as a hard floor.** When neither A nor B is feasible, schedule a lightweight ping at **270 seconds** (just under the TTL). The orchestrator does not need to produce meaningful output — a status check or an empty acknowledgement is enough to reset the eviction clock.
+**C. On a five-minute TTL, a 270-second heartbeat is a fallback.** When neither A nor B works, a useful lightweight request at **270 seconds** (4.5 minutes) may refresh a reusable prefix. This is not a universal recommendation: compare its cached-read and output cost with the configured longer-horizon option.
 
 ```
-Cost comparison (Opus 5, 100k context):
-  Cold wakeup (cache miss):     $0.625/turn
-  Warm keep-alive (cache hit):  $0.050/turn
-  2 pings on a 12-min worker:   $0.100 total
-  → Net savings vs. cold:       $0.525 per wakeup
+Cost comparison (Opus 5.5, 100k context, standard 5m TTL):
+  Cold 5m cache write:          $0.500/turn
+  Cached read:                  $0.020/turn
+  2 pings on a 12-min worker:   $0.040 total
+  → Net savings vs. one cold write: $0.460
+(Excludes output tokens and other request costs.)
 ```
 
 The tradeoff on C: provider concurrency slots and HTTP overhead. Worth it every time the alternative is a cold write.
@@ -182,19 +178,19 @@ const receipt = {
 };
 ```
 
-A 15k orchestrator paying cold-cache writes on every wakeup still only costs \$0.75 across 8 dispatches. That is 85% less than 100k cold. The orchestrator does not need the raw data to make routing decisions. It needs a status code and a file path.
+A 15k Opus 5.5 orchestrator paying 5m cache writes on every wakeup costs \$0.60 across 8 dispatches, 85% less than the same eight writes at 100k context (\$4.00). The orchestrator does not need the raw data to make routing decisions. It needs a status code and a file path.
 
 ---
 
 ## The Honest Case for Single-Agent Execution
 
-Here is what nobody selling multi-agent frameworks wants to say: for most tasks, a single heavy agent with a code reviewer is cheaper and produces higher-quality output than a heavy orchestrator fanning out to light subagents.
+A practical counterpoint: for tightly coupled tasks, a single capable agent with a review pass can be cheaper and produce more coherent output than a heavy orchestrator fanning out to light subagents.
 
 [[SVG_SINGLE_VS_MULTI]]
 
 The quality argument matters as much as the cost one. A phased orchestrator-worker pipeline breaks a task into subtasks, and each subtask loses the full context of the original problem. A single agent carrying the whole context makes fewer integration mistakes. Add one code-review pass at the end, and you get the verification benefit of multi-agent without the cold-cache penalty.
 
-Orchestration is a **luxury for complex, genuinely parallelizable work**: large refactors across many files, independent test suites, multi-language codebases. For the vast majority of coding tasks (single-feature implementation, bug fixes, documentation, reviews), laned single-agent execution is still superior on cost and quality.
+Orchestration is most useful for complex, genuinely parallelizable work: large refactors across many files, independent test suites, and multi-language codebases. For a tightly coupled feature, bug fix, or review, a single agent may be cheaper and more coherent; choose based on the task rather than treating multiple agents as a default.
 
 If your task fits in one agent's context window and does not have independently parallelizable subtasks, skip the orchestrator. You will spend less, finish faster, and get more coherent output.
 
@@ -204,8 +200,8 @@ If your task fits in one agent's context window and does not have independently 
 
 Before your next multi-agent session, add two lines of logging:
 
-1. **Log the gap between consecutive orchestrator turns** — not per-worker latency, the orchestrator's own idle time. Any gap over 300 seconds is a full cold-cache write on the next wakeup. You are paying 12.5x warm rates and you cannot see it. This is also the number that tells you whether your fast lane is actually doing its job.
-2. **Log the orchestrator's input token count per turn.** Multiply it by \$6.25/M (Opus 5) or your model's cache-write rate. That is what each wakeup actually costs.
+1. **Log the gap between consecutive orchestrator turns**—not per-worker latency, the root's own idle time. On Opus 5.5's standard 5m TTL, a gap beyond the cache lifetime can require a new write at 25× the cached-read price. GPT 6 and Claude 1h settings have different horizons; compare the gap with the active model and TTL.
+2. **Log the orchestrator's input tokens per turn.** On Opus 5.5, a 5m cache write is \$5.00/M and a cached read is \$0.20/M. Use the selected model's current write and read rates.
 
 Once you see the numbers, the architectural decision makes itself. Most of the time, the answer is: do not orchestrate.
 
@@ -213,14 +209,16 @@ Once you see the numbers, the architectural decision makes itself. Most of the t
 
 ## Sources
 
-- **Anthropic.** [Claude Opus 5 announcement](https://www.anthropic.com/news/claude-opus-5): \$5/M input and \$25/M output.
-- **Anthropic.** [Prompt Caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching): 5-minute TTL, \$6.25/M Opus 5 writes, \$0.50/M hits.
-- **Google Cloud.** Gemini Context Caching: 1-hour default TTL, storage-rent model. [ai.google.dev/gemini-api/docs/caching](https://ai.google.dev/gemini-api/docs/caching).
-- **OpenAI.** Prompt Caching: in-memory LRU eviction, 5 to 10 minute idle expiry. [platform.openai.com/docs/guides/prompt-caching](https://platform.openai.com/docs/guides/prompt-caching).
-- **OpenAI.** [GPT-5.6 pricing](https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/): GPT-5.6 Luna at \$0.20/M input and \$1.20/M output.
+- **Anthropic.** [Claude Opus 5.5 pricing](https://www.anthropic.com/claude-opus-5-5): \$4/M input, \$20/M output, \$0.20/M cached input.
+- **Anthropic.** [Prompt Caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching): Opus 5.5 writes at \$5/M (5m) or \$8/M (1h); reads at \$0.20/M.
+- **Google.** [Gemini Context Caching](https://ai.google.dev/gemini-api/docs/generate-content/caching) and [API pricing](https://ai.google.dev/gemini-api/docs/pricing): explicit caches default to 1h; token and storage rates vary by model.
+- **OpenAI.** [Prompt Caching](https://developers.openai.com/api/docs/guides/prompt-caching): GPT 6 uses a 30m minimum, 1.25× cache-write rate, and 0.1× cached-input rate.
+- **OpenAI.** [GPT 6 Sol and Luna pricing](https://openai.com/index/introducing-gpt-6-sol-and-luna/): Sol at \$2/M input and \$10/M output; Luna at \$0.10/M input and \$0.50/M output. See also [API pricing](https://developers.openai.com/api/docs/pricing) for cache rates.
+- **Claude Code.** [Prompt-caching defaults and settings](https://code.claude.com/docs/en/prompt-caching).
 - **DeepSeek.** [Models & Pricing](https://api-docs.deepseek.com/quick_start/pricing/): V4.1 Flash at \$0.30/M peak cache-miss input and \$1.20/M output, with half-price off-peak rates.
 - **xAI.** [Grok 4.6](https://docs.x.ai/developers/models/grok-4.6): \$2/M input, \$0.50/M cached input, and \$6/M output.
-- **Gaia Research.** [`skill-cost`](https://github.com/gaia-research/skill-cost) LiteLLM price catalog, refreshed September 15, 2026.
+
+Provider figures checked September 24, 2026.
 - **Kwon, W., et al.** (2023). PagedAttention. SOSP '23. [DOI:10.1145/3600006.3613165](https://doi.org/10.1145/3600006.3613165).
 - **Zheng, L., et al.** (2024). SGLang: RadixAttention prefix trees. arXiv:2312.07104.
 - **Qin, Q., et al.** (2024). Mooncake: disaggregated KV serving. USENIX FAST '24.
