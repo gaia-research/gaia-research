@@ -1,0 +1,186 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-run/v1",
+  "id": "v3-run-rep1-control",
+  "mode": "interactive",
+  "arm": "control",
+  "replication": 1,
+  "startedAt": "2026-09-16T21:16:29Z",
+  "endedAt": "2026-09-16T21:21:08Z",
+  "harness": {
+    "name": "pi",
+    "door": "pi-zero",
+    "version": "0.85.1",
+    "launch": {
+      "doorCommit": "358be74b9481d21bca80e3480a18d36defad912b",
+      "level": [
+        "--level",
+        "zero"
+      ],
+      "piArgs": [
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-approve",
+        "--tools",
+        "read,edit,write",
+        "--session-dir",
+        "<run>/session"
+      ]
+    }
+  },
+  "model": {
+    "requested": "antigravity/gemini-3.8-flash:medium",
+    "observedInSession": "antigravity/gemini-3.8-flash",
+    "observedThinkingLevel": "medium"
+  },
+  "treatmentDelivery": null,
+  "sessionFiles": [
+    "session/2026-09-16T21-16-30-125Z_01a0ac14-0c2c-7375-a825-3d579452840f.jsonl"
+  ],
+  "sessionLogSha256": [
+    "1fd78a61dc3ac2bdf2f92eb0e5f5f246bc372adc566e8a9e4cba4606f2c56c12"
+  ],
+  "assistantUsage": [
+    {
+      "input": 1335,
+      "output": 59,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 1394
+    },
+    {
+      "input": 2243,
+      "output": 42,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 2285
+    },
+    {
+      "input": 3494,
+      "output": 40,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 3534
+    },
+    {
+      "input": 4963,
+      "output": 51,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 5014
+    },
+    {
+      "input": 6684,
+      "output": 62939,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 69623
+    },
+    {
+      "input": 77702,
+      "output": 26315,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 104017
+    },
+    {
+      "input": 31873,
+      "output": 44,
+      "cacheRead": 79636,
+      "cacheWrite": 0,
+      "totalTokens": 111553
+    },
+    {
+      "input": 4912,
+      "output": 45,
+      "cacheRead": 107594,
+      "cacheWrite": 0,
+      "totalTokens": 112551
+    },
+    {
+      "input": 113707,
+      "output": 44,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 113751
+    },
+    {
+      "input": 2840,
+      "output": 5410,
+      "cacheRead": 111936,
+      "cacheWrite": 0,
+      "totalTokens": 120186
+    },
+    {
+      "input": 9064,
+      "output": 52,
+      "cacheRead": 112227,
+      "cacheWrite": 0,
+      "totalTokens": 121343
+    },
+    {
+      "input": 5082,
+      "output": 50,
+      "cacheRead": 116811,
+      "cacheWrite": 0,
+      "totalTokens": 121943
+    },
+    {
+      "input": 5732,
+      "output": 49,
+      "cacheRead": 116724,
+      "cacheWrite": 0,
+      "totalTokens": 122505
+    },
+    {
+      "input": 6372,
+      "output": 728,
+      "cacheRead": 116640,
+      "cacheWrite": 0,
+      "totalTokens": 123740
+    }
+  ],
+  "stopReasons": [
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "stop"
+  ],
+  "readTargets": [
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts"
+  ],
+  "taskRootFiles": [
+    "installability.ts"
+  ],
+  "artifacts": {
+    "taskInSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "resultSha256": "4893086b6cd6d18d65c95e82dd36308f506aecf7a2d168bd8eccfed62d2b6289",
+    "promptSha256": "7a64491fd3be6f4d5792dd9bdf59f72d2f49846e2385b49e80fdb8c31e6b09c6",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+  },
+  "evaluation": {
+    "exit": 0,
+    "failedChecks": []
+  }
+}

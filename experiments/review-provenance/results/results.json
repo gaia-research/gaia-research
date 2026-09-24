@@ -1,0 +1,151 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-results/v1",
+  "preregistration": "2d5b266",
+  "status": "observed-not-interpreted",
+  "acceptedSupport": false,
+  "runs": [
+    {
+      "id": "run-rep1-control",
+      "arm": "control",
+      "replication": 1,
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "evaluatorExit": 1,
+      "failedChecks": [
+        "verified-negative-missing-observationDigest",
+        "verified-negative-missing-observedAt",
+        "verified-no-source-missing-observationDigest",
+        "verified-no-source-missing-observedAt",
+        "verified-materializable-missing-observationDigest",
+        "verified-materializable-missing-observedAt"
+      ],
+      "taskEdited": false,
+      "assistantTurns": 3,
+      "finalStopReason": "length",
+      "outputTokens": 65687,
+      "inputTokens": 14459,
+      "firstTurnInputTokens": 1340,
+      "sessionLogSha256": [
+        "eedd324161f16d9b8b9bc256794030cf09a67e01ed5005a7e988c4f1bdd6556f"
+      ],
+      "startedAt": "2026-09-16T20:42:15Z",
+      "endedAt": "2026-09-16T20:45:12Z"
+    },
+    {
+      "id": "run-rep1-treatment",
+      "arm": "treatment",
+      "replication": 1,
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "taskEdited": true,
+      "assistantTurns": 17,
+      "finalStopReason": "stop",
+      "outputTokens": 119575,
+      "inputTokens": 223464,
+      "firstTurnInputTokens": 2876,
+      "sessionLogSha256": [
+        "201f0345275fe1af7b2a9178c43eaa74dbb786c9c1344cfa0c5895bfdb9d70ab"
+      ],
+      "startedAt": "2026-09-16T20:45:13Z",
+      "endedAt": "2026-09-16T20:50:41Z"
+    },
+    {
+      "id": "run-rep2-treatment",
+      "arm": "treatment",
+      "replication": 2,
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "evaluatorExit": 1,
+      "failedChecks": [
+        "verified-negative-missing-observationDigest",
+        "verified-negative-missing-observedAt",
+        "verified-no-source-missing-observationDigest",
+        "verified-no-source-missing-observedAt",
+        "verified-materializable-missing-observationDigest",
+        "verified-materializable-missing-observedAt"
+      ],
+      "taskEdited": false,
+      "assistantTurns": 6,
+      "finalStopReason": "length",
+      "outputTokens": 73959,
+      "inputTokens": 50560,
+      "firstTurnInputTokens": 2879,
+      "sessionLogSha256": [
+        "fd77cd9700016a538b8db00847ea7fd29c41d5b05f3c21129c82052179b7eda2"
+      ],
+      "startedAt": "2026-09-16T20:50:42Z",
+      "endedAt": "2026-09-16T20:53:54Z"
+    },
+    {
+      "id": "run-rep2-control",
+      "arm": "control",
+      "replication": 2,
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "evaluatorExit": 1,
+      "failedChecks": [
+        "verified-negative-missing-observationDigest",
+        "verified-negative-missing-observedAt",
+        "verified-no-source-missing-observationDigest",
+        "verified-no-source-missing-observedAt",
+        "verified-materializable-missing-observationDigest",
+        "verified-materializable-missing-observedAt"
+      ],
+      "taskEdited": false,
+      "assistantTurns": 3,
+      "finalStopReason": "length",
+      "outputTokens": 65699,
+      "inputTokens": 14553,
+      "firstTurnInputTokens": 1338,
+      "sessionLogSha256": [
+        "5829a3a64ad7eea13dbcfe9a5c42b3268f94ad0ae79e7b30524cb84aa7f0ee3e"
+      ],
+      "startedAt": "2026-09-16T20:53:55Z",
+      "endedAt": "2026-09-16T20:57:17Z"
+    }
+  ],
+  "primaryOutcomeByPair": [
+    {
+      "replication": 1,
+      "order": [
+        "control",
+        "treatment"
+      ],
+      "control": {
+        "exit": 1
+      },
+      "treatment": {
+        "exit": 0
+      }
+    },
+    {
+      "replication": 2,
+      "order": [
+        "treatment",
+        "control"
+      ],
+      "treatment": {
+        "exit": 1
+      },
+      "control": {
+        "exit": 1
+      }
+    }
+  ],
+  "summary": {
+    "controlPassed": "0/2",
+    "treatmentPassed": "1/2"
+  },
+  "centralObservations": [
+    "3 of 4 arms (both controls, rep2 treatment) ended with stopReason=length at ~65.5k output tokens in a single turn, before any edit; the task module is byte-identical to the input in those arms.",
+    "The only arm that finished normally (rep1 treatment, 17 turns) is the only arm that passed all 13 checks.",
+    "The dominant observed failure mode is output-cap termination under antigravity/gemini-3.8-flash at high effort, a harness/model confound independent of the treatment; these runs cannot separate a skill effect from that confound.",
+    "Exposure held as pinned: first-turn input tokens ~1339 control vs ~2878 treatment.",
+    "No retries were run (runner refuses existing run ids)."
+  ],
+  "interpretationLimits": [
+    "one historically exposed case",
+    "n=2 pairs",
+    "confounded by output-cap termination in 3/4 arms",
+    "no general-effect or interaction claim"
+  ],
+  "interpretation": null
+}

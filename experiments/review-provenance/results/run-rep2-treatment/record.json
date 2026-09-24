@@ -1,0 +1,101 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-run/v1",
+  "id": "run-rep2-treatment",
+  "mode": "run",
+  "arm": "treatment",
+  "replication": 2,
+  "startedAt": "2026-09-16T20:50:42Z",
+  "endedAt": "2026-09-16T20:53:54Z",
+  "harness": {
+    "name": "pi",
+    "version": "0.85.1",
+    "extensionsLoaded": [
+      "pi-antigravity"
+    ],
+    "tools": [
+      "read",
+      "edit",
+      "write"
+    ],
+    "skillsDiscovery": false,
+    "contextFiles": false
+  },
+  "model": {
+    "requested": "antigravity/gemini-3.8-flash:high",
+    "observedInSession": "antigravity/gemini-3.8-flash"
+  },
+  "treatmentDelivery": {
+    "method": "append-system-prompt",
+    "sha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438",
+    "bytes": 6203
+  },
+  "sessionFiles": [
+    "session/2026-09-16T20-50-42-453Z_01a0abfc-6e94-71d6-a677-8be03dcefb41.jsonl"
+  ],
+  "assistantUsage": [
+    {
+      "input": 2879,
+      "output": 297,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 3176
+    },
+    {
+      "input": 4891,
+      "output": 42,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 4933
+    },
+    {
+      "input": 6740,
+      "output": 49,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 6789
+    },
+    {
+      "input": 8459,
+      "output": 56,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 8515
+    },
+    {
+      "input": 8587,
+      "output": 7983,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 16570
+    },
+    {
+      "input": 19004,
+      "output": 65532,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 84536
+    }
+  ],
+  "piExit": 0,
+  "taskRootFiles": [
+    "./installability.ts"
+  ],
+  "artifacts": {
+    "taskInSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "resultSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "promptSha256": "dbe504b9d556a822955ab4e65a53304428e2dd6c231551f9f17f561b7f872071",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+  },
+  "evaluation": {
+    "exit": 1,
+    "failedChecks": [
+      "verified-negative-missing-observationDigest",
+      "verified-negative-missing-observedAt",
+      "verified-no-source-missing-observationDigest",
+      "verified-no-source-missing-observedAt",
+      "verified-materializable-missing-observationDigest",
+      "verified-materializable-missing-observedAt"
+    ]
+  }
+}
