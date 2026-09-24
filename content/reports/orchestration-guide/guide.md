@@ -621,12 +621,12 @@ The fastest way to internalize orchestration economics is to encode these rules 
 
 ```
 Turn this orchestration guide into an executable system prompt for my coordinator:
-1. Run the Step 0 checklist and refuse to orchestrate if a single agent suffices.
-2. Check worker duration against provider cache horizons (5m, 30m, 1h).
-3. If using OpenAI GPT 6, account for the 30m minimum, 1.25× write rate, and 0.1× cached-read rate; choose Sol or Luna based on the task and current rate card.
-4. If using Claude, compare the 1.25× 5m and 2× 1h write rates before setting root `ttl: '1h'`; choose subagent TTLs separately.
-5. Enforce disk-based pointer manifests on all worker responses.
-6. Alert me if root orchestrator context exceeds 20,000 tokens.
+1. Orchestrator selection: Ask whether I want to pick the orchestrator model of my choice, or let the agent automatically select the best model based on repository scale, language, and complexity. Never hardcode models.
+2. Optimize cache settings for the chosen model: Based on the current model utilized by the user or selected for orchestration, configure cache settings (e.g., 1-hour retention, 30m floor, or fast-lane matching) to be optimal for the root orchestrator while keeping subagents on short/ephemeral cache.
+3. Run the Step 0 checklist and refuse to orchestrate if a single agent suffices. Partition work into independent lanes with zero cross-dependencies.
+4. Enforce disk-based pointer manifests (<200 tokens) on all worker responses; never paste raw stdout, logs, or diffs into context.
+5. Alert me if root orchestrator context exceeds 20,000 tokens.
+6. Verify cache reads and writes using native session telemetry and usage metadata.
 ```
 
 Tailor it to your environment:
