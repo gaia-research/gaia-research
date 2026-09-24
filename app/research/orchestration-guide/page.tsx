@@ -162,14 +162,6 @@ function loadGuide() {
 
 export default function OrchestrationGuidePage() {
   const body = loadGuide();
-  const matrixHeadings = /^##\s+(.+?)\s*$/gm;
-  const matrixMatch = Array.from(body.matchAll(matrixHeadings)).find(([, heading]) =>
-    slugifyHeading(heading.replace(/[–—]/g, "-")) === "the-provider-cache-horizon-matrix",
-  );
-  // Keep the copy controls near the top if the matrix heading is renamed or removed.
-  const matrixStart = matrixMatch?.index ?? 0;
-  const opening = body.slice(0, matrixStart).trim();
-  const remainder = body.slice(matrixStart).trim();
   const markdownComponents: Components = {
     h2: ({ children, node: _node, ...props }) => {
       const headingText = Array.isArray(children)
@@ -218,33 +210,30 @@ export default function OrchestrationGuidePage() {
           </div>
         </header>
 
-        <GuideQuickNav />
-        <article className="report-body">
-          <Markdown
-            remarkPlugins={[remarkGfm, remarkMath]}
-            rehypePlugins={[rehypeKatex]}
-            components={markdownComponents}
-          >
-            {opening}
-          </Markdown>
-
+        <section className="guide-launchpad" aria-label="Starting prompt and source copy">
           <CopyPage
             markdown={guideMd}
             claudePrompt={DEFAULT_CLAUDE_PROMPT}
             piPrompt={DEFAULT_PI_PROMPT}
             hint="Ready to adapt the guide? Preview a Claude Code or Pi prompt, then copy it—or copy the full Markdown source."
           />
+        </section>
 
-          {remainder ? (
+        <div className="guide-layout">
+          <article className="report-body">
             <Markdown
               remarkPlugins={[remarkGfm, remarkMath]}
               rehypePlugins={[rehypeKatex]}
               components={markdownComponents}
             >
-              {remainder}
+              {body}
             </Markdown>
-          ) : null}
-        </article>
+          </article>
+
+          <aside className="guide-sidebar" aria-label="Table of contents">
+            <GuideQuickNav />
+          </aside>
+        </div>
 
         <footer className="report-foot">
           <p>

@@ -66,10 +66,11 @@ export default function GuideQuickNav() {
 
   const isActive = (href: string) => {
     const target = href.slice(1);
+    if (currentSection?.id === target) return true;
     if (target === "step-0-first-decide-not-to-orchestrate") {
-      return currentSection ? /^step-[0-6]-/.test(currentSection.id) : false;
+      return currentSection ? /^step-[0-4]-/.test(currentSection.id) : false;
     }
-    return currentSection?.id === target;
+    return false;
   };
 
   const closeMore = () => {
@@ -77,43 +78,94 @@ export default function GuideQuickNav() {
   };
 
   return (
-    <nav className="guide-quick-nav" aria-label="Jump to a guide section">
-      <span className="guide-quick-nav-label">Jump to</span>
-      {quickLinks.map((link) => (
-        <a
-          key={link.href}
-          href={link.href}
-          aria-current={isActive(link.href) ? "location" : undefined}
-          onClick={closeMore}
-        >
-          {link.label}
-        </a>
-      ))}
-      <details ref={moreRef} className="guide-quick-nav-more">
-        <summary>More sections</summary>
-        <div className="guide-quick-nav-more-links">
-          {moreGroups.map((group) => (
-            <div key={group.label} className="guide-quick-nav-group" role="group" aria-label={group.label}>
-              <span className="guide-quick-nav-group-label">{group.label}</span>
-              {group.links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  aria-current={isActive(link.href) ? "location" : undefined}
-                  onClick={closeMore}
-                >
-                  {link.label}
-                </a>
+    <nav className="guide-quick-nav" aria-label="Table of contents">
+      {/* Mobile view (< 1024px) */}
+      <div className="guide-quick-nav-mobile">
+        <span className="guide-quick-nav-label">Jump to</span>
+        {quickLinks.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            aria-current={isActive(link.href) ? "location" : undefined}
+            onClick={closeMore}
+          >
+            {link.label}
+          </a>
+        ))}
+        <details ref={moreRef} className="guide-quick-nav-more">
+          <summary>More sections</summary>
+          <div className="guide-quick-nav-more-links">
+            {moreGroups.map((group) => (
+              <div key={group.label} className="guide-quick-nav-group" role="group" aria-label={group.label}>
+                <span className="guide-quick-nav-group-label">{group.label}</span>
+                {group.links.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    aria-current={isActive(link.href) ? "location" : undefined}
+                    onClick={closeMore}
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            ))}
+          </div>
+        </details>
+        {currentSection ? (
+          <span className="guide-quick-nav-current" title={currentSection.title}>
+            <span className="sr-only">Current section: </span>{currentSection.title}
+          </span>
+        ) : null}
+      </div>
+
+      {/* Desktop view (>= 1024px) */}
+      <div className="guide-quick-nav-desktop">
+        <div className="guide-quick-nav-desktop-head">
+          <span className="guide-quick-nav-desktop-title">On this page</span>
+        </div>
+        <div className="guide-quick-nav-desktop-body">
+          <div className="guide-desktop-group">
+            <span className="guide-desktop-group-title">Overview</span>
+            <ul className="guide-desktop-list">
+              {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    aria-current={isActive(link.href) ? "location" : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
               ))}
+            </ul>
+          </div>
+
+          {moreGroups.map((group) => (
+            <div key={group.label} className="guide-desktop-group">
+              <span className="guide-desktop-group-title">{group.label}</span>
+              <ul className="guide-desktop-list">
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      aria-current={isActive(link.href) ? "location" : undefined}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
-      </details>
-      {currentSection ? (
-        <span className="guide-quick-nav-current" title={currentSection.title}>
-          <span className="sr-only">Current section: </span>{currentSection.title}
-        </span>
-      ) : null}
+        {currentSection ? (
+          <div className="guide-desktop-current">
+            <span className="guide-desktop-current-dot" aria-hidden="true" />
+            <span className="guide-desktop-current-text">{currentSection.title}</span>
+          </div>
+        ) : null}
+      </div>
     </nav>
   );
 }
