@@ -1,3 +1,10 @@
+> [!IMPORTANT]
+> **Superseded 2026-09-27.** Production Milim is now Rive-first and tracked in
+> [gaia-research/milim#16](https://github.com/gaia-research/milim/issues/16).
+> This document is retained as historical design evidence. Do not use its custom
+> renderer, zero-third-party-runtime, Milim Studio, or phase plan as current
+> implementation requirements.
+
 # Public Milim Player and Private Production Pipeline
 
 - **Status:** Ratified; repository boundary amended 2026-07-18
