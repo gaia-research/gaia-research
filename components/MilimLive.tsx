@@ -1,41 +1,31 @@
 "use client";
 
 /*
- * MilimLive — thin React/Next client wrapper around the framework-agnostic
- * milim-live2d-model runtime (vendored in lib/milim-live2d, MIT; adapted from
- * Stretchy Studio). This component owns only the *hero concerns* — it never
- * reimplements runtime logic:
- *   - reduced-motion: if the user prefers reduced motion, render the static
- *     sprite and never start the WebGL loop.
- *   - progressive enhancement: the <Image> fallback is the no-JS / no-WebGL /
- *     load-failure surface; the canvas is layered over it only once live.
- *   - perf budget: pause when scrolled offscreen (IntersectionObserver) or the
- *     tab is hidden (visibilitychange).
- *   - lazy: the runtime + scene bundle are dynamically imported after first
- *     paint, so they never block the hero's initial render.
+ * MilimLive — the hero Milim. Milim is a Rive character; this component owns
+ * only the page concerns around her and never animates her itself:
+ *   - progressive enhancement: the poster <Image> (a frame rendered from the
+ *     same rig) is the no-JS / reduced-motion / load-failure surface; the
+ *     canvas fades in over it only once Rive has drawn a frame.
+ *   - reduced motion: the runtime is never loaded; the poster stands in.
+ *   - lifecycle: paused when offscreen, when the tab is hidden, and while the
+ *     corner pet is the active Milim (HeroMilimBridge sets data-dormant).
+ *   - behaviour: pointer-follow gaze, a greeting with the hello bubble, small
+ *     reactions to her own tooltips, and a poke button for keyboard + touch.
  */
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { pickTooltip, tooltipToHtml, TOOLTIPS, type Tooltip } from "@/components/MilimPet/tooltips";
 import { onMilim, MILIM_EVENTS } from "@/lib/milim-bridge";
-
-type MilimStage = {
-  play: () => void;
-  pause: () => void;
-  destroy: () => void;
-  resize: () => void;
-  setPointer: (nx: number, ny: number) => void;
-};
+import { MILIM_RIVE } from "@/lib/milim-rive/asset";
+import type { MilimCharacter } from "@/lib/milim-rive/character";
 
 export interface MilimLiveProps {
-  /** Static sprite shown as the fallback / reduced-motion / pre-hydration surface. */
-  fallbackSrc: string;
   fallbackAlt: string;
-  /** URL of the scene bundle (scene JSON; textures resolved relative to it). */
-  sceneUrl?: string;
-  width: number;
-  height: number;
+  /** Static frame; defaults to the poster rendered from the Rive rig. */
+  fallbackSrc?: string;
+  width?: number;
+  height?: number;
   sizes?: string;
   caption?: string;
   /**
@@ -46,133 +36,117 @@ export interface MilimLiveProps {
   enableTooltips?: boolean;
 }
 
+/** Pick a small reaction that fits what she is saying. */
+function reactionFor(t: Tooltip, first: boolean): { gesture?: "greet" | "point"; expression?: "joyful" | "thinking" } {
+  if (first) return { gesture: "greet", expression: "joyful" };
+  if (t.link) return { gesture: "point" };
+  if (t.text.includes("?")) return { expression: "thinking" };
+  if (t.text.includes("!")) return { expression: "joyful" };
+  return {};
+}
+
 export default function MilimLive({
-  fallbackSrc,
   fallbackAlt,
-  sceneUrl = "/live2d/milim/v1/milim.scene.json",
-  width,
-  height,
+  fallbackSrc = MILIM_RIVE.poster.src,
+  width = MILIM_RIVE.poster.width,
+  height = MILIM_RIVE.poster.height,
   sizes,
-  caption = "2.5D IDLE / STATIC FALLBACK READY",
+  caption = "MILIM · CHIEF CAPABILITY SCOUT",
   enableTooltips = false,
 }: MilimLiveProps) {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const stageRef = useRef<MilimStage | null>(null);
-  // "live" flips true only once the WebGL stage has actually mounted a frame,
-  // so the fallback <Image> stays visible until we know rendering succeeded.
+  const charRef = useRef<MilimCharacter | null>(null);
   const [live, setLive] = useState(false);
 
-  // ── Hero tooltip layer (home page only) ──────────────────────────────────
-  // heroActive tracks whether *this* Milim is the one on stage. Starts false;
-  // <HeroMilimBridge> flips it via heroVisible / heroHidden once it measures
-  // the initial intersection state.
   const [heroActive, setHeroActive] = useState(false);
   const bubbleRef = useRef<HTMLDivElement | null>(null);
   const bubbleTextRef = useRef<HTMLParagraphElement | null>(null);
   const tipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const moodTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastTipRef = useRef<Tooltip | null>(null);
 
+  // ── Boot the Rive character ───────────────────────────────────────────────
   useEffect(() => {
-    // Respect reduced-motion: never boot the loop; the static sprite stands in.
     const rm = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (rm.matches) return;
 
     let cancelled = false;
-    let io: IntersectionObserver | null = null;
-    let onVisibility: (() => void) | null = null;
-    let onResize: (() => void) | null = null;
-    let onPointer: ((e: PointerEvent) => void) | null = null;
-    let visible = true;
-    let hidden = false;
+    let visible = false;
+    let hidden = document.hidden;
+    let dormant = false;
+    const cleanups: Array<() => void> = [];
 
     const sync = () => {
-      const stage = stageRef.current;
-      if (!stage) return;
-      if (visible && !hidden) stage.play();
-      else stage.pause();
+      const run = visible && !hidden && !dormant;
+      charRef.current?.setRunning(run);
+      if (wrapRef.current) wrapRef.current.dataset.running = String(run && !!charRef.current);
     };
 
     (async () => {
       try {
         const canvas = canvasRef.current;
-        if (!canvas) return;
-        // Dynamic import after first paint — keeps the runtime out of the
-        // initial hero bundle. (First use of this pattern in-repo.)
-        const [{ createMilimStage }, { loadSceneBundle }] = await Promise.all([
-          import("@/lib/milim-live2d/stage.js"),
-          import("@/lib/milim-live2d/loader.js"),
-        ]);
-        const { scene, textures } = await loadSceneBundle(sceneUrl);
-        if (cancelled) return;
-
-        const stage = createMilimStage(canvas, {
-          scene,
-          textures,
-          autoplay: false,
-        }) as MilimStage;
-        stageRef.current = stage;
-        stage.resize();
+        const wrap = wrapRef.current;
+        if (!canvas || !wrap) return;
+        const { createMilimCharacter } = await import("@/lib/milim-rive/character");
+        const character = await createMilimCharacter(canvas, { autonomy: true });
+        if (cancelled) return character.destroy();
+        charRef.current = character;
         setLive(true);
 
-        // Pause when offscreen.
-        io = new IntersectionObserver(
-          (entries) => {
-            visible = entries.some((e) => e.isIntersecting);
-            sync();
-          },
-          { threshold: 0.05 },
-        );
-        if (wrapRef.current) io.observe(wrapRef.current);
-
-        // Pause when the tab is hidden.
-        onVisibility = () => {
-          hidden = document.hidden;
+        const io = new IntersectionObserver((entries) => {
+          visible = entries.some((e) => e.isIntersecting);
           sync();
-        };
+        }, { threshold: 0.02 });
+        io.observe(wrap);
+        cleanups.push(() => io.disconnect());
+
+        const onVisibility = () => { hidden = document.hidden; sync(); };
         document.addEventListener("visibilitychange", onVisibility);
+        cleanups.push(() => document.removeEventListener("visibilitychange", onVisibility));
 
-        onResize = () => stage.resize();
-        window.addEventListener("resize", onResize);
+        const mo = new MutationObserver(() => { dormant = wrap.dataset.dormant === "true"; sync(); });
+        mo.observe(wrap, { attributes: true, attributeFilter: ["data-dormant"] });
+        cleanups.push(() => mo.disconnect());
 
-        // Look-at follows the pointer over the hero.
-        onPointer = (e: PointerEvent) => {
-          const el = canvasRef.current;
-          if (!el) return;
-          const r = el.getBoundingClientRect();
-          const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
-          const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
-          stage.setPointer(
-            Math.max(-1, Math.min(1, nx)),
-            Math.max(-1, Math.min(1, ny)),
-          );
+        const ro = new ResizeObserver(() => character.resize());
+        ro.observe(canvas);
+        cleanups.push(() => ro.disconnect());
+
+        const onRm = () => {
+          if (!rm.matches) return;
+          character.setRunning(false);
+          setLive(false);
+        };
+        rm.addEventListener("change", onRm);
+        cleanups.push(() => rm.removeEventListener("change", onRm));
+
+        // Gaze follows the pointer, normalised around her face.
+        const onPointer = (e: PointerEvent) => {
+          const r = canvas.getBoundingClientRect();
+          const fx = r.left + r.width / 2;
+          const fy = r.top + r.height * 0.24;
+          const reach = Math.max(260, Math.min(window.innerWidth, window.innerHeight) * 0.55);
+          character.look({ x: (e.clientX - fx) / reach, y: (e.clientY - fy) / reach });
         };
         window.addEventListener("pointermove", onPointer, { passive: true });
+        cleanups.push(() => window.removeEventListener("pointermove", onPointer));
 
         sync();
       } catch (err) {
-        // Any failure (no WebGL2, missing bundle, decode error) → keep the
-        // static sprite. The hero is fully functional without the live stage.
-        if (process.env.NODE_ENV !== "production") {
-          console.warn("[MilimLive] falling back to static sprite:", err);
-        }
+        if (process.env.NODE_ENV !== "production") console.warn("[MilimLive] static fallback:", err);
         setLive(false);
       }
     })();
 
     return () => {
       cancelled = true;
-      if (io) io.disconnect();
-      if (onVisibility) document.removeEventListener("visibilitychange", onVisibility);
-      if (onResize) window.removeEventListener("resize", onResize);
-      if (onPointer) window.removeEventListener("pointermove", onPointer);
-      if (stageRef.current) {
-        stageRef.current.destroy();
-        stageRef.current = null;
-      }
+      cleanups.forEach((fn) => fn());
+      charRef.current?.destroy();
+      charRef.current = null;
     };
-  }, [sceneUrl]);
+  }, []);
 
   // ── Bridge subscription: who is the active Milim? ────────────────────────
   useEffect(() => {
@@ -193,12 +167,13 @@ export default function MilimLive({
     const CYCLE_MIN = 8_000;
     const CYCLE_MAX = 15_000;
     const TIP_HOLD = 6_500;
+    let first = true;
 
     const clearTimers = () => {
-      if (tipTimerRef.current) clearTimeout(tipTimerRef.current);
-      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-      tipTimerRef.current = null;
-      hideTimerRef.current = null;
+      for (const ref of [tipTimerRef, hideTimerRef, moodTimerRef]) {
+        if (ref.current) clearTimeout(ref.current);
+        ref.current = null;
+      }
     };
 
     const hide = () => {
@@ -206,11 +181,23 @@ export default function MilimLive({
       if (b) b.hidden = true;
     };
 
+    const react = (t: Tooltip) => {
+      const c = charRef.current;
+      if (!c) return;
+      const { gesture, expression } = reactionFor(t, first);
+      first = false;
+      if (gesture) c.perform(gesture);
+      if (expression) {
+        c.expression(expression);
+        if (moodTimerRef.current) clearTimeout(moodTimerRef.current);
+        moodTimerRef.current = setTimeout(() => charRef.current?.expression("neutral"), 3_200);
+      }
+    };
+
     const show = (t: Tooltip) => {
       const b = bubbleRef.current;
       const p = bubbleTextRef.current;
       if (!b || !p || document.hidden) return;
-      // Re-trigger the pop-in animation each time.
       p.innerHTML = tooltipToHtml(t);
       b.hidden = false;
       b.style.animation = "none";
@@ -218,6 +205,7 @@ export default function MilimLive({
       b.offsetHeight; // force reflow so the animation replays
       b.style.animation = "";
       lastTipRef.current = t;
+      react(t);
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
       hideTimerRef.current = setTimeout(hide, TIP_HOLD);
     };
@@ -236,7 +224,6 @@ export default function MilimLive({
       return;
     }
 
-    // Activate: greet after a beat, then cycle.
     tipTimerRef.current = setTimeout(() => {
       show(pickTooltip(TOOLTIPS.home, lastTipRef.current));
       scheduleCycle();
@@ -245,19 +232,29 @@ export default function MilimLive({
     return () => clearTimers();
   }, [enableTooltips, heroActive]);
 
+  // ── Poke: keyboard- and touch-friendly way to get a reaction ─────────────
+  const pokes = useRef(0);
+  const poke = () => {
+    const c = charRef.current;
+    if (!c) return;
+    const n = pokes.current++;
+    c.expression("surprised");
+    if (moodTimerRef.current) clearTimeout(moodTimerRef.current);
+    moodTimerRef.current = setTimeout(() => {
+      const cc = charRef.current;
+      if (!cc) return;
+      cc.expression("joyful");
+      cc.perform(n % 2 === 0 ? "celebrate" : "greet");
+      moodTimerRef.current = setTimeout(() => charRef.current?.expression("neutral"), 2_600);
+    }, 420);
+  };
+
   return (
-    <div
-      className="live-stage"
-      ref={wrapRef}
-      data-transition-src={fallbackSrc}
-      aria-label="Milim is represented by a decorative, code-driven 2.5D idle character."
-    >
+    <div className="live-stage" ref={wrapRef} data-transition-src={fallbackSrc} data-live={live ? "shown" : "hidden"}>
       <div className="orbit orbit-one" />
       <div className="orbit orbit-two" />
       <div className="spark-field" aria-hidden="true">✦ · ✦ · ✦</div>
       <div className="sprite-reflection" aria-hidden="true" />
-      {/* Static sprite: the fallback surface. Stays visible until the live
-          canvas confirms a successful mount, then fades out via [data-live]. */}
       <Image
         className="milim-sprite"
         src={fallbackSrc}
@@ -268,16 +265,12 @@ export default function MilimLive({
         sizes={sizes}
         data-live={live ? "hidden" : "shown"}
       />
-      {/* Live canvas: decorative (the descriptive caption + fallback carry a11y). */}
       <canvas ref={canvasRef} className="milim-live-canvas" aria-hidden="true" data-live={live ? "shown" : "hidden"} />
+      {live && (
+        <button type="button" className="milim-poke" onClick={poke} aria-label="Say hi to Milim" />
+      )}
       {enableTooltips && (
-        <div
-          className="milim-hero-bubble"
-          role="status"
-          aria-live="polite"
-          ref={bubbleRef}
-          hidden
-        >
+        <div className="milim-hero-bubble" role="status" aria-live="polite" ref={bubbleRef} hidden>
           <p ref={bubbleTextRef} />
           <span className="milim-hero-bubble-tail" aria-hidden="true" />
         </div>
