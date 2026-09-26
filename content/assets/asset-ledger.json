@@ -2705,6 +2705,25 @@
       "derivatives": []
     },
     {
+      "id": "reflex-agents-classifiers-editorial-thumbnail",
+      "path": "assets/generated/reflex-agents-classifiers-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "approved",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Generated via image-gen-2.5 (Codex CLI) · Milim editorial thumbnail",
+      "alt": "A vast, quiet horology archive with soaring arched windows and clockwork gears, with a microscopic chibi Milim seated on a drafting stool examining a brass gear",
+      "sha256": "d0ede22097e0fa29e59055b3a80121289161bf48f412a8e52036a4608c3f9fcb",
+      "bytes": 392072,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": [
+        "public/assets/reflex-agents-classifiers-editorial-thumbnail.webp"
+      ]
+    },
+    {
       "id": "research-og",
       "path": "assets/generated/research-og.png",
       "kind": "og-image",

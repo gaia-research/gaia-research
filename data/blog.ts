@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import reflexAgentsClassifiersThumbnailSrc from "@/assets/generated/reflex-agents-classifiers-editorial-thumbnail.webp";
 import orchestratorTaxColdCacheThumbnailSrc from "@/assets/generated/orchestrator-tax-cold-cache-editorial-thumbnail.webp";
 import contextCompactionPhase2ThumbnailSrc from "@/assets/generated/context-compaction-phase-2-editorial-thumbnail.webp";
 import contextCompactionCurveThumbnailSrc from "@/assets/generated/context-compaction-curve-editorial-thumbnail.webp";
@@ -31,6 +32,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const reflexAgentsClassifiersThumbnail = {
+  src: reflexAgentsClassifiersThumbnailSrc,
+  alt: "A vast, quiet horology archive with soaring arched windows and clockwork gears, with a microscopic chibi Milim seated on a drafting stool examining a brass gear",
+} as const;
 
 export const orchestratorTaxColdCacheThumbnail = {
   src: orchestratorTaxColdCacheThumbnailSrc,
@@ -120,6 +126,24 @@ export const arborEvidenceLoopEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/reflex-agents-and-classifiers",
+    category: "Architecture",
+    tags: [
+      "Jev",
+      "TypeSafe AI",
+      "Simple Reflex Agents",
+      "Classifiers",
+      "System One",
+    ],
+    date: "September 26, 2026",
+    readTime: "7 min read",
+    title: "The Return of the Simple Reflex Agent: Why Jev Is a Classifier, and Why That Matters",
+    description:
+      "Jev makes fast typed decisions instead of generating prose. Its useful return to reflex agents and probabilistic classification puts frontier LLM calls and local classifiers on the same audit list.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: reflexAgentsClassifiersThumbnail,
+  },
   {
     href: "/blog/orchestrator-tax-cold-cache",
     category: "Token Economics",
