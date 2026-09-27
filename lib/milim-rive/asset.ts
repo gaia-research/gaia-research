@@ -5,5 +5,5 @@ export const MILIM_RIVE = {
   poster: { src: "/milim/milim-8870ddc9a1.webp", width: 800, height: 1600 },
   wasm: "/rive/rive-webgl2-2.43.1.wasm",
   runtime: "@rive-app/webgl2@2.43.1",
-  source: { repo: "gaia-research/milim", path: "rive/milim", commit: "31f5dbd" },
+  source: { repo: "gaia-research/milim", path: "rive/milim", commit: "a52b55b" },
 } as const;
