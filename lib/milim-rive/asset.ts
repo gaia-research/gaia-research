@@ -2,8 +2,8 @@
 export const MILIM_RIVE = {
   src: "/milim/milim-ec21672bf2.riv",
   riv: { sha256: "ec21672bf2908c01ea116df18bc6775b62ebad6e49ee2680a2d99a6e5c2e1b6b", bytes: 417541 },
-  poster: { src: "/milim/milim-c87b3d1896.webp", width: 1200, height: 2400 },
+  poster: { src: "/milim/milim-aeff305207.webp", width: 800, height: 1600 },
   wasm: "/rive/rive-webgl2-2.43.1.wasm",
   runtime: "@rive-app/webgl2@2.43.1",
-  source: { repo: "gaia-research/milim", path: "rive/milim", commit: "c788c19" },
+  source: { repo: "gaia-research/milim", path: "rive/milim", commit: "b735d80" },
 } as const;

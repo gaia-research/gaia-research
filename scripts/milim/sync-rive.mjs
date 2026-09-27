@@ -29,7 +29,9 @@ const rivBuf = readFileSync(riv);
 const rivName = `milim-${sha(rivBuf).slice(0, 10)}.riv`;
 writeFileSync(join(outDir, rivName), rivBuf);
 
-const posterBuf = await sharp(poster).webp({ quality: 88, alphaQuality: 100, effort: 6 }).toBuffer();
+// The stage tops out around 680 CSS px tall; 1600 px covers 2x displays.
+const posterBuf = await sharp(poster).resize({ height: 1600, withoutEnlargement: true })
+  .webp({ quality: 82, alphaQuality: 95, effort: 6 }).toBuffer();
 const posterName = `milim-${sha(posterBuf).slice(0, 10)}.webp`;
 writeFileSync(join(outDir, posterName), posterBuf);
 const meta = await sharp(posterBuf).metadata();
