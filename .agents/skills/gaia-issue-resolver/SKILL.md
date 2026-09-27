@@ -82,7 +82,7 @@ probes that match the domain:
 | Docs / Class S drift | `python scripts/build_docs.py --check` (must exit 0) |
 | CLI behaviour | run the actual command; read `src/gaia_cli/commands/` |
 | Versioning | `python scripts/verify_lockstep.py` |
-| Site rendering | `/design-gate`, or `node scripts/visual-audit.mjs` in `gaia-research` |
+| Site rendering | `/design-gate`, or `PAGES=/your/route node scripts/visual-audit.mjs` in `gaia-research` |
 | Nomenclature | `npx tsx scripts/lexicon/check-lexicon.ts` (in `gaia-research`) |
 
 Capture the baseline output. It is what proves the fix later, and a number you did not

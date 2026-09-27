@@ -32,11 +32,13 @@ on:
 
 jobs:
   validate:
-    name: Build & Edge Compatibility Check
+    name: Build, Edge & Browser Check
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
@@ -60,3 +62,63 @@ jobs:
 
       - name: Run Next.js build
         run: npm run build:next
+
+      - name: Install Chromium for Playwright
+        run: npx --yes playwright@1.63.0 install --with-deps chromium
+
+      - name: Resolve pinned Playwright module
+        id: playwright
+        run: |
+          pw_path=$(find "$HOME/.npm/_npx" -path '*/node_modules/playwright/package.json' -exec grep -l '"version": "1.63.0"' {} + | head -n 1 | sed 's#/package.json#/index.mjs#')
+          test -n "$pw_path" && test -f "$pw_path"
+          echo "path=$pw_path" >> "$GITHUB_OUTPUT"
+
+      - name: Start built Next.js server
+        run: |
+          npm run start -- --hostname 127.0.0.1 -p 3000 > /tmp/website-ci-next.log 2>&1 &
+          for attempt in {1..60}; do
+            if curl --fail --silent http://127.0.0.1:3000/ >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/website-ci-next.log
+          echo "Next.js server did not become ready" >&2
+          exit 1
+
+      - name: Select smoke and changed blog routes
+        id: blog-routes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          changed_routes=$(git diff --name-only "$BASE_SHA" "$GITHUB_SHA" | node scripts/changed-blog-routes.mjs)
+          pages=/blog,/blog/reflex-agents-and-classifiers
+          if [ -n "$changed_routes" ]; then
+            IFS=',' read -ra routes <<< "$changed_routes"
+            for route in "${routes[@]}"; do
+              case ",$pages," in
+                *",$route,"*) ;;
+                *) pages="$pages,$route" ;;
+              esac
+            done
+          fi
+          echo "pages=$pages" >> "$GITHUB_OUTPUT"
+          echo "Browser audit routes: $pages"
+
+      - name: Audit rendered pages in Chromium
+        env:
+          BASE_URL: http://127.0.0.1:3000
+          PAGES: ${{ steps.blog-routes.outputs.pages }}
+          WIDTHS: 390,1280
+          LABEL: ci
+          PW_PATH: ${{ steps.playwright.outputs.path }}
+        run: node scripts/visual-audit.mjs
+
+      - name: Upload browser-audit evidence on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-visual-audit
+          path: scripts/.visual-audit/ci/
+          if-no-files-found: warn
+          retention-days: 14

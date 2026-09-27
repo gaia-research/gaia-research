@@ -20,8 +20,8 @@ every page × viewport width:
 3. When cut off, names the widest offending element (tag + class + geometry),
    **skipping** elements inside intentional scroll containers
    (`overflow-x:auto`, e.g. `.table-wrap`, `.copy-command-text`).
-4. Collects console + page errors (the Milim rig `*.scene.json` 404 is an
-   expected sprite-fallback and is ignored).
+4. Collects console + page errors (only the known Milim rig `*.scene.json` 404
+   and YouTube's denied `compute-pressure` feature probe are ignored).
 5. Writes `report.json` and exits non-zero if any check has an issue — so it
    works as a gate.
 
@@ -33,13 +33,13 @@ set `PW_PATH` if resolution fails.
 
 ```bash
 # 1. Ensure Playwright + Chromium are available (once per machine):
-npx playwright install chromium
+npx --yes playwright@1.63.0 install chromium
 
 # 2. Start the dev server in the background on a known port:
 npx next dev -p 3010   # (leave running in another shell / background)
 
 # 3. Run the audit against it:
-BASE_URL=http://localhost:3010 LABEL=before node scripts/visual-audit.mjs
+BASE_URL=http://localhost:3010 PAGES=/,/blog LABEL=before node scripts/visual-audit.mjs
 ```
 
 Make a change, then re-run with `LABEL=after` and compare the two screenshot
@@ -50,7 +50,7 @@ folders and `report.json` files.
 | Var        | Default                                            | Purpose |
 |------------|----------------------------------------------------|---------|
 | `BASE_URL` | `http://localhost:3000`                            | Dev server origin |
-| `PAGES`    | `/,/research/ci-churn,/labs/context-diet,/labs`    | Comma-separated paths |
+| `PAGES`    | required                                            | Comma-separated absolute paths; refuses to run without an explicit target |
 | `WIDTHS`   | `320,360,390,414,768,1280`                         | Comma-separated viewport widths |
 | `LABEL`    | `run`                                              | Output subfolder name |
 | `PW_PATH`  | auto                                               | Absolute path to `playwright/index.js` if auto-resolve fails |
