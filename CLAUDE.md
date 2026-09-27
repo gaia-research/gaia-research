@@ -88,12 +88,12 @@ npx tsx scripts/validate-submissions.ts content/templates/benchmark-submission.j
 Run the `visual-audit` skill (`.agents/skills/visual-audit/SKILL.md`) whenever you touch layout, CSS, or responsive code. It screenshots every key page across phone→desktop widths and **detects horizontal cut-off** (content pushed off-screen), naming the offending element — the failure mode plain screenshots hide.
 
 ```bash
-npx playwright install chromium          # once per machine
+npx --yes playwright@1.63.0 install chromium  # once per machine
 npx next dev -p 3010 &                    # dev server in background
-BASE_URL=http://localhost:3010 LABEL=after node scripts/visual-audit.mjs
+BASE_URL=http://localhost:3010 PAGES=/,/blog LABEL=after node scripts/visual-audit.mjs
 ```
 
-Playwright is deliberately not a dependency (keeps the Cloudflare bundle lean); the script auto-resolves it from the npx cache. Output goes to the gitignored `scripts/.visual-audit/`. Exits non-zero on any cut-off or console error, so it doubles as a gate.
+Playwright is deliberately not a dependency (keeps the Cloudflare bundle lean); the script auto-resolves it from the npx cache. `PAGES` is required so a successful run cannot silently audit unrelated routes. Output goes to the gitignored `scripts/.visual-audit/`. Exits non-zero on HTTP errors, browser/console errors, or any cut-off, so it doubles as a gate.
 
 ## Ecosystem Context (why this matters for edits)
 

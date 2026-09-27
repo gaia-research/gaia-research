@@ -4,12 +4,12 @@
 // horizontal cut-off (document scrollWidth > viewport) and its true culprit,
 // and collects console/page errors. Writes screenshots + report.json.
 //
-// Usage (a Next dev server must already be running):
-//   BASE_URL=http://localhost:3010 node scripts/visual-audit.mjs
+// Usage (a Next server must already be running; PAGES is intentionally required):
+//   BASE_URL=http://localhost:3010 PAGES=/blog,/blog/my-post node scripts/visual-audit.mjs
 //
 // Options via env:
 //   BASE_URL   dev server origin (default http://localhost:3000)
-//   PAGES      comma-separated paths (default: home, ci-churn, context-diet, labs)
+//   PAGES      comma-separated paths to audit (required; prevents auditing the wrong pages)
 //   WIDTHS     comma-separated viewport widths (default 320,360,390,414,768,1280)
 //   LABEL      output subfolder name under scripts/.visual-audit/ (default "run")
 //   PW_PATH    absolute path to a playwright module (auto-resolved if omitted)
@@ -54,7 +54,13 @@ async function resolveChromium() {
 }
 
 const BASE = process.env.BASE_URL || "http://localhost:3000";
-const PAGES = (process.env.PAGES || "/,/research/ci-churn,/labs/context-diet,/labs").split(",");
+if (!process.env.PAGES?.trim()) {
+  throw new Error("PAGES is required. Set it to the exact comma-separated routes you intend to audit.");
+}
+const PAGES = process.env.PAGES.split(",").map((path) => path.trim()).filter(Boolean);
+if (!PAGES.length || PAGES.some((path) => !path.startsWith("/"))) {
+  throw new Error("PAGES must contain comma-separated absolute paths beginning with '/'.");
+}
 const WIDTHS = (process.env.WIDTHS || "320,360,390,414,768,1280").split(",").map(Number);
 const OUT = `scripts/.visual-audit/${process.env.LABEL || "run"}`;
 mkdirSync(OUT, { recursive: true });
@@ -121,8 +127,12 @@ for (const path of PAGES) {
     const slug = path.replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "home";
     await page.screenshot({ path: `${OUT}/${slug}__${width}.png`, fullPage: true }).catch(() => {});
     const cutoff = overflow != null && overflow > 1;
-    // Non-404 console errors only (the Milim rig bundle 404 is an expected fallback).
-    const realErrors = errors.filter((e) => !/404|Failed to load resource/i.test(e));
+    // Ignore only two known non-failures: the optional Milim rig scene 404 and
+    // YouTube's denied compute-pressure feature probe. Other errors are meaningful.
+    const realErrors = errors.filter((e) =>
+      !/\.scene\.json.*404|404.*\.scene\.json/i.test(e) &&
+      !/^Permissions policy violation: compute-pressure is not allowed in this document\.$/.test(e)
+    );
     const bad = cutoff || realErrors.length || status !== 200;
     if (bad) issues++;
     report.push({ path, width, status, overflow, culprits, errors });

@@ -508,16 +508,19 @@ npx tsx scripts/assets/check-asset-ledger.ts --strict     # thumbnail registered
 npx tsx scripts/lexicon/check-lexicon.ts                  # vocabulary gate
 ```
 
-Visual cut-off audit — **note the `PAGES` override**, because the default page
-list does not include `/blog/*` and will silently audit the wrong pages:
+Visual cut-off audit — **always set `PAGES` explicitly**. The harness refuses
+an implicit page list so a successful run cannot silently audit the wrong route:
 
 ```bash
 npx next dev -p 3010 &
 BASE_URL=http://localhost:3010 PAGES=/blog,/blog/<slug> LABEL=after node scripts/visual-audit.mjs
 ```
 
-It exits non-zero on horizontal cut-off or console errors, and names the
-offending element — the failure mode plain screenshots hide.
+It exits non-zero on HTTP failure, browser/console errors, or horizontal
+cut-off, and names the offending element — the failure mode plain screenshots hide.
+The website CI gate also derives changed routes under `app/blog/<slug>/` and
+`content/blog/<slug>/` automatically, then checks them alongside `/blog` and
+`/blog/reflex-agents-and-classifiers` as stable smoke routes.
 
 On the **lexicon gate**: the lexicon serves the work, not the reverse. If it
 fires on a word you meant in a different sense, that is the gate over-reaching —
