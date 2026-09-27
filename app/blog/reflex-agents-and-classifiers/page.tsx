@@ -1,8 +1,7 @@
 import Link from "next/link";
 import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import { reflexPostRemarkPlugins } from "@/lib/blog/reflex-post-remark-plugins";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import PostShareBar from "@/components/PostShareBar";
 import novaAuthor from "@/content/authors/nova.json";
@@ -160,7 +159,7 @@ export default function ReflexAgentsClassifiersPage() {
         </figure>
         <article className="blog-post-body report-body">
           <Markdown
-            remarkPlugins={[remarkGfm, remarkMath]}
+            remarkPlugins={reflexPostRemarkPlugins}
             rehypePlugins={[rehypeKatex]}
             components={{
               p: ({ children, ...props }) => {
