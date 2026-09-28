@@ -371,7 +371,17 @@
         "a model change is a new variant, not a continuation of v3; v1-v3 results are not pooled with v4",
         "one case, one skill: no interaction-edge conclusion is available from this variant under any outcome"
       ],
-      "notAClaim": "v4 is single-skill and produces no pairwise interaction finding. It can populate a gaia.arbor-profile/v1 claim, never a gaia.arbor-edge/v1 edge."
+      "notAClaim": "v4 is single-skill and produces no pairwise interaction finding. It can populate a gaia.arbor-profile/v1 claim, never a gaia.arbor-edge/v1 edge.",
+      "runnerRepairs": [
+        {
+          "when": "after v4 pair 1, before v4 pair 2",
+          "commit": "this commit",
+          "what": "replaced the unbounded `herdr agent wait <pane> --until idle --timeout 2400000` completion detector with a bounded poll of `herdr agent list` status",
+          "why": "`herdr agent wait --until idle` blocked for ~11 minutes in v4 pair 1 treatment although the agent was already idle. This is a harness detector defect, not a model or scoring behaviour.",
+          "scope": "harness completion detection only. Model, effort, prompt, task, fixture, evaluator, exposure method, primary outcome and the comparison rule are unchanged.",
+          "pair1Evidence": "runs/v4-run-rep1-treatment/RUNNER-NOTE.md"
+        }
+      ]
     }
   ]
 }

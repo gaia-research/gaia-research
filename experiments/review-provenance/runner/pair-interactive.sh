@@ -3,6 +3,7 @@
 # herdr panes through the pi-zero door in interactive mode.
 # Usage: pair-interactive.sh <rep> <control_pane> <treatment_pane>
 set -uo pipefail
+export LC_ALL=C
 REP="$1"; PC="$2"; PT="$3"
 X="$HOME/.local/state/skill-heaven/issue-116/experiments/review-provenance"
 EV="$HOME/.local/state/skill-heaven/issue-116/worktrees/research-e-case/experiments/review-provenance"
@@ -40,15 +41,33 @@ wait_ready() {  # pane
   echo "pane $1 never showed the model footer (expected: $READY_FOOTER)"; return 1
 }
 
+# agent_status PANE  -- prints working|idle|done|blocked|unknown|absent
+agent_status() {
+  herdr agent list | P="$1" python3 -c "import sys,json; a=[x for x in json.load(sys.stdin)['result']['agents'] if x['pane_id']==os.environ['P']]; print(a[0]['agent_status'] if a else 'absent')" 2>/dev/null || echo absent
+}
+wait_working() {  # bounded; non-zero only if the agent never registers as working
+  for _ in $(seq 1 60); do
+    case "$(agent_status "$1")" in working|idle|done) return 0 ;; esac
+    sleep 2
+  done
+  return 1
+}
+wait_idle() {  # bounded; an arm that overruns this is a harness timeout, recorded as such
+  for _ in $(seq 1 1800); do
+    case "$(agent_status "$1")" in idle|done) return 0 ;; esac
+    sleep 2
+  done
+  return 1
+}
 finish_arm() {  # arm pane
   local ARM="$1" P="$2" ID="${VARIANT}-run-rep${REP}-$1"
   local RUN="$X/runs/$ID"
-  herdr agent wait "$P" --until working --timeout 120000 >/dev/null 2>&1
+  wait_working "$P" || echo "WARN $ID: agent never reported working"
   # idle must hold for 20s to count as finished
   while :; do
-    herdr agent wait "$P" --until idle --timeout 2400000 >/dev/null 2>&1 || break
+    wait_idle "$P" || { echo "HARNESS-TIMEOUT $ID"; break; }
     sleep 20
-    herdr agent list | python3 -c "import sys,json; a=[x for x in json.load(sys.stdin)['result']['agents'] if x['pane_id']=='$P']; sys.exit(0 if a and a[0]['agent_status']=='idle' else 1)" && break
+    [ "$(agent_status "$P")" = idle ] && break
   done
   IFS='|' read -r _ TR STARTED <"$RUN/.state"
   python3 "$X/runner/finish.py" "$RUN" "$ID" "$ARM" "$REP" "$STARTED" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
