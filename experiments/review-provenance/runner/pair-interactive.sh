@@ -9,8 +9,10 @@ EV="$HOME/.local/state/skill-heaven/issue-116/worktrees/research-e-case/experime
 HEAVEN="$HOME/.local/state/skill-heaven/issue-116/worktrees/heaven-a-finish"
 PZ="$HEAVEN/packages/pi-zero/bin/pi-zero.mjs"
 TREAT="$X/treatment"
-MODEL="antigravity/gemini-3.8-flash:${EFFORT:-medium}"
+MODEL_PREFIX="${MODEL_PREFIX:-antigravity/gemini-3.8-flash}"
+MODEL="$MODEL_PREFIX:${EFFORT:-medium}"
 VARIANT="${VARIANT:-v3}"
+READY_FOOTER="${READY_FOOTER:-(antigravity) gemini-3.8-flash}"
 # Prompt: task/prompt.md flattened to one line so it submits as a single message.
 PROMPT="$(python3 -c 'import sys,re; t=open(sys.argv[1]).read(); print(re.sub(r"\s+"," ",t).strip())' "$EV/task/prompt.md")"
 
@@ -31,9 +33,11 @@ start_arm() {  # arm pane
   herdr pane run "$P" "$CMD" >/dev/null
 }
 
+# READY_FOOTER: substring the pi status line must contain before the prompt is sent.
+# Defaults to the v3 antigravity footer; v4 sets it to the space-bunny-alpha footer.
 wait_ready() {  # pane
-  for _ in $(seq 1 45); do herdr pane read "$1" 2>/dev/null | grep -qF "(antigravity) gemini-3.8-flash" && { sleep 3; return 0; }; sleep 2; done
-  echo "pane $1 never showed the model footer"; return 1
+  for _ in $(seq 1 45); do herdr pane read "$1" 2>/dev/null | grep -qF "$READY_FOOTER" && { sleep 3; return 0; }; sleep 2; done
+  echo "pane $1 never showed the model footer (expected: $READY_FOOTER)"; return 1
 }
 
 finish_arm() {  # arm pane

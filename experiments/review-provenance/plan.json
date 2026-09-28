@@ -169,12 +169,19 @@
         "--print <task/prompt.md>"
       ],
       "treatmentOnlyArgs": [
-        "--append-system-prompt <treatment SKILL.md sha256 091df162\u2026>"
+        "--append-system-prompt <treatment SKILL.md sha256 091df162…>"
       ],
       "cwd": "fresh mktemp task root containing only installability.ts"
     },
     "observed": "per-run record.json (model_change event in session log)",
-    "costSource": "canonical skill-cost from actual pi session logs; lane total reported at close"
+    "costSource": "canonical skill-cost from actual pi session logs; lane total reported at close",
+    "plannedV4": {
+      "harness": "pi",
+      "version": "0.87.1",
+      "model": "openrouter/stealth/space-bunny-alpha",
+      "effort": "high",
+      "door": "pi-zero at gaia-skill-heaven 358be74"
+    }
   },
   "futureDesign": {
     "status": "preregistered",
@@ -278,10 +285,87 @@
     },
     {
       "id": "v4",
-      "status": "planned-not-preregistered",
-      "model": "openai-codex/gpt-5.6-luna (effort to be fixed at preregistration)",
-      "trigger": "owner announces Luna availability",
-      "design": "reuse the v3 interactive pi-zero design (runner/pair-interactive.sh with the model parameterized); preregister model, effort, replications and concurrency before any run"
+      "status": "preregistered",
+      "preregisteredAt": "2026-09-28T20:05:00Z",
+      "supersedes": "the planned-not-preregistered v4 placeholder; the v4 identity is reused deliberately so the lineage stays v1..v4 with no gap",
+      "model": "openrouter/stealth/space-bunny-alpha",
+      "effort": "high",
+      "harnessMode": "interactive pi via the pi-zero door (Skill Heaven 358be74); identical to v3, each arm in its own visible herdr pane",
+      "armPanes": "control and treatment of one pair occupy exactly two panes; pairs run sequentially",
+      "arms": {
+        "control": "pi-zero --level zero",
+        "treatment": "pi-zero --level low --skill <treatment dir> (native skill listing; body read on demand)"
+      },
+      "sharedPiArgs": [
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-approve",
+        "--tools read,edit,write",
+        "--session-dir <run>/session"
+      ],
+      "symmetryNote": "carried from v3: pi-zero --level low omits --no-context-files/--no-prompt-templates that --level zero sets; v4 passes both to both arms. Unchanged.",
+      "replications": 5,
+      "concurrency": 2,
+      "concurrencyRuling": "Owner-authorised visible-pane concurrency for v3 was raised to 8; that is the configuration the owner judged an infrastructure failure. v4 fixes pane concurrency at 2 and does not raise it. This is declared before any v4 run.",
+      "runner": "runner/pair-interactive.sh (model prefix and readiness footer are env-parameterised in this commit) + runner/finish.py",
+      "invocation": "MODEL_PREFIX=openrouter/stealth/space-bunny-alpha EFFORT=high VARIANT=v4 runner/pair-interactive.sh <rep> <control_pane> <treatment_pane>",
+      "preflight": {
+        "rule": "Before arm 1 the operator records a reachability/quota probe for the exact model id. A failed probe is an infrastructure abort of the whole variant, recorded before any arm, and v4 does not start.",
+        "argv": "pi --model openrouter/stealth/space-bunny-alpha:high --print --no-session \"Reply with exactly the word OK.\"",
+        "observedAtPreregistration": null,
+        "observedResultAtPreregistration": null
+      },
+      "changedRelativeToV3": [
+        "model",
+        "effort",
+        "pane concurrency"
+      ],
+      "identicalToV3": [
+        "task module and its sha256",
+        "prompt and its sha256",
+        "fixture and its sha256",
+        "evaluator and its sha256",
+        "primary outcome and its 13 checks",
+        "door (pi-zero at Heaven 358be74)",
+        "shared pi args and tool allowlist",
+        "exposure method (native listing, body read on demand)",
+        "order of arms within a pair",
+        "replication count (5)"
+      ],
+      "primaryOutcome": {
+        "perArm": "evaluator exit code (0 = all 13 checks pass) and the set of failed check ids",
+        "perPair": "control exit/failed-checks beside treatment exit/failed-checks",
+        "primaryStatistic": "pairedDiscordance = (#pairs control fails AND treatment passes) - (#pairs control passes AND treatment fails). Pairs where both arms pass or both arms fail contribute 0.",
+        "pooled": "none. No pooled effect size, no significance test, n=5."
+      },
+      "secondaryOutcomes": [
+        "finalStopReason per arm",
+        "treatmentBodyReadInSession",
+        "turn count and token usage (descriptive only)",
+        "task root file list (must contain only installability.ts after the run)",
+        "observed model and thinking level from the session log"
+      ],
+      "outcomeDefinitions": {
+        "countsAsOutcome": "any arm that produced at least one model-ended turn (stopReason stop or length) and was evaluated. It is scored as-is and never rerun, including a failing one.",
+        "doesNotCountAsOutcome": "an arm interrupted by provider quota, authentication failure, or harness launch failure with no model-ended turn and no evaluation. Recorded as an infrastructure abort, kept under its original id, and rerun in full from a fresh task root under a new attempt id.",
+        "lengthStops": "stopReason \"length\" is a model-ended outcome under this preregistration. It is scored, not aborted. This is the existing committed rule and is restated here so v4 cannot silently reclassify it."
+      },
+      "infrastructureAbortRule": "unchanged from v3: quota/auth/launch failure with no model-ended turn is a rerunnable abort; model-ended attempts (stop, length) are outcomes and are never rerun. The aborted attempt is kept under its own id and listed in results.json excluded[].",
+      "stoppingRule": "exactly 5 pairs (rep1..rep5), one pair at a time, 2 panes. No retries except under infrastructureAbortRule. No further variant without a new preregistration commit made before that variant runs.",
+      "comparisonRule": {
+        "declaredBefore": "any v4 result exists",
+        "decisionRule": "pairedDiscordance >= +3 -> hand to the governed interpretation step as a candidate-supporting evidence set. |pairedDiscordance| <= 1 -> record the result as inconclusive and hand it to interpretation as such. pairedDiscordance <= -2 -> record as evidence against the candidate claim and hand it to interpretation as such.",
+        "limit": "This rule decides only whether the evidence set is coherent enough to hand to a curator. It does NOT set support. A curator record remains the only thing that may classify the claim.",
+        "forbidden": "choosing or moving this threshold after inspecting v4 results; rerunning a model-ended arm because the result was inconvenient; pooling aborted batches into the statistic."
+      },
+      "interpretationLimits": [
+        "one historically exposed case; the model may have seen the public fix",
+        "n=5 pairs cannot establish a general effect",
+        "the evaluator is not sandboxed from the agent read tool",
+        "a model change is a new variant, not a continuation of v3; v1-v3 results are not pooled with v4",
+        "one case, one skill: no interaction-edge conclusion is available from this variant under any outcome"
+      ],
+      "notAClaim": "v4 is single-skill and produces no pairwise interaction finding. It can populate a gaia.arbor-profile/v1 claim, never a gaia.arbor-edge/v1 edge."
     }
   ]
 }
