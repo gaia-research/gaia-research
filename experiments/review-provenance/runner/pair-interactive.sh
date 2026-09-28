@@ -13,12 +13,16 @@ TREAT="$X/treatment"
 MODEL_PREFIX="${MODEL_PREFIX:-antigravity/gemini-3.8-flash}"
 MODEL="$MODEL_PREFIX:${EFFORT:-medium}"
 VARIANT="${VARIANT:-v3}"
+# ID_SUFFIX lets an infrastructure-abort rerun carry a fresh run id, as the
+# preregistered infrastructureAbortRule requires ("rerun in full under a new
+# attempt id"; the aborted attempt is kept).
+ID_SUFFIX="${ID_SUFFIX:-}"
 READY_FOOTER="${READY_FOOTER:-(antigravity) gemini-3.8-flash}"
 # Prompt: task/prompt.md flattened to one line so it submits as a single message.
 PROMPT="$(python3 -c 'import sys,re; t=open(sys.argv[1]).read(); print(re.sub(r"\s+"," ",t).strip())' "$EV/task/prompt.md")"
 
 start_arm() {  # arm pane
-  local ARM="$1" P="$2" ID="${VARIANT}-run-rep${REP}-$1"
+  local ARM="$1" P="$2" ID="${VARIANT}-run-rep${REP}${ID_SUFFIX}-$1"
   local RUN="$X/runs/$ID"
   [ -e "$RUN" ] && { echo "refusing: $RUN exists (no retries)"; return 2; }
   mkdir -p "$RUN/session"
@@ -60,7 +64,7 @@ wait_idle() {  # bounded; an arm that overruns this is a harness timeout, record
   return 1
 }
 finish_arm() {  # arm pane
-  local ARM="$1" P="$2" ID="${VARIANT}-run-rep${REP}-$1"
+  local ARM="$1" P="$2" ID="${VARIANT}-run-rep${REP}${ID_SUFFIX}-$1"
   local RUN="$X/runs/$ID"
   wait_working "$P" || echo "WARN $ID: agent never reported working"
   # idle must hold for 20s to count as finished
