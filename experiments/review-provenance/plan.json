@@ -380,6 +380,14 @@
           "why": "`herdr agent wait --until idle` blocked for ~11 minutes in v4 pair 1 treatment although the agent was already idle. This is a harness detector defect, not a model or scoring behaviour.",
           "scope": "harness completion detection only. Model, effort, prompt, task, fixture, evaluator, exposure method, primary outcome and the comparison rule are unchanged.",
           "pair1Evidence": "runs/v4-run-rep1-treatment/RUNNER-NOTE.md"
+        },
+        {
+          "when": "after v4 pair 2, before v4 pair 3",
+          "what": "added the missing `os` import to the inline python in agent_status()",
+          "why": "the pair-1 repair introduced a probe whose inline python used os.environ without importing os, so it always printed `absent` and the completion loop never exited. A second harness defect, found and fixed before any further arm ran.",
+          "scope": "harness completion detection only. Nothing about the model, task, prompt, evaluator, fixture, exposure method, outcome or comparison rule changed.",
+          "pair2Evidence": "runs/v4-run-rep2-control/RUNNER-NOTE.md, runs/v4-run-rep2-treatment/RUNNER-NOTE.md",
+          "assessment": "both v4 harness interventions occurred strictly after the model had ended its turn, and neither touched a scored input. They are recorded here rather than absorbed silently."
         }
       ]
     }

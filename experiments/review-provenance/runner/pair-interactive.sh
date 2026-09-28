@@ -43,7 +43,7 @@ wait_ready() {  # pane
 
 # agent_status PANE  -- prints working|idle|done|blocked|unknown|absent
 agent_status() {
-  herdr agent list | P="$1" python3 -c "import sys,json; a=[x for x in json.load(sys.stdin)['result']['agents'] if x['pane_id']==os.environ['P']]; print(a[0]['agent_status'] if a else 'absent')" 2>/dev/null || echo absent
+  herdr agent list | P="$1" python3 -c "import sys,json,os; a=[x for x in json.load(sys.stdin)['result']['agents'] if x['pane_id']==os.environ['P']]; print(a[0]['agent_status'] if a else 'absent')" 2>/dev/null || echo absent
 }
 wait_working() {  # bounded; non-zero only if the agent never registers as working
   for _ in $(seq 1 60); do
