@@ -1,8 +1,8 @@
 {
   "schema": "gaia.research-arbor-review-provenance-preparation/v1",
-  "status": "preregistered",
+  "status": "v4-observed-not-interpreted",
   "preregistered": true,
-  "experimentExecuted": false,
+  "experimentExecuted": true,
   "acceptedSupport": false,
   "selection": {
     "skillId": "obra/receiving-code-review",
@@ -285,7 +285,7 @@
     },
     {
       "id": "v4",
-      "status": "preregistered",
+      "status": "complete-observed-not-interpreted",
       "preregisteredAt": "2026-09-28T20:05:00Z",
       "supersedes": "the planned-not-preregistered v4 placeholder; the v4 identity is reused deliberately so the lineage stays v1..v4 with no gap",
       "model": "openrouter/stealth/space-bunny-alpha",
@@ -405,7 +405,17 @@
           "evidence": "runs/v4-run-rep5-control/ABORTED.md, runs/v4-run-rep5-treatment/ABORTED.md",
           "rerun": "v4-run-rep5b-*"
         }
-      ]
+      ],
+      "results": "results/v4/results.json",
+      "observedOutcome": {
+        "scoredPairs": 5,
+        "pairedDiscordance": 0,
+        "controlFailsTreatmentPasses": 1,
+        "controlPassesTreatmentFails": 1,
+        "treatmentArmsWhereBodyWasRead": "3 of 5",
+        "preregisteredDecisionRule": "pairedDiscordance >= +3 -> candidate-supporting; |d| <= 1 -> inconclusive; d <= -2 -> evidence against",
+        "whichBranchApplies": "|0| <= 1 -> INCONCLUSIVE"
+      }
     }
   ]
 }
