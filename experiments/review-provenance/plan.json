@@ -389,6 +389,22 @@
           "pair2Evidence": "runs/v4-run-rep2-control/RUNNER-NOTE.md, runs/v4-run-rep2-treatment/RUNNER-NOTE.md",
           "assessment": "both v4 harness interventions occurred strictly after the model had ended its turn, and neither touched a scored input. They are recorded here rather than absorbed silently."
         }
+      ],
+      "abortedAttempts": [
+        {
+          "id": "v4-run-rep3-*",
+          "kind": "orchestration collision",
+          "cause": "two driver scripts ran the pair sequence against the same two herdr panes; a pane reset between them ended this pair's arms before evaluation",
+          "evidence": "runs/v4-run-rep3-control/ABORTED.md, runs/v4-run-rep3-treatment/ABORTED.md",
+          "rerun": "v4-run-rep3b-*"
+        },
+        {
+          "id": "v4-run-rep5-*",
+          "kind": "provider failure",
+          "cause": "control arm final assistant turn stopReason=error, errorMessage=\"Provider returned an empty response\"; no model-ended turn was completed",
+          "evidence": "runs/v4-run-rep5-control/ABORTED.md, runs/v4-run-rep5-treatment/ABORTED.md",
+          "rerun": "v4-run-rep5b-*"
+        }
       ]
     }
   ]
