@@ -312,8 +312,14 @@
       "preflight": {
         "rule": "Before arm 1 the operator records a reachability/quota probe for the exact model id. A failed probe is an infrastructure abort of the whole variant, recorded before any arm, and v4 does not start.",
         "argv": "pi --model openrouter/stealth/space-bunny-alpha:high --print --no-session \"Reply with exactly the word OK.\"",
-        "observedAtPreregistration": null,
-        "observedResultAtPreregistration": null
+        "observedAtPreregistration": "2026-09-29T04:20:00Z",
+        "observedResultAtPreregistration": {
+          "herdrPane": "w7:p5F",
+          "argv": "pi --model openrouter/stealth/space-bunny-alpha:high --print --no-session",
+          "stdout": "OK",
+          "exitStatus": 0,
+          "note": "Reachability and quota probe run in a visible herdr pane before arm 1. No experimental task, fixture or evaluator was in context."
+        }
       },
       "changedRelativeToV3": [
         "model",
