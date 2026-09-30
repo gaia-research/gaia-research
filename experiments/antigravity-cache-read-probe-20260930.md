@@ -24,7 +24,7 @@ Positive reads and later zero reads occurred in this single off-mode probe. The 
 
 ## Next evidence needed
 
-The remaining gap is whether zero reads are upstream cache misses or upstream telemetry omission; distinguishing them would require an authoritative upstream cache/usage signal. Continue to avoid logging request or prompt contents. A warmer on/off A/B remains uninformative for this model unless a cache TTL is configured.
+The remaining gap is whether zero reads are upstream cache misses or upstream telemetry omission; distinguishing them would require an authoritative upstream cache/usage signal. Continue to avoid logging request or prompt contents. Since this note was first written, a local five-minute Pi scheduling heuristic and explicit forced policy were added in the activation pilot below; this is not a published Antigravity TTL, and no controlled on/off A/B has been run.
 
 ## Follow-up: sanitized usage-frame evidence
 
@@ -65,3 +65,9 @@ A further visible Pi run used `antigravity/gemini-3.8-flash` at thinking `medium
 The first nine final frames omitted `cachedContentTokenCount`; requests 10–13 reported positive values that matched Pi's final `cacheRead` exactly. This rules against a Pi mapping loss for the observed positive values, but cannot distinguish actual upstream misses from omitted telemetry on the first nine requests. The first positive appeared between prompt totals of 20,369 and 20,503 tokens; total prompt size is not the shared-prefix size, so this does not establish a threshold or cause. The transition resembles the earlier medium long-run (first hit on request 11, then 15 positive requests).
 
 No visible cache-miss notice was found in the pane output checked. The replay made 13 model requests and accumulated 161,838 `promptTokenCount` tokens, exceeding the planned 100,000-token cap before completion; no further model calls were made. The conditional 90-second idle-gap check was not run. The raw scratch trace was not committed. No prompts, transcripts, request bodies, credentials, secrets, or source contents were recorded.
+
+## Follow-up: Pi cache-warmer activation pilot
+
+A user-level Pi override was added for `antigravity/gemini-3.8-flash` only. It declares a five-minute `promptCache` scheduling heuristic (short and long tiers) and a `force` warmer policy. The policy bypasses Pi's default $0.05 expected-savings gate only when the catalog-estimated cache-miss premium is positive and at most $0.002 per refresh. The model's actual implicit-cache lifetime is unpublished, so five minutes is a local scheduling assumption, not a provider guarantee. Pi's existing one-hour active and 30-minute idle safety windows remain in effect; other models retain their previous policies.
+
+In a fresh visible medium-thinking Pi session, `/cachewarming` resolved to `FORCE`. After one read-only request, `/session` showed the warmer scheduled. After the refresh interval, Pi displayed `Cache warmed (extension override): $0.000536` and scheduled another decision. This verifies that Pi executed a background replay, but does not prove the Antigravity gateway reported a cache hit: raw `cachedContentTokenCount` for the warm request was not captured. This is an activation check, not a warmer on/off comparison.
