@@ -41,3 +41,27 @@ A fresh ephemeral Pi process used `antigravity/gemini-3.8-flash`, thinking `low`
 The repeat had 14 assistant requests and 34 usage-metadata frames. The cached-count field was present in 4 frames and absent in 30. Requests 1–10 ended at `cacheRead=0`. Requests 11–14 ended at `cacheRead=12,172`, `16,261`, `20,317`, and `20,309`, at final prompt counts 16,597, 22,388, 22,517, and 22,644. Pi's `/session` summary showed 3 computed misses totaling 8,527 tokens; no cache-miss notice was visibly rendered during the tool loop.
 
 The `/session` summary also showed global core `cacheWarming: idle` and warmer status `Inactive (cache lifetime unavailable)`. The Antigravity model has no configured prompt-cache TTL, so the background replay warmer was not expected to run even though the model-specific policy was `streaming`. These observations do not test an active warmer or demonstrate an effect of `streaming` versus `off`; do not infer causation from the difference between runs. Upstream actual cache misses versus telemetry omission remain unresolved. These minutes contain no prompt/request contents, transcript, secrets, credentials, or session identifiers.
+
+## Follow-up: controlled medium-thinking replay
+
+A further visible Pi run used `antigravity/gemini-3.8-flash` at thinking `medium`, the unchanged streaming model policy, and a bounded sequence of 12 read-only tool calls in one session. Pi's core warmer remained inactive because the model has no prompt-cache TTL. The instrumented scratch provider recorded only whitelisted usage metadata; each request had two usage frames, and the last frame was marked as the final candidate frame.
+
+| Request | Final prompt tokens | Final cached-count field | Pi `cacheRead` |
+|---:|---:|---:|---:|
+| 1 | 1,580 | absent | 0 |
+| 2 | 2,106 | absent | 0 |
+| 3 | 5,013 | absent | 0 |
+| 4 | 5,213 | absent | 0 |
+| 5 | 5,308 | absent | 0 |
+| 6 | 11,895 | absent | 0 |
+| 7 | 13,153 | absent | 0 |
+| 8 | 14,613 | absent | 0 |
+| 9 | 20,369 | absent | 0 |
+| 10 | 20,503 | 16,271 | 16,271 |
+| 11 | 20,599 | 16,263 | 16,263 |
+| 12 | 20,695 | 16,256 | 16,256 |
+| 13 | 20,791 | 16,249 | 16,249 |
+
+The first nine final frames omitted `cachedContentTokenCount`; requests 10–13 reported positive values that matched Pi's final `cacheRead` exactly. This rules against a Pi mapping loss for the observed positive values, but cannot distinguish actual upstream misses from omitted telemetry on the first nine requests. The first positive appeared between prompt totals of 20,369 and 20,503 tokens; total prompt size is not the shared-prefix size, so this does not establish a threshold or cause. The transition resembles the earlier medium long-run (first hit on request 11, then 15 positive requests).
+
+No visible cache-miss notice was found in the pane output checked. The replay made 13 model requests and accumulated 161,838 `promptTokenCount` tokens, exceeding the planned 100,000-token cap before completion; no further model calls were made. The conditional 90-second idle-gap check was not run. The raw scratch trace was not committed. No prompts, transcripts, request bodies, credentials, secrets, or source contents were recorded.
