@@ -112,6 +112,13 @@ Ranked by combined **viability** and **potential**.
 
 ---
 
+## Rank 18 — Antigravity Cache Reuse & Pi Cache-Warmer Effectiveness
+- **Status:** In Ideation / Proposed Research (Unverified)
+- **Viability:** Medium (provider metadata is observable, but gateway or billing ground truth may not be)
+- **Potential:** High
+- **Why now:** Sanitized Pi probes show reported cache reads after early missing telemetry, while a Pi warmer pilot confirms only that a background replay ran—not that it hit. This model-by-model study separates Antigravity gateway behavior from Gemini API / Vertex documentation and tests whether warming is measurable and worthwhile.
+- **Doc:** [`antigravity-cache-reuse-and-warmer-effectiveness.md`](./antigravity-cache-reuse-and-warmer-effectiveness.md) · Tracking issue: [#276](https://github.com/gaia-research/gaia-research/issues/276) · Related: [#255](https://github.com/gaia-research/gaia-research/issues/255), [#275](https://github.com/gaia-research/gaia-research/issues/275)
+
 ## Archived Ideas & Shipped Posts
 
 The following briefs have completed their lifecycles, shipped as published blog posts under [`/blog/*`](../../content/blog), or landed in production code. They are frozen and archived in [`archived/`](./archived/):
