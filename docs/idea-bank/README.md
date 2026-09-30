@@ -23,7 +23,14 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** Anthropic's extended 1-hour cache TTL costs 2.0x base input tokens on write (literally double the price, and a 60% surcharge over 5-minute writes). Is paying double worth it? For fast interactive turns it is pure waste, but a single pause >5m completely pays for the 2x write on the very next hit. For multi-agent orchestration, where subagents run 6–45 minutes, 1-hour TTL slashes orchestrator prefill burn by 73% by turning repetitive cold 1.25x writes into warm 0.10x reads. Also examines the 5-hour rolling quota on Claude Code subscriptions, compares eviction and retention across Codex CLI (OpenAI), Antigravity/AGY (Gemini storage rent), and Grok CLI (xAI affinity routing), and evaluates the math for a hypothetical 5-hour provider cache tier.
 - **Doc:** [`blog-idea-cache-ttl-5hr-vs-1hr-orchestration.md`](./blog-idea-cache-ttl-5hr-vs-1hr-orchestration.md) · Issue: [#247](https://github.com/gaia-research/gaia-research/issues/247)
 
-## Rank 4 — Per-Model × Per-Harness Token-Savings Matrix
+## Rank 4 — The Reflex Agent Tax: Actual TypeSafe Jev vs. Gemini 3.8 Flash & GPT-6 Luna Mimics
+- **Status:** In Ideation / Empirical Benchmark Complete
+- **Viability:** Very High (empirical dataset compiled in `content/reports/reflex-agents-eval/receipt-jev-vs-mimic-benchmarks.md`)
+- **Potential:** Exceptional
+- **Why now:** Directly follows the Reflex Agents editorial: evaluates whether developers can mimic sub-second decision models (Jev / OpenAI Decisions API) with modern flash models (Gemini 3.8 Flash, GPT-6 Luna). Proves a 5.5×–6.8× latency cliff (597 ms vs 3.28s–4.04s) and a 4.5×–6.5× cost surcharge ($0.014 vs $0.064–$0.092 per 1k decisions) due to autoregressive generation taxes and completion token billing.
+- **Doc:** [`blog-idea-reflex-agents-actual-jev-vs-flash-luna-mimicry.md`](./blog-idea-reflex-agents-actual-jev-vs-flash-luna-mimicry.md) · Receipt: [`../../content/reports/reflex-agents-eval/receipt-jev-vs-mimic-benchmarks.md`](../../content/reports/reflex-agents-eval/receipt-jev-vs-mimic-benchmarks.md)
+
+## Rank 5 — Per-Model × Per-Harness Token-Savings Matrix
 - **Viability:** Medium (depends on an unratified frozen-skill-set snapshot mechanism, and on N4/N5 closing)
 - **Potential:** High
 - **Why now:** Directly seeded by the 2026-07-22 M2 live demo, where switching the probe model from haiku to Sonnet-low changed both probe reliability and the measured token numbers — proof that token savings must be locked per-model-per-level, not reported as one cross-model figure. Strictly a post-MVP reporting surface built on top of the already-gated D12 method, never a gate itself.
