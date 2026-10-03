@@ -126,6 +126,14 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** Sanitized Pi probes show reported cache reads after early missing telemetry, while a Pi warmer pilot confirms only that a background replay ran—not that it hit. This model-by-model study separates Antigravity gateway behavior from Gemini API / Vertex documentation and tests whether warming is measurable and worthwhile.
 - **Doc:** [`antigravity-cache-reuse-and-warmer-effectiveness.md`](./antigravity-cache-reuse-and-warmer-effectiveness.md) · Tracking issue: [#276](https://github.com/gaia-research/gaia-research/issues/276) · Related: [#255](https://github.com/gaia-research/gaia-research/issues/255), [#275](https://github.com/gaia-research/gaia-research/issues/275)
 
+
+## Rank 19 — Agent Plugin Discoverability: Problem Statement → First Use
+- **Status:** In Ideation / Proposed Research
+- **Viability:** High
+- **Potential:** Very High
+- **Why now:** Skill Heaven already ships a portable Agent Plugin, so the next distribution question is measurable: can a fresh agent find it from an ordinary problem statement, choose it for the right reason, and reach first use without being told the brand name? The study separates marketplace metadata, machine retrieval, trust/selection, and activation rather than treating discoverability as generic SEO.
+- **Doc:** [`agent-plugin-discoverability.md`](./agent-plugin-discoverability.md) · Tracking issue: [#280](https://github.com/gaia-research/gaia-research/issues/280)
+
 ## Archived Ideas & Shipped Posts
 
 The following briefs have completed their lifecycles, shipped as published blog posts under [`/blog/*`](../../content/blog), or landed in production code. They are frozen and archived in [`archived/`](./archived/):
