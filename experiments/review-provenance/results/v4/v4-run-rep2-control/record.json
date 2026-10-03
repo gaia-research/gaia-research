@@ -1,0 +1,105 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-run/v1",
+  "id": "v4-run-rep2-control",
+  "mode": "interactive",
+  "arm": "control",
+  "replication": 2,
+  "startedAt": "2026-09-28T20:41:33Z",
+  "endedAt": "2026-09-28T20:46:05Z",
+  "harness": {
+    "name": "pi",
+    "door": "pi-zero",
+    "version": "0.87.1",
+    "launch": {
+      "doorCommit": "358be74b9481d21bca80e3480a18d36defad912b",
+      "level": [
+        "--level",
+        "zero"
+      ],
+      "piArgs": [
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-approve",
+        "--tools",
+        "read,edit,write",
+        "--session-dir",
+        "$RAGSEX_STATE/experiments/review-provenance/runs/v4-run-rep2-control/session"
+      ]
+    }
+  },
+  "model": {
+    "requested": "openrouter/stealth/space-bunny-alpha:high",
+    "observedInSession": "openrouter/stealth/space-bunny-alpha",
+    "observedThinkingLevel": "high"
+  },
+  "treatmentDelivery": null,
+  "sessionFiles": [
+    "session/2026-09-28T20-41-33-846Z_01a0e9c0-5f95-7027-aefd-a22fd469fe45.jsonl"
+  ],
+  "sessionLogSha256": [
+    "4a41ab972494081079b5b26f76342c624c5d06494d72899983f43c12b383143a"
+  ],
+  "assistantUsage": [
+    {
+      "input": 1710,
+      "output": 69,
+      "cacheRead": 171,
+      "cacheWrite": 0,
+      "totalTokens": 1950
+    },
+    {
+      "input": 1805,
+      "output": 60,
+      "cacheRead": 171,
+      "cacheWrite": 0,
+      "totalTokens": 2036
+    },
+    {
+      "input": 4505,
+      "output": 7391,
+      "cacheRead": 1948,
+      "cacheWrite": 0,
+      "totalTokens": 13844
+    },
+    {
+      "input": 11870,
+      "output": 176,
+      "cacheRead": 2034,
+      "cacheWrite": 0,
+      "totalTokens": 14080
+    },
+    {
+      "input": 552,
+      "output": 409,
+      "cacheRead": 14078,
+      "cacheWrite": 0,
+      "totalTokens": 15039
+    }
+  ],
+  "stopReasons": [
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "stop"
+  ],
+  "readTargets": [
+    "rp-task-flqZG2",
+    "installability.ts",
+    "installability.ts"
+  ],
+  "taskRootFiles": [
+    "installability.ts"
+  ],
+  "artifacts": {
+    "taskInSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "resultSha256": "8fbb958cd600be44a1c588d909da54aa7b64d23ccd65d53b6a760d02b60ba7bf",
+    "promptSha256": "7a64491fd3be6f4d5792dd9bdf59f72d2f49846e2385b49e80fdb8c31e6b09c6",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+  },
+  "evaluation": {
+    "exit": 0,
+    "failedChecks": []
+  }
+}

@@ -1,0 +1,264 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-results/v1",
+  "variant": "v4",
+  "preregistration": [
+    "6d64bfb",
+    "112a5cc",
+    "9cfe1cf",
+    "8a019fd",
+    "8e03943",
+    "9d4dc19"
+  ],
+  "status": "complete-observed-not-interpreted",
+  "acceptedSupport": false,
+  "model": {
+    "requested": "openrouter/stealth/space-bunny-alpha",
+    "observedInEveryArm": "openrouter/stealth/space-bunny-alpha",
+    "effort": "high",
+    "observedThinkingLevelInEveryArm": "high",
+    "harness": "pi via the pi-zero door at gaia-skill-heaven 358be74, interactive",
+    "concurrency": "2 panes, one pair at a time, pairs sequential"
+  },
+  "artifacts": {
+    "taskSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "promptSha256": "dbe504b9d556a822955ab4e65a53304428e2dd6c231551f9f17f561b7f872071",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a"
+  },
+  "plannedPairs": 5,
+  "scoredPairs": 5,
+  "runs": [
+    {
+      "id": "v4-run-rep1-control",
+      "arm": "control",
+      "replication": "rep1",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "turns": 8,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1711,
+      "treatmentBodyRead": null,
+      "observedModel": "openrouter/stealth/space-bunny-alpha",
+      "observedThinkingLevel": "high"
+    },
+    {
+      "id": "v4-run-rep1-treatment",
+      "arm": "treatment",
+      "replication": "rep1",
+      "evaluatorExit": 1,
+      "failedChecks": [
+        "verified-materializable-missing-observationDigest",
+        "verified-materializable-missing-observedAt",
+        "verified-no-source-preserves-legitimate-null-fields",
+        "verified-intrinsic-failure-preserves-legitimate-null-fields"
+      ],
+      "turns": 4,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1795,
+      "treatmentBodyRead": false,
+      "observedModel": "openrouter/stealth/space-bunny-alpha",
+      "observedThinkingLevel": "high"
+    },
+    {
+      "id": "v4-run-rep2-control",
+      "arm": "control",
+      "replication": "rep2",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "turns": 5,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1710,
+      "treatmentBodyRead": null,
+      "observedModel": "openrouter/stealth/space-bunny-alpha",
+      "observedThinkingLevel": "high"
+    },
+    {
+      "id": "v4-run-rep2-treatment",
+      "arm": "treatment",
+      "replication": "rep2",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "turns": 7,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1837,
+      "treatmentBodyRead": false,
+      "observedModel": "openrouter/stealth/space-bunny-alpha",
+      "observedThinkingLevel": "high"
+    },
+    {
+      "id": "v4-run-rep3b-control",
+      "arm": "control",
+      "replication": "rep3b",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "turns": 11,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1141,
+      "treatmentBodyRead": null,
+      "observedModel": "openrouter/stealth/space-bunny-alpha",
+      "observedThinkingLevel": "high"
+    },
+    {
+      "id": "v4-run-rep3b-treatment",
+      "arm": "treatment",
+      "replication": "rep3b",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "turns": 8,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1835,
+      "treatmentBodyRead": true,
+      "observedModel": "openrouter/stealth/space-bunny-alpha",
+      "observedThinkingLevel": "high"
+    },
+    {
+      "id": "v4-run-rep4-control",
+      "arm": "control",
+      "replication": "rep4",
+      "evaluatorExit": 1,
+      "failedChecks": [
+        "verified-negative-missing-observationDigest",
+        "verified-negative-missing-observedAt",
+        "verified-no-source-missing-observationDigest",
+        "verified-no-source-missing-observedAt",
+        "verified-materializable-missing-observationDigest",
+        "verified-materializable-missing-observedAt"
+      ],
+      "turns": 4,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1707,
+      "treatmentBodyRead": null,
+      "observedModel": "openrouter/stealth/space-bunny-alpha",
+      "observedThinkingLevel": "high"
+    },
+    {
+      "id": "v4-run-rep4-treatment",
+      "arm": "treatment",
+      "replication": "rep4",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "turns": 9,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1795,
+      "treatmentBodyRead": true,
+      "observedModel": "openrouter/stealth/space-bunny-alpha",
+      "observedThinkingLevel": "high"
+    },
+    {
+      "id": "v4-run-rep5b-control",
+      "arm": "control",
+      "replication": "rep5b",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "turns": 5,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1711,
+      "treatmentBodyRead": null,
+      "observedModel": "openrouter/stealth/space-bunny-alpha",
+      "observedThinkingLevel": "high"
+    },
+    {
+      "id": "v4-run-rep5b-treatment",
+      "arm": "treatment",
+      "replication": "rep5b",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "turns": 7,
+      "finalStopReason": "stop",
+      "firstTurnInputTokens": 1807,
+      "treatmentBodyRead": true,
+      "observedModel": "openrouter/stealth/space-bunny-alpha",
+      "observedThinkingLevel": "high"
+    }
+  ],
+  "pairs": [
+    {
+      "replication": "rep1",
+      "controlPassed": true,
+      "treatmentPassed": false,
+      "controlFailedChecks": [],
+      "treatmentFailedChecks": [
+        "verified-materializable-missing-observationDigest",
+        "verified-materializable-missing-observedAt",
+        "verified-no-source-preserves-legitimate-null-fields",
+        "verified-intrinsic-failure-preserves-legitimate-null-fields"
+      ],
+      "treatmentBodyRead": false
+    },
+    {
+      "replication": "rep2",
+      "controlPassed": true,
+      "treatmentPassed": true,
+      "controlFailedChecks": [],
+      "treatmentFailedChecks": [],
+      "treatmentBodyRead": false
+    },
+    {
+      "replication": "rep3b",
+      "controlPassed": true,
+      "treatmentPassed": true,
+      "controlFailedChecks": [],
+      "treatmentFailedChecks": [],
+      "treatmentBodyRead": true
+    },
+    {
+      "replication": "rep4",
+      "controlPassed": false,
+      "treatmentPassed": true,
+      "controlFailedChecks": [
+        "verified-negative-missing-observationDigest",
+        "verified-negative-missing-observedAt",
+        "verified-no-source-missing-observationDigest",
+        "verified-no-source-missing-observedAt",
+        "verified-materializable-missing-observationDigest",
+        "verified-materializable-missing-observedAt"
+      ],
+      "treatmentFailedChecks": [],
+      "treatmentBodyRead": true
+    },
+    {
+      "replication": "rep5b",
+      "controlPassed": true,
+      "treatmentPassed": true,
+      "controlFailedChecks": [],
+      "treatmentFailedChecks": [],
+      "treatmentBodyRead": true
+    }
+  ],
+  "exposure": {
+    "method": "native skill listing via pi-zero --level low --skill; body read on demand",
+    "treatmentArmsRun": 5,
+    "treatmentArmsWhereBodyWasRead": 3,
+    "note": "A listed skill that was never read is listed-but-not-loaded, which the v3 lineage defines as NOT exposure."
+  },
+  "primaryStatistic": {
+    "name": "pairedDiscordance",
+    "definition": "(#pairs control fails AND treatment passes) - (#pairs control passes AND treatment fails). Ties contribute 0.",
+    "controlFailsTreatmentPasses": 1,
+    "controlPassesTreatmentFails": 1,
+    "value": 0
+  },
+  "excluded": [
+    {
+      "what": "v4-run-rep3-*",
+      "kind": "orchestration collision",
+      "why": "two driver scripts ran the pair sequence against the same two herdr panes; a pane reset ended these arms before evaluation. No model-ended turn. Not scored."
+    },
+    {
+      "what": "v4-run-rep5-*",
+      "kind": "provider failure",
+      "why": "control arm final assistant turn stopReason=error, errorMessage='Provider returned an empty response'. No model-ended turn. The pair was rerun in full as rep5b; the control's evaluator exit of 1 is the untouched defective file, not a judgement."
+    }
+  ],
+  "runnerInterventions": [
+    "v4 pair 1: herdr's `agent wait --until idle` hung ~11min after the arm had ended. SIGTERM to the hung waiter; the runner's own `|| break` ran finish.py unchanged.",
+    "v4 pair 2: the agent_status probe added after pair 1 had a missing `os` import and always reported `absent`. The stuck runner was stopped and finish.py was invoked directly for both arms with the runner's own arguments.",
+    "Both occurred strictly AFTER the model had ended its turn. Neither touched the model, prompt, task, fixture, evaluator, exposure method, outcome or comparison rule."
+  ],
+  "centralObservations": [
+    "The model was confirmed as openrouter/stealth/space-bunny-alpha at thinking level high in every scored arm, from the pi session log, not from the request.",
+    "The treatment skill body was read in 3 of 5 scored treatment arms. In the other 2 the door listed it and the model never opened it.",
+    "rep5-treatment attempted to read README.md, task.md, fixture.json and evaluator.ts relative to its task root; all four returned ENOENT inside the root, which contained only installability.ts. The evaluator and fixture were not reachable from the arm."
+  ],
+  "interpretation": null
+}
