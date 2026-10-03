@@ -1,0 +1,105 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-run/v1",
+  "id": "v4-run-rep5b-control",
+  "mode": "interactive",
+  "arm": "control",
+  "replication": 5,
+  "startedAt": "2026-09-28T20:58:02Z",
+  "endedAt": "2026-09-28T20:59:30Z",
+  "harness": {
+    "name": "pi",
+    "door": "pi-zero",
+    "version": "0.87.1",
+    "launch": {
+      "doorCommit": "358be74b9481d21bca80e3480a18d36defad912b",
+      "level": [
+        "--level",
+        "zero"
+      ],
+      "piArgs": [
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-approve",
+        "--tools",
+        "read,edit,write",
+        "--session-dir",
+        "$RAGSEX_STATE/experiments/review-provenance/runs/v4-run-rep5b-control/session"
+      ]
+    }
+  },
+  "model": {
+    "requested": "openrouter/stealth/space-bunny-alpha:high",
+    "observedInSession": "openrouter/stealth/space-bunny-alpha",
+    "observedThinkingLevel": "high"
+  },
+  "treatmentDelivery": null,
+  "sessionFiles": [
+    "session/2026-09-28T20-58-03-532Z_01a0e9cf-798b-7567-bb7f-dba9535b4394.jsonl"
+  ],
+  "sessionLogSha256": [
+    "f3420e6c83e55f6af5d55e551aa127dbbe074f3f996f1db7fd993e0865413fa5"
+  ],
+  "assistantUsage": [
+    {
+      "input": 1711,
+      "output": 40,
+      "cacheRead": 171,
+      "cacheWrite": 0,
+      "totalTokens": 1922
+    },
+    {
+      "input": 6164,
+      "output": 4155,
+      "cacheRead": 175,
+      "cacheWrite": 0,
+      "totalTokens": 10494
+    },
+    {
+      "input": 8601,
+      "output": 55,
+      "cacheRead": 1920,
+      "cacheWrite": 0,
+      "totalTokens": 10576
+    },
+    {
+      "input": 190,
+      "output": 67,
+      "cacheRead": 10574,
+      "cacheWrite": 0,
+      "totalTokens": 10831
+    },
+    {
+      "input": 293,
+      "output": 736,
+      "cacheRead": 10829,
+      "cacheWrite": 0,
+      "totalTokens": 11858
+    }
+  ],
+  "stopReasons": [
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "stop"
+  ],
+  "readTargets": [
+    "installability.ts",
+    "installability.ts",
+    "installability.ts"
+  ],
+  "taskRootFiles": [
+    "installability.ts"
+  ],
+  "artifacts": {
+    "taskInSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "resultSha256": "a5929c0056e7d03eb4c3bc0bdadcaac2ebde90a6cd1ecf9f6c92581d68ab5ef7",
+    "promptSha256": "7a64491fd3be6f4d5792dd9bdf59f72d2f49846e2385b49e80fdb8c31e6b09c6",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+  },
+  "evaluation": {
+    "exit": 0,
+    "failedChecks": []
+  }
+}

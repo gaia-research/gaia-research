@@ -1,0 +1,182 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-run/v1",
+  "id": "v2-run-rep1-treatment",
+  "mode": "run",
+  "arm": "treatment",
+  "replication": 1,
+  "startedAt": "2026-09-16T21:01:10Z",
+  "endedAt": "2026-09-16T21:05:34Z",
+  "harness": {
+    "name": "pi",
+    "version": "0.85.1",
+    "extensionsLoaded": [
+      "pi-antigravity"
+    ],
+    "tools": [
+      "read",
+      "edit",
+      "write"
+    ],
+    "skillsDiscovery": false,
+    "contextFiles": false
+  },
+  "model": {
+    "requested": "antigravity/gemini-3.8-flash:medium",
+    "observedInSession": "antigravity/gemini-3.8-flash",
+    "observedThinkingLevel": "medium"
+  },
+  "treatmentDelivery": {
+    "method": "append-system-prompt",
+    "sha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438",
+    "bytes": 6203
+  },
+  "sessionFiles": [
+    "session/2026-09-16T21-01-10-884Z_01a0ac06-0564-70de-bd8c-b51748aa02bf.jsonl"
+  ],
+  "assistantUsage": [
+    {
+      "input": 2877,
+      "output": 73,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 2950
+    },
+    {
+      "input": 8019,
+      "output": 80,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 8099
+    },
+    {
+      "input": 8169,
+      "output": 62940,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 71109
+    },
+    {
+      "input": 79277,
+      "output": 51,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 79328
+    },
+    {
+      "input": 2924,
+      "output": 48,
+      "cacheRead": 77103,
+      "cacheWrite": 0,
+      "totalTokens": 80075
+    },
+    {
+      "input": 4101,
+      "output": 49,
+      "cacheRead": 76985,
+      "cacheWrite": 0,
+      "totalTokens": 81135
+    },
+    {
+      "input": 5463,
+      "output": 159,
+      "cacheRead": 76853,
+      "cacheWrite": 0,
+      "totalTokens": 82475
+    },
+    {
+      "input": 5727,
+      "output": 30031,
+      "cacheRead": 76821,
+      "cacheWrite": 0,
+      "totalTokens": 112579
+    },
+    {
+      "input": 119473,
+      "output": 42,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 119515
+    },
+    {
+      "input": 3572,
+      "output": 42,
+      "cacheRead": 116283,
+      "cacheWrite": 0,
+      "totalTokens": 119897
+    },
+    {
+      "input": 3856,
+      "output": 42,
+      "cacheRead": 116240,
+      "cacheWrite": 0,
+      "totalTokens": 120138
+    },
+    {
+      "input": 4270,
+      "output": 42,
+      "cacheRead": 116183,
+      "cacheWrite": 0,
+      "totalTokens": 120495
+    },
+    {
+      "input": 5151,
+      "output": 1805,
+      "cacheRead": 116073,
+      "cacheWrite": 0,
+      "totalTokens": 123029
+    },
+    {
+      "input": 2590,
+      "output": 53,
+      "cacheRead": 120524,
+      "cacheWrite": 0,
+      "totalTokens": 123167
+    },
+    {
+      "input": 3280,
+      "output": 44,
+      "cacheRead": 120436,
+      "cacheWrite": 0,
+      "totalTokens": 123760
+    },
+    {
+      "input": 3750,
+      "output": 42,
+      "cacheRead": 120373,
+      "cacheWrite": 0,
+      "totalTokens": 124165
+    },
+    {
+      "input": 4322,
+      "output": 48,
+      "cacheRead": 120300,
+      "cacheWrite": 0,
+      "totalTokens": 124670
+    },
+    {
+      "input": 5369,
+      "output": 884,
+      "cacheRead": 120174,
+      "cacheWrite": 0,
+      "totalTokens": 126427
+    }
+  ],
+  "piExit": 0,
+  "taskRootFiles": [
+    "./installability.ts"
+  ],
+  "artifacts": {
+    "taskInSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "resultSha256": "c3c0d14a0c0cfc82cab4155c14d51b48367a8a379c109ce5436e109e13fd9959",
+    "promptSha256": "dbe504b9d556a822955ab4e65a53304428e2dd6c231551f9f17f561b7f872071",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+  },
+  "evaluation": {
+    "exit": 1,
+    "failedChecks": [
+      "verified-no-source-preserves-legitimate-null-fields",
+      "verified-intrinsic-failure-preserves-legitimate-null-fields"
+    ]
+  }
+}

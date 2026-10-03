@@ -1,0 +1,108 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-results/v1",
+  "variant": "v2",
+  "preregistration": "c5a1ff1",
+  "status": "observed-not-interpreted",
+  "acceptedSupport": false,
+  "runs": [
+    {
+      "id": "v2-run-rep1-control",
+      "arm": "control",
+      "replication": 1,
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "observedThinkingLevel": "medium",
+      "evaluatorExit": 1,
+      "failedChecks": [
+        "verified-negative-missing-observationDigest",
+        "verified-negative-missing-observedAt",
+        "verified-no-source-missing-observationDigest",
+        "verified-no-source-missing-observedAt",
+        "verified-materializable-missing-observationDigest",
+        "verified-materializable-missing-observedAt"
+      ],
+      "taskEdited": false,
+      "assistantTurns": 3,
+      "finalStopReason": "length",
+      "outputTokens": 67604,
+      "firstTurnInputTokens": 1339,
+      "sessionLogSha256": [
+        "25a8e1e6ea7fe0bd0c2547586336324c9ad439ab7ffd5e126c9b38915c21deaf"
+      ]
+    },
+    {
+      "id": "v2-run-rep1-treatment",
+      "arm": "treatment",
+      "replication": 1,
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "observedThinkingLevel": "medium",
+      "evaluatorExit": 1,
+      "failedChecks": [
+        "verified-no-source-preserves-legitimate-null-fields",
+        "verified-intrinsic-failure-preserves-legitimate-null-fields"
+      ],
+      "taskEdited": true,
+      "assistantTurns": 18,
+      "finalStopReason": "stop",
+      "outputTokens": 96475,
+      "firstTurnInputTokens": 2877,
+      "sessionLogSha256": [
+        "28dcaf1bd895163ead37e3632afbc1f3371ca8e40e7b3a91f201aaac339ff959"
+      ]
+    },
+    {
+      "id": "v2-run-rep2-treatment",
+      "arm": "treatment",
+      "replication": 2,
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "observedThinkingLevel": "medium",
+      "evaluatorExit": 0,
+      "failedChecks": [],
+      "taskEdited": true,
+      "assistantTurns": 16,
+      "finalStopReason": "stop",
+      "outputTokens": 128742,
+      "firstTurnInputTokens": 2879,
+      "sessionLogSha256": [
+        "54a331698aec64cb597ba7f0d639424d6347d0a57036b1c500d42f08e7361c5c"
+      ]
+    },
+    {
+      "id": "v2-run-rep2-control",
+      "arm": "control",
+      "replication": 2,
+      "observedModel": "antigravity/gemini-3.8-flash",
+      "observedThinkingLevel": "medium",
+      "evaluatorExit": 1,
+      "failedChecks": [
+        "verified-no-source-preserves-legitimate-null-fields",
+        "verified-intrinsic-failure-preserves-legitimate-null-fields"
+      ],
+      "taskEdited": true,
+      "assistantTurns": 16,
+      "finalStopReason": "stop",
+      "outputTokens": 120637,
+      "firstTurnInputTokens": 1338,
+      "sessionLogSha256": [
+        "0f2d84a9a347f10233bed12580c893885a0b942e5ee6f93f587f362f35b7d846"
+      ]
+    }
+  ],
+  "summary": {
+    "controlPassed": "0/2",
+    "treatmentPassed": "1/2"
+  },
+  "centralObservations": [
+    "Exposure held: probe first-turn input 1165 control vs 2704 treatment; arms ~1339 vs ~2878.",
+    "rep1 control ended stopReason=length (~67.6k output) without editing.",
+    "rep1 treatment and rep2 control edited the module and failed exactly the two legitimate-null preservation checks (over-broad guard: the nullable-scope trap the prompt warns about).",
+    "rep2 treatment passed all 13 checks.",
+    "Medium effort reduced but did not remove output-cap termination (1/4 arms vs 3/4 in v1)."
+  ],
+  "interpretationLimits": [
+    "one historically exposed case",
+    "n=2 pairs",
+    "one arm confounded by output-cap termination",
+    "no general-effect or interaction claim"
+  ],
+  "interpretation": null
+}

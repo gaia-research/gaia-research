@@ -1,0 +1,132 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-run/v1",
+  "id": "v4-run-rep1-control",
+  "mode": "interactive",
+  "arm": "control",
+  "replication": 1,
+  "startedAt": "2026-09-28T20:28:17Z",
+  "endedAt": "2026-09-28T20:30:33Z",
+  "harness": {
+    "name": "pi",
+    "door": "pi-zero",
+    "version": "0.87.1",
+    "launch": {
+      "doorCommit": "358be74b9481d21bca80e3480a18d36defad912b",
+      "level": [
+        "--level",
+        "zero"
+      ],
+      "piArgs": [
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-approve",
+        "--tools",
+        "read,edit,write",
+        "--session-dir",
+        "$RAGSEX_STATE/experiments/review-provenance/runs/v4-run-rep1-control/session"
+      ]
+    }
+  },
+  "model": {
+    "requested": "openrouter/stealth/space-bunny-alpha:high",
+    "observedInSession": "openrouter/stealth/space-bunny-alpha",
+    "observedThinkingLevel": "high"
+  },
+  "treatmentDelivery": null,
+  "sessionFiles": [
+    "session/2026-09-28T20-28-19-882Z_01a0e9b4-4229-7315-a11d-080f7f11c2d2.jsonl"
+  ],
+  "sessionLogSha256": [
+    "b98794e12bc55badca10b9fb863b9bd0512dcb427103d8836f49c12a0b539c6f"
+  ],
+  "assistantUsage": [
+    {
+      "input": 1711,
+      "output": 75,
+      "cacheRead": 171,
+      "cacheWrite": 0,
+      "totalTokens": 1957
+    },
+    {
+      "input": 6192,
+      "output": 92,
+      "cacheRead": 182,
+      "cacheWrite": 0,
+      "totalTokens": 6466
+    },
+    {
+      "input": 28,
+      "output": 215,
+      "cacheRead": 6464,
+      "cacheWrite": 0,
+      "totalTokens": 6707
+    },
+    {
+      "input": 627,
+      "output": 5735,
+      "cacheRead": 6705,
+      "cacheWrite": 0,
+      "totalTokens": 13067
+    },
+    {
+      "input": 13493,
+      "output": 805,
+      "cacheRead": 141,
+      "cacheWrite": 0,
+      "totalTokens": 14439
+    },
+    {
+      "input": 63,
+      "output": 79,
+      "cacheRead": 14437,
+      "cacheWrite": 0,
+      "totalTokens": 14579
+    },
+    {
+      "input": 541,
+      "output": 93,
+      "cacheRead": 14577,
+      "cacheWrite": 0,
+      "totalTokens": 15211
+    },
+    {
+      "input": 201,
+      "output": 585,
+      "cacheRead": 15209,
+      "cacheWrite": 0,
+      "totalTokens": 15995
+    }
+  ],
+  "stopReasons": [
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "stop"
+  ],
+  "readTargets": [
+    "installability.ts",
+    "rp-task-I9VAqC",
+    "SKILL.md",
+    "installability.ts",
+    "installability.ts",
+    "installability.ts"
+  ],
+  "taskRootFiles": [
+    "installability.ts"
+  ],
+  "artifacts": {
+    "taskInSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "resultSha256": "ac919b817afea97ace40795741a10214d9b5cb7d08e4dcbc393e638f1cd886b8",
+    "promptSha256": "7a64491fd3be6f4d5792dd9bdf59f72d2f49846e2385b49e80fdb8c31e6b09c6",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+  },
+  "evaluation": {
+    "exit": 0,
+    "failedChecks": []
+  }
+}

@@ -1,0 +1,1 @@
+{"doorCommit": "358be74b9481d21bca80e3480a18d36defad912b", "level": ["--level", "zero"], "piArgs": ["--no-context-files", "--no-prompt-templates", "--no-approve", "--tools", "read,edit,write", "--session-dir", "<run>/session"]}

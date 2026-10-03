@@ -1,0 +1,759 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-oracle/v1",
+  "kind": "fixture-oracle-check",
+  "taskSha256": "c3c0d14a0c0cfc82cab4155c14d51b48367a8a379c109ce5436e109e13fd9959",
+  "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f",
+  "checks": [
+    {
+      "id": "verified-negative-missing-observationDigest",
+      "surface": "withInstallability / safeAssessment",
+      "observable": "effective assessment plus validator behavior",
+      "expected": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "failureReason": "Installability assessment.upstream is semantically invalid: negative result lacks observation provenance",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "unverified-applicability",
+          "actual": "unverified-applicability",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "invalid-evidence",
+          "actual": "invalid-evidence",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "absent",
+          "actual": "absent",
+          "passed": true
+        },
+        {
+          "observable": "assertion-outcome",
+          "expected": "rejected",
+          "actual": "rejected",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "verified-negative-missing-observedAt",
+      "surface": "withInstallability / safeAssessment",
+      "observable": "effective assessment plus validator behavior",
+      "expected": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "failureReason": "Installability assessment.upstream is semantically invalid: negative result lacks observation provenance",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "unverified-applicability",
+          "actual": "unverified-applicability",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "invalid-evidence",
+          "actual": "invalid-evidence",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "absent",
+          "actual": "absent",
+          "passed": true
+        },
+        {
+          "observable": "assertion-outcome",
+          "expected": "rejected",
+          "actual": "rejected",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "verified-no-source-missing-observationDigest",
+      "surface": "withInstallability / safeAssessment",
+      "observable": "effective assessment plus validator behavior",
+      "expected": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "failureReason": "Installability assessment.upstream is semantically invalid: negative result lacks observation provenance",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "unverified-applicability",
+          "actual": "unverified-applicability",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "invalid-evidence",
+          "actual": "invalid-evidence",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "absent",
+          "actual": "absent",
+          "passed": true
+        },
+        {
+          "observable": "assertion-outcome",
+          "expected": "rejected",
+          "actual": "rejected",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "verified-no-source-missing-observedAt",
+      "surface": "withInstallability / safeAssessment",
+      "observable": "effective assessment plus validator behavior",
+      "expected": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "failureReason": "Installability assessment.upstream is semantically invalid: negative result lacks observation provenance",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "unverified-applicability",
+          "actual": "unverified-applicability",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "invalid-evidence",
+          "actual": "invalid-evidence",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "absent",
+          "actual": "absent",
+          "passed": true
+        },
+        {
+          "observable": "assertion-outcome",
+          "expected": "rejected",
+          "actual": "rejected",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "verified-materializable-missing-observationDigest",
+      "surface": "withInstallability / safeAssessment",
+      "observable": "effective assessment plus validator behavior",
+      "expected": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "failureReason": "Installability assessment.upstream is semantically invalid: materializable result lacks observation provenance",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "unverified-applicability",
+          "actual": "unverified-applicability",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "invalid-evidence",
+          "actual": "invalid-evidence",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "absent",
+          "actual": "absent",
+          "passed": true
+        },
+        {
+          "observable": "assertion-outcome",
+          "expected": "rejected",
+          "actual": "rejected",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "verified-materializable-missing-observedAt",
+      "surface": "withInstallability / safeAssessment",
+      "observable": "effective assessment plus validator behavior",
+      "expected": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "failureReason": "Installability assessment.upstream is semantically invalid: materializable result lacks observation provenance",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "unverified-applicability",
+          "actual": "unverified-applicability",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "invalid-evidence",
+          "actual": "invalid-evidence",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "absent",
+          "actual": "absent",
+          "passed": true
+        },
+        {
+          "observable": "assertion-outcome",
+          "expected": "rejected",
+          "actual": "rejected",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "verified-no-source-preserves-legitimate-null-fields",
+      "surface": "withInstallability / safeAssessment",
+      "observable": "effective assessment plus validator behavior",
+      "expected": {
+        "state": "not-materializable",
+        "reason": "no-source",
+        "applicability": "verified",
+        "applicabilityReason": "matched",
+        "upstream": "present"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "failureReason": "Installability assessment.upstream is semantically invalid: negative result lacks current content identity",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "not-materializable",
+          "actual": "unknown",
+          "passed": false
+        },
+        {
+          "observable": "reason",
+          "expected": "no-source",
+          "actual": "unverified-applicability",
+          "passed": false
+        },
+        {
+          "observable": "applicability",
+          "expected": "verified",
+          "actual": "unknown",
+          "passed": false
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "matched",
+          "actual": "invalid-evidence",
+          "passed": false
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "present",
+          "actual": "absent",
+          "passed": false
+        },
+        {
+          "observable": "assertion-outcome",
+          "expected": "accepted",
+          "actual": "rejected",
+          "passed": false
+        }
+      ],
+      "passed": false
+    },
+    {
+      "id": "verified-intrinsic-failure-preserves-legitimate-null-fields",
+      "surface": "withInstallability / safeAssessment",
+      "observable": "effective assessment plus validator behavior",
+      "expected": {
+        "state": "not-materializable",
+        "reason": "intrinsic-content-failure",
+        "applicability": "verified",
+        "applicabilityReason": "matched",
+        "upstream": "present"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "failureReason": "Installability assessment.upstream is semantically invalid: negative result lacks current content identity",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "not-materializable",
+          "actual": "unknown",
+          "passed": false
+        },
+        {
+          "observable": "reason",
+          "expected": "intrinsic-content-failure",
+          "actual": "unverified-applicability",
+          "passed": false
+        },
+        {
+          "observable": "applicability",
+          "expected": "verified",
+          "actual": "unknown",
+          "passed": false
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "matched",
+          "actual": "invalid-evidence",
+          "passed": false
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "present",
+          "actual": "absent",
+          "passed": false
+        },
+        {
+          "observable": "assertion-outcome",
+          "expected": "accepted",
+          "actual": "rejected",
+          "passed": false
+        }
+      ],
+      "passed": false
+    },
+    {
+      "id": "verified-materializable-remains-valid",
+      "surface": "withInstallability / safeAssessment",
+      "observable": "effective assessment plus validator behavior",
+      "expected": {
+        "state": "materializable",
+        "reason": "gaia-materialized",
+        "applicability": "verified",
+        "applicabilityReason": "matched",
+        "upstream": "present"
+      },
+      "actual": {
+        "state": "materializable",
+        "reason": "gaia-materialized",
+        "applicability": "verified",
+        "applicabilityReason": "matched",
+        "upstream": "present"
+      },
+      "failureReason": null,
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "materializable",
+          "actual": "materializable",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "gaia-materialized",
+          "actual": "gaia-materialized",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "verified",
+          "actual": "verified",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "matched",
+          "actual": "matched",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "present",
+          "actual": "present",
+          "passed": true
+        },
+        {
+          "observable": "assertion-outcome",
+          "expected": "accepted",
+          "actual": "accepted",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "malformed-negative-fails-closed",
+      "surface": "withInstallability / safeAssessment",
+      "observable": "effective assessment plus validator behavior",
+      "expected": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "absent"
+      },
+      "failureReason": "Installability assessment.upstream is semantically invalid: negative result lacks current content identity",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "unverified-applicability",
+          "actual": "unverified-applicability",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "invalid-evidence",
+          "actual": "invalid-evidence",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "absent",
+          "actual": "absent",
+          "passed": true
+        },
+        {
+          "observable": "assertion-outcome",
+          "expected": "rejected",
+          "actual": "rejected",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "missing-candidate-yields-invalid-context",
+      "surface": "assessInstallability",
+      "observable": "effective assessment plus malformed-input handling",
+      "expected": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-context",
+        "upstream": "present"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-context",
+        "upstream": "present"
+      },
+      "failureReason": "unverified-applicability",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "unverified-applicability",
+          "actual": "unverified-applicability",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "invalid-context",
+          "actual": "invalid-context",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "present",
+          "actual": "present",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "malformed-evidence-is-not-upgraded",
+      "surface": "assessInstallability",
+      "observable": "effective assessment plus malformed-input handling",
+      "expected": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "present"
+      },
+      "actual": {
+        "state": "unknown",
+        "reason": "unverified-applicability",
+        "applicability": "unknown",
+        "applicabilityReason": "invalid-evidence",
+        "upstream": "present"
+      },
+      "failureReason": "unverified-applicability",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "unverified-applicability",
+          "actual": "unverified-applicability",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "unknown",
+          "actual": "unknown",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "invalid-evidence",
+          "actual": "invalid-evidence",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "present",
+          "actual": "present",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "valid-materializable-assessment-can-be-matched",
+      "surface": "assessInstallability",
+      "observable": "effective assessment plus malformed-input handling",
+      "expected": {
+        "state": "materializable",
+        "reason": "gaia-materialized",
+        "applicability": "verified",
+        "applicabilityReason": "matched",
+        "upstream": "present"
+      },
+      "actual": {
+        "state": "materializable",
+        "reason": "gaia-materialized",
+        "applicability": "verified",
+        "applicabilityReason": "matched",
+        "upstream": "present"
+      },
+      "failureReason": "gaia-materialized",
+      "checks": [
+        {
+          "observable": "state",
+          "expected": "materializable",
+          "actual": "materializable",
+          "passed": true
+        },
+        {
+          "observable": "reason",
+          "expected": "gaia-materialized",
+          "actual": "gaia-materialized",
+          "passed": true
+        },
+        {
+          "observable": "applicability",
+          "expected": "verified",
+          "actual": "verified",
+          "passed": true
+        },
+        {
+          "observable": "applicabilityReason",
+          "expected": "matched",
+          "actual": "matched",
+          "passed": true
+        },
+        {
+          "observable": "upstream-presence",
+          "expected": "present",
+          "actual": "present",
+          "passed": true
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": false,
+  "note": "Deterministic source/oracle checks only; no harness, model, skill exposure, behavioral observation, or Arbor conclusion."
+}

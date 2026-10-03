@@ -1,0 +1,104 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-run/v1",
+  "id": "v4-run-rep5-control",
+  "mode": "interactive",
+  "arm": "control",
+  "replication": 5,
+  "startedAt": "2026-09-28T20:55:38Z",
+  "endedAt": "2026-09-28T20:56:31Z",
+  "harness": {
+    "name": "pi",
+    "door": "pi-zero",
+    "version": "0.87.1",
+    "launch": {
+      "doorCommit": "358be74b9481d21bca80e3480a18d36defad912b",
+      "level": [
+        "--level",
+        "zero"
+      ],
+      "piArgs": [
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--no-approve",
+        "--tools",
+        "read,edit,write",
+        "--session-dir",
+        "$RAGSEX_STATE/experiments/review-provenance/runs/v4-run-rep5-control/session"
+      ]
+    }
+  },
+  "model": {
+    "requested": "openrouter/stealth/space-bunny-alpha:high",
+    "observedInSession": "openrouter/stealth/space-bunny-alpha",
+    "observedThinkingLevel": "high"
+  },
+  "treatmentDelivery": null,
+  "sessionFiles": [
+    "session/2026-09-28T20-55-40-296Z_01a0e9cd-4a07-71fc-9e05-4beb232d5a13.jsonl"
+  ],
+  "sessionLogSha256": [
+    "883b577400190383ea907ab72d111a73bd56f486e59244ed52c10d3b9bb17a7c"
+  ],
+  "assistantUsage": [
+    {
+      "input": 1700,
+      "output": 73,
+      "cacheRead": 182,
+      "cacheWrite": 0,
+      "totalTokens": 1955
+    },
+    {
+      "input": 4419,
+      "output": 77,
+      "cacheRead": 1953,
+      "cacheWrite": 0,
+      "totalTokens": 6449
+    },
+    {
+      "input": 28,
+      "output": 1982,
+      "cacheRead": 6447,
+      "cacheWrite": 0,
+      "totalTokens": 8457
+    },
+    {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0
+    }
+  ],
+  "stopReasons": [
+    "toolUse",
+    "toolUse",
+    "toolUse",
+    "error"
+  ],
+  "readTargets": [
+    "installability.ts",
+    "rp-task-L4TNMh",
+    "installability.ts"
+  ],
+  "taskRootFiles": [
+    "installability.ts"
+  ],
+  "artifacts": {
+    "taskInSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "resultSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "promptSha256": "7a64491fd3be6f4d5792dd9bdf59f72d2f49846e2385b49e80fdb8c31e6b09c6",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+  },
+  "evaluation": {
+    "exit": 1,
+    "failedChecks": [
+      "verified-negative-missing-observationDigest",
+      "verified-negative-missing-observedAt",
+      "verified-no-source-missing-observationDigest",
+      "verified-no-source-missing-observedAt",
+      "verified-materializable-missing-observationDigest",
+      "verified-materializable-missing-observedAt"
+    ]
+  }
+}

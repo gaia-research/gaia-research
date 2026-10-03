@@ -1,0 +1,76 @@
+{
+  "schema": "gaia.research-arbor-review-provenance-run/v1",
+  "id": "run-rep2-control",
+  "mode": "run",
+  "arm": "control",
+  "replication": 2,
+  "startedAt": "2026-09-16T20:53:55Z",
+  "endedAt": "2026-09-16T20:57:17Z",
+  "harness": {
+    "name": "pi",
+    "version": "0.85.1",
+    "extensionsLoaded": [
+      "pi-antigravity"
+    ],
+    "tools": [
+      "read",
+      "edit",
+      "write"
+    ],
+    "skillsDiscovery": false,
+    "contextFiles": false
+  },
+  "model": {
+    "requested": "antigravity/gemini-3.8-flash:high",
+    "observedInSession": "antigravity/gemini-3.8-flash"
+  },
+  "treatmentDelivery": null,
+  "sessionFiles": [
+    "session/2026-09-16T20-53-55-701Z_01a0abff-6174-7607-83f6-543a1e705fc6.jsonl"
+  ],
+  "assistantUsage": [
+    {
+      "input": 1338,
+      "output": 117,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 1455
+    },
+    {
+      "input": 6524,
+      "output": 98,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 6622
+    },
+    {
+      "input": 6691,
+      "output": 65484,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 72175
+    }
+  ],
+  "piExit": 0,
+  "taskRootFiles": [
+    "./installability.ts"
+  ],
+  "artifacts": {
+    "taskInSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "resultSha256": "32023e27ff63a46a040d530062cf2fe014d88aafdb9cd1821d9828d6921ac641",
+    "promptSha256": "dbe504b9d556a822955ab4e65a53304428e2dd6c231551f9f17f561b7f872071",
+    "evaluatorSha256": "86e3a8644cfae225f9f390f3154b3f0064e97c44b2c488cc9a78e793ed77032a",
+    "fixtureSha256": "7a3d8282f8d1a8bf109887f7de84e07fc56afd498ec43c6c2fe2c5f2a65c511f"
+  },
+  "evaluation": {
+    "exit": 1,
+    "failedChecks": [
+      "verified-negative-missing-observationDigest",
+      "verified-negative-missing-observedAt",
+      "verified-no-source-missing-observationDigest",
+      "verified-no-source-missing-observedAt",
+      "verified-materializable-missing-observationDigest",
+      "verified-materializable-missing-observedAt"
+    ]
+  }
+}
