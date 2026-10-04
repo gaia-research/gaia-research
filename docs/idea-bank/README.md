@@ -134,6 +134,13 @@ Ranked by combined **viability** and **potential**.
 - **Why now:** Skill Heaven already ships a portable Agent Plugin, so the next distribution question is measurable: can a fresh agent find it from an ordinary problem statement, choose it for the right reason, and reach first use without being told the brand name? The study separates marketplace metadata, machine retrieval, trust/selection, and activation rather than treating discoverability as generic SEO.
 - **Doc:** [`agent-plugin-discoverability.md`](./agent-plugin-discoverability.md) · Tracking issue: [#280](https://github.com/gaia-research/gaia-research/issues/280)
 
+## Rank 20 — Capability Amplification: When Scaffolding Beats Model Scale
+- **Status:** In Ideation / Proposed Research
+- **Viability:** High (existing agent workflows, model tiers, validators, and cost telemetry provide a practical benchmark surface)
+- **Potential:** Exceptional
+- **Why now:** Newer models benefit from leaner objective-first prompting, but blindly removing procedural skills risks deleting structure that intentionally lets cheaper Flash/Luna-class models achieve acceptable reliability. This study asks when decomposition, deterministic checks, reviewer separation, checkpoints, and selective escalation improve **cost per successful task** enough to beat stronger-model end-to-end execution, and when the same scaffolding is merely token-burning ceremony.
+- **Doc:** [`capability-amplification-agent-scaffolding.md`](./capability-amplification-agent-scaffolding.md) · Tracking issue: [#282](https://github.com/gaia-research/gaia-research/issues/282)
+
 ## Archived Ideas & Shipped Posts
 
 The following briefs have completed their lifecycles, shipped as published blog posts under [`/blog/*`](../../content/blog), or landed in production code. They are frozen and archived in [`archived/`](./archived/):
