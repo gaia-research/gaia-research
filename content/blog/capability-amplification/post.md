@@ -267,61 +267,51 @@ Those are very different things.
 
 ---
 
-## The benchmark I want to run
+## A staged pipeline can also be a ruler
 
-We have not measured Gaia's capability-amplification claim yet.
+There is another reason to keep stages that has nothing to do with forcing the model through ceremony.
 
-So the strongest version of this post is still a hypothesis.
+**The review gates teach the humans what the model can actually do.**
 
-The benchmark should compare at least five arms on the same repeatable tasks:
+A lot of advice about removing scaffolding quietly assumes that everybody already knows the worker's capability envelope. In practice, they do not.
 
-| Arm | Execution strategy |
-| :--- | :--- |
-| A | Cheap model, lean objective-first prompt |
-| B | Cheap model, structured skill |
-| C | Cheap worker + cheap independent reviewer |
-| D | Stronger model, lean objective-first prompt |
-| E | Cheap-first adaptive route, escalate only on trigger |
+A model card tells you something. A benchmark tells you something. Neither tells you exactly how a new model behaves inside *your* repository, with *your* tools, *your* permissions, *your* context, and the particular class of messy work you keep handing it.
 
-The tasks should have objective terminal checks.
+That knowledge comes from use.
 
-Good candidates:
+This is close to what capability-evaluation researchers call **elicitation**. METR explicitly treats prompting, tools, context management, inference budget, and agent scaffolding as part of the setup required to discover what a model can actually do. Their elicitation guidance even calls out a familiar failure: an agent submits an answer without checking it despite having budget left, a failure that can sometimes be repaired with scaffolding rather than a larger model.
 
-- a repository audit with hidden injected defects;
-- a bounded coding repair with tests;
-- an instruction-policy audit with known conflicts;
-- a browser/API research task scored for source recall and citation correctness;
-- a triage workflow with gold-labeled decisions.
+The distinction matters because a premature stop can look like a capability limit when it is really a workflow failure.
 
-And the scoreboard cannot stop at "did it pass?"
+The 2025 paper **The Elicitation Game** makes the broader point experimentally: latent capabilities can remain hidden under one evaluation setup and appear under another. There is no single, context-free observation that tells you everything a model can do.
 
-Measure:
+Humans have the same calibration problem from the other side. Recent work on human-AI trust finds that people learn to predict an AI's reliability through repeated interaction, updating their reliance as they encounter successes and errors.
 
-- end-to-end success rate,
-- severe error / escape rate,
-- total input tokens,
-- total output tokens,
-- reasoning tokens where observable,
-- number of model calls,
-- latency,
-- human interventions,
-- total provider cost,
-- **cost per successful completion**.
+So a staged pipeline can serve as an **observability layer**:
 
-Then plot the reliability-cost Pareto frontier.
+- after exploration, did the agent actually find the important surfaces?
+- after implementation, did it carry the task farther than the previous generation?
+- at review, what classes of mistakes remain?
+- when given another turn, does it repair them itself?
+- which gate never catches anything anymore?
 
-[[CAPABILITY_FRONTIER]]
+Those are not just quality-control questions. They are measurements of the working relationship between the human, the scaffold, and the model.
 
-*Draft figure placeholder. The final article should only render measured Gaia benchmark points here, not illustrative performance numbers.*
+This matters even more when model generations move quickly. The capability profile you learned through months of using one model can become stale as soon as a new one lands. The safest way to discover that a new worker no longer needs an old checkpoint is often to let it repeatedly pass that checkpoint cleanly.
 
-My guess is that the frontier will not produce one universal winner.
+Older agents especially earned some of their staging. They could stop early, skip verification, lose the thread of long tasks, or declare completion while obvious work remained. In that world, another stage was not automatically bureaucracy. Sometimes it was the thing that got the task over the line.
 
-Some tasks will favor the strong model immediately.
-Some will favor cheap structured workers.
-Some will favor cheap-first escalation.
-And some scaffolds will reveal themselves as pure overhead.
+But scaffolding should be allowed to **expire**.
 
-That is the useful result.
+If a new model consistently crosses a gate without intervention, repairs its own failures, verifies its own work, and carries the task to the real terminal state, keeping the gate forever turns yesterday's instrumentation into today's ceremony.
+
+That gives us a better rule than either "always stage" or "always give autonomy":
+
+> **Use stages to learn the worker. Collapse them when experience shows the worker has outgrown them.**
+
+A review gate earns its keep while it catches failures, protects authority, or teaches you something you did not already know.
+
+Once it does none of those things, it is just furniture.
 
 ---
 
@@ -484,6 +474,6 @@ It is the one that spends intelligence where intelligence is actually expensive.
 
 ---
 
-**Sources:** Pranjal Aggarwal et al., [*"AutoMix: Automatically Mixing Language Models"*](https://arxiv.org/abs/2310.12963) (2023); Isaac Ong et al., [*"RouteLLM: Learning to Route LLMs with Preference Data"*](https://arxiv.org/abs/2406.18665) (2024); Rudrendu Kumar Paul & Sourav Nandy, [*"AgentRouter: Heterogeneous Model Routing for Cost-Optimal Multi-Step Agentic Workflows"*](https://arxiv.org/abs/2609.22951) (2026 preprint); Maryam Hashemzadeh et al., [*"Sub-Goal Distillation: A Method to Improve Small Language Agents"*](https://arxiv.org/abs/2405.02749) (CoLLAs 2024); Xuezhi Wang et al., [*"Self-Consistency Improves Chain of Thought Reasoning in Language Models"*](https://arxiv.org/abs/2203.11171) (ICLR 2023); Juming Xiong et al., [*"Learning When to Sample: Confidence-Aware Self-Consistency for Efficient LLM Chain-of-Thought Reasoning"*](https://arxiv.org/abs/2603.08999) (2026); Yunho Jin, Gu-Yeon Wei & David Brooks, [*"The Energy Cost of Reasoning: Analyzing Energy Usage in LLMs with Test-time Compute"*](https://arxiv.org/abs/2505.14733) (2025).
+**Sources:** METR, [*"Guidelines for capability elicitation"*](https://metr.org/blog/2024-03-15-guidelines-for-capability-elicitation/) (2024); Felix Hofstätter et al., [*"The Elicitation Game: Evaluating Capability Elicitation Techniques"*](https://proceedings.mlr.press/v267/hofstatter25a.html) (ICML 2025); ZhaoBin Li & Mark Steyvers, [*"Learning to Trust: How Humans Mentally Recalibrate AI Confidence Signals"*](https://arxiv.org/abs/2603.22634) (2026); Pranjal Aggarwal et al., [*"AutoMix: Automatically Mixing Language Models"*](https://arxiv.org/abs/2310.12963) (2023); Isaac Ong et al., [*"RouteLLM: Learning to Route LLMs with Preference Data"*](https://arxiv.org/abs/2406.18665) (2024); Rudrendu Kumar Paul & Sourav Nandy, [*"AgentRouter: Heterogeneous Model Routing for Cost-Optimal Multi-Step Agentic Workflows"*](https://arxiv.org/abs/2609.22951) (2026 preprint); Maryam Hashemzadeh et al., [*"Sub-Goal Distillation: A Method to Improve Small Language Agents"*](https://arxiv.org/abs/2405.02749) (CoLLAs 2024); Xuezhi Wang et al., [*"Self-Consistency Improves Chain of Thought Reasoning in Language Models"*](https://arxiv.org/abs/2203.11171) (ICLR 2023); Juming Xiong et al., [*"Learning When to Sample: Confidence-Aware Self-Consistency for Efficient LLM Chain-of-Thought Reasoning"*](https://arxiv.org/abs/2603.08999) (2026); Yunho Jin, Gu-Yeon Wei & David Brooks, [*"The Energy Cost of Reasoning: Analyzing Energy Usage in LLMs with Test-time Compute"*](https://arxiv.org/abs/2505.14733) (2025).
 
 **Gaia Research tracking:** [Capability Amplification research issue #282](https://github.com/gaia-research/gaia-research/issues/282) · [Idea-bank brief](https://github.com/gaia-research/gaia-research/blob/main/docs/idea-bank/capability-amplification-agent-scaffolding.md)
