@@ -36,7 +36,7 @@ export type BlogPost = {
 
 export const capabilityAmplificationThumbnail = {
   src: capabilityAmplificationThumbnailSrc,
-  alt: "A vast sunlit horology drafting hall with soaring arched windows and clockwork pendulum discs, with a tiny chibi Milim lifting a smaller chibi twin so she can reach a drawer handle",
+  alt: "A vast sunlit morning artisanal bakery conservatory with soaring glass arches and bread shelves, with tiny chibi Milim lifting a miniature chibi twin so she can reach a pastry on a high shelf",
 } as const;
 
 export const reflexAgentsClassifiersThumbnail = {
