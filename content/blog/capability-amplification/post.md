@@ -164,6 +164,8 @@ Not "always use more process."
 
 When we audit an agent skill, I think its structure should fall into four buckets.
 
+[[SCAFFOLDING_TAXONOMY]]
+
 ### 1. Governance-critical
 
 This structure exists because some actions should not be left to model judgment.
@@ -268,6 +270,8 @@ Those are very different things.
 ---
 
 ## A staged pipeline can also be a ruler
+
+[[CAPABILITY_ROUTING_TRADE_OFF]]
 
 There is another reason to keep stages that has nothing to do with forcing the model through ceremony.
 
