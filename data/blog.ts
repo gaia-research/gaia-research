@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import capabilityAmplificationThumbnailSrc from "@/assets/generated/capability-amplification-editorial-thumbnail.webp";
 import reflexAgentsClassifiersThumbnailSrc from "@/assets/generated/reflex-agents-classifiers-editorial-thumbnail.webp";
 import orchestratorTaxColdCacheThumbnailSrc from "@/assets/generated/orchestrator-tax-cold-cache-editorial-thumbnail.webp";
 import contextCompactionPhase2ThumbnailSrc from "@/assets/generated/context-compaction-phase-2-editorial-thumbnail.webp";
@@ -32,6 +33,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const capabilityAmplificationThumbnail = {
+  src: capabilityAmplificationThumbnailSrc,
+  alt: "A vast sunlit horology drafting hall with soaring arched windows and clockwork pendulum discs, with a tiny chibi Milim lifting a smaller chibi twin so she can reach a drawer handle",
+} as const;
 
 export const reflexAgentsClassifiersThumbnail = {
   src: reflexAgentsClassifiersThumbnailSrc,
@@ -126,6 +132,18 @@ export const arborEvidenceLoopEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/capability-amplification",
+    category: "Agent Architecture",
+    tags: ["Capability Amplification", "Agent Scaffolding", "Procedural Skills", "Token Economics"],
+    date: "October 5, 2026",
+    readTime: "16 min read",
+    title: "Capability Amplification: When Better Scaffolding Beats a Bigger Model",
+    description:
+      "Structured agent scaffolding can buy task-level reliability more cheaply than buying a larger model. Why procedural skills are an economic instrument rather than prompt debt.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: capabilityAmplificationThumbnail,
+  },
   {
     href: "/blog/reflex-agents-and-classifiers",
     category: "Architecture",

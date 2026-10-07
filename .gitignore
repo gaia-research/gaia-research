@@ -55,3 +55,6 @@ scripts/compaction-bench/data/watchdog.log
 scripts/compaction-bench/data/cron-scenario-2.log
 scripts/compaction-bench/data/scenario-1.log
 scripts/compaction-bench/data/scenario-3.log
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
