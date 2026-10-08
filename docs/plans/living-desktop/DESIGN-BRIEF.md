@@ -16,6 +16,13 @@ different **visitor** arrives with its source and commit and never grows edges. 
 "body read" look different. Everything opens its receipt. One control hides the live layer; closing the
 pane hides everything; neither changes what the agent does.
 
+**Two views (founder, FD-1, 2026-10-09).** **My Tree** is local-first: every skill the person has is a
+first-class node, whether or not Gaia's canon knows it, and canon edges appear only between their own
+verified skills. A switch opens the **Gaia view**: Gaia's canon tree, with the person's skills marked on
+it and canon context (missing prerequisites, eligible fusions) shown there. The live layer works in both.
+Design the switch, and the moment of switching, as part of the product; it is not a settings toggle.
+The planning prototype predates this decision and draws context inside My Tree.
+
 **The tree is the hero.** Design one coherent experience, not a set of widgets. Make it calm enough to
 leave open and alive enough to be worth opening.
 
@@ -57,7 +64,7 @@ reinforce, never decide.
 | 1 | Your canon capability | possessed, and Gaia's canon knows it — Basic ○ or Fusion ◇; the best implementation's canon rank appears **only** for a verified match, with provenance ("Gaia canon · 3★ Evolved · via ⟨named skill⟩") |
 | 2 | Your local skill | possessed, no canon match — no rank, no edges, plainly "local" |
 | 3 | Possibly canon | local styling plus words in the inspector ("possibly ⟨capability⟩ — not verified"); never an edge |
-| 4 | Canon context | structure you do not have: a missing prerequisite of your fusion, or a fusion you are eligible for — quiet, clearly "not installed" |
+| 4 | Canon context | structure you do not have: a missing prerequisite of your fusion, or a fusion you are eligible for — quiet, clearly "not installed"; **drawn in the Gaia view** |
 | 5 | On disk, not in this session | after a consented scan: present but not listed to the model now |
 | 6 | Halo — summoned | on a node you have: *card returned* (open) → *body read* (settled); "read not observed on this host" when the host cannot tell |
 | 7 | Visitor — Gaia canon | summoned, canon knows it, you do not have it — not installed, no edges into your graph |
@@ -71,7 +78,8 @@ reinforce, never decide.
 
 ## Required frames
 
-First open (no consent yet) · consent card · scan diff · empty tree · sparse tree · many skills (300,
+My Tree ↔ Gaia view switch (both directions, with a live mark on screen) · the same summon seen in each
+view · Remember for hide/live preferences, and forgetting it · first open (no consent yet) · consent card · scan diff · empty tree · sparse tree · many skills (300,
 level-of-detail) · a canon Basic → Fusion branch · a fusion with a missing prerequisite · unmapped local
 skills · possibly-canon in the inspector · known-node halo: card returned → body read · canon visitor ·
 external visitor from a Skill Zero start · concurrent subagents (three agents, four summons, one repeat)
