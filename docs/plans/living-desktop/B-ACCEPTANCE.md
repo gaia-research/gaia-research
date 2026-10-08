@@ -129,6 +129,28 @@ gaia-research `docs/labs/harness-capability-matrix.md` gate (f).
 | H17 | Do the existing console status entry, Lens band and `/heaven` pane paint on desktop? | paint | closes #185/#187's open desktop cell either way |
 | H18 | Observe-only on desktop: settings, local settings, installed plugins, user statusLine byte-identical; the probe makes no model or tool calls | identical | stop and fix before anything else |
 
+**Live results 2026-10-09** (desktop engine 2.1.293, matrix f14–f24): H1 ✅ (placement and width not
+reported) · H2 ✅ · H3 ✅ hover and CSS/SMIL animation (tooltip unconfirmed), scheme reaches the frame ·
+H4 ❌ every source change flickers once · H5 ✅ (wrap async handlers) · H6 ✅ · H7 ✅ · H8 ✅ 186/186
+listed · H11 ✅ typed and model-called skills · H14 ✅ with the SVG root-background fix. Still open: H9,
+H10, H12, H13, H15–H18. **B is a go on paint;** H10 (summon observation on desktop) is the last cell the
+go rule needs.
+
+**Handoff to the orchestrator (2026-10-09).** The remaining cells (H9, H10, H12, H13, H15–H18) move to the
+orchestrator. Notes from the owner-attended run:
+- Computer use cannot control the Claude app from inside its own session, so owner screenshots were the
+  hard signal. A later orchestrator with its own desktop computer use may capture them directly.
+- **Proposed: a desktop test harness** that loads the probe, drives the pane and captures its readouts
+  (debug log or `$.ui.log`) without the owner relaying screenshots, so cells can iterate back and forth.
+  The owner prefers this to manual rounds.
+- H10 attempt: `/skill-heaven:summon graphify` materialized nothing. The registry entry
+  `safishamsi/graphify` links a file, not a skill directory (filed upstream), and the index was 31 days
+  stale. Retry H10 with a query that resolves (`frontend code review`, `tdd`); the probe now observes
+  summon results and `Read`s of materialized `SKILL.md`.
+- Probe lessons: `$.state` survives hot reloads, so merge persisted state over defaults; wrap async
+  `onPress` handlers as `() => { void f() }`.
+- Not yet checked: whether the locally installed `skill-heaven` plugin matches `main`.
+
 **Go for B:** H1, H2, H5, H10 and one of H8/H12 green. **Stop and ask the founder:** H2 red (no vector
 paint) — the alternatives are in-desktop only (a `Client` cell graph, a structured `Markdown` tree with
 a mini-map), never a CLI imitation advertised as B.

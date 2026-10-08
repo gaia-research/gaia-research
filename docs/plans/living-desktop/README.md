@@ -60,8 +60,12 @@ gaia-skill-tree `6c0ef0fbb` (v8.18.3) · Claude Code **2.1.294** installed local
    engine's own test kit confirms the trees are legal: an interactive `Svg` of up to exactly 131,072
    characters is accepted in a desktop `Pane` and one more character is refused; a hit-target Button
    positioned over it is pressable; a `Client` receives pointer events (`lt-probe`, 7/7 — matrix gate
-   (f)). The kit never paints, so nobody has yet seen any of it in the desktop app. That is gate G1's
-   first cell.
+   (f)). **Live on the desktop app (2026-10-09, engine 2.1.293):** the pane docks, the graph paints at
+   up to 110,000 characters, hover and CSS/SMIL animation work inside it, the skill listing returns all
+   186 skills with no file reads, and `skill.prompt` fires for typed and model-called skills. Two
+   constraints came with it: every redraw flickers once, so live marks animate inside the SVG and
+   redraws are coalesced; and the frame is backed white unless the SVG paints its own root background.
+   Matrix cells f14–f24.
 2. **B can be storage-free.** The personal DAG is a deterministic projection recomputed on open from
    the session's skill listing (plus an optional, consented local scan) against a bundled canon
    snapshot. Nothing personal is persisted or uploaded, so **#1178's migration decision does not block
@@ -249,7 +253,7 @@ No dates. Each phase ends at a gate the orchestrator verifies against [`LANES.md
 | Phase | What happens | Owner (lane) | Gate |
 |---|---|---|---|
 | **P0** Convergence | ownership map, contradiction ledger, decisions above | planner — **done in this PR** | G0: met on paper; hygiene edits H1–H7 applied by the orchestrator (H1 and H5 need the owner) |
-| **P1-H** Desktop host probe | 19 cells on a pinned Claude Desktop build, owner-attended, using a throwaway probe mod loaded by hot reload in a desktop Code-tab session (session-only; no plugin-registry write) — cell list in [`B-ACCEPTANCE.md`](B-ACCEPTANCE.md) §6 | orchestrator designs and interprets; Haiku runs repeat cells | **G1-H:** matrix gate (f) recorded with live verdicts |
+| **P1-H** Desktop host probe *(paint, listing and native-skill cells done live 2026-10-09; H9, H10, H12, H13, H15–H18 remain)* | 19 cells on a pinned Claude Desktop build, owner-attended, using a throwaway probe mod loaded by hot reload in a desktop Code-tab session (session-only; no plugin-registry write) — cell list in [`B-ACCEPTANCE.md`](B-ACCEPTANCE.md) §6 | orchestrator designs and interprets; Haiku runs repeat cells | **G1-H:** matrix gate (f) recorded with live verdicts |
 | **P1-C** Contract v0 | identity, inventory, graph snapshot, observation envelope, overlay reducer, capability flags | Sol (xhigh) → orchestrator review | **G1-C:** schemas frozen for B; fixtures green |
 | **P1-M** Portability proof | one semantic fixture through a Claude-shaped mock adapter and a second, non-Claude mock adapter, identical semantic output | Luna (medium) → Sol review | **G1-M:** conformance suite green in CI |
 | **P2** B design | 2–3 coherent directions on the feasible primitives; first-use → actual-use journey; every required state; recommend one; sketch C around it | Opus creative lead → Sonnet makers | **G2:** founder approves a direction; orchestrator confirms every interaction maps to a green or accepted-risk probe cell |

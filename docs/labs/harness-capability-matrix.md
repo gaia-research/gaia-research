@@ -503,8 +503,31 @@ the tree or handler; **the kit never paints** · ✅ live, logged-in session · 
 | f9 | `$.session.usage({ breakdown: "summary" })` returns the session's skill listing `{ totalSkills, includedSkills, skillFrontmatter[{ name, source, pluginName?, tokens }] }`, counted locally | 📄 | `SessionUsage`, `ContextSkills` |
 | f10 | `$.fs` read/list/stat (4 MiB per read); `$.store` is a plugin-owned JSON file under the user's Claude config dir; `$.http.fetch` goes through the host; `$.process` is CLI only | 📄 | engine nouns |
 | f11 | Console observations: summon result `{ ref, result, text }`, `Read` of the materialized `SKILL.md`, `agentId` on subagent calls | ✅ **terminal only** | gaia-skill-heaven #187 |
-| f12 | Desktop paint of anything above | ❓ **NEEDS DESKTOP PROBE** | P1-H cells H1–H18 |
+| f12 | Desktop paint of the above — **live run 2026-10-09** (see f14–f24) | ✅ for the cells listed below; the rest still ❓ | P1-H, [`lt-desktop-probe`](../plans/living-desktop/probe/lt-desktop-probe/) |
 | f13 | DeepSeek Harness Claude Code Mods bridge (doc tracks 2.1.287): `ui.render` raised for the prompt band only; `Pane` not placed; `skill.prompt` never raised; no `Svg` mentioned; mods unsandboxed; no validate/test | 📄 vendor doc, read 2026-10-09 | `deepseek-harness/docs/subsystems/claude-code-mods.md` |
+
+**Live desktop run (2026-10-09).** Claude desktop app, Code tab, macOS, owner-attended; the desktop
+engine reported **2.1.293** while the installed CLI was 2.1.294. Probe mod loaded through the
+plugin-authoring hot reload (session-only, no plugin-registry write); hard signals were the probe's own
+on-screen readouts and toasts, captured as owner screenshots.
+
+| Cell | Claim | Verdict | Evidence |
+|---|---|---|---|
+| f14 | A `Pane` opened from a command docks beside the transcript and paints; `placement` and `bodyColumns` are **not reported** on desktop | ✅ / ❌ (props) | probe readout |
+| f15 | An interactive `Svg` paints at 10,000, 60,000 and 110,000 characters | ✅ | screenshots |
+| f16 | The host backs the `Svg` frame **white**; explicit `width`/`height` props letterbox it. Setting the SVG root background (`svg{background:…}`, per `prefers-color-scheme`) themes the whole frame | ✅ with the root-background fix | screenshots, before/after |
+| f17 | `prefers-color-scheme: dark` reaches the sandboxed frame | ✅ | probe readout "scheme: dark" |
+| f18 | CSS `:hover` works; CSS keyframe and SMIL animation both run continuously | ✅ (tooltip not confirmed) | owner observation |
+| f19 | **Every change of `source` flickers once**, and resizing the pane flickers | ❌ → live marks must animate inside the SVG; redraw only on real graph changes, coalesced | owner observation |
+| f20 | A `Button` absolutely positioned over the `Svg` paints on top and is pressable | ✅ | press counter |
+| f21 | A `Client` region receives pointer `move` and `down` events | ✅ | `downs=11 moves=37` |
+| f22 | `$.session.usage({ breakdown: "summary" })` returns the skill listing: **186/186**, sources `userSettings`, `projectSettings`, `plugin`, `built-in` | ✅ | probe readout |
+| f23 | `skill.prompt` fires for a typed `/simplify` and for a model Skill-tool call (`anthropic-skills:computer-use`) | ✅ | probe readout |
+| f24 | An `async` handler passed straight to `onPress` never ran; wrapped as `() => { void f() }` it did | inferred (the key was renamed in the same change) | toast |
+
+Still ❓ on desktop: Skill Zero boot (H9), summon/`Read`/`agentId` (H10), local scan (H12), `$.store`
+(H13), VoiceOver (H15), session end and compaction (H16), console paint (H17), observe-only file hashes
+(H18).
 
 **Unblocks:** Living Desktop P2 may design on `Svg` in a docked `Pane` plus native controls, under a
 131,072-character ceiling (design to ≤110,000). **Blocks:** any claim that B paints on desktop, that the

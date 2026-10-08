@@ -48,6 +48,13 @@ behaviour.
 | **`Client`** | an optional pointer and keyboard surface (drag, hover, keys, a frame clock) | draws text-cell elements only, **not `Svg`** |
 | **Status entry, Lens band** | already exist in the console (one line under the prompt; a band above it) | do not duplicate them; when the tree is open it is the primary home for live marks |
 
+**Measured live on the desktop app (2026-10-09):** the graph paints and `:hover`, CSS keyframes and SMIL
+all run inside it, so halos and arrivals should be **CSS/SMIL animation inside the SVG**. Every
+replacement of the SVG flickers once, so redraws happen only when the graph itself changes, batched.
+The host backs the frame white: paint the SVG root's own background for each colour scheme, and leave
+the size props unset. The skill listing (186 skills here) arrives with no file reads, so first open
+can show a real tree before any consent card.
+
 Consequence (planner's default, AD-4): **the graph is drawn; it is not clicked.** Pair the SVG with a
 native **rail** — a keyboard-friendly list grouped by what matters (live now · your skills · canon
 context · local · history) — and an **inspector**. Selecting in the rail focuses and rings the node in
