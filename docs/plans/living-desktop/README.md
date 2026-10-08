@@ -331,6 +331,15 @@ contracts, fixtures, design exploration, draft PRs):
 
 **Needs the founder:** FD-1…FD-3 before G2 (the defaults keep work moving meanwhile), and G2 itself.
 
+**Proposed ratification delta** (G3: decisions belong in `founder/RATIFICATION.md`; D9: it lands with
+the first implementing PR, B0 — not in this planning PR). The founder's 2026-10-08 ruling lives only in
+issues and the handoff today. Proposed text, next free ids, no numbers or versions per the doc's rules:
+
+| Id | Status | Proposed decision |
+|---|---|---|
+| D14 | CURRENT | **Desktop release levels.** The desktop MVP is B — a legible personal Agent Skill DAG with truthful live Skill Heaven activity; the cockpit (C) enhances it and never blocks it, and the static tree (A) is not a release. |
+| D15 | CURRENT | **Desktop hosts.** A rich desktop experience ships on a host only when its whole agreed experience passes there; elsewhere Core and the CLI instrument stand alone, and a native host plugin is preferred to a bridge-to-a-bridge. |
+
 ## 10. Issue hygiene (tiny, surgical)
 
 | ID | Where | Edit | Why |
