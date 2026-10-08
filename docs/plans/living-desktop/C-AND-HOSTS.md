@@ -1,7 +1,6 @@
-# C cockpit opportunities, the optional CLI Mod, and the host watch
+# C cockpit opportunities, optional terminal-native Living Tree, and the host watch
 
-**Nothing on this page starts before the B gate (G3).** It exists so ideas have a scored home instead of
-becoming a feature cemetery of independent panes. Hub: [`README.md`](README.md).
+**The *new* cross-product Desktop C and terminal-native Living Tree adaptation opportunities on this page start after the Desktop B gate (G3).** This does **not** block Skill Heaven's existing cross-harness terminal experience, native statuslines, on-demand console work, or PR #196. Skill Heaven is one product, not a separately marketed “CLI product”. This page gives future ideas a scored home without creating independent panes by default. Hub: [`README.md`](README.md).
 
 ## 1. How a C opportunity earns its place
 
@@ -36,7 +35,7 @@ that needs its own pane needs a reason it cannot attach.
 
 The founder approves the order after B ships; the scores are re-run with probe results in hand.
 
-## 3. The optional CLI Mod (later, if worthwhile)
+## 3. The optional terminal-native Living Tree adaptation (later, if worthwhile)
 
 The Mods API draws on the terminal surface too, so a terminal panel is the *same* Mod drawing the
 *same* snapshot and overlay — no second inventory, no second observer.
@@ -63,8 +62,7 @@ The Mods API draws on the terminal surface too, so a terminal panel is the *same
 7. an adapter that maps into `skill-heaven.observation/v0` and the `gaia.living-tree.*` schemas with no
    core change (or a versioned one).
 
-A host that meets 3 and 4 but not 1 or 2 stays **Core + receipts** — honestly labelled, never "Full",
-never a Mod.
+A host that meets 3 and 4 but not 1 or 2 **does not qualify for the Gaia Ecosystem Desktop Mod**. It may still support Skill Heaven Core, an independently optional statusline, or a Full *Skill Heaven installation profile* with a truthful on-demand terminal console. A command-backed terminal surface is never labelled as a shipped Desktop Mod.
 
 ### Status, 2026-10-09
 
