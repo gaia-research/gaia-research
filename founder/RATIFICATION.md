@@ -82,6 +82,7 @@
 | D8 | **CURRENT** | **Implementation differs per harness; the outcome must be the same.** |
 | D9 | **INVARIANT** | **Ratification and implementation land in the same PR** — decisions are made as the work proceeds, so the decision record and the code embodying it travel together. This is the mechanism that keeps the two from drifting apart. |
 | D12 | **CURRENT** | **The subtractive floor is reachable only at boot.** An in-session control can move posture upward (additive) and carry conversation history, but cannot descend below its launch composition — subtractive recomposition and history survival are mutually exclusive. Evidence: matrix gate (a). **Re-verify on every harness upgrade** — the mechanism is undocumented and version-pinned. |
+| D14 | **CURRENT** | **Skill Heaven is the product**, compatible with agentic terminal harnesses, not a separately named CLI product; its **Console** includes the compact **Skill Heaven statusline**, summon receipts, and intentionally opened terminal views, while the outward installation choices are **Core** and **Core + Console** (internal profile identifiers may differ). The optional integrated Gaia Ecosystem **Mod** combines Skill Tree and Skill Heaven but has a separate release gate and an undecided public name; **Skill Tree** owns personal-graph vocabulary, and Living Tree/A/B/C are internal milestone language. |
 
 ## 4. Measurement & claims
 
