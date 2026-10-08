@@ -6,6 +6,9 @@ export type ProbeState = {
   listing: string
   skillPrompts: string[]
   presses: number
+  summons: string[]
+  reads: string[]
+  roots: string[]
 }
 
 declare module 'claude-code' {

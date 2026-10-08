@@ -4,7 +4,7 @@ import type { ProbeState } from '../types'
 import { probeSvg } from './svg'
 
 const PANE = 'lt-probe'
-const INITIAL: ProbeState = { size: 10_000, redraws: 0, surfaces: '?', version: '?', listing: 'not read yet', skillPrompts: [], presses: 0 }
+const INITIAL: ProbeState = { size: 10_000, redraws: 0, surfaces: '?', version: '?', listing: 'not read yet', skillPrompts: [], presses: 0, summons: [], reads: [], roots: [] }
 const probe = atom({ plugin: 'lt-desktop-probe', key: 'probe' } as const, INITIAL)
 
 export const register: Register = on => {
@@ -28,9 +28,33 @@ export const register: Register = on => {
     return result
   })
 
+  // Observe-only: the summon tool's result and later Reads of what it materialized. Results pass through untouched.
+  const SUMMON = ['mcp__plugin_skill-heaven_skill-summon__summon', 'mcp__skill-summon__summon']
+  on('tool.call', async ($, e, next) => {
+    const ran = await next(e)
+    const ev = e as any
+    const agent = ev.agentId ? String(ev.agentId).slice(0, 12) : 'main'
+    if (SUMMON.includes(ev.tool)) {
+      const r = ran as any
+      let parsed: any = null
+      try { parsed = typeof r?.result === 'string' ? JSON.parse(r.result) : r?.result } catch { parsed = null }
+      const names = (parsed?.summoned ?? []).map((s: any) => String(s.name ?? s.id).slice(0, 40))
+      const line = `[${agent}] shape {${Object.keys(r ?? {}).join(',')}} · result ${typeof r?.result} · ${names.length ? 'materialized ' + names.join(', ') : 'nothing materialized'}`
+      const root = parsed?.sessionRoot ? String(parsed.sessionRoot) : null
+      await update($, probe, p => ({ ...p, summons: [...(p.summons ?? []), line].slice(-5), roots: root ? [...(p.roots ?? []), root].slice(-5) : (p.roots ?? []) }))
+    } else if (ev.tool === 'Read') {
+      const path = String(ev.file_path ?? '')
+      const s: ProbeState = { ...INITIAL, ...(await read($, probe)) }
+      if (s.roots.some(root => path.startsWith(root)) && path.endsWith('SKILL.md')) {
+        await update($, probe, p => ({ ...p, reads: [...(p.reads ?? []), `[${agent}] ${path.split('/').slice(-2).join('/')}`].slice(-5) }))
+      }
+    }
+    return ran
+  })
+
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
     const { Box, Text, Button, Svg, Client } = $.ui.resolve(e) as any
-    const s = await read($, probe)
+    const s: ProbeState = { ...INITIAL, ...(await read($, probe)) }
     const setSize = (size: number) => () => update($, probe, p => ({ ...p, size }))
     const redraw = async () => {
       for (let i = 0; i < 20; i++) {
@@ -74,6 +98,8 @@ export const register: Register = on => {
         </Box>
         <Client key="pad" module="./pad.tsx" props={{ label: 'Client pad' }} width={60} />
         <Text>skill listing: {s.listing}</Text>
+        <Text>summons seen: {s.summons.length ? s.summons.join(' | ') : 'none yet'}</Text>
+        <Text>SKILL.md reads seen: {s.reads.length ? s.reads.join(', ') : 'none yet'}</Text>
         <Text>skill.prompt seen: {s.skillPrompts.length ? s.skillPrompts.join(', ') : 'none yet'}</Text>
       </Box>
     )
