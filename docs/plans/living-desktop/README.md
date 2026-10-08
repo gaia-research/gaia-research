@@ -20,7 +20,7 @@ gaia-skill-tree `6c0ef0fbb` (v8.18.3) · Claude Code **2.1.294** installed local
 
 | You are… | Read | Then |
 |---|---|---|
-| the founder | §1, §7, §8 of this page | answer FD-1…FD-3 (defaults apply if you are silent) |
+| the founder | §1, §7, §8 of this page | approve the B direction at G2 |
 | the orchestrator | this page, then [`LANES.md`](LANES.md) | dispatch P1 + P2 per the packets; hold the quality bar |
 | the design lead (Opus) | [`DESIGN-BRIEF.md`](DESIGN-BRIEF.md) only | produce 2–3 B directions on the feasible primitive set |
 | a contract/core engineer (Sol) | [`CONTRACT.md`](CONTRACT.md) | implement P1-C; keep it host-free |
@@ -85,13 +85,15 @@ gaia-skill-tree `6c0ef0fbb` (v8.18.3) · Claude Code **2.1.294** installed local
    its native plugin system or not at all.
 7. **In-flight gaia-skill-heaven #196 builds the superseded scope** — command-backed "Full" consoles for
    five more harnesses (five copies of a ~1,700-line `heaven.mjs`) and Full installer profiles for all
-   six. Its last commits predate the 2026-10-08 ruling by ~20 minutes, and **13 of them are unpushed**
-   on the owner's checkout (observed 2026-10-09). Preserve, then re-scope; do not merge as-is.
+   six. Its last commits predate the 2026-10-08 ruling by ~20 minutes. **Update 2026-10-09:** the owner
+   pushed and paused it at `22727cd`; still pending there are 23 stale UX expectations in the Claude SDK
+   tests, a final browser confirmation and the remaining native acceptance cells. Re-scope per L2 before
+   it resumes; do not merge as-is.
 
-### Still open (founder) — only three block anything, see §8
+### Founder decisions — taken 2026-10-09, see §8
 
-FD-1 unmapped-skill behaviour **in B** · FD-2 remembering hide/live preferences · FD-3 packaging and
-working name. Not B-blocking and deliberately left open: private graph storage/sync and #1178's home,
+FD-1 local-first My Tree with a switch to a Gaia view · FD-2 remember preferences on an explicit
+Remember · FD-3 one plugin, the console gets a My Tree pane. Not B-blocking and deliberately left open: private graph storage/sync and #1178's home,
 user-confirmed private edges, the premium fleet, and which C features earn their cost.
 
 ---
@@ -277,34 +279,15 @@ the registry, `skill-trees/` or user settings.
 
 ---
 
-## 8. Founder decision queue (only what blocks)
+## 8. Founder decisions (decided 2026-10-09)
 
-**FD-1 · In B, what happens to skills Gaia's canon does not know?** (load-bearing at P2: it sets the
-design scope)
-- (a) **Unmapped satellites only** — honest, unconnected, labelled; plausible matches shown as text in the
-  inspector, never as edges. ← **recommended**
-- (b) Agent-proposed private edges, user-reviewed, in B.
-- (c) Hybrid: (a) by default, proposals on request, in B.
+The founder answered the queue on 2026-10-09. These now bind P2 and P3.
 
-Recommendation: **(a) for B**; revisit (c) after storage is decided, because a proposal the user accepts
-must persist somewhere and that is #1178's question. **Default if silent: (a).**
-
-**FD-2 · May the Mod remember "live layer off" or "pane closed" across sessions?** (load-bearing at B3)
-- (a) Session-only, zero writes.
-- (b) Only after the person presses **Remember**, stored in the plugin's own `$.store` file under their
-  Claude config directory; forget removes it. ← **recommended**
-- (c) Remember by default.
-
-Recommendation: **(b)**; P3 forbids shared-config mutation, and a plugin-owned file written on explicit
-request is the narrowest honest reading. **Default if silent: (a).**
-
-**FD-3 · How does B ship — one plugin or two, and under what working name?** (load-bearing at B0)
-- (a) **One plugin:** the console grows a My Tree pane (AD-1). ← **recommended**
-- (b) Two plugins: a Tree-owned "Your Skill Tree" plugin that depends on the console.
-- (c) A standalone tree plugin with its own observer — **not recommended** (duplicate telemetry).
-
-Recommendation: **(a)**, working names "My Tree" (pane) inside the Skill Heaven console (preview); the
-design lead proposes final naming at G2. **Default if silent: (a).**
+| ID | Question | Decision | What it changes |
+|---|---|---|---|
+| FD-1 | What happens to skills Gaia's canon does not know? | **Local-first.** My Tree is the person's own skills; **Gaia is the canon tree, and a switch opens a Gaia view.** | My Tree draws every skill the person has as a first-class node, canon-verified or not. Canon edges between their own verified skills still show, but canon context (missing prerequisites, eligible fusions) and the wider canon structure move to the **Gaia view**, which draws the canon tree with the person's skills marked on it. **No agent-proposed edges in B.** A canon visitor marks its canon node in the Gaia view and sits in the visiting zone in My Tree (CONTRACT §5 rule 4 already covers both). *Planner's reading of "local-first"; the founder may correct it at G2.* |
+| FD-2 | May the Mod remember hide and live preferences across sessions? | **Yes, remember**, on an explicit **Remember**, stored in the plugin's own `$.store` file; forgetting removes it. | B3 ships a Remember control; probe cell H13 confirms where the store file lands and that uninstall removes it. |
+| FD-3 | One plugin or two? | **One plugin: the console gets a My Tree pane** (AD-1). | B0 builds inside `plugins/skill-heaven-console`; final naming is still proposed by the design lead at G2. |
 
 Deliberately **not** asked again: A/B/C, what "Your Skill Tree" means, native-vs-bridge policy, the
 statusline boundary, CLI Mod sequencing.
@@ -326,10 +309,9 @@ contracts, fixtures, design exploration, draft PRs):
 **Needs explicit owner approval:**
 - the **owner-attended desktop probe session** (P1-H live cells: enabling hot reload in a desktop
   Code-tab session, plus any user-scope install if the owner prefers that route);
-- **H1** (#844 relabel and a note to the volunteer) and **H5** (#196 is the owner's branch);
 - merging any implementation PR; marketplace listing changes; site claims (#194); installer defaults.
 
-**Needs the founder:** FD-1…FD-3 before G2 (the defaults keep work moving meanwhile), and G2 itself.
+**Needs the founder:** G2 itself (FD-1…FD-3 were decided 2026-10-09, §8).
 
 **Proposed ratification delta** (G3: decisions belong in `founder/RATIFICATION.md`; D9: it lands with
 the first implementing PR, B0 — not in this planning PR). The founder's 2026-10-08 ruling lives only in
@@ -344,11 +326,11 @@ issues and the handoff today. Proposed text, next free ids, no numbers or versio
 
 | ID | Where | Edit | Why |
 |---|---|---|---|
-| H1 | Tree #844 | comment; remove `good first issue` / `help wanted`; mark paused, pointing at #2046 and #286; thank the volunteer and ask them not to open a `skill-trees/` PR | L7 — an external contributor is about to put personal data into the registry |
+| H1 | Tree #844 | **done 2026-10-09** ([comment](https://github.com/gaia-research/gaia-skill-tree/issues/844#issuecomment-6066884164)); newcomer labels removed, volunteer redirected | L7 |
 | H2 | Tree #2046 | one comment: v1 acceptance list → `B-ACCEPTANCE.md`; "text/CLI fallback" means developer tooling; link `CONTRACT.md` | L5, L6 |
 | H3 | Heaven #192 | propose retitle "Portable observation contract + host capability matrix (Claude first)"; clarify that "fallback" means Core + receipts | L3 |
 | H4 | Heaven #191 | one comment for the epic and its children: Full = the Claude desktop Mod after the B gate; the site shows B after receipts; #195 includes desktop B receipts | L1, L4 |
-| H5 | Heaven PR #196 | owner pushes the 13 local commits to the draft, then re-scopes per L2 | L2; unpushed work is one disk failure from loss |
+| H5 | Heaven PR #196 | **pushed and paused by the owner at `22727cd` (2026-10-09)**; re-scope per L2 before it resumes | L2 |
 | H6 | Heaven #162 | comment: `CONTROL-PLANE.md` met the console IA; the B addendum is this plan; stays open until G1 | L8 |
 | H7 | Heaven #164 | comment: new static evidence → probe cells H8 and H11 | L10 |
 

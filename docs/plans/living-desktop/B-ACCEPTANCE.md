@@ -19,6 +19,7 @@ plugin (FD-3 default). The design lead may rename at G2.
 | J6 | **Many agents** | subagents summon in parallel; marks carry agent chips; arrivals coalesce; the busiest moment is still calm | an animation storm; agent ids the host did not report |
 | J7 | **Hide and return** | one control hides the live layer; closing the pane hides everything; reopening restores the session's view | any change to the runtime, settings or statusline |
 | J8 | **Session end** | live marks fade to a quiet "earlier this session" list; the next session starts clean | persistence of a visitor |
+| J9 | **Switch to the Gaia view** | one control turns My Tree into Gaia's canon tree with their skills marked, missing prerequisites and eligible fusions in view; live marks stay where they belong; switching back returns their place | a canon rank or edge appearing on a skill that is not verified |
 
 ## 2. Acceptance scenarios
 
@@ -40,6 +41,8 @@ Each scenario names its fixtures (CONTRACT §9) and what live receipt it needs a
 | S11 | Light and dark themes | contrast thresholds (§4) hold in both | measured contrast | — | yes |
 | S12 | *Stretch (B5):* native skill activity | a typed `/skill` lights its node "expanded by the host"; an ambiguous name lands in the unresolved list, not on a guessed node | observations `via: skill-prompt` | F14 | if B5 ships |
 | S13 | Revision mismatch | nothing verified; a notice says why | overlay notices | F13 | no |
+| S15 | My Tree ↔ Gaia view (FD-1) | `mine` shows possessed and local skills only; `gaia` shows canon structure with possessed marked; a canon visitor marks its node in `gaia` and sits in the visiting zone in `mine`; overlay identical across switches | overlay hash; screenshot pair | F4, F7 | yes |
+| S16 | Remember (FD-2) | Remember writes only the plugin's own store file; a new session restores the hidden live layer; Forget removes the file; nothing else on disk changes | file hashes before/after; probe H13 | F12 | yes |
 | S14 | Coexistence with the status entry and Lens band | one event has one primary surface; no duplicated pulses | design review + screenshot | F6 | yes |
 
 ## 3. Observation semantics — what each signal may show
@@ -134,9 +137,9 @@ a mini-map), never a CLI imitation advertised as B.
 
 B is complete only when **every** line holds:
 
-1. S1–S14 pass in CI (fixture-driven; `claude plugin test` on desktop and terminal mounts where
+1. S1–S16 pass in CI (fixture-driven; `claude plugin test` on desktop and terminal mounts where
    meaningful), and the two-adapter conformance suite is green.
-2. **Live desktop receipts** for S1–S8 and S10–S11 on a pinned Claude Desktop build, owner-attended:
+2. **Live desktop receipts** for S1–S8, S10–S11, S15 and S16 on a pinned Claude Desktop build, owner-attended:
    screenshots, debug-log hard signals, host version. Mocked panes and terminal probes do not count.
 3. Truth bars T1–T10 verified by the orchestrator ([`LANES.md`](LANES.md) §3).
 4. Q1–Q12 measured; misses carry founder waivers.

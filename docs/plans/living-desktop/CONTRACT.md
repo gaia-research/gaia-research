@@ -136,6 +136,11 @@ type GraphEdge = {
 };
 ```
 
+**Two views (FD-1).** The snapshot carries possessed, local and context nodes; the `mine` view draws
+possessed and local nodes and the canon edges among them, and the `gaia` view draws the canon structure
+— context nodes included — with possessed nodes marked. One snapshot, two projections; no view computes
+its own truth.
+
 **Projection rules.** A verified instance contributes its **capability** (generic) node; several
 implementations of one capability share the node and appear as instances in the inspector. An unmapped
 or plausible instance contributes a **local** node with no edges. **Context** nodes are added only as
@@ -265,7 +270,11 @@ The Claude desktop declaration is filled from gaia-research matrix gate (f). A h
 interface GraphViewAdapter {
   render(snapshot: PersonalGraphSnapshot, overlay: Overlay, view: ViewState): void;  // paint only
 }
-type ViewState = { liveVisible: boolean; focus?: string; filter?: SourceRef["kind"][]; reducedMotion: boolean };
+type ViewState = {
+  view: "mine" | "gaia";          // FD-1: local-first My Tree, or the canon tree with your skills marked
+  liveVisible: boolean; focus?: string; filter?: SourceRef["kind"][]; reducedMotion: boolean;
+  remembered?: { liveVisible?: boolean };   // FD-2: only after an explicit Remember; stored in the plugin's $.store
+};
 ```
 
 Pixels, layout and interaction may differ per host. Identity, placement, phase, labels' meaning,
