@@ -37,8 +37,7 @@ The founder approves the order after B ships; the scores are re-run with probe r
 
 ## 3. The optional terminal-native Living Tree adaptation (later, if worthwhile)
 
-The Mods API draws on the terminal surface too, so a terminal panel is the *same* Mod drawing the
-*same* snapshot and overlay — no second inventory, no second observer.
+A future terminal-native view may reuse the Desktop Mod's shared graph/event snapshot and observation contracts, without a second inventory or observer. Use the host's actually supported terminal UI; do not assume that the exact same desktop Mod paint or API will be portable.
 
 - **Shape:** summoned only by `/my-tree` in a terminal session; disappears completely when dismissed;
   coexists with the launcher and the one-line statusline; never opens unasked (the host only seats unasked
