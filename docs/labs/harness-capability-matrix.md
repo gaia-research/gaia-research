@@ -479,9 +479,46 @@ behavioral rung in the `/skill-zero` ladder UI. Until green, the MVP ladder
 ships **physical-only** (gate (a)); the behavioral rung renders as
 "coming — research" and never as a working stop.
 
+## Desktop gate (f): Living Tree host surface — Claude Code 2.1.294 (2026-10-09)
+
+**Status: static only — no desktop paint observed.** Feeds the Living Desktop plan
+([`docs/plans/living-desktop/`](../plans/living-desktop/README.md), HQ #286) and the capability matrix
+owned by gaia-skill-heaven #192. Live cells are probe P1-H
+([`B-ACCEPTANCE.md` §6](../plans/living-desktop/B-ACCEPTANCE.md)).
+
+Legend for this gate: 📄 declared in the engine-written API declarations (first line "Written by Claude
+Code 2.1.294") · 🧪 engine test kit — `claude plugin validate` / `claude plugin test` accepted or refused
+the tree or handler; **the kit never paints** · ✅ live, logged-in session · ❓ not probed.
+
+| Cell | Claim | Verdict | Evidence |
+|---|---|---|---|
+| f1 | Desktop element table: `Box Text Button Input Select Svg Link Code Markdown Client`; terminal lacks `Svg`, adds `Raster Image` | 📄 | `Elements` |
+| f2 | An interactive `Svg` inside a desktop `Pane` is accepted at 10,000, 110,000 and 131,072 characters | 🧪 | [`lt-probe`](../plans/living-desktop/probe/README.md), 7/7 |
+| f3 | At 131,073 characters it is refused: "ui.render (Pane) refused: Svg source longer than 131072 characters; the engine drew its own" | 🧪 | same |
+| f4 | `Svg` never runs script: an image, or a sandboxed frame with `:hover`, SMIL and `<title>` when `isInteractive`; presses only on an enclosing element | 📄 | `SvgProps` |
+| f5 | An absolutely positioned `Box` holding a Button over the `Svg` is pressable on desktop | 🧪 | `lt-probe` (`{"element":"node-0"}`) |
+| f6 | A `Client` surface module on desktop receives a pointer `down` in cells (x=3, y=0) and redraws; it cannot draw `Svg` | 🧪 · 📄 | `lt-probe`; `ClientElements` |
+| f7 | On the terminal surface the same Pane draws no `Svg`; its Buttons remain | 🧪 | `lt-probe` |
+| f8 | `skill.prompt` fires when the engine expands a skill for `/name`, the Skill tool or a subagent preload; input `{ skill, text }`, no agent field | 📄 | `SkillPromptInput` |
+| f9 | `$.session.usage({ breakdown: "summary" })` returns the session's skill listing `{ totalSkills, includedSkills, skillFrontmatter[{ name, source, pluginName?, tokens }] }`, counted locally | 📄 | `SessionUsage`, `ContextSkills` |
+| f10 | `$.fs` read/list/stat (4 MiB per read); `$.store` is a plugin-owned JSON file under the user's Claude config dir; `$.http.fetch` goes through the host; `$.process` is CLI only | 📄 | engine nouns |
+| f11 | Console observations: summon result `{ ref, result, text }`, `Read` of the materialized `SKILL.md`, `agentId` on subagent calls | ✅ **terminal only** | gaia-skill-heaven #187 |
+| f12 | Desktop paint of anything above | ❓ **NEEDS DESKTOP PROBE** | P1-H cells H1–H18 |
+| f13 | DeepSeek Harness Claude Code Mods bridge (doc tracks 2.1.287): `ui.render` raised for the prompt band only; `Pane` not placed; `skill.prompt` never raised; no `Svg` mentioned; mods unsandboxed; no validate/test | 📄 vendor doc, read 2026-10-09 | `deepseek-harness/docs/subsystems/claude-code-mods.md` |
+
+**Unblocks:** Living Desktop P2 may design on `Svg` in a docked `Pane` plus native controls, under a
+131,072-character ceiling (design to ≤110,000). **Blocks:** any claim that B paints on desktop, that the
+skill listing or `skill.prompt` behave as declared, or that a DeepSeek bridge can carry B — until the
+live cells run.
+
 ## Sources
 
 - Claude Code 2.1.211 `--help` + empirical runs above (this container, 2026-07-18).
+- Claude Code 2.1.294 engine-written Mods API declarations (`claude-code.d.ts`, written 2026-10-09) and
+  `claude plugin validate` / `claude plugin test` runs of `docs/plans/living-desktop/probe/lt-probe`
+  (macOS, 2026-10-09) — gate (f).
+- DeepSeek Harness, [Claude Code Mods compatibility bridge](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/claude-code-mods.md)
+  (read 2026-10-09) — gate (f) f13.
 - Codex skills: [developers.openai.com/codex/skills](https://developers.openai.com/codex/skills);
   [Skills in OpenAI Codex (fsck.com)](https://blog.fsck.com/2025/12/19/codex-skills/);
   [Codex CLI skills install guide (agensi.io)](https://www.agensi.io/learn/codex-cli-skills-install-skill-md).
