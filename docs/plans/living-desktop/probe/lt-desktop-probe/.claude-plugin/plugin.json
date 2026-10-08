@@ -1,1 +1,1 @@
-{ "name": "lt-desktop-probe", "version": "0.1.0", "description": "Throwaway Living Tree desktop paint probe (P1-H). Observe-only; writes nothing.", "types": "./types/index.d.ts" }
+{ "name": "lt-desktop-probe", "version": "0.1.0", "description": "Throwaway Living Tree desktop paint probe (P1-H). Observes hooks and updates probe-local state; no intended user settings writes (H18 not yet checked).", "types": "./types/index.d.ts" }
