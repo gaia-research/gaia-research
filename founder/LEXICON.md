@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-research` · 77 terms across 6 namespace(s) · updated **2026-08-11**.
+> Schema `2` · HQ `gaia-research` · 80 terms across 6 namespace(s) · updated **2026-10-09**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
@@ -16,7 +16,7 @@
 | `core` | `gaia-research` | `founder/lexicon.json` | 2 |
 | `gaia.research` | `gaia-research` | `founder/lexicon.gaia.research.json` | 13 |
 | `gaia.brand` | `gaia-research` | `founder/lexicon.gaia.brand.json` | 2 |
-| `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 34 |
+| `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 37 |
 | `gaia.zero` | `gaia-research` | `founder/lexicon.gaia.zero.json` | 22 |
 | `gaia.mcp` | `gaia-research` | `founder/lexicon.gaia.mcp.json` | 4 |
 
@@ -129,7 +129,10 @@ to make a decision.
 
 | Term | State | Oracle | Definition |
 |---|---|---|---|
-| `skill-heaven` | ✅ canonical | N11, N9 | The umbrella runtime brand and repo: `gaia-research/gaia-skill-heaven`. It contains the Skill Zero launcher module and the Heaven/Hell/Ultra runtime direction work; it is not the launcher bin. |
+| `skill-heaven` | ✅ canonical | N11, N9 | The Skill Heaven product and umbrella runtime brand in `gaia-research/gaia-skill-heaven`, compatible with supported agentic terminal harnesses. It includes Skill Zero launcher support, summon/Heaven/Hell/Ultra behavior, and its terminal experience. The terminal experience is not a separately named 'CLI product'; Core and Core + Console are choices within Skill Heaven, not separate products. |
+| `Skill Heaven console` | ✅ canonical | D14 | The complete Skill Heaven terminal user-interface experience within supported agentic harnesses: its compact statusline, explicit summon receipts, and native/on-demand detailed readouts. 'Console' does not mean an always-open pane, a separate CLI product, or the optional Gaia Ecosystem desktop Mod; capabilities must be shown truthfully per harness. |
+| `Skill Heaven statusline` | ✅ canonical | D14 | The optional, persistent single-line Skill Heaven runtime instrument inside a compatible agentic harness. It is a part of the Skill Heaven console, never a replacement for the host's or user's statusline without explicit consent; expanded details belong to on-demand views. |
+| `Core + Console` | ✅ canonical | D14 | The founder-selected outward-facing installation choice for Skill Heaven Core with the supported Skill Heaven console experience. Core remains the console-free runtime option; existing internal `full` profile identifiers may remain unchanged, and this label is not evidence of per-harness availability or of the Gaia Ecosystem desktop Mod being installed. |
 | `claude-heaven` | ⛔ banned | N11, N9 | Retired door product name. Use `claude-zero` for the Skill Zero door. **Use `claude-zero`.** Retired by the Skill Zero split (2026-08-11): Heaven is a summon direction and umbrella brand, not a per-harness launcher name. |
 | `pi-heaven` | ⛔ banned | N11, N9 | Retired door product name. Use `pi-zero` for the Skill Zero door. **Use `pi-zero`.** Retired by the Skill Zero split (2026-08-11): Heaven is a summon direction and umbrella brand, not a per-harness launcher name. |
 | `hh-launcher` | ⛔ banned | N9 | Retired working name for the launcher repo. **Use `skill-zero`.** |
@@ -195,4 +198,3 @@ to make a decision.
 | `gaia_inspect` | ✅ canonical | D4 | Inspection tool in the published rich Registry/Bond package (@gaia-research/mcp). It is not a tool in D4's distinct thin Heaven/Summon profile, but that profile constraint does not deprecate this published name. Keep this spelling when documenting or integrating the published package; do not substitute the future profile's proposed `search_skills` name. |
 | `gaia_status` | ✅ canonical | D4 | Status tool in the published rich Registry/Bond package (@gaia-research/mcp). It is not a tool in D4's distinct thin Heaven/Summon profile, but that profile constraint does not deprecate this published name. Keep this spelling when documenting or integrating the published package; do not infer a two-tool limit for the package total from D4. |
 | `search_skills` | 🅿️ parked | D4 | Proposed search tool name for D4's distinct thin Heaven/Summon profile, paired with `summon`. The profile is future work; this name does not describe or rename the published rich package's `gaia_search` tool. Parked because the thin profile has not shipped. D4's <=2-tool/schema-dose constraint remains a separate profile decision, not a ban on the published package's four names. |
-
