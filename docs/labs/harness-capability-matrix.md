@@ -509,12 +509,12 @@ the tree or handler; **the kit never paints** · ✅ live, logged-in session · 
 **Live desktop run (2026-10-09).** Claude desktop app, Code tab, macOS, owner-attended; the desktop
 engine reported **2.1.293** while the installed CLI was 2.1.294. Probe mod loaded through the
 plugin-authoring hot reload (session-only, no plugin-registry write); hard signals were the probe's own
-on-screen readouts and toasts, captured as owner screenshots.
+on-screen readouts and toasts, reported through owner-attended screenshots (not committed in this PR).
 
 | Cell | Claim | Verdict | Evidence |
 |---|---|---|---|
 | f14 | A `Pane` opened from a command docks beside the transcript and paints; `placement` and `bodyColumns` are **not reported** on desktop | ✅ / ❌ (props) | probe readout |
-| f15 | An interactive `Svg` paints at 10,000, 60,000 and 110,000 characters | ✅ | screenshots |
+| f15 | An `Svg` configured with `isInteractive` paints at 10,000, 60,000 and 110,000 characters; SVG node clicks were not verified | ✅ paint / ❓ SVG node clicks | owner screenshots |
 | f16 | The host backs the `Svg` frame **white**; explicit `width`/`height` props letterbox it. Setting the SVG root background (`svg{background:…}`, per `prefers-color-scheme`) themes the whole frame | ✅ with the root-background fix | screenshots, before/after |
 | f17 | `prefers-color-scheme: dark` reaches the sandboxed frame | ✅ | probe readout "scheme: dark" |
 | f18 | CSS `:hover` works; CSS keyframe and SMIL animation both run continuously | ✅ (tooltip not confirmed) | owner observation |
@@ -523,16 +523,18 @@ on-screen readouts and toasts, captured as owner screenshots.
 | f21 | A `Client` region receives pointer `move` and `down` events | ✅ | `downs=11 moves=37` |
 | f22 | `$.session.usage({ breakdown: "summary" })` returns the skill listing: **186/186**, sources `userSettings`, `projectSettings`, `plugin`, `built-in` | ✅ | probe readout |
 | f23 | `skill.prompt` fires for a typed `/simplify` and for a model Skill-tool call (`anthropic-skills:computer-use`) | ✅ | probe readout |
-| f24 | An `async` handler passed straight to `onPress` never ran; wrapped as `() => { void f() }` it did | inferred (the key was renamed in the same change) | toast |
+| f24 | Button response improved after wrapping an async `onPress` callback **and** changing its key in the same edit; cause not isolated | ⚠️ inconclusive | owner toast |
 
 Still ❓ on desktop: Skill Zero boot (H9), summon/`Read`/`agentId` (H10), local scan (H12), `$.store`
 (H13), VoiceOver (H15), session end and compaction (H16), console paint (H17), observe-only file hashes
 (H18).
 
-**Unblocks:** Living Desktop P2 may design on `Svg` in a docked `Pane` plus native controls, under a
-131,072-character ceiling (design to ≤110,000). **Blocks:** any claim that B paints on desktop, that the
-skill listing or `skill.prompt` behave as declared, or that a DeepSeek bridge can carry B — until the
-live cells run.
+**Unblocks:** Living Desktop P2 may design on an SVG in a docked Pane with separate native controls;
+the engine test kit caps SVG source at 131,072 characters (target ≤110,000), while this desktop run
+confirmed paint up to 110,000. The per-session skill listing and typed/model-called `skill.prompt` were
+observed here. **Still blocked:** claims that the **complete B product** paints, that external Skill Heaven
+summon/body-read events work on desktop (H10), that all skill sources can be enumerated, or that a
+DeepSeek bridge can carry B. Owner screenshots are not independently published probe artifacts.
 
 ## Sources
 
