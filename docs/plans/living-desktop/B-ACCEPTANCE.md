@@ -131,7 +131,7 @@ gaia-research `docs/labs/harness-capability-matrix.md` gate (f).
 
 **Live results 2026-10-09** (desktop engine 2.1.293, matrix f14–f24): H1 ✅ (placement and width not
 reported) · H2 ✅ · H3 ✅ hover and CSS/SMIL animation (tooltip unconfirmed), scheme reaches the frame ·
-H4 ❌ every source change flickers once · H5 ✅ (wrap async handlers) · H6 ✅ · H7 ✅ · H8 ✅ 186/186
+H4 ❌ every source change flickers once · H5 ✅ overlay button input (async callback cause unisolated) · H6 ✅ · H7 ✅ · H8 ✅ 186/186
 listed · H11 ✅ typed and model-called skills · H14 ✅ with the SVG root-background fix. Still open: H9,
 H10, H12, H13, H15–H18. **B is a go on paint;** H10 (summon observation on desktop) is the last cell the
 go rule needs.
@@ -144,11 +144,12 @@ orchestrator. Notes from the owner-attended run:
   (debug log or `$.ui.log`) without the owner relaying screenshots, so cells can iterate back and forth.
   The owner prefers this to manual rounds.
 - H10 attempt: `/skill-heaven:summon graphify` materialized nothing. The registry entry
-  `safishamsi/graphify` links a file, not a skill directory (filed upstream), and the index was 31 days
-  stale. Retry H10 with a query that resolves (`frontend code review`, `tdd`); the probe now observes
-  summon results and `Read`s of materialized `SKILL.md`.
-- Probe lessons: `$.state` survives hot reloads, so merge persisted state over defaults; wrap async
-  `onPress` handlers as `() => { void f() }`.
+  `safishamsi/graphify` links a file, not a skill directory ([gaia-skill-tree #1445](https://github.com/gaia-research/gaia-skill-tree/issues/1445), also rediscovered in duplicate #2049); the index was reported 31 days
+  stale. Retry H10 with a verified materializable skill. The probe is **instrumented to observe** summon
+  results and `Read`s of materialized `SKILL.md`, but this desktop observation has **not passed**.
+- Probe lessons: `$.state` survives hot reloads, so merge persisted state over defaults. A button
+  began responding after **both** an async `onPress` wrapper and element-key change; isolate the cause
+  before claiming the wrapper itself is required.
 - Not yet checked: whether the locally installed `skill-heaven` plugin matches `main`.
 
 **Go for B:** H1, H2, H5, H10 and one of H8/H12 green. **Stop and ask the founder:** H2 red (no vector
