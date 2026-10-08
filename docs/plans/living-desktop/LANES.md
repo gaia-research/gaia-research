@@ -14,7 +14,7 @@ the core lane; a Luna worker can write desktop-lane tests.
 | Architectural lane | Owns | Issue owner | Code home |
 |---|---|---|---|
 | Portable semantics / core | inventory, identity, canon mapping, graph projection, overlay reducer; observation envelope; host capabilities; fixtures; conformance | Tree #2046 (graph half) · Heaven #192 (observation half) | gaia-skill-tree new TS package · gaia-skill-heaven `packages/status` |
-| CLI instrument | the one-line statusline and summon receipts | Heaven #137 | unchanged by this program |
+| Skill Heaven terminal experience | the one-line optional statusline and summon receipts (#137), plus independently owned native/on-demand terminal console and installation profiles (#191–#196); later terminal-native adaptations of B/compatible C only when worthwhile | Heaven #137 / #191 | independent of the Desktop B release gate |
 | Desktop enhancement | the My Tree pane (B) and the cockpit (C) inside the Claude Mod | Heaven #161 (with #2046 for tree semantics) | gaia-skill-heaven `plugins/skill-heaven-console` |
 | Evidence of record | desktop capability matrix gate (f), live receipts | Heaven #192 / #195 | gaia-research `docs/labs/harness-capability-matrix.md` |
 
