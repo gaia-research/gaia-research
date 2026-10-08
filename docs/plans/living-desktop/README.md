@@ -1,6 +1,8 @@
 # GAIA Living Desktop — Planning Handoff
 
-**B Living Tree first. C Desktop Cockpit where the host supports it. Contracts portable; ports only when complete.**
+**B Living Tree first for the optional Gaia Ecosystem Desktop Mod; C Cockpit where the host supports it. Skill Heaven continues independently as the product for agentic terminal harnesses. Contracts portable; ports only when complete.**
+
+**Founder scope correction (2026-10-09):** “CLI” in earlier planning notes meant **Skill Heaven’s terminal experience**, not a separate product. Skill Heaven owns runtime/summon, one-line statuslines (#137), and native/on-demand terminal consoles and Core/Full installation profiles (#191–#196), independently of desktop B/C. A **Full Skill Heaven profile is not a Gaia Ecosystem Desktop Mod**. The Mod is a separately gated integrated Skill Tree + Skill Heaven experience (B, then worthwhile C); Skill Heaven may offer its optional installation after approval. Future terminal-native adaptations of B and compatible C follow, not block, the current #196 release. See the [founder handoff](../../../founder/handoffs/2026-10-08-gaia-living-desktop-planner-handoff.md).
 
 Status: **planning deliverable for [GAIA HQ #286](https://github.com/gaia-research/gaia-research/issues/286)**, written
 2026-10-09 from the founder commission
@@ -40,8 +42,7 @@ gaia-skill-tree `6c0ef0fbb` (v8.18.3) · Claude Code **2.1.294** installed local
 - **Claude Desktop first.** Portability lives in versioned contracts and thin host adapters. No
   50%-quality ports. Prefer a native host plugin over a bridge-to-a-bridge; a bridge is acceptable only
   if the rendered experience is independently product-complete. Codex is research-only.
-- **Three lanes, no confusion:** portable semantics/core · CLI instrument (#137, one line) · desktop
-  enhancement. The statusline is never a Mod fallback; a CLI Mod panel is an optional later idea.
+- **Three lanes, no confusion:** portable semantics/core · **Skill Heaven terminal experience** (statusline #137, summon receipts, native/on-demand console #191–#196) · Gaia Ecosystem desktop enhancement (B then C). A terminal view is a first-class Skill Heaven capability, not a substitute for the Desktop Mod. A future terminal-native Living Tree adaptation is optional and separate.
 - **"Your Skill Tree" means the user's Agent Skills**, one personal DAG across every source; source and
   scope are metadata and filters, never a graph split. No fabricated relationships.
 - **Trust boundaries:** installed ≠ invoked ≠ materialized ≠ body-read ≠ verified effective use. Personal
@@ -87,12 +88,7 @@ gaia-skill-tree `6c0ef0fbb` (v8.18.3) · Claude Code **2.1.294** installed local
    2.1.287, read 2026-10-09) raises `ui.render` for the prompt band only, never places a `Pane`, never
    raises `skill.prompt`, says nothing of `Svg` and runs mods unsandboxed. Any DeepSeek B goes through
    its native plugin system or not at all.
-7. **In-flight gaia-skill-heaven #196 builds the superseded scope** — command-backed "Full" consoles for
-   five more harnesses (five copies of a ~1,700-line `heaven.mjs`) and Full installer profiles for all
-   six. Its last commits predate the 2026-10-08 ruling by ~20 minutes. **Update 2026-10-09:** the owner
-   pushed and paused it at `22727cd`; still pending there are 23 stale UX expectations in the Claude SDK
-   tests, a final browser confirmation and the remaining native acceptance cells. Re-scope per L2 before
-   it resumes; do not merge as-is.
+7. **In-flight gaia-skill-heaven #196 remains independently in scope for Skill Heaven's terminal experience**, including truthful host-native/command-backed consoles and Core/Full Skill Heaven install profiles. The earlier plan incorrectly treated this work as superseded by desktop B/C. **Snapshot at pause, 2026-10-09:** head `22727cd`, five duplicated ~1,700-line `heaven.mjs` bundles to assess for maintenance cost, 23 stale Claude SDK test expectations, final browser confirmation, and remaining native acceptance cells. Resume to validate and finish the Skill Heaven release; consolidate duplicate code where justified, without mislabeling it as a Desktop Mod. Do not merge with stale tests, unsafe terminal bloat, or inflated host capability claims.
 
 ### Founder decisions — taken 2026-10-09, see §8
 
@@ -160,8 +156,8 @@ flowchart TD
   YST["Tree #2046<br/>Your Skill Tree: inventory, identity,<br/>personal DAG facts, tree semantics"]
   SHD["Heaven #161<br/>Claude desktop Mod: B host, C cockpit"]
   CON["Heaven #192<br/>observation envelope, capability matrix,<br/>conformance (2 mock adapters)"]
-  CLI["Heaven #137<br/>CLI instrument — independent lane"]
-  EPIC["Heaven #191 epic → #193 #194 #195<br/>Core/Full, re-gated by B"]
+  CLI["Heaven #137 + #191<br/>Skill Heaven terminal experience"]
+  EPIC["Heaven #191 epic → #193 #194 #195<br/>Skill Heaven install/terminal release"]
   HQ --> YST
   HQ --> SHD
   HQ --> CON
@@ -174,7 +170,7 @@ flowchart TD
   SHD --> C1["#163 Lens · #164 Flow · #165 Receipt/Trust · #166 Scope<br/>B takes #164's live-layer spec and #165's receipt view; the rest is C"]
   YST --> R1178["#1178 storage RFC — not a B prerequisite"]
   YST --> R844["#844 onboarding — conflicting, pause"]
-  EPIC --> PR196["PR #196 — superseded scope, re-scope"]
+  EPIC --> PR196["PR #196 — finish terminal release independently"]
   EPIC --> M0["#195 → B release evidence"]
 ```
 
@@ -193,9 +189,9 @@ flowchart TD
 | [Heaven #165](https://github.com/gaia-research/gaia-skill-heaven/issues/165) | B dependency (receipt) + C (trust) | the receipt view B opens on click; install trust is C |
 | [Heaven #166](https://github.com/gaia-research/gaia-skill-heaven/issues/166) | C surface | scope controls and loadouts (loadouts stay "do not build yet") |
 | [Heaven #192](https://github.com/gaia-research/gaia-skill-heaven/issues/192) | canonical owner (contract) | observation envelope, capability matrix, conformance; title is stale |
-| [Heaven #137](https://github.com/gaia-research/gaia-skill-heaven/issues/137) | independent lane | the one-line instrument; untouched by B |
-| [Heaven #191](https://github.com/gaia-research/gaia-skill-heaven/issues/191) → [#193](https://github.com/gaia-research/gaia-skill-heaven/issues/193) [#194](https://github.com/gaia-research/gaia-skill-heaven/issues/194) [#195](https://github.com/gaia-research/gaia-skill-heaven/issues/195) | epic + children, **re-gated** | Core everywhere; Full = the Claude desktop Mod only, and only after the B gate; the site shows B after live receipts; #195 carries the desktop B receipts |
-| [Heaven PR #196](https://github.com/gaia-research/gaia-skill-heaven/pull/196) | in flight, superseded scope | preserve, then re-scope (H5) |
+| [Heaven #137](https://github.com/gaia-research/gaia-skill-heaven/issues/137) | independent lane | one-line statusline and summon receipts; Skill Heaven terminal console work also runs under #191/#196, independent of B |
+| [Heaven #191](https://github.com/gaia-research/gaia-skill-heaven/issues/191) → [#193](https://github.com/gaia-research/gaia-skill-heaven/issues/193) [#194](https://github.com/gaia-research/gaia-skill-heaven/issues/194) [#195](https://github.com/gaia-research/gaia-skill-heaven/issues/195) | Skill Heaven epic + children | Core/Full installation profiles and truthful terminal console/support across harnesses; independent from Gaia Ecosystem Desktop Mod B/C acceptance. Full profile ≠ shipped Desktop Mod |
+| [Heaven PR #196](https://github.com/gaia-research/gaia-skill-heaven/pull/196) | in flight, independent | finish Skill Heaven terminal experience; Sol High owns implementation; no dependency on Living Tree B |
 | [Heaven #123](https://github.com/gaia-research/gaia-skill-heaven/issues/123) | open, independent | hooks runtime; not a B dependency |
 | [Heaven #150](https://github.com/gaia-research/gaia-skill-heaven/issues/150) | C candidate | cosmetic skins (C6) |
 | [Heaven #116](https://github.com/gaia-research/gaia-skill-heaven/issues/116), [#85](https://github.com/gaia-research/gaia-skill-heaven/issues/85), [#91](https://github.com/gaia-research/gaia-skill-heaven/issues/91) | completed → invariants | runtime layer; no authority-shaped output; summoned content is guidance, never instruction |
@@ -216,17 +212,17 @@ The newest explicit founder ruling wins for release scope; verified evidence win
 
 | # | Stale instruction (where) | Superseded by | What downstream agents do |
 |---|---|---|---|
-| L1 | #191 body: Full "for every supported harness"; "one branch/PR, no plan-only handoff" | #191's own 2026-10-08 header; HQ #286 | Full is offered only where a complete desktop experience passes; this planning handoff is the founder's request |
-| L2 | **PR #196** implements L1: command-backed consoles for Agy/Codex/Grok/Hermes/Pi labelled Full; Full profiles for six harnesses | same | keep the portable contract pieces (console-host capability matrix, shared reducers and view-model, Core install mechanics) under #192; do **not** ship command-backed readouts as Full; collapse the five duplicated `heaven.mjs` bundles into one generated artifact if any survive as plain CLI commands |
-| L3 | #192 acceptance: "every supported harness has a Full console … or the best native fallback"; its own protocol section asks for "a minimal native or CLI/web fallback" | #192's founder-threshold header | a host without pane/event APIs gets Core + receipts, honestly labelled; that is not Full and not a Mod |
-| L4 | #193–#195 acceptance matrices: "fresh Full install → console present" for six harnesses | headers on each | Full rows exist only for Claude, and only after the B gate |
+| L1 | Earlier #191 / HQ #286 wording treated “Full” as necessarily a rich Desktop Mod | 2026-10-09 founder terminology ruling | Core and Full are Skill Heaven **installation profiles**; Full terminal consoles can ship independently. Full ≠ Gaia Ecosystem Desktop Mod |
+| L2 | Earlier plan proposed dropping five terminal console integrations from **PR #196** because they are not desktop Mods | same ruling | **Retain and finish** working terminal integrations as Skill Heaven capabilities; truthful native/degraded host labels; compact default + on-demand details. Assess duplicated `heaven.mjs` bundles for consolidation without undoing tests |
+| L3 | #192 has both portable-contract and old cross-harness console-UI wording | 2026-10-09 owner split | #192 owns shared semantics, evidence/capabilities and conformance; #137/#191 own terminal output and adapters; #161 + Tree #2046 own integrated Desktop Mod. Terminal commands are not desktop-Mod fallbacks |
+| L4 | Earlier #193–#195 headers made Skill Heaven Full/profile/site/probes depend on B Desktop release | 2026-10-09 independence clarification | Skill Heaven Core/Full terminal install, site and live harness acceptance proceed under #196. The optional Gaia Ecosystem Desktop Mod has separate B/C release and installation/marketing gates |
 | L5 | #2046 "Proposed minimal v1 acceptance" #1: "A text/CLI fallback exists" | #2046's scope ruling | `gaia tree` / `gaia graph` stay as developer tooling; they are not a B fallback; v1 acceptance is [`B-ACCEPTANCE.md`](B-ACCEPTANCE.md) |
 | L6 | #2046: "use a native compact projection linking to a richer local view" if Mods cannot render large DAGs | handoff P3 | any alternative must live inside Claude Desktop; a browser page is not B |
 | L7 | **#844** asks newcomers to add `skill-trees/<you>/skill-tree.json` as a "public AI-agent résumé" and "honest self-assessment" that "fuels the trust-magnitude leaderboard"; a contributor volunteered 2026-09-01 | `skill-trees/README.md` migration notice; #1178/#1179; the 2026-10-08 identity and trust rulings | pause the issue; do not accept personal trees into the registry |
 | L8 | #161 "pick these up in order #162 → #166" | #161's B header | B first: only the parts of #164/#165 that make B compelling; the rest is C, scored in [`C-AND-HOSTS.md`](C-AND-HOSTS.md) |
 | L9 | #2046 "persistent collapsed preference where permitted" | RATIFICATION P3 (no shared-config mutation) | session-only by default; remembering needs consent (FD-2) |
 | L10 | #164 / #2046: native skill invocation "not verified" | new static evidence (`skill.prompt`, session listing) | still unverified; now a named probe cell, not an assumption either way |
-| L11 | Vocabulary collision: `SKILL_HEAVEN_STATUS=full` (statusline mode) vs **Full** (install profile) | — | say "statusline full mode" and "Full profile" in every new doc; rename is out of scope |
+| L11 | Vocabulary collision: `SKILL_HEAVEN_STATUS=full` vs **Full** installation profile, plus “CLI product” shorthand | 2026-10-09 naming clarification | Say “statusline full mode”, “Full Skill Heaven installation profile”, and **Skill Heaven terminal experience**, never market a separate “CLI product”; no variable renaming required |
 | L12 | Cross-repo palette: Tree `DESIGN.md` names Heaven Violet `#c084fc`; Heaven's design of record uses `#a58ae0` | — | the live layer uses Heaven's design of record; the design lead reconciles (non-blocking) |
 
 ---
