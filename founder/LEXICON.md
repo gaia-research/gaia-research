@@ -35,6 +35,7 @@ defined there, never here:
 - `mythic` → `gaia.skills`
 - `named skill` → `gaia.skills`
 - `rank up` → `gaia.trust`
+- `Skill Tree` → `gaia.skills`
 - `slot` → `gaia.skills`
 - `star bar` → `gaia.trust`
 - `TM Index` → `gaia.trust`
