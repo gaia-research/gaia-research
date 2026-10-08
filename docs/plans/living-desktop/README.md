@@ -289,6 +289,8 @@ The founder answered the queue on 2026-10-09. These now bind P2 and P3.
 | FD-2 | May the Mod remember hide and live preferences across sessions? | **Yes, remember**, on an explicit **Remember**, stored in the plugin's own `$.store` file; forgetting removes it. | B3 ships a Remember control; probe cell H13 confirms where the store file lands and that uninstall removes it. |
 | FD-3 | One plugin or two? | **One plugin: the console gets a My Tree pane** (AD-1). | B0 builds inside `plugins/skill-heaven-console`; final naming is still proposed by the design lead at G2. |
 
+**Founder terminology (2026-10-09):** **Skill Tree** is the personal-graph noun owned by Gaia Skill Tree (`CONTEXT.md`); in first-person UI, prefer **My Skill Tree**, and use possessive forms such as **a contributor's Skill Tree** without inventing a new product brand. Earlier **My Tree** shorthand may appear in drafts but is not the preferred new copy. **Living Tree** and **A/B/C** are internal host-specific release milestones, not public product names (a host may be at A, B, C or none). Retain the generic technical term **Mod**; the Gaia Ecosystem Mod's public name is still open until design approval. The separate Skill Heaven install choices use **Core / Core + Console**, with **Console** encompassing statusline, receipts and on-demand terminal views; the Desktop Mod is not bundled by implication. `/ev-scout` and `/ev-discovery` remain workflow names rather than new lexicon entries: scout informs *curation*; discovery may examine an approved intake or a skill already in the Tree.
+
 Deliberately **not** asked again: A/B/C, what "Your Skill Tree" means, native-vs-bridge policy, the
 statusline boundary, CLI Mod sequencing.
 
