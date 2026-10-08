@@ -2,7 +2,7 @@
   "lexicon": "2",
   "namespace": "gaia.heaven",
   "extends": "core",
-  "updated": "2026-08-19",
+  "updated": "2026-10-09",
   "about": "Skill Heaven is the umbrella runtime brand (repo `gaia-skill-heaven`) and the Heaven/Hell/Ultra axis namespace: Heaven and Hell are summon directions, Ultra is the top of the line. The clean-slate launcher is Skill Zero (`gaia.zero`), not Heaven. What the line measures is `skill entropy`.",
   "terms": [
     {
@@ -196,7 +196,28 @@
       "state": "canonical",
       "group": "names",
       "oracle": "N11, N9",
-      "definition": "The umbrella runtime brand and repo: `gaia-research/gaia-skill-heaven`. It contains the Skill Zero launcher module and the Heaven/Hell/Ultra runtime direction work; it is not the launcher bin."
+      "definition": "The Skill Heaven product and umbrella runtime brand in `gaia-research/gaia-skill-heaven`, compatible with supported agentic terminal harnesses. It includes Skill Zero launcher support, summon/Heaven/Hell/Ultra behavior, and its terminal experience. The terminal experience is not a separately named 'CLI product'; Core and Core + Console are choices within Skill Heaven, not separate products."
+    },
+    {
+      "term": "Skill Heaven console",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "D14",
+      "definition": "The complete Skill Heaven terminal user-interface experience within supported agentic harnesses: its compact statusline, explicit summon receipts, and native/on-demand detailed readouts. 'Console' does not mean an always-open pane, a separate CLI product, or the optional Gaia Ecosystem desktop Mod; capabilities must be shown truthfully per harness."
+    },
+    {
+      "term": "Skill Heaven statusline",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "D14",
+      "definition": "The optional, persistent single-line Skill Heaven runtime instrument inside a compatible agentic harness. It is a part of the Skill Heaven console, never a replacement for the host's or user's statusline without explicit consent; expanded details belong to on-demand views."
+    },
+    {
+      "term": "Core + Console",
+      "state": "canonical",
+      "group": "names",
+      "oracle": "D14",
+      "definition": "The founder-selected outward-facing installation choice for Skill Heaven Core with the supported Skill Heaven console experience. Core remains the console-free runtime option; existing internal `full` profile identifiers may remain unchanged, and this label is not evidence of per-harness availability or of the Gaia Ecosystem desktop Mod being installed."
     },
     {
       "term": "claude-heaven",
