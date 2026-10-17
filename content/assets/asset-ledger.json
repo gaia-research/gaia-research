@@ -2551,6 +2551,25 @@
       "derivatives": []
     },
     {
+      "id": "if-everything-can-be-recreated-editorial-thumbnail",
+      "path": "assets/generated/if-everything-can-be-recreated-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "approved",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Generated via gemini-3.1-flash-image (nano-banana-2) · Milim editorial thumbnail",
+      "alt": "In a vast sunlit artist atelier with tall double-height windows and wooden floors, two identical pink-haired Milims meet face to face in joyful surprise, pointing at each other with subtle pink sparkles drifting between them.",
+      "sha256": "bb4409ba33de9c58eb9c5085bdd8e0983b69082cc25f9d40258c52fc87549a76",
+      "bytes": 125912,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": [
+        "public/assets/if-everything-can-be-recreated-editorial-thumbnail.webp"
+      ]
+    },
+    {
       "id": "intent-md-spec-driven-editorial-thumbnail",
       "path": "assets/generated/intent-md-spec-driven-editorial-thumbnail.webp",
       "kind": "illustration",
