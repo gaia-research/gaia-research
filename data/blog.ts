@@ -1,4 +1,5 @@
 import type { StaticImageData } from "next/image";
+import ifEverythingCanBeRecreatedThumbnailSrc from "@/assets/generated/if-everything-can-be-recreated-editorial-thumbnail.webp";
 import capabilityAmplificationThumbnailSrc from "@/assets/generated/capability-amplification-editorial-thumbnail.webp";
 import reflexAgentsClassifiersThumbnailSrc from "@/assets/generated/reflex-agents-classifiers-editorial-thumbnail.webp";
 import orchestratorTaxColdCacheThumbnailSrc from "@/assets/generated/orchestrator-tax-cold-cache-editorial-thumbnail.webp";
@@ -33,6 +34,11 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const ifEverythingCanBeRecreatedThumbnail = {
+  src: ifEverythingCanBeRecreatedThumbnailSrc,
+  alt: "In a vast sunlit artist atelier with tall double-height windows and wooden floors, two identical pink-haired Milims meet face to face in joyful surprise, pointing at each other with subtle pink sparkles drifting between them.",
+} as const;
 
 export const capabilityAmplificationThumbnail = {
   src: capabilityAmplificationThumbnailSrc,
@@ -132,6 +138,25 @@ export const arborEvidenceLoopEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/if-everything-can-be-recreated",
+    category: "Philosophy & Provenance",
+    tags: [
+      "Software Authorship",
+      "Reverse Engineering",
+      "Attribution",
+      "Gaia Skill Tree",
+      "Yggdrasil",
+      "Post-Scarcity Code",
+    ],
+    date: "October 18, 2026",
+    readTime: "9 min read",
+    title: "If Everything Can Be Recreated, Who Gets Remembered?",
+    description:
+      "When AI agents make software implementation reproducible on demand, original authorship does not disappear. Why Gaia Skill Tree and Yggdrasil preserve verifiable lineage and evidence-backed trust.",
+    author: "Marcus Tiongson · Founder, Gaia Research",
+    image: ifEverythingCanBeRecreatedThumbnail,
+  },
   {
     href: "/blog/capability-amplification",
     category: "Agent Architecture",

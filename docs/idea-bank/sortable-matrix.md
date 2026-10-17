@@ -2,7 +2,8 @@
 
 | Rank | Idea | Viability | Potential | Time-to-Prototype | Depends on Skill Tree Core | Can Ship Standalone | Best First User | Notes |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Blog: How Hermes Skills Autonomously Self-Improve | High | Exceptional | Short | No | Yes | Systems & AI research devs | Rare deep dive into Hermes Agent's closed learning loop, /learn command, 3-level progressive disclosure, and isolated background Curator process. |
+| 1 | Founder Essay: If Everything Can Be Recreated, Who Gets Remembered? | Very High | Exceptional | Short | No | Yes | Ecosystem developers, AI researchers, OSS founders | Philosophical thesis grounding software reproducibility, attribution lineage, and Yggdrasil evidence-backed trust. |
+| 2 | Blog: How Hermes Skills Autonomously Self-Improve | High | Exceptional | Short | No | Yes | Systems & AI research devs | Rare deep dive into Hermes Agent's closed learning loop, /learn command, 3-level progressive disclosure, and isolated background Curator process. |
 | 2 | Blast-Radius Metrics for Agent Harness Evaluation | High | Very High | Short-Medium | No | Yes | Eval, safety, and infra teams | Moving beyond task success to measure the shape of the run: peak privilege, systems touched, and rollback burden. |
 | 3 | Agent Plugin Discoverability: Problem Statement → First Use | High | Very High | Short-Medium | No | Yes | Plugin builders & registry leads | Machine-retrieval study: what manifest fields make an agent discover, trust, and activate a plugin from ordinary problem descriptions. |
 | 4 | Flight Digest Telemetry Adapter | Very High | Very High | Short | No | Yes | Teams with existing telemetry | Best compatibility wedge; privacy and cost story is strong. |
