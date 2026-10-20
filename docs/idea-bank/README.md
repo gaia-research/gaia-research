@@ -151,6 +151,18 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 
 ---
 
+## Parked Ideas (not ranked)
+
+The following ideas are preserved for possible future reconsideration, **not** active work or roadmap commitments.
+
+### Scion-inspired source control for Gaia agent workspaces
+- **Status:** Not now / Parked
+- **Why parked:** No demonstrated Git bottleneck justifies replacing Gaia's GitHub-native PR, CI, and approval workflows. A central service adds migration, security, recovery, and ongoing infrastructure costs.
+- **Doc:** [`scion-inspired-agent-source-control.md`](./scion-inspired-agent-source-control.md)
+- **Tracking:** Idea only; no issue or implementation work.
+
+---
+
 ## Archived Ideas & Shipped Posts
 
 The following briefs have completed their lifecycles, shipped as published blog posts under [`/blog/*`](../../content/blog), or landed in production code. They are frozen and archived in [`archived/`](./archived/):
