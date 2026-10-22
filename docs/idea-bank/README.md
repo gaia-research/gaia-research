@@ -151,6 +151,16 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 
 ---
 
+## Active Meta-Research (Unranked) — Agent Role Intelligence & Capability Floors
+
+- **Status:** Bunny research package collected locally; publication and independent audit pending.
+- **Viability:** High for a source-ledger and research/lab publication; cross-model conclusions remain unproven.
+- **Potential:** Very High — tests where economical reviewers/builders are genuinely strong, where Luna Max cannot replace a steerable Sonnet orchestrator, and when cheap-first routing costs more after failures.
+- **Doc:** [`empirical-agent-roles-and-capability-floors.md`](./empirical-agent-roles-and-capability-floors.md) · Tracking issue: [#300](https://github.com/gaia-research/gaia-research/issues/300)
+- **Publication:** Full `/gaia-blog-post` plus independent `/research/*` or lab study, Baker Milim thumbnail; not yet published.
+
+---
+
 ## Parked Ideas (not ranked)
 
 The following ideas are preserved for possible future reconsideration, **not** active work or roadmap commitments.
