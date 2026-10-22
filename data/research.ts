@@ -103,6 +103,16 @@ export type ResearchEntry = {
 
 export const researchEntries: readonly ResearchEntry[] = [
   {
+    title: "Agent Role Intelligence and Capability Floors",
+    shortName: "Role Intelligence",
+    type: "META-RESEARCH",
+    status: "PRP",
+    description:
+      "Source-audited study of role-specific agent capability floors and cost-aware model routing: 39 evidence records graded A/B/C/D, eight repositories, four arXiv papers, and the one controlled study that argues against naive cheap-tier routing.",
+    href: "/research/agent-role-intelligence",
+    action: "Read the report & corrections",
+  },
+  {
     title: "The Orchestration Guide",
     shortName: "Orchestration Guide",
     type: "GUIDE",

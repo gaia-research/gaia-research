@@ -1,0 +1,94 @@
+{
+  "measured_at": "2026-10-22",
+  "command": "python3 ~/.pi/agent/skills/pi-cost/scripts/pi_cost.py --json",
+  "session": "/data/data/com.termux/files/home/.pi/agent/sessions/--data-data-com-termux-files-home--/2026-10-21T19-21-31-436Z_01a15fe9-5c27-7686-a4ad-aeb3a9eff677.jsonl",
+  "price_catalog": {
+    "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "fetched_at": "2026-10-16T21:04:26Z",
+    "note": "Within the 7-day freshness window; public list rates, not provider invoices"
+  },
+  "main_orchestrator": {
+    "model": "openrouter/minimax/minimax-m3.1-flash:free",
+    "turns": 98,
+    "input": 390885,
+    "output": 109520,
+    "cache_read": 21794831,
+    "cache_write": 0,
+    "logged_cost_usd": 0.0,
+    "cost": "unavailable",
+    "note": "The harness reported no cost for the main session, so the script fails closed and reports it as unavailable rather than 0. The route is a free-tier slug, so the true API bill is very likely zero, but the script does not assert that and neither do we."
+  },
+  "direct_workers": {
+    "results": 24,
+    "completed": 2,
+    "failed": 22,
+    "priced_subtotal_usd": 0.1947,
+    "script_reported_subtotal_usd": null,
+    "script_reported_mixed_method_total_usd": null,
+    "note": "The script's own subtotal is null because 18 of 24 results have no priceable model recorded and the skill fails closed rather than under-counting. The 0.1947 figure is the sum of the 12 results the script could price.",
+    "by_model": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "results": 2,
+        "completed": 2,
+        "failed": 0,
+        "priced_usd": 0.1182,
+        "input": 213598,
+        "output": 14618,
+        "cache_read": 584376
+      },
+      {
+        "model": "gpt-6-luna",
+        "results": 2,
+        "completed": 0,
+        "failed": 2,
+        "priced_usd": 0.0765,
+        "input": 235622,
+        "output": 27786,
+        "cache_read": 3906304,
+        "note": "Both runs failed on provider quota exhaustion."
+      },
+      {
+        "model": "gemini-3.8-flash",
+        "results": 2,
+        "completed": 0,
+        "failed": 2,
+        "priced_usd": 0.0,
+        "input": 0,
+        "output": 0,
+        "cache_read": 0,
+        "note": "Quota failure before any token was billed."
+      },
+      {
+        "model": "(unrecorded)",
+        "results": 18,
+        "completed": 0,
+        "failed": 18,
+        "priced_usd": null,
+        "priceable_results": 6,
+        "input": 774429,
+        "output": 62438,
+        "cache_read": 2335645,
+        "note": "Model not recorded on the result, so the public rate is unavailable; the skill fails closed rather than substituting a price."
+      }
+    ]
+  },
+  "nested_workers": { "results": 0 },
+  "totals": {
+    "grand_total_usd": "unavailable",
+    "priced_worker_inference_usd": 0.1947,
+    "main_session_cost_usd": "unavailable",
+    "tokens_visible": {
+      "input": 1614334,
+      "output": 214362,
+      "cache_read": 7008044
+    }
+  },
+  "what_is_not_claimed": [
+    "No dollar figure is claimed for the main orchestrator session; the harness did not report one.",
+    "No dollar figure is claimed for the 18 unrecorded worker results.",
+    "No figure is invented for the failed lanes' opportunity cost beyond their observed token counts.",
+    "Public list rates are not provider invoices."
+  ],
+  "operational_note": "The mission ran its own orchestrator on a free-tier route (openrouter/minimax/minimax-m3.1-flash:free) and delegated three research lanes. Two lanes (gpt-6-luna, gemini-3.8-flash) died on provider quota exhaustion; only the flash-lite lane completed. Total priced worker inference for the whole mission was 0.1947 USD. This is itself a data point for the report: the quota-bounded cheap tier is a single point of failure, and the fallback route must exist and be authorised in advance."
+}
