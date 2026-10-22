@@ -9,6 +9,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/blog`, lastModified: new Date("2026-07-22"), changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/blog/economics-of-agentic-work`, lastModified: new Date("2026-10-26"), changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/blog/missing-economic-scheduler`, lastModified: new Date("2026-10-26"), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${siteUrl}/blog/cheapest-agent-not-cheapest-outcome`, lastModified: new Date("2026-10-22"), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${siteUrl}/research/agent-role-intelligence`, lastModified: new Date("2026-10-22"), changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/blog/if-everything-can-be-recreated`, lastModified: new Date("2026-10-18"), changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/blog/capability-amplification`, lastModified: new Date("2026-10-05"), changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/blog/reflex-agents-and-classifiers`, lastModified: new Date("2026-09-26"), changeFrequency: "monthly", priority: 0.7 },

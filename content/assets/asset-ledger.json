@@ -1690,6 +1690,25 @@
       ]
     },
     {
+      "id": "cheapest-agent-not-cheapest-outcome-editorial-thumbnail",
+      "path": "assets/generated/cheapest-agent-not-cheapest-outcome-editorial-thumbnail.webp",
+      "kind": "illustration",
+      "status": "approved",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Generated via gemini-3.1-flash-image (nano-banana-2) · Milim editorial thumbnail",
+      "alt": "A vast sunlit bakery conservatory with soaring glass arches, towering golden bread racks and warm ovens, where a tiny pink-haired Milim in a cream baker's apron over her black dragon hoodie arranges a small tray of pastries at a wooden workbench.",
+      "sha256": "adaee5eb0301f0a065df243811c71657278d15c68a0446ee77233b86aed87bbe",
+      "bytes": 183934,
+      "dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "derivatives": [
+        "public/assets/cheapest-agent-not-cheapest-outcome-editorial-thumbnail.webp"
+      ]
+    },
+    {
       "id": "chief-scout-hero",
       "path": "assets/generated/chief-scout-hero.png",
       "kind": "hero-illustration",

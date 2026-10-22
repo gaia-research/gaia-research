@@ -1,0 +1,199 @@
+{
+  "generated_at": "2026-10-22",
+  "method": "GitHub REST API metadata + file-tree reads + source-level reading of named documents. A repo is only credited with evidence if an artifact containing actual numbers, transcripts, or graded outcomes was read. A README table without a backing artifact is marked as such. No repository was modified.",
+  "note": "Stars are a popularity signal, not an evidence signal; they are recorded for orientation only.",
+  "repos": [
+    {
+      "rank": 1,
+      "repo": "Hikari9/auto-office",
+      "url": "https://github.com/Hikari9/auto-office",
+      "stars": 1,
+      "pushed_at": "2026-10-21",
+      "license": "none",
+      "role_separation": "10 roles (orchestrator, planner, plan_reviewer, executor, worker, code_reviewer, browser_verifier, visual_reviewer, closeout_verifier) in config/config.default.yaml with per-role capability floors and preferred seeds",
+      "real_run_evidence": true,
+      "evidence_paths": [
+        "docs/benchmarks/issue-494-evidence.md (two live isolated runs, receipts, token counts)",
+        "catalog/trust-baseline.yaml (maintainer trust grants citing named runs)",
+        "docs/benchmarks/aa-intelligence-v4.3.2-2026-09-28.md (version-pinned public benchmark snapshot)",
+        "src/office/scoring.py, src/office/adaptive.py, src/office/route_learning.py (routing + cost-to-success + local reward)",
+        "src/office/briefs.py (reviewer output contract)",
+        "eval/v31/ (matched prospective evaluation harness)"
+      ],
+      "cost_accounting": "dispatches.money_actual / money_estimate; economics.py usage_events ledger (input/output/cache-read/cache-write, cost_kind actual|estimated-nominal|quota|unknown); routing evidence report aggregates by route",
+      "grading": "hidden acceptance tests, lane convergence verdicts, integration verification, find-classification; outcome_labels with a trust state that only degrades automatically",
+      "evidence_class": "B",
+      "why": "The only one of the seven seeds that combines a real routing policy, a per-route cost ledger, a trust model that cannot be self-promoted, and readable live-run receipts. Its two live runs are the strongest external evidence that a cheap reviewer (gpt-6-luna@high) can close a real review gate.",
+      "limits": "The runs.db with the real outcome history is not published; the v31 evaluation harness ships without published results; the benchmark snapshot is a public prior, not a local outcome. The repo is one author's system and shares no task distribution with ours."
+    },
+    {
+      "rank": 2,
+      "repo": "IvanNece/Multi-Agent-Architectures-for-LLM-Based-Code-Generation",
+      "url": "https://github.com/IvanNece/Multi-Agent-Architectures-for-LLM-Based-Code-Generation",
+      "stars": 1,
+      "pushed_at": "2026-01-30",
+      "license": "none",
+      "role_separation": "Architecture B: Planner, Router, Developer, Tester, Reviewer with a conditional retry loop. Architecture C adds role-specialised models (Llama-3-8B plan/review) and a 1.5B/7B/32B difficulty-tiered developer pool.",
+      "real_run_evidence": true,
+      "evidence_paths": [
+        "report/sections/03_experimental_setup.tex (dataset, metrics, 8 configurations)",
+        "report/sections/04_experimental_results.tex (all result tables)",
+        "report/main.pdf, report/figures/*.png (StoryPointsTierRouting, EscalationPolicy, PromptRepetition)"
+      ],
+      "cost_accounting": "Total tokens, API calls per task, end-to-end wall-clock per task, retry count, escalation count, tier distribution, Radon static quality metrics",
+      "grading": "assertion-based HumanEval tests in a sandboxed subprocess with 5s timeout; Wilson score 95% CIs; n=164 tasks x 8 configurations",
+      "evidence_class": "A",
+      "why": "The only controlled, ground-truth-graded comparison in the seed set that directly varies role specialisation, difficulty-tiered routing, always-largest routing, and prompting technique. It supplies the mission's central negative result with a mechanism and a number.",
+      "limits": "HumanEval function synthesis, not repository-scale integration. Small open models (1.5B-32B) - its 'cheap tier' is far below our cheap tier's capability. Kaggle + HuggingFace Inference API harness, so token accounting is not ours."
+    },
+    {
+      "rank": 3,
+      "repo": "malusamayo/CRBugBench",
+      "url": "https://github.com/malusamayo/CRBugBench",
+      "stars": 1,
+      "pushed_at": "2026-10-08",
+      "license": "none",
+      "role_separation": "Not a multi-agent framework. A single-agent code-review benchmark with a 3-model LLM judge panel and a strict/lenient detection protocol.",
+      "real_run_evidence": "infrastructure_only",
+      "evidence_paths": [
+        "tasks/*/tests/ground_truth.json (the exact human-flagged defect: file, line, diff hunk, resolution thread)",
+        "tasks/*/task.toml (per-task judge panel, timeouts, n_bugs)",
+        "scripts/summarize.py (detected / lenient / any, unscored trials counted as not detected)",
+        "README.md (harness, judges, disk cost)"
+      ],
+      "cost_accounting": "none built in; the paper reports a 10% cost increase for the prompt-scaling arm",
+      "grading": "LLM judge panel (gpt-5.5, claude-opus-4.8, gemini-3.5-flash via copilot-cli) against human-verified ground truth; 995 Harbor tasks from 98 repositories",
+      "evidence_class": "A",
+      "why": "The purpose-built instrument for the mission's central question. Its own README runs gpt-6-luna as the review agent, so the Luna-as-reviewer hypothesis is directly testable on it.",
+      "limits": "No published per-model results in the repo - the benchmark exists, the multi-model comparison has not been run publicly. Needs Docker, up to 19 GB of git history for the first task of a repository, ~650 GB for all tasks. Rebuilt from the paper's descriptions, so it is a reimplementation."
+    },
+    {
+      "rank": 4,
+      "repo": "github/gh-aw",
+      "url": "https://github.com/github/gh-aw",
+      "stars": 5431,
+      "pushed_at": "2026-10-21",
+      "license": "MIT",
+      "role_separation": "Markdown-declared agentic workflows with role-scoped graders, eval manifests, and per-agent token/cost accounting (AI credits, usage reports, grader results over OTEL).",
+      "real_run_evidence": "machinery_only",
+      "evidence_paths": [
+        "docs/adr/56066-surface-grader-results-via-usage-artifact.md",
+        "docs/adr/45445-link-experiment-metrics-to-declared-evals.md",
+        "docs/adr/42735-attach-experiment-provenance-to-audit-report-records.md",
+        "docs/adr/45492-persist-evals-results-to-git-branches.md",
+        "docs/adr/43641-add-bineval-evals-support.md"
+      ],
+      "cost_accounting": "yes - per-agent usage artifacts, AI-credit reporting, friction-cost measurement",
+      "grading": "declared eval manifests with grader results persisted to branches",
+      "evidence_class": "C",
+      "why": "The most production-grade role/eval/cost instrumentation in the seed set, and it is worth reading as a design reference for what our own telemetry should carry. But it publishes no cross-model role comparison.",
+      "limits": "Implementation evidence only. No published result table comparing models by role."
+    },
+    {
+      "rank": 5,
+      "repo": "OmegaMc1331/agentic-software-factory",
+      "url": "https://github.com/OmegaMc1331/agentic-software-factory",
+      "stars": 23,
+      "pushed_at": "2026-08-25",
+      "license": "MIT",
+      "role_separation": "factory-eval computes performance(agent, role, operation, language) from immutable local workflow history; a performance-mode scheduler consumes it through read-only functions.",
+      "real_run_evidence": "machinery_only",
+      "evidence_paths": [
+        "docs/evaluations.md (outcome taxonomy: approved / changes_requested / agent_failed / integration_conflict / cancelled / interrupted)",
+        "crates/factory-eval/src/{outcome,stats,summary,window}.rs"
+      ],
+      "cost_accounting": "explicitly refuses to invent token or cost numbers when the CLI does not provide them; MCP transport failures are excluded from quality denominators",
+      "grading": "no LLM scores another LLM's output; outcome classification from review decisions and integration results",
+      "evidence_class": "C",
+      "why": "Its outcome taxonomy and its 'MCP usage is not a quality signal' rule are directly reusable. Its refusal to invent cost numbers is the discipline the mission asks for.",
+      "limits": "No published outcome data; the SQLite history is local-only."
+    },
+    {
+      "rank": 6,
+      "repo": "DeepSoftwareAnalytics/swe-factory",
+      "url": "https://github.com/DeepSoftwareAnalytics/swe-factory",
+      "stars": 202,
+      "pushed_at": "2026-05-12",
+      "license": "NOASSERTION",
+      "role_separation": "Named agents: context_retrieval_agent, write_eval_script_agent, plus repo_analysis and trajectory analysis over SWE-bench-style instances.",
+      "real_run_evidence": "machinery_only",
+      "evidence_paths": [
+        "scripts/compute_cost.py (aggregates status.json / cost.json / meta.json into total tokens, input/output tokens, elapsed seconds)",
+        "inference/agenthub/trajectory/analyze_logs.py",
+        "evaluation/run_evaluation.py (Fail2Pass validation, gold vs predictions)"
+      ],
+      "cost_accounting": "yes - per-run cost.json aggregated by compute_cost.py into total tokens and elapsed time",
+      "grading": "Fail2Pass gold/prediction validation on SWE-bench-style instances",
+      "evidence_class": "C",
+      "why": "A published per-run cost artifact format (status.json / cost.json / meta.json) and a Fail2Pass grader we can copy for local experiments.",
+      "limits": "The repo is a data/evaluation pipeline; it does not compare models by role. The published paper's numbers are in the FSE'2026 paper, not in the repo."
+    },
+    {
+      "rank": 7,
+      "repo": "seslak/agent-router",
+      "url": "https://github.com/seslak/agent-router",
+      "stars": 1,
+      "pushed_at": "2026-06-11",
+      "license": "MIT",
+      "role_separation": "Workflow registry plus task classes, specialists, models and a cost-aware routing policy (routing/policies.json, task-classes.json, specialists.json, route-decision.schema.json).",
+      "real_run_evidence": "machinery_only",
+      "evidence_paths": ["docs/routing_model.md", "routing/policies.json", "routing/route-decision.schema.json", "pricing.py"],
+      "cost_accounting": "yes - a pricing module and a cost-aware policy layer",
+      "grading": "none found",
+      "evidence_class": "C",
+      "why": "A compact, readable reference for a cost-aware policy layer with an explicit decision schema. Useful as a shape reference only.",
+      "limits": "27 files total, no recorded runs, no results."
+    },
+    {
+      "rank": 8,
+      "repo": "Chipagosfinest/software-factory",
+      "url": "https://github.com/Chipagosfinest/software-factory",
+      "stars": 4,
+      "pushed_at": "2026-09-24",
+      "license": "MIT",
+      "role_separation": "A research corpus: 9 topology patterns, 4 design dimensions, 20+ company case studies.",
+      "real_run_evidence": "false",
+      "evidence_paths": ["docs/agent-safety-cost-control.md (pricing-model comparison, per-PR cost estimates, runaway-cost incident list)"],
+      "cost_accounting": "cited vendor pricing (Devin, Cosine, Paperclip, Stripe Minions), not measured",
+      "grading": "none - secondary sources",
+      "evidence_class": "D",
+      "why": "Useful only as a citation index to other people's cost numbers, and as a list of runaway-cost failure modes to design guards against.",
+      "limits": "Every number is second-hand vendor pricing or an incident anecdote. No experiments of its own."
+    }
+  ],
+  "external_non_repo_evidence": [
+    {
+      "source": "arXiv:2610.13668",
+      "title": "(When) Should a Software Factory be Lights-off? Benchmarking Code Review Agents on Bug Detection",
+      "date": "2026-10-09",
+      "class": "A",
+      "key_numbers": "1,000 review tasks over 98 OSS repos (+800 industry); best agent claude-opus-5 + copilot-cli catches 71.9% of bugs in top-5 comments vs 47.7% for opus-4.6; exploration-nudging prompts gain up to 5.8% at 10% higher cost"
+    },
+    {
+      "source": "arXiv:2607.03316",
+      "title": "Is Agentic Code Review Helpful? Mining Developers' Feedback to CodeRabbit Reviews in the Wild",
+      "date": "2026-07-03 (v2 2026-07-23)",
+      "class": "B",
+      "key_numbers": "31,073 review/feedback pairs, 10,191 PRs, 239 repos; 36.4% accepted, 7.3% discussion, 56.3% rejected"
+    },
+    {
+      "source": "arXiv:2601.04252",
+      "title": "Sphinx: Benchmarking and Modeling for LLM-Driven Pull Request Review",
+      "date": "2026-01-06",
+      "class": "B",
+      "key_numbers": "checklist-based review benchmark; up to 40% improvement in checklist coverage over baselines"
+    },
+    {
+      "source": "arXiv:2604.23361",
+      "title": "An Empirical Evaluation of Locally Deployed LLMs for Bug Detection in Python Code",
+      "date": "2026-04-25",
+      "class": "B",
+      "key_numbers": "349 BugsInPy bugs across 17 projects; ~43-45% accuracy for LLaMA 3.2 / Mistral; high proportion of partial, mis-localised responses"
+    }
+  ],
+  "rejected_as_evidence": [
+    {"what": "arXiv:2610.13668 and the other three arXiv entries", "why_rejected": "Not rejected - verified. Listed here only to note that each was fetched and its title, authors, date and abstract were read directly, not taken from a search snippet."},
+    {"what": "Auto Office's eval/v31 harness and routing-evidence-report script", "why_rejected": "Both are real machinery, but neither ships results. A benchmark catalog or an evaluation script is not proof an experiment was completed. Classified C, not A."},
+    {"what": "Auto Office's Artificial Analysis benchmark snapshot", "why_rejected": "Not rejected as a prior - it is version-pinned and citable - but it is a public benchmark with a different construct and a different harness. It never decides a local route on its own; Auto Office's own doc says local outcomes take precedence."}
+  ]
+}
