@@ -19,6 +19,7 @@ import ruminationIndexEditorialThumbnailSrc from "@/assets/generated/rumination-
 import constrainedAutonomyEditorialThumbnailSrc from "@/assets/generated/constrained-autonomy-editorial-thumbnail.webp";
 import contextAblationEditorialThumbnailSrc from "@/assets/generated/context-ablation-editorial-thumbnail.webp";
 import arborEvidenceLoopEditorialThumbnailSrc from "@/assets/generated/arbor-evidence-loop-editorial-thumbnail.webp";
+import cheapestAgentNotCheapestOutcomeThumbnailSrc from "@/assets/generated/cheapest-agent-not-cheapest-outcome-editorial-thumbnail.webp";
 
 export type BlogPost = {
   href: string;
@@ -135,9 +136,32 @@ export const arborEvidenceLoopEditorialThumbnail = {
   alt: "Tiny pink-haired Milim sits beneath a monumental glowing Arbor tree in an indigo night garden.",
 } as const;
 
+export const cheapestAgentNotCheapestOutcomeThumbnail = {
+  src: cheapestAgentNotCheapestOutcomeThumbnailSrc,
+  alt: "A vast sunlit bakery conservatory with soaring glass arches, towering golden bread racks and warm ovens, where a tiny pink-haired Milim in a cream baker's apron over her black dragon hoodie arranges a small tray of pastries at a wooden workbench.",
+} as const;
+
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/cheapest-agent-not-cheapest-outcome",
+    category: "Agent Architecture",
+    tags: [
+      "Capability Floors",
+      "Model Routing",
+      "Cost Per Accepted Result",
+      "Reviewer Precision",
+      "Multi-Agent Benchmarks",
+    ],
+    date: "October 22, 2026",
+    readTime: "11 min read",
+    title: "The Cheapest Agent Isn't Always the Cheapest Outcome",
+    description:
+      "Cheap-tier routing scored 62.2% against 81.7% for always routing to the largest model, while spending more API calls and more seconds per task. The cheapest agent is not always the cheapest outcome.",
+    author: "Nova · Head Researcher, Gaia Research",
+    image: cheapestAgentNotCheapestOutcomeThumbnail,
+  },
   {
     href: "/blog/if-everything-can-be-recreated",
     category: "Philosophy & Provenance",
