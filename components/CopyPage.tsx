@@ -2,63 +2,68 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export const DEFAULT_CLAUDE_PROMPT = `You are an expert orchestrator running Claude Code. Enforce the Gaia Research Orchestration Guide for this workspace:
+export const DEFAULT_CLAUDE_PROMPT = `Apply the Gaia Research Orchestration Guide to this repository using a strict consent-first workflow. Reading or receiving this prompt is NOT authorization to modify files, edit .claude/settings.json, install tooling, or launch paid multi-agent runs without explicit user approval.
 
-1. **Orchestrator Selection (User-Led or Auto Repo-Aware)**:
-   - Ask the user if they wish to pick the orchestrator model of their choice from available models, or let the agent determine the orchestrator automatically based on repository scale, language, and task complexity.
-   - Never hardcode or force specific models. Respect the user's preferred or currently active model.
+1. **Inspect Repository, Harness & Skills (Read-Only First)**:
+   - Inspect \`CLAUDE.md\`, \`AGENTS.md\`, \`package.json\`, CI workflows, and existing skills (\`.agents/skills/\`, \`.claude/\`).
+   - Identify native Claude Code capabilities already available (single-loop tools, bounded subagents, or Claude Dynamic Workflows) and deterministic verifiers (test runners, typecheckers, linters) so you never duplicate existing infrastructure.
 
-2. **Optimize Cache Settings for the Current Model**:
-   - For the current model utilized by the user as orchestrator, configure cache settings to be optimal without altering the user's model selection:
-     - When worker execution is expected to exceed 5 minutes and reuse justifies the 2× write surcharge, configure 1-hour cache retention in \`.claude/settings.json\` (or via \`CLAUDE_CODE_PROMPT_CACHE_TTL="1h"\`):
-       \`\`\`json
-       {
-         "promptCacheTtl": "1h",
-         "subagentPromptCacheTtl": "5m"
-       }
-       \`\`\`
-     - Always keep leaf subagents on the standard 5-minute sliding cache (\`subagentPromptCacheTtl: "5m"\`) to avoid 1h write surcharges on ephemeral runs.
-     - Structure root context with a stable prefix: keep system instructions, CLAUDE.md guidelines, and tool definitions early in the prompt before dynamic turn messages to ensure cache hits.
+2. **Confirm Owner Priorities & Preserve Model Autonomy**:
+   - Ask or confirm whether the owner prioritizes API spend, $20-tier subscription quota preservation, wall-clock latency, simplicity, or human review.
+   - Respect the user's active or preferred models. Never hardcode models or override user model preferences.
 
-3. **Step 0 Pre-Flight & Lane Partitioning**:
-   - Refuse to orchestrate if a single Claude Code session can complete the task with high coherence.
-   - When orchestrating, partition work into independent, non-overlapping lanes with zero inter-lane dependencies.
-   - Align lane execution to the active model's cache horizon: under a 5m horizon, ensure at least one fast lane (<4m) or assign the orchestrator productive in-flight work; under an extended horizon, allow workers to run asynchronously within the window.
+3. **Assess Workload on the A–E Coordination Ladder**:
+   - Evaluate Expected Cost per Verified Deliverable (execution + coordination + verification divided by pass probability) and classify the workload into the lowest sufficient level:
+     - **Level A (No orchestration — default):** Coherent or tightly coupled tasks. Keep work in one Claude Code session with progressive skills and local verifiers. Feel free to recommend doing nothing.
+     - **Level B (Lightweight orchestration):** 2–4 genuinely disjoint, zero-dependency lanes where context isolation prevents bloat. Use native subagents, structured task envelopes, and disk pointer manifests (<200 tokens)—no new runtime.
+     - **Level C (Existing workflow infrastructure):** Recurring multi-stage pipelines needing durable retries or checkpoints. Reuse existing CI, scripts, Claude Dynamic Workflows, LangGraph, Temporal, or SDLC state tools.
+     - **Level D (Thin economic scheduler adapter):** Consider only when recurring multi-model dispatch overhead and fast deterministic verifiers clearly justify a thin deterministic routing/envelope adapter.
+     - **Level E (Human-controlled execution):** Keep a human at the wheel for irreversible deploys, production data/schema changes, permissions, or unverified decisions.
 
-4. **Disk-Based Pointer Manifests**:
-   - Subagents must NEVER paste raw terminal stdout, verbose logs, or large diffs into conversation context.
-   - Workers write artifacts to \`/tmp/results/<task-id>.json\` and report back ONLY a compact (<200 tokens) JSON manifest:
-     \`{"task": "<id>", "status": "PASSED|FAILED", "durationSec": <n>, "artifacts": {"diff": "..."}, "summary": "..."}\`
-   - Keep root orchestrator context strictly under 15,000–20,000 tokens to prevent cold-cache blowups.
+4. **Report Suitability Verdict & Request Explicit Consent**:
+   - Present a concise assessment: recommended Level (A–E), smallest sufficient option (including "no change needed"), expected tradeoffs (distinguishing rate-card math from hypotheses), what will be measured, and how to revert.
+   - Wait for explicit owner consent before editing any repository files or harness settings.
 
-5. **Telemetry & Idle Gap Tracking**:
-   - Track idle gaps (Δt) between worker returns and inspect native usage metadata (\`cache_read_input_tokens\`, \`cache_creation_input_tokens\`) to verify warm cache reuse.`;
+5. **Execution, Cache Horizon & Manifest Discipline (Only When Authorized)**:
+   - Separate LLM reasoning from deterministic software: use scripts, git worktrees, and test gates for queues, state transitions, and verification rather than conversational polling.
+   - When running subagents with gaps >5 minutes where reuse justifies the 2× write cost, propose configuring 1-hour root retention while keeping leaf subagents on 5-minute sliding cache in \`.claude/settings.json\` (or via \`CLAUDE_CODE_PROMPT_CACHE_TTL="1h"\` and \`CLAUDE_CODE_SUBAGENT_PROMPT_CACHE_TTL="5m"\`—never pass a non-existent \`--prompt-cache-ttl\` CLI flag):
+     \`\`\`json
+     {
+       "promptCacheTtl": "1h",
+       "subagentPromptCacheTtl": "5m"
+     }
+     \`\`\`
+   - Keep the static prefix stable (avoid mid-session model switches, \`/effort\` edits, or MCP tool mutations).
+   - Enforce disk-based Pointer Manifests: workers write full logs/diffs to \`/tmp/results/<task-id>.json\` and return ONLY a compact (<200 tokens) JSON receipt (\`task\`, \`status\`, \`durationSec\`, \`verification\`, \`artifacts\`, \`summary\`) so root context stays under 15,000–20,000 tokens.
+   - Track inter-turn idle gaps (Δt), \`cache_read_input_tokens\` / \`cache_creation_input_tokens\`, and verified pass rates (recording unavailable metrics as \`unknown\`, never \`0\`).`;
 
-export const DEFAULT_PI_PROMPT = `You are an expert multi-agent coordinator operating inside the Pi harness. Enforce the Gaia Research Orchestration Guide:
+export const DEFAULT_PI_PROMPT = `Apply the Gaia Research Orchestration Guide inside the Pi harness using a strict consent-first workflow. Reading or receiving this prompt is NOT authorization to modify files, install packages, alter .pi configuration, or launch paid multi-agent runs without explicit user approval.
 
-1. **Orchestrator Selection (User-Led or Auto Repo-Aware)**:
-   - Ask the user if they wish to pick the orchestrator model of their choice from their configured Pi providers and models, or let the coordinator automatically choose the best model based on repository characteristics (codebase size, language, architecture, and task complexity).
-   - Never hardcode models in the workflow. Dynamically adapt to whatever model the user or repo-aware inspection selects.
+1. **Inspect Repository, Pi Harness & Skills (Read-Only First)**:
+   - Inspect \`CLAUDE.md\`, \`AGENTS.md\`, \`package.json\`, CI workflows, and existing skills (\`.agents/skills/\`, \`.pi/skills/\`).
+   - Identify native Pi capabilities already present (\`subagent\` profiles/worktrees, \`codemode\` batching, background task runners) and existing deterministic verifiers (test suites, typecheckers, linters) before proposing any new tooling.
 
-2. **Optimize Cache Settings for the Current Model**:
-   - For the current model utilized by the user as orchestrator, configure cache settings to be optimal for coordination:
-     - Detect the active model and provider cache capabilities (e.g., Anthropic extended retention via \`PI_CACHE_RETENTION=long\`, OpenAI Responses cache retention options, or Gemini context caching).
-     - Configure extended cache retention on the root orchestrator when worker flight times justify it, while ensuring leaf workers run with standard/ephemeral cache retention.
-     - Keep the root prefix stable: place system instructions, repo guidelines, and tool schemas early so subsequent wakeups hit the warm cache.
-     - Match worker schedules to the effective cache horizon: if constrained to a 5-minute cache, ensure a fast lane (<4m) or in-flight root work keeps memory warm; if on an extended horizon (30m or 1h), avoid artificial keepalives when gaps remain within the window.
+2. **Confirm Owner Priorities & Preserve Model Autonomy**:
+   - Ask or confirm whether the owner prioritizes API spend, subscription quota preservation, wall-clock latency, simplicity, or human review.
+   - Respect the user's configured Pi providers and model preferences (or offer repo-aware selection only if requested). Never hardcode models or assume unverified harness-specific cache flags exist.
 
-3. **Subagent Task Isolation & Step 0 Check**:
-   - Refuse to orchestrate if a single agent session can accomplish the task end-to-end.
-   - Dispatch workers using Pi's isolated subagents (\`subagent\` tool or separate worker lanes) so worker execution contexts never leak into the root coordinator context.
-   - Partition work into independent lanes with zero cross-lane blocking.
+3. **Assess Workload on the A–E Coordination Ladder**:
+   - Evaluate Expected Cost per Verified Deliverable (execution + coordination + verification divided by pass probability) and classify the workload into the lowest sufficient level:
+     - **Level A (No orchestration — default):** Coherent or coupled tasks. Use a single Pi agent loop with existing skills, \`codemode\`, and local test verifiers. Feel free to recommend doing nothing.
+     - **Level B (Lightweight orchestration):** 2–4 genuinely disjoint, zero-dependency lanes (or isolated worktree writers). Use Pi's native \`subagent\` tool, structured task envelopes, and disk pointer manifests (<200 tokens)—no new runtime.
+     - **Level C (Existing workflow infrastructure):** Recurring multi-stage pipelines needing durable state or retries. Reuse existing scripts, CI workflows, LangGraph, Temporal, Ray, or SDLC state runners rather than reinventing them in prompts.
+     - **Level D (Thin economic scheduler adapter):** Consider a lightweight deterministic routing/envelope/verifier adapter over Pi primitives only when recurring multi-model coordination overhead and fast verifiers clearly justify it (see \`gaia-skill-tree#2158\` as an exploratory pilot concept, not a required dependency).
+     - **Level E (Human-controlled execution):** Abstain from automation when permissions, irreversible side effects, or missing verification require human judgment.
 
-4. **Pointer Manifest Contract**:
-   - Direct all subagents to deposit diffs, logs, and build artifacts into \`/tmp/results/<task-id>.json\`.
-   - Subagents return only a structured status manifest (<200 tokens) to the root coordinator.
-   - Keep the root coordinator context strictly under 15,000–20,000 tokens to prevent prefill bloat.
+4. **Report Suitability Verdict & Request Explicit Consent**:
+   - Present a concise suitability verdict: recommended Level (A–E), smallest sufficient option (including "no change needed"), cost/latency tradeoffs (separating rate-card math from hypotheses), what will be measured, and reversible scope.
+   - Request explicit owner consent before modifying files, skills, or configuration.
 
-5. **Session Telemetry Logging**:
-   - Inspect inter-turn idle gaps (Δt) and monitor provider cache read and write metrics directly through Pi's native session telemetry and provider usage metadata.`;
+5. **Execution, Cache Horizon & Manifest Discipline (Only When Authorized)**:
+   - Separate LLM reasoning from deterministic coordination: use scripts, worktrees, and test runners for queues, retries, and verification rather than conversational polling.
+   - Align worker duration to the active model's documented provider cache horizon (e.g., 5m sliding window, OpenAI GPT 6's 30m minimum eligibility, or Anthropic/Gemini 1h options where supported by the provider API/harness), keeping leaf workers on short/ephemeral cache and keeping the root static prefix stable.
+   - Enforce disk-based Pointer Manifests: workers write logs, diffs, and diagnostics to \`/tmp/results/<task-id>.json\` and return ONLY a compact (<200 tokens) JSON receipt (\`task\`, \`status\`, \`durationSec\`, \`verification\`, \`artifacts\`, \`summary\`) so root coordinator context stays under 15,000–20,000 tokens.
+   - Record inter-turn idle gaps (Δt), provider cache read/write token metadata, and verified outcomes (marking unavailable metrics as \`unknown\`, never \`0\`).`;
 
 export interface CopyPageProps {
   markdown: string;
@@ -136,7 +141,7 @@ export default function CopyPage({
       <div className="copy-page-bar">
         <div className="copy-page-label">
           <span className="copy-page-badge">COPY</span>
-          <span>Choose a starting point</span>
+          <span>Run a consent-first orchestration assessment</span>
         </div>
         <div className="copy-page-actions" role="group" aria-label="Orchestration prompt copy options">
           <button
@@ -144,13 +149,13 @@ export default function CopyPage({
             className="copy-page-btn copy-page-btn-claude"
             onClick={() => copy("claude", claudePrompt)}
             data-copied={copiedId === "claude"}
-            aria-label="Copy tailored prompt for Claude Code"
+            aria-label="Copy tailored assessment prompt for Claude Code"
           >
             <span className="copy-page-btn-title" aria-hidden="true">
               {copiedId === "claude" ? "✓ Copied Claude Code" : failedId === "claude" ? "Copy failed · preview open" : "⧉ Copy Claude Code prompt"}
             </span>
             <span className="copy-page-btn-sub" aria-hidden="true">
-              Optimal cache setup · User or auto orchestrator
+              A–E suitability · Consent-first · Cache &amp; pointer rules
             </span>
           </button>
 
@@ -159,13 +164,13 @@ export default function CopyPage({
             className="copy-page-btn copy-page-btn-pi"
             onClick={() => copy("pi", piPrompt)}
             data-copied={copiedId === "pi"}
-            aria-label="Copy tailored prompt for Pi"
+            aria-label="Copy tailored assessment prompt for Pi"
           >
             <span className="copy-page-btn-title" aria-hidden="true">
               {copiedId === "pi" ? "✓ Copied Pi prompt" : failedId === "pi" ? "Copy failed · preview open" : "⧉ Copy Pi prompt"}
             </span>
             <span className="copy-page-btn-sub" aria-hidden="true">
-              Optimal cache retention · User or auto orchestrator
+              A–E suitability · Consent-first · Subagent &amp; cache rules
             </span>
           </button>
 
@@ -221,7 +226,7 @@ export default function CopyPage({
             />
           </div>
           <p className="copy-preview-note">
-            Select text here for manual copying. Each button copies the complete item shown.
+            Select text here for manual copying. Copying or reading never authorizes repo edits without your explicit consent.
           </p>
         </details>
       </div>

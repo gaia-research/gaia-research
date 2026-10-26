@@ -17,7 +17,7 @@ export const revalidate = false;
 export const metadata = {
   title: "The Orchestration Guide",
   description:
-    "A step-by-step guide to matching multi-agent worker gaps with Anthropic 5m/1h and GPT 6 30m cache horizons, while accounting for model-specific cache-write costs.",
+    "What is the least expensive coordination architecture that reliably completes the work? A practical guide to the A–E coordination ladder, deterministic vs. LLM coordination, provider cache horizons, pointer manifests, and consent-first agent adoption.",
 };
 
 function slugifyHeading(value: string) {
@@ -26,6 +26,92 @@ function slugifyHeading(value: string) {
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
     .replace(/[\s-]+/g, "-");
+}
+
+function CoordinationLadderSvg() {
+  return (
+    <figure className="report-figure cache-horizons-figure">
+      <div className="cache-horizons-chart">
+        <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+          <svg
+            viewBox="0 0 720 430"
+            role="img"
+            aria-labelledby="cl-title cl-desc"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ width: "100%", height: "auto", display: "block" }}
+          >
+            <title id="cl-title">The Five-Level Coordination Decision Ladder (A through E)</title>
+            <desc id="cl-desc">
+              Progression from Level A (Single Agent, default) to Level B (Lightweight Harness Subagents),
+              Level C (Existing Workflow Runtime), Level D (Optional Thin Economic Scheduler), and Level E
+              (Human-Controlled Execution), choosing the lowest level that reliably passes verification.
+            </desc>
+
+            <rect width="720" height="430" rx="10" fill="#0c1222" stroke="#1e293b" strokeWidth="1.5" />
+
+            <text x="360" y="36" fill="#f8fafc" fontSize="18" fontWeight="700" textAnchor="middle" letterSpacing="0.04em">
+              THE COORDINATION DECISION LADDER (A → E)
+            </text>
+            <text x="360" y="56" fill="#94a3b8" fontSize="12.5" textAnchor="middle">
+              Choose the lowest-cost coordination architecture that reliably passes verification
+            </text>
+
+            {/* Level A */}
+            <rect x="28" y="76" width="664" height="52" rx="6" fill="#10b981" fillOpacity="0.12" stroke="#10b981" strokeWidth="1.25" />
+            <text x="46" y="99" fill="#34d399" fontSize="13" fontWeight="800">LEVEL A · NO ORCHESTRATION (DEFAULT)</text>
+            <text x="46" y="117" fill="#cbd5e1" fontSize="11.5">
+              One agent loop + domain skills (SKILL.md) + deterministic test/compiler verifiers. Zero subagent overhead.
+            </text>
+
+            {/* Level B */}
+            <rect x="28" y="138" width="664" height="52" rx="6" fill="#38bdf8" fillOpacity="0.1" stroke="#38bdf8" strokeWidth="1.25" />
+            <text x="46" y="161" fill="#38bdf8" fontSize="13" fontWeight="800">LEVEL B · LIGHTWEIGHT HARNESS ORCHESTRATION</text>
+            <text x="46" y="179" fill="#cbd5e1" fontSize="11.5">
+              2–4 disjoint lanes using native subagents, task envelopes, cache-horizon matching &amp; &lt;200-token pointer manifests.
+            </text>
+
+            {/* Level C */}
+            <rect x="28" y="200" width="664" height="52" rx="6" fill="#fbbf24" fillOpacity="0.1" stroke="#fbbf24" strokeWidth="1.25" />
+            <text x="46" y="223" fill="#fbbf24" fontSize="13" fontWeight="800">LEVEL C · EXISTING WORKFLOW INFRASTRUCTURE</text>
+            <text x="46" y="241" fill="#cbd5e1" fontSize="11.5">
+              Reuse CI, Claude Dynamic Workflows, LangGraph, Temporal, Ray, or Auto Office for durable state &amp; retries.
+            </text>
+
+            {/* Level D */}
+            <rect x="28" y="262" width="664" height="52" rx="6" fill="#ec4899" fillOpacity="0.1" stroke="#ec4899" strokeWidth="1.25" strokeDasharray="4 4" />
+            <text x="46" y="285" fill="#f472b6" fontSize="13" fontWeight="800">LEVEL D · THIN ECONOMIC SCHEDULER (OPTIONAL ADAPTER)</text>
+            <text x="46" y="303" fill="#cbd5e1" fontSize="11.5">
+              Deterministic cost/verifier routing over existing tools only when recurring overhead &amp; owner consent justify it.
+            </text>
+
+            {/* Level E */}
+            <rect x="28" y="324" width="664" height="52" rx="6" fill="#f43f5e" fillOpacity="0.1" stroke="#f43f5e" strokeWidth="1.25" />
+            <text x="46" y="347" fill="#fb7185" fontSize="13" fontWeight="800">LEVEL E · HUMAN-CONTROLLED EXECUTION (ABSTAIN)</text>
+            <text x="46" y="365" fill="#cbd5e1" fontSize="11.5">
+              Irreversible deploys, production migrations, permissions, or missing verifiers. Agent advises; human executes.
+            </text>
+
+            {/* Footer banner */}
+            <rect x="28" y="386" width="664" height="30" rx="5" fill="#080c18" stroke="#242a40" strokeWidth="1" />
+            <text x="360" y="405" fill="#e2e8f0" fontSize="11.5" fontWeight="600" textAnchor="middle">
+              Consent-First Rule: Reading or copying this guide never authorizes installing tooling without explicit owner approval.
+            </text>
+          </svg>
+        </div>
+      </div>
+      <ul className="cache-horizons-mobile" aria-label="Five-level coordination decision ladder">
+        <li><strong>Level A · No orchestration (Default)</strong><span>One capable agent loop + domain skills and deterministic verifiers for coherent or coupled tasks.</span></li>
+        <li><strong>Level B · Lightweight orchestration</strong><span>2–4 disjoint lanes using existing harness subagents, task envelopes, and &lt;200-token disk pointer manifests.</span></li>
+        <li><strong>Level C · Existing workflow runtime</strong><span>Reuse CI, Claude Dynamic Workflows, LangGraph, Temporal, Ray, or Auto Office for durable state and retries.</span></li>
+        <li><strong>Level D · Thin economic scheduler</strong><span>Optional deterministic cost/verifier router over existing tools only when recurring overhead and owner approval justify it.</span></li>
+        <li><strong>Level E · Human-controlled execution</strong><span>Keep a human in control when permissions, safety, irreversible actions, or missing verifiers require judgment.</span></li>
+      </ul>
+      <figcaption style={{ color: "#94a3b8", fontSize: "0.85rem", marginTop: "12px", textAlign: "center", lineHeight: "1.5" }}>
+        Figure: The A–E Coordination Decision Ladder. Start at Level A and climb only when task independence, durable state, or recurring multi-model overhead justifies the next rung.
+      </figcaption>
+    </figure>
+  );
 }
 
 function CacheHorizonsSvg() {
@@ -169,6 +255,14 @@ export default function OrchestrationGuidePage() {
         : String(children ?? "");
       const headingId = slugifyHeading(headingText);
       const heading = <h2 {...props} id={headingId} tabIndex={-1}>{children}</h2>;
+      if (headingText.includes("Coordination Decision Framework")) {
+        return (
+          <>
+            <CoordinationLadderSvg />
+            {heading}
+          </>
+        );
+      }
       if (headingText.includes("Cache-Horizon Matrix")) {
         return (
           <>
@@ -178,6 +272,13 @@ export default function OrchestrationGuidePage() {
         );
       }
       return heading;
+    },
+    h3: ({ children, node: _node, ...props }) => {
+      const headingText = Array.isArray(children)
+        ? children.map((child) => (typeof child === "string" ? child : "")).join("")
+        : String(children ?? "");
+      const headingId = slugifyHeading(headingText);
+      return <h3 {...props} id={headingId} tabIndex={-1}>{children}</h3>;
     },
     table: ({ children, node: _node, ...props }) => (
       <div className="report-table-wrap" role="region" aria-label="Scrollable data table" tabIndex={0}>
@@ -193,7 +294,7 @@ export default function OrchestrationGuidePage() {
         <div>
           <span className="wip-tag">WIP · Unverified</span>
           <p>
-            Provider mechanics are sourced; recommendations are practitioner judgment, not a controlled study.
+            Provider cache mechanics and published research are sourced; architectural recommendations and economic models are practitioner judgment, not controlled trial results.
           </p>
           <Link href="/blog/orchestrator-tax-cold-cache">Read the cost field note ↗</Link>
         </div>
@@ -203,10 +304,10 @@ export default function OrchestrationGuidePage() {
           <p className="signal"><span /> RESEARCH · GUIDE</p>
           <h1>The Orchestration<br />Guide</h1>
           <p className="report-sub">
-            How to run more than one agent without setting money on fire.
+            What is the least expensive coordination architecture that reliably completes the work?
           </p>
           <div className="report-links">
-            <Link href="#copy-harness-prompts">Copy a starting prompt ↓</Link>
+            <Link href="#copy-harness-prompts">Copy a consent-first assessment prompt ↓</Link>
           </div>
         </header>
 
@@ -215,7 +316,7 @@ export default function OrchestrationGuidePage() {
             markdown={guideMd}
             claudePrompt={DEFAULT_CLAUDE_PROMPT}
             piPrompt={DEFAULT_PI_PROMPT}
-            hint="Ready to adapt the guide? Preview a Claude Code or Pi prompt, then copy it—or copy the full Markdown source."
+            hint="Want your agent to evaluate this repository? Preview and copy a consent-first Claude Code or Pi assessment prompt—or copy the full Markdown source. Reading or copying never authorizes repo edits without your approval."
           />
         </section>
 
@@ -237,7 +338,7 @@ export default function OrchestrationGuidePage() {
 
         <footer className="report-foot">
           <p>
-            The cost arithmetic behind this guide — current rate cards, Opus 5.5&apos;s 25× 5m write/read ratio, and the
+            The cold-cache arithmetic behind this guide — current rate cards, Opus 5.5&apos;s 25× 5m write/read ratio, and the
             worked eight-dispatch table — is in the field note{" "}
             <Link href="/blog/orchestrator-tax-cold-cache">
               Why Your Multi-Agent Setup Can Cost More Than a Single Heavy Agent
