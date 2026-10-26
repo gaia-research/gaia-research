@@ -3,7 +3,7 @@
 - **Status:** In Ideation / Architectural RFC (Unranked)
 - **Tracking Issue:** [#306](https://github.com/gaia-research/gaia-research/issues/306)
 - **Precedent / Foundational Context:** [#304](https://github.com/gaia-research/gaia-research/issues/304) (*The Economics of Agentic Work: When Small Agents Beat Frontier Models*)
-- **Pull Request:** [Draft PR pending creation]
+- **Pull Request:** [#307](https://github.com/gaia-research/gaia-research/pull/307)
 - **Author:** Marcus Tiongson, Founder, Gaia Research
 - **Viability:** High
 - **Potential:** Exceptional
