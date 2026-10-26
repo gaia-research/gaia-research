@@ -47,9 +47,9 @@ Vary the setting and color palette across every post. Do not default to the same
 ```text
 Use case: illustration-story.
 Asset type: 16:9 Gaia Research blog thumbnail.
-Primary request: [Vast everyday slice-of-life setting with huge architecture/environment]. A microscopic, tiny 8-year-old chibi girl (Milim Nova) placed [left / center / right] [expressing emotion] while [activity]. Scale directive: Milim is extremely small, about 5% of total image height; the surrounding world occupies 90% of the frame with huge calm negative space. Character details: very long, unbound bright pink hair (NO TWINTAILS), blue eyes, two yellow star hairpins, black oversized hoodie with cute white baby dragon print, thigh-high socks with pink stripes.
+Primary request: [Vast everyday slice-of-life setting with huge architecture/environment]. A microscopic, tiny 8-year-old chibi girl (Milim Nova) placed [left / center / right] [expressing emotion] while [activity]. Scale directive: Milim is extremely small, about 5% of total image height; the surrounding world occupies 90% of the frame with huge calm negative space. Character details: very long, perfectly straight, completely loose bright pink hair flowing down her back in a single unbroken drape, completely untied and flat against her back, neat straight bangs with two small yellow star clips, blue eyes, black oversized hoodie with cute white baby dragon print, thigh-high socks with pink stripes. Clean rounded crown, zero ahoge or hair loops.
 Style: flat editorial screenprint illustration; [Palette description: e.g. warm golden amber, cream, and single Milim-pink accent #ec4899]; broad flat shapes, subtle paper texture.
-Constraints: no tree-derived imagery; no text, UI, code, charts, graphs, diagrams, logos, watermarks, or hyper-detailed rendering.
+Constraints: no twintails, no pigtails, no ahoge; no tree-derived imagery; no text, UI, code, charts, graphs, diagrams, logos, watermarks, or hyper-detailed rendering.
 ```
 
 ## Production Workflow

@@ -12,9 +12,9 @@ Use case: illustration-story.
 Asset type: 16:9 Gaia Research editorial blog thumbnail.
 Primary request: Wide expansive architectural shot of a vast, monumental European metropolitan train station concourse at early dawn. Soaring curved glass-and-steel barrel vault arches, high clerestory windows streaming cool blue and pale amber dawn light, polished stone floors with soft reflections, and towering brass clock towers in the distance occupy 92% of the frame. Far in the distance on the lower right, seated quietly on a long dark wooden station bench, is a microscopic, tiny 8-year-old chibi girl (Milim Nova), standing only about 4-5% of total image height. She is holding a miniature warm ceramic mug with both hands, watching the empty station peacefully.
 Scale directive: Milim is microscopic, barely 4-5% of total frame height; the immense architectural station concourse occupies 92% of the frame with massive serene negative space.
-Character details: long flowing unbound bright pink hair down her back without twintails, two small yellow star clips in bangs, black oversized hoodie with cute white baby dragon emblem, thigh-high socks with pink stripes.
+Character details: very long, perfectly straight, completely loose bright pink hair flowing down her back in a single unbroken drape, completely untied and flat against her back, neat straight bangs with two small yellow star clips, blue eyes, black oversized hoodie with cute white baby dragon emblem, thigh-high socks with pink stripes. Clean rounded crown, zero ahoge.
 Style: flat editorial screenprint illustration; cool dawn teal, deep slate indigo, pale morning amber, soft bronze metal tones, and subtle pink accents; broad clean shapes, subtle paper texture, quiet slice-of-life atmosphere.
-Constraints: no tree or forest imagery; absolutely no readable text, letters, numbers, logos, UI, schedules, timetables, or watermarks.
+Constraints: no twintails, no pigtails, no ahoge; no tree or forest imagery; absolutely no readable text, letters, numbers, logos, UI, schedules, timetables, or watermarks.
 ```
 
 ## Approved scene
