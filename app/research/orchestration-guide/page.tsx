@@ -6,6 +6,8 @@ import rehypeKatex from "rehype-katex";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyPage, { DEFAULT_CLAUDE_PROMPT, DEFAULT_PI_PROMPT } from "@/components/CopyPage";
 import GuideQuickNav from "@/components/GuideQuickNav";
+import OrchestrationMotionHook from "@/components/OrchestrationMotionHook";
+import OrchestrationFieldCards from "@/components/OrchestrationFieldCards";
 // loaded as raw text by webpack asset/source
 import guideMd from "@/content/reports/orchestration-guide/guide.md";
 
@@ -301,17 +303,31 @@ export default function OrchestrationGuidePage() {
       </aside>
       <main id="main" className="report-page">
         <header className="report-head">
-          <p className="signal"><span /> RESEARCH · GUIDE</p>
+          <p className="signal"><span /> RESEARCH · FIELD GUIDE</p>
           <h1>The Orchestration<br />Guide</h1>
           <p className="report-sub">
             What is the least expensive coordination architecture that reliably completes the work?
           </p>
           <div className="report-links">
-            <Link href="#copy-harness-prompts">Copy a consent-first assessment prompt ↓</Link>
+            <Link href="#interactive-motion-hook">Visual simulator ↓</Link>
+            <Link href="#executive-field-guide">60-second summary ↓</Link>
+            <Link href="#copy-harness-prompts">Copy agent prompt ↓</Link>
+            <Link href="#full-technical-spec">Full technical report ↓</Link>
           </div>
         </header>
 
-        <section className="guide-launchpad" aria-label="Starting prompt and source copy">
+        {/* 1. FRONTLOADED CLAUDE-MOTION-INSPIRED INTERACTIVE SIMULATOR */}
+        <section id="interactive-motion-hook" className="guide-motion-section" aria-label="Interactive architecture motion simulation">
+          <OrchestrationMotionHook />
+        </section>
+
+        {/* 2. FRONTLOADED 60-SECOND FIELD GUIDE & LADDER STEPPER */}
+        <section id="executive-field-guide" className="guide-field-section" aria-label="Executive field guide and decision ladder">
+          <OrchestrationFieldCards />
+        </section>
+
+        {/* 3. CONSENT-FIRST PROMPT COPY BAR */}
+        <section id="copy-harness-prompts" className="guide-launchpad" aria-label="Starting prompt and source copy">
           <CopyPage
             markdown={guideMd}
             claudePrompt={DEFAULT_CLAUDE_PROMPT}
@@ -320,8 +336,18 @@ export default function OrchestrationGuidePage() {
           />
         </section>
 
-        <div className="guide-layout">
+        {/* 4. FULL TECHNICAL SPEC & HARNESS INTEGRATION (FOR AGENTS & ADVANCED READERS) */}
+        <div id="full-technical-spec" className="guide-layout">
           <article className="report-body">
+            <div className="tech-spec-banner" style={{ marginBottom: "2.25rem", padding: "1.1rem 1.35rem", background: "rgba(14, 20, 36, 0.65)", border: "1px solid #1e293b", borderRadius: "8px" }}>
+              <span style={{ fontFamily: "var(--mono)", fontSize: "0.72rem", color: "var(--blue)", textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.4rem" }}>
+                <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: "var(--pink)" }} />
+                Comprehensive Technical Specification · Harness Wiring &amp; Math Models
+              </span>
+              <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--muted)", lineHeight: 1.55 }}>
+                The complete technical report for systems engineers and autonomous agents: mathematical objective formulation, Amdahl/Ord scaling limits, provider cache TTL matrices, worked swarm calculations, and Claude Code/Pi harness configurations.
+              </p>
+            </div>
             <Markdown
               remarkPlugins={[remarkGfm, [remarkMath, { singleDollarTextMath: false }]]}
               rehypePlugins={[rehypeKatex]}
