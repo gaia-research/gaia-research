@@ -2,7 +2,7 @@
 
 - **Status:** In Ideation / Thought Leadership Draft (Unranked)
 - **Tracking Issue:** [#304](https://github.com/gaia-research/gaia-research/issues/304)
-- **Pull Request:** [Draft PR pending branch push / creation]
+- **Pull Request:** [#305](https://github.com/gaia-research/gaia-research/pull/305)
 - **Primary Video Source (Founder-Supplied):** Ray Amjad, *"Anthropic's New Subagent Rules Will Change How You Build"* ([https://youtu.be/ybx0mmd22pQ?si=0AQJsdIwd8s0eWX_](https://youtu.be/ybx0mmd22pQ?si=0AQJsdIwd8s0eWX_))
 - **Author:** Marcus Tiongson, Founder, Gaia Research
 - **Viability:** High
