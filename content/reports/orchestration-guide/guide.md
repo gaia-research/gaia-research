@@ -8,7 +8,7 @@ Most multi-agent setups fail an elementary economic test: they spend more tokens
 > **What is the least expensive coordination architecture that reliably completes the work?**
 
 1. **Default to a single agent ([Level A](#the-coordination-decision-framework)).** Do not orchestrate unless the task genuinely splits into independent lanes or exceeds a single context window without degraded recall.
-2. **Optimize expected cost per verified outcome ($C_{\text{verified}}$), not raw token price ([The Economics of Agentic Work](#the-economics-of-agentic-work)).** Account for worker execution, coordination overhead, verification cost, and pass probability—or, on \$20/month subscriptions, verified tasks completed per quota window.
+2. **Optimize expected cost per verified outcome ($$C_{\text{verified}}$$), not raw token price ([The Economics of Agentic Work](#the-economics-of-agentic-work)).** Account for worker execution, coordination overhead, verification cost, and pass probability—or, on \$20/month subscriptions, verified tasks completed per quota window.
 3. **Separate intelligent reasoning from deterministic coordination ([Reasoning vs. Coordination](#separate-reasoning-from-deterministic-coordination)).** Use models for ambiguity, synthesis, and code generation; use deterministic software (scripts, queues, git worktrees, test runners, state files) for scheduling, polling, retries, and context transport.
 4. **Climb the coordination ladder only as far as needed ([Levels A–E](#the-coordination-decision-framework)).** Prefer existing skills and bounded subagents (**Level B**) or established workflow tools (**Level C**) before considering a thin economic scheduler (**Level D**). Keep humans in control (**Level E**) when authority, safety, or missing verification requires judgment.
 5. **Match root cache horizons to worker duration and return pointer manifests ([Provider Matrix](#the-provider-cache-horizon-matrix), [Manifests & Telemetry](#task-envelopes-pointer-manifests-and-gap-telemetry)).** Align worker wait times with 5-minute, 30-minute (GPT 6), or 1-hour (Claude/Gemini) cache windows, keep leaf workers on short caches, and return compact disk pointers (<200 tokens) instead of raw stdout.
@@ -41,15 +41,15 @@ Most coding tasks—building authentication, fixing a race condition, refactorin
 
 ## The Economics of Agentic Work
 
-Asking *"Can this task be parallelized?"* is the wrong economic question. Parallel execution is not cheap execution. The right question—developed in [*The Economics of Agentic Work*](https://github.com/gaia-research/gaia-research/issues/304)—is how to minimize **Total Expected Cost per Verified Deliverable ($C_{\text{verified}}$)** subject to latency, quota, and safety constraints:
+Asking *"Can this task be parallelized?"* is the wrong economic question. Parallel execution is not cheap execution. The right question—developed in [*The Economics of Agentic Work*](https://github.com/gaia-research/gaia-research/issues/304)—is how to minimize **Total Expected Cost per Verified Deliverable ($$C_{\text{verified}}$$)** subject to latency, quota, and safety constraints:
 
 $$C_{\text{verified}} = \frac{\mathbb{E}[C_{\text{execution}}] + \mathbb{E}[C_{\text{orchestration}}] + \mathbb{E}[C_{\text{verification}}]}{P(\text{verified})}$$
 
 Unfinished code has zero value; unverified code carries negative value because a human or frontier model must untangle it. Every architectural choice moves one of the four terms in that equation:
 
-- **$\mathbb{E}[C_{\text{execution}}]$ (Worker inference):** Model rate cards span nearly two orders of magnitude—from compact workers like **GPT 6 Luna** (\$0.10/M input, \$0.50/M output) or **Gemini 3.8 Flash** to workhorses like **GPT 6 Sol** and **Claude Sonnet 5** (\$2.00/M input, \$10.00/M output) and flagships like **Claude Opus 5.5** (\$4.00/M input, \$20.00/M output). Under rate-card arithmetic, three failed attempts plus a fourth passing run on a \$0.10/M worker still cost a small fraction of a single frontier run—*if and only if* verification is deterministic and failed attempts are discarded cleanly in isolated git worktrees.
-- **$\mathbb{E}[C_{\text{orchestration}}]$ (The Orchestrator Tax):** A root orchestrator holding 100,000 tokens of repo specifications, tool schemas, and task history pays to process that prefix on every turn ([#242](https://github.com/gaia-research/gaia-research/issues/242)). On Claude Opus 5.5 (\$4.00/M base input), a warm cache read costs **\$0.20/M** (0.05×), a 5-minute cache write costs **\$5.00/M** (1.25×), and a 1-hour cache write costs **\$8.00/M** (2.0×). That is a **25× gap** between a warm read and a cold 5-minute write (\$0.02 vs. \$0.50 per 100k-token turn). When worker runs outlast the cache TTL—or when a coordinator wakes up repeatedly to read verbose status chatter—orchestration tokens and enlarged reasoning trees (Snell et al., [arXiv:2408.03314](https://arxiv.org/abs/2408.03314)) can cost more than the workers themselves.
-- **$\mathbb{E}[C_{\text{verification}}]$ and $P(\text{verified})$ (The Domain Harness Multiplier):** Small models often fail in bare shells because of environmental ambiguity, not reasoning ceilings. One-time investments in a **domain harness**—reusable `SKILL.md` playbooks, AST-aware search, compiler/typecheck feedback loops, and deterministic test gates—raise $P(\text{verified})$ for every subsequent run ([#304](https://github.com/gaia-research/gaia-research/issues/304)).
+- **$$\mathbb{E}[C_{\text{execution}}]$$ (Worker inference):** Model rate cards span nearly two orders of magnitude—from compact workers like **GPT 6 Luna** (\$0.10/M input, \$0.50/M output) or **Gemini 3.8 Flash** to workhorses like **GPT 6 Sol** and **Claude Sonnet 5** (\$2.00/M input, \$10.00/M output) and flagships like **Claude Opus 5.5** (\$4.00/M input, \$20.00/M output). Under rate-card arithmetic, three failed attempts plus a fourth passing run on a \$0.10/M worker still cost a small fraction of a single frontier run—*if and only if* verification is deterministic and failed attempts are discarded cleanly in isolated git worktrees.
+- **$$\mathbb{E}[C_{\text{orchestration}}]$$ (The Orchestrator Tax):** A root orchestrator holding 100,000 tokens of repo specifications, tool schemas, and task history pays to process that prefix on every turn ([#242](https://github.com/gaia-research/gaia-research/issues/242)). On Claude Opus 5.5 (\$4.00/M base input), a warm cache read costs **\$0.20/M** (0.05×), a 5-minute cache write costs **\$5.00/M** (1.25×), and a 1-hour cache write costs **\$8.00/M** (2.0×). That is a **25× gap** between a warm read and a cold 5-minute write (\$0.02 vs. \$0.50 per 100k-token turn). When worker runs outlast the cache TTL—or when a coordinator wakes up repeatedly to read verbose status chatter—orchestration tokens and enlarged reasoning trees (Snell et al., [arXiv:2408.03314](https://arxiv.org/abs/2408.03314)) can cost more than the workers themselves.
+- **$$\mathbb{E}[C_{\text{verification}}]$$ and $$P(\text{verified})$$ (The Domain Harness Multiplier):** Small models often fail in bare shells because of environmental ambiguity, not reasoning ceilings. One-time investments in a **domain harness**—reusable `SKILL.md` playbooks, AST-aware search, compiler/typecheck feedback loops, and deterministic test gates—raise $P(\text{verified})$ for every subsequent run ([#304](https://github.com/gaia-research/gaia-research/issues/304)).
 - **Subscription Quota Economics (\$20/Month Tiers):** On fixed-quota plans (Claude Pro/Max, ChatGPT Plus/Team), the binding constraint is **verified deliverables completed per rolling quota window**, not API cents. Conversational multi-agent ceremony can consume 30–60% of a 5-hour quota window on delegation chatter alone.
 
 ### Four Execution Regimes (Before You Build a Swarm)
@@ -59,14 +59,14 @@ Instead of defaulting to a heavy conversational manager, match task structure an
 1. **Single Capable Agent:** Best when requirements are novel, files are tightly coupled, or no automated verifier exists. Paying for strong reasoning once beats unguided small-model thrashing.
 2. **Bounded Cheap Retries:** Best when scope is local and a fast deterministic verifier (`tsc`, `vitest`, `pytest`, `cargo check`) returns binary pass/fail diagnostics. Run 1–3 sequential attempts with compiler errors piped back.
 3. **Speculative Hedged Racing:** Best when wall-clock latency matters and verification is binary and cheap. Run 2–3 isolated worktree attempts in parallel and keep the first verified pass, truncating tail latency ([Dean & Barroso, *The Tail at Scale*, 2013](https://research.google/pubs/the-tail-at-scale/)).
-4. **Adaptive Cascade:** Start with a low-cost model plus domain skill; if verification fails after a strict turn ceiling (e.g., $\le 3$ turns), preserve the diagnostic receipt and escalate to a stronger model ([Chen et al., *FrugalGPT*, 2023](https://arxiv.org/abs/2305.05176)).
+4. **Adaptive Cascade:** Start with a low-cost model plus domain skill; if verification fails after a strict turn ceiling (e.g., $$\le 3$$ turns), preserve the diagnostic receipt and escalate to a stronger model ([Chen et al., *FrugalGPT*, 2023](https://arxiv.org/abs/2305.05176)).
 
 ### Classical Laws That Govern Agent Swarms
 
 | Precedent | Core Mechanism | Agentic Consequence |
 | :--- | :--- | :--- |
-| **Amdahl's Law** ([1967](https://doi.org/10.1145/1465482.1465560)) | Parallel speedup is capped by the serial fraction $s$: $S(N) \le 1/s$. | Serial planning, git merge resolution, and integration testing bound fleet speedup regardless of worker count. |
-| **Brooks's Law** (*Mythical Man-Month*, 1975) & **Swarm Scaling** (Toby Ord) | Communication channels grow as $n(n-1)/2$; uncoordinated swarms scale sub-linearly ($\sim N^{0.57}$). | Multi-hop agent chains ("planner → coder → reviewer → integrator") suffer lossy summarization and quadratic token overhead. |
+| **Amdahl's Law** ([1967](https://doi.org/10.1145/1465482.1465560)) | Parallel speedup is capped by the serial fraction $$s$$: $$S(N) \le 1/s$$. | Serial planning, git merge resolution, and integration testing bound fleet speedup regardless of worker count. |
+| **Brooks's Law** (*Mythical Man-Month*, 1975) & **Swarm Scaling** (Toby Ord) | Communication channels grow as $$n(n-1)/2$$; uncoordinated swarms scale sub-linearly ($$\sim N^{0.57}$$). | Multi-hop agent chains ("planner → coder → reviewer → integrator") suffer lossy summarization and quadratic token overhead. |
 | **Conway's Law** & **The Ticket Trap** ([Ray Amjad, 2026](https://youtu.be/ybx0mmd22pQ)) | Systems mirror organizational charts; developers split small tasks into micro-tickets across role-playing agents (18:33). | [Anthropic's engineering guidance](https://www.anthropic.com/research/building-effective-agents) and [multi-agent research notes](https://www.anthropic.com/engineering/multi-agent-research-system) warn against role-play ceremony when a single loop with progressive skills suffices. |
 
 ---
@@ -184,16 +184,16 @@ When coordinating asynchronous workers on Anthropic Claude (Opus 5.5 or Sonnet 5
 | **Subsequent Cache Read (Hit)** | Sonnet 5 **0.10×** · Opus 5.5 **0.05×** | Sonnet 5 **0.10×** · Opus 5.5 **0.05×** |
 | **Sliding Retention Window** | 5 minutes from last hit | 60 minutes from last hit |
 
-Let $P_{\text{in}}$ be base input price and $L = 0.1\text{M}$ (100,000 tokens) on **Claude Sonnet 5** ($P_{\text{in}} = \$2.00/\text{M}$, read $= 0.10\times = \$0.20/\text{M}$):
+Let $$P_{\text{in}}$$ be base input price and $$L = 0.1\text{M}$$ (100,000 tokens) on **Claude Sonnet 5** ($$P_{\text{in}} = 2.00\text{ USD/M}$$, cached read rate $$= 0.10 \times P_{\text{in}} = 0.20\text{ USD/M}$$):
 
 - **Case 1 — A Single Pause $>5$ Minutes (2 Turns):**
-  - *5-minute TTL (expires during an 8-minute worker run):* Two cold writes $= (1.25 + 1.25) \times P_{\text{in}} L = \mathbf{2.50 \times P_{\text{in}} L}$.
-  - *1-hour TTL (stays warm):* One 1h write + one warm hit $= (2.00 + 0.10) \times P_{\text{in}} L = \mathbf{2.10 \times P_{\text{in}} L}$.
-  - **Result:** Avoiding a **single** cold eviction saves **16.0%** on Turn 2 ($\frac{2.50 - 2.10}{2.50}$).
+  - *5-minute TTL (expires during an 8-minute worker run):* Two cold writes $$= (1.25 + 1.25) \times P_{\text{in}} L = \mathbf{2.50 \times P_{\text{in}} L}$$.
+  - *1-hour TTL (stays warm):* One 1h write + one warm hit $$= (2.00 + 0.10) \times P_{\text{in}} L = \mathbf{2.10 \times P_{\text{in}} L}$$.
+  - **Result:** Avoiding a **single** cold eviction saves **16.0%** on Turn 2 ($$\frac{2.50 - 2.10}{2.50} = 0.160$$).
 - **Case 2 — 8-Turn Swarm Across Seven 7.5-Minute Gaps (52.5m Total):**
-  - *5-minute TTL (every wakeup misses):* $8 \times (1.25 \times \$2.00 \times 0.1\text{M}) = \mathbf{\$2.000}$.
-  - *5-minute TTL + 270s synthetic heartbeats (21 pings across seven 15m gaps):* $\$0.25\text{ write} + \$0.42\text{ pings} + \$0.14\text{ reads} = \mathbf{\$0.810}$ (plus extra network/failure surface).
-  - *Native 1-hour TTL:* $(2.00 \times \$2.00 \times 0.1\text{M}) + 7 \times (0.10 \times \$2.00 \times 0.1\text{M}) = \$0.400 + \$0.140 = \mathbf{\$0.540}$ (**73% less prefill spend** than cold 5m writes, and one-third cheaper than synthetic heartbeats; on Opus 5.5, the same heartbeat comparison is \$0.94 native 1h vs. \$1.06 with pings) ([#247](https://github.com/gaia-research/gaia-research/issues/247), [#256](https://github.com/gaia-research/gaia-research/issues/256)).
+  - *5-minute TTL (every wakeup misses):* $$8 \times (1.25 \times 2.00 \times 0.1) = 2.00\text{ USD}$$ (or **$2.000**).
+  - *5-minute TTL + 270s synthetic heartbeats (21 pings across seven 15m gaps):* $$0.25 + 0.42 + 0.14 = 0.81\text{ USD}$$ (or **$0.810** total, plus extra network/failure surface).
+  - *Native 1-hour TTL:* $$(2.00 \times 2.00 \times 0.1) + 7 \times (0.10 \times 2.00 \times 0.1) = 0.400 + 0.140 = 0.54\text{ USD}$$ (or **$0.540** total, **73% less prefill spend** than cold 5m writes, and one-third cheaper than synthetic heartbeats; on Opus 5.5, the same heartbeat comparison is $0.94 native 1h vs. $1.06 with pings) ([#247](https://github.com/gaia-research/gaia-research/issues/247), [#256](https://github.com/gaia-research/gaia-research/issues/256)).
 
 ### Verified Anthropic API & Claude Code Setup
 
@@ -286,7 +286,7 @@ Do not paste your full conversation history into every worker prompt. Dispatch e
 
 Aggregate invoice totals hide whether money was spent on productive worker generation or cold-cache coordinator wakeups. Record four signals per run (and record missing fields as `unknown`, never `0`):
 
-1. **Inter-turn idle gaps ($\Delta t$):** Compare time between coordinator turns against the configured cache horizon (5m, 30m, or 1h).
+1. **Inter-turn idle gaps ($$\Delta t$$):** Compare time between coordinator turns against the configured cache horizon (5m, 30m, or 1h).
 2. **Cache read vs. write tokens:** Check `cache_read_input_tokens` and `cache_creation_input_tokens` (Anthropic), `usage.cache_creation.ephemeral_1h_input_tokens` (Claude Code JSON), or `usage.input_tokens_details.cached_tokens` and `cache_write_tokens` (OpenAI Responses API).
 3. **Coordination vs. execution share:** Track coordinator tokens separately from worker tokens.
 4. **Verified outcome & retry count:** Record whether the deterministic verification command passed and how many attempts were required.
@@ -313,8 +313,8 @@ Aggregate invoice totals hide whether money was spent on productive worker gener
    ```
 4. **Pointer Manifests & Rate-Card Bill Verification:**
    - Root coordinator context stays at **18,000 tokens** (0.018M) because each worker writes logs/diffs to `/tmp/results/lane-N.json` and returns a 6-line JSON receipt.
-   - **Sol root cache spend:** Turn 1 write ($\$2.50/\text{M} \times 0.018\text{M} = \$0.045$) + 4 warm reads ($4 \times \$0.20/\text{M} \times 0.018\text{M} = \$0.0144$) $= \mathbf{\$0.0594}$ *(or \$0.0864 on Sonnet 5 with a 1h write)*.
-   - **Four Luna workers (illustrative 50k in / 10k out each):** $4 \times ((0.05\text{M} \times \$0.10) + (0.01\text{M} \times \$0.50)) = \mathbf{\$0.0400}$.
+   - **Sol root cache spend:** Turn 1 write: $$2.50 \times 0.018 = 0.045\text{ USD}$$ (**$0.045**); four warm reads: $$4 \times (0.20 \times 0.018) = 0.0144\text{ USD}$$ (**$0.0144**); root cache subtotal: **$0.0594** (or **$0.0864** on Sonnet 5 with a 1h write).
+   - **Four Luna workers (illustrative 50k in / 10k out each):** $$4 \times ((0.05 \times 0.10) + (0.01 \times 0.50)) = 0.0400\text{ USD}$$ (**$0.0400**).
    - **Illustrative token subtotal:** **~\$0.10** (excluding output tokens on the coordinator and any retry turns), with every lane verified by `vitest`.
 
 ---
@@ -381,7 +381,7 @@ To keep engineering decisions grounded, this guide strictly separates five epist
    - **DeepSeek & xAI:** [DeepSeek Pricing](https://api-docs.deepseek.com/quick_start/pricing/) and [xAI Grok 4.6 Pricing](https://docs.x.ai/developers/models/grok-4.6).
    - **Coordination Runtimes:** [LangGraph](https://docs.langchain.com/oss/python/langgraph/overview), [Temporal](https://docs.temporal.io/), [Ray](https://docs.ray.io/), and [Rico's Auto Office (`Hikari9/auto-office`)](https://github.com/Hikari9/auto-office).
 2. **Published Research & Systems Precedents:**
-   - Parallel & organizational bounds: Gene Amdahl ([1967](https://doi.org/10.1145/1465482.1465560)), Fred Brooks (*The Mythical Man-Month*, 1975), Melvin Conway (1967), and Toby Ord (*Swarm Scaling*, $\lambda \approx 0.57$).
+   - Parallel & organizational bounds: Gene Amdahl ([1967](https://doi.org/10.1145/1465482.1465560)), Fred Brooks (*The Mythical Man-Month*, 1975), Melvin Conway (1967), and Toby Ord (*Swarm Scaling*, $$\\lambda \\approx 0.57$$).
    - Tail latency, routing & compute scaling: Jeffrey Dean & Luiz André Barroso ([*The Tail at Scale*, 2013](https://research.google/pubs/the-tail-at-scale/)), Lingjiao Chen et al. ([*FrugalGPT*, arXiv:2305.05176](https://arxiv.org/abs/2305.05176)), and Charlie Snell et al. ([*Scaling LLM Test-Time Compute*, arXiv:2408.03314](https://arxiv.org/abs/2408.03314)).
    - KV cache serving systems: Kwon et al. ([*PagedAttention*, SOSP '23](https://doi.org/10.1145/3600006.3613165)), Zheng et al. ([*SGLang RadixAttention*, arXiv:2312.07104](https://arxiv.org/abs/2312.07104)), and Qin et al. (*Mooncake*, USENIX FAST '24).
    - Agent architecture guidance: Anthropic ([*Building Effective Agents*](https://www.anthropic.com/research/building-effective-agents) and [*How We Built Our Multi-Agent Research System*](https://www.anthropic.com/engineering/multi-agent-research-system)).
@@ -390,7 +390,7 @@ To keep engineering decisions grounded, this guide strictly separates five epist
    - The 16% single-pause break-even and 73% eight-turn prefill reduction on Claude Sonnet 5, the Opus 5.5 25× 5m write/read ratio, and the 16-endpoint worked example are exact arithmetic under stated rate-card assumptions, not measured trial averages ([#247](https://github.com/gaia-research/gaia-research/issues/247), [#256](https://github.com/gaia-research/gaia-research/issues/256)).
    - Model pairings (such as GPT 6 Sol coordinating Luna workers, or Sonnet 5 with `ttl: '1h'`) and the 15k–20k token root context ceiling are practitioner heuristics.
 4. **Gaia Architectural Hypotheses & Exploratory Pilots:**
-   - The Expected Cost per Verified Deliverable ($C_{\text{verified}}$) formulation, the Domain Harness Multiplier, and the four-regime execution model ([#304](https://github.com/gaia-research/gaia-research/issues/304)).
-   - The Economic Scheduler objective ($\min_{\pi}\mathbb{E}[C_{\text{total}}\mid\text{verified}]$) ([#306](https://github.com/gaia-research/gaia-research/issues/306)) and the Pi-first exploratory pilot in [`gaia-research/gaia-skill-tree#2158`](https://github.com/gaia-research/gaia-skill-tree/issues/2158). No empirical cost-reduction claims are made for the pilot prior to completed trials.
+   - The Expected Cost per Verified Deliverable ($$C_{\text{verified}}$$) formulation, the Domain Harness Multiplier, and the four-regime execution model ([#304](https://github.com/gaia-research/gaia-research/issues/304)).
+   - The Economic Scheduler objective ($$\\min_{\\pi}\\mathbb{E}[C_{\\text{total}}\\mid\\text{verified}]$$) ([#306](https://github.com/gaia-research/gaia-research/issues/306)) and the Pi-first exploratory pilot in [`gaia-research/gaia-skill-tree#2158`](https://github.com/gaia-research/gaia-skill-tree/issues/2158). No empirical cost-reduction claims are made for the pilot prior to completed trials.
 5. **Future Validation Opportunities & Tracking Issues:**
    - Controlled benchmarks comparing single frontier runs, bounded cheap retries, speculative worktree racing, and adaptive cascades on held-out repository issues are tracked alongside cache-horizon and telemetry studies in [#242](https://github.com/gaia-research/gaia-research/issues/242), [#245](https://github.com/gaia-research/gaia-research/issues/245), [#247](https://github.com/gaia-research/gaia-research/issues/247), [#251](https://github.com/gaia-research/gaia-research/issues/251), [#252](https://github.com/gaia-research/gaia-research/issues/252), [#254](https://github.com/gaia-research/gaia-research/issues/254), [#255](https://github.com/gaia-research/gaia-research/issues/255), [#256](https://github.com/gaia-research/gaia-research/issues/256), [#304](https://github.com/gaia-research/gaia-research/issues/304), [#306](https://github.com/gaia-research/gaia-research/issues/306), [#308](https://github.com/gaia-research/gaia-research/issues/308), and [`gaia-skill-tree#2158`](https://github.com/gaia-research/gaia-skill-tree/issues/2158).

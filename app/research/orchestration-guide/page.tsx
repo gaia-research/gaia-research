@@ -323,7 +323,7 @@ export default function OrchestrationGuidePage() {
         <div className="guide-layout">
           <article className="report-body">
             <Markdown
-              remarkPlugins={[remarkGfm, remarkMath]}
+              remarkPlugins={[remarkGfm, [remarkMath, { singleDollarTextMath: false }]]}
               rehypePlugins={[rehypeKatex]}
               components={markdownComponents}
             >
