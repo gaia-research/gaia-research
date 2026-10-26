@@ -160,6 +160,13 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 - **Why now:** The cost floor of agentic software work depends on retries, verification, subscription quotas, and domain harnesses, not simply frontier model capability. Formulates where bounded cheap retries and speculative racing outperform costly orchestration ceremony, backed by the founder's verbatim observations, Ray Amjad's primary video analysis, and foundational systems precedents.
 - **Doc:** [`economics-of-agentic-work-small-agents.md`](./economics-of-agentic-work-small-agents.md) · Tracking issue: [#304](https://github.com/gaia-research/gaia-research/issues/304)
 
+### Beyond Orchestration: The Missing Economic Scheduler for AI Agents
+- **Status:** In Ideation / Architectural RFC (Unranked)
+- **Viability:** High
+- **Potential:** Exceptional
+- **Why now:** Existing runtimes (Auto Office, LangGraph, Temporal) and dynamic workflows already reduce conversational orchestration overhead. The next systems-level opportunity is an economic scheduler that optimizes expected cost, latency, and probability of verified success across heterogeneous models, shared memory, and canonical skill catalogs.
+- **Doc:** [`economic-scheduler-ai-agents.md`](./economic-scheduler-ai-agents.md) · Tracking issue: [#306](https://github.com/gaia-research/gaia-research/issues/306) · Precedent: [#304](https://github.com/gaia-research/gaia-research/issues/304)
+
 ---
 
 ## Active Meta-Research (Unranked) — Agent Role Intelligence & Capability Floors
