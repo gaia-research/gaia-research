@@ -1,4 +1,6 @@
 import type { StaticImageData } from "next/image";
+import economicsOfAgenticWorkThumbnailSrc from "@/assets/generated/economics-of-agentic-work-editorial-thumbnail.webp";
+import missingEconomicSchedulerThumbnailSrc from "@/assets/generated/missing-economic-scheduler-editorial-thumbnail.webp";
 import ifEverythingCanBeRecreatedThumbnailSrc from "@/assets/generated/if-everything-can-be-recreated-editorial-thumbnail.webp";
 import capabilityAmplificationThumbnailSrc from "@/assets/generated/capability-amplification-editorial-thumbnail.webp";
 import reflexAgentsClassifiersThumbnailSrc from "@/assets/generated/reflex-agents-classifiers-editorial-thumbnail.webp";
@@ -34,6 +36,16 @@ export type BlogPost = {
     alt: string;
   };
 };
+
+export const economicsOfAgenticWorkThumbnail = {
+  src: economicsOfAgenticWorkThumbnailSrc,
+  alt: "A vast, quiet neoclassical library hall with soaring wooden bookshelves and three-story arched windows streaming morning sunlight, with a microscopic chibi Milim seated at an oak table peacefully arranging paper cubes.",
+} as const;
+
+export const missingEconomicSchedulerThumbnail = {
+  src: missingEconomicSchedulerThumbnailSrc,
+  alt: "A monumental European metropolitan train station concourse at early dawn with soaring steel-and-glass vault arches, with a microscopic chibi Milim seated on a wooden bench on the right sipping from a warm mug.",
+} as const;
 
 export const ifEverythingCanBeRecreatedThumbnail = {
   src: ifEverythingCanBeRecreatedThumbnailSrc,
@@ -138,6 +150,44 @@ export const arborEvidenceLoopEditorialThumbnail = {
 // Keep this list deliberately small and editorial. Home consumes the first
 // three entries; the blog index is the complete archive.
 export const blogPosts: readonly BlogPost[] = [
+  {
+    href: "/blog/economics-of-agentic-work",
+    category: "Token Economics",
+    tags: [
+      "Agent Economics",
+      "Model Pricing",
+      "Domain Harness",
+      "FrugalGPT",
+      "Amdahl's Law",
+      "Test-Time Compute",
+    ],
+    date: "October 26, 2026",
+    readTime: "8 min read",
+    title: "The Economics of Agentic Work: When Small Agents Beat Frontier Models",
+    description:
+      "Why does a task have to be expensive just because it is difficult? Finding the break-even point where bounded retries, domain harnesses, and competitive cheap agents beat a single frontier model.",
+    author: "Marcus Tiongson · Founder, Gaia Research",
+    image: economicsOfAgenticWorkThumbnail,
+  },
+  {
+    href: "/blog/missing-economic-scheduler",
+    category: "Agent Architecture",
+    tags: [
+      "Economic Scheduler",
+      "Orchestration",
+      "Dynamic Workflows",
+      "Temporal",
+      "LangGraph",
+      "Auto Office",
+    ],
+    date: "October 26, 2026",
+    readTime: "9 min read",
+    title: "Beyond Orchestration: The Missing Economic Scheduler for AI Agents",
+    description:
+      "Why are we paying reasoning prices for bookkeeping? How deterministic runtimes, global memory, and predictive economic scheduling replace expensive conversational orchestration.",
+    author: "Marcus Tiongson · Founder, Gaia Research",
+    image: missingEconomicSchedulerThumbnail,
+  },
   {
     href: "/blog/if-everything-can-be-recreated",
     category: "Philosophy & Provenance",
