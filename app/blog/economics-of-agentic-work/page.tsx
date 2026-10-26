@@ -184,6 +184,23 @@ function AgentEconomicsAllocationSvg() {
   );
 }
 
+function YoutubeEmbed() {
+  return (
+    <figure className="blog-video" style={{ margin: "20px 0" }}>
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/ybx0mmd22pQ"
+        title="Anthropic's New Subagent Rules Will Change How You Build - Ray Amjad"
+        width="960"
+        height="540"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        style={{ width: "100%", aspectRatio: "16 / 9", height: "auto", border: "0", borderRadius: "8px" }}
+      />
+      <figcaption>Ray Amjad explores Anthropic Applied AI guidance on single-loop subagent folding, Conway&apos;s Law in agent topologies, and avoiding the Ticket Trap.</figcaption>
+    </figure>
+  );
+}
+
 export default function BlogPostPage() {
   const body = loadPost();
   return (
@@ -233,6 +250,9 @@ export default function BlogPostPage() {
 
                 if (text === "[[AGENT_ECONOMICS_ALLOCATION_SVG]]") {
                   return <AgentEconomicsAllocationSvg />;
+                }
+                if (text === "[[YOUTUBE_EMBED]]") {
+                  return <YoutubeEmbed />;
                 }
 
                 return <p {...props}>{children}</p>;

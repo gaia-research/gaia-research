@@ -74,6 +74,10 @@ We have become fond of hierarchies: a strong planner decomposes a task, several 
 
 > “When we ... do a marathon ... there's this ceremony that's happening with the Sol orchestrating a bunch of small agents and it's taking like forever ... It needs a number.”
 
+This tension mirrors what software engineers encounter in human teams. When systems mirror human organizational hierarchies rather than problem topologies, agents fall into what Ray Amjad terms the "Ticket Trap": decomposing a problem so heavily across specialized roles that context transfer and coordination dominate actual execution.
+
+[[YOUTUBE_EMBED]]
+
 There is another option: **competing solutions**.
 
 Give two isolated Luna agents the same bounded bug report, the same acceptance criteria, and separate worktrees. Run the same tests. If one solution passes and the other fails, we may not need a sophisticated synthesis conversation. We need a trustworthy judge of the result. If both pass, we still need to inspect maintainability, safety, and side effects; passing tests are evidence, not proof of correctness.
