@@ -4,32 +4,32 @@ import { useEffect, useRef, useState } from "react";
 
 const quickLinks = [
   { label: "Start here", href: "#start-here-the-short-version" },
-  { label: "Choose a horizon", href: "#the-cache-horizon-decision-tree" },
-  { label: "Run the workflow", href: "#step-0-first-decide-not-to-orchestrate" },
+  { label: "Decision ladder (A–E)", href: "#the-coordination-decision-framework" },
+  { label: "Agent contract", href: "#agent-consumable-assessment-contract" },
 ];
 
 const moreGroups = [
   {
-    label: "Provider setup",
+    label: "Economics & architecture",
+    links: [
+      { label: "Agentic economics", href: "#the-economics-of-agentic-work" },
+      { label: "Reasoning vs. code", href: "#separate-reasoning-from-deterministic-coordination" },
+    ],
+  },
+  {
+    label: "Cache horizons",
     links: [
       { label: "Provider matrix", href: "#the-provider-cache-horizon-matrix" },
       { label: "Claude 1-hour setup", href: "#claude-configure-a-1-hour-root-cache" },
     ],
   },
   {
-    label: "Workflow",
+    label: "Operations & review",
     links: [
-      { label: "Worker manifests", href: "#step-5-make-workers-report-back-small-the-pointer-manifest" },
-      { label: "Gap telemetry", href: "#step-6-look-at-the-bill-gap-telemetry" },
+      { label: "Envelopes & manifests", href: "#task-envelopes-pointer-manifests-and-gap-telemetry" },
       { label: "Worked example", href: "#a-worked-example-start-to-finish" },
-    ],
-  },
-  {
-    label: "Review",
-    links: [
       { label: "Common mistakes", href: "#mistakes-we-keep-making" },
-      { label: "Evidence limits", href: "#what-is-unverified-here" },
-      { label: "Benchmark method", href: "/research/context-compaction-phase-2" },
+      { label: "Verified vs. hypothesis", href: "#what-is-verified-vs-hypothesized" },
     ],
   },
 ];
@@ -65,12 +65,9 @@ export default function GuideQuickNav() {
   }, []);
 
   const isActive = (href: string) => {
+    if (!href.startsWith("#")) return false;
     const target = href.slice(1);
-    if (currentSection?.id === target) return true;
-    if (target === "step-0-first-decide-not-to-orchestrate") {
-      return currentSection ? /^step-[0-4]-/.test(currentSection.id) : false;
-    }
-    return false;
+    return currentSection?.id === target;
   };
 
   const closeMore = () => {

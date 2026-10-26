@@ -1,96 +1,142 @@
 # The Orchestration Guide
-## How to run more than one agent without setting money on fire.
+## What is the least expensive coordination architecture that reliably completes the work?
 
 ## Start here: the short version
 
-A **cache horizon** is how long the coordinator's context stays warm while workers run.
+Most multi-agent setups fail an elementary economic test: they spend more tokens coordinating work than completing it. Before spawning subagents, tuning prompt caches, or adopting a workflow runtime, ask one question:
 
-1. **Don't orchestrate** unless the work splits into independent lanes that justify coordination; use the [Step 0 checklist](#step-0-first-decide-not-to-orchestrate).
-2. **Match that warm window to worker wait times:** under 5 minutes, use the short window; for 5–25 minutes, use GPT 6's 30-minute floor; for 20–60 minutes, use Claude's 1-hour option or Gemini; beyond an hour, collect worker manifests and resume in a fresh session. See the [decision tree](#the-cache-horizon-decision-tree).
-3. **Choose a fitting root and worker:** GPT 6 Sol coordinates mid-length work, with Luna as a slow, low-cost worker; see the [provider matrix](#the-provider-cache-horizon-matrix). For Claude, follow the [1-hour setup](#claude-configure-a-1-hour-root-cache) when expected reuse justifies the write premium.
-4. **Keep worker returns small and the root setup stable:** save logs and diffs to disk; return a compact [pointer manifest](#step-5-make-workers-report-back-small-the-pointer-manifest)—a short receipt that points to the files.
-5. **Measure the gaps:** track inter-turn time plus cache-read and cache-creation tokens with [gap telemetry](#step-6-look-at-the-bill-gap-telemetry). Treat model pairings and scheduling rules as practitioner hypotheses, not measured conclusions.
+> **What is the least expensive coordination architecture that reliably completes the work?**
 
----
-
-## Who this is for
-
-You have used an AI coding agent. It worked. Then you read that you can run *several* agents at once — one "orchestrator" that plans and delegates, and a fleet of "workers" that execute in parallel — and you want that.
-
-You do not need to have written a custom scheduler or distributed systems runtime. If you can describe a task in a prompt and coordinate agent tasks, you can follow this.
-
-Vocabulary used throughout:
-
-- **Orchestrator** (also: planner, lead, coordinator). The root agent holding the top-level session context, task decomposition, repository map, and lane tracking. **One per session.**
-- **Worker** (also: subagent, leaf agent, lane). An agent dispatched to do one scoped job (write tests, refactor a module, search an API, run a build), emit a receipt, and terminate.
-- **Cache Horizon** (also: retention window, TTL). The period of idle inactivity during which a provider guarantees (or probabilistically keeps) an orchestrator's pre-computed KV context warm before evicting it.
+1. **Default to a single agent ([Level A](#the-coordination-decision-framework)).** Do not orchestrate unless the task genuinely splits into independent lanes or exceeds a single context window without degraded recall.
+2. **Optimize expected cost per verified outcome ($$C_{\text{verified}}$$), not raw token price ([The Economics of Agentic Work](#the-economics-of-agentic-work)).** Account for worker execution, coordination overhead, verification cost, and pass probability—or, on \$20/month subscriptions, verified tasks completed per quota window.
+3. **Separate intelligent reasoning from deterministic coordination ([Reasoning vs. Coordination](#separate-reasoning-from-deterministic-coordination)).** Use models for ambiguity, synthesis, and code generation; use deterministic software (scripts, queues, git worktrees, test runners, state files) for scheduling, polling, retries, and context transport.
+4. **Climb the coordination ladder only as far as needed ([Levels A–E](#the-coordination-decision-framework)).** Prefer existing skills and bounded subagents (**Level B**) or established workflow tools (**Level C**) before considering a thin economic scheduler (**Level D**). Keep humans in control (**Level E**) when authority, safety, or missing verification requires judgment.
+5. **Match root cache horizons to worker duration and return pointer manifests ([Provider Matrix](#the-provider-cache-horizon-matrix), [Manifests & Telemetry](#task-envelopes-pointer-manifests-and-gap-telemetry)).** Align worker wait times with 5-minute, 30-minute (GPT 6), or 1-hour (Claude/Gemini) cache windows, keep leaf workers on short caches, and return compact disk pointers (<200 tokens) instead of raw stdout.
+6. **Consent before configuration ([Agent Assessment Contract](#agent-consumable-assessment-contract)).** Reading or copying this guide never authorizes an agent to modify a repository, override model preferences, or install orchestration tooling without explicit owner approval.
 
 ---
 
-## The one thing you have to understand
+## The Coordination Decision Framework
 
-Skip this and nothing else in the guide will make sense.
+Every coordination layer adds latency, state transitions, and failure modes. Evaluate your workload against five progressive levels (**A through E**) and choose the **lowest level** that reliably passes verification:
 
-**Your orchestrator pays to reuse its own memory, and the available cache window depends on the provider, model, and configuration.**
+| Level | Architecture | When It Fits | What to Use |
+| :--- | :--- | :--- | :--- |
+| **A. No Orchestration** *(Default)* | Single agent loop + domain skills + local verifiers | Coherent features, bug fixes, refactors with shared state, or work across tightly coupled files | One capable model in a single session (`CLAUDE.md`, `SKILL.md`, compiler/test loop). Zero subagents. |
+| **B. Lightweight Orchestration** | Prompt & skill discipline + bounded harness subagents | 2–4 genuinely disjoint tasks (parallel scouting, isolated module tests, independent route audits) | Native harness subagents (`subagent` in Pi, Claude Code subagents), task envelopes, and disk pointer manifests (<200 tokens). **No new runtime.** |
+| **C. Existing Workflow Infrastructure** | Deterministic state machine or compiled background workflow | Recurring multi-stage pipelines requiring durable retries, checkpointing, or strict lifecycle gates | Existing stack tools: CI matrices, `codemode` scripts, [Claude Dynamic Workflows](https://code.claude.com/docs/en/workflows), [LangGraph](https://docs.langchain.com/oss/python/langgraph/overview), [Temporal](https://docs.temporal.io/), [Ray](https://docs.ray.io/), or [Auto Office](https://github.com/Hikari9/auto-office). |
+| **D. Thin Economic Scheduling** *(Optional)* | Deterministic cost/verification router over existing harness tools | High-frequency dispatch across mixed-cost models where coordination overhead is measurable, verifiers are fast, and the owner explicitly wants economic routing | A thin adapter implementing structured task envelopes, shared state by reference, deterministic retries, and verification-aware escalation (see exploratory pilot [`gaia-skill-tree#2158`](https://github.com/gaia-research/gaia-skill-tree/issues/2158)). |
+| **E. Human-Controlled Execution** | Human operator at the wheel; read-only agent assistance | Irreversible production deploys, schema/data migrations, permission or billing changes, or tasks lacking a reliable verification oracle | Agent prepares diffs or analysis only; human reviews, approves, and executes every consequential step. |
 
-Here is the arithmetic that breaks naive budgets. An orchestrator coordinates substantive work: it holds your repository layout, task requirements, active tickets, worker assignments, and linting rules. That context easily spans 100,000 tokens. Every single time the orchestrator wakes up to inspect a worker's return or dispatch the next task, the model provider must process that context.
+### The Step 0 Pre-Flight Checklist (Gate for Levels B–D)
 
-Modern providers maintain a prefilled KV cache so that subsequent turns can reuse pre-computed attention states. On Claude Opus 5.5 (\$4.00 per million base input):
-- A **warm cache read** costs **\$0.20 per million tokens** (0.05× base).
-- A **5-minute cache write** costs **\$5.00 per million tokens** (1.25× base); a **1-hour cache write** costs **\$8.00 per million tokens** (2.0× base).
+Most coding tasks—building authentication, fixing a race condition, refactoring a shared payment module—are architecturally unified and belong at **Level A**. Move to **Level B or higher** only if you can answer **yes** to all four checks:
 
-> **That is a 25× difference on the standard 5m cache (\$5.00 write vs \$0.20 read).** For a 100,000-token context on Opus 5.5, a warm turn costs \$0.020; an evicted cold 5m turn costs \$0.500 (or \$0.800 on a 1h write). Eight cold 5m writes cost \$4.00 before output tokens; the worker cost depends on the task and its output.
+1. **Zero inter-lane dependencies:** Does the work split into disjoint pieces that do not depend on each other's in-flight output? *(If Lane 2 needs Lane 1's output, run them sequentially in one agent.)*
+2. **Context isolation value:** Would keeping all exploration, logs, or file reads in one context window degrade recall or exceed ~20,000 root tokens?
+3. **Explicit verification contract:** Does each lane have a clear, checkable completion gate (test suite, typecheck, schema validator, or bounded review rubric)?
+4. **Cache-horizon alignment:** Does expected worker duration fit your root coordinator's cache retention window (5m, 30m on GPT 6, or 1h on Claude/Gemini), or will workers run detached and report via disk manifests?
 
-### The New Reality: The Clock Got Bigger
+---
 
-Many agent workflows have used a **5-minute cache window** as their working assumption. That still applies to some provider paths, but it is no longer a safe universal rule: workers may fit a 30-minute or 1-hour horizon depending on model and configuration.
+## The Economics of Agentic Work
 
-That single five-minute assumption no longer fits the provider landscape:
+Asking *"Can this task be parallelized?"* is the wrong economic question. Parallel execution is not cheap execution. The right question—developed in [*The Economics of Agentic Work*](https://github.com/gaia-research/gaia-research/issues/304)—is how to minimize **Total Expected Cost per Verified Deliverable ($$C_{\text{verified}}$$)** subject to latency, quota, and safety constraints:
 
-1. **OpenAI GPT 6:** Provides at least **30 minutes of cache eligibility after the last write or reuse**. Writes are billed at 1.25× base input; cached reads cost 0.1×. Terra is superseded by Sol and Luna.
-2. **Anthropic Claude:** The API offers an explicit **1-hour cache option** (`ttl: '1h'`) beside its standard 5-minute TTL. Claude Code's defaults vary by billing mode and request bucket.
-3. **Google Gemini:** Implicit caching is enabled by default on Gemini 2.5 and newer models. Explicit `CachedContent` objects default to a 1-hour TTL; cached-token and storage prices depend on the model.
-4. **Earlier OpenAI API models:** Retention controls and cache prices vary by model. Some support 24-hour retention; GPT 6 does not expose that setting. `prompt_cache_key` is not needed for GPT 6 cache routing.
+$$C_{\text{verified}} = \frac{\mathbb{E}[C_{\text{execution}}] + \mathbb{E}[C_{\text{orchestration}}] + \mathbb{E}[C_{\text{verification}}]}{P(\text{verified})}$$
 
-**The orchestrator tax didn't disappear. The clock got bigger.**
+Unfinished code has zero value; unverified code carries negative value because a human or frontier model must untangle it. Every architectural choice moves one of the four terms in that equation:
 
-If you understand the new cache horizons, you can drastically reduce cold wakeups without resorting to brittle hacks. If you ignore them, you will pay double the write price for caches you abandon, or let slow models trigger cold wakeups that wipe out all your savings.
+- **$$\mathbb{E}[C_{\text{execution}}]$$ (Worker inference):** Model rate cards span nearly two orders of magnitude—from compact workers like **GPT 6 Luna** (\$0.10/M input, \$0.50/M output) or **Gemini 3.8 Flash** to workhorses like **GPT 6 Sol** and **Claude Sonnet 5** (\$2.00/M input, \$10.00/M output) and flagships like **Claude Opus 5.5** (\$4.00/M input, \$20.00/M output). Under rate-card arithmetic, three failed attempts plus a fourth passing run on a \$0.10/M worker still cost a small fraction of a single frontier run—*if and only if* verification is deterministic and failed attempts are discarded cleanly in isolated git worktrees.
+- **$$\mathbb{E}[C_{\text{orchestration}}]$$ (The Orchestrator Tax):** A root orchestrator holding 100,000 tokens of repo specifications, tool schemas, and task history pays to process that prefix on every turn ([#242](https://github.com/gaia-research/gaia-research/issues/242)). On Claude Opus 5.5 (\$4.00/M base input), a warm cache read costs **\$0.20/M** (0.05×), a 5-minute cache write costs **\$5.00/M** (1.25×), and a 1-hour cache write costs **\$8.00/M** (2.0×). That is a **25× gap** between a warm read and a cold 5-minute write (\$0.02 vs. \$0.50 per 100k-token turn). When worker runs outlast the cache TTL—or when a coordinator wakes up repeatedly to read verbose status chatter—orchestration tokens and enlarged reasoning trees (Snell et al., [arXiv:2408.03314](https://arxiv.org/abs/2408.03314)) can cost more than the workers themselves.
+- **$$\mathbb{E}[C_{\text{verification}}]$$ and $$P(\text{verified})$$ (The Domain Harness Multiplier):** Small models often fail in bare shells because of environmental ambiguity, not reasoning ceilings. One-time investments in a **domain harness**—reusable `SKILL.md` playbooks, AST-aware search, compiler/typecheck feedback loops, and deterministic test gates—raise $P(\text{verified})$ for every subsequent run ([#304](https://github.com/gaia-research/gaia-research/issues/304)).
+- **Subscription Quota Economics (\$20/Month Tiers):** On fixed-quota plans (Claude Pro/Max, ChatGPT Plus/Team), the binding constraint is **verified deliverables completed per rolling quota window**, not API cents. Conversational multi-agent ceremony can consume 30–60% of a 5-hour quota window on delegation chatter alone.
 
-> ### The North-Star Rule
-> **Match the root cache horizon to the wall-clock distribution of your workers.**
+### Four Execution Regimes (Before You Build a Swarm)
+
+Instead of defaulting to a heavy conversational manager, match task structure and verifier speed to one of four execution regimes ([#304](https://github.com/gaia-research/gaia-research/issues/304)):
+
+1. **Single Capable Agent:** Best when requirements are novel, files are tightly coupled, or no automated verifier exists. Paying for strong reasoning once beats unguided small-model thrashing.
+2. **Bounded Cheap Retries:** Best when scope is local and a fast deterministic verifier (`tsc`, `vitest`, `pytest`, `cargo check`) returns binary pass/fail diagnostics. Run 1–3 sequential attempts with compiler errors piped back.
+3. **Speculative Hedged Racing:** Best when wall-clock latency matters and verification is binary and cheap. Run 2–3 isolated worktree attempts in parallel and keep the first verified pass, truncating tail latency ([Dean & Barroso, *The Tail at Scale*, 2013](https://research.google/pubs/the-tail-at-scale/)).
+4. **Adaptive Cascade:** Start with a low-cost model plus domain skill; if verification fails after a strict turn ceiling (e.g., $$\le 3$$ turns), preserve the diagnostic receipt and escalate to a stronger model ([Chen et al., *FrugalGPT*, 2023](https://arxiv.org/abs/2305.05176)).
+
+### Classical Laws That Govern Agent Swarms
+
+| Precedent | Core Mechanism | Agentic Consequence |
+| :--- | :--- | :--- |
+| **Amdahl's Law** ([1967](https://doi.org/10.1145/1465482.1465560)) | Parallel speedup is capped by the serial fraction $$s$$: $$S(N) \le 1/s$$. | Serial planning, git merge resolution, and integration testing bound fleet speedup regardless of worker count. |
+| **Brooks's Law** (*Mythical Man-Month*, 1975) & **Swarm Scaling** (Toby Ord) | Communication channels grow as $$n(n-1)/2$$; uncoordinated swarms scale sub-linearly ($$\sim N^{0.57}$$). | Multi-hop agent chains ("planner → coder → reviewer → integrator") suffer lossy summarization and quadratic token overhead. |
+| **Conway's Law** & **The Ticket Trap** ([Ray Amjad, 2026](https://youtu.be/ybx0mmd22pQ)) | Systems mirror organizational charts; developers split small tasks into micro-tickets across role-playing agents (18:33). | [Anthropic's engineering guidance](https://www.anthropic.com/research/building-effective-agents) and [multi-agent research notes](https://www.anthropic.com/engineering/multi-agent-research-system) warn against role-play ceremony when a single loop with progressive skills suffices. |
+
+---
+
+## Separate Reasoning from Deterministic Coordination
+
+The most expensive architectural mistake in agent engineering is using a non-deterministic frontier LLM as a message broker, cron daemon, and state database ([#306](https://github.com/gaia-research/gaia-research/issues/306)).
+
+```
+┌─────────────────────────────────────────┐      ┌─────────────────────────────────────────┐
+│      INTELLIGENT REASONING (LLM)        │      │   DETERMINISTIC COORDINATION (CODE)     │
+│ • Decompose ambiguous requirements      │      │ • Task queues & dependency readiness    │
+│ • Write & refactor non-trivial code     │      │ • Isolated git worktree lifecycle       │
+│ • Interpret novel failures & edge cases │ ───► │ • Timeouts, backoff & bounded retries   │
+│ • Perform semantic architectural review │ ◄─── │ • Shared state & artifact pointers      │
+│ • Decide when to escalate to human/peer │      │ • Compiler, linter & test gate execution│
+└─────────────────────────────────────────┘      └─────────────────────────────────────────┘
+        Invoke only when judgment is needed             Zero tokens · repeatable · auditable
+```
+
+### How Existing Coordination Runtimes Compare
+
+When a workload outgrows single-session subagents (**Level C**), reuse deterministic software patterns rather than prompting an LLM to poll workers in chat ([#306](https://github.com/gaia-research/gaia-research/issues/306)):
+
+| Platform / Pattern | Primary Mechanism | State & Isolation | What It Solves (and What It Leaves Open) |
+| :--- | :--- | :--- | :--- |
+| **[Claude Dynamic Workflows](https://code.claude.com/docs/en/workflows)** | Lead agent compiles an executable script to run subagent phases in a background sandbox | Sandboxed child processes; only consolidated output returns to root | Eliminates intermediate chat bloat; does not optimize cross-provider model routing or quota cliffs. |
+| **[LangGraph](https://docs.langchain.com/oss/python/langgraph/overview)** | Directed cyclical state graphs with conditional edges | Checkpointers (in-memory, SQLite, Postgres) with replay and human-in-the-loop seams | Explicit control flow and state persistence; routing logic remains manual or LLM-driven. |
+| **[Temporal](https://docs.temporal.io/)** | Durable distributed workflow-as-code execution | Event-sourced transaction log, activity heartbeats, automatic retry policies | Fault-tolerant long-running execution; infrastructure-level with no native token or cache awareness. |
+| **[Ray](https://docs.ray.io/)** | Distributed dynamic task graphs and actors | Zero-copy shared memory (Plasma object store) and resource-aware scheduling | High-throughput parallel compute and shared object references; schedules CPUs/GPUs rather than LLM verifiers. |
+| **[Rico's Auto Office](https://github.com/Hikari9/auto-office)** | Opinionated deterministic SDLC runtime (`discover → plan → route → produce → review → land`) | SQLite WAL (`runs.db`), isolated git worktrees, immutable worker submissions | Separates engineering lifecycle state and review authority from prompts; uses fixed role routing. |
+
+### Where Thin Economic Scheduling Fits (Level D Hypothesis)
+
+Workflow engines reliably execute a graph you define, but they do not decide *which execution strategy is most economical* for a given task. A **thin economic scheduler**—explored conceptually in [#306](https://github.com/gaia-research/gaia-research/issues/306) and piloted for Pi in [`gaia-research/gaia-skill-tree#2158`](https://github.com/gaia-research/gaia-skill-tree/issues/2158)—adds a lightweight deterministic adapter over existing harness primitives:
+
+$$\min_{\pi} \mathbb{E}\left[ C_{\text{total}}(\tau) \mid \text{verified}(\tau) = 1 \right] \quad \text{s.t.} \quad \mathbb{E}[\text{Latency}(\tau)] \le L_{\max}, \quad P(\text{safety violation}) = 0$$
+
+1. **Route before reasoning:** Choose single agent, bounded cheap worker, small parallel fan-out, or strong-model escalation using task scope, risk, and available verifiers.
+2. **Structured task envelopes & shared state by reference:** Pass scoped file pointers, canonical skill paths, and artifact hashes instead of re-briefing raw conversation history.
+3. **Deterministic dispatch & verification-aware escalation:** Run one focused verification pass and at most one targeted repair before escalating genuine ambiguity to a stronger model or human operator.
+
+> **Status boundary:** [`gaia-skill-tree#2158`](https://github.com/gaia-research/gaia-skill-tree/issues/2158) is an **exploratory RFC and Pi-first pilot**, not a finished dependency or validated cost-saving package. Do not install custom scheduling infrastructure unless recurring coordination overhead and owner priorities explicitly justify **Level D**.
 
 ---
 
 ## The Provider Cache-Horizon Matrix
 
-Different providers and model families approach prompt caching through fundamentally distinct economic and architectural primitives. To design an affordable orchestration swarm, you must know what each provider actually promises.
+Whenever you operate at **Level B, C, or D** with a root coordinator that waits for workers, **match the root cache horizon to the wall-clock distribution of your workers.**
 
-> **Evidence boundary:** Provider cache mechanics and published rates are sourced. Model pairings and worker-duration bands are practitioner hypotheses; savings figures are illustrative rate-card arithmetic, not controlled benchmark results.
+> **Evidence boundary:** Provider cache mechanics and published rate cards are sourced (verified September 24, 2026). Model pairings and worker-duration bands are practitioner hypotheses; savings figures are illustrative rate-card arithmetic, not controlled benchmark trials.
 
-### The Four-Tier Capability Distinction
+### Four Capability Layers (Do Not Conflate Them)
 
-Before looking at the matrix, understand where caching controls live. Confusion happens when developers conflate four distinct layers:
+1. **Provider API Capability:** Raw endpoint primitives (Anthropic `cache_control`, OpenAI Responses API cache options, Google `CachedContent`).
+2. **Model Support:** Checkpoint-specific retention and pricing (e.g., GPT 6 provides a 30-minute minimum at 1.25× write / 0.1× read; earlier OpenAI and Claude models differ).
+3. **Product / CLI Exposure:** First-party tool configuration (e.g., Claude Code uses `promptCacheTtl` in `settings.json` or `CLAUDE_CODE_PROMPT_CACHE_TTL`—there is **no `--prompt-cache-ttl` CLI flag**).
+4. **Harness Exposure:** How multi-agent harnesses (Pi, Claude Code, Codex CLI, custom scripts) set cache policies separately on root coordinators versus leaf workers.
 
-1. **Provider API Capability:** What the raw inference endpoint supports (e.g., Anthropic's `cache_control`, Google's `CachedContent`, or OpenAI Responses API cache options).
-2. **Model Support:** Which checkpoints support each feature and price (e.g., GPT 6 uses a 30-minute minimum and 1.25× write rate; earlier OpenAI models and Claude models have different retention and cache prices).
-3. **Product / CLI Exposure:** How first-party tools expose those controls (e.g., Claude Code uses `promptCacheTtl` in settings or environment variables, not a `--prompt-cache-ttl` CLI flag). An API capability does not imply every CLI or harness exposes it.
-4. **Harness Exposure:** How agent harnesses (Pi, Herdr, Codex CLI, custom scripts) configure cache headers on orchestrator vs. worker sessions.
+### Provider Rate Cards & Retention Windows
 
-### The Matrix
-
-| Provider / Model Family | Cache Mechanism | Default / Min Horizon | Longest Documented Horizon | Write Premium / Storage Cost Model | Configurable in API? | Configurable in Harness? | Best Orchestration Fit |
+| Provider / Model Family | Cache Mechanism | Default / Min Horizon | Longest Documented Horizon | Write Premium / Read & Storage Model | Configurable in API? | Configurable in Harness? | Best Coordination Fit |
 | :--- | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
-| **Anthropic Claude** *(Opus 5.5, Sonnet 5)* | Automatic or explicit `cache_control` breakpoints | API default: 5m; Claude Code main-conversation defaults vary by billing mode | 1h (`ttl: '1h'`) | **Opus 5.5** (\$4 in / \$20 out): 5m write \$5/M; 1h write \$8/M; read \$0.20/M. **Sonnet 5** (\$2 in / \$10 out): 5m write \$2.50/M; 1h write \$4/M; read \$0.20/M. | Yes (`ttl`) | Yes in Claude Code v2.1.242+ settings / env vars; harness-dependent elsewhere | Root sessions with 5–55m gaps when reuse justifies the 1h write |
-| **OpenAI GPT 6** *(Sol, Luna)* | Automatic or explicit breakpoints; 1,024-token visible-prefix minimum | At least 30m after write or reuse; API default is `30m` | OpenAI may retain longer; no GPT 6 24h setting | **Sol** (\$2 in / \$10 out): write \$2.50/M, read \$0.20/M. **Luna** (\$0.10 in / \$0.50 out): write \$0.125/M, read \$0.01/M. Both: 1.25× write, 0.1× read. | Yes (Responses API `prompt_cache_options`) | Depends on the API integration; do not assume every CLI exposes these options | Worker gaps comfortably below 30m; Sol root / Luna workers is a practitioner pairing |
-| **Earlier OpenAI API models** *(pre-GPT-5.6)* | Model-specific implicit caching, `prompt_cache_retention`; stable `prompt_cache_key` can aid routing | Model- and organization-specific; `in_memory` is typically 5–10m inactive | Up to 24h on listed models | Model-specific read prices; some earlier models have no added write charge. Check the exact model rate card. | Yes, where supported | Varies by model and harness | Use only after checking the selected model's retention and pricing |
-| **Google Gemini** *(Gemini 2.5+)* | Implicit caching is on by default; explicit `CachedContent` is also available | Implicit: provider-managed; explicit: 1h default | Explicit TTL is configurable; limits and pricing are model-specific | Cached-input tokens plus storage rent for the TTL; both prices vary by model | Yes (REST / SDK) | Only when the harness integrates the Gemini API | Stable shared context when the model's cache and storage costs fit the workload |
-| **xAI Grok** *(Grok 4.6)* | Provider-managed cached input | No guaranteed cache horizon established from the linked model pricing page | Not documented in the linked rate card | \$2/M input, \$0.50/M cached input, \$6/M output | Provider-managed | Depends on provider integration | Treat cache reuse as opportunistic unless a current TTL contract is documented |
+| **Anthropic Claude** *(Opus 5.5, Sonnet 5)* | Automatic or explicit `cache_control` breakpoints | API default: 5m; Claude Code main-session defaults vary by billing mode | 1h (`ttl: '1h'`) | **Opus 5.5** (\$4 in / \$20 out): 5m write \$5/M; 1h write \$8/M; read \$0.20/M. **Sonnet 5** (\$2 in / \$10 out): 5m write \$2.50/M; 1h write \$4/M; read \$0.20/M. | Yes (`ttl`) | Yes in Claude Code v2.1.242+ settings / env vars; harness-dependent elsewhere | Root coordinators with 5–55m worker gaps when reuse justifies the 1h write |
+| **OpenAI GPT 6** *(Sol, Luna)* | Automatic or explicit breakpoints; 1,024-token visible-prefix minimum | At least 30m after write or reuse; API default is `30m` | OpenAI may retain longer; no GPT 6 24h setting | **Sol** (\$2 in / \$10 out): write \$2.50/M, read \$0.20/M. **Luna** (\$0.10 in / \$0.50 out): write \$0.125/M, read \$0.01/M. Both: 1.25× write, 0.1× read. | Yes (Responses API `prompt_cache_options`) | Depends on API integration; do not assume every CLI exposes these options | Worker gaps under 30m; Sol root / Luna workers is a common practitioner pairing |
+| **Earlier OpenAI API models** *(pre-GPT-5.6)* | Model-specific implicit caching, `prompt_cache_retention`; stable `prompt_cache_key` aids routing | Model- and org-specific; `in_memory` is typically 5–10m inactive | Up to 24h on listed models | Model-specific read discounts; some earlier models have no added write charge. Check the exact model rate card. | Yes, where supported | Varies by model and harness | Use only after verifying the selected model's retention and rate card |
+| **Google Gemini** *(Gemini 2.5+)* | Implicit caching on by default; explicit `CachedContent` available | Implicit: provider-managed; explicit: 1h default | Explicit TTL is configurable; limits and pricing are model-specific | Cached-input tokens plus hourly storage rent for the TTL; both vary by model | Yes (REST / SDK) | Only when the harness integrates the Gemini API | Large stable shared context when storage rent fits the workload duration |
+| **xAI Grok** *(Grok 4.6)* | Provider-managed cached input | No guaranteed cache horizon established on the linked pricing page | Not documented on the linked rate card | \$2/M input, \$0.50/M cached input, \$6/M output | Provider-managed | Depends on provider integration | Treat cache reuse as opportunistic unless a TTL contract is documented |
 
----
-
-## The Cache-Horizon Decision Tree
-
-When building a multi-agent system, do not guess how long tasks will take. Categorize your worker tasks by their **wall-clock duration band**, then align your orchestrator's cache configuration to that band.
+### Matching Worker Duration Bands to Cache Horizons
 
 ```
                   What is the wall-clock duration of your workers?
@@ -98,110 +144,60 @@ When building a multi-agent system, do not guess how long tasks will take. Categ
          ┌───────────────────────────────┼───────────────────────────────┐
          ▼                               ▼                               ▼
      < 5 Minutes                   5 – 25 Minutes                  20 – 60 Minutes
-  (Fast Lanes / Tight)         (Asynchronous Sweet Spot)       (Deep Work / Heavy Builds)
+  (Fast Lanes / Tight)         (Asynchronous Sweet Spot)       (Deep Work / Heavy Suites)
          │                               │                               │
          ▼                               ▼                               ▼
   Standard 5m TTL                 GPT 6 Family                    Claude 1h TTL
-  (or implicit LRU)             (30m minimum)                  (or Gemini CachedContent)
-  • 1.25× write rate              • 1.25× write / 0.1× read       • 2.0× write surcharge
-  • Rapid interactive loops       • Sol default ($2/M in)         • Break-even on Turn 2
-  • Match gaps to TTL              • Luna workers ($0.10/M in)     • Subagents stay on 5m
-                                  • No keepalives under 30m
-                                                                         │
+  (1.25× write rate)            (30m minimum floor)             (or Gemini CachedContent)
+  • Rapid interactive loops       • 1.25× write / 0.1× read       • 2.0× write surcharge
+  • Do NOT pay 2.0× 1h fee        • No keepalives under 30m       • Break-even on Turn 2 (>5m)
+  • If slow lanes exist on 5m,    • Sol root ($2/M in) +          • Leaf subagents stay on 5m
+    add 1 fast lane (<4m) or        Luna workers ($0.10/M in)
+    in-flight root work                                                  │
                                                                          ▼
                                                                    > 60 Minutes
-                                                               (Multi-Hour Epics)
+                                                                (Multi-Hour Epics)
                                                                          │
                                                                          ▼
                                                                 Barrier Aggregation &
                                                                   Pointer Manifests
-                                                                • Fresh continuation
-                                                                • <20k context resets
+                                                                • Detached workers write disk
+                                                                • Fresh root session (<20k)
 ```
 
-### Band 1: Under 5 Minutes (Interactive Loops & Fast Lanes)
-- **Workload:** Fast code lookups, syntax verifications, schema checks, single-function unit test runs.
-- **Cache Strategy:** Standard **5-minute TTL** on the Anthropic API, or the active model's provider-managed cache. GPT 6, for example, has a 30-minute minimum; do not infer another model's horizon from the provider name alone.
-- **Rule:** Do *not* enable 1-hour extended caching. Because consecutive turns return within 3–4 minutes, the sliding 5-minute window resets for free. Paying Anthropic's 2.0× write surcharge here is completely wasted money.
-
-### Band 2: 5 to 25 Minutes (The Asynchronous Sweet Spot)
-- **Workload:** Multi-file refactors, standard test suite passes, documentation generation, competitive code exploration.
-- **Cache Strategy:** **OpenAI GPT 6 Family (Sol orchestrator, Luna workers; Terra is superseded)**.
-- **Why this works:** GPT 6 provides at least **30 minutes of cache eligibility after each write or reuse**, so you need not manufacture sub-4-minute worker tasks for gaps inside that window. GPT 6 Luna costs \$0.10/M input and \$0.50/M output; its 15–25-minute worker duration is a practitioner observation, not a service guarantee. GPT 6 Sol costs \$2/M input and \$10/M output. Both models bill cache writes at 1.25× base input (Sol \$2.50/M, Luna \$0.125/M); cached reads cost 0.1× (Sol \$0.20/M, Luna \$0.01/M). Choosing Sol as root and Luna for workers remains a practitioner recommendation.
-
-### Band 3: 20 to 60 Minutes (Deep Work & Heavy Subagents)
-- **Workload:** Full end-to-end integration test runs, compiler builds, deep vulnerability scanning, multi-subagent swarms.
-- **Cache Strategy:** **Anthropic Claude with `ttl: '1h'`** on the root orchestrator, or **Google Gemini `CachedContent`**.
-- **Economics:** Because worker durations comfortably exceed 5 minutes, every wakeup under a 5-minute configuration would be a 100% cold prefill eviction. As proved below, a single pause greater than 5 minutes completely amortizes Claude's 2.0× write surcharge on Turn 2.
-
-### Band 4: Over 60 Minutes (Multi-Hour Epics & Autonomous Shifts)
-- **Workload:** Whole-codebase migrations, large matrix test executions, multi-hour autonomous worker shifts.
-- **Cache Strategy:** **Barrier Aggregation & Pointer Manifest Continuation**.
-- **Rule:** Do not attempt to hold a warm GPU KV cache idle for 3 hours while waiting for a single monolithic worker. Instead:
-  1. Have long workers execute detached under autonomous supervision.
-  2. Workers deposit results into disk manifests.
-  3. When all workers clear the barrier, spin up a **fresh orchestrator session** initialized from a compact pointer manifest (<15,000 tokens).
+- **Band 1 — Under 5 Minutes (Interactive Loops & Fast Lanes):** Keep standard **5-minute TTL** (1.25× write). Paying Anthropic's 2.0× 1-hour write fee when turns arrive every 1–4 minutes wastes money. **If you are locked into a 5-minute TTL while running a slower worker**, keep the root cache warm either by giving the coordinator productive in-flight work (drafting PR notes, reviewing diffs) or by pairing the slow lane with one genuine fast lane (<4 minutes, e.g., fast symbol/schema inspection) so its return refreshes the sliding 5-minute lease.
+- **Band 2 — 5 to 25 Minutes (Mid-Length Asynchronous Work):** Fits **OpenAI GPT 6's 30-minute minimum eligibility** (1.25× write, 0.1× read; `prompt_cache_key` is not required on GPT 6) or a 1-hour Claude/Gemini horizon. No artificial 3-minute fast lanes or synthetic heartbeats are needed when worker gaps stay comfortably below 30 minutes.
+- **Band 3 — 20 to 60 Minutes (Deep Suites & Heavy Subagents):** Configure **Anthropic Claude `ttl: '1h'`** on the root coordinator or **Google Gemini `CachedContent`**, while keeping ephemeral leaf subagents on standard 5-minute caching.
+- **Band 4 — Over 60 Minutes (Multi-Hour Epics):** Do not hold a live coordinator session across multi-hour pauses. Run detached workers that write disk manifests, wait for the completion barrier deterministically, and start a **fresh coordinator session** initialized from compact pointer manifests (<15,000–20,000 tokens).
 
 ---
 
 ## Claude: Configure a 1-Hour Root Cache
 
-When coordinating asynchronous swarms with Anthropic Claude (Opus 5.5 or Sonnet 5), configuring an extended 1-hour cache on your root orchestrator turns multi-agent economics right-side up.
+When coordinating asynchronous workers on Anthropic Claude (Opus 5.5 or Sonnet 5) across 5–55 minute gaps, configuring a 1-hour root cache (`ttl: '1h'`) eliminates cold-cache re-entry penalties.
 
-### The Core Economics: 5-Minute vs. 1-Hour TTL
+### Break-Even Arithmetic: 5-Minute vs. 1-Hour TTL
 
 | Metric | Standard 5-Minute TTL | Extended 1-Hour TTL (`ttl: '1h'`) |
 | :--- | :---: | :---: |
-| **Initial Cache Write Surcharge** | **1.25×** base input tokens | **2.00×** base input tokens |
-| **Subsequent Cache Read (Hit)** | Model-specific: Sonnet 5 **0.10×**, Opus 5.5 **0.05×** | Model-specific: Sonnet 5 **0.10×**, Opus 5.5 **0.05×** |
-| **Retention Window** | 5 minutes (sliding from last turn) | 60 minutes (sliding from last turn) |
-| **Write Multiplier Premium** | Baseline | +60% over 5m write rate |
+| **Initial Cache Write Surcharge** | **1.25×** base input tokens | **2.00×** base input tokens (+60% over 5m write) |
+| **Subsequent Cache Read (Hit)** | Sonnet 5 **0.10×** · Opus 5.5 **0.05×** | Sonnet 5 **0.10×** · Opus 5.5 **0.05×** |
+| **Sliding Retention Window** | 5 minutes from last hit | 60 minutes from last hit |
 
-At first glance, paying $2.00\times P_{\text{in}}$ to write a cache sounds steep. But look at the break-even mathematics.
+Let $$P_{\text{in}}$$ be base input price and $$L = 0.1\text{M}$$ (100,000 tokens) on **Claude Sonnet 5** ($$P_{\text{in}} = 2.00\text{ USD/M}$$, cached read rate $$= 0.10 \times P_{\text{in}} = 0.20\text{ USD/M}$$):
 
-### The Break-Even Math
+- **Case 1 — A Single Pause $>5$ Minutes (2 Turns):**
+  - *5-minute TTL (expires during an 8-minute worker run):* Two cold writes $$= (1.25 + 1.25) \times P_{\text{in}} L = \mathbf{2.50 \times P_{\text{in}} L}$$.
+  - *1-hour TTL (stays warm):* One 1h write + one warm hit $$= (2.00 + 0.10) \times P_{\text{in}} L = \mathbf{2.10 \times P_{\text{in}} L}$$.
+  - **Result:** Avoiding a **single** cold eviction saves **16.0%** on Turn 2 ($$\frac{2.50 - 2.10}{2.50} = 0.160$$).
+- **Case 2 — 8-Turn Swarm Across Seven 7.5-Minute Gaps (52.5m Total):**
+  - *5-minute TTL (every wakeup misses):* $$8 \times (1.25 \times 2.00 \times 0.1) = 2.00\text{ USD}$$ (or **$2.000**).
+  - *5-minute TTL + 270s synthetic heartbeats (21 pings across seven 15m gaps):* $$0.25 + 0.42 + 0.14 = 0.81\text{ USD}$$ (or **$0.810** total, plus extra network/failure surface).
+  - *Native 1-hour TTL:* $$(2.00 \times 2.00 \times 0.1) + 7 \times (0.10 \times 2.00 \times 0.1) = 0.400 + 0.140 = 0.54\text{ USD}$$ (or **$0.540** total, **73% less prefill spend** than cold 5m writes, and one-third cheaper than synthetic heartbeats; on Opus 5.5, the same heartbeat comparison is $0.94 native 1h vs. $1.06 with pings) ([#247](https://github.com/gaia-research/gaia-research/issues/247), [#256](https://github.com/gaia-research/gaia-research/issues/256)).
 
-Let $P_{\text{in}}$ be base input token price and $L$ be context length (e.g., 100,000 tokens = $0.1\text{M}$). The examples below use Claude Sonnet 5's 0.10× cached-read price; Claude Opus 5.5 reads at 0.05×, so its break-even differs.
+### Verified Anthropic API & Claude Code Setup
 
-#### Case 1: The Single Pause ($>5$ Minutes)
-Suppose your orchestrator initializes Turn 1, dispatches a task that takes 8 minutes, and wakes up on Turn 2.
-- **Under 5-Minute TTL:**
-  - Turn 1 write: $1.25 \times P_{\text{in}} \times L$
-  - Minute 5: Cache expires.
-  - Turn 2 cold prefill: $1.25 \times P_{\text{in}} \times L$
-  - Total Cost: $1.25 + 1.25 = \mathbf{2.50 \times P_{\text{in}} \times L}$
-- **Under 1-Hour TTL:**
-  - Turn 1 write: $2.00 \times P_{\text{in}} \times L$
-  - Turn 2 warm hit: $0.10 \times P_{\text{in}} \times L$
-  - Total Cost: $2.00 + 0.10 = \mathbf{2.10 \times P_{\text{in}} \times L}$
-
-$$\text{Savings on Turn 2} = \frac{2.50 - 2.10}{2.50} = \mathbf{16.0\% \text{ net savings}}$$
-
-> **The Single-Pause Break-Even:** Under this rate-card model, a single pause $>5$ minutes during a 1-hour session makes the 1-hour cache cheaper on Turn 2 than two cold 5-minute writes ($2.10\times$ vs $2.50\times P_{\text{in}}$). You do not need dozens of turns. Avoiding a single cold eviction amortizes the 2× write surcharge immediately.
-
-#### Case 2: The 8-Turn Orchestration Swarm (Illustrative Model)
-Consider an illustrative 8-turn session: an orchestrator holding 100,000 tokens on **Claude Sonnet 5** ($P_{\text{in}} = \$2.00/\text{M}$). Turn 1 is the initial prompt and task dispatch. Turns 2 through 8 are seven worker returns arriving after 7.5-minute worker gaps (52.5 minutes total flight duration, comfortably within the 60-minute window).
-
-```
-Timeline (8 turns, 7 gaps @ 7.5m = 52.5 minutes):
-Turn 1 ───[7.5m worker]───► Turn 2 ───[7.5m worker]───► Turn 3 ───...───► Turn 8
-```
-
-- **Under 5-Minute TTL (Default):**
-  Every worker return arrives after the 5-minute timer. The orchestrator gets **0 cache hits**. It pays a cold prefill write on every single turn (8 cold prefill writes @ 1.25× base rate):
-  $$\text{Cost} = 8 \times (1.25 \times \$2.00 \times 0.1\text{M}) = 8 \times \$0.250 = \mathbf{\$2.000}$$
-- **Under 1-Hour TTL:**
-  Turn 1 writes the 1-hour cache ($2.00\times$). Turns 2 through 8 (7 returns) hit the warm cache ($0.10\times$):
-  $$\text{Cost} = (2.00 \times \$2.00 \times 0.1\text{M}) + 7 \times (0.10 \times \$2.00 \times 0.1\text{M})$$
-  $$\text{Cost} = \$0.400 + 7 \times \$0.020 = \$0.400 + \$0.140 = \mathbf{\$0.540}$$
-
-> **Result:** Under this rate-card model, 1-hour TTL costs **\$0.540 vs \$2.000** — **73% less prefill spend** across the 8 turns. The comparison excludes output tokens and any changing suffix content; those costs depend on the workload.
-
----
-
-### Verified Anthropic API Syntax
-
-To enable 1-hour caching at the raw API or SDK layer, attach `cache_control: {"type": "ephemeral", "ttl": "1h"}` to the stable context boundary (system prompt or tools array).
+Place static instructions, repo maps, and tool schemas **above** the `cache_control` breakpoint (minimum 1,024 tokens for Sonnet 5 / Opus 5.5; 2,048 for Haiku) and append compact worker receipts below it:
 
 ```python
 import os
@@ -209,85 +205,23 @@ import anthropic
 
 client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 
-# Schematic context definitions (typically 50k-120k tokens in production):
-STABLE_REPO_SPEC = "SYSTEM SPEC: Complete architecture, rules, schemas..."
-ORCHESTRATION_TOOLS = [
-    {
-        "name": "dispatch_lane",
-        "description": "Dispatch an isolated worker subagent",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "lane_id": {"type": "string"},
-                "command": {"type": "string"},
-            },
-            "required": ["lane_id", "command"],
-        },
-    }
-]
-
-# 1. Initialize root orchestrator with explicit 1-hour TTL on the stable prefix
-# Note: For production caching, stable prefixes must meet minimum token thresholds
-# (1,024 tokens for Sonnet 5 / Opus 5.5; 2,048 tokens for Haiku).
 response = client.messages.create(
     model="claude-sonnet-5",
     max_tokens=2048,
     system=[
         {
             "type": "text",
-            "text": "You are the root orchestrator managing a codebase refactor...\n" + STABLE_REPO_SPEC,
-            "cache_control": {"type": "ephemeral", "ttl": "1h"}  # <-- Explicit 1-hour horizon breakpoint
+            "text": "You are the root coordinator...\n" + STABLE_REPO_SPEC,
+            "cache_control": {"type": "ephemeral", "ttl": "1h"},
         }
     ],
     tools=ORCHESTRATION_TOOLS,
-    messages=[
-        {"role": "user", "content": "Begin orchestration. Plan Phase 1 lanes."}
-    ],
+    messages=[{"role": "user", "content": "Plan independent lanes and verification gates."}],
 )
-
-# Inspect usage telemetry:
-usage = response.usage
-print(f"Cache Creation Tokens (1h): {usage.cache_creation_input_tokens}")
-print(f"Cache Read Tokens:          {usage.cache_read_input_tokens}")
-print(f"Regular Input Tokens:       {usage.input_tokens}")
-
-# 2. Worker executes detached for 18 minutes...
-# 3. Worker reports back. Turn 2 reuses the warm 1-hour cache:
-turn_2_response = client.messages.create(
-    model="claude-sonnet-5",
-    max_tokens=2048,
-    system=[
-        {
-            "type": "text",
-            "text": "You are the root orchestrator managing a codebase refactor...\n" + STABLE_REPO_SPEC,
-            "cache_control": {"type": "ephemeral", "ttl": "1h"}
-        }
-    ],
-    tools=ORCHESTRATION_TOOLS,
-    messages=[
-        {"role": "user", "content": "Begin orchestration. Plan Phase 1 lanes."},
-        {"role": "assistant", "content": response.content},
-        {"role": "user", "content": "Worker Lane 1 finished: /tmp/results/auth-tests.json"}
-    ],
-)
-
-# Telemetry on Turn 2 confirms:
-# Sonnet 5 cached reads bill at 0.10x base input (Opus 5.5: 0.05x).
-# cache_creation_input_tokens is 0
-# input_tokens accounts only for the new receipt delta
 ```
 
----
+In **Claude Code (v2.1.242+)**, there is **no `--prompt-cache-ttl=1h` CLI flag**. Configure root 1-hour caching while keeping leaf subagents on 5-minute caching via `.claude/settings.json` or environment variables:
 
-### Claude Code & CLI Harness Configuration
-
-In the Claude Code CLI (v2.1.242+) and related harnesses, developers often hunt for command-line flags that do not exist.
-
-> ⚠️ **Configuration Reality:** There is **NO `--prompt-cache-ttl=1h` CLI flag** in Claude Code. Do not attempt to pass it to the binary.
-
-Configure 1-hour caching through `settings.json` or system environment variables:
-
-#### In `~/.claude/settings.json` (or project `.claude/settings.json`):
 ```json
 {
   "promptCacheTtl": "1h",
@@ -295,358 +229,168 @@ Configure 1-hour caching through `settings.json` or system environment variables
 }
 ```
 
-#### Via Environment Variables:
 ```bash
-# Set 1-hour cache for the root session
 export CLAUDE_CODE_PROMPT_CACHE_TTL="1h"
-
-# Keep leaf subagents on cheap 5-minute sliding cache
 export CLAUDE_CODE_SUBAGENT_PROMPT_CACHE_TTL="5m"
-```
-
-#### Verifying Active Cache Telemetry in Claude Code
-To confirm that 1-hour caching is active in your terminal, run a test prompt with JSON output:
-```bash
+# Verify 1h lease creation in usage.cache_creation.ephemeral_1h_input_tokens:
 claude -p "ping" --output-format json
 ```
-Check the emitted usage block: if `usage.cache_creation.ephemeral_1h_input_tokens` is populated, the 1-hour cache lease was successfully written.
 
-#### Subscription Defaults vs. Direct API Billing
-- **Claude Pro, Team, and Max Subscriptions:** Within included plan usage, Claude Code defaults the main conversation to a 1-hour cache and most other requests, including subagents, to 5 minutes. The plan's quota accounting is separate from the API rate-card examples here. Once usage credits apply, the main conversation defaults back to 5 minutes unless you choose the TTL yourself.
-- **Direct API Keys & Bedrock / Vertex / GCP / Headless CI:** Default to **5 minutes** unless explicitly configured with `promptCacheTtl: "1h"` or the `CLAUDE_CODE_PROMPT_CACHE_TTL="1h"` environment variable. Headless CI runs and automated scripts using API keys must inject the environment variable explicitly at process startup.
-
-#### What Alters or Invalidates the Cached Prefix?
-A longer TTL only protects you from **time elapsed**. It does not protect against **prefix mutation**. Any of the following will alter the prefix hash:
-- **Switching Models:** Changing models (e.g. from Opus 5.5 to Sonnet 5) targets a different KV cache pool.
-- **Reasoning Effort Adjustments:** Modifying `/effort` modifies configuration tokens in the prefix on models that support it.
-- **Dynamic MCP Tool Changes:** Adding, removing, or re-ordering MCP servers changes the tool schema block within the prefix.
-- **Manual `/compact` Operations:** Summarization rebuilds the conversation layer, writing a new summary context.
+- **Subscription vs. API billing:** On Claude Pro, Team, and Max within included plan usage, Claude Code defaults the main conversation to 1-hour caching and subagents to 5 minutes; once overage credits or direct API / Bedrock / Vertex keys apply, the default reverts to 5 minutes unless configured explicitly.
+- **What invalidates a cached prefix (even inside a 1h TTL):** Switching models mid-session, changing `/effort`, adding/removing/reordering MCP tool schemas, running mid-session `/compact`, or mutating system instructions before the breakpoint ([#251](https://github.com/gaia-research/gaia-research/issues/251), [#256](https://github.com/gaia-research/gaia-research/issues/256)).
 
 ---
 
-### What Belongs in the 1-Hour Cache Prefix?
+## Task Envelopes, Pointer Manifests, and Gap Telemetry
 
-To extract maximum ROI from the 2.0× write surcharge, structure your prompt into **Static Anchor** vs. **Volatile Dynamic** zones:
+Whether you use lightweight subagents (**Level B**) or a deterministic dispatcher (**Level D**), keep token transport minimal in both directions and log economic telemetry.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 1-HOUR CACHED ROOT PREFIX (Warm for 60 Minutes)            │
-│ 1. System Prompt & Orchestration Instructions               │
-│ 2. Tool Definitions & Execution Schemas                     │
-│ 3. Pinned Repository Tree & Architecture Specifications     │
-│ 4. Coding Standards, Guidelines, & Test Conventions         │
-│ 5. High-Level Master Plan (Lanes, Objectives, Contracts)    │
-├─────────────────────────────────────────────────────────────┤
-│ ◄── Breakpoint: cache_control {"type": "ephemeral", "ttl": "1h"}
-├─────────────────────────────────────────────────────────────┤
-│ VOLATILE DYNAMIC SUFFIX (Appended Turn-by-Turn)             │
-│ • Worker dispatch events                                    │
-│ • Worker receipt JSONs (< 500 tokens each)                  │
-│ • Active turn decisions & next-step instructions            │
-└─────────────────────────────────────────────────────────────┘
-```
+### 1. Outbound: Structured Task Envelopes (Don't Prose-Rebrief)
 
-Everything above the breakpoint stays warm for 60 minutes. As workers report back, newly appended receipts incur standard input token pricing, avoiding the 2.0× write surcharge.
-
----
-
-### The 8-Step Orchestration Workflow
-
-When operating an orchestration swarm with 1-hour caching, follow this operational sequence:
-
-1. **Pre-flight Spec Freezing:** Lock the repo context, tool set, and instructions before starting. Never mutate tools or system prompts mid-flight.
-2. **Anchor Write:** Launch the orchestrator with `ttl: '1h'` on the stable prefix. Pay the 2.0× write fee once on Turn 1.
-3. **Partitioned Delegation:** Break work into self-contained lanes producing output files on disk.
-4. **Subagent Scoping:** Dispatch workers configured with standard **5-minute sliding TTL** (subagents rarely benefit from 1-hour TTL unless they are themselves nested sub-orchestrators).
-5. **Asynchronous Sleep:** Let workers run for 5 to 45 minutes without artificial heartbeat pings. The orchestrator rests idle while provider KV retention remains active.
-6. **Receipt Ingestion:** Workers return concise 4-line JSON receipts rather than full stdout dumps.
-7. **Warm Wakeup & Telemetry Inspection:** The orchestrator wakes up and reads the stable prefix at the model's cached-read rate (0.10× for Sonnet 5; 0.05× for Opus 5.5). Verify cache reads in the usage metadata; a new cache write may be expected when the conversation grows.
-8. **Barrier Closeout & >60m Fallback:** Once all lanes complete, summarize deliverables and shut down before the 60-minute window closes. If an upcoming phase is predicted to idle for $>60$ minutes, commit state to disk and exit (or trigger `/compact`) rather than drifting into a cold expiration.
-
----
-
-### When NOT to Use 1-Hour TTL
-
-1. **Tight Interactive Loops (<5m):** If you or your agents interact every 45 seconds, the 5m cache never expires. Paying 2.0× write instead of 1.25× is pure waste.
-2. **Ephemeral Leaf Subagents:** Leaf workers execute quick focused scripts. In almost all cases, keep them on standard 5-minute TTL.
-3. **High-Mutation Contexts:** If your orchestrator repeatedly edits its own system prompt or tool schemas, the prefix changes, discarding the cache.
-4. **Gaps Exceeding 60 Minutes:** If workers take 90 minutes, a 1-hour cache will expire anyway, costing you an expensive 2.0× write on eviction. Use Barrier Aggregation instead.
-
-> ⚠️ **Caution Box: The 2.0× Write Surcharge**
-> Extended 1-hour caching is an investment that pays off only if you hit the warm cache on subsequent turns. If you write a 1-hour cache and then terminate the session or invalidate the prefix, you paid an unnecessary 60% premium over standard 5m caching. See research issues [#247](https://github.com/gaia-research/gaia-research/issues/247), [#251](https://github.com/gaia-research/gaia-research/issues/251), and [#256](https://github.com/gaia-research/gaia-research/issues/256).
-
----
-
-## Step 0 — First, decide not to orchestrate
-
-**This is the most valuable step in the guide, and it is the one everyone skips.**
-
-Most coding tasks should be given to one capable agent, end to end. Not because orchestration is difficult to configure, but because partitioning a cohesive task introduces coordination overhead: worker agents lose global context, assumptions drift, and you pay orchestrator overhead for inferior code.
-
-Run this updated pre-flight checklist. **Orchestrate only if you can honestly say yes to all four:**
-
-| # | Question | If no… |
-| :--- | :--- | :--- |
-| 1 | Does the work genuinely split into disjoint pieces that do not depend on each other? | Use one agent. |
-| 2 | Is the total context too large to fit in a single agent's window without degraded reasoning? | Use one agent. |
-| 3 | Would you parallelize these across separate engineers if human developers were doing it? | Use one agent. |
-| 4 | **Does your expected worker duration match your root cache horizon?** *(On GPT 6 30m or Claude 1h, will workers return inside those windows? On 5m default TTL, can at least one finish under 4m?)* | Align horizons first — see Step 3. |
-
-**Good candidates:** "audit 14 API routes for missing RBAC checks," "generate unit tests for 8 independent utility libraries," "translate documentation into 5 languages."
-
-**Bad candidates — do these with one agent:** "build user authentication," "refactor the payment engine," "fix this flaky WebSocket race condition." These sound complex, but they are architecturally unified.
-
----
-
-## Step 1 — Pick your orchestrator: smart, not fast
-
-The instinct is to put your fastest model in charge. That is backwards.
-
-**Your orchestrator's speed is often less important than its reasoning and input economics.** In a multi-agent session, it may spend substantial time waiting for workers; the share depends on the task. What matters is:
-
-1. **Reasoning and decomposition power:** Bad architectural routing ruins everything downstream.
-2. **Input and cache economics:** It re-evaluates context on every turn. Input pricing determines your bill.
-
-| Tier | Models | When to use it |
-| :--- | :--- | :--- |
-| **Orchestrator of Choice (Practitioner Default)** ⭐ | **GPT 6 Sol** | Strong multi-step reasoning at **\$2.00 / 1M input** and **\$10.00 / 1M output**. GPT 6's 30m minimum can fit mid-length worker gaps; cached reads cost **\$0.20/M** and cache writes **\$2.50/M** (1.25× input). Choosing Sol as the default is a practitioner judgment, not a benchmark result. |
-| **Claude Balanced** | **Claude Sonnet 5** | **\$2.00 / 1M input**, **\$10.00 / 1M output**. Cache reads are **\$0.20/M**; 5m writes are **\$2.50/M** and 1h writes **\$4/M**. Use `ttl: '1h'` when expected reuse justifies the higher first write. |
-| **Heavy Architectural** | **Claude Opus 5.5** | **\$4.00 / 1M input**, **\$20.00 / 1M output**. Cache reads are **\$0.20/M**; 5m writes are **\$5/M** and 1h writes **\$8/M**. Whether its reasoning quality justifies the price depends on the task. |
-| **Deliberate Worker / Budget Orchestrator** | **GPT 6 Luna** | **\$0.10 / 1M input**, **\$0.50 / 1M output**, **\$0.01/M cached input**, and **\$0.125/M cache writes**. Primarily a low-cost worker; suitability as an orchestrator is a task-specific judgment. |
-| **Never** | Low-reasoning models chosen solely for speed | The orchestrator is idle by design. Paying for rapid token throughput at the expense of reasoning is a structural mistake. |
-
----
-
-## Step 2 — Cut the work into lanes
-
-A **lane** is one worker performing one bounded job. Define them cleanly before dispatching:
-
-```
-LANE 1  →  Audit src/auth/*.ts for session token leaks
-LANE 2  →  Write unit tests for src/billing/*.ts
-LANE 3  →  Verify OpenAPI documentation schemas against routes
-LANE 4  →  Execute TypeScript typecheck and compile error manifest
-```
-
-Two strict lane rules:
-
-**Rule 1 — Zero Inter-Lane Dependencies.** If Lane 2 cannot start until Lane 1 finishes, they are not two parallel lanes. They are a sequential chain. If you find yourself passing worker outputs between workers, collapse them into a single agent.
-
-**Rule 2 — Workers Emit Receipts, Not Dumps.** Workers deposit their exhaustive output on disk and send back a compact manifest (see Step 5).
-
----
-
-## Step 3 — Match your cache horizon to worker duration (and when to use fast lanes)
-
-In earlier iterations of this guide, our primary recommendation was the **Fast Lane Rule**: force at least one worker to report back within 4 minutes to artificially keep a 5-minute cache alive.
-
-With modern provider cache horizons, that rule evolves:
-
-> ### The Modern Rule
-> **Fast lanes are a provider-agnostic tactic for 5-minute horizons, not a universal mandate for 30-minute or 1-hour horizons.**
-
-### When You Have a 30-Minute or 1-Hour Horizon
-If your orchestrator runs on **GPT 6 Sol (30m minimum)** or **Claude with `ttl: '1h'`**, you do *not* need to manufacture artificial 3-minute sub-tasks for gaps inside those horizons.
-- GPT 6 Luna costs \$0.10/M input and \$0.50/M output; a 15–25-minute worker duration is a practitioner observation, not a service guarantee.
-- Heavy test runners can take 25 minutes when the selected horizon supports it.
-- Cached reads remain billable: GPT 6 Sol is \$0.20/M; Claude Sonnet 5 is \$0.20/M (90% below base), and Opus 5.5 is \$0.20/M (95% below base).
-
-### When You Are Constrained to a 5-Minute Horizon
-If your provider or harness only supports a standard 5-minute sliding TTL, the Fast Lane Rule remains essential:
-
-**At least one lane must report back in under 4 minutes.** That lane wakes the orchestrator up before the 5-minute timer expires, touching memory at the cheap warm rate ($0.10\times$) and extending the timer for slower lanes.
-
-- **Fast Lane Models:** Gemini 3.8 Flash, DeepSeek V4.1 Flash, Opus 5.5 `/fast`, GPT 6 Sol `/ultrafast`.
-- **Manufactured Fast Lane:** If all work is slow, peel off an inspection task:
-  ```
-  LANE 1 (Fast, ~30s)  →  Count occurrences of deprecated API calls in src/
-  LANE 2 (Slow, ~15m)  →  Refactor all deprecated calls across src/
-  ```
-
----
-
-## Step 4 — Never let the orchestrator sit idle past its cache horizon
-
-When worker tasks threaten to exceed your orchestrator's cache horizon, you have three options to prevent cold evictions:
-
-### Strategy A: Configure a Native Longer Horizon
-If using Claude, set `ttl: '1h'` when expected reuse warrants its 2× write rate. GPT 6 offers a 30m minimum with 1.25× cache writes; use the Responses API cache controls and include that cost. GPT 6 does not require `prompt_cache_key` for cache routing.
-- **Less orchestration overhead:** Avoids synthetic API traffic for gaps that fit the configured horizon.
-- **Tradeoff:** The initial cache write still has a premium; compare expected reuse with the model's current rate card.
-
-### Strategy B: Give the Orchestrator Productive In-Flight Work
-While workers execute, have the orchestrator perform useful single-turn tasks:
-- Draft the final PR description.
-- Review recent commit diffs.
-- Synthesize architectural documentation.
-Every turn resets the cache timer while producing tangible project deliverables.
-
-### Strategy C: Synthetic Keepalive Heartbeats vs. Native Long Horizons
-If locked into a 5-minute window without native extended TTLs, an agent harness can issue a synthetic ping every **270 seconds** (4.5 minutes).
-
-However, consider the economics:
-
-```
-Illustrative input-cache cost only on 100k context (Claude Sonnet 5, 8 turns across seven 15-minute worker gaps):
-  • 5m Synthetic Heartbeats:
-      - 3 pings per gap × 7 gaps = 21 pings
-      - 21 pings × ($0.20/M × 0.1M) = $0.42 in cached reads
-      - Initial write ($0.25) + 7 receipt reads ($0.14) = $0.81 total
-  • Native 1-Hour TTL:
-      - Turn 1 write (2.0× = $0.40) + 7 receipt reads ($0.14) = $0.54 total
-  → Under these assumptions, native 1-hour TTL costs one-third less than synthetic 5-minute heartbeats.
-  (For Opus 5.5, the same assumptions yield $1.06 with heartbeats vs. $0.94 with native 1h TTL, about 11% less).
-```
-
-*Note on sliding lease renewal:* Each legitimate warm cache hit touches the prefix and refreshes the 1-hour lease window forward from that turn, which is why a 1-hour TTL comfortably spans a 105-minute multi-turn session as long as each inter-turn gap stays under 60 minutes.
-
-A native horizon also avoids depending on synthetic pings succeeding. GPT 6's minimum 30-minute eligibility can remove the need for keepalives when gaps fit, but cache writes still cost 1.25× base input (Sol: $2.50/M) and reads cost $0.20/M. No retention setting guarantees a hit if the model, prefix, routing, or timing changes.
-
----
-
-## Step 5 — Make workers report back small: The Pointer Manifest
-
-The most common way developers destroy their context budget is by allowing workers to return raw terminal logs, full compiler stack traces, or entire file diffs back to the orchestrator.
-
-**Every token returned by a worker becomes permanent orchestrator context.** If an orchestrator ingests an 8,000-token test log on Turn 2, you re-read those 8,000 tokens on Turns 3 through 20.
-
-### The Pointer Manifest Pattern
-
-Workers must write exhaustive logs and artifacts to disk and report back with a structured **Pointer Manifest**:
+Do not paste your full conversation history into every worker prompt. Dispatch each worker with a compact, self-contained **Task Envelope** that references repo files and skills by path:
 
 ```json
 {
-  "task": "unit-tests-billing",
+  "taskId": "migrate-billing-endpoints",
+  "goal": "Migrate src/api/billing/*.ts to the v2 Prisma schema and pass unit tests.",
+  "scopedFiles": ["src/api/billing/", "prisma/schema.prisma"],
+  "skillRef": ".agents/skills/prisma-migration/SKILL.md",
+  "authority": "edit-scoped-files-only",
+  "verificationCmd": "npx vitest run src/api/billing",
+  "outputManifest": "/tmp/results/migrate-billing-endpoints.json"
+}
+```
+
+### 2. Inbound: The Pointer Manifest (< 200 Tokens)
+
+**Every token a worker returns to the root coordinator becomes permanent prefix baggage re-billed on every subsequent turn.** Workers must write verbose logs, test output, and diffs to disk and return only a compact **Pointer Manifest**:
+
+```json
+{
+  "task": "migrate-billing-endpoints",
   "status": "PASSED",
   "durationSec": 412,
+  "verification": { "cmd": "npx vitest run src/api/billing", "passed": true },
   "artifacts": {
     "logFile": "/tmp/results/billing-test.log",
     "diffFile": "/tmp/results/billing-patch.diff"
   },
-  "summary": "142 passed, 0 failed, 3 skipped. Coverage: 94.2% (+1.1%).",
+  "summary": "4 endpoints migrated; 142 tests passed, 0 failed.",
   "requiresAction": false
 }
 ```
 
-The orchestrator inspects the summary. If and only if a task fails does it read the specific lines from `/tmp/results/billing-test.log`. Never paste 2,000 lines of terminal stdout directly into the conversation.
+**Target: Keep root coordinator context under 15,000–20,000 tokens.** At 15k context, even eight cold 5-minute writes cost **\$0.60 instead of \$4.00** on Opus 5.5, or **\$0.30 instead of \$2.00** on GPT 6 Sol (excluding output tokens). Read `/tmp/results/billing-test.log` only when `status` is `"FAILED"`.
 
-**Target: Keep your orchestrator under 15,000–20,000 tokens.**
-At 15k context, even if each of eight turns writes the full prefix, the illustrative 5m cost is **\$0.60 instead of \$4.00** on Opus 5.5. On GPT 6 Sol, the same eight-write comparison is **\$0.30 instead of \$2.00**. These totals exclude output tokens and assume every turn writes the full prefix.
+### 3. Observability: Gap & Verification Telemetry
 
-**Add this instruction to every worker prompt:**
-```
-Workers: Write all detailed logs, diffs, and diagnostics to /tmp/results/<task-id>.json.
-Report back ONLY a JSON manifest: task, status, durationSec, artifacts, summary.
-Never paste raw command stdout, logs, or large diffs into the conversation.
-```
+Aggregate invoice totals hide whether money was spent on productive worker generation or cold-cache coordinator wakeups. Record four signals per run (and record missing fields as `unknown`, never `0`):
 
----
-
-## Step 6 — Look at the bill: Gap Telemetry
-
-You cannot optimize what you do not observe. Most agent platforms present a single aggregated dollar total at the end of a run, leading developers to incorrectly blame leaf workers for high costs.
-
-Monitor two specific metrics in your harness telemetry:
-
-1. **Orchestrator Idle Gaps ($\Delta t$):** Measure time between turns and compare it with the selected cache horizon. A gap beyond 5m, 30m, or 1h makes reuse less likely or ineligible under those settings; it does not by itself prove why a miss occurred.
-2. **Cache Writes vs. Reads:** Inspect provider-specific response metadata:
-   - **Anthropic:** `cache_read_input_tokens` reports reused tokens; `cache_creation_input_tokens` reports cache writes. A write on a later turn may be an expected new suffix, not necessarily a cache failure.
-   - **OpenAI Responses API:** `usage.input_tokens_details.cached_tokens` reports reused tokens and `usage.input_tokens_details.cache_write_tokens` reports newly written tokens. See the model-specific cache controls and pricing.
-   - **Claude Code:** `usage.cache_creation.ephemeral_1h_input_tokens` and `ephemeral_5m_input_tokens` distinguish cache-write TTLs in `claude -p --output-format json` output.
-
-In the Pi harness, session telemetry displays real-time cache state transitions (`warm → cold → cache write`). If your harness lacks this, log timestamps and token categories per turn.
+1. **Inter-turn idle gaps ($$\Delta t$$):** Compare time between coordinator turns against the configured cache horizon (5m, 30m, or 1h).
+2. **Cache read vs. write tokens:** Check `cache_read_input_tokens` and `cache_creation_input_tokens` (Anthropic), `usage.cache_creation.ephemeral_1h_input_tokens` (Claude Code JSON), or `usage.input_tokens_details.cached_tokens` and `cache_write_tokens` (OpenAI Responses API).
+3. **Coordination vs. execution share:** Track coordinator tokens separately from worker tokens.
+4. **Verified outcome & retry count:** Record whether the deterministic verification command passed and how many attempts were required.
 
 ---
 
 ## A worked example, start to finish
 
-**Task:** "Migrate database queries across 16 API endpoints to the new Prisma schema, with tests."
+**Task:** *"Migrate database queries across 16 independent API endpoints to the new Prisma schema, with unit tests."*
 
-**Step 0 — Pre-flight Check:**
-- 16 disjoint endpoints? Yes.
-- Too large for one context? Yes (~120k tokens total).
-- Independent workers? Yes.
-- Worker duration fits cache horizon? Yes (Lanes will take 12–20 minutes; comfortably inside GPT 6 Sol's native 30m retention floor or Claude Sonnet 5 with `ttl: '1h'`).
-
-**Step 1 — Orchestrator Selection:**
-- For this illustration, choose **GPT 6 Sol** as root (\$2.00/M input, \$2.50/M cache write, \$0.20/M cached input; 30m minimum). Choose **GPT 6 Luna** workers (\$0.10/M input, \$0.50/M output, \$0.125/M write, \$0.01/M cached input). These are current standard API rates; the model pairing is a practitioner choice. Alternative: **Claude Sonnet 5** with `ttl: '1h'`.
-
-**Step 2 — Lane Partitioning:**
-```
-LANE 1  →  Migrate & test endpoints 1–4  (src/api/users/*)
-LANE 2  →  Migrate & test endpoints 5–8  (src/api/billing/*)
-LANE 3  →  Migrate & test endpoints 9–12 (src/api/projects/*)
-LANE 4  →  Migrate & test endpoints 13–16 (src/api/reports/*)
-```
-
-**Step 3 & 4 — Horizon Management:**
-- Root orchestrator (GPT 6 Sol) registers repo specifications (native 30m retention floor).
-- 4 GPT 6 Luna workers execute in parallel, grinding on refactoring and test execution for 15 to 20 minutes.
-- Each worker gap is assumed to stay below Sol's 30-minute minimum, so the example sends no synthetic keepalive. The initial cache write still carries the 1.25× rate.
-
-**Step 5 — Pointer Manifests:**
-- Each worker deposits its patch and test output into `/tmp/results/lane-N.json`.
-- Each worker returns a 5-line status JSON.
-
-**Step 6 — Bill Verification:**
-- Orchestrator context: 18,000 tokens (0.018M).
-- Turn 1 Sol write: $2.50/M × 0.018M = **\$0.045**.
-- Turns 2 through 5: 4 warm hits × (\$0.20/M × 0.018M) = **\$0.0144**.
-- Sol orchestrator cache subtotal: **\$0.0594**.
-- For a transparent worker estimate, assume each Luna worker uses 50k input and 10k output tokens: (0.05M × \$0.10/M) + (0.01M × \$0.50/M) = **\$0.01 each**, or \$0.04 for four.
-- Illustrative subtotal for those tokens: **about \$0.10**, excluding any additional context, retries, tools, or other charges.
-*(With Claude Sonnet 5 at 18k context, a 1h write is \$0.072; four reads at \$0.20/M total \$0.0144, for \$0.0864 root-cache spend. Worker costs are separate.)*
-
-The orchestrator accounts for barely 25% of an already tiny spend on Sol/Luna (or 11% on Sonnet 5). The budget went directly into generating working code.
+1. **Coordination Ladder Assessment ([Decision Framework](#the-coordination-decision-framework)):**
+   - **Why not Level A (Single Agent)?** 16 endpoints plus test suites span ~120,000 tokens—large enough to bloat a single context window.
+   - **Why Level B (Lightweight Orchestration) over Levels C/D?** The 16 endpoints partition cleanly into 4 disjoint directory groups with zero cross-lane dependencies and a fast deterministic verifier (`vitest`). Existing harness subagents and pointer manifests suffice; no new workflow engine or scheduler install is needed.
+2. **Model & Cache-Horizon Selection:**
+   - Expected worker duration: 12–20 minutes per lane.
+   - *Practitioner Option 1 (GPT 6):* **GPT 6 Sol** root coordinator (\$2.00/M in, \$2.50/M write, \$0.20/M cached read; 30m minimum floor) + 4 **GPT 6 Luna** workers (\$0.10/M in, \$0.50/M out). Because 12–20m fits inside the 30m floor, no keepalive pings are needed.
+   - *Practitioner Option 2 (Claude):* **Claude Sonnet 5** root with `ttl: '1h'` (\$2.00/M in, \$4.00/M 1h write, \$0.20/M read) + 5m subagent cache.
+3. **Lane Partitioning & Envelopes:**
+   ```
+   LANE 1 → src/api/users/*    (verify: npx vitest run src/api/users)
+   LANE 2 → src/api/billing/*  (verify: npx vitest run src/api/billing)
+   LANE 3 → src/api/projects/* (verify: npx vitest run src/api/projects)
+   LANE 4 → src/api/reports/*  (verify: npx vitest run src/api/reports)
+   ```
+4. **Pointer Manifests & Rate-Card Bill Verification:**
+   - Root coordinator context stays at **18,000 tokens** (0.018M) because each worker writes logs/diffs to `/tmp/results/lane-N.json` and returns a 6-line JSON receipt.
+   - **Sol root cache spend:** Turn 1 write: $$2.50 \times 0.018 = 0.045\text{ USD}$$ (**$0.045**); four warm reads: $$4 \times (0.20 \times 0.018) = 0.0144\text{ USD}$$ (**$0.0144**); root cache subtotal: **$0.0594** (or **$0.0864** on Sonnet 5 with a 1h write).
+   - **Four Luna workers (illustrative 50k in / 10k out each):** $$4 \times ((0.05 \times 0.10) + (0.01 \times 0.50)) = 0.0400\text{ USD}$$ (**$0.0400**).
+   - **Illustrative token subtotal:** **~\$0.10** (excluding output tokens on the coordinator and any retry turns), with every lane verified by `vitest`.
 
 ---
 
 ## Mistakes we keep making
 
-| Mistake | What it actually costs | Fix |
+| Mistake | Economic Consequence | Fix |
 | :--- | :--- | :--- |
-| **Worker duration exceeds cache horizon** | Evicts cache on every turn; forces full-price cold re-reads | Configure Claude `ttl: '1h'`, use GPT 6 Sol 30m floor, or manufacture fast lanes ([#255](https://github.com/gaia-research/gaia-research/issues/255)) |
-| **Enabling 1h TTL on leaf subagents** | Pays 2.0× write surcharge on ephemeral 45-second workers | Keep leaf subagents on standard 5m sliding cache ([#254](https://github.com/gaia-research/gaia-research/issues/254)) |
-| **Workers paste full stdout / diffs** | Permanently pollutes orchestrator context for all subsequent turns | Enforce Pointer Manifests (< 200 tokens) writing to disk ([#242](https://github.com/gaia-research/gaia-research/issues/242)) |
-| **Selecting fastest model as orchestrator** | Paying a throughput premium for an agent that sits idle | Select smart reasoning with low input pricing (GPT 6 Sol default, Sonnet 5; Terra is superseded) ([#245](https://github.com/gaia-research/gaia-research/issues/245)) |
-| **Mutating tools or system prompts mid-session** | Modifies prefix tokens, forcing new cache creation | Keep system prompt and tool definitions stable throughout active phases ([#256](https://github.com/gaia-research/gaia-research/issues/256)) |
-| **Running 5m synthetic heartbeats when a longer horizon fits** | Adds requests and failure modes; cost depends on cached-read prices and ping frequency | Compare pings against Claude's 1h option or GPT 6's 30m minimum, including each cache-write premium ([#247](https://github.com/gaia-research/gaia-research/issues/247)) |
-| **Aggressive mid-session context compaction** | Compaction boundaries force new cache creation writes | Keep context slim (<20k) from the start so compaction is rarely needed ([#251](https://github.com/gaia-research/gaia-research/issues/251)) |
+| **Orchestrating a tightly coupled task ("Ticket Trap")** | Quadratic handoff chatter, merge conflicts, and broken context across micro-tickets | Keep unified tasks in **Level A** (one agent loop + progressive skills) ([#304](https://github.com/gaia-research/gaia-research/issues/304)) |
+| **Using a frontier LLM for deterministic polling & state** | Pays frontier token and reasoning prices for work a script, queue, or SQLite state file does for free | Move queues, worktrees, retries, and test gates to deterministic software ([#306](https://github.com/gaia-research/gaia-research/issues/306)) |
+| **Installing a custom scheduler for one-off tasks** | Adds maintenance, configuration drift, and complexity without recurring payoff | Default to **Level A** or **Level B**; require explicit owner consent before installing tooling ([#308](https://github.com/gaia-research/gaia-research/issues/308)) |
+| **Worker duration exceeds root cache horizon** | Evicts root KV cache during worker runs; forces cold re-writes on wakeup (up to 25× read cost on Opus 5.5 5m) | Match horizon to worker duration: GPT 6 30m floor, Claude `ttl: '1h'`, or barrier aggregation >60m ([#255](https://github.com/gaia-research/gaia-research/issues/255)) |
+| **Enabling 1h TTL on ephemeral leaf subagents** | Pays 2.0× write surcharge on short-lived workers that never reuse the 1-hour lease | Keep leaf subagents on standard 5-minute sliding cache (`subagentPromptCacheTtl: "5m"`) ([#254](https://github.com/gaia-research/gaia-research/issues/254)) |
+| **Workers paste raw stdout, logs, or full diffs** | Permanently bloats root coordinator context on every subsequent turn | Enforce disk-based Pointer Manifests (<200 tokens) and keep root context <15k–20k ([#242](https://github.com/gaia-research/gaia-research/issues/242)) |
+| **Mutating tools, model, or prefix mid-session** | Alters prefix hash and invalidates warm cache regardless of remaining TTL | Freeze system prompt, model, and MCP tool schemas before dispatching lanes ([#251](https://github.com/gaia-research/gaia-research/issues/251), [#256](https://github.com/gaia-research/gaia-research/issues/256)) |
+| **Selecting an orchestrator for token speed over reasoning** | Pays throughput premiums for a coordinator that spends most of its wall-clock time waiting | Choose strong decomposition and favorable input/cache economics; respect user model preferences ([#245](https://github.com/gaia-research/gaia-research/issues/245)) |
 
 ---
 
-## Take this page and make it yours
+## Agent-Consumable Assessment Contract
 
-The fastest way to internalize orchestration economics is to encode these rules directly into your agent harness or pre-flight prompt. Copy this markdown and ask your agent to build a custom orchestrator prompt:
+> **Explicit Non-Authorization Rule:** Reading, fetching, or copying this guide is **not** permission to modify a repository, alter `.claude/settings.json` or `.pi` configuration, override the user's preferred models, install packages, or launch paid multi-agent runs. An agent must inspect first, recommend the smallest sufficient option (including **doing nothing**), and wait for explicit owner approval.
 
+When an agent in **Pi**, **Claude Code**, or another harness is given this guide, it must execute this 10-step assessment protocol:
+
+1. **Inspect repository & harness (read-only):** Read `CLAUDE.md`, `AGENTS.md`, `package.json`, CI workflows, and active harness directories (`.agents/skills/`, `.claude/`, `.pi/`).
+2. **Identify native coordination primitives:** Check what the active harness already provides (e.g., Pi `subagent`, `codemode`, and background tasks; Claude Code subagents and Dynamic Workflows).
+3. **Catalog existing skills & workflow tools:** Check for reusable skills (`SKILL.md`), test runners, linters, or workflow engines already in the repository to avoid duplicate tooling.
+4. **Assess recurring workloads & coordination overhead:** Determine whether current tasks are tightly coupled or genuinely parallel, whether fast deterministic verifiers exist, and whether cold-cache wakeups or context bloat actually occur.
+5. **Determine owner priorities & model preferences:** Confirm whether the owner optimizes for API cost, \$20-tier subscription quota preservation, wall-clock latency, simplicity, or human review—and preserve their chosen models.
+6. **Evaluate suitability across Levels A–E:** Classify the workload into **Level A** (No orchestration), **Level B** (Existing skills/subagents), **Level C** (Existing workflow runtime), **Level D** (Thin economic scheduler adapter), or **Level E** (Human-controlled execution).
+7. **Recommend the smallest appropriate solution:** Default to **Level A** or **Level B**. Recommend **no changes at all** if current workflows are already appropriate.
+8. **Explain costs, tradeoffs, and evidence boundaries:** State expected benefits, cache-horizon mechanics, what would be measured, and how to revert—clearly separating published rate-card math from unverified hypotheses.
+9. **Request explicit owner consent:** Present the suitability verdict and proposed changes (if any) and pause for explicit approval before editing files or running commands with side effects.
+10. **Implement within repository governance (only if authorized):** Follow repo-native conventions, preserve user model selection, enforce <200-token pointer manifests and <15k–20k root context targets, apply verified cache settings for the active model, and respect all safety and permission boundaries.
+
+### Copyable Universal Assessment Prompt
+
+Use the buttons at the top of this page to copy a harness-specific prompt for **Claude Code** or **Pi**, or use this portable assessment prompt directly:
+
+```text
+Review this repository using the Gaia Research Orchestration Guide (read-only assessment first):
+1. Inspect CLAUDE.md/AGENTS.md, existing skills (.agents/skills, .claude, .pi), test verifiers, and native harness subagent/workflow capabilities. Do not modify any files or settings yet.
+2. Ask or confirm my model preferences and primary priority (API cost, subscription quota preservation, latency, simplicity, or human review). Never hardcode or override my model choice.
+3. Classify my workload on the A–E Coordination Ladder:
+   - Level A: Single agent loop + existing skills/verifiers (default; recommend doing nothing if sufficient)
+   - Level B: Lightweight orchestration using existing subagents, task envelopes, and disk pointer manifests (<200 tokens)
+   - Level C: Reuse existing workflow/CI infrastructure
+   - Level D: Optional thin economic scheduler adapter (only if recurring multi-model overhead and fast verifiers justify it)
+   - Level E: Human-controlled execution for sensitive or unverified actions
+4. Present a concise suitability verdict, cache-horizon recommendations for my active model, tradeoffs, and reversible scope, then ask for my explicit consent before making any changes.
 ```
-Turn this orchestration guide into an executable system prompt for my coordinator:
-1. Orchestrator selection: Ask whether I want to pick the orchestrator model of my choice, or let the agent automatically select the best model based on repository scale, language, and complexity. Never hardcode models.
-2. Optimize cache settings for the chosen model: Based on the current model utilized by the user or selected for orchestration, configure cache settings (e.g., 1-hour retention, 30m floor, or fast-lane matching) to be optimal for the root orchestrator while keeping subagents on short/ephemeral cache.
-3. Run the Step 0 checklist and refuse to orchestrate if a single agent suffices. Partition work into independent lanes with zero cross-dependencies.
-4. Enforce disk-based pointer manifests (<200 tokens) on all worker responses; never paste raw stdout, logs, or diffs into context.
-5. Alert me if root orchestrator context exceeds 20,000 tokens.
-6. Verify cache reads and writes using native session telemetry and usage metadata.
-```
-
-Tailor it to your environment:
-- If running on OpenAI GPT 6, the 30m minimum uses a 1.25× write rate and a 0.1× cached-read rate; `prompt_cache_key` is not needed for routing. Earlier OpenAI models have different, model-specific retention and cache controls.
-- If your harness uses Claude Code, set `promptCacheTtl: "1h"` in `.claude/settings.json`.
-- If building on Gemini, configure explicit `CachedContent` objects for static context.
 
 ---
 
-## What is unverified here
+## What is verified vs. hypothesized
 
-Because this research is actively advancing across our benchmarking infrastructure, we distinguish verified telemetry from operational heuristics:
+To keep engineering decisions grounded, this guide strictly separates five epistemic categories:
 
-- **Verified Pricing & Rate Cards:** Prices were checked against official provider pages on September 24, 2026. Write and cached-read rates are model-specific; see the matrix and the linked cards rather than applying one multiplier to every model ([#247](https://github.com/gaia-research/gaia-research/issues/247)).
-- **Documented Cache Mechanics:**
-  - Anthropic [Prompt Caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) and Claude Code [Prompt Caching](https://code.claude.com/docs/en/prompt-caching)
-  - OpenAI [API Pricing](https://developers.openai.com/api/docs/pricing) and [Prompt Caching](https://developers.openai.com/api/docs/guides/prompt-caching)
-  - Google [Gemini Context Caching](https://ai.google.dev/gemini-api/docs/generate-content/caching) and [API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
-  - DeepSeek [Pricing](https://api-docs.deepseek.com/quick_start/pricing/) and xAI [Grok 4.6 pricing](https://docs.x.ai/developers/models/grok-4.6)
-  - Technical tracking issues: [#254](https://github.com/gaia-research/gaia-research/issues/254) and [#255](https://github.com/gaia-research/gaia-research/issues/255).
-- **Mathematical Break-Even Models:** The 16% single-pause savings and 73% eight-turn savings are arithmetic under the stated Sonnet 5 rate-card assumptions, not measured session results ([#256](https://github.com/gaia-research/gaia-research/issues/256)).
-- **Heuristic Advice:** Recommended model pairings (e.g. GPT 6 Sol for orchestration, Sonnet 5 with 1h TTL, Luna for slow-lane workers) and the 15k–20k token context target are practitioner rules of thumb, not controlled benchmark results.
-- **Related Tracking Issues:** For deep-dive research notes and live benchmarks, track issues [#242](https://github.com/gaia-research/gaia-research/issues/242), [#245](https://github.com/gaia-research/gaia-research/issues/245), [#247](https://github.com/gaia-research/gaia-research/issues/247), [#251](https://github.com/gaia-research/gaia-research/issues/251), [#252](https://github.com/gaia-research/gaia-research/issues/252), [#254](https://github.com/gaia-research/gaia-research/issues/254), [#255](https://github.com/gaia-research/gaia-research/issues/255), and [#256](https://github.com/gaia-research/gaia-research/issues/256).
+1. **Established Technical Capabilities & Sourced Rate Cards (Verified September 24, 2026):**
+   - **Anthropic:** [Prompt Caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching), [Claude Code Prompt Caching](https://code.claude.com/docs/en/prompt-caching), and [Claude Dynamic Workflows](https://code.claude.com/docs/en/workflows).
+   - **OpenAI:** [API Pricing](https://developers.openai.com/api/docs/pricing) and [Prompt Caching](https://developers.openai.com/api/docs/guides/prompt-caching).
+   - **Google Gemini:** [Context Caching](https://ai.google.dev/gemini-api/docs/generate-content/caching) and [API Pricing](https://ai.google.dev/gemini-api/docs/pricing).
+   - **DeepSeek & xAI:** [DeepSeek Pricing](https://api-docs.deepseek.com/quick_start/pricing/) and [xAI Grok 4.6 Pricing](https://docs.x.ai/developers/models/grok-4.6).
+   - **Coordination Runtimes:** [LangGraph](https://docs.langchain.com/oss/python/langgraph/overview), [Temporal](https://docs.temporal.io/), [Ray](https://docs.ray.io/), and [Rico's Auto Office (`Hikari9/auto-office`)](https://github.com/Hikari9/auto-office).
+2. **Published Research & Systems Precedents:**
+   - Parallel & organizational bounds: Gene Amdahl ([1967](https://doi.org/10.1145/1465482.1465560)), Fred Brooks (*The Mythical Man-Month*, 1975), Melvin Conway (1967), and Toby Ord (*Swarm Scaling*, $$\\lambda \\approx 0.57$$).
+   - Tail latency, routing & compute scaling: Jeffrey Dean & Luiz André Barroso ([*The Tail at Scale*, 2013](https://research.google/pubs/the-tail-at-scale/)), Lingjiao Chen et al. ([*FrugalGPT*, arXiv:2305.05176](https://arxiv.org/abs/2305.05176)), and Charlie Snell et al. ([*Scaling LLM Test-Time Compute*, arXiv:2408.03314](https://arxiv.org/abs/2408.03314)).
+   - KV cache serving systems: Kwon et al. ([*PagedAttention*, SOSP '23](https://doi.org/10.1145/3600006.3613165)), Zheng et al. ([*SGLang RadixAttention*, arXiv:2312.07104](https://arxiv.org/abs/2312.07104)), and Qin et al. (*Mooncake*, USENIX FAST '24).
+   - Agent architecture guidance: Anthropic ([*Building Effective Agents*](https://www.anthropic.com/research/building-effective-agents) and [*How We Built Our Multi-Agent Research System*](https://www.anthropic.com/engineering/multi-agent-research-system)).
+3. **Practitioner Observations & Rate-Card Arithmetic:**
+   - Ray Amjad's analysis of Conway's Law and the "Ticket Trap" in [*Anthropic's New Subagent Rules Will Change How You Build*](https://youtu.be/ybx0mmd22pQ) (18:33).
+   - The 16% single-pause break-even and 73% eight-turn prefill reduction on Claude Sonnet 5, the Opus 5.5 25× 5m write/read ratio, and the 16-endpoint worked example are exact arithmetic under stated rate-card assumptions, not measured trial averages ([#247](https://github.com/gaia-research/gaia-research/issues/247), [#256](https://github.com/gaia-research/gaia-research/issues/256)).
+   - Model pairings (such as GPT 6 Sol coordinating Luna workers, or Sonnet 5 with `ttl: '1h'`) and the 15k–20k token root context ceiling are practitioner heuristics.
+4. **Gaia Architectural Hypotheses & Exploratory Pilots:**
+   - The Expected Cost per Verified Deliverable ($$C_{\text{verified}}$$) formulation, the Domain Harness Multiplier, and the four-regime execution model ([#304](https://github.com/gaia-research/gaia-research/issues/304)).
+   - The Economic Scheduler objective ($$\\min_{\\pi}\\mathbb{E}[C_{\\text{total}}\\mid\\text{verified}]$$) ([#306](https://github.com/gaia-research/gaia-research/issues/306)) and the Pi-first exploratory pilot in [`gaia-research/gaia-skill-tree#2158`](https://github.com/gaia-research/gaia-skill-tree/issues/2158). No empirical cost-reduction claims are made for the pilot prior to completed trials.
+5. **Future Validation Opportunities & Tracking Issues:**
+   - Controlled benchmarks comparing single frontier runs, bounded cheap retries, speculative worktree racing, and adaptive cascades on held-out repository issues are tracked alongside cache-horizon and telemetry studies in [#242](https://github.com/gaia-research/gaia-research/issues/242), [#245](https://github.com/gaia-research/gaia-research/issues/245), [#247](https://github.com/gaia-research/gaia-research/issues/247), [#251](https://github.com/gaia-research/gaia-research/issues/251), [#252](https://github.com/gaia-research/gaia-research/issues/252), [#254](https://github.com/gaia-research/gaia-research/issues/254), [#255](https://github.com/gaia-research/gaia-research/issues/255), [#256](https://github.com/gaia-research/gaia-research/issues/256), [#304](https://github.com/gaia-research/gaia-research/issues/304), [#306](https://github.com/gaia-research/gaia-research/issues/306), [#308](https://github.com/gaia-research/gaia-research/issues/308), and [`gaia-skill-tree#2158`](https://github.com/gaia-research/gaia-skill-tree/issues/2158).

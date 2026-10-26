@@ -108,7 +108,7 @@ export const researchEntries: readonly ResearchEntry[] = [
     type: "GUIDE",
     status: "WIP",
     description:
-      "Step-by-step, plain-English orchestration playbook: when not to orchestrate, the one-fast-lane rule, receipts over raw output, and keeping the planner's cache warm. Experience-based — no control study yet.",
+      "Plain-English guide to the economics of agent orchestration: the A–E coordination decision ladder, separating LLM reasoning from deterministic software, provider cache-horizon matching, pointer manifests, and consent-first agent adoption. Experience-based — no control study yet.",
     href: "/research/orchestration-guide",
     action: "Read the guide",
   },
