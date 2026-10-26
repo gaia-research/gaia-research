@@ -154,10 +154,10 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 ## Unranked Editorial Ideas (not yet prioritized)
 
 ### The Economics of Agentic Work: When Small Agents Beat Frontier Models
-- **Status:** In Ideation / Thought Leadership Draft
+- **Status:** In Ideation / Thought Leadership Draft (Unranked)
 - **Viability:** High
 - **Potential:** Exceptional
-- **Why now:** The cost floor of agentic software work depends on retries, verification, subscription quotas, and domain harnesses, not simply frontier model capability. Examines where cheap competitive attempts outperform costly orchestration, using the founder's own observations and a primary video source.
+- **Why now:** The cost floor of agentic software work depends on retries, verification, subscription quotas, and domain harnesses, not simply frontier model capability. Formulates where bounded cheap retries and speculative racing outperform costly orchestration ceremony, backed by the founder's verbatim observations, Ray Amjad's primary video analysis, and foundational systems precedents.
 - **Doc:** [`economics-of-agentic-work-small-agents.md`](./economics-of-agentic-work-small-agents.md) · Tracking issue: [#304](https://github.com/gaia-research/gaia-research/issues/304)
 
 ---
