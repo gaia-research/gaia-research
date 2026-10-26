@@ -696,6 +696,14 @@ export function OrchestrationMotionHook() {
           height: auto;
         }
 
+        .omh-stage-desktop {
+          display: block;
+        }
+
+        .omh-stage-mobile {
+          display: none;
+        }
+
         /* SVG Keyframe Animations */
         @keyframes omh-dash-flow {
           to {
@@ -980,6 +988,17 @@ export function OrchestrationMotionHook() {
             margin-right: 0.9rem;
           }
 
+          .omh-stage-desktop {
+            display: none !important;
+          }
+
+          .omh-stage-mobile {
+            display: block !important;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3 / 4;
+          }
+
           .omh-beats-grid {
             grid-template-columns: 1fr;
           }
@@ -1131,8 +1150,9 @@ export function OrchestrationMotionHook() {
 
         {/* Animated SVG Stage */}
         <div className="omh-stage-wrap">
+          {/* Desktop / Landscape SVG Stage (760x390, ~16:9) */}
           <svg
-            className="omh-stage-svg"
+            className="omh-stage-svg omh-stage-desktop"
             viewBox="0 0 760 390"
             role="img"
             aria-labelledby={`${regionId}-svg-title ${regionId}-svg-desc`}
@@ -2157,6 +2177,564 @@ export function OrchestrationMotionHook() {
                     letterSpacing="0.03em"
                   >
                     ✓ ISOLATED GIT WORKTREES · &lt;200B JSON POINTER MANIFESTS · 1H WARM LEASE (~$0.10)
+                  </text>
+                </g>
+              </g>
+            )}
+          </svg>
+
+          {/* Mobile / Portrait 4x3 (Tall, 3:4 aspect ratio) SVG Stage (420x560) */}
+          <svg
+            className="omh-stage-svg omh-stage-mobile"
+            viewBox="0 0 420 560"
+            role="img"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <pattern
+                id={`${regionId}-mob-grid`}
+                width="28"
+                height="28"
+                patternUnits="userSpaceOnUse"
+              >
+                <path
+                  d="M 28 0 L 0 0 0 28"
+                  fill="none"
+                  stroke="#1e293b"
+                  strokeWidth="0.65"
+                  strokeOpacity="0.5"
+                />
+              </pattern>
+
+              <radialGradient id={`${regionId}-mob-danger-glow`} cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#f43f5e" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#f43f5e" stopOpacity="0" />
+              </radialGradient>
+
+              <radialGradient id={`${regionId}-mob-emerald-glow`} cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#10b981" stopOpacity="0.38" />
+                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+              </radialGradient>
+
+              <radialGradient id={`${regionId}-mob-cyan-glow`} cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.38" />
+                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+
+            {/* Mobile Stage Canvas & Subtle Grid */}
+            <rect width="420" height="560" fill="#080b14" />
+            <rect width="420" height="560" fill={`url(#${regionId}-mob-grid)`} />
+
+            {/* Mobile Top Badges: 2 Rows */}
+            <g transform="translate(16, 10)">
+              {/* Row 1 */}
+              <rect
+                x="0"
+                y="0"
+                width="190"
+                height="22"
+                rx="4"
+                fill="#0e1424"
+                stroke={activeScenario.accentHex}
+                strokeWidth="1"
+              />
+              <text
+                x="95"
+                y="14.5"
+                fill={activeScenario.accentHex}
+                fontSize="8.5"
+                fontWeight="800"
+                textAnchor="middle"
+                fontFamily="var(--mono, monospace)"
+              >
+                {activeScenario.svgBadges.cache}
+              </text>
+
+              <rect
+                x="198"
+                y="0"
+                width="190"
+                height="22"
+                rx="4"
+                fill="#0e1424"
+                stroke={activeScenario.accentHex}
+                strokeWidth="1"
+              />
+              <text
+                x="293"
+                y="14.5"
+                fill="#f8fafc"
+                fontSize="8.5"
+                fontWeight="800"
+                textAnchor="middle"
+                fontFamily="var(--mono, monospace)"
+              >
+                {activeScenario.svgBadges.cost}
+              </text>
+
+              {/* Row 2 */}
+              <rect
+                x="0"
+                y="26"
+                width="190"
+                height="22"
+                rx="4"
+                fill="#0e1424"
+                stroke="#334155"
+                strokeWidth="1"
+              />
+              <text
+                x="95"
+                y="40.5"
+                fill="#cbd5e1"
+                fontSize="8.5"
+                fontWeight="700"
+                textAnchor="middle"
+                fontFamily="var(--mono, monospace)"
+              >
+                {activeScenario.svgBadges.tokens}
+              </text>
+
+              <rect
+                x="198"
+                y="26"
+                width="190"
+                height="22"
+                rx="4"
+                fill="#0e1424"
+                stroke="#334155"
+                strokeWidth="1"
+              />
+              <text
+                x="293"
+                y="40.5"
+                fill="#cbd5e1"
+                fontSize="8.5"
+                fontWeight="700"
+                textAnchor="middle"
+                fontFamily="var(--mono, monospace)"
+              >
+                {activeScenario.svgBadges.passRate}
+              </text>
+            </g>
+
+            {/* ============================================================
+                MOBILE MODE 1: NAIVE SWARM (TALL 4x3)
+               ============================================================ */}
+            {activeScenario.id === "naive-swarm" && (
+              <g>
+                <circle cx="210" cy="120" r="95" fill={`url(#${regionId}-mob-danger-glow)`} />
+
+                {/* Root Coordinator Node (Top) */}
+                <rect
+                  x="35"
+                  y="66"
+                  width="350"
+                  height="92"
+                  rx="8"
+                  fill="#0e1424"
+                  stroke="#f43f5e"
+                  strokeWidth="1.5"
+                />
+                <text
+                  x="210"
+                  y="88"
+                  fill="#f8fafc"
+                  fontSize="12.5"
+                  fontWeight="800"
+                  textAnchor="middle"
+                  fontFamily="var(--display, sans-serif)"
+                  letterSpacing="0.04em"
+                >
+                  ROOT COORDINATOR (SOL · 100k)
+                </text>
+                <text
+                  x="210"
+                  y="106"
+                  fill="#f43f5e"
+                  fontSize="10"
+                  fontWeight="800"
+                  textAnchor="middle"
+                  fontFamily="var(--mono, monospace)"
+                >
+                  COLD CACHE MISS · 25× WRITE SURCHARGE
+                </text>
+                <rect
+                  x="55"
+                  y="118"
+                  width="310"
+                  height="26"
+                  rx="4"
+                  fill="rgba(244, 63, 94, 0.12)"
+                  stroke="#f43f5e"
+                  strokeWidth="1"
+                />
+                <text
+                  x="210"
+                  y="134"
+                  fill="#fb7185"
+                  fontSize="9.5"
+                  fontWeight="700"
+                  textAnchor="middle"
+                  fontFamily="var(--mono, monospace)"
+                >
+                  Context bloated: +45k diff dumps from workers
+                </text>
+
+                {/* Chaotic Flow Chords from Root to 4 Workers */}
+                <path
+                  d="M 120 158 C 90 200, 60 250, 90 312"
+                  fill="none"
+                  stroke="#fbbf24"
+                  strokeWidth="1.2"
+                  strokeOpacity="0.55"
+                  className="omh-stream-chaos"
+                />
+                <path
+                  d="M 170 158 C 150 200, 240 240, 270 312"
+                  fill="none"
+                  stroke="#fbbf24"
+                  strokeWidth="1.2"
+                  strokeOpacity="0.55"
+                  className="omh-stream-chaos"
+                />
+                <path
+                  d="M 250 158 C 270 230, 80 340, 90 418"
+                  fill="none"
+                  stroke="#f43f5e"
+                  strokeWidth="1.3"
+                  strokeOpacity="0.5"
+                  className="omh-stream-chaos"
+                />
+                <path
+                  d="M 300 158 C 330 230, 340 340, 310 418"
+                  fill="none"
+                  stroke="#f43f5e"
+                  strokeWidth="1.3"
+                  strokeOpacity="0.5"
+                  className="omh-stream-chaos"
+                />
+
+                {/* Floating Chatty Token Pills */}
+                <g transform="translate(25, 178)">
+                  <rect width="170" height="22" rx="4" fill="#180e14" stroke="#fbbf24" strokeWidth="1" />
+                  <text x="85" y="14" fill="#fde68a" fontSize="8.5" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    +45,200 tok diff dump
+                  </text>
+                </g>
+                <g transform="translate(225, 202)">
+                  <rect width="170" height="22" rx="4" fill="#180e14" stroke="#fbbf24" strokeWidth="1" />
+                  <text x="85" y="14" fill="#fde68a" fontSize="8.5" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    1,420 lines raw stdout
+                  </text>
+                </g>
+                <g transform="translate(60, 238)">
+                  <rect width="300" height="22" rx="4" fill="#200d14" stroke="#f43f5e" strokeWidth="1.1" />
+                  <text x="150" y="14" fill="#fb7185" fontSize="8.5" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    ⚠ MERGE CONFLICT: Colliding edits on schema.ts
+                  </text>
+                </g>
+
+                {/* Middle Alert Banner */}
+                <g transform="translate(35, 272)">
+                  <rect width="350" height="26" rx="5" fill="#16080e" stroke="#f43f5e" strokeWidth="1.2" />
+                  <text x="175" y="16.5" fill="#fb7185" fontSize="9" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    5m TTL EXPIRED · ROOT PAYS 2.50× WRITE SURCHARGE
+                  </text>
+                </g>
+
+                {/* 4 Workers 2x2 Grid */}
+                <g transform="translate(20, 312)">
+                  <rect width="182" height="92" rx="6" fill="#0e1424" stroke="#334155" strokeWidth="1" />
+                  <text x="91" y="24" fill="#f8fafc" fontSize="10.5" fontWeight="700" textAnchor="middle" fontFamily="var(--display, sans-serif)">
+                    WORKER 1 (LUNA)
+                  </text>
+                  <text x="91" y="42" fill="#94a3b8" fontSize="8.5" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    LANE: src/auth/*
+                  </text>
+                  <text x="91" y="64" fill="#f43f5e" fontSize="8.2" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Dumping +45k diffs...
+                  </text>
+                </g>
+                <g transform="translate(218, 312)">
+                  <rect width="182" height="92" rx="6" fill="#0e1424" stroke="#334155" strokeWidth="1" />
+                  <text x="91" y="24" fill="#f8fafc" fontSize="10.5" fontWeight="700" textAnchor="middle" fontFamily="var(--display, sans-serif)">
+                    WORKER 2 (LUNA)
+                  </text>
+                  <text x="91" y="42" fill="#94a3b8" fontSize="8.5" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    LANE: src/billing/*
+                  </text>
+                  <text x="91" y="64" fill="#f43f5e" fontSize="8.2" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Dumping +38k diffs...
+                  </text>
+                </g>
+                <g transform="translate(20, 416)">
+                  <rect width="182" height="92" rx="6" fill="#0e1424" stroke="#f43f5e" strokeWidth="1.2" />
+                  <text x="91" y="24" fill="#f8fafc" fontSize="10.5" fontWeight="700" textAnchor="middle" fontFamily="var(--display, sans-serif)">
+                    WORKER 3 (LUNA)
+                  </text>
+                  <text x="91" y="42" fill="#94a3b8" fontSize="8.5" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    LANE: shared schema.ts
+                  </text>
+                  <text x="91" y="64" fill="#f43f5e" fontSize="8.2" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Conflict &amp; re-write
+                  </text>
+                </g>
+                <g transform="translate(218, 416)">
+                  <rect width="182" height="92" rx="6" fill="#0e1424" stroke="#334155" strokeWidth="1" />
+                  <text x="91" y="24" fill="#f8fafc" fontSize="10.5" fontWeight="700" textAnchor="middle" fontFamily="var(--display, sans-serif)">
+                    WORKER 4 (LUNA)
+                  </text>
+                  <text x="91" y="42" fill="#94a3b8" fontSize="8.5" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    LANE: src/reports/*
+                  </text>
+                  <text x="91" y="64" fill="#f43f5e" fontSize="8.2" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Dumping +31k diffs...
+                  </text>
+                </g>
+
+                {/* Bottom Verdict Bar */}
+                <g transform="translate(20, 520)">
+                  <rect width="380" height="28" rx="5" fill="#180b10" stroke="#f43f5e" strokeWidth="1" />
+                  <text x="190" y="17.5" fill="#fb7185" fontSize="9.5" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    ❌ QUADRATIC CONTEXT BLOAT · EVICTED CACHE · ~$2.40+
+                  </text>
+                </g>
+              </g>
+            )}
+
+            {/* ============================================================
+                MOBILE MODE 2: LEVEL A (SINGLE AGENT - TALL 4x3)
+               ============================================================ */}
+            {activeScenario.id === "level-a" && (
+              <g>
+                {/* Docked Skill Cartridge (Top) */}
+                <g transform="translate(45, 68)">
+                  <rect width="330" height="52" rx="8" fill="#0e1424" stroke="#38bdf8" strokeWidth="1.2" />
+                  <text x="165" y="22" fill="#38bdf8" fontSize="10.5" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    DOCKED DOMAIN SKILL (SKILL.md)
+                  </text>
+                  <text x="165" y="38" fill="#cbd5e1" fontSize="9" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    +1.8k tokens · AST tools &amp; test verifiers
+                  </text>
+                </g>
+
+                {/* Connecting arrow down */}
+                <path d="M 210 120 L 210 148" stroke="#38bdf8" strokeWidth="2" strokeDasharray="3 3" />
+
+                {/* Emerald Halo & Agent Node (Middle) */}
+                <circle cx="210" cy="225" r="95" fill={`url(#${regionId}-mob-emerald-glow)`} />
+                <g transform="translate(35, 148)">
+                  <rect width="350" height="155" rx="10" fill="#0e1424" stroke="#10b981" strokeWidth="1.75" />
+                  <text x="175" y="28" fill="#10b981" fontSize="9" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)" letterSpacing="0.06em">
+                    LEVEL A · ZERO COORDINATION TAX
+                  </text>
+                  <text x="175" y="52" fill="#f8fafc" fontSize="13.5" fontWeight="800" textAnchor="middle" fontFamily="var(--display, sans-serif)">
+                    SINGLE CAPABLE AGENT (SONNET 5)
+                  </text>
+                  <text x="175" y="74" fill="#34d399" fontSize="10.5" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Prefix: 22,000 tokens · Steady 0.10× warm cache
+                  </text>
+                  <text x="175" y="96" fill="#cbd5e1" fontSize="9.5" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Full causal state retained in one unified context
+                  </text>
+                  <text x="175" y="114" fill="#94a3b8" fontSize="9" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Zero serialization loss · No subagent chatter
+                  </text>
+                  <text x="175" y="134" fill="#34d399" fontSize="9.2" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Continuous turn cadence keeps prefix warm
+                  </text>
+                </g>
+
+                {/* Vertical Bidirectional Feedback Loop */}
+                <path d="M 140 303 L 140 355" stroke="#10b981" strokeWidth="2" strokeDasharray="4 4" className="omh-stream-flow" />
+                <path d="M 280 355 L 280 303" stroke="#34d399" strokeWidth="2" strokeDasharray="4 4" className="omh-stream-reverse" />
+
+                {/* Deterministic Verifier Gate (Bottom) */}
+                <g transform="translate(35, 355)">
+                  <rect width="350" height="150" rx="10" fill="#0e1424" stroke="#10b981" strokeWidth="1.5" />
+                  <text x="175" y="26" fill="#10b981" fontSize="9" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)" letterSpacing="0.05em">
+                    DETERMINISTIC VERIFICATION GATE
+                  </text>
+                  <text x="175" y="48" fill="#f8fafc" fontSize="12" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    vitest run auth.test.ts (18ms)
+                  </text>
+
+                  {/* Terminal Box Inside */}
+                  <rect x="25" y="60" width="300" height="46" rx="4" fill="#080c14" stroke="#1e293b" />
+                  <text x="40" y="80" fill="#34d399" fontSize="9.5" fontWeight="700" fontFamily="var(--mono, monospace)">
+                    ✓ 14/14 tests passing (18ms)
+                  </text>
+                  <text x="40" y="96" fill="#cbd5e1" fontSize="9" fontFamily="var(--mono, monospace)">
+                    ✓ 0 typecheck errors · tsc clean
+                  </text>
+
+                  <text x="175" y="130" fill="#34d399" fontSize="10" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Total Spend: ~$0.15 · 1-Shot Pass · Clean Exit
+                  </text>
+                </g>
+
+                {/* Bottom Verdict Bar */}
+                <g transform="translate(20, 520)">
+                  <rect width="380" height="28" rx="5" fill="#081812" stroke="#10b981" strokeWidth="1" />
+                  <text x="190" y="17.5" fill="#a7f3d0" fontSize="9.5" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    ✓ 1 AGENT LOOP · 0% CHATTER TAX · 1-SHOT VERIFIED (~$0.15)
+                  </text>
+                </g>
+              </g>
+            )}
+
+            {/* ============================================================
+                MOBILE MODE 3: LEVEL B (SMART POINTERS - TALL 4x3)
+               ============================================================ */}
+            {activeScenario.id === "level-b" && (
+              <g>
+                <circle cx="210" cy="125" r="95" fill={`url(#${regionId}-mob-cyan-glow)`} />
+
+                {/* Slim Root Coordinator (Top) */}
+                <g transform="translate(35, 68)">
+                  <rect width="350" height="115" rx="10" fill="#0e1424" stroke="#38bdf8" strokeWidth="1.75" />
+                  <text x="175" y="26" fill="#38bdf8" fontSize="9" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)" letterSpacing="0.06em">
+                    ROOT COORDINATOR · PINNED 18k TOKENS
+                  </text>
+                  <text x="175" y="48" fill="#f8fafc" fontSize="12.5" fontWeight="800" textAnchor="middle" fontFamily="var(--display, sans-serif)">
+                    1-HOUR WARM CACHE LEASE (0.10× READ)
+                  </text>
+                  <text x="175" y="68" fill="#cbd5e1" fontSize="9.5" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Dispatches isolated git worktree envelopes
+                  </text>
+                  <text x="175" y="86" fill="#38bdf8" fontSize="9.5" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Accepts ONLY &lt;200B JSON disk receipts
+                  </text>
+
+                  <rect x="25" y="94" width="300" height="14" rx="3" fill="rgba(56, 189, 248, 0.12)" stroke="#38bdf8" strokeWidth="0.8" />
+                  <text x="175" y="104.5" fill="#7dd3fc" fontSize="8" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    Pinned 18k prefix stays 100% warm
+                  </text>
+                </g>
+
+                {/* 3 Flow Streams down to Worktrees */}
+                <path d="M 115 183 C 95 220, 65 250, 77 302" fill="none" stroke="#38bdf8" strokeWidth="1.75" strokeDasharray="4 4" className="omh-stream-reverse" />
+                <path d="M 210 183 L 210 302" fill="none" stroke="#38bdf8" strokeWidth="1.75" strokeDasharray="4 4" className="omh-stream-reverse" />
+                <path d="M 305 183 C 325 220, 355 250, 343 302" fill="none" stroke="#38bdf8" strokeWidth="1.75" strokeDasharray="4 4" className="omh-stream-reverse" />
+
+                {/* Glowing Envelope Receipts Gliding Back */}
+                <g transform="translate(18, 206)">
+                  <rect width="118" height="22" rx="4" fill="#081826" stroke="#38bdf8" strokeWidth="1" />
+                  <text x="59" y="14" fill="#7dd3fc" fontSize="8.2" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    &#123;&quot;status&quot;:&quot;PASS&quot;&#125;
+                  </text>
+                </g>
+                <g transform="translate(151, 230)">
+                  <rect width="118" height="22" rx="4" fill="#081826" stroke="#38bdf8" strokeWidth="1" />
+                  <text x="59" y="14" fill="#7dd3fc" fontSize="8.2" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    &#123;&quot;status&quot;:&quot;PASS&quot;&#125;
+                  </text>
+                </g>
+                <g transform="translate(284, 206)">
+                  <rect width="118" height="22" rx="4" fill="#081826" stroke="#38bdf8" strokeWidth="1" />
+                  <text x="59" y="14" fill="#7dd3fc" fontSize="8.2" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    &#123;&quot;status&quot;:&quot;PASS&quot;&#125;
+                  </text>
+                </g>
+
+                {/* Disk Pointers Banner in Middle */}
+                <g transform="translate(35, 266)">
+                  <rect width="350" height="24" rx="4" fill="#0c1828" stroke="#38bdf8" strokeWidth="1" />
+                  <text x="175" y="15.5" fill="#7dd3fc" fontSize="9" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    DISK RECEIPTS: /tmp/results/lane-N.json (&lt;200B)
+                  </text>
+                </g>
+
+                {/* 3 Parallel Isolated Worktrees (Side by Side) */}
+                <g transform="translate(16, 302)">
+                  <rect width="122" height="206" rx="8" fill="#0e1424" stroke="#38bdf8" strokeWidth="1.2" />
+                  <text x="61" y="24" fill="#38bdf8" fontSize="9" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    LANE 1 (LUNA)
+                  </text>
+                  <text x="61" y="44" fill="#cbd5e1" fontSize="9" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    .worktrees/auth
+                  </text>
+                  <rect x="12" y="60" width="98" height="42" rx="4" fill="#080c14" stroke="#1e293b" />
+                  <text x="61" y="78" fill="#34d399" fontSize="8" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    vitest 14/14 ✓
+                  </text>
+                  <text x="61" y="93" fill="#94a3b8" fontSize="7.5" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    18ms isolated
+                  </text>
+                  <text x="61" y="130" fill="#94a3b8" fontSize="8" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    writes diff to
+                  </text>
+                  <text x="61" y="146" fill="#7dd3fc" fontSize="7.8" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    /tmp/lane-1.json
+                  </text>
+                  <rect x="16" y="165" width="90" height="26" rx="4" fill="#081826" stroke="#38bdf8" strokeWidth="1" />
+                  <text x="61" y="181" fill="#bae6fd" fontSize="8.2" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    RECEIPT: 142B
+                  </text>
+                </g>
+
+                <g transform="translate(149, 302)">
+                  <rect width="122" height="206" rx="8" fill="#0e1424" stroke="#38bdf8" strokeWidth="1.2" />
+                  <text x="61" y="24" fill="#38bdf8" fontSize="9" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    LANE 2 (LUNA)
+                  </text>
+                  <text x="61" y="44" fill="#cbd5e1" fontSize="9" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    .worktrees/api
+                  </text>
+                  <rect x="12" y="60" width="98" height="42" rx="4" fill="#080c14" stroke="#1e293b" />
+                  <text x="61" y="78" fill="#34d399" fontSize="8" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    vitest 28/28 ✓
+                  </text>
+                  <text x="61" y="93" fill="#94a3b8" fontSize="7.5" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    24ms isolated
+                  </text>
+                  <text x="61" y="130" fill="#94a3b8" fontSize="8" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    writes diff to
+                  </text>
+                  <text x="61" y="146" fill="#7dd3fc" fontSize="7.8" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    /tmp/lane-2.json
+                  </text>
+                  <rect x="16" y="165" width="90" height="26" rx="4" fill="#081826" stroke="#38bdf8" strokeWidth="1" />
+                  <text x="61" y="181" fill="#bae6fd" fontSize="8.2" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    RECEIPT: 138B
+                  </text>
+                </g>
+
+                <g transform="translate(282, 302)">
+                  <rect width="122" height="206" rx="8" fill="#0e1424" stroke="#38bdf8" strokeWidth="1.2" />
+                  <text x="61" y="24" fill="#38bdf8" fontSize="9" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    LANE 3 (LUNA)
+                  </text>
+                  <text x="61" y="44" fill="#cbd5e1" fontSize="9" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    .worktrees/docs
+                  </text>
+                  <rect x="12" y="60" width="98" height="42" rx="4" fill="#080c14" stroke="#1e293b" />
+                  <text x="61" y="78" fill="#34d399" fontSize="8" fontWeight="700" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    vitest 9/9 ✓
+                  </text>
+                  <text x="61" y="93" fill="#94a3b8" fontSize="7.5" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    12ms isolated
+                  </text>
+                  <text x="61" y="130" fill="#94a3b8" fontSize="8" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    writes diff to
+                  </text>
+                  <text x="61" y="146" fill="#7dd3fc" fontSize="7.8" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    /tmp/lane-3.json
+                  </text>
+                  <rect x="16" y="165" width="90" height="26" rx="4" fill="#081826" stroke="#38bdf8" strokeWidth="1" />
+                  <text x="61" y="181" fill="#bae6fd" fontSize="8.2" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    RECEIPT: 145B
+                  </text>
+                </g>
+
+                {/* Bottom Verdict Bar */}
+                <g transform="translate(20, 520)">
+                  <rect width="380" height="28" rx="5" fill="#081926" stroke="#38bdf8" strokeWidth="1" />
+                  <text x="190" y="17.5" fill="#bae6fd" fontSize="9" fontWeight="800" textAnchor="middle" fontFamily="var(--mono, monospace)">
+                    ✓ ISOLATED WORKTREES · &lt;200B RECEIPTS · ~$0.10 SPEND
                   </text>
                 </g>
               </g>

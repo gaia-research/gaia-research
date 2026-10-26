@@ -309,24 +309,14 @@ export default function OrchestrationGuidePage() {
             What is the least expensive coordination architecture that reliably completes the work?
           </p>
           <div className="report-links">
+            <Link href="#copy-harness-prompts">Copy agent prompt ↓</Link>
             <Link href="#interactive-motion-hook">Visual simulator ↓</Link>
             <Link href="#executive-field-guide">60-second summary ↓</Link>
-            <Link href="#copy-harness-prompts">Copy agent prompt ↓</Link>
             <Link href="#full-technical-spec">Full technical report ↓</Link>
           </div>
         </header>
 
-        {/* 1. FRONTLOADED CLAUDE-MOTION-INSPIRED INTERACTIVE SIMULATOR */}
-        <section id="interactive-motion-hook" className="guide-motion-section" aria-label="Interactive architecture motion simulation">
-          <OrchestrationMotionHook />
-        </section>
-
-        {/* 2. FRONTLOADED 60-SECOND FIELD GUIDE & LADDER STEPPER */}
-        <section id="executive-field-guide" className="guide-field-section" aria-label="Executive field guide and decision ladder">
-          <OrchestrationFieldCards />
-        </section>
-
-        {/* 3. CONSENT-FIRST PROMPT COPY BAR */}
+        {/* 1. COPY AGENT PROMPT AT THE START */}
         <section id="copy-harness-prompts" className="guide-launchpad" aria-label="Starting prompt and source copy">
           <CopyPage
             markdown={guideMd}
@@ -334,6 +324,16 @@ export default function OrchestrationGuidePage() {
             piPrompt={DEFAULT_PI_PROMPT}
             hint="Want your agent to evaluate this repository? Preview and copy a consent-first Claude Code or Pi assessment prompt—or copy the full Markdown source. Reading or copying never authorizes repo edits without your approval."
           />
+        </section>
+
+        {/* 2. FRONTLOADED CLAUDE-MOTION-INSPIRED INTERACTIVE SIMULATOR */}
+        <section id="interactive-motion-hook" className="guide-motion-section" aria-label="Interactive architecture motion simulation">
+          <OrchestrationMotionHook />
+        </section>
+
+        {/* 3. FRONTLOADED 60-SECOND FIELD GUIDE & LADDER STEPPER */}
+        <section id="executive-field-guide" className="guide-field-section" aria-label="Executive field guide and decision ladder">
+          <OrchestrationFieldCards />
         </section>
 
         {/* 4. FULL TECHNICAL SPEC & HARNESS INTEGRATION (FOR AGENTS & ADVANCED READERS) */}
