@@ -183,6 +183,12 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 
 The following ideas are preserved for possible future reconsideration, **not** active work or roadmap commitments.
 
+### Portable Autonomous Operations Toolkit
+- **Status:** Not now / Parked (Idea only)
+- **Why parked:** Decoupled architectural concept exploring portable, provider-agnostic operating machinery for durable agents across arbitrary repositories. Preserves Gaia-specific governance as implementation policy without requiring a new repository, runtime dependency, or platform commitment.
+- **Doc:** [`portable-autonomous-operations.md`](./portable-autonomous-operations.md) · Tracking issue: [#312](https://github.com/gaia-research/gaia-research/issues/312)
+- **Relationship:** Generalized counterpart to internal Gaia AO ([#311](https://github.com/gaia-research/gaia-research/issues/311)); provides provider-agnostic, zero-model observation, lease, and verification machinery.
+
 ### Scion-inspired source control for Gaia agent workspaces
 - **Status:** Not now / Parked
 - **Why parked:** No demonstrated Git bottleneck justifies replacing Gaia's GitHub-native PR, CI, and approval workflows. A central service adds migration, security, recovery, and ongoing infrastructure costs.
