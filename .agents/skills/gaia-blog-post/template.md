@@ -382,15 +382,16 @@ Primary request: [Vast calm setting in detail]. A microscopic, tiny 8-year-old
 chibi girl (Milim Nova) placed [position], [quiet action]. Scale directive:
 Milim is about 5% of total image height; the setting occupies about 90% of the
 frame with huge calm negative space.
-Character details: very long, unbound bright pink hair (NO TWINTAILS), blue
-eyes, two yellow star hairpins in her bangs, black oversized hoodie with a cute
-white baby dragon print, thigh-high socks with pink stripes, chunky high-top
-sneakers.
+Character details: very long, perfectly straight, completely loose bright pink hair
+flowing down her back in a single unbroken drape, completely untied and flat
+against her back, neat straight bangs with two small yellow star clips, blue
+eyes, black oversized hoodie with cute white baby dragon print, thigh-high socks
+with pink stripes, chunky sneakers. Clean rounded crown, zero ahoge or hair loops.
 Style: flat editorial screenprint illustration; [palette] with a single
 Milim-pink accent #ec4899; broad flat shapes, subtle paper texture.
-Constraints: no world-trees, roots, branches, canopies, or forests; no readable
-text, letters, numbers, labels, logos, watermarks, UI, code, charts, graphs, or
-diagrams; not hyper-detailed rendering.
+Constraints: no twintails, no pigtails, no ahoge; no world-trees, roots,
+branches, canopies, or forests; no readable text, letters, numbers, labels, logos,
+watermarks, UI, code, charts, graphs, or diagrams; not hyper-detailed rendering.
 ```
 
 ## Pipeline
