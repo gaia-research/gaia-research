@@ -23,7 +23,7 @@
    terms in their own namespace; they may never redefine a core term. The
    planned extension is `marketing-tasks/founder/lexicon.brand.json` (persona,
    brand and enterprise vocabulary — private per rule 4, and per N7 the Heaven
-   persona name is reserved and must not be hard-coded anywhere). Consumers
+   persona's names, `Lucia` and `Lucy`, are canonical in `gaia.brand`). Consumers
    pin the schema version (`"lexicon": "1"`), not a commit — the same shape as
    the ledger validator, which by D6 never moves either.
 1c. **Only the oracle retires a word.** A term is `banned` in the lexicon when

@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-research` · 80 terms across 6 namespace(s) · updated **2026-10-09**.
+> Schema `2` · HQ `gaia-research` · 81 terms across 6 namespace(s) · updated **2026-10-09**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
@@ -15,7 +15,7 @@
 |---|---|---|---|
 | `core` | `gaia-research` | `founder/lexicon.json` | 2 |
 | `gaia.research` | `gaia-research` | `founder/lexicon.gaia.research.json` | 13 |
-| `gaia.brand` | `gaia-research` | `founder/lexicon.gaia.brand.json` | 2 |
+| `gaia.brand` | `gaia-research` | `founder/lexicon.gaia.brand.json` | 3 |
 | `gaia.heaven` | `gaia-research` | `founder/lexicon.gaia.heaven.json` | 37 |
 | `gaia.zero` | `gaia-research` | `founder/lexicon.gaia.zero.json` | 22 |
 | `gaia.mcp` | `gaia-research` | `founder/lexicon.gaia.mcp.json` | 4 |
@@ -89,7 +89,8 @@ to make a decision.
 | Term | State | Oracle | Definition |
 |---|---|---|---|
 | `Milim` | ✅ canonical | N7 | Gaia Research's lab mascot. Not the Skill Heaven / Skill Hell persona. |
-| `Lucy` | 🅿️ parked | N7 | Internal working name for the Skill Heaven / Skill Hell persona. Its design is final, but the public name is reserved and undecided; do not hard-code Lucy in user-facing copy or shipped code. |
+| `Lucia` | ✅ canonical | N7 | Official first name of the Skill Heaven / Skill Hell persona. Approved for public use; no surname is ratified. Not Milim. |
+| `Lucy` | ✅ canonical | N7 | Public nickname of Lucia, the Skill Heaven / Skill Hell persona, and the familiar everyday name she is known by. Approved for public use. Not Milim. |
 
 ## `gaia.heaven`
 
@@ -199,3 +200,4 @@ to make a decision.
 | `gaia_inspect` | ✅ canonical | D4 | Inspection tool in the published rich Registry/Bond package (@gaia-research/mcp). It is not a tool in D4's distinct thin Heaven/Summon profile, but that profile constraint does not deprecate this published name. Keep this spelling when documenting or integrating the published package; do not substitute the future profile's proposed `search_skills` name. |
 | `gaia_status` | ✅ canonical | D4 | Status tool in the published rich Registry/Bond package (@gaia-research/mcp). It is not a tool in D4's distinct thin Heaven/Summon profile, but that profile constraint does not deprecate this published name. Keep this spelling when documenting or integrating the published package; do not infer a two-tool limit for the package total from D4. |
 | `search_skills` | 🅿️ parked | D4 | Proposed search tool name for D4's distinct thin Heaven/Summon profile, paired with `summon`. The profile is future work; this name does not describe or rename the published rich package's `gaia_search` tool. Parked because the thin profile has not shipped. D4's <=2-tool/schema-dose constraint remains a separate profile decision, not a ban on the published package's four names. |
+
