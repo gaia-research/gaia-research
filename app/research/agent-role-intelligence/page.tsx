@@ -196,7 +196,7 @@ function CapabilityFloorFigure() {
           the task, it escalates, so the
         </text>
         <text x="46" y="290" fill="#94a3b8" fontSize="13" fontFamily="var(--font-mono)">
-          expensive tier is billed anyway
+          expensive tier is invoked anyway
         </text>
 
         <path d="M420 216 L420 336" fill="none" stroke="#22c55e" strokeWidth="2" />
@@ -231,13 +231,13 @@ function StudyComparisonFigure() {
         aria-labelledby="sc-title sc-desc"
         style={{ width: "100%", height: "auto", display: "block" }}
       >
-        <title id="sc-title">Pass rate and API calls per task, five configurations</title>
+        <title id="sc-title">Pass rate across five configurations, with reported API calls per task</title>
         <desc id="sc-desc">
           Horizontal bar chart over 164 HumanEval tasks. Always routing to the largest model
           passes 81.7 percent using 3.00 API calls per task. One model in every role passes 72.6
           percent. Tiered routing with the weakest tier removed passes 72.0 percent. A single
           agent passes 67.7 percent. Tiered routing with the cheapest model first passes 62.2
-          percent and uses 4.85 API calls per task, the most of any arm.
+          percent and uses 4.85 API calls per task, higher than the 3.00 reported for the largest-model arm (API calls not reported for A, B, and C2).
         </desc>
 
         <rect width="600" height="450" rx="16" fill="#05060a" stroke="#1e293b" strokeWidth="1.5" />

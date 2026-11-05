@@ -4,9 +4,9 @@
 
 ---
 
-> The cheap model did the job. Then it did it again. Then it did it a third time, and by the time the work was accepted, the three cheap attempts had cost more than the one expensive attempt that would have finished it the first time.
+> Attempting to save compute by routing easier tasks to a small model produced lower pass rates, more API calls, and longer latency than routing everything to the largest model.
 >
-> We spent a month looking for a way to avoid that sentence. What we found instead was a law about *where* a cheap model is allowed to run, and the law is stricter than the one we went looking for.
+> That was the finding of the only controlled multi-model routing experiment in our corpus. What explains it is not that smaller models are useless, but a recurring mechanism about *where* a cheap model is allowed to run: below an eligibility floor, work does not finish; it escalates.
 
 ---
 
@@ -44,7 +44,7 @@ Now the part that should have stopped us, if we had been paying attention, and t
 
 **One weak tier was causing most of the damage.** And the tier distribution table shows that not a single task in configuration C ever completed on that tier. Every task it touched escalated.
 
-So the finding is not "small models are bad". The finding is that **a cheap route below a competence threshold does not accept the work; it escalates the work.** And an escalation is billed at the escalated tier, on a task that is now harder than it was when it started.
+So the finding is not "small models are bad". The finding is that **a cheap route below a competence threshold often fails to complete the work, triggering an escalation.** And an escalation incurs additional calls and wall-clock latency at the higher tier, on a task that may now carry errors from prior attempts.
 
 ## The bill for three attempts
 
@@ -60,7 +60,7 @@ A task that needs one retry is far less likely to succeed. A task that needs two
 
 There is a second number in the same study that gets quoted as if it proved something it does not prove. In configuration C, tasks that reached the 32B developer model passed at 42.1%, against 81.7% for the same model used from the start in C1. The tempting conclusion is that the failed attempt's context poisons the retry, so retries should run in a fresh session. We published that framing in our first pass, and it is stronger than the evidence supports. The source says accumulated errors from failed attempts *may have* polluted the context, and the same document also reports that harder tasks escalate more often. The table cannot separate those two explanations.
 
-So the honest statement is: **the same model, arriving after a failure, did much worse, and we do not know whether that is contamination or difficulty.** It is worth a test either way, because a fresh context is free, but it is not a measured effect and we will not pretend otherwise.
+So the honest statement is: **the same model, arriving after a failure, did much worse, and we do not know whether that is contamination or difficulty.** It is worth testing a fresh session either way—it is inexpensive to run, though it may trade retained context for extra tokens—but it is an association, not a measured causal effect, and we will not pretend otherwise.
 
 There is a third number here, and it is the one that killed a trick we liked. Prompt repetition, a published technique for making models attend to complex instructions, gained **+0.6** points on the single-agent baseline and lost **6.1** and **7.9** points in the two multi-agent pipelines. The explanation the authors offer is that the loop context is already dense, so a duplicated prompt dilutes the reviewer's most recent feedback. A prompting trick that works in one turn does not transfer into a loop, and "the paper said it works" is not a routing input.
 
@@ -72,7 +72,7 @@ Less than people would like, and something more useful than nothing: **a mechani
 
 The mechanism is the floor. Configuration C2 says a route has to clear a competence bar before its price means anything. A router that ranks by price first and checks competence later will keep selecting a route that cannot finish, pay for the escalation, and hand back a degraded task.
 
-The warning is about which study transfers. Qwen2.5-Coder-1.5B is not Luna, Haiku, or Flash. The 62.2% and 81.7% numbers describe 1.5B to 32B open-weight models on function synthesis. **What transfers is the shape of the failure, not the percentages.** And the shape of the failure is role-shaped, which is why the framework that survived our review is not "cheap for cheap things" but "eligible for a role, then ranked by cost".
+The warning is about which study transfers. Qwen2.5-Coder-1.5B is not Luna, Haiku, or Flash. The 62.2% and 81.7% numbers describe 1.5B to 32B open-weight models on function synthesis. **What transfers as a working hypothesis is the shape of the failure, not the percentages.** And the shape of the failure is role-shaped, which is why the framework that survived our review is not "cheap for cheap things" but "eligible for a role, then ranked by cost".
 
 The framework is two steps, and the order is the whole point:
 
@@ -97,7 +97,7 @@ Here is the bad version, and it is not a caricature. It is the tier file in our 
 }
 ```
 
-"Escalate to the big tier" resolves to the same model and the same effort as the medium tier. The ladder has no rungs above the second one. And `gemini-3.8-flash` is priced at $0.75 / $3.75 per million on the `google` route and $2.00 / $10.00 on `antigravity`, so the same model name costs **2.7× more** on the route we actually use.
+"Escalate to the big tier" resolves to the same model and the same effort as the medium tier. The ladder has no rungs above the second one. And `gemini-3.8-flash` is priced at $0.75 / $3.75 per million on the `google` route and $2.00 / $10.00 on `antigravity`. That catalog difference represents a **2.7× relative list-price signal**, not an invoice comparison on a subscription-backed fleet, but it shows how provider routes drift from model identities.
 
 Here is the good version, and it is real. It is the reviewer policy from [Hikari9/auto-office](https://github.com/Hikari9/auto-office), shipped at commit `9fab6f1`:
 
@@ -122,7 +122,7 @@ We also found a defect in our own fleet that is worth one sentence here, because
 
 If the cheap models mostly fail at building, the reviewer is the interesting role, because the evidence points the other way there. The strongest published result we found is [arXiv:2610.13668](https://arxiv.org/abs/2610.13668), "(When) Should a Software Factory be Lights-off?", submitted on 9 October 2026. It mines bugs from repository history, pairs each with the pull request that introduced it, and asks review agents to find them. **1,000 review tasks across 98 open-source repositories**, plus 800 from proprietary repositories at one company, with human-verified bugs as ground truth.
 
-The best agent, `claude-opus-5` with `copilot-cli`, catches **71.9%** of the human-verified bugs in its top five comments, up from **47.7%** for `opus-4.6` five months earlier. That is a 24.2 point swing from model evolution, and it is the strongest argument for paying for the top tier.
+The best agent, `claude-opus-5` with `copilot-cli`, catches **71.9%** of the human-verified bugs in its top five comments, up from **47.7%** for `opus-4.6` five months earlier. That is a 24.2 point swing in reported recall across five months of model evolution.
 
 The same paper also says something more useful: *"scaling compute helps most through prompt changes: exploration-nudging prompts gain up to 5.8% performance at 10% higher cost."* Ten percent more compute, bought with a better prompt, instead of five months of model evolution.
 
@@ -136,7 +136,7 @@ And all of it establishes the same thing: **eligibility.** Read the Auto Office 
 
 What would settle it is a benchmark that has not been run. And that is where the second study earns its place. [arXiv:2607.03316](https://arxiv.org/abs/2607.03316) pairs **31,073 agent review comments** with developer feedback across **10,191 pull requests in 239 repositories**. Accepted: **36.4%**. Triggered discussion: **7.3%**. Rejected: **56.3%**.
 
-More than half of the comments a production reviewer generates do not survive contact with a maintainer. The rejections came mostly from invalid suggestions that were false positives, redundant, or out of scope, plus misalignment with developer intent and coding practices. That is not a precision measurement, because it grades developer reaction rather than ground truth. It is something arguably more useful for routing: a published failure mode for recall-only optimisation. A reviewer with no precision floor spends a maintainer's attention on work they are going to throw away.
+More than half of the comments a production reviewer generates do not survive contact with a maintainer. The rejections came mostly from invalid suggestions that were false positives, redundant, or out of scope, plus misalignment with developer intent and coding practices. That is not a ground-truth precision measurement, because it grades developer reaction rather than verified correctness. It is something arguably more useful for routing: a published reminder that a high rejection burden is a real maintainer-cost risk. A routing policy needs to evaluate accepted findings or an equivalent precision proxy before optimizing recall alone.
 
 So the two halves of the reviewer story pull in opposite directions. Recall is where the premium tier's advantage is biggest. Precision is where we have the least measurement and the most evidence of harm. The corpus cannot tell you which trade your role should make, and pretending otherwise is how people ship a reviewer that generates work.
 
@@ -148,23 +148,36 @@ Our founder operates these models every day, and he has observed that **Luna can
 
 It is also the kind of thing that usually gets thrown away, and throwing it away is a mistake.
 
-A generic benchmark score is a prior. An operator who has watched a route fail the same way six times holds a different kind of knowledge: it is local, it is specific, and it is about the *task*, not the brand. When a cost optimiser proposes that route, the operator is not being superstitious. They are looking at a measured failure rate in their own workload that the leaderboard does not have.
+A generic benchmark score is a prior. An operator who repeatedly observes a route fail on a specific workload holds a different kind of knowledge: it is local, specific, and grounded in the actual workflow rather than an abstracted benchmark. When a cost optimiser proposes that route, the operator is not being superstitious; they are consulting operational experience that public leaderboards cannot capture.
 
-The way to keep that knowledge is to make it a first-class object with provenance. A routing record that says "this route is not eligible for long-horizon orchestration, source: operator observation, six failures, task class: multi-file coordination with lossy handoffs, review on: 2026-11-22" is a legitimate, checkable, revisable piece of routing knowledge. It is not a rule, and it is not a law. But it should not evaporate because a cost model disagreed with it, and it should not be laundered into a "measured" outcome either. Those are different claims and they need different fields.
+The way to preserve that knowledge is to treat it as a structured prior with clear provenance rather than folklore. For example, a provisional routing constraint could record:
+
+```yaml
+# Illustrative schema for capturing practitioner priors
+restriction:
+  route: "<provider>/<model>:<effort>"
+  role: orchestration
+  status: ineligible_provisional
+  source: operator_observation
+  observed_failure: "lossy multi-file state coordination"
+  review_after: "2026-11-30"
+```
+
+This is checkable, transparent, and revisable. It should not evaporate simply because an external cost model disagrees, nor should it be laundered into a "controlled benchmark" outcome. Those are distinct claims and require separate evidentiary warrants.
 
 We are also honest about what the prior does not yet contain. It does not define the task class. It does not describe the steering that makes the premium model succeed. It has no ground truth to locate the boundary. Until it does, it is a restriction we are choosing to honour, not a finding we are publishing, and we have written it down in those terms.
 
-The one thing we will not do is pretend the two findings are in conflict. If the founder is right, the reason a cheap orchestration route fails may be exactly the floor: below it, work escalates, and escalation degrades the task. The prior may be the local, qualitative version of the same law, observed on the models we actually run.
+The one thing we will not do is pretend the two findings are in conflict. If the founder is right, the reason an underpowered orchestration route struggles may be consistent with the capability-floor hypothesis: below the competence threshold, tasks escalate and compounding errors degrade the outcome. The prior may be a local, qualitative reflection of that same mechanism.
 
 ## The levers that are cheaper than a model upgrade
 
 Before you go shopping for a bigger model, four cheaper levers are sitting in the corpus.
 
-**Prompt the review, do not just upgrade it.** Exploration-nudging prompts bought up to 5.8% of review performance for 10% more cost, in the same benchmark where five months of model evolution bought 24.2 points. We could not compute a return-per-dollar ratio from that, because the paper reports a cost for the prompt ablation and none for the older model baseline, and we would rather leave the number out than invent it. The qualitative claim stands on its own: the prompt is the cheapest lever in the room.
+**Prompt the review, do not just upgrade it.** Exploration-nudging prompts bought up to 5.8% of review performance for 10% more cost, in the same benchmark where five months of model evolution bought 24.2 points of recall. We could not compute a return-per-dollar ratio across tiers because the paper reports a cost for the prompt ablation and none for the older model baseline. But within that benchmark, prompt tuning delivered a measured gain at modest incremental compute.
 
-**Make retries fresh.** Same model, same task, same effort, new session. The evidence that context pollution is the cause is suggestive and not conclusive, and the fix costs nothing but some tokens. That is a good ratio for an experiment you have not run yet.
+**Make retries fresh.** Same model, same task, same effort, new session. The evidence that context pollution is the cause is suggestive rather than conclusive. A fresh session may trade retained context for additional tokens, and its net efficacy should be measured systematically in E-5.
 
-**Use deterministic checks before you use a model.** A precheck either passes, in which case no reviewer effort is spent, or fails, in which case the reviewer has a real finding to work on. This is the one hypothesis in the whole set that respects the rework arithmetic, and it is the cheapest of the five experiments we have designed.
+**Use deterministic checks before you use a model.** A precheck either passes, in which case no reviewer effort is spent, or fails, in which case the reviewer has a real finding to work on. This is a testable hypothesis that respects the rework arithmetic, proposed in experiment E-2 to determine whether deterministic validation filters can reduce downstream agent churn.
 
 **Make the reviewer output parseable.** Auto Office's contract is three tokens and a structured finding line: `APPROVED`, `RECHECK`, or `INTAKE_GAP`, where the third means the evidence cannot settle the question and a human should be asked once, now, instead of the agent guessing. A cheap reviewer needs a cheap-to-parse output. A review that a human has to interpret is a review a human will not do.
 
@@ -174,15 +187,15 @@ Here is the whole thing, reduced to what you can act on.
 
 **Rank by cost per accepted result, not by cost per call.** Execution plus retries plus reviews plus integration plus remediation, divided by tasks that were actually accepted. If you cannot compute the denominator, you do not have this metric, and the honest number is tokens and quota, not dollars. We have fleet runs reporting a cost of zero that are really subscription-billed; calling those free is how a cost report lies to you.
 
-**Gate on competence before you rank on price.** One cheap tier being present in a router is not a saving. It is a future escalation, billed at the expensive tier, on a task that is already degraded.
+**Gate on competence before you rank on price.** Adding an underpowered tier to a router does not guarantee savings. When it falls below the competence bar, it triggers an escalation to higher-tier calls and latency on an already degraded task.
 
-**Separate the roles before you separate the models.** Builder, reviewer, orchestrator, scout, verifier. Our evidence supports role-dependent *floors* much more strongly than role-dependent *model families*. Every controlled comparison we found that varied the model family across roles made things worse.
+**Separate the roles before you separate the models.** Builder, reviewer, orchestrator, scout, verifier. Our evidence supports role-dependent *floors* much more strongly than role-dependent *model families*. In the one controlled study in this corpus, the tiered multi-model policy performed worse under this task and harness.
 
-**Treat a reviewer's precision as a first-class requirement.** A majority of production review comments get rejected. A reviewer with no precision floor is a noise generator with good recall.
+**Treat a reviewer's precision as a first-class requirement.** A majority of production review comments get rejected. High rejection rates impose real developer friction, so optimizing recall without an accepted-finding floor risks generating net drag.
 
 **Keep the operator's judgement, labelled.** A named task class, a named source, a failure signature, a review date. It loses to comparable evidence when comparable evidence arrives, and it does not lose to a spreadsheet.
 
-**One thing to do differently tomorrow:** write down the floor for one of your roles, in one line, with the failure that motivated it. You almost certainly have a route you keep routing around because you know it cannot finish the job. That knowledge is worth more than any benchmark score, and right now it lives in your head instead of in your router.
+**One thing to do differently tomorrow:** write down the floor for one of your roles, in one line, with the failure that motivated it. You almost certainly have a route you keep routing around because you know it cannot finish the job. That operational knowledge can be more decision-relevant than a generic benchmark score when recorded with provenance, and right now it lives in your head instead of in your router.
 
 ---
 

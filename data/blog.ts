@@ -150,7 +150,7 @@ export const arborEvidenceLoopEditorialThumbnail = {
 
 export const cheapestAgentNotCheapestOutcomeThumbnail = {
   src: cheapestAgentNotCheapestOutcomeThumbnailSrc,
-  alt: "A vast sunlit bakery conservatory with soaring glass arches, towering golden bread racks and warm ovens, where a tiny pink-haired Milim in a cream baker's apron over her black dragon hoodie arranges a small tray of pastries at a wooden workbench.",
+  alt: "A tiny chibi Milim, about five percent of the frame height, with completely loose bright-pink hair and yellow star clips, waves beside a grocery cart in a vast sunlit glass elevator atrium, rendered as a flat editorial screenprint.",
 } as const;
 
 // Keep this list deliberately small and editorial. Home consumes the first

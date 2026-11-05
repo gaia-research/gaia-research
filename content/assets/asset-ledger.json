@@ -1696,10 +1696,10 @@
       "status": "approved",
       "sourceType": "generated",
       "license": "internal-review-required",
-      "credit": "Generated via gemini-3.1-flash-image (nano-banana-2) · Milim editorial thumbnail",
-      "alt": "A vast sunlit bakery conservatory with soaring glass arches, towering golden bread racks and warm ovens, where a tiny pink-haired Milim in a cream baker's apron over her black dragon hoodie arranges a small tray of pastries at a wooden workbench.",
-      "sha256": "adaee5eb0301f0a065df243811c71657278d15c68a0446ee77233b86aed87bbe",
-      "bytes": 183934,
+      "credit": "Generated via Codex CLI (gpt-image-2.5) · Milim editorial thumbnail",
+      "alt": "A tiny chibi Milim, about five percent of the frame height, with completely loose bright-pink hair and yellow star clips, waves beside a grocery cart in a vast sunlit glass elevator atrium, rendered as a flat editorial screenprint.",
+      "sha256": "019b2cfcd7ec6888d48e78eb59663dfcc8874e48b135fc0b00ae2e9561cbe735",
+      "bytes": 218752,
       "dimensions": {
         "width": 1600,
         "height": 900

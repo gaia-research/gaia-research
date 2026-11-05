@@ -52,7 +52,7 @@ It is **not** a leaderboard, and it is **not** a claim that any model is best at
 
 We did not begin from a list of popular agent frameworks. We began from the task and worked outward.
 
-**Step 1, seeds.** Seven repositories were nominated in advance, three of them named in the tracking issue: `Hikari9/auto-office`, `IvanNece/Multi-Agent-Architectures-for-LLM-Based-Code-Generation`, `malusamayo/CRBugBench`, `DeepSoftwareAnalytics/swe-factory`, `github/gh-aw`, plus `OmegaMc1331/agentic-software-factory`, `seslak/agent-router`, and `Chipagosfinest/software-factory`.
+**Step 1, seeds.** Eight repositories were nominated in advance, three of them named in the tracking issue: `Hikari9/auto-office`, `IvanNece/Multi-Agent-Architectures-for-LLM-Based-Code-Generation`, `malusamayo/CRBugBench`, `DeepSoftwareAnalytics/swe-factory`, `github/gh-aw`, plus `OmegaMc1331/agentic-software-factory`, `seslak/agent-router`, and `Chipagosfinest/software-factory`.
 
 **Step 2, admission test.** A repository was admitted to the corpus only if it could satisfy at least one of three tests:
 
@@ -87,14 +87,14 @@ Every one of the 39 records carries a class. The classes are about **what kind o
 
 | Class | Warrant | Admission criterion | Records |
 |---|---|---|---|
-| **A** | Strong empirical | Controlled, with a fixed ground truth, a stated denominator, and an outcome that could be wrong | 17 |
+| **A** | Strong empirical or ground-truthed | Controlled experiment, benchmark on verified defects, ground-truthed task set, or reproducible static audit | 17 |
 | **B** | Operational | Real recorded runs, but no controlled comparison or independent grading | 15 |
 | **C** | Implementation | A mechanism that exists and works, with no comparative outcome | 6 |
 | **D** | Claim or hypothesis | An assertion, a citation, or a forecast | 1 |
 
 Three consequences follow, and they constrain everything below:
 
-- **A class-A record can still be irrelevant to a frontier model.** The single controlled study uses open-weight 1.5B to 32B models on HumanEval function synthesis. Its mechanism transfers; its percentages do not.
+- **A class-A record can still be irrelevant to a frontier model.** The single controlled study uses open-weight 1.5B to 32B models on HumanEval function synthesis. Its mechanism transfers; its percentages do not. (Of the 17 Class A records, 10 come from this single controlled HumanEval experiment, 4 from arXiv defect-detection benchmarks with verified ground truth, 1 from the 995-task CRBugBench instrument, and 2 from deterministic static audits of local configuration files.)
 - **A class-B record can still be the best available evidence for a role.** When the question is "does a cheap reviewer work at all in production", two live gate closures beat a benchmark that was never run.
 - **Class D is not worthless, it is unpriced.** It is a hypothesis, and it is labelled as one wherever it appears.
 
@@ -146,9 +146,9 @@ Read the B row carefully. A task that needs one retry is far less likely to succ
 
 This is the transferable finding, and it is a mechanism rather than a number:
 
-> A cheap route below a capability floor converts a cheap attempt into an expensive escalation. The escalation is billed at the expensive tier and it degrades the task, so the "cheap" route pays twice.
+> A cheap route below a capability floor converts a cheap attempt into an expensive escalation. The escalation triggers higher-tier attempts, API calls, and latency on an already degraded task, so the "cheap" route multiplies total effort.
 
-**A second finding in the same source is about the planner.** Architecture B's first-attempt success is **50.6%** against architecture A's single-shot **67.7%**, a drop of **17.1 points**. The same model, given the raw task, does better than the same model given the task plus a planner's structured augmentation. The source's reading is that the planner's output "may introduce noise or dilute the original task specification". Meanwhile the planner's difficulty estimates carry real signal: in configuration C1, tasks estimated at one to two story points passed at 86% to 100%, and tasks estimated at eight passed at 50%. **The planner's estimate is worth keeping. The planner's prose is not worth prepending.**
+**A second finding in the same source is about multi-agent first-attempt pass rates.** Architecture B's first-attempt success was **50.6%** against architecture A's single-shot **67.7%**, a drop of **17.1 points**. Because Architecture B introduces planning, routing, and testing simultaneously, this comparison reflects an architecture-level difference rather than an isolated planner ablation. The authors hypothesize that the planner's prose "may introduce noise or dilute the original task specification", while observing that the planner's difficulty estimates carry real signal: in configuration C1, tasks estimated at one to two story points passed at 86% to 100%, and tasks estimated at eight passed at 50%. We therefore retain the authors' hypothesis as a testable proposition without claiming planner prose was isolated as the sole causal driver.
 
 **A third finding kills a prompting trick inside loops.** Prompt repetition, from Leviathan et al., helped the single-agent baseline by **+0.6** points and *hurt* the multi-agent pipelines by **−6.1** and **−7.9** points. The source's explanation is that the loop context is already rich, so a duplicated user prompt dilutes the reviewer's most recent feedback. A prompting technique that works in a single turn does not transfer into an agent loop.
 
@@ -183,7 +183,7 @@ The study pairs **31,073 agent review comments** with developer feedback on **10
 
 Rejections were "primarily associated with invalid suggestions that were false positives, redundant, or out of scope, as well as misalignment with developer intent and coding practices". Two further results matter for routing. Agentic reviews "tend to focus more on functional concerns than evolvability-related comments, yet they were more likely to be invalid". And lightweight learning-based methods predict review rejection at up to **76% F1**, so the rejection signal is learnable rather than random.
 
-**What this does and does not measure.** It measures how developers responded to one production reviewer. It does **not** measure precision against a ground truth of true defects. We therefore use it for one purpose only: to establish that a majority of generated review comments do not survive contact with a maintainer, and therefore that **a reviewer selected for recall without a precision floor is a noise generator**.
+**What this does and does not measure.** It measures how developers responded to one production reviewer. It does **not** measure precision against a ground truth of true defects. We therefore use it for one purpose only: to establish that a majority of generated review comments do not survive contact with a maintainer, and therefore that **a reviewer selected for recall without an accepted-finding floor creates a documented maintainer-friction and rejection risk**.
 
 ### 4.4 The operating reference: Auto Office
 
@@ -230,13 +230,13 @@ Two of the invalid pins are worth naming, because a pin that cannot work as decl
 - `scout-luna` pins `openai/gpt-6-luna:minimal`. The catalog advertises `off/low/medium/high/xhigh/max` for that model and **not** `minimal`.
 - `scout` pins `antigravity/gemini-3.8-flash:minimal`. The antigravity provider maps `minimal` to null for that model.
 
-The two routes that failed every assignment, `requesty/vertex/gemini-3.7-flash@eu` (9 of 9) and `kilo/openrouter/auto-beta` (5 of 5), are **provider** failures, not model failures. Route health and model intelligence are separate axes, and a fleet that treats a quota-limited cheap route as a reliable one is planning to lose work.
+The two routes that failed every assignment, `requesty/vertex/gemini-3.7-flash@eu` (9 of 9) and `kilo/openrouter/auto-beta` (5 of 5), are route failures consistent with a provider or configuration issue (`AGENT_EMPTY_OUTPUT`), not a demonstrated model-capability failure. Route health and model intelligence are separate axes, and a fleet that treats a quota-limited cheap route as a reliable one is planning to lose work.
 
 ---
 
 ## 5. The role-specific capability-floor framework
 
-The corpus supports a framework, and it is narrower than the mission's opening hypothesis. The evidence supports **role-dependent floors** far more strongly than it supports **role-dependent model families**. Every controlled comparison in the corpus that varied the model family across roles made things worse.
+The corpus supports a framework, and it is narrower than the mission's opening hypothesis. The evidence supports **role-dependent floors** far more strongly than it supports **role-dependent model families**. In the one controlled study in this corpus that varied the model family across roles, the tiered multi-model policy performed worse.
 
 ### 5.1 The framework
 
@@ -249,7 +249,7 @@ ranked(routes)   =  eligible routes ordered by cost_per_accepted_result
 
 [[FIG_CAPABILITY_FLOOR]]
 
-The gate comes first. Price ranking across a set that includes an ineligible route is meaningless, because an ineligible route does not accept the task; it escalates it, and the escalation is billed at the escalated tier and degrades the task. This is why the ablation result is the corpus's most transferable finding and why the always-largest result is not a verdict against cheap models: **the cheapest route in the corpus was not merely worse, it was below the floor.**
+The gate comes first. Price ranking across a set that includes an ineligible route is meaningless, because an ineligible route does not accept the task; it escalates it, and the escalation incurs additional calls and latency at the higher tier while risking compounding errors. This is why the ablation result is the corpus's most transferable finding and why the always-largest result is not a verdict against cheap models: **the cheapest route in the corpus was not merely worse, it was below the floor.**
 
 ### 5.2 The floor has a shape, not a number
 
@@ -264,13 +264,13 @@ Three components, each independently checkable:
 | Role | Cheapest defensible candidate | Evidence | Confidence | Escalate when |
 |---|---|---|---|---|
 | **Orchestrator** | Not established | None in the corpus. The founder's practitioner prior excludes one candidate for a documented task class; see §7. | Low | when scope spans more than three files and handoffs are lossy |
-| **Planner** | Keep it strong; make it additive | The planner's *estimate* carries signal (86–100% pass on SP 1–2, 50% on SP 8). The planner's *prose* cost 17.1 points of first-attempt success. | Medium | always; never a cheap role until tested |
+| **Planner** | Keep it strong; make it additive | The planner's *estimate* carries signal (86–100% pass on SP 1–2, 50% on SP 8). Architecture B saw a 17.1-point drop in first-attempt pass vs single-agent A (author hypothesis: prose dilution vs multi-agent overhead). | Medium | always; never a cheap role until tested |
 | **Scout** | Flash-class | Operational only: our own fleet routes reconnaissance to Flash-family models. No published measurement. | Medium in practice, low in measurement | when scout output feeds a plan |
-| **Builder** | **Unproven** | Contradicted for tiered routing: 62.2% against 81.7%, and more calls. Flash and Luna are defensible for bounded, well-specified, deterministically checked work. | Medium | when acceptance is not a deterministic check |
-| **Test author** | Flash high, Luna medium | **None.** No repository in the corpus separates test authorship from general building. | Low | when the defect class is subtle, such as state or concurrency |
-| **Code reviewer** | Luna high or xhigh, Flash high | Strongest role signal in the corpus: Auto Office's first-choice reviewer seed, trust-granted, two live gate closures; our own fleet routes the "Review" phase to `gpt-5.6-luna:max` in 9 of 14 assignments and 252 of 297 agent-turns; CRBugBench's own README runs `gpt-6-luna`. **No recall or precision measurement exists.** | Medium-high on eligibility, low on superiority | hard seams: requirements, authority, ownership, dependency, interface, acceptance |
+| **Builder** | **Unproven** (provisional candidate: Flash/Luna for bounded work) | Contradicted for tiered routing: 62.2% against 81.7%, and more calls. Flash and Luna are provisional policy candidates for bounded, well-specified, deterministically checked work. | Medium | when acceptance is not a deterministic check |
+| **Test author** | Not established (hypothesis: Flash high, Luna medium) | **None.** No repository in the corpus separates test authorship from general building. | Low | when the defect class is subtle, such as state or concurrency |
+| **Code reviewer** | Operable: Luna high/xhigh (eligibility observed; recall/precision unmeasured); Flash high (hypothesis) | Strongest role signal in the corpus: Auto Office's first-choice reviewer seed, trust-granted, two live gate closures; our own fleet routes the "Review" phase to `gpt-5.6-luna:max` in 9 of 14 assignments and 252 of 297 agent-turns; CRBugBench's own README runs `gpt-6-luna`. **No recall or precision measurement exists.** | Medium-high on eligibility, low on superiority | hard seams: requirements, authority, ownership, dependency, interface, acceptance |
 | **Security reviewer** | Premium, not cheap | Nothing measured. The 56.3% rejection rate for general review makes a false-positive security finding worse than no finding. | Low, deliberately conservative | always, for exploitable-issue claims |
-| **Integrator** | Luna medium plus deterministic checks | None directly. The 42.1% association above is adjacent: integration over a polluted context is where cheap routes lose. | Low | cross-branch, dependency-ordered merges |
+| **Integrator** | Provisional hypothesis: Luna medium plus deterministic checks | None directly. The 42.1% association above is adjacent: integration over a polluted context is where cheap routes lose. | Low | cross-branch, dependency-ordered merges |
 | **Verifier** | Sol medium | Operational: our own fleet confines Sol to judgment phases. | Medium | always, for release confidence |
 | **Specialist (visual, browser, database, infrastructure)** | Gemini Flash for visual | None measured. Auto Office separates visual judgement into its own specialist role with an image-sensitivity probe. | Low | anything needing cross-modal judgement |
 
@@ -278,7 +278,7 @@ Three components, each independently checkable:
 
 We have one strong recall measurement (71.9% top-five bug recall for the best agent on CRBugBench) and one strong production signal that roughly two of three comments are not useful. **We have no measurement anywhere in the corpus of a cheap reviewer's precision.**
 
-The asymmetry matters for routing. A reviewer with high recall and low precision spends a maintainer's attention on suggestions that get rejected, and the 56.3% rejection rate is a published instance of that. A reviewer with low recall and high precision produces a missed defect, which is worse in kind but cheaper in kind. **The corpus cannot tell you which trade a given role should make**, and that is exactly the gap experiment E-1 is designed to close. Any routing policy that optimises reviewer recall alone is optimising a metric that has a published failure mode.
+The asymmetry matters for routing. A reviewer with high recall and low precision spends a maintainer's attention on suggestions that get rejected, and the 56.3% rejection rate is a published instance of that risk. A reviewer with low recall and high precision produces a missed defect, which is worse in kind but cheaper in immediate developer time. **The corpus cannot tell you which trade a given role should make**, and that is exactly the gap experiment E-1 is designed to close. Any routing policy that optimises reviewer recall alone is optimising a metric that has a published failure mode of high rejection friction.
 
 ### 5.5 Reviewer independence is a hypothesis, not a finding
 
