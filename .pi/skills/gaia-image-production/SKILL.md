@@ -1,6 +1,6 @@
 ---
 name: gaia-image-production
-description: Gaia Research image-generation harness for pi-image-gen/gpt-image-2 and Termux Antigravity OAuth workflows. Use when generating, iterating, refining, cropping, upscaling, making transparent cutouts, compressing, or ledgering visual assets for Gaia Research, especially Context Diet, Milim/Nova, hero, OG, social images, and blog editorial thumbnails.
+description: Gaia Research image-generation harness for pi-image-gen/gpt-image-2.6 and Termux Antigravity OAuth workflows. Use when generating, iterating, refining, cropping, upscaling, making transparent cutouts, compressing, or ledgering visual assets for Gaia Research, especially Context Diet, Milim/Nova, hero, OG, social images, and blog editorial thumbnails.
 ---
 
 # Gaia Image Production Harness
@@ -9,7 +9,7 @@ Use this skill whenever the user asks for generated images, image iteration, ass
 
 ## Hard rule: model selection
 
-- **Use `gpt-image-2` or `gemini-3.1-flash-image` (`nano-banana-2`).**
+- **Use `gpt-image-2.6` or `gemini-3.1-flash-image` (`nano-banana-2`).**
 - For Milim Editorial Thumbnails, follow `.agents/skills/milim-editorial-thumbnail/SKILL.md` with full character prompt injection from `../marketing-tasks/MILIM.md`.
 - For Termux harness OAuth generation, use the Antigravity OAuth Bearer API invocation detailed below.
 

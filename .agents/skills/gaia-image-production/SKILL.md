@@ -9,7 +9,7 @@ Use this skill whenever the user asks for generated images, image iteration, ass
 
 ## Hard rule: model selection (CLAUDE.md is the source of truth)
 
-- **Production assets: prefer `image-gen-2.5`**, falling back to `nano-banana-2` or `gemini-3-pro-image` when it is unavailable. Never use `nano-banana` (v1). `gpt-image-2` remains acceptable but is no longer the mandated default. If a tool's active model cannot be confirmed, ask before generating, and record the model actually used in the asset ledger `credit` field.
+- **Production assets: prefer `image-gen-2.6` (`gpt-image-2.6`)**, falling back to `nano-banana-2` or `gemini-3-pro-image` when it is unavailable. Never use `nano-banana` (v1). `gpt-image-2` remains acceptable but is no longer the mandated default. If a tool's active model cannot be confirmed, ask before generating, and record the model actually used in the asset ledger `credit` field.
 - For Milim Editorial Thumbnails, follow `.agents/skills/milim-editorial-thumbnail/SKILL.md` with full character prompt injection from `../marketing-tasks/MILIM.md`.
 - The Termux Antigravity harness below targets `nano-banana-2`, which is now a permitted production fallback. Still start every generation in `assets/workbench/` and promote only after review, recording the model in the ledger `credit`.
 
@@ -138,7 +138,7 @@ Before producing anything, specify:
 - **whether generation is needed at all** — check the free toolbelt first.
 - character consistency rules from `MILIM.md` when Milim appears.
 
-### 3. Produce: free tools first, then image gen 2
+### 3. Produce: free tools first, then image gen 2.6
 
 Prompt rules when generation is required:
 - Ask for **original characters only**; no direct anime/IP copying.

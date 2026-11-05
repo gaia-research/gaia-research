@@ -6,10 +6,10 @@ This playbook explains how to use pi-image-gen / image generation together with 
 
 ## Mandatory model rule
 
-- **Always use image gen 2 / `gpt-image-2`.**
+- **Always use image gen 2.6 / `gpt-image-2.6`.**
 - **Never use `nano-banana` or `nano-banana-2` for Gaia Research production assets.**
-- If using `omniflash`, set `model_id: "gpt-image-2"`.
-- If using pi-image-gen / `image_generate`, confirm the active default model is image gen 2 / `gpt-image-2` before generating. If the model cannot be confirmed, pause and ask for confirmation.
+- If using `omniflash`, set `model_id: "gpt-image-2.6"`.
+- If using pi-image-gen / `image_generate`, confirm the active default model is image gen 2.6 / `gpt-image-2.6` before generating. If the model cannot be confirmed, pause and ask for confirmation.
 
 ## Related files
 
@@ -69,13 +69,13 @@ Branches:
 
 ```json
 {
-  "model_id": "gpt-image-2",
+  "model_id": "gpt-image-2.6",
   "aspect_ratio": "16:9",
   "prompt": "Original Gaia Research Cyber-Slime Laboratory hero illustration for Context Diet Lab 001. Obsidian dark research lab, Milim Pink #ec4899 and Rimuru Blue #38bdf8 HUD lines, token streams compressing into a clean SKILL.md export module, generous empty space on the left for semantic HTML heading, no readable UI text, no logos, no watermark, original characters only."
 }
 ```
 
-`image_generate` example after confirming active model is image gen 2:
+`image_generate` example after confirming active model is image gen 2.6:
 
 ```json
 {
