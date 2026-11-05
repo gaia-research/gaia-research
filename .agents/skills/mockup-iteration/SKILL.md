@@ -10,7 +10,7 @@ Use this skill when the user asks to iterate on a mockup, concept art, or visual
 ## Workflow Loop
 
 1. **Take the initial prompt** and constraints from the user.
-2. **Generate the image** using the requested provider/model (e.g., `image_gen` with `gpt-image-2`, or `nano-banana-2` if requested for mockups).
+2. **Generate the image** using the requested provider/model (e.g., `image_gen` with `gpt-image-2.6`, or `nano-banana-2` if requested for mockups).
 3. **Open the file** for the user using the `preview-image` skill or by letting them know the file is ready at the output path (e.g., `assets/workbench/generated/mockup-v1.jpg`).
 4. **Pause/Stop hook** to wait for the user's critique. Do not rush to finalize. Ask: *"What should we adjust?"*
 5. **Iterate:** If the user gives adjustments (e.g., "move the camera left", "make it darker"), go back to step 2 with a refined prompt. Append version numbers (`mockup-v2.jpg`).

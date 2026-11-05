@@ -55,6 +55,6 @@ Constraints: no twintails, no pigtails, no ahoge; no tree-derived imagery; no te
 
 ## Production Workflow
 
-1. Generate candidate into `assets/workbench/generated/` using `image-gen-2.5` (preferred), `gpt-image-2`, or `gemini-3-pro-image`.
+1. Generate candidate into `assets/workbench/generated/` using `image-gen-2.6` (preferred), `gpt-image-2.6`, or `gemini-3-pro-image`.
 2. Export 1600×900 WebP derivative to `assets/generated/` and `public/assets/`.
 3. Run `npx tsx scripts/assets/sync-asset-ledger.ts` and `npx tsx scripts/assets/check-asset-ledger.ts --strict`.
