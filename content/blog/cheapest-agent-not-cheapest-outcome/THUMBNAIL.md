@@ -9,7 +9,7 @@ Topic: **The Cheapest Agent Isn't Always the Cheapest Outcome**.
 Setting: A vast, soaring glass elevator shaft ascending through an enormous minimalist architectural atrium with soaring geometric arches and warm golden amber sunlight.
 Palette: Warm golden amber, soft sunlit cream, architectural warm slate, and a single Milim-pink accent `#ec4899`.
 
-The article is about how cheap-tier routing below a competence floor converts a cheap attempt into an expensive escalation, and why respecting the capability floor matters. The image shows a calm everyday slice-of-life moment: a tiny, cheerful chibi Milim (~5% scale) in a vast glass elevator beside her small grocery cart, smiling and waving in the quiet morning light.
+The article is about how cheap-tier routing below a competence floor converts a cheap attempt into an expensive escalation, and why respecting the capability floor matters. The image shows a calm everyday slice-of-life moment: a cheerful chibi Milim in a vast glass elevator beside her small grocery cart, smiling and waving in the quiet morning light.
 
 ## Prompt
 
