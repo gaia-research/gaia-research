@@ -29,6 +29,11 @@ const nextConfig = {
         destination: "/blog/dont-make-the-model-think-harder",
         permanent: true,
       },
+      {
+        source: "/docs/idea-bank/empirical-agent-roles-and-capability-floors",
+        destination: "/blog/cheapest-agent-not-cheapest-outcome",
+        permanent: false,
+      },
     ];
   },
   webpack: (config) => {
