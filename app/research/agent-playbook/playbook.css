@@ -1325,3 +1325,163 @@
 .apb-nowrap {
   white-space: nowrap;
 }
+
+/* ── Hero hook: the same questions, every fresh session ── */
+.apc {
+  margin: 1.35rem 0 0;
+  border: 1px solid var(--line);
+  background: rgba(11, 12, 19, 0.75);
+}
+
+.apc-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.apc-head figcaption {
+  color: var(--dim);
+  font: 0.7rem/1.3 var(--mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.apc-toggle {
+  display: inline-flex;
+  border: 1px solid var(--line);
+}
+
+.apc-toggle button {
+  min-height: 36px;
+  padding: 0 0.7rem;
+  border: 0;
+  background: transparent;
+  color: var(--dim);
+  font: 0.7rem/1 var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.apc-toggle button + button {
+  border-left: 1px solid var(--line);
+}
+
+.apc-toggle button[aria-pressed="true"] {
+  background: rgba(236, 72, 153, 0.14);
+  color: var(--pink);
+}
+
+.apc[data-with="true"] .apc-toggle button[aria-pressed="true"] {
+  background: var(--apb-soft);
+  color: var(--apb-accent);
+}
+
+.apc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.apc-list li {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr);
+  grid-template-areas: "s ask" "s state";
+  gap: 0.2rem 0.6rem;
+  padding: 0.6rem 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.apc-list li:first-child {
+  border-top: 0;
+}
+
+.apc-session {
+  grid-area: s;
+  align-self: center;
+  justify-self: center;
+  color: var(--dim);
+  font: 400 1.25rem/1 var(--display);
+  letter-spacing: 0.04em;
+}
+
+.apc-ask {
+  grid-area: ask;
+  color: var(--apb-ink);
+  font-size: 0.95rem;
+  line-height: 1.35;
+  transition: color 0.4s ease;
+}
+
+.apc-state {
+  grid-area: state;
+  color: var(--pink);
+  font: 0.7rem/1.4 var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  animation: apc-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i) * 90ms);
+}
+
+.apc-state b {
+  font-weight: 700;
+}
+
+.apc[data-with="true"] .apc-ask {
+  color: var(--muted);
+}
+
+.apc[data-with="true"] .apc-state {
+  color: var(--apb-accent);
+}
+
+.apc[data-with="true"] .apc-session {
+  color: var(--apb-accent);
+}
+
+/* Re-run the stagger when the state flips. */
+.apc[data-with="true"] .apc-state {
+  animation-name: apc-in-alt;
+}
+
+@keyframes apc-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes apc-in-alt {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 640px) {
+  .apb-hero {
+    padding-top: 1.5rem;
+  }
+  .apb-hero h1 {
+    font-size: clamp(1.75rem, 8vw, 2.2rem);
+  }
+  .apb-toc {
+    gap: 0.4rem;
+    padding: 0.85rem 0;
+  }
+  .apb-toc a,
+  .apb-toc a:first-child {
+    min-height: 36px;
+    padding: 0 0.6rem;
+    border: 1px solid var(--line);
+    font-size: 0.66rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apc-state {
+    animation: none;
+  }
+  .apc-ask {
+    transition: none;
+  }
+}

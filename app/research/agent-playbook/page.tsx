@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyPrompt from "@/components/CopyPrompt";
 import PlaybookWalkthrough from "@/components/PlaybookWalkthrough";
+import PlaybookContinuity from "@/components/PlaybookContinuity";
 import "./playbook.css";
 
 // Every claim on this page is sourced from gaia-research/agent-playbook at the
@@ -118,6 +119,7 @@ export default function AgentPlaybookPage() {
             <h1 id="apb-title">
               Stop <span className="apb-nowrap">re-explaining</span> yourself to every new agent.
             </h1>
+            <PlaybookContinuity items={continuity.map(({ ask, src }) => ({ ask, src }))} />
             <p className="apb-lede">
               Every fresh session begins with a quiet tax: untangling whether &ldquo;done&rdquo; means merged or merely
               pushed, whether a missing model may silently downgrade, and when five subagents are worse than one. The
@@ -252,7 +254,7 @@ export default function AgentPlaybookPage() {
               <small>5 architectural distinctions</small>
             </summary>
             <div className="apb-table">
-              <table>
+              <table data-stack="true">
                 <caption className="sr-only">How the Agent Playbook differs from a prompt template</caption>
                 <thead>
                   <tr>
@@ -266,28 +268,28 @@ export default function AgentPlaybookPage() {
                 <tbody>
                   <tr>
                     <th scope="row">Covers</th>
-                    <td>The phrasing of a single task</td>
-                    <td>How work is directed, verified, and handed off across tasks</td>
+                    <td data-label="Prompt template">The phrasing of a single task</td>
+                    <td data-label="Agent Playbook">How work is directed, verified, and handed off across tasks</td>
                   </tr>
                   <tr>
                     <th scope="row">Lives in</th>
-                    <td>A snippet you re-paste</td>
-                    <td>A versioned git repository with reviewed diffs</td>
+                    <td data-label="Prompt template">A snippet you re-paste</td>
+                    <td data-label="Agent Playbook">A versioned git repository with reviewed diffs</td>
                   </tr>
                   <tr>
                     <th scope="row">Authority</th>
-                    <td>Usually implicit</td>
-                    <td>Explicit precedence: current instruction → repo rules → adopted profile → defaults</td>
+                    <td data-label="Prompt template">Usually implicit</td>
+                    <td data-label="Agent Playbook">Explicit precedence: current instruction → repo rules → adopted profile → defaults</td>
                   </tr>
                   <tr>
                     <th scope="row">Personal choices</th>
-                    <td>Hardcoded into the prompt</td>
-                    <td>Isolated in a profile you can swap without touching the skills</td>
+                    <td data-label="Prompt template">Hardcoded into the prompt</td>
+                    <td data-label="Agent Playbook">Isolated in a profile you can swap without touching the skills</td>
                   </tr>
                   <tr>
                     <th scope="row">Updates</th>
-                    <td>Manual copy-paste drift</td>
-                    <td>Inspectable commits; memory updates only when you re-approve</td>
+                    <td data-label="Prompt template">Manual copy-paste drift</td>
+                    <td data-label="Agent Playbook">Inspectable commits; memory updates only when you re-approve</td>
                   </tr>
                 </tbody>
               </table>
@@ -421,7 +423,7 @@ export default function AgentPlaybookPage() {
                   <small>Checked 2026-11-08</small>
                 </summary>
                 <div className="apb-table apb-harness">
-                  <table>
+                  <table data-stack="true">
                     <caption>Documented discovery locations from the repository&rsquo;s harness notes</caption>
                     <thead>
                       <tr>
@@ -438,10 +440,10 @@ export default function AgentPlaybookPage() {
                               {name} ↗<NewTab />
                             </a>
                           </th>
-                          <td>
+                          <td data-label="Project">
                             <code>{project}</code>
                           </td>
-                          <td>
+                          <td data-label="User">
                             <code>{user}</code>
                           </td>
                         </tr>

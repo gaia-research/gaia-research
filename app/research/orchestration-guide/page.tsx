@@ -3,9 +3,12 @@ import Markdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import rehypeTableLabels from "@/lib/rehype-table-labels";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyPage, { DEFAULT_CLAUDE_PROMPT, DEFAULT_PI_PROMPT } from "@/components/CopyPage";
 import GuideQuickNav from "@/components/GuideQuickNav";
+import GuideHeroLadder from "@/components/GuideHeroLadder";
+import StackRow from "@/components/StackRow";
 import OrchestrationMotionHook from "@/components/OrchestrationMotionHook";
 import OrchestrationFieldCards from "@/components/OrchestrationFieldCards";
 import {
@@ -15,6 +18,7 @@ import {
 } from "@/components/OrchestrationInteractiveDiagrams";
 // loaded as raw text by webpack asset/source
 import guideMd from "@/content/reports/orchestration-guide/guide.md";
+import "./guide.css";
 
 // This page must be rendered while the Markdown source is available at build
 // time. Cloudflare Workers cannot read the deployed filesystem at request time.
@@ -92,9 +96,9 @@ export default function OrchestrationGuidePage() {
         </h3>
       );
     },
+    tr: ({ node: _node, ...props }) => <StackRow {...props} />,
     table: ({ children, node: _node, ...props }) => (
-      <div className="report-table-wrap" role="region" aria-label="Scrollable data table" tabIndex={0}>
-        <span className="sr-only">Scroll horizontally to compare all columns.</span>
+      <div className="report-table-wrap" role="region" aria-label="Data table" tabIndex={0}>
         <table {...props}>{children}</table>
       </div>
     ),
@@ -113,28 +117,59 @@ export default function OrchestrationGuidePage() {
         </div>
       </aside>
       <main id="main" className="report-page">
-        <header className="report-head">
-          <p className="signal">
-            <span /> RESEARCH · FIELD MANUAL 01
-          </p>
-          <h1>
-            The Orchestration
-            <br />
-            Guide
-          </h1>
-          <p className="report-sub">
-            What is the least expensive coordination architecture that reliably completes the work?
-          </p>
-          <div className="report-links">
-            <Link href="#copy-harness-prompts">Copy assessment prompt ↓</Link>
-            <Link href="#interactive-motion-hook">Architecture simulator ↓</Link>
-            <Link href="#executive-field-guide">Four economic rules ↓</Link>
-            <Link href="#full-technical-spec">Full specification ↓</Link>
-            <Link href="/research/agent-playbook">Companion: Agent Playbook →</Link>
+        <header className="report-head og-hero">
+          <div className="og-hero-copy">
+            <p className="signal">
+              <span /> RESEARCH · FIELD MANUAL 01
+            </p>
+            <h1>
+              The Orchestration
+              <br />
+              Guide
+            </h1>
+            <p className="report-sub">
+              What is the least expensive coordination architecture that reliably completes the work?
+            </p>
           </div>
+          <GuideHeroLadder />
+          <ul className="og-jump" aria-label="Jump to">
+            <li>
+              <Link href="#executive-field-guide">Four economic rules ↓</Link>
+            </li>
+            <li>
+              <Link href="#interactive-motion-hook">Architecture simulator ↓</Link>
+            </li>
+            <li>
+              <Link className="og-jump-copy" href="#copy-harness-prompts">Copy assessment prompt ↓</Link>
+            </li>
+            <li>
+              <Link href="#full-technical-spec">Full specification ↓</Link>
+            </li>
+            <li>
+              <Link href="/research/agent-playbook">Companion: Agent Playbook →</Link>
+            </li>
+          </ul>
         </header>
 
-        {/* 1. COPY AGENT PROMPT AT THE START */}
+        {/* 1. THE FOUR RULES: the insight before the proof */}
+        <section
+          id="executive-field-guide"
+          className="guide-field-section"
+          aria-label="Executive field guide"
+        >
+          <OrchestrationFieldCards />
+        </section>
+
+        {/* 2. INTERACTIVE ARCHITECTURE SIMULATOR */}
+        <section
+          id="interactive-motion-hook"
+          className="guide-motion-section"
+          aria-label="Interactive architecture motion simulation"
+        >
+          <OrchestrationMotionHook />
+        </section>
+
+        {/* 3. HAND IT TO YOUR AGENT: consent-first prompts and raw source */}
         <section id="copy-harness-prompts" className="guide-launchpad" aria-label="Starting prompt and source copy">
           <CopyPage
             markdown={guideMd}
@@ -144,69 +179,19 @@ export default function OrchestrationGuidePage() {
           />
         </section>
 
-        {/* 2. FRONTLOADED INTERACTIVE ARCHITECTURE SIMULATOR */}
-        <section
-          id="interactive-motion-hook"
-          className="guide-motion-section"
-          aria-label="Interactive architecture motion simulation"
-        >
-          <OrchestrationMotionHook />
-        </section>
-
-        {/* 3. FRONTLOADED 60-SECOND FIELD GUIDE */}
-        <section
-          id="executive-field-guide"
-          className="guide-field-section"
-          aria-label="Executive field guide"
-        >
-          <OrchestrationFieldCards />
-        </section>
-
         {/* 4. FULL TECHNICAL SPEC & HARNESS INTEGRATION */}
         <div id="full-technical-spec" className="guide-layout">
           <article className="report-body">
-            <div
-              className="tech-spec-banner"
-              style={{
-                marginBottom: "2rem",
-                padding: "0.95rem 1.2rem",
-                background: "rgba(14, 20, 36, 0.65)",
-                border: "1px solid #1e293b",
-                borderRadius: "8px",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "var(--mono)",
-                  fontSize: "0.7rem",
-                  color: "var(--blue)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginBottom: "0.3rem",
-                }}
-              >
-                <span
-                  style={{
-                    display: "inline-block",
-                    width: "6px",
-                    height: "6px",
-                    borderRadius: "50%",
-                    background: "var(--pink)",
-                  }}
-                />
-                Technical Specification · Economics, Cache Horizons &amp; Harness Contracts
-              </span>
-              <p style={{ margin: 0, fontSize: "0.85rem", color: "var(--muted)", lineHeight: 1.52 }}>
+            <div className="tech-spec-banner og-spec-banner">
+              <span>Technical Specification · Economics, Cache Horizons &amp; Harness Contracts</span>
+              <p>
                 Mathematical objective formulation, Amdahl/Ord scaling bounds, provider cache TTL matrices, worked
                 rate-card arithmetic, and consent-first assessment rules.
               </p>
             </div>
             <Markdown
               remarkPlugins={[remarkGfm, [remarkMath, { singleDollarTextMath: false }]]}
-              rehypePlugins={[rehypeKatex]}
+              rehypePlugins={[rehypeKatex, rehypeTableLabels]}
               components={markdownComponents}
             >
               {body}

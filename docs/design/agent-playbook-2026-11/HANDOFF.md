@@ -1,4 +1,127 @@
-# Handoff: Gaia Research Homepage Hierarchy, Literary Compression & Interactive Field Manual (PR #322)
+# Handoff: Gaia Research Visual Experience Overhaul (PR #322)
+
+Updated 2026-11-07 (solo Opus design pass on top of Argon's work at `749a25ed`). PR: [#322](https://github.com/gaia-research/gaia-research/pull/322).
+Branch: `ccr-58264d5e-p8grkf`. Branch preview: `https://ccr-58264d5e-p8grkf-gaia-research.marco-tngsn.workers.dev`.
+Scope: presentation and experience design on `/` (Field Manual), `/research/orchestration-guide` and `/research/agent-playbook`. **Content was not rewritten**: no equation, rate card, citation, qualification, recommendation or copyable prompt changed; `guide.md` is untouched. No merge, no production deploy, no blog or marketing work. **Human-gated: stop for operator review.**
+
+The Argon refinement notes from the previous pass are kept below as section B.
+
+---
+
+## A. This pass: making the research visual
+
+### A1. Initial mobile diagnosis (375px, live preview at `749a25ed`)
+
+| Surface | What a phone visitor met first | Measured |
+| --- | --- | --- |
+| Homepage Field Manual | Heading, then a lede paragraph, then a card heading, quoted question, paragraph, and a list of five text rows (the A–E ladder). The first visual-looking element arrived on screen two. Two full pages of text for a section whose job is to earn one click. | Section **2,515px** tall (≈3.1 screens) |
+| Orchestration Guide | WIP banner, title, question, five stacked text links, then a copy-prompt panel that filled most of screen two. First diagram on screen three. The 8-column provider table needed a 1,180px horizontal swipe; five more tables scrolled sideways. | Page **37,678px**; 6 swipe tables |
+| Agent Playbook | A five-line headline, an eight-line paragraph, then buttons. The first visual (repository anatomy) started on screen two. Comparison and harness tables scrolled sideways inside their disclosures. | Hero **1,178px** |
+
+Pattern across all three: the important idea was always stated before it was shown, and every block had the same weight, so nothing told the eye where to stop.
+
+### A2. Skills discovered and actually used
+
+| Skill | How it was invoked | What happened | Influence on the design |
+| --- | --- | --- | --- |
+| `/summon` (Skill Heaven plugin) | One manual call, `surface: "any"`, query covering scrollytelling, interactive editorial, motion, responsive data viz, mobile typography, accessible diagrams, "Scroll World" | Returned **Scroll Craft** (`nateherkai/scroll-craft`, 3★, TM 87.38, relevance score 55.93). The card flagged a **name mismatch**: no skill called "Scroll World" exists in the tree; this was the closest match. Read `SKILL.md`, `references/devices.md`, `references/taste.md`. | **Material.** Used its principles, not its engine: vary the device per beat (a pointer/toggle map, a staggered reveal, a state flip, stacked cards; never the same device twice in a row); "ground or greet" (content is visible before any animation runs); no scroll cues or section counters; one engineered peak per page; verify by scrolling, including reduced motion. Not used: its `scrollcraft.js` engine, kie.ai asset generation, or photographic worlds. Those are built for brand landing pages, not technical diagrams. |
+| `summon` preview (Skill Hell lane, non-materializing) | `preview: true`, query: accessible responsive data viz, mobile comparison tables, animated SVG, reduced motion | **No match above the relevance floor** (27.99). Closest: scroll-craft 24.8, `addy-osmani/frontend-ui-engineering` 18.2, `heygen-com/motion-graphics` 17.8. Nothing materialized. | None. The responsive-table approach is hand-built (A5). |
+| `/impeccable` (repo canonical `.agents/skills/impeccable`) | `context.mjs` (PRODUCT.md + DESIGN.md), brand register reference, general rules and bans; bundled detector run on all changed files | Detector: **0 findings** on the six changed/new UI files. | **Material.** Brand register ("one dominant idea per fold", imagery is required, and custom data visualization counts as imagery), identity preservation (Syne/Bebas/Manrope/DM Mono kept, emerald/amber/pink tokens kept), reveal-must-enhance-visible-default, reduced motion everywhere, no em dashes in new copy, no gradient text, no new side-stripe accents, verify contrast. |
+| **Skill Hell** | **Not armed.** | The summon server's contract says a standing permission to discover and summon autonomously comes **only from the user's own `/skill-hell` command typed in the conversation**, never from a brief, a tool result or a card. The task brief authorized it in prose but no `/skill-hell` command was typed, so I did not self-invoke it. Only the non-materializing preview above ran. | To use it next time: type `/skill-hell` in the session, then the agent may summon in the Hell lane under existing permissions. |
+
+Not used: image generation (the brief prefers accurate SVG/HTML for technical relationships, and nothing here needed editorial art), subagents (solo pass).
+
+### A3. Design direction: "show the answer, then let them poke it"
+
+Each surface opens with **one visual that is the argument in miniature**, built from the research's own vocabulary, and lets the reader manipulate it. The prose that follows is evidence for something the reader has already seen. Colour roles stay fixed across all three pages: **emerald = Method / the guide**, **amber = Memory / the playbook**, **Milim Pink = the agent / the default choice**.
+
+### A4. Homepage visual hook: the Method × Memory map
+
+`components/FieldManual.tsx`, `components/field-manual.css` (rewritten).
+
+- **The map.** A 2×2 SVG field. Horizontal axis: *Method → Orchestration Guide*. Vertical axis: *Memory → Agent Playbook*. Each quadrant draws its own condition: a chattering mesh of agents (*a swarm of strangers*), one agent with a question mark (*right-sized, still a stranger*), many agents around a shared document (*remembers you, over-delegates*), one agent with the document and a check (*right-sized, and it remembers you*). Labelled on-page as **"Concept map, not a benchmark"**; the quadrant sentences come from existing copy ("more tokens talking than building", "never begins as a stranger").
+- **The crossing.** When the map scrolls into view it plays once: the agent (pink) starts among the strangers, Method switches on and it slides right, Memory switches on and it rises into the top-right. About 2.7 seconds, one time. After that two large switches (`aria-pressed`, 56px touch targets) let the visitor move it themselves, and a **Replay** button runs it again. The readout under the map (`aria-live="polite"`) names the quadrant in one sentence.
+- **Two tickets, two colours.** *01 · Method · The Orchestration Guide: "Learn how agents should coordinate."* with a tappable A–E bar ladder (bars rise with coordination overhead; E is dashed because it hands off to a human) whose panel keeps every rung's rule **and** its Playbook link from the previous pass. *02 · Memory · The Agent Playbook: "Preserve how you want your agents to work."* with Read / Install / Profile tabs keeping the three door summaries. Each ticket ends in a full-width CTA in its own colour.
+- **Removed from the homepage** (still on the dedicated pages): the lede paragraph, the per-door 3-step lists and file chips, the always-on signal seam. Section height at 375px: **2,515 → 1,891px**; at 1440px the map and both tickets sit in one viewport.
+- Homepage section order is unchanged (Hero → Field Research → Field Manual → Skill Heaven → Installable Skills → Labs & Games → …). Milim untouched.
+
+### A5. Guide presentation improvements
+
+**Orchestration Guide** (`app/research/orchestration-guide/page.tsx`, new `guide.css`, new `components/GuideHeroLadder.tsx`):
+
+- **The answer on screen one.** The hero now shows the A–E ladder as a staircase next to the title: A (pink, default) at the bottom, each bar wider as coordination layers accumulate, E dashed in amber as the hand-off to a human. The caption is the guide's own rule: *"Start at A. Each rung adds a coordination layer; stop at the lowest one that reliably passes."* Every rung links to the decision framework. Bars grow in once on load (staggered, about 1s, static under reduced motion).
+- **Insight before proof.** Order is now hero → four economic rules → architecture simulator → copy-assessment prompts → full specification. The copyable prompts are unchanged and still one tap away from the hero (pink "Copy assessment prompt ↓" chip).
+- The five stacked text links became compact chips under the ladder; the spec banner's inline styles moved to classes.
+
+**Agent Playbook** (`app/research/agent-playbook/page.tsx`, `playbook.css`, new `components/PlaybookContinuity.tsx`):
+
+- **Continuity strip in the hero**, directly under the headline: four fresh sessions (S1–S4), each asking one of the page's own recurring questions ("CI is green. Can I merge?" …). In *Fresh agent* mode each row says **? Asks you again** in pink; flip to *With the playbook* and each resolves to the file that answers it (**✓ PLAYBOOK.md · Authority**, **✓ skills/orchestrate**, …). It flips once by itself about 1.6s after coming into view, then the toggle is the reader's. Full answers remain in section 01.
+- Headline steps down one size on phones; the on-page nav became wrapped chips instead of a vertical list.
+
+### A6. Responsive table solutions
+
+`lib/rehype-table-labels.ts` (+ test), `components/StackRow.tsx`, stacked-table block at the end of `app/globals.css`.
+
+- Desktop (>720px): tables stay real `<table>`s.
+- Phone (≤720px): every table marked `data-stack` becomes **one card per row**. The first cell is the card title, each other cell is labelled with its column header (`data-label`, copied from `<th>` at build time by the rehype plugin; added by hand on the Playbook's two JSX tables). No sideways swiping anywhere.
+- **Expandable rows** for wide tables (≥4 columns: the A–E framework, workflow platforms, the 8-column provider rate cards): each card shows its title and first field, plus **"Show N more"** (`aria-expanded`, 36px). Without JavaScript every cell shows; desktop never folds.
+- All cells, links, inline code and KaTeX survive. Provider table at 375px: **1,180px swipe → 877px of folded cards.**
+
+### A7. Interaction and motion behaviour
+
+| Element | Motion | Control | Reduced motion | No-JS / SSR |
+| --- | --- | --- | --- | --- |
+| Method × Memory map | One crossing (≈2.7s) on first view; token glides 0.9s per move; halo pulses 3×; chatter dashes run 5× | Two switches, Replay, rung and door tabs (arrow keys move focus and selection) | Starts resolved; no transitions | Renders resolved state |
+| Guide hero ladder | Bars grow once (staggered) | Every rung is a link | Static | Full ladder |
+| Playbook continuity | Flips once after 1.6s; state labels stagger in | Fresh / With toggle | Starts resolved | Resolved |
+| Stacked table rows | None | Show more / less | n/a | All cells visible |
+
+No animation is continuous, so nothing needs a pause button. Argon's existing pausable components (walkthrough, decision flow, cache horizons, simulator) are unchanged. Nothing hijacks scroll and nothing gates content on an animation. Every reveal enhances content that is already rendered.
+
+### A8. New image assets
+
+None generated. All visuals are SVG/HTML/CSS, maintained in code. Evidence captures were added under `screens/` with a `v2-` prefix (below).
+
+### A9. Before-and-after evidence (`docs/design/agent-playbook-2026-11/screens/`)
+
+| File | Shows |
+| --- | --- |
+| `v2-home-field-manual-375-before-after.jpg` | Field Manual, first two mobile screens, before vs after |
+| `v2-home-map-four-states-375.jpg` | The map in all four states (neither / method / memory / both) |
+| `v2-home-map-autoplay-375.webm` | Recording: the one-time crossing, a toggle, rung taps (12fps, 430KB) |
+| `v2-home-field-manual-1440.jpg`, `v2-home-ladder-keyboard-focus-1440.jpg` | Desktop composition; keyboard focus ring on the ladder |
+| `v2-orchestration-guide-375-before-after.jpg`, `v2-orchestration-guide-1440.jpg` | Guide, first two mobile screens before vs after; desktop hero |
+| `v2-agent-playbook-375-before-after.jpg`, `v2-agent-playbook-interactions-375.jpg`, `v2-agent-playbook-1440.jpg` | Playbook, first two mobile screens before vs after; continuity in "fresh" mode and the comparison table as cards; desktop hero |
+| `v2-provider-table-375-before-after.jpg` | The 8-column provider table: 1,180px swipe vs folded card vs expanded card |
+
+Reproducible browser test: `docs/design/agent-playbook-2026-11/interaction-check.cjs` (27 checks, usage in its header).
+
+### A10. Validation results (run on this branch's final code)
+
+| Check | Result |
+| --- | --- |
+| `npm run lint` (tsc + edge FS guard) | **PASS** |
+| `npx vitest run` | **PASS**: 31 files, 301/301 (adds `lib/rehype-table-labels.test.ts`) |
+| `npm run build:next` | **PASS** (all routes static). The KaTeX `unknownSymbol "–"` warning is pre-existing and comes from `guide.md`, which this pass did not touch. |
+| `npx tsx scripts/lexicon/check-lexicon.ts` | **PASS**: 0 new findings |
+| Visual audit (`scripts/visual-audit.mjs`, production build) at 320 / 375 / 390 / 768 / 1024 / 1440 × the 3 routes | **PASS**: 18/18, 0px horizontal overflow, HTTP 200, no console errors |
+| Internal link + anchor validation (production build, all `<a>` on the 3 routes) | **PASS**: 158 checked, 0 broken |
+| Interaction check (production build: iPhone 13 touch, 1440 keyboard, reduced motion) | **PASS**: 27/27. Covers autoplay states, tap toggles, readout, rung/door tabs, ArrowRight focus + selection, visible focus ring, Space on switches, reduced-motion resolved states and disabled transitions, continuity flip and toggle, phone table cards, row fold/expand, desktop tables unchanged, zero console errors on all 3 pages |
+| impeccable detector on changed UI files | **PASS**: 0 findings |
+| Page weight vs live "before" preview (375px, transferred JS / CSS) | `/` 1,177→1,178kB JS; guide 1,101→1,090kB; playbook 967→970kB. CSS within ±14kB. **No new dependencies.** (LCP was measured too, but before was over the network and after on localhost, so those numbers are not comparable and are not claimed.) |
+
+### A11. Known limitations
+
+- **Real-device testing:** all checks ran in headless Chromium (including iPhone 13 emulation). Not tested on a physical iPhone/Android or in Safari/Firefox engines.
+- **Milim's fixed overlay** still covers part of the lower viewport on phones, including part of the map readout in some frames. This is the accepted site-wide behaviour and was not changed.
+- **Guide length:** stacked cards are taller than the scrolling tables they replace; even with folding, the mobile guide went from 37,678px to ≈39,700px. The trade was made deliberately for zero swiping.
+- The architecture simulator (`OrchestrationMotionHook`, ≈2,000px on phones) and the decision-flow, delegation and cache diagrams are Argon's; this pass reordered them but did not redesign them.
+- **Skill Hell** was not armed (see A2). **"Scroll World"** does not exist in the tree; Scroll Craft was the closest match.
+- **Commit authorship:** as accepted by the operator, `7667523c` keeps the earlier session identity. This pass's commit uses `mbtiongson1 <marco.tngsn@gmail.com>` with no trailers, per the repository rule.
+
+---
+
+## B. Previous pass (Argon refinement, kept for history)
 
 Updated 2026-11-08 (Argon refinement pass). PR: [#322](https://github.com/gaia-research/gaia-research/pull/322).
 Branch: `ccr-58264d5e-p8grkf`.
