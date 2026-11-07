@@ -7,6 +7,7 @@ import CopyCommand from "@/components/CopyCommand";
 import LabThumb from "@/components/labs/LabThumb";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { BlogPostCard } from "@/components/BlogPostCard";
+import FieldManual from "@/components/FieldManual";
 import { displayName, installCmd, ledger, repoUrl, skills, statusText, treeUrl } from "@/data/research";
 import { blogPosts } from "@/data/blog";
 
@@ -111,6 +112,8 @@ export default function Home() {
     @media(max-width:700px){.hh-poles{grid-template-columns:1fr}.hh-intro h2{font-size:clamp(2rem,9.5vw,2.75rem)}}
    `}</style>
   </section>
+
+  <FieldManual />
 
   <section id="skills" className="skills section-shell" aria-labelledby="skills-title"><header className="skills-intro"><h2 id="skills-title">Skills you can install today.</h2><p>Local-first Claude Code / Cursor / Windsurf skills. One line to install with <code>npx skills</code> &mdash; they run against your files and never upload their contents.</p></header><div className="skill-grid">{skills.map((skill)=>{const name=displayName(skill.slug);return <article className="skill-card" key={skill.slug}><div className="skill-head"><h3>{name}</h3><span className={`chip ${skill.status.toLowerCase()}`}>{skill.status} {statusText[skill.status]}</span></div><p className="skill-blurb">{skill.blurb}</p><CopyCommand className="skill-install" command={installCmd(skill.slug)} /><div className="skill-links"><a href={repoUrl(skill.slug)} target="_blank" rel="noreferrer">Repo ↗</a>{skill.inTree && <a href={treeUrl(skill.slug)} target="_blank" rel="noreferrer">In the Skill Tree ↗</a>}{skill.surface && <a {...linkProps(skill.surface.href)}>{skill.surface.label} {isExternal(skill.surface.href) ? "↗" : "→"}</a>}</div></article>;})}</div></section>
 

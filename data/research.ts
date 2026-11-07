@@ -123,6 +123,16 @@ export const researchEntries: readonly ResearchEntry[] = [
     action: "Read the guide",
   },
   {
+    title: "The Agent Playbook",
+    shortName: "Agent Playbook",
+    type: "PLAYBOOK",
+    status: "WIP",
+    description:
+      "A portable, repository-backed operating philosophy for directing AI work: read it into a chat assistant as context, optionally install its orchestrate and prompting skills with consent, and swap in your own personal profile. Documents only; no runtime or installer.",
+    href: "/research/agent-playbook",
+    action: "Explore the playbook",
+  },
+  {
     title: "Context Diet",
     shortName: "Context Diet",
     type: "LAB",
