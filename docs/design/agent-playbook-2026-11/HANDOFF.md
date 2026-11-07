@@ -1,6 +1,6 @@
 # Handoff: homepage "Field manual" feature + Agent Playbook page
 
-Prepared 2026-11-07. Scope: issues #319 (front-page design and discovery) and the
+Prepared 2026-11-07. PR: [#322](https://github.com/gaia-research/gaia-research/pull/322) (draft). Scope: issues #319 (front-page design and discovery) and the
 dedicated-page part of #318. Feature branch and preview evidence only. Nothing was
 merged or deployed. No blog, marketing, social or `/auto` work was done. #321
 (Orchestration Guide content) was left alone: the guide page is unchanged.
@@ -139,6 +139,11 @@ brief forbids production deployment. Reviewers can run it locally:
 `/research/agent-playbook`. The committed screenshots are the visual evidence.
 
 ## Known limitations and remaining work
+
+- **Commit authorship.** The first commit on this branch was made under the cloud
+  container's default git identity, before the repo-local `mbtiongson1` identity was
+  set. Rewriting it needs a force-push, which was blocked in this session. Later
+  commits use the correct identity.
 
 - **Human design review is still required.** This is a frontend change, so the
   operator must look at it before merge. #319 stays open until that review accepts it.
