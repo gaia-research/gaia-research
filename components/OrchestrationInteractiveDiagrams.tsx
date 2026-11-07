@@ -254,9 +254,8 @@ export function InteractiveDecisionFlow() {
         .oid-rung-btn span {
           font: 600 0.82rem/1.25 var(--body, sans-serif);
           color: #f8fafc;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          min-width: 0;
+          overflow-wrap: anywhere;
         }
         .oid-rung-btn small {
           font: 700 0.62rem/1 var(--mono, monospace);
@@ -817,8 +816,10 @@ export function InteractiveCacheHorizons() {
   const [bandIdx, setBandIdx] = useState<number>(1); // Default to 16m sweet spot
   const band = DURATION_BANDS[bandIdx];
 
-  // 0..60m mapped to 520px width
-  const barWidth = Math.min(520, Math.round((band.minutes / 60) * 520));
+  // Timeline spans 0..70 minutes so the 60m lease ends short of the edge and
+  // a >60m worker visibly overruns it.
+  const pct = (m: number) => Math.min(100, (m / 70) * 100);
+  const workerPct = band.minutes >= 60 ? 100 : pct(band.minutes);
 
   return (
     <figure className="report-figure oid-card" aria-labelledby={`${uid}-ch-title`}>
@@ -871,70 +872,40 @@ export function InteractiveCacheHorizons() {
         })}
       </div>
 
-      {/* Visual SVG Horizon Comparison */}
-      <div className="oid-svg-strip" style={{ display: "block", overflowX: "auto" }}>
-        <svg
-          viewBox="0 0 680 156"
-          style={{ width: "100%", minWidth: "520px", height: "auto", display: "block" }}
-          role="img"
-          aria-label={`Cache horizon comparison for ${band.label}`}
-        >
-          {/* Horizon Reference Bands */}
-          <rect x="130" y="16" width="520" height="32" rx="4" fill="rgba(236,72,153,0.08)" stroke="#ec4899" strokeDasharray="4 4" />
-          <text x="640" y="36" textAnchor="end" fill="#f472b6" fontSize="10.5" fontFamily="var(--mono)" fontWeight="700">
-            Claude / Gemini 1h Lease (60m)
-          </text>
-
-          <rect x="130" y="16" width="260" height="32" rx="4" fill="rgba(251,191,36,0.12)" stroke="#fbbf24" />
-          <text x="380" y="36" textAnchor="end" fill="#fbbf24" fontSize="10.5" fontFamily="var(--mono)" fontWeight="700">
-            GPT 6 · 30m Floor
-          </text>
-
-          <rect x="130" y="16" width="44" height="32" rx="4" fill="rgba(56,189,248,0.25)" stroke="#38bdf8" strokeWidth="1.5" />
-          <text x="152" y="36" textAnchor="middle" fill="#38bdf8" fontSize="10" fontFamily="var(--mono)" fontWeight="800">
-            5m
-          </text>
-
-          <text x="16" y="36" fill="#94a3b8" fontSize="10.5" fontFamily="var(--mono)" fontWeight="700">
-            CACHE WINDOWS
-          </text>
-
-          {/* Active Worker Bar */}
-          <text x="16" y="84" fill="#f8fafc" fontSize="11" fontFamily="var(--mono)" fontWeight="700">
-            WORKER WAIT
-          </text>
-          <rect x="130" y="66" width="520" height="28" rx="4" fill="#0b101d" stroke="#1e293b" />
-          <rect
-            x="130"
-            y="66"
-            width={barWidth}
-            height="28"
-            rx="4"
-            fill="#38bdf8"
-            fillOpacity="0.82"
-          />
-          <text
-            x={Math.max(165, 130 + barWidth / 2)}
-            y="84"
-            textAnchor="middle"
-            fill="#040814"
-            fontSize="10.5"
-            fontFamily="var(--mono)"
-            fontWeight="800"
-          >
-            {band.minutes >= 60 ? ">60m detached" : `${band.minutes}m execution`}
-          </text>
-
-          {/* Axis ticks */}
-          <text x="130" y="116" fill="#64748b" fontSize="9.5" fontFamily="var(--mono)">0m</text>
-          <text x="174" y="116" fill="#38bdf8" fontSize="9.5" fontFamily="var(--mono)">5m</text>
-          <text x="390" y="116" fill="#fbbf24" fontSize="9.5" fontFamily="var(--mono)">30m</text>
-          <text x="650" y="116" textAnchor="end" fill="#ec4899" fontSize="9.5" fontFamily="var(--mono)">60m</text>
-
-          <text x="130" y="140" fill="#cbd5e1" fontSize="10.5" fontFamily="var(--body)">
-            Workload: {band.exampleTask}
-          </text>
-        </svg>
+      {/* Horizon timeline: fluid rows, no fixed-width canvas, so it never side-scrolls */}
+      <div className="och" role="img" aria-label={`Cache horizon timeline: worker returns after ${band.minutes >= 60 ? "more than 60" : band.minutes} minutes. 5m lease ${band.horizon5m.status.toLowerCase()}, GPT 6 30m floor ${band.horizon30m.status.toLowerCase()}, Claude or Gemini 1h lease ${band.horizon1h.status.toLowerCase()}.`}>
+        <div className="och-track" style={{ ["--worker" as string]: `${workerPct}%` }}>
+          <div className="och-row och-worker" data-over={band.minutes >= 60 ? "true" : "false"}>
+            <span className="och-name">Worker away</span>
+            <span className="och-lane">
+              <span className="och-bar" style={{ width: `${workerPct}%` }}>
+                <b>{band.minutes >= 60 ? "> 60m · detached" : `${band.minutes}m`}</b>
+              </span>
+            </span>
+          </div>
+          {[
+            { key: "5m", name: "5m sliding TTL", mins: 5, tone: "blue", data: band.horizon5m },
+            { key: "30m", name: "GPT 6 · 30m floor", mins: 30, tone: "amber", data: band.horizon30m },
+            { key: "1h", name: "Claude / Gemini · 1h", mins: 60, tone: "pink", data: band.horizon1h },
+          ].map((h) => (
+            <div key={h.key} className="och-row" data-tone={h.tone} data-status={h.data.status}>
+              <span className="och-name">
+                {h.name}
+                <i>{h.data.status === "WARM" ? "✓ warm" : "✗ evicts"}</i>
+              </span>
+              <span className="och-lane">
+                <span className="och-bar" style={{ width: `${pct(h.mins)}%` }} />
+              </span>
+            </div>
+          ))}
+          <span className="och-marker" aria-hidden="true" />
+        </div>
+        <div className="och-axis" aria-hidden="true">
+          <span style={{ left: `${pct(5)}%` }}>5m</span>
+          <span style={{ left: `${pct(30)}%` }}>30m</span>
+          <span style={{ left: `${pct(60)}%` }}>60m</span>
+        </div>
+        <p className="och-task">Workload: {band.exampleTask}</p>
       </div>
 
       {/* 3 Horizon Status Readouts + Recommendation */}

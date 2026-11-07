@@ -108,6 +108,28 @@ const results = []; const ok = (name, cond, extra='') => { results.push(`${cond 
     ok('desktop hides row toggle', btn === 'none', btn);
     await p.close();
   }
+  // 6. Guide maths figures (operator round 2): visual equation, break-even visuals, no side scroll
+  {
+    const ctx = await b.newContext({ ...devices['iPhone 13'] });
+    const p = await ctx.newPage();
+    await p.goto(base + '/research/orchestration-guide', { waitUntil: 'networkidle' });
+    ok('C_verified renders as visual equation', await p.locator('.gmf-eq .gmf-eq-term').count() === 4);
+    ok('lever bullets coloured', await p.locator('li[data-lever]').count() === 4);
+    const det = p.locator('.gmf-fig:not(.gmf-cases) details.gmf-source');
+    await det.locator('summary').tap();
+    ok('break-even "Show as a table" keeps the original table', await det.locator('table').count() === 1);
+    const cases = p.locator('.gmf-cases details.gmf-source');
+    await cases.locator('summary').tap();
+    ok('cases "Show the derivation" keeps the original list', (await cases.textContent()).includes('Case 2'));
+    const scrollers = await p.evaluate(() => [...document.querySelectorAll('.report-body *, .och')]
+      .filter(e => e.scrollWidth > e.clientWidth + 1 && !['visible', 'clip'].includes(getComputedStyle(e).overflowX)
+        && !e.closest('.katex-mathml') && !e.classList.contains('katex-mathml') && !e.closest('pre') && e.tagName !== 'PRE' && !e.closest('thead'))
+      .map(e => e.tagName + '.' + e.className));
+    ok('no side-scrolling blocks in the guide body (code excepted)', scrollers.length === 0, scrollers.join(','));
+    const eqOverlap = await p.evaluate(() => { const d = document.querySelector('.math-display-block .katex-display'); return d ? d.scrollWidth <= d.clientWidth + 1 : false; });
+    ok('display maths fits the column', eqOverlap);
+    await ctx.close();
+  }
   console.log(results.join('\n'));
   await b.close();
 })();

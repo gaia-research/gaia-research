@@ -147,7 +147,7 @@ When coordinating asynchronous workers on Anthropic Claude (Opus 5.5 or Sonnet 5
 
 Let $$P_{\text{in}}$$ be base input price and $$L = 0.1\text{M}$$ (100,000 tokens) on **Claude Sonnet 5** ($$P_{\text{in}} = 2.00\text{ USD/M}$$, cached read rate $$= 0.10 \times P_{\text{in}} = 0.20\text{ USD/M}$$):
 
-- **Case 1 — A Single Pause $>5$ Minutes (2 Turns):**
+- **Case 1 — A Single Pause >5 Minutes (2 Turns):**
   - *5-minute TTL (expires during an 8-minute worker run):* Two cold writes $$= (1.25 + 1.25) \times P_{\text{in}} L = \mathbf{2.50 \times P_{\text{in}} L}$$.
   - *1-hour TTL (stays warm):* One 1h write + one warm hit $$= (2.00 + 0.10) \times P_{\text{in}} L = \mathbf{2.10 \times P_{\text{in}} L}$$.
   - **Result:** Avoiding a **single** cold eviction saves **16.0%** on Turn 2 ($$\frac{2.50 - 2.10}{2.50} = 0.160$$).

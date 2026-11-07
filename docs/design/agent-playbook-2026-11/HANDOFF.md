@@ -8,6 +8,24 @@ The Argon refinement notes from the previous pass are kept below as section B.
 
 ---
 
+## A0. Round 2: operator feedback on the guide's maths sections (2026-11-07)
+
+The operator reviewed the guide on a phone and asked for five fixes. Each is listed below with what changed.
+
+| # | Feedback | Fix | Files |
+| --- | --- | --- | --- |
+| 1 | Too much white text | Body copy in the spec steps down from full white to a soft ink (`#a9aec3`, about 9:1 on the canvas). Bold terms, headings and the coloured cost terms stay bright, so the eye has somewhere to land. Scoped to the markdown body only, so interactive components are untouched. | `app/research/orchestration-guide/guide.css` |
+| 2 | Equation rendering broken (overlapping glyphs) | **Cause:** `$$…$$` written on its own line *inside a paragraph* is parsed by remark-math as **inline** math; our inline-KaTeX CSS (`inline-block` + `overflow:auto`) let the fraction wrap, so KaTeX's absolutely positioned parts collided. Every inline formula also had its own scrollbar (the grey underline under `C_verified` and `P_in`). **Fix:** new `lib/rehype-guide-figures.ts` promotes paragraph-only maths to display mode; inline maths sits in the line with no scrollbars. **C_verified is now a colour-coded visual equation** (`CostEquation`): each term is a chip in its lever's colour with a plain-English label, stacking on phones. The four lever bullets underneath are cards in the same colours, so prose and equation read as one system. The stray `$>5$` in Case 1's title was a typo (single-dollar maths is disabled) and is now `>5`. The long `min_π … s.t. …` objective is re-set as aligned rows at render time (same maths, the source line is untouched) so it fits a phone. | `lib/rehype-guide-figures.ts` (+ test), `components/GuideMathFigures.tsx`, `app/research/orchestration-guide/page.tsx`, one-character fix in `guide.md` |
+| 3 | Cache-horizon diagram side-scrolls | Replaced the fixed 680px SVG (min-width 520px) with a **fluid HTML timeline**: a "worker away" bar plus one full-width row per lease (5m / GPT 6 30m / Claude–Gemini 1h), each labelled ✓ warm or ✗ evicts, with one dashed marker where the worker returns crossing every lease. It fits 320px. Band data and readout cards are unchanged. | `components/OrchestrationInteractiveDiagrams.tsx`, `guide.css` |
+| 4 | Break-even table: visualize and colorize | `TtlCompare`: each metric is a pair of bars on one scale. Blue = 5-minute TTL, pink = 1-hour TTL, green = warm read. Write surcharge 1.25× vs 2.00×, read 0.10× / 0.05× (same on both, drawn to the write scale), retention 5 vs 60 min. **The original table is kept** under "Show as a table". | `components/GuideMathFigures.tsx` |
+| 5 | Case 1 / Case 2 maths: same treatment | `TtlCases`: each scenario is a segmented bar, with segments sized by the guide's own operands and coloured by kind (5m write, 1h write, warm read, heartbeat reads). Under each bar the arithmetic is written out in matching colours (`1.25 + 1.25 = 2.50 × P_in L`, `8 × 0.25 = $2.00`, `0.25 + 0.42 + 0.14 = $0.81`, `0.40 + 0.14 = $0.54`). Result callouts: **16.0%** and **73% less**. **The original list is kept** under "Show the derivation as text". | `components/GuideMathFigures.tsx` |
+
+**Content integrity:** every number is copied from `guide.md`; no rate, equation or claim changed. The only new interpretation is naming the parts of Case 2's heartbeat sum (one 5m write 0.25, 21 heartbeat reads 0.42, 7 warm wakeups 0.14). That split follows directly from the guide's stated rates (1.25×2.00×0.1 = 0.25; 21 × 0.10×2.00×0.1 = 0.42; 7 × 0.02 = 0.14) and appears only as segment titles and the colour key. Also flagged for #321, not changed here: Case 2's title says "seven 7.5-minute gaps" while its heartbeat line says "seven 15m gaps".
+
+**Validation for round 2:** lint ✅ · vitest 32 files, 304/304 (adds `lib/rehype-guide-figures.test.ts`, run against the real guide) ✅ · `build:next` ✅ · lexicon 0 ✅ · impeccable detector 0 on changed files (it caught animated `width`/`left` on the new timeline; removed) ✅ · visual audit 18/18 ✅ · links/anchors 158/158 ✅ · interaction check **33/33**, which adds: visual equation present, lever cards coloured, both "show original" disclosures keep the source, **no side-scrolling block anywhere in the guide body except code blocks**, display maths fits the column ✅. Code blocks (`pre`) still scroll horizontally by design. Argon's simulator HUD truncates two status pills at 375px; not addressed in this round.
+
+Evidence: `screens/v3-economics-equation-375-before-after.jpg`, `v3-cache-horizons-375-before-after.jpg`, `v3-break-even-375-before-after.jpg`, plus desktop `v3-*-1440.jpg`.
+
 ## A. This pass: making the research visual
 
 ### A1. Initial mobile diagnosis (375px, live preview at `749a25ed`)

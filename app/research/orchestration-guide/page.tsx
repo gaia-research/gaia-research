@@ -4,6 +4,8 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import rehypeTableLabels from "@/lib/rehype-table-labels";
+import rehypeGuideFigures from "@/lib/rehype-guide-figures";
+import { CostEquation, TtlCases, TtlCompare } from "@/components/GuideMathFigures";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyPage, { DEFAULT_CLAUDE_PROMPT, DEFAULT_PI_PROMPT } from "@/components/CopyPage";
 import GuideQuickNav from "@/components/GuideQuickNav";
@@ -42,6 +44,13 @@ function slugifyHeading(value: string) {
 // The guide is authored markdown committed alongside the site. Drop the first
 // two lines — the H1 title and the H2 subtitle are rendered by the page header
 // below, so we don't want react-markdown to repeat them.
+// rehype-guide-figures marks passages with data-figure; read it off the hast node.
+function figureOf(node: unknown): string | undefined {
+  const props = (node as { properties?: Record<string, unknown> } | undefined)?.properties;
+  const v = props?.["data-figure"] ?? props?.dataFigure;
+  return typeof v === "string" ? v : undefined;
+}
+
 function loadGuide() {
   return guideMd.split("\n").slice(2).join("\n").trim();
 }
@@ -97,11 +106,24 @@ export default function OrchestrationGuidePage() {
       );
     },
     tr: ({ node: _node, ...props }) => <StackRow {...props} />,
-    table: ({ children, node: _node, ...props }) => (
-      <div className="report-table-wrap" role="region" aria-label="Data table" tabIndex={0}>
-        <table {...props}>{children}</table>
-      </div>
-    ),
+    table: ({ children, node, ...props }) => {
+      const table = (
+        <div className="report-table-wrap" role="region" aria-label="Data table" tabIndex={0}>
+          <table {...props}>{children}</table>
+        </div>
+      );
+      return figureOf(node) === "ttl-compare" ? <TtlCompare>{table}</TtlCompare> : table;
+    },
+    div: ({ children, node, ...props }) =>
+      figureOf(node) === "cost-equation" ? <CostEquation /> : <div {...props}>{children}</div>,
+    ul: ({ children, node, ...props }) =>
+      figureOf(node) === "ttl-cases" ? (
+        <TtlCases>
+          <ul {...props}>{children}</ul>
+        </TtlCases>
+      ) : (
+        <ul {...props}>{children}</ul>
+      ),
   };
   return (
     <>
@@ -191,7 +213,7 @@ export default function OrchestrationGuidePage() {
             </div>
             <Markdown
               remarkPlugins={[remarkGfm, [remarkMath, { singleDollarTextMath: false }]]}
-              rehypePlugins={[rehypeKatex, rehypeTableLabels]}
+              rehypePlugins={[rehypeGuideFigures, rehypeKatex, rehypeTableLabels]}
               components={markdownComponents}
             >
               {body}
