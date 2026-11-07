@@ -169,6 +169,15 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 
 ---
 
+## Unranked Product & Experience Ideas (not yet prioritized)
+
+### Agent Playbook: Memory-First Orchestration & Public Discovery
+- **Status:** Proposed / Ideation (Unranked)
+- **Why now:** The new standalone Agent Playbook separates portable orchestration and prompting guidance from opt-in personal profiles, conversational memory ingestion, and consent-based harness skills. Gaia can reconcile its older founder guide and introduce this useful layer through a design-led homepage feature, dedicated page, blog, and gated marketing campaign without adding another runtime.
+- **Doc:** [`agent-playbook-memory-layer.md`](./agent-playbook-memory-layer.md) · Guide: [gaia-skill-tree #2380](https://github.com/gaia-research/gaia-skill-tree/issues/2380) · Content/page: [#318](https://github.com/gaia-research/gaia-research/issues/318) · Front-page design: [#319](https://github.com/gaia-research/gaia-research/issues/319)
+
+---
+
 ## Active Meta-Research (Unranked) — Agent Role Intelligence & Capability Floors
 
 - **Status:** Bunny research package collected locally; publication and independent audit pending.
