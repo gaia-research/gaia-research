@@ -153,6 +153,16 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 
 ## Unranked Editorial Ideas (not yet prioritized)
 
+### Router Economics: Human Intuition vs Automated Agent Routing
+- **Status:** Formal Research Idea / Unranked / Not Yet Authorized
+- **Why now:** JEV, OpenRouter Auto Code (November 6, 2026 announcement), learned classifiers, fixed policies, Switchyard and informed humans have no universally proven workflow-economics ranking. Compare total cost per verified result and investigate capability floors, cache/switch costs, human time, and evidence quality.
+- **Doc:** [`router-economics-human-vs-automated-routing.md`](./router-economics-human-vs-automated-routing.md) · Tracking issue: [#323](https://github.com/gaia-research/gaia-research/issues/323)
+
+### Router Battles: The Agent Routing Arena
+- **Status:** Informal / Fun Idea / Unranked / Not Yet Authorized
+- **Why now:** Transparent 1v1 human-versus-router and router-versus-router demonstrations make tradeoffs accessible without implying publishable scientific conclusions.
+- **Doc:** [`router-battles.md`](./router-battles.md) · Tracking issue: [#323](https://github.com/gaia-research/gaia-research/issues/323)
+
 ### The Economics of Agentic Work: When Small Agents Beat Frontier Models
 - **Status:** In Ideation / Thought Leadership Draft (Unranked)
 - **Viability:** High
