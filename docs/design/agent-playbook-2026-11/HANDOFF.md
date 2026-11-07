@@ -110,6 +110,13 @@ Reproducible browser test: `docs/design/agent-playbook-2026-11/interaction-check
 | impeccable detector on changed UI files | **PASS**: 0 findings |
 | Page weight vs live "before" preview (375px, transferred JS / CSS) | `/` 1,177→1,178kB JS; guide 1,101→1,090kB; playbook 967→970kB. CSS within ±14kB. **No new dependencies.** (LCP was measured too, but before was over the network and after on localhost, so those numbers are not comparable and are not claimed.) |
 
+### A12. Cloudflare preview verification: content matches HEAD, but the deployment is unstable
+
+- **Correspondence verified.** Workers Builds for `200ace6` succeeded as version `b4b40c8c` (`https://b4b40c8c-gaia-research.marco-tngsn.workers.dev`), and the branch alias serves it: its HTML contains the new map (`fm-map`), the hero ladder (`ghl-rungs`), stacked tables (`data-stack`) and the continuity strip (`apc`).
+- **Reliability problem.** On both URLs, roughly **30–60% of requests fail**, either with Cloudflare's **"Worker exceeded resource limits"** page (HTTP 500/503) or a 20–30s timeout. This hits **every route, including ones this pass did not touch** (`/about`, `/research`, `robots.txt`). Sampled 22:30–22:57 UTC, sequential and spaced, with my own load stopped. Same moment, same routes: previous commit's version `34dfa754` **0/30 failed**; production `research.gaiaskilltree.com` **0/30**; new version **9/30**, branch alias **12/30**. The scripted interaction suite could not finish against the preview because of navigation timeouts. It passes 27/27 against the same code built and served locally.
+- **What it is not, as far as local evidence goes:** the OpenNext worker entry is byte-identical; the server handler (7.93 MB vs 8.57 MB) and middleware (137 KB vs 140 KB) are *smaller* than the previous commit's; the prerender cache differs by about 24 KB (guide page). Trivial routes failing points at isolate start-up rather than page rendering.
+- **What it needs:** someone with Cloudflare dashboard access should read the worker's observability logs for version `b4b40c8c` (CPU vs memory, start-up vs request). I have no dashboard access and did not push speculative builds to bisect. A follow-up docs-only commit redeploys identical app code; whether that version is healthy tells you if this is deployment-specific. See the PR comment for that result.
+
 ### A11. Known limitations
 
 - **Real-device testing:** all checks ran in headless Chromium (including iPhone 13 emulation). Not tested on a physical iPhone/Android or in Safari/Firefox engines.
