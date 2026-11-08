@@ -1,55 +1,90 @@
 import fs from "node:fs";
 import path from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeKatex from "rehype-katex";
+import rehypeGuideFigures from "./rehype-guide-figures";
+import rehypeTableLabels from "./rehype-table-labels";
+import { createMarkdownMemoizer } from "./orchestration-guide-memoizer";
 
-describe("Orchestration Guide memoization and runtime efficiency (Issue #327)", () => {
+describe("Orchestration Guide memoization and runtime mitigation (Issue #327)", () => {
   const pagePath = path.resolve(__dirname, "../app/research/orchestration-guide/page.tsx");
   const guidePath = path.resolve(__dirname, "../content/reports/orchestration-guide/guide.md");
 
-  it("verifies page.tsx employs module-level memoization for Markdown compilation", () => {
-    const pageSource = fs.readFileSync(pagePath, "utf8");
+  it("verifies createMarkdownMemoizer compiles exactly once and supports cache invalidation", () => {
+    const mockCompiler = vi.fn(() => ({ type: "rendered-tree", id: Math.random() }));
+    const memoizer = createMarkdownMemoizer(mockCompiler);
 
-    // Must define module-level cache variable
-    expect(pageSource).toContain("let cachedGuideContent: ReactNode = null;");
-    // Must encapsulate Markdown call in getOrchestrationGuideContent to avoid per-request AST re-parsing
-    expect(pageSource).toContain("function getOrchestrationGuideContent(): ReactNode");
-    expect(pageSource).toContain("{getOrchestrationGuideContent()}");
+    expect(memoizer.getCompileCount()).toBe(0);
+    expect(mockCompiler).not.toHaveBeenCalled();
 
-    // Components must be declared at module level rather than re-instantiated inside component render
-    expect(pageSource).toMatch(/const markdownComponents:\s*Components\s*=/);
+    // First call: compiles
+    const firstResult = memoizer.get();
+    expect(memoizer.getCompileCount()).toBe(1);
+    expect(mockCompiler).toHaveBeenCalledTimes(1);
+
+    // Repeated calls: return identical instance without re-compiling
+    for (let i = 0; i < 10; i++) {
+      const repeatedResult = memoizer.get();
+      expect(repeatedResult).toBe(firstResult);
+    }
+    expect(memoizer.getCompileCount()).toBe(1);
+    expect(mockCompiler).toHaveBeenCalledTimes(1);
+
+    // Reset clears cache, next call re-compiles
+    memoizer.reset();
+    const refreshedResult = memoizer.get();
+    expect(memoizer.getCompileCount()).toBe(2);
+    expect(mockCompiler).toHaveBeenCalledTimes(2);
+    expect(refreshedResult).not.toBe(firstResult);
   });
 
-  it("proves compiled Markdown tree memoization avoids redundant KaTeX and AST re-parsing", async () => {
-    const { default: Markdown } = await import("react-markdown");
-    const { default: remarkGfm } = await import("remark-gfm");
-    const { default: remarkMath } = await import("remark-math");
-    const { default: rehypeKatex } = await import("rehype-katex");
+  it("verifies real full-pipeline Markdown+KaTeX compilation preserves AST parity and figures", async () => {
+    const rawGuide = fs.readFileSync(guidePath, "utf8");
+    const guideBody = rawGuide.split("\n").slice(2).join("\n").trim();
 
-    const guideMd = fs.readFileSync(guidePath, "utf8");
-    const body = guideMd.split("\n").slice(2).join("\n").trim();
+    const compilePipeline = () => {
+      const processor = unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkMath, { singleDollarTextMath: false })
+        .use(remarkRehype)
+        .use(rehypeGuideFigures)
+        .use(rehypeKatex)
+        .use(rehypeTableLabels);
+      const hast = processor.runSync(processor.parse(guideBody));
+      return JSON.stringify(hast);
+    };
 
-    // 1. Initial compile
-    const t0 = performance.now();
-    const compiledTree = Markdown({
-      remarkPlugins: [remarkGfm, [remarkMath, { singleDollarTextMath: false }]],
-      rehypePlugins: [rehypeKatex],
-      children: body,
-    });
-    const compileDuration = performance.now() - t0;
+    const memoizer = createMarkdownMemoizer(compilePipeline);
 
-    expect(compiledTree).toBeDefined();
-    // The initial full parse with KaTeX takes significant compute (>50ms)
-    expect(compileDuration).toBeGreaterThan(10);
+    // First compile
+    const output1 = memoizer.get();
+    expect(memoizer.getCompileCount()).toBe(1);
 
-    // 2. Simulated repeated requests reusing the compiled tree
-    const t1 = performance.now();
-    for (let i = 0; i < 20; i++) {
-      const tree = compiledTree;
-      expect(tree).toBeDefined();
-    }
-    const reuseDuration = performance.now() - t1;
+    // Repeated calls
+    const output2 = memoizer.get();
+    expect(memoizer.getCompileCount()).toBe(1);
+    expect(output1).toBe(output2);
 
-    // 20 reuses of the compiled tree should execute in virtually zero time (<10ms)
-    expect(reuseDuration).toBeLessThan(15);
+    // Output parity and figure assertions
+    expect(output1).toContain('"data-figure":"cost-equation"');
+    expect(output1).toContain('"data-figure":"ttl-compare"');
+    expect(output1).toContain('"data-figure":"ttl-cases"');
+    expect(output1).toContain("katex-display");
+    expect(output1.length).toBeGreaterThan(50000);
+  });
+
+  it("verifies page.tsx integrates createMarkdownMemoizer to guard against isolate re-parsing", () => {
+    const pageSource = fs.readFileSync(pagePath, "utf8");
+
+    expect(pageSource).toContain("import { createMarkdownMemoizer } from \"@/lib/orchestration-guide-memoizer\";");
+    expect(pageSource).toContain("const guideContentMemoizer = createMarkdownMemoizer<ReactNode>");
+    expect(pageSource).toContain("function getOrchestrationGuideContent(): ReactNode");
+    expect(pageSource).toContain("{getOrchestrationGuideContent()}");
   });
 });

@@ -8,8 +8,11 @@ on:
       - 'content/**'
       - 'data/**'
       - 'lib/**'
+      - 'public/**'
       - 'scripts/**'
       - 'next.config.mjs'
+      - 'open-next.config.ts'
+      - 'wrangler.jsonc'
       - 'tsconfig.json'
       - 'package.json'
       - 'package-lock.json'
@@ -23,8 +26,11 @@ on:
       - 'content/**'
       - 'data/**'
       - 'lib/**'
+      - 'public/**'
       - 'scripts/**'
       - 'next.config.mjs'
+      - 'open-next.config.ts'
+      - 'wrangler.jsonc'
       - 'tsconfig.json'
       - 'package.json'
       - 'package-lock.json'
@@ -51,6 +57,9 @@ jobs:
 
       - name: Check for edge-incompatible filesystem usage
         run: node scripts/check-fs-usage.mjs
+
+      - name: Run unit tests (Vitest)
+        run: npm run test
 
       - name: Cache Next.js build artifacts
         uses: actions/cache@v4

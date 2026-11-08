@@ -6,6 +6,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import rehypeTableLabels from "@/lib/rehype-table-labels";
 import rehypeGuideFigures from "@/lib/rehype-guide-figures";
+import { createMarkdownMemoizer } from "@/lib/orchestration-guide-memoizer";
 import { CostEquation, TtlCases, TtlCompare } from "@/components/GuideMathFigures";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyPage, { DEFAULT_CLAUDE_PROMPT, DEFAULT_PI_PROMPT } from "@/components/CopyPage";
@@ -128,19 +129,18 @@ const markdownComponents: Components = {
 // Module-level memoization of the compiled Markdown content tree.
 // Prevents per-request KaTeX compilation and AST re-parsing during concurrent
 // browser RSC prefetches in resource-constrained Cloudflare Worker isolates.
-let cachedGuideContent: ReactNode = null;
+const guideContentMemoizer = createMarkdownMemoizer<ReactNode>(() => {
+  const body = loadGuide();
+  return Markdown({
+    remarkPlugins: [remarkGfm, [remarkMath, { singleDollarTextMath: false }]],
+    rehypePlugins: [rehypeGuideFigures, rehypeKatex, rehypeTableLabels],
+    components: markdownComponents,
+    children: body,
+  });
+});
 
 function getOrchestrationGuideContent(): ReactNode {
-  if (!cachedGuideContent) {
-    const body = loadGuide();
-    cachedGuideContent = Markdown({
-      remarkPlugins: [remarkGfm, [remarkMath, { singleDollarTextMath: false }]],
-      rehypePlugins: [rehypeGuideFigures, rehypeKatex, rehypeTableLabels],
-      components: markdownComponents,
-      children: body,
-    });
-  }
-  return cachedGuideContent;
+  return guideContentMemoizer.get();
 }
 
 export default function OrchestrationGuidePage() {

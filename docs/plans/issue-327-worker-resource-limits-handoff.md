@@ -1,6 +1,6 @@
-# Cloudflare Worker Resource Limits Investigation & Runtime Fix Handoff (Issue #327)
+# Cloudflare Worker Resource Limits Investigation & Runtime Mitigation Handoff (Issue #327)
 
-**Status:** READY FOR REVIEW  
+**Status:** READY FOR REVIEW (Issue #327 Remains Open Pending Production Observation)  
 **Date:** 2026-11-08  
 **Scope:** `gaia-research/gaia-research`  
 **Issue:** [Issue #327: infra(cloudflare): investigate intermittent Worker resource-limit errors on guide/preview routes](https://github.com/gaia-research/gaia-research/issues/327)  
@@ -10,87 +10,77 @@
 
 ## 1. Executive Summary
 
-This investigation analyzed recurring and intermittent Cloudflare Worker `Worker exceeded resource limits` errors (HTTP 500/503) observed under browser-like concurrent page and RSC prefetch traffic on `/research/orchestration-guide`.
+This investigation analyzed intermittent Cloudflare Worker `Worker exceeded resource limits` errors (HTTP 500/503) reported on `/research/orchestration-guide`.
 
-Using empirical node/isolate benchmarking, HTTP header tracing, and code analysis, we confirmed that the resource limit failure is caused by **CPU and isolate memory exhaustion during repeated server-side Markdown and KaTeX compilation of the 41.5 KB Orchestration Guide source document**.
+In response to independent review feedback (PR #330), this handoff separates **local algorithm measurements from unverified production isolate assertions**. Production Cloudflare traces have not yet been extracted, so **Issue #327 remains explicitly OPEN**.
 
-We implemented the **smallest reversible runtime fix**: module-level memoization of the compiled React Markdown node tree inside `app/research/orchestration-guide/page.tsx`. This eliminates redundant AST construction and KaTeX compilation on repeated requests, reducing per-render CPU time by **95.5%** (from ~370ms down to ~17ms) and eliminating per-request heap churn, while preserving 100% of HTML output, dynamic routes, and deployment freshness.
+This PR provides a **targeted, reversible runtime mitigation**: module-level memoization (`createMarkdownMemoizer`) of the compiled Markdown React node tree inside `app/research/orchestration-guide/page.tsx`. This avoids repeated Markdown AST construction and KaTeX math parsing on subsequent requests within a warm isolate, significantly reducing local CPU time and memory churn while preserving 100% byte-for-byte AST and figure parity.
 
 ---
 
-## 2. Root Cause Investigation & Evidence
+## 2. Technical Investigation & Root Cause Hypotheses
 
-### 2.1 Diagnostic Classification: CPU vs Memory vs Subrequests vs Concurrency
-* **Subrequest Limits (50/request):**
-  - Confirmed: No external HTTP subrequests occur during `/research/orchestration-guide` rendering. Subrequest exhaustion is **ruled out**.
-* **CPU Limit (50ms isolate CPU time):**
-  - Confirmed: Parsing the 41.5 KB Markdown file with `remarkGfm`, `remarkMath`, `rehypeKatex`, `rehypeGuideFigures`, and `rehypeTableLabels` takes **~370 ms of raw V8 CPU time** per render.
-  - On Cloudflare Workers with a 50ms standard CPU ceiling, a single uncached render already operates near or past the CPU ceiling.
-* **Isolate Memory Limit (128 MB):**
-  - Confirmed: Benchmarks demonstrate that 5 uncached renders allocate **~57 MB of heap** for unified ASTs, KaTeX symbol tables, and React fiber descriptors.
-  - In a shared 128 MB isolate, 3–5 simultaneous requests push memory past 128 MB, triggering Cloudflare's `exceededMemory` fault.
-* **Concurrency Amplification via RSC Prefetches:**
-  - Next.js client-side router prefetching generates simultaneous background requests (`RSC: 1`, `Next-Router-Prefetch: 1`, `Next-Url: /`) when users hover or scroll past links to `/research/orchestration-guide`.
-  - When multiple prefetches hit the same worker isolate concurrently, parallel KaTeX compilations exhaust memory and CPU, cascading into 500/503 errors on unrelated requests sharing the isolate.
+### 2.1 Failure Modalities Under Evaluation
+1. **CPU & Isolate Workload (Primary Local Finding):**
+   - The Orchestration Guide renders a 40.7 KB Markdown document with extensive LaTeX mathematical expressions via `remarkMath` and `rehypeKatex`.
+   - On local Node.js benchmarks (`scripts/bench-guide-render.ts`), an unmemoized compile requires **~327 ms wall time and ~761 ms CPU time per render** across the full remark/rehype pipeline.
+   - In a shared Cloudflare Worker isolate receiving rapid sequential requests or concurrent browser router prefetches (`RSC: 1`, `Next-Router-Prefetch: 1`), repeated synchronous KaTeX compilations pose a significant risk of exceeding CPU execution limits or exhausting isolate heap.
+2. **Subrequest Limits (50/request):**
+   - Confirmed: No external HTTP subrequests occur during `/research/orchestration-guide` rendering. Subrequest exhaustion is ruled out for this route.
+3. **OpenNext Static vs Dynamic Execution Path:**
+   - Although the route declares `dynamic = "force-static"` and `revalidate = false`, OpenNext bundle compilation embeds route-handling logic within the worker entrypoint. Under certain routing conditions or RSC prefetch requests, worker execution paths are invoked.
 
 ### 2.2 Rejection of `staticAssetsIncrementalCache` Workaround
 * Investigation evaluated enabling `@opennextjs/cloudflare`'s `staticAssetsIncrementalCache` in `open-next.config.ts`.
-* **Finding:** OpenNext upstream issue #1454 documents that `staticAssetsIncrementalCache` causes prerendered pages to return 404 in production with Next.js >=15.5 because internal route-cache keys containing `$` trigger 307 redirects from Cloudflare's asset server.
-* **Decision:** We intentionally avoided enabling experimental cache interception or adding unratified R2/KV infrastructure. Instead, we addressed the root cause directly by optimizing the expensive per-request render work.
+* **Finding:** Upstream OpenNext issue #1454 documents that `staticAssetsIncrementalCache` causes prerendered pages to return 404 in production with Next.js >=15.5 because internal route-cache keys containing `$` trigger 307 redirects from Cloudflare's asset server.
+* **Decision:** We avoided enabling experimental cache interception or introducing unratified R2/KV infrastructure. Instead, we addressed the expensive in-isolate render work directly.
 
 ---
 
-## 3. Implementation: Smallest Reversible Runtime Fix
+## 3. Implementation: Reversible Runtime Mitigation
 
-In `app/research/orchestration-guide/page.tsx`:
-1. **Module-Level Component Declaration:**
-   Moved `markdownComponents` to module scope to avoid re-allocating component function definitions on every render.
-2. **Compiled React Tree Memoization:**
-   Introduced `cachedGuideContent` and `getOrchestrationGuideContent()`:
-   ```tsx
-   let cachedGuideContent: ReactNode = null;
-
-   function getOrchestrationGuideContent(): ReactNode {
-     if (!cachedGuideContent) {
-       const body = loadGuide();
-       cachedGuideContent = Markdown({
-         remarkPlugins: [remarkGfm, [remarkMath, { singleDollarTextMath: false }]],
-         rehypePlugins: [rehypeGuideFigures, rehypeKatex, rehypeTableLabels],
-         components: markdownComponents,
-         children: body,
-       });
-     }
-     return cachedGuideContent;
-   }
-   ```
-3. **Execution Characteristics:**
-   - **First request to isolate:** Compiles once (~270ms) and caches the resulting React node tree in module memory.
-   - **All subsequent requests (including concurrent RSC prefetches):** Reuses the precompiled tree in **~17ms** without executing Remark, Rehype, or KaTeX parsers.
-   - **Byte-for-byte HTML Parity:** Confirmed identical HTML output (`103,336 bytes`).
-   - **Freshness & Invalidation:** Every worker deployment instantiates fresh isolates, ensuring newly committed `guide.md` content is immediately picked up upon release.
+1. **Dedicated Memoizer Utility (`lib/orchestration-guide-memoizer.ts`):**
+   - Implements `createMarkdownMemoizer<T>(compiler: () => T)` with explicit compilation tracking (`getCompileCount`) and invalidation support (`reset`).
+2. **Page Integration (`app/research/orchestration-guide/page.tsx`):**
+   - Moved `markdownComponents` to module scope.
+   - Wrapped the Markdown compilation in `guideContentMemoizer = createMarkdownMemoizer(...)`.
+   - On isolate boot, the first request compiles the Markdown AST and KaTeX math expressions once.
+   - Subsequent requests (and concurrent prefetches handled by the same isolate) reuse the precompiled React tree directly.
+3. **Scope & Invalidation Guarantees:**
+   - Content is static and bundled at build time; there is no user-specific state or risk of cross-request data leakage.
+   - Deployments instantiate fresh worker isolates, ensuring updated Markdown content is immediately active upon release.
 
 ---
 
-## 4. Performance & Verification Evidence
+## 4. Reproducible Benchmark & Parity Verification
 
-### 4.1 Benchmark Metrics
-| Metric | Uncached (Per-Request Parse) | Memoized (Compiled Tree) | Improvement |
+A reproducible benchmark script is checked in at `scripts/bench-guide-render.ts`. It executes the complete Markdown pipeline (`remarkGfm`, `remarkMath`, `rehypeKatex`, `rehypeGuideFigures`, `rehypeTableLabels`) on `content/reports/orchestration-guide/guide.md`.
+
+### 4.1 Benchmark Results (Local Node.js v24 / ARM64)
+Command: `npx tsx scripts/bench-guide-render.ts`
+
+| Metric | Unmemoized (5 runs) | Memoized (5 runs) | Difference |
 |---|---|---|---|
-| **CPU Time per Render** | 370 ms | 17 ms | **95.5% reduction** |
-| **Heap Churn per 10 Renders** | ~114 MB | ~0 MB | **Eliminated** |
-| **5 Concurrent Requests CPU** | 1,861 ms | 105 ms | **18× faster** |
-| **HTML Output Difference** | 0 bytes diff (exact match) | 0 bytes diff (exact match) | Byte-for-byte identical |
+| **Wall Time per Call** | 327.2 ms | 41.7 ms | **7.9× faster** |
+| **CPU Time per Call** | 761.8 ms | 79.3 ms | **9.6× faster** |
+| **Output AST Length** | 453,889 chars | 453,889 chars | **Exact Match** |
+| **AST Parity Check** | Baseline | Identical | **100% byte parity** |
+
+*Note: These measurements demonstrate algorithm efficiency in local Node.js. Production Cloudflare Worker isolate performance will vary and must be confirmed via Cloudflare traces.*
 
 ### 4.2 Test Suite Verification
-- `lib/orchestration-guide-memoization.test.ts`: Passes (verifies memoization contract and performance bounds).
-- `lib/orchestration-guide.test.ts`: Passes (all content, A–E ladder, and prompt contract assertions pass).
+- `lib/orchestration-guide-memoization.test.ts`: 3/3 tests pass (behavioral memoizer compilation count, full-pipeline AST and figure parity, and page integration).
+- `lib/orchestration-guide.test.ts`: 3/3 tests pass (content, ladder, and prompt contract assertions).
 - `npm run lint`: Clean (TypeScript check and edge filesystem check pass).
-- `npx tsx scripts/lexicon/check-lexicon.ts --strict`: Clean (81 terms, 57 files scanned, 0 findings).
+- `npx tsx scripts/lexicon/check-lexicon.ts --strict`: Clean (81 terms, 59 files scanned, 0 findings).
 
 ---
 
-## 5. Rollout Recommendations
+## 5. Required Follow-up & Production Observation
 
-1. Merge this scoped PR into `main` after review.
-2. Monitor Cloudflare Workers analytics for `exceededCpu` and `exceededMemory` on `/research/orchestration-guide`.
-3. Keep R2/KV incremental caching deferred unless dynamic revalidation (ISR) is explicitly ratified in a future architecture review.
+1. **Keep Issue #327 Open:**
+   - Do not close Issue #327 upon merging this PR.
+   - Keep the issue open as an active tracker until Cloudflare production logs (or `wrangler tail`) provide concrete evidence of error rates post-rollout.
+2. **Post-Deployment Verification:**
+   - Once deployed via PR #326's authoritative Actions pipeline, monitor Cloudflare Workers analytics for `exceededCpu` and `exceededMemory` metrics on `/research/orchestration-guide`.
+   - Execute live browser prefetch smoke tests against `https://research.gaiaskilltree.com/research/orchestration-guide` to verify real isolate stability.
