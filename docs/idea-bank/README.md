@@ -153,6 +153,11 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 
 ## Unranked Editorial Ideas (not yet prioritized)
 
+### Are We Building the Future of Software Factories, or Just Scaffolding for Today's Agents?
+- **Status:** Founder Essay Candidate / Open Research Question / Unranked
+- **Why now:** Autonomous coding factories and meta-engineering are gaining traction, while model capability and native platform automation are rapidly changing what needs custom orchestration. Explore whether factory machinery is transitional scaffolding or durable governance and reliability infrastructure, with Gaia Steward as a practical case and measurable costs per verified outcome.
+- **Doc:** [`are-software-factories-scaffolding-for-todays-agents.md`](./are-software-factories-scaffolding-for-todays-agents.md) · Tracking issue: [#331](https://github.com/gaia-research/gaia-research/issues/331)
+
 ### When Does a General Agent Need a Software Factory?
 - **Status:** Unratified research proposal / Astra advisory-reviewed and lead-adjudicated / Awaiting founder review / Unranked
 - **Why now:** A four-mode matrix and constraint-first decision procedure separate workflow specialization from independent governance and action authority. Compares native and custom capabilities, lifecycle cost per verified outcome, build/keep/retire decisions, and testable futures without uncalibrated score thresholds or presumed factory superiority.
