@@ -153,6 +153,11 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 
 ## Unranked Editorial Ideas (not yet prioritized)
 
+### Are We Building the Future of Software Factories, or Just Scaffolding for Today's Agents?
+- **Status:** Founder Essay Candidate / Open Research Question / Unranked
+- **Why now:** Autonomous coding factories and meta-engineering are gaining traction, while model capability and native platform automation are rapidly changing what needs custom orchestration. Explore whether factory machinery is transitional scaffolding or durable governance and reliability infrastructure, with Gaia Steward as a practical case and measurable costs per verified outcome.
+- **Doc:** [`are-software-factories-scaffolding-for-todays-agents.md`](./are-software-factories-scaffolding-for-todays-agents.md) · Tracking issue: [#331](https://github.com/gaia-research/gaia-research/issues/331)
+
 ### Router Economics: Human Intuition vs Automated Agent Routing
 - **Status:** Formal Research Idea / Unranked / Not Yet Authorized
 - **Why now:** JEV, OpenRouter Auto Code (November 6, 2026 announcement), learned classifiers, fixed policies, Switchyard and informed humans have no universally proven workflow-economics ranking. Compare total cost per verified result and investigate capability floors, cache/switch costs, human time, and evidence quality.
