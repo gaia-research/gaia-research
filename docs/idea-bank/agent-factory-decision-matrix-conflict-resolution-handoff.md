@@ -20,7 +20,7 @@ Both PR #332 and PR #333 concurrently inserted an idea entry under `## Unranked 
 - No conflict markers remain.
 
 ## Verification & Integrity
-- **Diff verification against `main`:** Only PR #333's index entry in `docs/idea-bank/README.md` and `docs/idea-bank/agent-versus-software-factory-decision-matrix.md` are added.
+- **Diff verification against `main`:** Beyond this compliance handoff report, only PR #333's index entry in `docs/idea-bank/README.md` and `docs/idea-bank/agent-versus-software-factory-decision-matrix.md` are added relative to `main`.
 - **Diff verification against PR #333 pre-merge:** Only PR #332's index entry in `docs/idea-bank/README.md` and PR #332's merged docs are incorporated from `main`.
 - **Lexicon check:** `npx tsx scripts/lexicon/check-lexicon.ts --strict` completed cleanly with zero new findings.
 - **Independent review:** Luna HIGH (`openai/gpt-6-luna:high`) performed independent read-only review verifying mechanical fidelity and zero editorial alteration.
