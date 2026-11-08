@@ -13,6 +13,13 @@ This investigation analyzed recurring workflow and build failures in `gaia-resea
 
 A comprehensive root-cause analysis across Cloudflare Workers Builds, GitHub CheckRuns, and GitHub Actions execution logs identified five distinct failure vectors. Rather than masking these symptoms, this change introduces a resilient, decoupled architecture that isolates PR validation from production deployment, prevents overlapping deployments, ensures actionable observability, and eliminates test-runner race conditions.
 
+In addition, this iteration enforces:
+1. **Fail-Closed Credentials:** Missing production credentials in `cloudflare-deploy.yml` fail closed (`exit 1`) to eliminate silent deployment bypasses.
+2. **Single Authoritative Deployment Path:** Deduplication detection checks whether Cloudflare Git integration already deployed the commit, preventing parallel duplicate deployments.
+3. **Bounded Live-Site Smoke Check & Release Verification:** Direct release verification across key routes (`/`, `/robots.txt`, `/blog`, `/research/orchestration-guide`) with bounded retries and timeouts.
+4. **Guaranteed Outcome Reporting:** Skipped or dry-run deployments can never report deployment success in the GitHub Step Summary.
+5. **Reconciliation:** Merged and verified against latest `main` (including PR #325 and PR #322 `9b0081aa`).
+
 ---
 
 ## 2. Confirmed Root Causes & Supporting Evidence
@@ -72,8 +79,11 @@ A comprehensive root-cause analysis across Cloudflare Workers Builds, GitHub Che
    - Automatically executes when relevant files merge into `main`.
    - Supports `workflow_dispatch` for manual operator recovery, emergency redeployment, and dry-run execution.
    - Uses `concurrency: group: cloudflare-production-deploy, cancel-in-progress: false` to ensure production deployments strictly queue and never abort mid-flight.
+   - Fails closed (`exit 1`) if `CLOUDFLARE_API_TOKEN` or `CLOUDFLARE_ACCOUNT_ID` are missing in production runs.
+   - Checks check-runs to prevent duplicate deployments if Cloudflare Git integration already deployed the commit.
    - Enforces bounded retries (3 attempts with exponential backoff) for transient Cloudflare API/network glitches.
-   - Emits structured `$GITHUB_STEP_SUMMARY` reports for clear operational observability.
+   - Executes live-site release smoke verification on `/`, `/robots.txt`, `/blog`, and `/research/orchestration-guide`.
+   - Emits structured `$GITHUB_STEP_SUMMARY` reports where skipped/dry-run jobs can never report deployment success.
 
 ---
 
@@ -90,12 +100,14 @@ A comprehensive root-cause analysis across Cloudflare Workers Builds, GitHub Che
    - Added `Verify OpenNext Cloudflare Worker build` step to ensure all PRs prove Cloudflare bundle compatibility before merging.
 
 3. **`.github/workflows/cloudflare-deploy.yml` (New Workflow)**:
-   - Dedicated production deployment pipeline triggered on `push` to `main` and `workflow_dispatch`.
+   - Dedicated production deployment pipeline triggered on `main` merge and manual `workflow_dispatch`.
    - Concurrency queue with `cancel-in-progress: false` to guarantee deployment atomicity.
+   - Fail-closed credential validation.
+   - Deduplication check against external Cloudflare Git integration check-runs.
    - OpenNext worker compilation verification (`test -f .open-next/worker.js`).
-   - Credential probing (`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`).
    - Bounded retries (up to 3 attempts with 10s backoff) for deployment execution.
-   - Diagnostic step summary generation for auditability.
+   - Bounded live-site release smoke verification (HTTP 200 checks with 5s timeout and up to 6 retries).
+   - Strict step summary generation that prevents skipped deployments from reporting success.
 
 ---
 
@@ -103,9 +115,10 @@ A comprehensive root-cause analysis across Cloudflare Workers Builds, GitHub Che
 
 - **Unit Test Suite:** 30 test files, 299/299 Vitest tests passing (`npm run test`).
 - **Static Analysis & FS Check:** `npm run lint` clean (TypeScript check + edge fs usage check).
-- **Lexicon Governance Gate:** `npx tsx scripts/lexicon/check-lexicon.ts --strict` clean (81 terms, 57 files scanned, 0 new findings).
+- **Lexicon Governance Gate:** `npx tsx scripts/lexicon/check-lexicon.ts --strict` clean (81 terms, 58 files scanned, 0 new findings).
 - **Workflow Syntax Validation:** All `.github/workflows/*.yml` files parsed and verified via YAML parser.
 - **Dependency Integrity:** `npm ls tsx esbuild` verified tree compatibility with Node 22+ contract.
+- **PR #326 CI Status:** All check runs passed green on GitHub Actions (`craft-ci`, `lexicon`, `website-ci`, `Workers Builds`).
 
 ---
 
@@ -116,7 +129,7 @@ A comprehensive root-cause analysis across Cloudflare Workers Builds, GitHub Che
    - Set **Build triggers** to build `main` only, or disable automatic PR builds. PR validation is now completely handled in GitHub Actions (`website-ci.yml`), which saves Cloudflare build limits.
 2. **Repository Secrets Provisioning:**
    - To enable direct GitHub Actions deployment via `cloudflare-deploy.yml`, ensure `CLOUDFLARE_API_TOKEN` (Workers:Edit permissions) and `CLOUDFLARE_ACCOUNT_ID` are provisioned in GitHub repository secrets.
-   - Until provisioned, `cloudflare-deploy.yml` gracefully compiles and verifies the bundle, logging setup instructions in the GitHub Step Summary.
+   - Until provisioned, `cloudflare-deploy.yml` fails closed on production runs as required, preventing silent deployment bypasses.
 3. **Disable Deprecated GitHub Pages:**
    - In GitHub repository settings (`Settings` -> `Pages`), change `Source` from `Deploy from a branch` to `None` to prevent the failing dynamic `pages build and deployment` action on `main`.
 4. **Scheduled Registry Resync Token:**
