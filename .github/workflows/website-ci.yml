@@ -10,6 +10,8 @@ on:
       - 'lib/**'
       - 'scripts/**'
       - 'next.config.mjs'
+      - 'open-next.config.ts'
+      - 'wrangler.jsonc'
       - 'tsconfig.json'
       - 'package.json'
       - 'package-lock.json'
@@ -25,15 +27,22 @@ on:
       - 'lib/**'
       - 'scripts/**'
       - 'next.config.mjs'
+      - 'open-next.config.ts'
+      - 'wrangler.jsonc'
       - 'tsconfig.json'
       - 'package.json'
       - 'package-lock.json'
       - '.github/workflows/website-ci.yml'
 
+concurrency:
+  group: website-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   validate:
     name: Build, Edge & Browser Check
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v4
@@ -62,6 +71,11 @@ jobs:
 
       - name: Run Next.js build
         run: npm run build:next
+
+      - name: Verify OpenNext Cloudflare Worker build
+        run: |
+          npm run build
+          test -f .open-next/worker.js || { echo "Worker bundle .open-next/worker.js not found!" >&2; exit 1; }
 
       - name: Install Chromium for Playwright
         run: npx --yes playwright@1.63.0 install --with-deps chromium

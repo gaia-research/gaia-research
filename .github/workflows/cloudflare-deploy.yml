@@ -1,0 +1,153 @@
+name: cloudflare-deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+      - 'components/**'
+      - 'content/**'
+      - 'data/**'
+      - 'lib/**'
+      - 'scripts/**'
+      - 'next.config.mjs'
+      - 'open-next.config.ts'
+      - 'wrangler.jsonc'
+      - 'tsconfig.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/cloudflare-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+      dry_run:
+        description: 'Dry run (build bundle and verify wrangler without publishing)'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: cloudflare-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Cloudflare Workers
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build OpenNext Cloudflare bundle
+        run: |
+          echo "Building OpenNext Cloudflare Worker bundle..."
+          npm run build
+          test -f .open-next/worker.js || { echo "Worker bundle .open-next/worker.js not found!" >&2; exit 1; }
+          echo "Bundle built successfully."
+
+      - name: Check Cloudflare deployment credentials
+        id: credentials
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$CF_API_TOKEN" ] && [ -n "$CF_ACCOUNT_ID" ]; then
+            echo "has_credentials=true" >> "$GITHUB_OUTPUT"
+            echo "Cloudflare credentials detected in GitHub Actions secrets."
+          else
+            echo "has_credentials=false" >> "$GITHUB_OUTPUT"
+            echo "Cloudflare credentials (CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID) not provisioned in GitHub Actions secrets."
+          fi
+
+      - name: Deploy to Cloudflare Workers
+        id: deploy
+        if: steps.credentials.outputs.has_credentials == 'true' && inputs.dry_run != true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "Deploying to Cloudflare Workers..."
+          max_attempts=3
+          attempt=1
+          success=false
+
+          while [ $attempt -le $max_attempts ]; do
+            echo "Deployment attempt $attempt of $max_attempts..."
+            if npx wrangler deploy; then
+              success=true
+              echo "Deployment succeeded on attempt $attempt."
+              break
+            else
+              echo "Deployment attempt $attempt failed with exit code $?." >&2
+              if [ $attempt -lt $max_attempts ]; then
+                wait_time=$((attempt * 10))
+                echo "Backing off for ${wait_time}s before retrying..."
+                sleep $wait_time
+              fi
+            fi
+            attempt=$((attempt + 1))
+          done
+
+          if [ "$success" = false ]; then
+            echo "Cloudflare deployment failed after $max_attempts attempts." >&2
+            exit 1
+          fi
+
+      - name: Record deployment step summary
+        if: always()
+        run: |
+          cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          ## Cloudflare Deployment Report
+
+          | Metric | Value |
+          |---|---|
+          | **Trigger Event** | `${{ github.event_name }}` |
+          | **Ref / Commit** | `${{ github.ref }} (${{ github.sha }})` |
+          | **Actor** | `${{ github.actor }}` |
+          | **Target Environment** | `${{ inputs.environment || 'production' }}` |
+          | **Dry Run** | `${{ inputs.dry_run || 'false' }}` |
+          | **Credentials Configured** | `${{ steps.credentials.outputs.has_credentials || 'unknown' }}` |
+          | **Deploy Step Outcome** | `${{ steps.deploy.outcome || 'skipped/not run' }}` |
+
+          EOF
+
+          if [ "${{ steps.credentials.outputs.has_credentials }}" = "false" ]; then
+            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          > ℹ️ **Notice:** `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are not configured in GitHub Actions secrets.
+          > OpenNext worker bundle was verified and compiled successfully.
+          > To enable automated deployment from this workflow:
+          > 1. Set `CLOUDFLARE_API_TOKEN` (with Cloudflare Workers:Edit permissions) in Repository Secrets.
+          > 2. Set `CLOUDFLARE_ACCOUNT_ID` in Repository Secrets.
+          > *(If deployments are handled via Cloudflare Workers Git Integration, production builds trigger automatically on merge to `main`).*
+          EOF
+          elif [ "${{ steps.deploy.outcome }}" = "success" ]; then
+            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          > ✅ **Production deployment completed successfully!**
+          > Worker URL: `https://research.gaiaskilltree.com`
+          EOF
+          elif [ "${{ inputs.dry_run }}" = "true" ]; then
+            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          > 🔍 **Dry Run Mode:** OpenNext bundle compiled and validated. Deployment was skipped per input flag.
+          EOF
+          fi
