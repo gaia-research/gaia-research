@@ -154,8 +154,8 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 ## Unranked Editorial Ideas (not yet prioritized)
 
 ### When Does a General Agent Need a Software Factory?
-- **Status:** Working decision model / Astra High panel adjudication pending / Unranked
-- **Why now:** General agents increasingly absorb scheduling and orchestration, while repeatable domain workflows and independent governance can still justify specialized systems. Proposed 2×2 matrix distinguishes general agent, general agent with approvals, lean specialized factory, and governed factory; applies explicit verification and permission gates rather than treating advanced intelligence as automatic authorization.
+- **Status:** Unratified research proposal / Astra advisory-reviewed and lead-adjudicated / Awaiting founder review / Unranked
+- **Why now:** A four-mode matrix and constraint-first decision procedure separate workflow specialization from independent governance and action authority. Compares native and custom capabilities, lifecycle cost per verified outcome, build/keep/retire decisions, and testable futures without uncalibrated score thresholds or presumed factory superiority.
 - **Doc:** [`agent-versus-software-factory-decision-matrix.md`](./agent-versus-software-factory-decision-matrix.md) · Companion essay: [PR #332](https://github.com/gaia-research/gaia-research/pull/332) (separate, unchanged)
 
 ### Router Economics: Human Intuition vs Automated Agent Routing
