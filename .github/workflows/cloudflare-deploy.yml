@@ -10,6 +10,7 @@ on:
       - 'content/**'
       - 'data/**'
       - 'lib/**'
+      - 'public/**'
       - 'scripts/**'
       - 'next.config.mjs'
       - 'open-next.config.ts'
@@ -28,7 +29,12 @@ on:
         options:
           - production
       dry_run:
-        description: 'Dry run (build bundle and verify wrangler without publishing)'
+        description: 'Dry run (build bundle and verify without publishing)'
+        required: false
+        default: false
+        type: boolean
+      force_rollback:
+        description: 'Allow deploying a commit that does not match origin/main tip (for deliberate rollback)'
         required: false
         default: false
         type: boolean
@@ -48,7 +54,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
+
+      - name: Guard release ref (prevent stale manual deployment)
+        if: github.event_name == 'workflow_dispatch' && inputs.force_rollback != true
+        run: |
+          echo "Verifying checked out ref matches current origin/main tip..."
+          MAIN_SHA=$(git rev-parse origin/main)
+          CURRENT_SHA=$(git rev-parse HEAD)
+          if [ "$MAIN_SHA" != "$CURRENT_SHA" ]; then
+            echo "::error::Manual production release ref ($CURRENT_SHA) does not match origin/main tip ($MAIN_SHA)." >&2
+            echo "To prevent accidental deployment of stale or unmerged code, production deployments must match main tip." >&2
+            echo "If this is a deliberate authorized rollback, re-run with force_rollback: true." >&2
+            exit 1
+          fi
+          echo "Ref verification passed: deploying current origin/main ($CURRENT_SHA)."
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
@@ -59,9 +79,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run unit tests (Vitest)
+        run: npm run test
+
       - name: Build OpenNext Cloudflare bundle
+        env:
+          NEXT_PUBLIC_GIT_COMMIT_SHA: ${{ github.sha }}
         run: |
-          echo "Building OpenNext Cloudflare Worker bundle..."
+          echo "Building OpenNext Cloudflare Worker bundle with revision ${{ github.sha }}..."
           npm run build
           test -f .open-next/worker.js || { echo "Worker bundle .open-next/worker.js not found!" >&2; exit 1; }
           echo "Bundle built successfully."
@@ -87,56 +112,14 @@ jobs:
             fi
           fi
 
-      - name: Check for duplicate Cloudflare Git integration deployments
-        id: duplicate_check
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Checking whether Cloudflare Git integration has already built and deployed commit ${{ github.sha }}..."
-          skip_deploy=false
-
-          # Query check-runs for this commit to detect external Cloudflare GitHub App deployment
-          cf_runs=$(gh api "repos/${{ github.repository }}/commits/${{ github.sha }}/check-runs" --jq '.check_runs[] | select(.name == "Workers Builds: gaia-research" or .app.slug == "cloudflare-workers-and-pages")' 2>/dev/null || true)
-
-          if [ -n "$cf_runs" ]; then
-            cf_conclusion=$(echo "$cf_runs" | jq -r '.conclusion // empty' | head -n 1)
-            cf_status=$(echo "$cf_runs" | jq -r '.status // empty' | head -n 1)
-            echo "Cloudflare Git integration check-run detected: status=$cf_status, conclusion=$cf_conclusion"
-
-            if [ "$cf_conclusion" = "success" ]; then
-              echo "Cloudflare Git integration has already successfully deployed commit ${{ github.sha }}."
-              echo "Skipping redundant Wrangler deployment to prevent duplicate deployment race condition."
-              skip_deploy=true
-            elif [ "$cf_status" = "in_progress" ]; then
-              echo "Cloudflare Git integration is currently building commit ${{ github.sha }}."
-              echo "Waiting up to 60s for Cloudflare Git integration to settle before deciding..."
-              for i in {1..12}; do
-                sleep 5
-                current_conclusion=$(gh api "repos/${{ github.repository }}/commits/${{ github.sha }}/check-runs" --jq '.check_runs[] | select(.name == "Workers Builds: gaia-research") | .conclusion' 2>/dev/null || true)
-                if [ "$current_conclusion" = "success" ]; then
-                  echo "Cloudflare Git integration finished with success. Skipping duplicate deploy."
-                  skip_deploy=true
-                  break
-                elif [ -n "$current_conclusion" ] && [ "$current_conclusion" != "null" ]; then
-                  echo "Cloudflare Git integration settled with conclusion: $current_conclusion. Proceeding with authoritative Wrangler deploy."
-                  break
-                fi
-              done
-            fi
-          else
-            echo "No Cloudflare Git integration check-run detected. Proceeding with authoritative Wrangler deploy."
-          fi
-
-          echo "skip_deploy=$skip_deploy" >> "$GITHUB_OUTPUT"
-
-      - name: Deploy to Cloudflare Workers
+      - name: Deploy to Cloudflare Workers (authoritative release)
         id: deploy
-        if: steps.credentials.outputs.has_credentials == 'true' && steps.duplicate_check.outputs.skip_deploy != 'true' && inputs.dry_run != true
+        if: steps.credentials.outputs.has_credentials == 'true' && inputs.dry_run != true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          echo "Deploying to Cloudflare Workers..."
+          echo "Deploying to Cloudflare Workers via authoritative pipeline..."
           max_attempts=3
           attempt=1
           success=false
@@ -163,48 +146,71 @@ jobs:
             exit 1
           fi
 
-      - name: Bounded live-site release smoke check
-        id: smoke
-        if: steps.deploy.outcome == 'success' || steps.duplicate_check.outputs.skip_deploy == 'true'
+      - name: Authoritative release revision & live-site smoke check
+        id: release_check
+        if: steps.deploy.outcome == 'success'
         run: |
-          echo "Starting bounded live-site release smoke verification..."
+          echo "Starting authoritative post-deploy verification against https://research.gaiaskilltree.com..."
+
+          # 1. Verify deployed commit revision identity
+          expected_sha="${{ github.sha }}"
+          echo "Verifying live revision matches deployed commit: $expected_sha"
+          max_revision_attempts=24 # 2 minutes at 5s interval
+          revision_verified=false
+
+          for i in $(seq 1 $max_revision_attempts); do
+            version_json=$(curl -sf --connect-timeout 5 --max-time 10 "https://research.gaiaskilltree.com/api/version?_cb=$(date +%s%N)" || echo "")
+            live_sha=$(echo "$version_json" | jq -r '.commitSha // empty' 2>/dev/null || echo "")
+
+            if [ "$live_sha" = "$expected_sha" ]; then
+              echo "✓ Live revision verified: deployed commit $live_sha is active in production."
+              revision_verified=true
+              break
+            else
+              echo "  Live revision is '$live_sha', waiting for $expected_sha to propagate (attempt $i/$max_revision_attempts)..."
+              sleep 5
+            fi
+          done
+
+          if [ "$revision_verified" = false ]; then
+            echo "::error::Release verification failed: live site did not propagate commit $expected_sha within timeout." >&2
+            exit 1
+          fi
+
+          # 2. Availability smoke checks across key routes
           endpoints=(
             "https://research.gaiaskilltree.com/"
             "https://research.gaiaskilltree.com/robots.txt"
             "https://research.gaiaskilltree.com/blog"
             "https://research.gaiaskilltree.com/research/orchestration-guide"
+            "https://research.gaiaskilltree.com/research/agent-playbook"
           )
 
-          max_attempts=6
           for url in "${endpoints[@]}"; do
-            echo "Verifying endpoint: $url"
+            echo "Verifying endpoint availability: $url"
             attempt=1
             endpoint_ok=false
 
-            while [ $attempt -le $max_attempts ]; do
-              echo "  Attempt $attempt/$max_attempts for $url..."
+            while [ $attempt -le 6 ]; do
               http_code=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 "$url" || echo "000")
-
               if [ "$http_code" = "200" ]; then
                 echo "  ✓ $url returned HTTP 200 OK"
                 endpoint_ok=true
                 break
               else
-                echo "  ⚠ $url returned HTTP $http_code (attempt $attempt/$max_attempts)" >&2
-                if [ $attempt -lt $max_attempts ]; then
-                  sleep 5
-                fi
+                echo "  ⚠ $url returned HTTP $http_code (attempt $attempt/6)" >&2
+                sleep 5
               fi
               attempt=$((attempt + 1))
             done
 
             if [ "$endpoint_ok" = false ]; then
-              echo "::error::Release smoke verification failed for $url: did not return HTTP 200 after $max_attempts attempts." >&2
+              echo "::error::Release smoke verification failed for $url: did not return HTTP 200 after 6 attempts." >&2
               exit 1
             fi
           done
 
-          echo "✓ All live-site endpoints verified HTTP 200 OK."
+          echo "✓ Live release revision and availability smoke verification completed successfully."
 
       - name: Record deployment step summary
         if: always()
@@ -219,10 +225,10 @@ jobs:
           | **Actor** | `${{ github.actor }}` |
           | **Target Environment** | `${{ inputs.environment || 'production' }}` |
           | **Dry Run** | `${{ inputs.dry_run || 'false' }}` |
+          | **Force Rollback** | `${{ inputs.force_rollback || 'false' }}` |
           | **Credentials Configured** | `${{ steps.credentials.outputs.has_credentials || 'false' }}` |
-          | **Duplicate Deploy Skipped** | `${{ steps.duplicate_check.outputs.skip_deploy || 'false' }}` |
           | **Deploy Step Outcome** | `${{ steps.deploy.outcome || 'skipped/not run' }}` |
-          | **Smoke Check Outcome** | `${{ steps.smoke.outcome || 'skipped/not run' }}` |
+          | **Release Verification** | `${{ steps.release_check.outcome || 'skipped/not run' }}` |
 
           EOF
 
@@ -238,28 +244,21 @@ jobs:
           > `CLOUDFLARE_API_TOKEN` and/or `CLOUDFLARE_ACCOUNT_ID` are missing from repository secrets.
           > Production deployment failed closed. Configure these secrets in repository settings to enable automated deployment.
           EOF
-          elif [ "${{ steps.deploy.outcome }}" = "success" ] && [ "${{ steps.smoke.outcome }}" = "success" ]; then
+          elif [ "${{ steps.deploy.outcome }}" = "success" ] && [ "${{ steps.release_check.outcome }}" = "success" ]; then
             cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
           > ✅ **Status: DEPLOYED & VERIFIED**
           > Production release succeeded via authoritative Wrangler deployment.
-          > Live-site smoke verification confirmed HTTP 200 across key routes.
+          > Live-site revision verified matching commit `${{ github.sha }}`.
           > URL: `https://research.gaiaskilltree.com`
           EOF
-          elif [ "${{ steps.duplicate_check.outputs.skip_deploy }}" = "true" ] && [ "${{ steps.smoke.outcome }}" = "success" ]; then
-            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
-          > ℹ️ **Status: DEDUPLICATED & VERIFIED**
-          > Cloudflare Git Integration already deployed commit `${{ github.sha }}`.
-          > Redundant Wrangler deploy was skipped to avoid duplicate deployment race condition.
-          > Live-site smoke verification confirmed HTTP 200 across key routes.
-          EOF
-          elif [ "${{ steps.deploy.outcome }}" = "failure" ] || [ "${{ steps.smoke.outcome }}" = "failure" ]; then
+          elif [ "${{ steps.deploy.outcome }}" = "failure" ] || [ "${{ steps.release_check.outcome }}" = "failure" ]; then
             cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
           > ❌ **Status: FAILED**
-          > Production deployment or live-site release smoke check failed. Inspect workflow job logs for details.
+          > Production deployment or live-site release revision verification failed. Inspect workflow job logs for details.
           EOF
           else
             cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
-          > ⚠️ **Status: NOT DEPLOYED**
-          > Deployment was not completed. Skipped deployments cannot report success.
+          > ⚪ **Status: SKIPPED / INCOMPLETE**
+          > Deployment did not run to completion. Review step outputs above.
           EOF
           fi
