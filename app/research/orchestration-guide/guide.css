@@ -1,0 +1,756 @@
+/* Orchestration Guide: hero composition, the hero ladder, and spec framing. */
+
+.report-head.og-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  grid-template-areas: "copy ladder" "jump ladder";
+  gap: clamp(1.25rem, 3vw, 2.25rem) clamp(1.5rem, 4vw, 4rem);
+  align-items: end;
+}
+.og-hero-copy { grid-area: copy; }
+.og-hero .ghl { grid-area: ladder; }
+.og-hero .og-jump { grid-area: jump; align-self: start; }
+
+.og-hero .report-sub {
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  line-height: 1.4;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.og-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.og-jump a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font: 0.72rem/1.2 var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.og-jump a:hover {
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+.og-jump a.og-jump-copy {
+  border-color: var(--pink-border, rgba(236, 72, 153, 0.35));
+  color: var(--pink);
+}
+
+.og-jump a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* ── Hero ladder ── */
+.ghl {
+  margin: 0;
+}
+
+.ghl-rungs {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ghl-link {
+  display: grid;
+  grid-template-columns: 2.1rem minmax(0, 1fr);
+  grid-template-areas: "lvl bar" "lvl text";
+  column-gap: 0.75rem;
+  row-gap: 0.3rem;
+  padding: 0.5rem 0.65rem 0.55rem 0.5rem;
+  border: 1px solid var(--line);
+  background: rgba(11, 12, 19, 0.7);
+  color: var(--ink);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ghl-link:hover {
+  border-color: var(--blue);
+  background: rgba(56, 189, 248, 0.06);
+}
+
+.ghl-link:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.ghl-level {
+  grid-area: lvl;
+  align-self: center;
+  justify-self: center;
+  color: var(--blue);
+  font: 400 1.9rem/1 var(--display);
+  letter-spacing: 0.02em;
+}
+
+.ghl-bar {
+  grid-area: bar;
+  display: block;
+  height: 6px;
+  width: calc(18% + var(--i) * 20%);
+  background: var(--blue);
+  transform-origin: left center;
+  animation: ghl-grow 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i) * 110ms + 150ms);
+}
+
+.ghl-text {
+  grid-area: text;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem 0.6rem;
+  min-width: 0;
+}
+
+.ghl-name {
+  font: 600 0.95rem/1.25 var(--body);
+}
+
+.ghl-text small {
+  color: var(--dim);
+  font: 0.68rem/1.3 var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* A is the default: the brightest rung. */
+.ghl-rung[data-level="A"] .ghl-link {
+  border-color: var(--pink);
+  background: rgba(236, 72, 153, 0.08);
+}
+.ghl-rung[data-level="A"] .ghl-level {
+  color: var(--pink);
+}
+.ghl-rung[data-level="A"] .ghl-bar {
+  background: var(--pink);
+}
+
+/* E leaves the ladder: a human takes over, drawn as a hand-off, not a taller bar. */
+.ghl-rung[data-level="E"] {
+  margin-bottom: 0.5rem;
+}
+.ghl-rung[data-level="E"] .ghl-link {
+  border-style: dashed;
+  border-color: rgba(251, 191, 36, 0.5);
+}
+.ghl-rung[data-level="E"] .ghl-level {
+  color: var(--amber, #fbbf24);
+}
+.ghl-rung[data-level="E"] .ghl-bar {
+  width: 100%;
+  height: 0;
+  background: none;
+  border-top: 2px dashed rgba(251, 191, 36, 0.8);
+}
+
+.ghl-cap {
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.ghl-cap strong {
+  color: var(--pink);
+}
+
+@keyframes ghl-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ── Spec framing (was inline styles) ── */
+.og-spec-banner {
+  margin-bottom: 2rem;
+  padding: 0.95rem 1.2rem;
+  background: rgba(14, 20, 36, 0.65);
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+}
+
+.og-spec-banner span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+  color: var(--blue);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.og-spec-banner span::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pink);
+}
+
+.og-spec-banner p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.52;
+}
+
+@media (max-width: 900px) {
+  .report-head.og-hero {
+    grid-template-columns: 1fr;
+    grid-template-areas: "copy" "ladder" "jump";
+    align-items: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .og-hero h1 {
+    font-size: clamp(2.6rem, 13vw, 3.4rem);
+  }
+  .og-hero .report-sub {
+    margin-top: 0.75rem;
+  }
+  .og-jump a {
+    min-height: 36px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.66rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ghl-bar {
+    animation: none;
+  }
+  .ghl-link,
+  .og-jump a {
+    transition: none;
+  }
+}
+
+/* ── Cache-horizon timeline (replaces a 680px SVG that side-scrolled) ── */
+.och {
+  margin: 0.25rem 0 0;
+  padding: 0.85rem 0.9rem 0.75rem;
+  border: 1px solid #1e293b;
+  border-radius: 6px;
+  background: #070b16;
+}
+.och-track {
+  position: relative;
+  display: grid;
+  gap: 0.6rem;
+}
+.och-row {
+  display: grid;
+  gap: 0.25rem;
+}
+.och-name {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--muted);
+  font: 600 0.7rem/1.2 var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.och-name i {
+  font-style: normal;
+  font-weight: 700;
+}
+.och-row[data-status="WARM"] .och-name i { color: #34d399; }
+.och-row[data-status="COLD"] .och-name i { color: #fb7185; }
+.och-lane {
+  position: relative;
+  display: block;
+  height: 18px;
+  border-radius: 3px;
+  background: #0b101d;
+  overflow: hidden;
+}
+.och-bar {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  border-radius: 3px;
+}
+.och-worker .och-lane { height: 24px; }
+.och-worker .och-bar {
+  min-width: 3.2rem;
+  padding: 0 0.45rem;
+  background: var(--ink);
+  color: #05060a;
+  font: 800 0.7rem/1 var(--mono);
+}
+.och-worker .och-name { color: var(--ink); }
+.och-worker[data-over="true"] .och-bar {
+  background: linear-gradient(90deg, var(--ink) 80%, rgba(240, 241, 245, 0.35));
+}
+.och-row[data-tone="blue"] .och-bar { background: rgba(56, 189, 248, 0.55); box-shadow: inset 0 0 0 1px #38bdf8; }
+.och-row[data-tone="amber"] .och-bar { background: rgba(251, 191, 36, 0.4); box-shadow: inset 0 0 0 1px #fbbf24; }
+.och-row[data-tone="pink"] .och-bar { background: rgba(236, 72, 153, 0.35); box-shadow: inset 0 0 0 1px #ec4899; }
+.och-row[data-status="COLD"] .och-bar { opacity: 0.55; }
+/* The moment the worker comes back, drawn across every lease. */
+.och-marker {
+  position: absolute;
+  top: 1.1rem;
+  bottom: 0;
+  left: var(--worker);
+  width: 0;
+  border-left: 2px dashed var(--ink);
+  transform: translateX(-1px);
+  pointer-events: none;
+}
+.och-axis {
+  position: relative;
+  height: 1.1rem;
+  margin-top: 0.35rem;
+  color: var(--dim);
+  font: 0.66rem/1 var(--mono);
+}
+.och-axis span {
+  position: absolute;
+  top: 0.2rem;
+  transform: translateX(-50%);
+}
+.och-task {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+/* ── Prose: fewer things at full white ──
+   Body copy steps down to a soft ink; bold terms, headings and the coloured
+   cost terms are what stays bright, so the eye has somewhere to land. */
+.report-body > p,
+.report-body > ul > li,
+.report-body > ol > li,
+.report-body > ul li,
+.report-body > ol li {
+  color: #a9aec3;
+}
+.report-body > p strong,
+.report-body > ul strong,
+.report-body > ol strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+.report-body > p em,
+.report-body > ul em,
+.report-body > ol em {
+  color: #c6cadb;
+}
+
+/* Inline maths sits in the line; no per-formula scrollbars. */
+.report-body p .katex,
+.report-body li .katex {
+  display: inline;
+  max-width: none;
+  overflow: visible;
+  vertical-align: baseline;
+  font-size: 1em;
+}
+.report-body .math-display-block {
+  margin: 1.25rem 0;
+}
+.report-body .math-display-block .katex {
+  overflow: visible;
+}
+
+/* ── Colour key for the cost terms ── */
+.report-body,
+.gmf-eq,
+.gmf-fig {
+  --t-exec: #38bdf8;
+  --t-orch: #ec4899;
+  --t-verif: #fbbf24;
+  --t-pass: #34d399;
+  --t-w5: #38bdf8;
+  --t-w1h: #ec4899;
+  --t-read: #34d399;
+  --t-beat: #fbbf24;
+}
+
+/* The four lever bullets take their term's colour. */
+.report-body li[data-lever] {
+  list-style: none;
+  position: relative;
+  margin: 0 0 1rem -1.3rem;
+  padding: 0.75rem 0.9rem 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--lever);
+  background: rgba(11, 12, 19, 0.6);
+}
+.report-body li[data-lever="execution"] { --lever: var(--t-exec); }
+.report-body li[data-lever="orchestration"] { --lever: var(--t-orch); }
+.report-body li[data-lever="verification"] { --lever: var(--t-verif); }
+.report-body li[data-lever="quota"] { --lever: #8c90aa; }
+.report-body li[data-lever] > strong:first-child,
+.report-body li[data-lever] > strong:first-child .katex {
+  color: var(--lever);
+}
+.report-body li[data-lever="verification"] > strong:first-child > .katex:nth-of-type(2) {
+  color: var(--t-pass);
+}
+
+/* ── C_verified as a visual equation ── */
+.gmf-eq {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin: 1.5rem 0 1.75rem;
+  padding: 1.1rem 1rem 0.9rem;
+  border: 1px solid var(--line);
+  background: #080b14;
+}
+.gmf-eq .katex {
+  display: inline;
+  overflow: visible;
+  font-size: 1.12em;
+  color: inherit;
+}
+@media (max-width: 420px) {
+  .report-body .math-display-block .katex {
+    font-size: 0.86em;
+  }
+}
+.gmf-eq-lhs {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ink);
+  font-size: 1.15rem;
+}
+.gmf-eq-equals {
+  color: var(--dim);
+}
+.gmf-eq-frac {
+  flex: 1 1 18rem;
+  display: grid;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.gmf-eq-num {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+}
+.gmf-eq-termwrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.gmf-eq-plus {
+  color: var(--dim);
+  font-size: 1.1rem;
+}
+.gmf-eq-term {
+  --tone: var(--t-exec);
+  display: inline-grid;
+  justify-items: center;
+  gap: 0.2rem;
+  padding: 0.4rem 0.6rem 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--tone) 55%, transparent);
+  background: color-mix(in srgb, var(--tone) 10%, transparent);
+  color: var(--tone);
+}
+.gmf-eq-term[data-tone="orchestration"] { --tone: var(--t-orch); }
+.gmf-eq-term[data-tone="verification"] { --tone: var(--t-verif); }
+.gmf-eq-term[data-tone="pass"] { --tone: var(--t-pass); }
+.gmf-eq-term small {
+  color: var(--muted);
+  font: 0.62rem/1.2 var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.gmf-eq-bar {
+  height: 2px;
+  background: var(--ink);
+  opacity: 0.8;
+}
+.gmf-eq-den {
+  display: flex;
+  justify-content: center;
+}
+.gmf-cap {
+  flex-basis: 100%;
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 560px) {
+  .gmf-eq-num {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .gmf-eq-termwrap {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .gmf-eq-term {
+    width: min(100%, 17rem);
+  }
+}
+
+/* ── Figure shell for the break-even visuals ── */
+.gmf-fig {
+  margin: 1.5rem 0 2rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: #080b14;
+}
+.gmf-fig h4 {
+  margin: 0 0 0.6rem;
+  color: var(--ink);
+  font: 700 0.95rem/1.35 var(--body);
+}
+.gmf-fig-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin-bottom: 1rem;
+}
+.gmf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid currentColor;
+  font: 600 0.72rem/1.2 var(--mono);
+  letter-spacing: 0.03em;
+}
+.gmf-chip code {
+  font-size: 0.95em;
+  color: inherit !important;
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+.gmf-vs {
+  color: var(--dim);
+  font: 0.7rem var(--mono);
+}
+
+[data-tone="w5"] { --c: var(--t-w5); }
+[data-tone="w1h"] { --c: var(--t-w1h); }
+[data-tone="read"] { --c: var(--t-read); }
+[data-tone="beat"] { --c: var(--t-beat); }
+.gmf-fig .gmf-chip[data-tone],
+.gmf-fig b[data-tone],
+.gmf-fig .gmf-num[data-tone],
+.gmf-fig .gmf-pair-label[data-tone],
+.gmf-fig .gmf-row-label span[data-tone],
+.gmf-fig .gmf-result-math span[data-tone] {
+  color: var(--c);
+}
+
+.gmf-metric {
+  padding: 0.8rem 0 0.7rem;
+  border-top: 1px solid var(--line);
+}
+.gmf-pair {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.35rem 0;
+}
+.gmf-pair-label {
+  font: 600 0.7rem var(--mono);
+  text-transform: uppercase;
+}
+.gmf-pair-bar {
+  display: block;
+  height: 14px;
+  background: #0f1422;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.gmf-pair-bar span {
+  display: block;
+  height: 100%;
+  min-width: 3px;
+  background: var(--c);
+}
+.gmf-pair b {
+  font: 700 0.82rem var(--mono);
+  white-space: nowrap;
+}
+.gmf-note {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.gmf-note strong {
+  color: var(--t-read);
+}
+
+/* Cases */
+.gmf-case + .gmf-case {
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.gmf-case h4 span {
+  margin-right: 0.4rem;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font: 600 0.68rem/1.4 var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  vertical-align: 0.12em;
+}
+.gmf-row-label {
+  margin: 0.75rem 0 0.3rem;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+.gmf-row-label span[data-tone] {
+  font-weight: 650;
+}
+.gmf-bar {
+  display: flex;
+  gap: 2px;
+  height: 18px;
+}
+.gmf-seg {
+  display: block;
+  min-width: 3px;
+  height: 100%;
+  background: var(--c);
+  border-radius: 1px;
+}
+.gmf-seg[data-tone="w5"] + .gmf-seg[data-tone="w5"] {
+  opacity: 0.8;
+}
+.gmf-sum {
+  margin: 0.35rem 0 0;
+  font: 0.82rem/1.5 var(--mono);
+  color: var(--dim);
+}
+.gmf-num {
+  font-weight: 700;
+}
+.gmf-total {
+  color: var(--ink);
+  font-weight: 800;
+}
+.gmf-pl .katex {
+  font-size: 0.95em;
+  color: var(--ink);
+}
+.gmf-aside {
+  color: var(--dim);
+  font-family: var(--body);
+  font-size: 0.8rem;
+}
+.gmf-result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.5rem;
+  margin: 0.9rem 0 0;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  background: rgba(52, 211, 153, 0.07);
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.gmf-result b {
+  color: var(--t-read);
+  font: 400 1.7rem/1 var(--display);
+  letter-spacing: 0.03em;
+}
+.gmf-result-math {
+  flex-basis: 100%;
+  font-size: 0.82rem;
+}
+.gmf-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin: 1.1rem 0 0;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+.gmf-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  color: var(--muted);
+  font: 0.72rem/1.3 var(--mono);
+}
+.gmf-legend li::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--c);
+}
+.gmf-basis {
+  margin: 0.6rem 0 0;
+  color: var(--dim);
+  font-size: 0.78rem;
+}
+.gmf-basis .katex {
+  color: var(--muted);
+  font-size: 1em;
+}
+.gmf-source {
+  margin-top: 0.9rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.6rem;
+}
+.gmf-source summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  color: var(--blue);
+  font: 0.72rem var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.gmf-source summary:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.gmf-source > ul {
+  margin-top: 0.6rem;
+}

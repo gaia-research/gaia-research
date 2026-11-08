@@ -7,10 +7,10 @@ export default function RegistryHandoff() {
         <div className="registry-copy">
           <p className="signal"><span /> RESEARCH SIGNAL / PERMANENT RECORD</p>
           <h2 id="registry-title">Let the research <em>take root.</em></h2>
-          <p className="registry-lede">Gaia Research tests the frontier in public. Gaia Skill Tree keeps the attributable, evidence-backed record of what agents can actually do.</p>
+          <p className="registry-lede">Gaia Research tests the frontier in the open; Gaia Skill Tree keeps the permanent, attributable record of what survives.</p>
           <dl className="registry-terms">
-            <div><dt>FROM</dt><dd>Open research, methods, and experiments.</dd></div>
-            <div><dt>TO</dt><dd>A public registry of demonstrated agent skills.</dd></div>
+            <div><dt>FROM</dt><dd>Live experiments, benchmarks, and field methods.</dd></div>
+            <div><dt>TO</dt><dd>Verified skills indexed in the public registry.</dd></div>
           </dl>
           <a className="registry-cta" href="https://gaiaskilltree.com" target="_blank" rel="noreferrer">
             Enter Gaia Skill Tree <span aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span>

@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/blog/economics-of-agentic-work`, lastModified: new Date("2026-10-26"), changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/blog/missing-economic-scheduler`, lastModified: new Date("2026-10-26"), changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/blog/cheapest-agent-not-cheapest-outcome`, lastModified: new Date("2026-10-22"), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${siteUrl}/research/agent-playbook`, lastModified: new Date("2026-11-07"), changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/research/agent-role-intelligence`, lastModified: new Date("2026-10-22"), changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/blog/if-everything-can-be-recreated`, lastModified: new Date("2026-10-18"), changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/blog/capability-amplification`, lastModified: new Date("2026-10-05"), changeFrequency: "monthly", priority: 0.7 },
