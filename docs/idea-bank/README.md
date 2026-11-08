@@ -158,6 +158,11 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 - **Why now:** Autonomous coding factories and meta-engineering are gaining traction, while model capability and native platform automation are rapidly changing what needs custom orchestration. Explore whether factory machinery is transitional scaffolding or durable governance and reliability infrastructure, with Gaia Steward as a practical case and measurable costs per verified outcome.
 - **Doc:** [`are-software-factories-scaffolding-for-todays-agents.md`](./are-software-factories-scaffolding-for-todays-agents.md) · Tracking issue: [#331](https://github.com/gaia-research/gaia-research/issues/331)
 
+### When Does a General Agent Need a Software Factory?
+- **Status:** Unratified research proposal / Astra advisory-reviewed and lead-adjudicated / Awaiting founder review / Unranked
+- **Why now:** A four-mode matrix and constraint-first decision procedure separate workflow specialization from independent governance and action authority. Compares native and custom capabilities, lifecycle cost per verified outcome, build/keep/retire decisions, and testable futures without uncalibrated score thresholds or presumed factory superiority.
+- **Doc:** [`agent-versus-software-factory-decision-matrix.md`](./agent-versus-software-factory-decision-matrix.md) · Companion essay: [PR #332](https://github.com/gaia-research/gaia-research/pull/332) (separate, unchanged)
+
 ### Router Economics: Human Intuition vs Automated Agent Routing
 - **Status:** Formal Research Idea / Unranked / Not Yet Authorized
 - **Why now:** JEV, OpenRouter Auto Code (November 6, 2026 announcement), learned classifiers, fixed policies, Switchyard and informed humans have no universally proven workflow-economics ranking. Compare total cost per verified result and investigate capability floors, cache/switch costs, human time, and evidence quality.
