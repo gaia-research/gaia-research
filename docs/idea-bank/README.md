@@ -153,6 +153,11 @@ Ranked by combined **viability** and **potential** (active, unbuilt ideas).
 
 ## Unranked Editorial Ideas (not yet prioritized)
 
+### When Does a General Agent Need a Software Factory?
+- **Status:** Working decision model / Astra High panel adjudication pending / Unranked
+- **Why now:** General agents increasingly absorb scheduling and orchestration, while repeatable domain workflows and independent governance can still justify specialized systems. Proposed 2×2 matrix distinguishes general agent, general agent with approvals, lean specialized factory, and governed factory; applies explicit verification and permission gates rather than treating advanced intelligence as automatic authorization.
+- **Doc:** [`agent-versus-software-factory-decision-matrix.md`](./agent-versus-software-factory-decision-matrix.md) · Companion essay: [PR #332](https://github.com/gaia-research/gaia-research/pull/332) (separate, unchanged)
+
 ### Router Economics: Human Intuition vs Automated Agent Routing
 - **Status:** Formal Research Idea / Unranked / Not Yet Authorized
 - **Why now:** JEV, OpenRouter Auto Code (November 6, 2026 announcement), learned classifiers, fixed policies, Switchyard and informed humans have no universally proven workflow-economics ranking. Compare total cost per verified result and investigate capability floors, cache/switch costs, human time, and evidence quality.
