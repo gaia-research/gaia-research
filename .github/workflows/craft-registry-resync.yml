@@ -38,11 +38,9 @@ jobs:
           repository: gaia-research/gaia-skill-tree
           ref: main
           path: _skilltree
-          # Sibling is a separate repo — the default GITHUB_TOKEN can't read
-          # it. Needs a read-only PAT or GitHub App install stored as
-          # GAIA_SKILL_TREE_RO_TOKEN. Never push to the sibling (ecosystem
-          # boundary — see this repo's CLAUDE.md).
-          token: ${{ secrets.GAIA_SKILL_TREE_RO_TOKEN }}
+          # The upstream registry is public: checkout can read it with the
+          # default GITHUB_TOKEN. Do not require a separate PAT for reads.
+          # Never push to the sibling (see this repo's CLAUDE.md).
 
       - name: Record checked-out upstream provenance
         id: skill-tree
