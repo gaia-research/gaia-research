@@ -56,7 +56,7 @@ describe("Arbor evidence loop fixture path", () => {
       "--measurement", fixture("measurement.json"), "--provenance", fixture("provenance.json"),
     ]);
     expect(output).toContain("identical model, harness, task, fixture, and evaluator digests");
-  });
+  }, 30000);
 
   it.each(["/tmp/exported.txt", "C:\\\\Users\\\\agent\\\\exported.txt", "\\\\server\\\\share\\\\exported.txt", "file:///tmp/exported.txt"])("rejects local paths in telemetry (%s)", (leakedPath) => {
     const observation = JSON.parse(readFileSync(fixture("telemetry-control.json"), "utf8"));

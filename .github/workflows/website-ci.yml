@@ -8,8 +8,11 @@ on:
       - 'content/**'
       - 'data/**'
       - 'lib/**'
+      - 'public/**'
       - 'scripts/**'
       - 'next.config.mjs'
+      - 'open-next.config.ts'
+      - 'wrangler.jsonc'
       - 'tsconfig.json'
       - 'package.json'
       - 'package-lock.json'
@@ -23,17 +26,25 @@ on:
       - 'content/**'
       - 'data/**'
       - 'lib/**'
+      - 'public/**'
       - 'scripts/**'
       - 'next.config.mjs'
+      - 'open-next.config.ts'
+      - 'wrangler.jsonc'
       - 'tsconfig.json'
       - 'package.json'
       - 'package-lock.json'
       - '.github/workflows/website-ci.yml'
 
+concurrency:
+  group: website-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   validate:
     name: Build, Edge & Browser Check
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v4
@@ -52,6 +63,9 @@ jobs:
       - name: Check for edge-incompatible filesystem usage
         run: node scripts/check-fs-usage.mjs
 
+      - name: Run unit tests (Vitest)
+        run: npm run test
+
       - name: Cache Next.js build artifacts
         uses: actions/cache@v4
         with:
@@ -62,6 +76,11 @@ jobs:
 
       - name: Run Next.js build
         run: npm run build:next
+
+      - name: Verify OpenNext Cloudflare Worker build
+        run: |
+          npm run build
+          test -f .open-next/worker.js || { echo "Worker bundle .open-next/worker.js not found!" >&2; exit 1; }
 
       - name: Install Chromium for Playwright
         run: npx --yes playwright@1.63.0 install --with-deps chromium

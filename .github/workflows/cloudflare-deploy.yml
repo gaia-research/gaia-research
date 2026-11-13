@@ -1,0 +1,264 @@
+name: cloudflare-deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+      - 'components/**'
+      - 'content/**'
+      - 'data/**'
+      - 'lib/**'
+      - 'public/**'
+      - 'scripts/**'
+      - 'next.config.mjs'
+      - 'open-next.config.ts'
+      - 'wrangler.jsonc'
+      - 'tsconfig.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/cloudflare-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+      dry_run:
+        description: 'Dry run (build bundle and verify without publishing)'
+        required: false
+        default: false
+        type: boolean
+      force_rollback:
+        description: 'Allow deploying a commit that does not match origin/main tip (for deliberate rollback)'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: cloudflare-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Cloudflare Workers
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Guard release ref (prevent stale manual deployment)
+        if: github.event_name == 'workflow_dispatch' && inputs.force_rollback != true
+        run: |
+          echo "Verifying checked out ref matches current origin/main tip..."
+          MAIN_SHA=$(git rev-parse origin/main)
+          CURRENT_SHA=$(git rev-parse HEAD)
+          if [ "$MAIN_SHA" != "$CURRENT_SHA" ]; then
+            echo "::error::Manual production release ref ($CURRENT_SHA) does not match origin/main tip ($MAIN_SHA)." >&2
+            echo "To prevent accidental deployment of stale or unmerged code, production deployments must match main tip." >&2
+            echo "If this is a deliberate authorized rollback, re-run with force_rollback: true." >&2
+            exit 1
+          fi
+          echo "Ref verification passed: deploying current origin/main ($CURRENT_SHA)."
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests (Vitest)
+        run: npm run test
+
+      - name: Build OpenNext Cloudflare bundle
+        env:
+          NEXT_PUBLIC_GIT_COMMIT_SHA: ${{ github.sha }}
+        run: |
+          echo "Building OpenNext Cloudflare Worker bundle with revision ${{ github.sha }}..."
+          npm run build
+          test -f .open-next/worker.js || { echo "Worker bundle .open-next/worker.js not found!" >&2; exit 1; }
+          echo "Bundle built successfully."
+
+      - name: Check Cloudflare deployment credentials (fail-closed)
+        id: credentials
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          IS_DRY_RUN: ${{ inputs.dry_run == true }}
+        run: |
+          if [ -n "$CF_API_TOKEN" ] && [ -n "$CF_ACCOUNT_ID" ]; then
+            echo "has_credentials=true" >> "$GITHUB_OUTPUT"
+            echo "Cloudflare deployment credentials verified in GitHub Actions secrets."
+          else
+            echo "has_credentials=false" >> "$GITHUB_OUTPUT"
+            if [ "$IS_DRY_RUN" = "true" ]; then
+              echo "Notice: Cloudflare credentials not set, but dry_run is active. Continuing validation only."
+            else
+              echo "::error::Missing required production deployment secrets: CLOUDFLARE_API_TOKEN and/or CLOUDFLARE_ACCOUNT_ID must be configured in repository secrets." >&2
+              echo "Failing closed to prevent unauthenticated, partial, or silent deployment bypass in production." >&2
+              exit 1
+            fi
+          fi
+
+      - name: Deploy to Cloudflare Workers (authoritative release)
+        id: deploy
+        if: steps.credentials.outputs.has_credentials == 'true' && inputs.dry_run != true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "Deploying to Cloudflare Workers via authoritative pipeline..."
+          max_attempts=3
+          attempt=1
+          success=false
+
+          while [ $attempt -le $max_attempts ]; do
+            echo "Deployment attempt $attempt of $max_attempts..."
+            if npx wrangler deploy; then
+              success=true
+              echo "Deployment succeeded on attempt $attempt."
+              break
+            else
+              echo "Deployment attempt $attempt failed with exit code $?." >&2
+              if [ $attempt -lt $max_attempts ]; then
+                wait_time=$((attempt * 10))
+                echo "Backing off for ${wait_time}s before retrying..."
+                sleep $wait_time
+              fi
+            fi
+            attempt=$((attempt + 1))
+          done
+
+          if [ "$success" = false ]; then
+            echo "Cloudflare deployment failed after $max_attempts attempts." >&2
+            exit 1
+          fi
+
+      - name: Authoritative release revision & live-site smoke check
+        id: release_check
+        if: steps.deploy.outcome == 'success'
+        run: |
+          echo "Starting authoritative post-deploy verification against https://research.gaiaskilltree.com..."
+
+          # 1. Verify deployed commit revision identity
+          expected_sha="${{ github.sha }}"
+          echo "Verifying live revision matches deployed commit: $expected_sha"
+          max_revision_attempts=24 # 2 minutes at 5s interval
+          revision_verified=false
+
+          for i in $(seq 1 $max_revision_attempts); do
+            version_json=$(curl -sf --connect-timeout 5 --max-time 10 "https://research.gaiaskilltree.com/api/version?_cb=$(date +%s%N)" || echo "")
+            live_sha=$(echo "$version_json" | jq -r '.commitSha // empty' 2>/dev/null || echo "")
+
+            if [ "$live_sha" = "$expected_sha" ]; then
+              echo "✓ Live revision verified: deployed commit $live_sha is active in production."
+              revision_verified=true
+              break
+            else
+              echo "  Live revision is '$live_sha', waiting for $expected_sha to propagate (attempt $i/$max_revision_attempts)..."
+              sleep 5
+            fi
+          done
+
+          if [ "$revision_verified" = false ]; then
+            echo "::error::Release verification failed: live site did not propagate commit $expected_sha within timeout." >&2
+            exit 1
+          fi
+
+          # 2. Availability smoke checks across key routes
+          endpoints=(
+            "https://research.gaiaskilltree.com/"
+            "https://research.gaiaskilltree.com/robots.txt"
+            "https://research.gaiaskilltree.com/blog"
+            "https://research.gaiaskilltree.com/research/orchestration-guide"
+            "https://research.gaiaskilltree.com/research/agent-playbook"
+          )
+
+          for url in "${endpoints[@]}"; do
+            echo "Verifying endpoint availability: $url"
+            attempt=1
+            endpoint_ok=false
+
+            while [ $attempt -le 6 ]; do
+              http_code=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 "$url" || echo "000")
+              if [ "$http_code" = "200" ]; then
+                echo "  ✓ $url returned HTTP 200 OK"
+                endpoint_ok=true
+                break
+              else
+                echo "  ⚠ $url returned HTTP $http_code (attempt $attempt/6)" >&2
+                sleep 5
+              fi
+              attempt=$((attempt + 1))
+            done
+
+            if [ "$endpoint_ok" = false ]; then
+              echo "::error::Release smoke verification failed for $url: did not return HTTP 200 after 6 attempts." >&2
+              exit 1
+            fi
+          done
+
+          echo "✓ Live release revision and availability smoke verification completed successfully."
+
+      - name: Record deployment step summary
+        if: always()
+        run: |
+          cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          ## Cloudflare Deployment Report
+
+          | Metric | Value |
+          |---|---|
+          | **Trigger Event** | `${{ github.event_name }}` |
+          | **Ref / Commit** | `${{ github.ref }} (${{ github.sha }})` |
+          | **Actor** | `${{ github.actor }}` |
+          | **Target Environment** | `${{ inputs.environment || 'production' }}` |
+          | **Dry Run** | `${{ inputs.dry_run || 'false' }}` |
+          | **Force Rollback** | `${{ inputs.force_rollback || 'false' }}` |
+          | **Credentials Configured** | `${{ steps.credentials.outputs.has_credentials || 'false' }}` |
+          | **Deploy Step Outcome** | `${{ steps.deploy.outcome || 'skipped/not run' }}` |
+          | **Release Verification** | `${{ steps.release_check.outcome || 'skipped/not run' }}` |
+
+          EOF
+
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          > 🔍 **Status: DRY RUN (Validation Only)**
+          > OpenNext worker bundle was verified and compiled successfully.
+          > Production deployment was skipped by operator flag. No changes were published.
+          EOF
+          elif [ "${{ steps.credentials.outputs.has_credentials }}" = "false" ]; then
+            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          > ❌ **Status: FAILED CLOSED**
+          > `CLOUDFLARE_API_TOKEN` and/or `CLOUDFLARE_ACCOUNT_ID` are missing from repository secrets.
+          > Production deployment failed closed. Configure these secrets in repository settings to enable automated deployment.
+          EOF
+          elif [ "${{ steps.deploy.outcome }}" = "success" ] && [ "${{ steps.release_check.outcome }}" = "success" ]; then
+            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          > ✅ **Status: DEPLOYED & VERIFIED**
+          > Production release succeeded via authoritative Wrangler deployment.
+          > Live-site revision verified matching commit `${{ github.sha }}`.
+          > URL: `https://research.gaiaskilltree.com`
+          EOF
+          elif [ "${{ steps.deploy.outcome }}" = "failure" ] || [ "${{ steps.release_check.outcome }}" = "failure" ]; then
+            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          > ❌ **Status: FAILED**
+          > Production deployment or live-site release revision verification failed. Inspect workflow job logs for details.
+          EOF
+          else
+            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          > ⚪ **Status: SKIPPED / INCOMPLETE**
+          > Deployment did not run to completion. Review step outputs above.
+          EOF
+          fi
