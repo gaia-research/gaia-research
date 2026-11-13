@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import Markdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -5,6 +6,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import rehypeTableLabels from "@/lib/rehype-table-labels";
 import rehypeGuideFigures from "@/lib/rehype-guide-figures";
+import { createMarkdownMemoizer } from "@/lib/orchestration-guide-memoizer";
 import { CostEquation, TtlCases, TtlCompare } from "@/components/GuideMathFigures";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import CopyPage, { DEFAULT_CLAUDE_PROMPT, DEFAULT_PI_PROMPT } from "@/components/CopyPage";
@@ -55,76 +57,93 @@ function loadGuide() {
   return guideMd.split("\n").slice(2).join("\n").trim();
 }
 
-export default function OrchestrationGuidePage() {
-  const body = loadGuide();
-  const markdownComponents: Components = {
-    h2: ({ children, node: _node, ...props }) => {
-      const headingText = Array.isArray(children)
-        ? children.map((child) => (typeof child === "string" ? child : "")).join("")
-        : String(children ?? "");
-      const headingId = slugifyHeading(headingText);
-      const heading = (
-        <h2 {...props} id={headingId} tabIndex={-1}>
-          {children}
-        </h2>
-      );
-      if (headingText.includes("Coordination Decision Framework")) {
-        return (
-          <>
-            {heading}
-            <InteractiveDecisionFlow />
-          </>
-        );
-      }
-      if (headingText.includes("Separate Reasoning from Deterministic Coordination")) {
-        return (
-          <>
-            {heading}
-            <InteractiveDelegationLoop />
-          </>
-        );
-      }
-      if (headingText.includes("Cache-Horizon Matrix")) {
-        return (
-          <>
-            {heading}
-            <InteractiveCacheHorizons />
-          </>
-        );
-      }
-      return heading;
-    },
-    h3: ({ children, node: _node, ...props }) => {
-      const headingText = Array.isArray(children)
-        ? children.map((child) => (typeof child === "string" ? child : "")).join("")
-        : String(children ?? "");
-      const headingId = slugifyHeading(headingText);
+const markdownComponents: Components = {
+  h2: ({ children, node: _node, ...props }) => {
+    const headingText = Array.isArray(children)
+      ? children.map((child) => (typeof child === "string" ? child : "")).join("")
+      : String(children ?? "");
+    const headingId = slugifyHeading(headingText);
+    const heading = (
+      <h2 {...props} id={headingId} tabIndex={-1}>
+        {children}
+      </h2>
+    );
+    if (headingText.includes("Coordination Decision Framework")) {
       return (
-        <h3 {...props} id={headingId} tabIndex={-1}>
-          {children}
-        </h3>
+        <>
+          {heading}
+          <InteractiveDecisionFlow />
+        </>
       );
-    },
-    tr: ({ node: _node, ...props }) => <StackRow {...props} />,
-    table: ({ children, node, ...props }) => {
-      const table = (
-        <div className="report-table-wrap" role="region" aria-label="Data table" tabIndex={0}>
-          <table {...props}>{children}</table>
-        </div>
+    }
+    if (headingText.includes("Separate Reasoning from Deterministic Coordination")) {
+      return (
+        <>
+          {heading}
+          <InteractiveDelegationLoop />
+        </>
       );
-      return figureOf(node) === "ttl-compare" ? <TtlCompare>{table}</TtlCompare> : table;
-    },
-    div: ({ children, node, ...props }) =>
-      figureOf(node) === "cost-equation" ? <CostEquation /> : <div {...props}>{children}</div>,
-    ul: ({ children, node, ...props }) =>
-      figureOf(node) === "ttl-cases" ? (
-        <TtlCases>
-          <ul {...props}>{children}</ul>
-        </TtlCases>
-      ) : (
+    }
+    if (headingText.includes("Cache-Horizon Matrix")) {
+      return (
+        <>
+          {heading}
+          <InteractiveCacheHorizons />
+        </>
+      );
+    }
+    return heading;
+  },
+  h3: ({ children, node: _node, ...props }) => {
+    const headingText = Array.isArray(children)
+      ? children.map((child) => (typeof child === "string" ? child : "")).join("")
+      : String(children ?? "");
+    const headingId = slugifyHeading(headingText);
+    return (
+      <h3 {...props} id={headingId} tabIndex={-1}>
+        {children}
+      </h3>
+    );
+  },
+  tr: ({ node: _node, ...props }) => <StackRow {...props} />,
+  table: ({ children, node, ...props }) => {
+    const table = (
+      <div className="report-table-wrap" role="region" aria-label="Data table" tabIndex={0}>
+        <table {...props}>{children}</table>
+      </div>
+    );
+    return figureOf(node) === "ttl-compare" ? <TtlCompare>{table}</TtlCompare> : table;
+  },
+  div: ({ children, node, ...props }) =>
+    figureOf(node) === "cost-equation" ? <CostEquation /> : <div {...props}>{children}</div>,
+  ul: ({ children, node, ...props }) =>
+    figureOf(node) === "ttl-cases" ? (
+      <TtlCases>
         <ul {...props}>{children}</ul>
-      ),
-  };
+      </TtlCases>
+    ) : (
+      <ul {...props}>{children}</ul>
+    ),
+};
+
+// Module-level memoization of the compiled Markdown content tree.
+// Prevents per-request KaTeX compilation and AST re-parsing during concurrent
+// browser RSC prefetches in resource-constrained Cloudflare Worker isolates.
+const guideContentMemoizer = createMarkdownMemoizer<ReactNode>(() => {
+  const body = loadGuide();
+  return Markdown({
+    remarkPlugins: [remarkGfm, [remarkMath, { singleDollarTextMath: false }]],
+    rehypePlugins: [rehypeGuideFigures, rehypeKatex, rehypeTableLabels],
+    components: markdownComponents,
+    children: body,
+  });
+});
+
+function getOrchestrationGuideContent(): ReactNode {
+  return guideContentMemoizer.get();
+}
+
+export default function OrchestrationGuidePage() {
   return (
     <>
       <SiteHeader />
@@ -211,13 +230,7 @@ export default function OrchestrationGuidePage() {
                 rate-card arithmetic, and consent-first assessment rules.
               </p>
             </div>
-            <Markdown
-              remarkPlugins={[remarkGfm, [remarkMath, { singleDollarTextMath: false }]]}
-              rehypePlugins={[rehypeGuideFigures, rehypeKatex, rehypeTableLabels]}
-              components={markdownComponents}
-            >
-              {body}
-            </Markdown>
+            {getOrchestrationGuideContent()}
           </article>
 
           <aside className="guide-sidebar" aria-label="Table of contents">
