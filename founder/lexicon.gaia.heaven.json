@@ -2,15 +2,15 @@
   "lexicon": "2",
   "namespace": "gaia.heaven",
   "extends": "core",
-  "updated": "2026-10-09",
+  "updated": "2026-11-18",
   "about": "Skill Heaven is the umbrella runtime brand (repo `gaia-skill-heaven`) and the Heaven/Hell/Ultra axis namespace: Heaven and Hell are summon directions, Ultra is the top of the line. The clean-slate launcher is Skill Zero (`gaia.zero`), not Heaven. What the line measures is `skill entropy`.",
   "terms": [
     {
       "term": "skill entropy",
       "state": "canonical",
       "group": "posture",
-      "oracle": "N13, N3, N11, D5",
-      "definition": "What the ladder measures: how much skill variety and volume enters a session. Every rung is a skill-entropy level — `zero` is zero skills and therefore zero skill entropy, and `low → med → high → xhigh → max` is rising skill entropy. Heaven converges (the lower-entropy direction); Hell explores (the higher-entropy direction); `ultra` picks the entropy per gap. This is what makes Heaven and Hell one line rather than two products.",
+      "oracle": "N14, N13, N3, N11, D5",
+      "definition": "What the ladder measures: how much skill variety and volume enters a session. Every rung is a skill-entropy level — `zero` is zero skills and therefore zero skill entropy, and `low → med → high → xhigh → max` is rising skill entropy. Heaven converges (the lower-entropy direction); Hell explores (the higher-entropy direction); `ultra` picks the entropy per gap. This is what makes Heaven and Hell one line rather than two products. `converge`, `Heaven`, and `low skill entropy` are interchangeable terms for the lower-entropy direction; `explore`, `Hell`, and `high skill entropy` are interchangeable terms for the higher-entropy direction (FD-6).",
       "note": "Ratified N13 (2026-08-19) as the ladder's subject. PRODUCT CONCEPT, NOT AN INFORMATION-THEORETIC ONE: no formula, no unit, no threshold and no number is ratified, and none may be invented downstream to make it look measurable. IT IS NOT MEASURED TODAY. What the benchmark is being built to find is the ENTROPY CURVE — how quality and cost move together as skill entropy rises — not a token-savings headline. The curve is expected to rise and then turn, because Hell routes its summons through gaia mcp as a mixture-of-agents for skills (D5): more experts in context, better until it isn't. THE BENCHMARK IS NOT BUILT, so the curve is a target and never a result; no surface may render it as one (B4)."
     },
     {
@@ -183,6 +183,13 @@
       "definition": "Deterministic nearest-neighbour over a build-time frozen embedding index. No model call ever decides a loadout."
     },
     {
+      "term": "decisions",
+      "state": "canonical",
+      "group": "mechanism",
+      "oracle": "N14, N13",
+      "definition": "The Skill Ultra campaign-control step and state where the person approves, amends, or declines a proposed charter on the operator channel (verb `decide`). Used in place of `ratify`, which does not appear in shipped campaign code or copy; naming is kept open (FD-6)."
+    },
+    {
       "term": "firebreak",
       "state": "banned",
       "group": "mechanism",
@@ -285,16 +292,30 @@
       "term": "heaven",
       "state": "canonical",
       "group": "axis",
-      "oracle": "N13, N11",
-      "definition": "The converge/curated summon direction — the LOWER-entropy direction of the one line, occupying the band `low · med` (N13-2). Heaven is not subtraction and not the launcher; Skill Zero owns clean-slate launch. Representative rung `low`, PROVISIONAL until the benchmark lands."
+      "oracle": "N14, N13, N11",
+      "definition": "The converge/curated summon direction — the LOWER-entropy direction of the one line, occupying the band `low · med` (N13-2). Interchangeable with `converge` and `low skill entropy` (FD-6). Heaven is not subtraction and not the launcher; Skill Zero owns clean-slate launch. Representative rung `low`, PROVISIONAL until the benchmark lands."
     },
     {
       "term": "hell",
       "state": "canonical",
       "group": "axis",
-      "oracle": "N13, N11",
-      "definition": "The explore/expand summon direction — the HIGHER-entropy direction of the one line, occupying the band `high · xhigh · max` (N13-2). `skill-hell` remains the standalone explore-direction summon tool. Representative rung `high`, PROVISIONAL until the benchmark lands.",
+      "oracle": "N14, N13, N11",
+      "definition": "The explore/expand summon direction — the HIGHER-entropy direction of the one line, occupying the band `high · xhigh · max` (N13-2). Interchangeable with `explore` and `high skill entropy` (FD-6). `skill-hell` remains the standalone explore-direction summon tool. Representative rung `high`, PROVISIONAL until the benchmark lands.",
       "note": "N13(5) (2026-08-19): nothing on the line refuses. Hell is not gated, locked or sealed — P2's gate was SATISFIED by owner ratification, the condition P2 itself named. What is outstanding on this band is implementation, not permission."
+    },
+    {
+      "term": "converge",
+      "state": "canonical",
+      "group": "axis",
+      "oracle": "N14, N13, N11",
+      "definition": "The lower-entropy summon direction along the one line (`low · med`), interchangeable with `Heaven` and `low skill entropy` (FD-6). In a Skill Ultra campaign, convergence is the Heaven moment where human-led skills and operator answers are consulted."
+    },
+    {
+      "term": "explore",
+      "state": "canonical",
+      "group": "axis",
+      "oracle": "N14, N13, N11",
+      "definition": "The higher-entropy summon direction along the one line (`high · xhigh · max`), interchangeable with `Hell` and `high skill entropy` (FD-6). In a Skill Ultra campaign, exploration is the Hell moment within the decided charter envelope."
     },
     {
       "term": "polarity",
