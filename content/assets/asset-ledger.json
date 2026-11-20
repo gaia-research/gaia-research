@@ -3041,6 +3041,27 @@
         "height": 100
       },
       "derivatives": []
+    },
+    {
+      "id": "st-redesign-a1-arbor-plate",
+      "path": "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate/st-redesign-a1-arbor-plate.png",
+      "kind": "hero-illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Sol (Codex), Blender 4.3.2 deterministic render",
+      "alt": "A circuit-trace tree on washed charcoal, with a bundled trunk, green ring terminals and angular roots.",
+      "sha256": "f961059c164215fc13b96cbb3ffb92583e2eed009aa72f6e21ec4e3fd49cbfc0",
+      "bytes": 746101,
+      "dimensions": {
+        "width": 3200,
+        "height": 2400
+      },
+      "derivatives": [
+        "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate/st-redesign-a1-arbor-plate-1600x1200.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate/st-redesign-a1-arbor-plate-900x1200.webp"
+      ],
+      "notes": "Private PNG master: https://drive.google.com/file/d/1EjMt5dLDdvyUxVK1Ln9clySx2X-VBBOC/view. Blender candidate https://drive.google.com/file/d/13S4J4MDrP-2Id5itTsHQX-Y0lcajXbVh/view SHA-256 83a6d7d913a372681bccf0c4de6cc251fc3f672d3ed8ad04eb9bfeb9bc26bd14. Blender trace geometry GLB https://drive.google.com/file/d/1XF5rwo4p_G8KUprg3uYlhYQOl-TOKLjP/view SHA-256 df00ea10f566135daf9e6b9b01ce0b5c20c32ae7c9bb308b1fa898b8106d1bc6."
     }
   ]
 }
