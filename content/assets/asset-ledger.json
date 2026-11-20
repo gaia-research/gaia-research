@@ -3062,6 +3062,29 @@
         "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate/st-redesign-a1-arbor-plate-900x1200.webp"
       ],
       "notes": "Private PNG master: https://drive.google.com/file/d/1EjMt5dLDdvyUxVK1Ln9clySx2X-VBBOC/view. Blender candidate https://drive.google.com/file/d/13S4J4MDrP-2Id5itTsHQX-Y0lcajXbVh/view SHA-256 83a6d7d913a372681bccf0c4de6cc251fc3f672d3ed8ad04eb9bfeb9bc26bd14. Blender trace geometry GLB https://drive.google.com/file/d/1XF5rwo4p_G8KUprg3uYlhYQOl-TOKLjP/view SHA-256 df00ea10f566135daf9e6b9b01ce0b5c20c32ae7c9bb308b1fa898b8106d1bc6."
+    },
+    {
+      "id": "st-redesign-a5-keystone-ygg",
+      "path": "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg.png",
+      "kind": "logo",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Sol (Codex), canonical Diamond Seal and EB Garamond SemiBold, deterministic SVG",
+      "alt": "Raised EB Garamond G in a bevelled warm-gold diamond with a dark umber recess.",
+      "sha256": "4c5d0773a717cac729447b64930ce672fabffcef593d82b55ea376dcdbcfa741",
+      "bytes": 57189,
+      "dimensions": {
+        "width": 1024,
+        "height": 1024
+      },
+      "derivatives": [
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg-112.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg-192.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg-320.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg-flat.svg"
+      ],
+      "notes": "Private PNG master: https://drive.google.com/file/d/1PF_vgzzZb6VDMvwg57w-35aYM9IZnpMQ/view. Bevelled SVG rendered with Sharp; canonical shape and digitized EB Garamond 600 glyph. Candidate for the Observatory keystone."
     }
   ]
 }
