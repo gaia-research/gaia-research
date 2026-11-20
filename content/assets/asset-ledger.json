@@ -3108,6 +3108,27 @@
         "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor-flat.svg"
       ],
       "notes": "Private PNG master: https://drive.google.com/file/d/1DOvMIjolY_wyE7qYhvvNmTl7uLwP7sHM/view. Bevelled SVG rendered with Sharp; canonical shape and digitized EB Garamond 600 glyph. Candidate for the Observatory keystone."
+    },
+    {
+      "id": "st-redesign-a1-arbor-plate-hell",
+      "path": "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate-hell/st-redesign-a1-arbor-plate-hell.png",
+      "kind": "hero-illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Sol (Codex), Blender 4.3.2 deterministic render",
+      "alt": "Arbor’s circuit-trace tree in black ink on paper, with a red trunk filament, terminal rings and angular shards.",
+      "sha256": "7167cb94e086c0c3f088cb223a353102ebfb5bdab6762501ba4d0f5347731cd6",
+      "bytes": 983881,
+      "dimensions": {
+        "width": 3200,
+        "height": 2400
+      },
+      "derivatives": [
+        "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate-hell/st-redesign-a1-arbor-plate-hell-1600x1200.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate-hell/st-redesign-a1-arbor-plate-hell-900x1200.webp"
+      ],
+      "notes": "Private PNG master: https://drive.google.com/file/d/1wQ3hFc3loNJVOsdeDFrHSdC2R2CrCpBj/view. Editable Blender candidate https://drive.google.com/file/d/1GhSi1TGmoJP_7JHVG4YMtwdmGW5U9w28/view SHA-256 665091a831fde56f010fde7475661e80226eb3d6208e708f81be9eabe07a172f."
     }
   ]
 }
