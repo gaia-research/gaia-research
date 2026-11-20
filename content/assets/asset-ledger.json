@@ -3129,6 +3129,27 @@
         "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate-hell/st-redesign-a1-arbor-plate-hell-900x1200.webp"
       ],
       "notes": "Private PNG master: https://drive.google.com/file/d/1wQ3hFc3loNJVOsdeDFrHSdC2R2CrCpBj/view. Editable Blender candidate https://drive.google.com/file/d/1GhSi1TGmoJP_7JHVG4YMtwdmGW5U9w28/view SHA-256 665091a831fde56f010fde7475661e80226eb3d6208e708f81be9eabe07a172f."
+    },
+    {
+      "id": "st-redesign-a2-hall-stage",
+      "path": "assets/generated/skill-tree-redesign/st-redesign-a2-hall-stage/st-redesign-a2-hall-stage.png",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Sol (Codex), Blender 4.3.2 deterministic render",
+      "alt": "An empty, low umber stone plinth with incised rings and a soft oval of warm light.",
+      "sha256": "bf93982da65766ccb29d094a8d29b999045078521d12da55c202b411819ef596",
+      "bytes": 609930,
+      "dimensions": {
+        "width": 3840,
+        "height": 2160
+      },
+      "derivatives": [
+        "assets/generated/skill-tree-redesign/st-redesign-a2-hall-stage/st-redesign-a2-hall-stage-2560x1440.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a2-hall-stage/st-redesign-a2-hall-stage-900x1200.webp"
+      ],
+      "notes": "Private PNG master: https://drive.google.com/file/d/1GEa4EYZYWmsV23JjDW2yU_4Q-3QXsPw5/view. Editable Blender candidate https://drive.google.com/file/d/1fHZOpdrbLW3tVrGCHaOogv5HrUNgN7tM/view SHA-256 9e29c50cecd1f7232c74db674ef68f7e2552a1c88b2b8af47ac5e4ba062ead71."
     }
   ]
 }
