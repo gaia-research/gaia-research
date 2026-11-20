@@ -3041,6 +3041,115 @@
         "height": 100
       },
       "derivatives": []
+    },
+    {
+      "id": "st-redesign-a1-arbor-plate",
+      "path": "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate/st-redesign-a1-arbor-plate.png",
+      "kind": "hero-illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Sol (Codex), Blender 4.3.2 deterministic render",
+      "alt": "A circuit-trace tree on washed charcoal, with a bundled trunk, green ring terminals and angular roots.",
+      "sha256": "f961059c164215fc13b96cbb3ffb92583e2eed009aa72f6e21ec4e3fd49cbfc0",
+      "bytes": 746101,
+      "dimensions": {
+        "width": 3200,
+        "height": 2400
+      },
+      "derivatives": [
+        "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate/st-redesign-a1-arbor-plate-1600x1200.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate/st-redesign-a1-arbor-plate-900x1200.webp"
+      ],
+      "notes": "Private PNG master: https://drive.google.com/file/d/1EjMt5dLDdvyUxVK1Ln9clySx2X-VBBOC/view. Blender candidate https://drive.google.com/file/d/13S4J4MDrP-2Id5itTsHQX-Y0lcajXbVh/view SHA-256 83a6d7d913a372681bccf0c4de6cc251fc3f672d3ed8ad04eb9bfeb9bc26bd14. Blender trace geometry GLB https://drive.google.com/file/d/1XF5rwo4p_G8KUprg3uYlhYQOl-TOKLjP/view SHA-256 df00ea10f566135daf9e6b9b01ce0b5c20c32ae7c9bb308b1fa898b8106d1bc6."
+    },
+    {
+      "id": "st-redesign-a5-keystone-ygg",
+      "path": "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg.png",
+      "kind": "logo",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Sol (Codex), canonical Diamond Seal and EB Garamond SemiBold, deterministic SVG",
+      "alt": "Raised EB Garamond G in a bevelled warm-gold diamond with a dark umber recess.",
+      "sha256": "4c5d0773a717cac729447b64930ce672fabffcef593d82b55ea376dcdbcfa741",
+      "bytes": 57189,
+      "dimensions": {
+        "width": 1024,
+        "height": 1024
+      },
+      "derivatives": [
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg-112.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg-192.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg-320.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg-flat.svg"
+      ],
+      "notes": "Private PNG master: https://drive.google.com/file/d/1PF_vgzzZb6VDMvwg57w-35aYM9IZnpMQ/view. Bevelled SVG rendered with Sharp; canonical shape and digitized EB Garamond 600 glyph. Candidate for the Observatory keystone."
+    },
+    {
+      "id": "st-redesign-a5-keystone-arbor",
+      "path": "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor.png",
+      "kind": "logo",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Sol (Codex), canonical Diamond Seal and EB Garamond SemiBold, deterministic SVG",
+      "alt": "Raised EB Garamond G in a bevelled green-teal diamond with a slate recess.",
+      "sha256": "7b857678eb01b84a2c36bacaaeb722fed2e4aab495164c56ef144b828cf943b0",
+      "bytes": 57181,
+      "dimensions": {
+        "width": 1024,
+        "height": 1024
+      },
+      "derivatives": [
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor-112.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor-192.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor-320.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor-flat.svg"
+      ],
+      "notes": "Private PNG master: https://drive.google.com/file/d/1DOvMIjolY_wyE7qYhvvNmTl7uLwP7sHM/view. Bevelled SVG rendered with Sharp; canonical shape and digitized EB Garamond 600 glyph. Candidate for the Observatory keystone."
+    },
+    {
+      "id": "st-redesign-a1-arbor-plate-hell",
+      "path": "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate-hell/st-redesign-a1-arbor-plate-hell.png",
+      "kind": "hero-illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Sol (Codex), Blender 4.3.2 deterministic render",
+      "alt": "Arbor’s circuit-trace tree in black ink on paper, with a red trunk filament, terminal rings and angular shards.",
+      "sha256": "7167cb94e086c0c3f088cb223a353102ebfb5bdab6762501ba4d0f5347731cd6",
+      "bytes": 983881,
+      "dimensions": {
+        "width": 3200,
+        "height": 2400
+      },
+      "derivatives": [
+        "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate-hell/st-redesign-a1-arbor-plate-hell-1600x1200.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a1-arbor-plate-hell/st-redesign-a1-arbor-plate-hell-900x1200.webp"
+      ],
+      "notes": "Private PNG master: https://drive.google.com/file/d/1wQ3hFc3loNJVOsdeDFrHSdC2R2CrCpBj/view. Editable Blender candidate https://drive.google.com/file/d/1GhSi1TGmoJP_7JHVG4YMtwdmGW5U9w28/view SHA-256 665091a831fde56f010fde7475661e80226eb3d6208e708f81be9eabe07a172f."
+    },
+    {
+      "id": "st-redesign-a2-hall-stage",
+      "path": "assets/generated/skill-tree-redesign/st-redesign-a2-hall-stage/st-redesign-a2-hall-stage.png",
+      "kind": "illustration",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Sol (Codex), Blender 4.3.2 deterministic render",
+      "alt": "An empty, low umber stone plinth with incised rings and a soft oval of warm light.",
+      "sha256": "bf93982da65766ccb29d094a8d29b999045078521d12da55c202b411819ef596",
+      "bytes": 609930,
+      "dimensions": {
+        "width": 3840,
+        "height": 2160
+      },
+      "derivatives": [
+        "assets/generated/skill-tree-redesign/st-redesign-a2-hall-stage/st-redesign-a2-hall-stage-2560x1440.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a2-hall-stage/st-redesign-a2-hall-stage-900x1200.webp"
+      ],
+      "notes": "Private PNG master: https://drive.google.com/file/d/1GEa4EYZYWmsV23JjDW2yU_4Q-3QXsPw5/view. Editable Blender candidate https://drive.google.com/file/d/1fHZOpdrbLW3tVrGCHaOogv5HrUNgN7tM/view SHA-256 9e29c50cecd1f7232c74db674ef68f7e2552a1c88b2b8af47ac5e4ba062ead71."
     }
   ]
 }
