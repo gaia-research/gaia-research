@@ -3085,6 +3085,29 @@
         "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-ygg/st-redesign-a5-keystone-ygg-flat.svg"
       ],
       "notes": "Private PNG master: https://drive.google.com/file/d/1PF_vgzzZb6VDMvwg57w-35aYM9IZnpMQ/view. Bevelled SVG rendered with Sharp; canonical shape and digitized EB Garamond 600 glyph. Candidate for the Observatory keystone."
+    },
+    {
+      "id": "st-redesign-a5-keystone-arbor",
+      "path": "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor.png",
+      "kind": "logo",
+      "status": "candidate",
+      "sourceType": "generated",
+      "license": "internal-review-required",
+      "credit": "Sol (Codex), canonical Diamond Seal and EB Garamond SemiBold, deterministic SVG",
+      "alt": "Raised EB Garamond G in a bevelled green-teal diamond with a slate recess.",
+      "sha256": "7b857678eb01b84a2c36bacaaeb722fed2e4aab495164c56ef144b828cf943b0",
+      "bytes": 57181,
+      "dimensions": {
+        "width": 1024,
+        "height": 1024
+      },
+      "derivatives": [
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor-112.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor-192.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor-320.webp",
+        "assets/generated/skill-tree-redesign/st-redesign-a5-keystone-arbor/st-redesign-a5-keystone-arbor-flat.svg"
+      ],
+      "notes": "Private PNG master: https://drive.google.com/file/d/1DOvMIjolY_wyE7qYhvvNmTl7uLwP7sHM/view. Bevelled SVG rendered with Sharp; canonical shape and digitized EB Garamond 600 glyph. Candidate for the Observatory keystone."
     }
   ]
 }
